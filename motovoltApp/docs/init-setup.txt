@@ -1,0 +1,1 @@
+npx react-native init motovoltApp --template react-native-template-typescript
