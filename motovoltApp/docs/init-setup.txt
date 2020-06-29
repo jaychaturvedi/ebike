@@ -1,1 +1,7 @@
 npx react-native init motovoltApp --template react-native-template-typescript
+
+#size matters
+npm i react-native-size-matters --save-prod
+
+npm install native-base --save
+npm react-native link
