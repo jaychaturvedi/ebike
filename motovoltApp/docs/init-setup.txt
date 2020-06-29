@@ -1,7 +1,21 @@
+Environment and Setup:
+=====================
+Node: v12.18.1
+Npm: v6.14.5
 npx react-native init motovoltApp --template react-native-template-typescript
 
-#size matters
-npm i react-native-size-matters --save-prod
+Running on actual android device:
+=================================
+1. Connect device using LAN
+2. Enable developer options and then USB debugging
+3. Command to list connected devices: adb devices
+4. Command to start app on device: react-native run-android
 
-npm install native-base --save
+React Native Size matters
+=========================
+npm i react-native-size-matters --save-prod
 npm react-native link
+
+Native base
+===========
+npm install native-base --save-prod
