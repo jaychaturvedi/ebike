@@ -19,3 +19,8 @@ npm react-native link
 Native base
 ===========
 npm install native-base --save-prod
+
+react-native-conical-gradient-progress
+======================================
+npm i --save react-native-conical-gradient-progress react-native-svg
+react-native link react-native-svg
