@@ -1,0 +1,45 @@
+.connectm-RidingPattern {
+    .ant-divider-horizontal {
+        margin: 0px 2px;
+    }
+    .ant-divider-vertical {
+        height: 80%;
+    }
+    width: 75%;
+    border: 1px solid #f0f0f0;
+    padding: 2px 2px;
+    border-radius: 2%;
+    .statistics-title {
+        width: 100%;
+        height: 30px;
+        margin-left: 5px;
+        line-height: 30px;
+    }
+    .statistics-Subtitle {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 30px;
+    }
+    .statistics-content {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        .statistics-content-row {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            height: 70px;
+            align-items: center;
+        }
+    }
+}
+
+.option-clicked {
+    background-color: lightslategrey !important;
+    color: wheat !important;
+}
