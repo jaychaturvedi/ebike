@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.BORDER_GREY,
     borderWidth: 1,
     borderRadius: 10,
+    fontSize: verticalScale(12),
   },
 });
 
@@ -26,6 +27,7 @@ type Props = {
 export default (props: Props) => {
   return (
     <TextInput
+      allowFontScaling
       value={props.value}
       blurOnSubmit
       numberOfLines={1}
