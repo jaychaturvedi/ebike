@@ -16,6 +16,8 @@
     "express-validator": "^6.6.0",
     "mongodb": "^3.5.9",
     "pg": "^8.2.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
     "sequelize": "^6.2.0"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "@types/mongodb": "^3.5.25",
     "@types/node": "^14.0.14",
     "@types/pg": "^7.14.3",
+    "@types/request-promise": "^4.1.46",
     "claudia": "^5.12.0",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
