@@ -1,7 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import { validationResult, body, param } from "express-validator";
-import DbFeedback from "./service"
-import {expressQAsync,expressErrorHandler, validate} from '../helper'
+import Feedback from "./service"
+import { expressQAsync, expressErrorHandler, validate, createResponse } from '../helper'
 const app = express.Router()
 
 
@@ -9,20 +9,21 @@ const app = express.Router()
 // //get All records
 
 // //get All records
-app.get('/', expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+app.get('/',
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-    const feedback = await DbFeedback.findAll()
-    const response = { status: "OK", body: feedback, error: null, date: new Date() }
-    res.status(200).send(response)
-
-})
+        const feedback = await Feedback.findAll()
+        const response = createResponse(200, feedback, null)
+        res.json(response)
+    })
 )
 
 app.get('/:id',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+
         const Id = Number(req.params.id)
-        const feedback = await DbFeedback.findById(Id)
-        const response = { status: "OK", body: feedback, error: null, date: new Date() }
+        const feedback = await Feedback.findById(Id)
+        const response = createResponse(200, feedback, null)
         res.json(response)
     })
 )
@@ -30,8 +31,10 @@ app.post('/', [
     body('name', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const feedback = await DbFeedback.createNew(req.body)
-        const response = { status: "OK", body: feedback, error: null, date: new Date() }
+
+        const feedback = await Feedback.createNew(req.body)
+        const response = createResponse(200, feedback, null)
+
         res.json(response)
 
     })
@@ -41,20 +44,23 @@ app.put('/:id', [
     body('name', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id);
-        const updated = await DbFeedback.updateById(Id, req.body);
-        const response = { status: "OK", body: updated, error: null, date: new Date() }
-        res.json(response)
 
+        const Id = Number(req.params.id);
+        const updated = await Feedback.updateById(Id, req.body);
+        const response = createResponse(200, updated, null)
+
+        res.json(response)
     })
 )
 
 
-app.delete('/:id', expressQAsync(async (req: Request, res: Response) => {
+app.delete('/:id', 
+expressQAsync(async (req: Request, res: Response) => {
 
     const Id = Number(req.params.id);
-    const deleted = await DbFeedback.deleteById(Id);
-    return res.json("Feedback deleted with id " + Id);
+    const deleted = await Feedback.deleteById(Id);
+    const response = createResponse(200, "Feedback deleted with id " + Id, null)
+    res.json(response);
 })
 )
 

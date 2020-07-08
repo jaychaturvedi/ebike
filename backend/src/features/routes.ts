@@ -1,79 +1,85 @@
-import { DbFeatures, DbUserFeatures } from './service'
-import express, { Application, Request, Response, NextFunction } from "express";
-import { validationResult, body, param } from "express-validator";
-import { expressQAsync, expressErrorHandler, validate } from '../helper'
+import { Features,  UserFeatures } from './service'
+import express, { Request, Response, NextFunction } from "express";
+import {  body, param } from "express-validator";
+import { expressQAsync, expressErrorHandler, validate, createResponse } from '../helper'
 const app = express.Router()
 
 
-
 // //get All records
-app.get('/', expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+app.get('/',
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-    const features = await DbFeatures.findAll()
-    const response = { status: "OK", body: features, error: null, date: new Date() }
-    res.status(200).send(response)
-
-})
+        const features = await Features.findAll()
+        const response = createResponse(200, features, null)
+        res.send(response)
+    })
 )
+
 
 app.get('/:id',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+
         const Id = Number(req.params.id)
-        const feature = await DbFeatures.findById(Id)
-        const response = { status: "OK", body: feature, error: null, date: new Date() }
+        const feature = await Features.findById(Id)
+        const response = createResponse(200, feature, null)
         res.json(response)
     })
 )
+
+
 app.post('/', [
     body('name', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const feature = await DbFeatures.createNew(req.body)
-        const response = { status: "OK", body: feature, error: null, date: new Date() }
-        res.json(response)
 
+        const feature = await Features.createNew(req.body)
+        const response = createResponse(200, feature, null)
+        res.json(response)
     })
 )
+
 
 app.put('/:id', [
     body('name', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id);
-        const updated = await DbFeatures.updateById(Id, req.body);
-        const response = { status: "OK", body: updated, error: null, date: new Date() }
-        res.json(response)
 
+        const Id = Number(req.params.id);
+        const updated = await Features.updateById(Id, req.body);
+        const response = createResponse(200, updated, null)
+        res.json(response)
     })
 )
 
 
-app.delete('/:id', expressQAsync(async (req: Request, res: Response) => {
+app.delete('/:id',
+    expressQAsync(async (req: Request, res: Response) => {
 
-    const Id = Number(req.params.id);
-    const deleted = await DbFeatures.deleteById(Id);
-    return res.json("feature deleted with id " + Id);
-})
+        const Id = Number(req.params.id);
+        const deleted = await Features.deleteById(Id);
+        const response = createResponse(200 ,"feature deleted with id " + Id, null)
+        res.json(response);
+    })
 )
 
 
 
 
-app.get('/user', expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+app.get('/user',
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-    const userFeatures = await DbUserFeatures.findAll()
-    const response = { status: "OK", body: userFeatures, error: null, date: new Date() }
-    res.json(response)
-
-})
+        const userFeatures = await UserFeatures.findAll()
+        const response = createResponse(200, userFeatures, null)
+        res.json(response)
+    })
 )
 // // find single record
 app.get('/user/:id',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
 
         const Id = Number(req.params.id)
-        const feature = await DbUserFeatures.findById(Id)
-        const response = { status: "OK", body: feature, error: null, date: new Date() }
+        const userFeature = await UserFeatures.findById(Id)
+        const response = createResponse(200, userFeature, null)
         res.json(response)
     })
 )
@@ -82,8 +88,9 @@ app.post('/user', [
     body('name', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const userFeatures = await DbUserFeatures.createNew(req.body)
-        const response = { status: "OK", body: userFeatures, error: null, date: new Date() }
+
+        const userFeatures = await UserFeatures.createNew(req.body)
+        const response = createResponse(200, userFeatures, null)
         res.json(response)
 
     })
@@ -95,19 +102,21 @@ app.put('/user/:id', [
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
 
         const Id = Number(req.params.id);
-        const updated = await DbUserFeatures.updateById(Id, req.body);
-        const response = { status: "OK", body: updated, error: null, date: new Date() }
+        const updated = await UserFeatures.updateById(Id, req.body);
+        const response = createResponse(200, updated, null)
         res.json(response)
     })
 )
 
 //delete
-app.delete('/user/:id', expressQAsync(async (req: Request, res: Response) => {
+app.delete('/user/:id',
+    expressQAsync(async (req: Request, res: Response) => {
 
-    const Id = Number(req.params.id);
-    await DbUserFeatures.deleteById(Id);
-    res.json("User deleted with id " + Id);
-})
+        const Id = Number(req.params.id);
+        await UserFeatures.deleteById(Id);
+        const response = createResponse(200,"UserFeatures deleted with id " + Id, null)
+        res.json(response);
+    })
 )
 
 app.use(expressErrorHandler);

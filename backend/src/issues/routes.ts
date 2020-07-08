@@ -1,46 +1,47 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import { validationResult, body, param } from "express-validator";
-import DbIssues from "./service"
-import {expressQAsync,expressErrorHandler, validate} from '../helper'
+import Issues from "./service"
+import { expressQAsync, expressErrorHandler, validate, createResponse } from '../helper'
 const app = express.Router()
 
 app.get('/', expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-    const issue = await DbIssues.findAll()
-    const response = { status: "OK", body: issue, error: null, date: new Date() }
-    res.status(200).send(response)
-
+    const issue = await Issues.findAll()
+    const response = createResponse(200, issue, null)
+    res.send(response)
 })
 )
 
 app.get('/:id',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+
         const Id = Number(req.params.id)
-        const issue = await DbIssues.findById(Id)
-        const response = { status: "OK", body: issue, error: null, date: new Date() }
+        const issue = await Issues.findById(Id)
+        const response = createResponse(200, issue, null)
         res.json(response)
     })
 )
 app.post('/', [
-    body('name', "name can't be empty").isLength({ min: 1 }),
+    body('frameId', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const issue = await DbIssues.createNew(req.body)
-        const response = { status: "OK", body: issue, error: null, date: new Date() }
-        res.json(response)
 
+        const issue = await Issues.createNew(req.body)
+        const response = createResponse(200, issue, null)
+        res.json(response)
     })
 )
 
 app.put('/:id', [
-    body('name', "name can't be empty").isLength({ min: 1 }),
+    body('frameId', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id);
-        const updated = await DbIssues.updateById(Id, req.body);
-        const response = { status: "OK", body: updated, error: null, date: new Date() }
-        res.json(response)
 
+        const Id = Number(req.params.id);
+        const updated = await Issues.updateById(Id, req.body);
+        const response = createResponse(200, updated, null)
+
+        res.json(response)
     })
 )
 
@@ -48,8 +49,9 @@ app.put('/:id', [
 app.delete('/:id', expressQAsync(async (req: Request, res: Response) => {
 
     const Id = Number(req.params.id);
-    const deleted = await DbIssues.deleteById(Id);
-    return res.json("Feedback deleted with id " + Id);
+    const deleted = await Issues.deleteById(Id);
+    const response = createResponse(200,"Feedback deleted with id " + Id, null)
+    res.json(response);
 })
 )
 

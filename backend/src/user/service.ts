@@ -24,7 +24,7 @@ export default class User {
 
     static async createNew(user: TUser) {
         const newuser = await UserModel.create(user)
-        if (!user) throw new Error("Unable to create new user")
+        if (!user) throw new UserError("Unable to create new user")
         return newuser;
     }
 
@@ -34,7 +34,7 @@ export default class User {
             where: { id },
             returning: true
         })
-        if (!isUpdated) throw new Error("Unable to update bike with id ")
+        if (!isUpdated) throw new UserError("Unable to update bike with id ")
         return result;
 
     }
@@ -43,7 +43,7 @@ export default class User {
         const deleted = await UserModel.destroy({
             where: { id }
         });
-        if (!deleted) throw new Error("Unable to delete user with id " + id);
+        if (!deleted) throw new UserError("Unable to delete user with id " + id);
         return deleted
     }
 
@@ -56,7 +56,7 @@ export default class User {
         }
         const where = filters(filter)
         const users = await UserModel.findAndCountAll({ ...paginate, where })
-        if (!users) throw new Error("Unable find any user")
+        if (!users) throw new UserError("Unable find any user")
         return users
     }
 

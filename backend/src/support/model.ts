@@ -3,13 +3,13 @@ import db from "../db"
 import User from '../user/model';
 
 
-export interface TUserFeatures extends Model {
+export interface TUserSupportFeatures extends Model {
     id: number;
     supportFeaturesId: number;
     userId: number;
 
 }
-export interface TFeatures extends Model {
+export interface TSupportFeatures extends Model {
     id: number;
     title: string;
     active: boolean;
@@ -17,7 +17,7 @@ export interface TFeatures extends Model {
 
 }
 
-let UserFeatures = db.define<TUserFeatures>('userSupportFeatures', {
+let UserSupportFeatures = db.define<TUserSupportFeatures>('userSupportFeatures', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -46,7 +46,7 @@ let UserFeatures = db.define<TUserFeatures>('userSupportFeatures', {
 
 })
 
-let Features = db.define<TFeatures>('supportFeatures',
+let SupportFeatures = db.define<TSupportFeatures>('supportFeatures',
     {
         id: {
             type: Sequelize.INTEGER,
@@ -73,5 +73,5 @@ let Features = db.define<TFeatures>('supportFeatures',
 );
 
 
-export {UserFeatures, Features}
+export {SupportFeatures, UserSupportFeatures}
 

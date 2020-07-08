@@ -1,11 +1,12 @@
-import Sequelize, { Model} from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 import db from "../db"
 
 export interface TBike extends Model {
+
   id: number;
   name: string;
   userId: number; // Todo change types to UUID
-  vehicleId: string; // Todo change types to UUID
+  frameId: string; // Todo change types to UUID
   warrantyId: string;
   batteryId: string[]; //not sure about array
   modelType: string;
@@ -41,40 +42,50 @@ let Bike = db.define<TBike>('bikes',
         key: 'id',
       }
     },
-    vehicleId: {
+    frameId: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    warrantyId: { 
-      type: Sequelize.STRING },
+    warrantyId: {
+      type: Sequelize.STRING
+    },
 
-    batteryId: { 
-      type: Sequelize.ARRAY(Sequelize.STRING) },
-       //to be changed later
-    modelType: { 
-      type: Sequelize.STRING },
+    batteryId: {
+      type: Sequelize.ARRAY(Sequelize.STRING)
+    },
+    //to be changed later
+    modelType: {
+      type: Sequelize.STRING
+    },
 
-    batteryCharge: { 
-      type: Sequelize.STRING },
+    batteryCharge: {
+      type: Sequelize.STRING
+    },
 
-    rangeCovered: { 
-      type: Sequelize.STRING },
-    rangeAvailable: { 
-      type: Sequelize.STRING },
-    overallBatteryHealth: { 
-      type: Sequelize.STRING },
-    ignitionStatus : {
-      type : Sequelize.BOOLEAN },
-    isLocked : { 
-      type : Sequelize.BOOLEAN },
-    purchaseDate: { 
-      type: Sequelize.DATE },
-    serviceDate: { 
-      type: Sequelize.DATE },
+    rangeCovered: {
+      type: Sequelize.STRING
+    },
+    rangeAvailable: {
+      type: Sequelize.STRING
+    },
+    overallBatteryHealth: {
+      type: Sequelize.STRING
+    },
+    ignitionStatus: {
+      type: Sequelize.BOOLEAN
+    },
+    isLocked: {
+      type: Sequelize.BOOLEAN
+    },
+    purchaseDate: {
+      type: Sequelize.DATE
+    },
+    serviceDate: {
+      type: Sequelize.DATE
+    },
   },
   { freezeTableName: true }
 );
-
 
 export default Bike
 
@@ -90,4 +101,4 @@ export default Bike
     //     foreignKey: {
     //       allowNull: false
     //     }
-    //   });
+    //   });STRING

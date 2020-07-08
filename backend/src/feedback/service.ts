@@ -1,16 +1,17 @@
 import FeedbackModel, { TFeedback} from "./model"
+import { FeedbackError } from "../error"
 
 export default class Feedback {
 
     static async findById(id: number) {
         const feature = await FeedbackModel.findByPk(id)
-        if (!feature) throw new Error('Error while finding id'+id);
+        if (!feature) throw new FeedbackError('Error while finding id'+id);
         return feature
     }
 
     static async createNew(feature: TFeedback) {
         const newfeature = await FeedbackModel.create(feature)
-        if (!newfeature) throw new Error("Error while creating")
+        if (!newfeature) throw new FeedbackError("Error while creating")
         return newfeature;
     }
 
@@ -20,7 +21,7 @@ export default class Feedback {
             { where: { id },             
             returning : true
         })
-        if (!isUpdated) throw new Error("Error while updating " + id)
+        if (!isUpdated) throw new FeedbackError("Error while updating " + id)
         return result;
 
     }
@@ -29,13 +30,13 @@ export default class Feedback {
         const deleted = await FeedbackModel.destroy({
             where: { id }
         });
-        if (!deleted) throw new Error("Error while deleting id "+id);
+        if (!deleted) throw new FeedbackError("Error while deleting id "+id);
         return deleted
     }
 
     static async findAll() { // page limit skip
         const features = await FeedbackModel.findAll()
-        if (!features) throw new Error("Could not receive any data")
+        if (!features) throw new FeedbackError("Could not receive any data")
         return features
     }
 

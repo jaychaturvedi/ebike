@@ -2,11 +2,10 @@ import Sequelize, { Model, DataTypes } from 'sequelize';
 import db from "../db"
 import User from '../user/model';
 
-
 export interface TRide extends Model {
     id: number;
     userId: number;
-    vehicleId: number;
+    frameId: number;
     feedbackId: number;
     distance: string | null;
     duration: string;
@@ -39,14 +38,14 @@ let Ride = db.define<TRide>('rides',
                 key: 'id',
             }
         },
-        vehicleId: {
+        frameId: {
             type: Sequelize.INTEGER,
             allowNull: false,
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             references: {
                 model: 'bikes',
-                key: 'id',     // todo change it tp vehicleId
+                key: 'id',     
             }
         },
         feedbackId: {

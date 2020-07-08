@@ -1,7 +1,17 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import { validationResult, body, param } from "express-validator";
 import Sequelize from 'sequelize';
+import { MotoVoltError } from "./error";
 const Op = Sequelize.Op
+
+export function createResponse(code : number ,body: any, error : any ) {
+    let status
+    if(code ===200) status = "OK"
+    if(code ===500) status = "Internal Server Error"  
+    const errorMessage = error?.message  
+    const response = { status, body, error : {...error, errorMessage }, date: new Date() }
+    return response
+}
 
 export function expressErrorHandler(
     err: Error,
@@ -10,11 +20,11 @@ export function expressErrorHandler(
     next: NextFunction
 ) {
     res.locals.message = err.message
-    res.json({
-        message : err.message
-    });
+    const response = createResponse(500, null, err)       
+    res.json(response);
     next();
 }
+
 
 
 export function expressQAsync(fn: Function) {
@@ -27,8 +37,8 @@ export function validate(
     req: Request,
     res: Response,
     next: NextFunction
-    ) {
-        const errors = validationResult(req);
+) {
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const errlist = errors.array().map((err) => { return err.msg })
         return res.status(422).json({ errors: errlist });
@@ -37,22 +47,25 @@ export function validate(
 }
 
 //this could be placed in each feature file
-export function pagination(pageNumber :number, pageSize :number){
+export function pagination(pageNumber: number, pageSize: number) {
     const limit = pageSize ? pageSize : 1
-    const offset = pageNumber ? (pageNumber -1)* limit : 0
-    return { 
+    const offset = pageNumber ? (pageNumber - 1) * limit : 0
+    return {
         limit,
         offset
     }
 }
 
 //this could be placed in each feature file
-export function filters(filter:{[k: string]: any} ){
-    var where :{[k: string]: any}= {}
-    Object.keys(filter).forEach(function(key) {
-        where[key] = { [Op.like]: `%${filter[key]}%`};
-      });
+export function filters(filter: { [k: string]: any }) {
+    var where: { [k: string]: any } = {}
+    Object.keys(filter).forEach(function (key) {
+        where[key] = { [Op.like]: `%${filter[key]}%` };
+    });
 
     return where
-  };
+};
+
+
+
 
