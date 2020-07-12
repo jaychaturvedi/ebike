@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     },
     verifyBtn: {
         justifyContent: 'flex-end',
-        height: scale(50)
+        height: scale(50),
+        alignItems:"center"
     }
 })

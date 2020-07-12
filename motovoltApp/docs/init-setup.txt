@@ -17,23 +17,23 @@ npm i react-native-size-matters --save-prod
 npm react-native link
 
 Native base
+===========
 npm install native-base --save-prod
+npm react-native link
 
 react-native-conical-gradient-progress
 ======================================
 npm i --save react-native-conical-gradient-progress react-native-svg
 react-native link react-native-svg
-=======
-npm install native-base --save-prod
-=======
-npm install native-base --save
-npm react-native link
 
+React Navigation
+=================
 npm i --save react-native-navigation
 npx rnn-link
 
 
-#Scanner
+Scanner
+=========
 cd ios/ info.plist file 
 <key>NSCameraUsageDescription</key>
 <string>Your message to user when the camera is accessed for the first time</string>
@@ -71,3 +71,14 @@ android {
     missingDimensionStrategy 'react-native-camera', 'general' <-- insert this line
   }
 }
+=======
+
+
+App Icon
+========
+1. Generate Icons Here => MakeAppIcon.com
+2. Goto -> Your_React_Native_Project_Folder -> android -> app -> src -> main -> res 
+folder and replace the default icons with Newly downloaded icons
+3. Goto -> Your_React_Native_Project_Folder -> ios -> appname -> Images.xcassets -> AppIcon.appiconset
+folder and replace the default icons with Newly downloaded icons
+

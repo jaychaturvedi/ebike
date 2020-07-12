@@ -87,7 +87,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State>{
                         {getHeader(true, true, () => console.log('pressed'),
                             () => { (this.refs.mySwiper as any).scrollBy(-1) })}
                         {getImage('')}
-                        {getText("Analyse cycle statistics on ypur phone")}
+                        {getText("Analyse cycle statistics on your phone")}
                         {getFooter(() => { (this.refs.mySwiper as any).scrollBy(1) })}
                     </View>
                     <View style={styles.slide}>
@@ -105,7 +105,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State>{
                                     > Login</Text>
                                 </Text>
                             </View>
-                            <View style={{ height: '50%', justifyContent: 'flex-end' }}>
+                            <View style={{ height: '50%', justifyContent: 'flex-end', alignItems:"center" }}>
                                 {/* <Button name="REGISTER" onPress={() => console.log("Register Pressed")} /> */}
                                 <Button
                                     text="REGISTER"
