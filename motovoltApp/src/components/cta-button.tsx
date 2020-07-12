@@ -1,7 +1,7 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {Button} from 'native-base';
-import {scale} from '../styles/size-matters';
+import { Text } from 'react-native';
+import { Button } from 'native-base';
+import { scale } from '../styles/size-matters';
 
 type Props = {
   text: string;
@@ -23,7 +23,7 @@ export default (props: Props) => {
         borderWidth: props.borderColor ? 1 : 0,
         borderRadius: 10,
       }}>
-      <Text style={{color: props.textColor, fontSize: 16}}>{props.text}</Text>
+      <Text style={{ color: props.textColor, fontSize: 16 }}>{props.text}</Text>
     </Button>
   );
 };

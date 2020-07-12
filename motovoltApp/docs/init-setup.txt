@@ -19,8 +19,66 @@ npm react-native link
 Native base
 ===========
 npm install native-base --save-prod
+npm react-native link
 
 react-native-conical-gradient-progress
 ======================================
 npm i --save react-native-conical-gradient-progress react-native-svg
 react-native link react-native-svg
+
+React Navigation
+=================
+npm i --save react-native-navigation
+npx rnn-link
+
+
+Scanner
+=========
+cd ios/ info.plist file 
+<key>NSCameraUsageDescription</key>
+<string>Your message to user when the camera is accessed for the first time</string>
+
+<!-- Include this only if you are planning to use the camera roll -->
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Your message to user when the photo library is accessed for the first time</string>
+
+<!-- Include this only if you are planning to use the microphone for video recording -->
+<key>NSMicrophoneUsageDescription</key>
+<string>Your message to user when the microsphone is accessed for the first time</string>
+
+for android
+cd android/app/src/main/AndroidManifest.xml
+<uses-permission android:name="android.permission.VIBRATE"/>
+
+npm install react-native-camera --save
+react-native link react-native-camera
+
+npm install react-native-qrcode-scanner --save
+npm install react-native-permissions --save
+
+react-native link react-native-qrcode-scanner
+react-native link react-native-permissions
+
+cd ios/podfile
+in target 'your app' add
+pod 'Permission-Camera', :path => "../node_modules/react-native-permissions/ios/Camera.podspec"
+
+cd android/app/build.gradle
+android {
+  ...
+  defaultConfig {
+    ...
+    missingDimensionStrategy 'react-native-camera', 'general' <-- insert this line
+  }
+}
+=======
+
+
+App Icon
+========
+1. Generate Icons Here => MakeAppIcon.com
+2. Goto -> Your_React_Native_Project_Folder -> android -> app -> src -> main -> res 
+folder and replace the default icons with Newly downloaded icons
+3. Goto -> Your_React_Native_Project_Folder -> ios -> appname -> Images.xcassets -> AppIcon.appiconset
+folder and replace the default icons with Newly downloaded icons
+
