@@ -1,8 +1,8 @@
-import Sequelize, { Model, DataTypes } from 'sequelize';
+import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
 
 
-export interface TFeatures extends Model {
+export interface TFeatures {
     id: number;
     name: string;
     active: boolean;
@@ -10,15 +10,19 @@ export interface TFeatures extends Model {
     premium: boolean;
 }
 
-export interface TUserFeatures extends Model {
+export interface TUserFeatures {
     id: number;
     userId: number;
     featureId: number;
     purchaseDate: Date; // need to make sure
 }
 
-let Features = db.define<TFeatures>('features',
-    {
+type TFeaturesModel<T> = typeof Model & {
+    new(values?: object, options?: BuildOptions): T;
+};
+
+let Features: TFeaturesModel<TFeatures & Model> = <TFeaturesModel<TFeatures & Model>>
+    db.define('features', {
         id: {
             type: Sequelize.INTEGER, // UUID
             autoIncrement: true,
@@ -29,12 +33,16 @@ let Features = db.define<TFeatures>('features',
         price: Sequelize.STRING,
         premium: Sequelize.BOOLEAN,
     },
-    {
-        freezeTableName: true
-    }
-);
-let UserFeatures = db.define<TUserFeatures>('userFeatures',
-    {
+        {
+            freezeTableName: true
+        }
+    );
+type TUserFeaturesModel<T> = typeof Model & {
+    new(values?: object, options?: BuildOptions): T;
+};
+
+let UserFeatures: TUserFeaturesModel<TUserFeatures & Model> = <TUserFeaturesModel<TUserFeatures & Model>>
+    db.define('userFeatures', {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -46,27 +54,27 @@ let UserFeatures = db.define<TUserFeatures>('userFeatures',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             references: {
-              model: 'users',
-              key: 'id',
+                model: 'users',
+                key: 'id',
             }
-          },
-          featureId: {
+        },
+        featureId: {
             type: Sequelize.INTEGER,
             allowNull: false,
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             references: {
-              model: 'features',
-              key: 'id',
+                model: 'features',
+                key: 'id',
             }
-          },
+        },
         purchaseDate: Sequelize.DATE,
     },
-    {
-        freezeTableName: true
-    }
-);
+        {
+            freezeTableName: true
+        }
+    );
 
 
-export {Features, UserFeatures}
+export { Features, UserFeatures }
 

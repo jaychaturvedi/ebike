@@ -1,17 +1,18 @@
-import Sequelize, { Model, DataTypes } from 'sequelize';
+import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
 
 
-export interface TIssue extends Model {
-  
+export interface TIssue {
   id: number;
   comments: string;
   userId: number;
   frameId: number;
-
 }
+type TIssueModel<T> = typeof Model & {
+  new(values?: object, options?: BuildOptions): T;
+};
 
-let Issues = db.define<TIssue>('issues',
+let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define('issues',
   {
     id: {
       type: Sequelize.INTEGER,
@@ -20,7 +21,7 @@ let Issues = db.define<TIssue>('issues',
     },
     userId: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       references: {

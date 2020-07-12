@@ -2,7 +2,6 @@ import { get, post, put } from 'request-promise'
 import * as dotenv from "dotenv"
 dotenv.config()
 
-
 function createOptions(url: string, body: TRequestBody,) {
     const uri = process.env.MOTOVOLTAPI + url
     const options = {
@@ -11,53 +10,91 @@ function createOptions(url: string, body: TRequestBody,) {
         headers: {
             'Content-Type': 'application/json',
         },
-        json: true // Automatically stringifies the body to JSON
+        json: true
     };
     return options
 }
 
 export default class ConnectmApi {
-
     static async validatePhone(phone_number: string) {
         const options = createOptions('/validateph', { phone_number })
-        const fetchData: TValidatePhone = await post(options)
-        return fetchData
+        const fetchedData: TValidatePhone = await post(options)
+        return fetchedData
     }
 
-    static async getBikeLocation(frameId: string, startTime: string, endTime: string) {
-        const options = createOptions('/getbikeloc', {
+    static async getRideStats(frameId: string) {
+        const options = createOptions('/getstat', {
+            frameid: frameId
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async getBikeLiveData(frameId: string) {
+        const options = createOptions('/getlivedata', {
+            frameid: frameId
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async getCurrentLocation(frameId: string) {
+        const options = createOptions('/getliveloc', {
+            frameid: frameId,
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async getCurrentRideDetails(frameId: string) {
+        const options = createOptions('/getcurride', {
+            frameid: frameId
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async getEndRideDetails(frameId: string, startTime: string, endTime: string) {
+        const options = createOptions('/getendridestat', {
             frameid: frameId,
             startTime,
             endTime
         })
-        const fetchedData: TBikeLocation = await post(options)
+        const fetchedData = await post(options)
         return fetchedData
     }
 
-    static async getRideDetails(frameId: string) {
-
-        const options = createOptions('/getridedata', {
-            frameid: frameId
+    static async getLocationHistory(frameId: string, startTime: string, endTime: string) {
+        const options = createOptions('/getridegps', {
+            frameid: frameId,
+            startTime,
+            endTime
         })
-        const fetchedData: TRideDetails = await post(options)
-        return fetchedData
-    }
-
-    static async getRideStatistics(frameId: string) {
-
-        const options = createOptions('/getridestat', {
-            frameid: frameId
-        })
-        const fetchedData: TRideStatistics = await post(options)
+        const fetchedData = await post(options)
         return fetchedData
     }
 
     static async getBikeDetails(frameId: string) {
-
-        const options = createOptions('/getbikedata', {
+        const options = createOptions('/getmycycle', {
             frameid: frameId
         })
-        const fetchedData: TBikeDetails = await post(options)
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async getRideHistory(frameId: string) {
+        const options = createOptions('/getridehistory', {
+            frameid: frameId
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async getRideHistoryStats(frameId: string) {
+        const options = createOptions('/getridehistorystat', {
+            frameid: frameId
+        })
+        const fetchedData = await post(options)
         return fetchedData
     }
 
@@ -78,22 +115,21 @@ export type TBikeLocation = {
 }
 
 export type TBikeDetails = {
-    STATUS: string,
-    ERROR_CODE: string,
-    IGNITION_STATUS: string,
-    LOCKED: string,
-    NO_OF_BATTERIES: string,
-    BATTERY_DETAILS: string
-    RANGE_COVERED: string,
-    RANGE_AVAILABLE: string,
-    NEW_SERVICE_DATE: string,
-    FRAMEID: string,
-    OVERALL_BAT_HEALTH_PERCENTAGE: string
-    BATTERY_CHARGE_PERCENTAGE: string,
-    MOTOR_PERCENTAGE: string,
-    TOTAL_DISTANCE: string
+    STATUS?: string,
+    ERROR_CODE?: string,
+    IGNITION_STATUS?: string,
+    LOCKED?: string,
+    NO_OF_BATTERIES?: string,
+    BATTERY_DETAILS?: string
+    RANGE_COVERED?: string,
+    RANGE_AVAILABLE?: string,
+    NEW_SERVICE_DATE?: string,
+    DEVICE_ID?: string,
+    OVERALL_BAT_HEALTH_PERCENTAGE?: string
+    BATTERY_CHARGE_PERCENTAGE?: string,
+    MOTOR_PERCENTAGE?: string,
+    TOTAL_DISTANCE?: string,
 }
-
 
 export type TRideDetails = {
     STATUS: string,
@@ -109,7 +145,6 @@ export type TRideDetails = {
     SPEED_KMPH: string,
     MAP_COORDINATES: string,
     POWERMODE: string
-
 }
 
 export type TRideStatistics = {
@@ -122,14 +157,11 @@ export type TRideStatistics = {
     GREEN_MILES: string,
     COST_RECOVERED: string,
     RATINGS: string
-
 }
 
 export type TRequestBody = {
-
     frameid?: string;
     phone_number?: string;
     startTime?: string;
     endTime?: string;
-
 }

@@ -10,11 +10,9 @@ import cors from 'cors';
 import * as dotenv from "dotenv"
 import * as bodyparser from 'body-parser';
 import db from "./db"
-
 dotenv.config()
 
 const app = express();
-
 app.use(cors());
 app.use(bodyparser.json());
 app.use("/user", userRoutes)
@@ -25,7 +23,6 @@ app.use("/rides", ridesRoutes)
 app.use("/issues", issuesRoutes)
 app.use("/support", supportRoutes)
 
-
 const PORT = Number(process.env.PORT) || 5000;
-db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
+db.sync({ force: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
