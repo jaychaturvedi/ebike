@@ -1,33 +1,32 @@
-import Sequelize, { Model, DataTypes } from 'sequelize';
+import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
-import User from '../user/model';
 
+export interface TFeedback {
+  id: number;
+  options: string;
+}
 
-export interface TFeedback extends Model {
-    id : number ;
-    options : string;
-    
-  }
+type TFeedbackModel<T> = typeof Model & {
+  new(values?: object, options?: BuildOptions): T;
+};
 
-let Feedback = db.define<TFeedback>('feedbacks',
-    {
-        id: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-          },
-          options: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            
-          }
-        
+let Feedback: TFeedbackModel<TFeedback & Model> = <TFeedbackModel<TFeedback & Model>>db.define('feedbacks',
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
     },
-    {
-        freezeTableName: true
+    options: {
+      type: Sequelize.STRING,
+      allowNull: false,
     }
+  },
+  {
+    freezeTableName: true
+  }
 );
- 
+
 
 export default Feedback
 

@@ -1,28 +1,31 @@
-import Sequelize, { Model } from 'sequelize';
+import Sequelize, { Model, BuildOptions } from 'sequelize';
 import db from "../db"
 
-export interface TBike extends Model {
-
-  id: number;
-  name: string;
-  userId: number; // Todo change types to UUID
-  frameId: string; // Todo change types to UUID
-  warrantyId: string;
-  batteryId: string[]; //not sure about array
-  modelType: string;
+export interface TBike {
+  id?: number;
+  name?: string;
+  userId?: number;
+  frameId?: string;
+  warrantyId?: string;
+  batteryId?: string;
+  modelType?: string;
   //frequently updated fields below
-  batteryCharge: string;
-  rangeCovered: string;
-  rangeAvailable: string;
-  overallBatteryHealth: string;
-  motorHealth: string;
-  ignitionStatus: boolean;
-  isLocked: boolean;
-  purchaseDate: Date;
-  serviceDate: Date;
+  batteryCharge?: string;
+  rangeCovered?: string;
+  rangeAvailable?: string;
+  overallBatteryHealth?: string;
+  motorHealth?: string;
+  ignitionStatus?: boolean;
+  isLocked?: boolean;
+  purchaseDate?: Date;
+  serviceDate?: Date;
 }
 
-let Bike = db.define<TBike>('bikes',
+type TBikeModel<T> = typeof Model & {
+  new(values?: object, options?: BuildOptions): T;
+};
+
+let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bikes',
   {
     id: {
       type: Sequelize.INTEGER,
@@ -49,19 +52,15 @@ let Bike = db.define<TBike>('bikes',
     warrantyId: {
       type: Sequelize.STRING
     },
-
     batteryId: {
       type: Sequelize.ARRAY(Sequelize.STRING)
     },
-    //to be changed later
     modelType: {
       type: Sequelize.STRING
     },
-
     batteryCharge: {
       type: Sequelize.STRING
     },
-
     rangeCovered: {
       type: Sequelize.STRING
     },
@@ -88,17 +87,3 @@ let Bike = db.define<TBike>('bikes',
 );
 
 export default Bike
-
-// id: {
-//     type: Sequelize.INTEGER,
-//     autoIncrement: true,
-//     primaryKey: true
-// },
-
-//Task.associate = function (models) {
-    // models.Task.belongsTo(models.User, {
-    //     onDelete: "CASCADE",
-    //     foreignKey: {
-    //       allowNull: false
-    //     }
-    //   });STRING

@@ -1,63 +1,75 @@
 import UserModel, { TUser } from "./model"
-import { filters, pagination } from '../helper'
-import { UserError } from "../error"
-import Sequelize from 'sequelize';
-
+import { UserError, BikeError } from "../error"
 
 export type TFilter = {
-    name: string | undefined;
-    id: number | undefined;
-    phone: string | undefined;
-    email: string | undefined;
-    pageSize: number | undefined;
-    pageNumber: number | undefined;
+  name?: string;
+  id?: number;
+  uid?: string;
+  phone?: string;
+  email?: string;
+  pageSize?: number;
+  pageNumber?: number;
 }
 
 export default class User {
 
-    static async findById(id: number) {
-        const user = await UserModel.findByPk(id)
-        if (!user) throw new UserError(`user not found ${id}`)
-        return user
-    }
+  static async findByPhone(phone: string) {
+    const user = await UserModel.findOne({ where: { phone } })
+    if (!user) throw new UserError(`${phone} not found `)
+    return user
+  }
 
+  static async findByUid(uid: string) {
+    const user = await UserModel.findOne({ where: { uid } })
+    if (!user) throw new UserError(`${uid} not found `)
+    return user
+  }
 
-    static async createNew(user: TUser) {
-        const newuser = await UserModel.create(user)
-        if (!user) throw new UserError("Unable to create new user")
-        return newuser;
-    }
+  static async findAll() {
+    const bikes = await UserModel.findAll()
+    return bikes
+  }
 
-    static async updateById(id: number, user: TUser) {
-        await User.findById(id)
-        const [isUpdated, [result]] = await UserModel.update(user, {
-            where: { id },
-            returning: true
-        })
-        if (!isUpdated) throw new UserError("Unable to update bike with id ")
-        return result;
+  static async createNew(user: TUser) {
+    const existingUser = await User.findByUid(user.uid as string)
+    if (existingUser) { return existingUser }
+    const newuser = await UserModel.create(user)
+    if (!newuser) throw new UserError("Unable to create new ")
+    return newuser;
+  }
 
-    }
+  static async updateByPhone(phone: string, user: TUser) {
+    await User.findByPhone(phone)
+    const [isUpdated, [result]] = await UserModel.update(user, {
+      where: { phone },
+      returning: true
+    })
+    if (!isUpdated) throw new UserError("Unable to update with id ")
+    return result;
+  }
 
-    static async deleteById(id: number) {
-        const deleted = await UserModel.destroy({
-            where: { id }
-        });
-        if (!deleted) throw new UserError("Unable to delete user with id " + id);
-        return deleted
-    }
+  static async updateByUid(uid: string, user: TUser) {
+    await User.findByUid(uid)
+    const [isUpdated, [result]] = await UserModel.update(user, {
+      where: { uid },
+      returning: true
+    })
+    if (!isUpdated) throw new UserError("Unable to update with id ")
+    return result;
+  }
 
-    static async findAll(filter: TFilter) {
-        const { pageNumber, pageSize } = filter
-        delete filter.pageNumber; delete filter.pageSize
-        let paginate = {}
-        if (pageNumber || pageSize) {
-            paginate = pagination(pageNumber!, pageSize!);
-        }
-        const where = filters(filter)
-        const users = await UserModel.findAndCountAll({ ...paginate, where })
-        if (!users) throw new UserError("Unable find any user")
-        return users
-    }
+  static async deleteById(uid: string) {
+    const deleted = await UserModel.destroy({
+      where: { uid }
+    });
+    if (!deleted) throw new UserError("Unable to delete user with id " + uid);
+    return deleted
+  }
+
+  static async findAndCountAll(paginate: any, where: any) {
+    const users = await UserModel.findAndCountAll({ ...paginate, where })
+    if (!users) throw new BikeError("Unable to find and count");
+    return users
+  }
 
 }

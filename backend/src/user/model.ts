@@ -1,35 +1,48 @@
-import Sequelize, { Model, DataTypes } from 'sequelize';
+import Sequelize, { BuildOptions, DataTypes, Model } from 'sequelize';
 import db from "../db"
 
-export interface TUser extends Model {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  defaultVehicleId : string;
-  // family: string;
+export interface TUser {
+  id?: number;
+  uid?: string;
+  fullName?: string;
+  phone?: string;
+  email?: string;
+  frameId?: string;
 }
 
-let User = db.define<TUser>('users',
+type TUserModel<T> = typeof Model & {
+  new(values?: object, options?: BuildOptions): T;
+};
+
+let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('users',
   {
-   
+
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-
-    name: {
-      type: Sequelize.STRING
+    uid: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    fullName: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
     email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: true,
+
     },
     phone: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: true,
+
     },
-    defaultVehicleId: {
-      type: Sequelize.STRING
+    frameId: {
+      type: Sequelize.STRING,
+      allowNull: true
     }
   },
   {

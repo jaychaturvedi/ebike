@@ -1,15 +1,14 @@
-import Sequelize, { Model, DataTypes } from 'sequelize';
+import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
-import User from '../user/model';
 
 export interface TRide extends Model {
     id: number;
     userId: number;
     frameId: number;
     feedbackId: number;
-    distance: string | null;
+    distance: string;
     duration: string;
-    modelType: string; // to be kept or not
+    modelType: string;
     averageSpeed: string;
     maxSpeed: string;
     greenMiles: string;
@@ -21,7 +20,11 @@ export interface TRide extends Model {
     rideEndDate: Date;
 }
 
-let Ride = db.define<TRide>('rides',
+type TRideModel<T> = typeof Model & {
+    new(values?: object, options?: BuildOptions): T;
+};
+
+let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('rides',
     {
         id: {
             type: Sequelize.INTEGER,
@@ -45,7 +48,7 @@ let Ride = db.define<TRide>('rides',
             onUpdate: 'CASCADE',
             references: {
                 model: 'bikes',
-                key: 'id',     
+                key: 'id',
             }
         },
         feedbackId: {
@@ -58,42 +61,53 @@ let Ride = db.define<TRide>('rides',
                 key: 'id',
             }
         },
-
         distance: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         duration: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         modelType: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         averageSpeed: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         maxSpeed: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         greenMiles: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         petrolSaved: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         caloriesBurnt: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         ratings: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         feedbackComment: {
-            type: Sequelize.STRING},
+            type: Sequelize.STRING
+        },
 
         rideStartDate: {
-            type: Sequelize.DATE},
+            type: Sequelize.DATE
+        },
 
         rideEndDate: {
-            type: Sequelize.DATE},
+            type: Sequelize.DATE
+        },
     },
     {
         freezeTableName: true
@@ -102,17 +116,3 @@ let Ride = db.define<TRide>('rides',
 
 
 export default Ride
-
-// id: {
-//     type: Sequelize.INTEGER,
-//     autoIncrement: true,
-//     primaryKey: true
-// },
-
-//Task.associate = function (models) {
-    // models.Task.belongsTo(models.User, {
-    //     onDelete: "CASCADE",
-    //     foreignKey: {
-    //       allowNull: false
-    //     }
-    //   });

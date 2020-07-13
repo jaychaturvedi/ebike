@@ -1,15 +1,15 @@
-import Sequelize, { Model, DataTypes } from 'sequelize';
+import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
 import User from '../user/model';
 
 
-export interface TUserSupportFeatures extends Model {
+export interface TUserSupportFeatures {
     id: number;
     supportFeaturesId: number;
     userId: number;
 
 }
-export interface TSupportFeatures extends Model {
+export interface TSupportFeatures {
     id: number;
     title: string;
     active: boolean;
@@ -17,37 +17,48 @@ export interface TSupportFeatures extends Model {
 
 }
 
-let UserSupportFeatures = db.define<TUserSupportFeatures>('userSupportFeatures', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        references: {
-            model: 'users',
-            key: 'id',
-        }
-    },
-    supportFeaturesId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        references: {
-            model: 'supportFeatures',
-            key: 'id',
-        }
-    }
+type TUserSupportFeaturesModel<T> = typeof Model & {
+    new(values?: object, options?: BuildOptions): T;
+};
 
-})
+let UserSupportFeatures: TUserSupportFeaturesModel<TUserSupportFeatures & Model> =
+    <TUserSupportFeaturesModel<TUserSupportFeatures & Model>>
+    db.define('userSupportFeatures', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        userId: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            references: {
+                model: 'users',
+                key: 'id',
+            }
+        },
+        supportFeaturesId: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            references: {
+                model: 'supportFeatures',
+                key: 'id',
+            }
+        }
 
-let SupportFeatures = db.define<TSupportFeatures>('supportFeatures',
-    {
+    })
+
+
+type TSupportFeaturesModel<T> = typeof Model & {
+    new(values?: object, options?: BuildOptions): T;
+};
+
+let SupportFeatures: TSupportFeaturesModel<TSupportFeatures & Model> = <TSupportFeaturesModel<TSupportFeatures & Model>>
+    db.define('supportFeatures', {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -65,13 +76,12 @@ let SupportFeatures = db.define<TSupportFeatures>('supportFeatures',
             type: Sequelize.BOOLEAN,
             allowNull: true
         }
-
     },
-    {
-        freezeTableName: true
-    }
-);
+        {
+            freezeTableName: true
+        }
+    );
 
 
-export {SupportFeatures, UserSupportFeatures}
+export { SupportFeatures, UserSupportFeatures }
 

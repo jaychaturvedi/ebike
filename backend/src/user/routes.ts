@@ -1,88 +1,69 @@
 import express, { Request, Response, NextFunction } from "express";
 import { body, param, query } from "express-validator";
-import { TUser } from "./model"
 import User, { TFilter } from "./service"
 import { expressQAsync, expressErrorHandler, validate, createResponse } from '../helper'
-
 const app = express.Router()
 
-// find single record
-app.get('/:id',
+app.get('/all',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const users = await User.findAll()
+        const response = createResponse(200, users, null)
+        res.json(response)
+    })
+)
 
-        const Id = Number(req.params.id)
-        const user = await User.findById(Id)
+app.get('/',
+    [query('phone', "phone is too short").isLength({ min: 3 }).optional(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const phone = req.query.phone as string
+        const user = await User.findByPhone(phone)
         const response = createResponse(200, user, null)
         res.json(response)
     })
 )
 
-// create 
-app.post('/', [
-    body('name', "name is too short").isLength({ min: 3 }),
-    body("email", "Email is invalid").isEmail(),
-    body('phone', "Phone is too short").isLength({ min: 10, max: 15 }),
-    validate],
+app.post('/',
+    [body('name', "name is too short").isLength({ min: 3 }).optional(),
+    body("email", "Email is invalid").isEmail().optional(),
+    body('phoneNumber', "Phone is too short").isLength({ min: 10, max: 15 }).isString(),
+    body("uid", "uid is invalid").isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-
-        const user = await User.createNew(req.body)
-        const response = createResponse(200, user, null)
+        const { phoneNumber, uid } = req.body
+        const user = {
+            phone: req.body.phoneNumber as string,
+            frameId: req.body.frameId as string,
+            uid: req.body.uid as string,
+            email: req.body.email as string
+        }
+        const newUser = await User.createNew(user)
+        const response = createResponse(200, newUser, null)
         res.json(response)
     })
 )
 
-//update
-app.put('/:id', [
-    body('name', "name is too short").isLength({ min: 3 }),
-    body("email", "Email is invalid").isEmail(),
-    body('phone', "Phone is too short").isLength({ min: 10, max: 15 }),
-    validate],
+app.put('/:phone',
+    [param("phone", "enter correct phone number").isLength({ min: 1 }),
+    body('fullName', "name is too short").isLength({ min: 3 }),
+    body("email", "Email is invalid").isEmail(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-
-        const Id = Number(req.params.id);
-        const updated = await User.updateById(Id, req.body);
-        const response = createResponse(200,updated, null)
+        const updated = await User.updateByPhone(req.params.phone, req.body);
+        const response = createResponse(200, updated, null)
         res.json(response)
     })
 )
 
-//delete
-app.delete('/:id',
+app.delete('/:uid',
+    [param("uid", "uid is invalid").isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response) => {
-
-        const Id = Number(req.params.id);
-        const deleted = await User.deleteById(Id);
-        const response = createResponse(200, "User deleted with id " + Id, null)
-        return res.json(response);
+        const deleted = await User.deleteById(req.params.uid);
+        const response = createResponse(200, "User deleted with id " + req.params.uid, null)
+        res.json(response);
     })
 )
-
-
-//get filtered records
-app.get('/', [
-    query('id').toInt().optional(),
-    query('name').isString().withMessage("something").optional(),
-    query('email').isString().withMessage("something").optional(),
-    query('phone').isString().withMessage("something").optional(),
-    query('pageSize').toInt().optional(),
-    query('pageNumber').toInt().optional(),
-    validate], expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-
-        const { pageSize, pageNumber, name, phone, email, id } = req.query
-        const users = await User.findAll({
-            id: (id as any) as number,
-            name: name as string,
-            phone: phone as string,
-            email: email as string,
-            pageNumber: (pageNumber as any) as number,
-            pageSize: (pageSize as any) as number
-        })
-        const response = createResponse(200,users, null)
-        res.json(response)
-    })
-)
-
 
 app.use(expressErrorHandler);
 
 export default app
+
+
+
