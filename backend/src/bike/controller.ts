@@ -24,8 +24,8 @@ export async function paginateBike(filter: TFilter) {
     paginate = pagination(pageNumber!, pageSize!);
   }
   const where = filters(filter)
-  const users = await Bike.findAndCountAll(paginate, where)
-  if (!users) return 0
-  return users
+  const bikes = await Bike.findAndCountAll(paginate, where)
+  if (!bikes) return 0
+  return bikes
 }
 

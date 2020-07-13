@@ -29,18 +29,17 @@ export default class Bike {
         return result
     }
 
-    static async deleteById(id: number) {
+    static async deleteByFrame(frameId: number) {
         const deleted = await BikeModel.destroy({
-            where: { id }
+            where: { frameId }
         });
-        if (!deleted) throw new BikeError("Unable to delete with id " + id);
+        if (!deleted) throw new BikeError("Unable to delete with id " + frameId);
         return deleted
     }
 
     static async findAll() {
         const bikes = await BikeModel.findAll()
         return bikes
-
     }
 
     static async findAndCountAll(paginate: any, where: any) {

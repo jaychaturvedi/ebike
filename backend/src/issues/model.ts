@@ -1,7 +1,6 @@
 import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
 
-
 export interface TIssue {
   id: number;
   comments: string;

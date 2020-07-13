@@ -10,52 +10,52 @@ const app = express.Router()
 app.get('/all',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const bikes = await Bike.findAll()
-        const response = createResponse(200, bikes, null)
+        const response = createResponse("OK", bikes, undefined)
         res.json(response)
     })
 )
 
 app.get('/', [
-    query('frameId', "pass a valid frameId").isLength({ min: 3 }),
+    query('frameId', "pass a valid frameId").isLength({ min: 3 }).isString(),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const bikedetails = await ConnectmApi.getBikeDetails(req.query.frameId as string);
-        const response = createResponse(200, bikedetails, null)
+        const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
 
 app.get('/verify', [
-    query('frameId', "some message").isLength({ min: 1 }).toString,
-    query('uid', "some message").isLength({ min: 1 }).toString,
+    query('frameId', "some message").isLength({ min: 1 }).isString(),
+    query('uid', "some message").isLength({ min: 1 }).isString(),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { frameId, uid } = req.query
         const bikedetails = await verifyFrame(uid as string, frameId as string);
-        const response = createResponse(200, bikedetails, null)
+        const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
 
-app.put('/:frameId', [
-    body('bikeName', "bikeName is too short").isLength({ min: 3 }).optional(),
-    param('frameId', "frameId is required").isLength({ min: 3 }),
+app.put('/', [
+    query('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
+    query('frameId', "frameId is required").isLength({ min: 3 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const frameId = req.params.frameId;
         const bikeName = req.body.bikeName as string
         const updated = await Bike.updateByFrame(frameId, req.body);
-        const response = createResponse(200, updated, null)
+        const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
-app.delete('/:id',
-    param('frameId', "frameId is is required").isLength({ min: 1 }),
+app.delete('/',
+    query('frameId', "frameId is required").notEmpty(),
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = Number(req.params.id)
-        const deleted = await Bike.deleteById(Id);
-        const response = createResponse(200, "deleted with id " + Id, null)
+        const Id = req.query.frameId as any as number
+        const deleted = await Bike.deleteByFrame(Id);
+        const response = createResponse("OK", "deleted with id " + Id, undefined)
         res.json(response);
     })
 )

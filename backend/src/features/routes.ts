@@ -7,16 +7,16 @@ const app = express.Router()
 app.get('/',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const features = await Features.findAll()
-        const response = createResponse(200, features, null)
+        const response = createResponse("OK", features, undefined)
         res.send(response)
     })
 )
 
 app.get('/:id',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id)
+        const Id = req.params.id as any as number
         const feature = await Features.findById(Id)
-        const response = createResponse(200, feature, null)
+        const response = createResponse("OK", feature, undefined)
         res.json(response)
     })
 )
@@ -26,7 +26,7 @@ app.post('/', [
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const feature = await Features.createNew(req.body)
-        const response = createResponse(200, feature, null)
+        const response = createResponse("OK", feature, undefined)
         res.json(response)
     })
 )
@@ -35,18 +35,18 @@ app.put('/:id', [
     body('name', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id);
+        const Id = req.params.id as any as number
         const updated = await Features.updateById(Id, req.body);
-        const response = createResponse(200, updated, null)
+        const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
 app.delete('/:id',
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = Number(req.params.id);
+        const Id = req.params.id as any as number
         const deleted = await Features.deleteById(Id);
-        const response = createResponse(200, "feature deleted with id " + Id, null)
+        const response = createResponse("OK", "feature deleted with id " + Id, undefined)
         res.json(response);
     })
 )
@@ -54,16 +54,16 @@ app.delete('/:id',
 app.get('/user',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const userFeatures = await UserFeatures.findAll()
-        const response = createResponse(200, userFeatures, null)
+        const response = createResponse("OK", userFeatures, undefined)
         res.json(response)
     })
 )
 
 app.get('/user/:id',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id)
+        const Id = req.params.id as any as number
         const userFeature = await UserFeatures.findById(Id)
-        const response = createResponse(200, userFeature, null)
+        const response = createResponse("OK", userFeature, undefined)
         res.json(response)
     })
 )
@@ -73,7 +73,7 @@ app.post('/user', [
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const userFeatures = await UserFeatures.createNew(req.body)
-        const response = createResponse(200, userFeatures, null)
+        const response = createResponse("OK", userFeatures, undefined)
         res.json(response)
 
     })
@@ -83,18 +83,18 @@ app.put('/user/:id', [
     body('name', "name can't be empty").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id);
+        const Id = req.params.id as any as number
         const updated = await UserFeatures.updateById(Id, req.body);
-        const response = createResponse(200, updated, null)
+        const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
 app.delete('/user/:id',
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = Number(req.params.id);
+        const Id = req.params.id as any as number
         await UserFeatures.deleteById(Id);
-        const response = createResponse(200, "UserFeatures deleted with id " + Id, null)
+        const response = createResponse("OK", "UserFeatures deleted with id " + Id, undefined)
         res.json(response);
     })
 )

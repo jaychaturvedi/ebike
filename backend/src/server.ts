@@ -23,6 +23,6 @@ app.use("/rides", ridesRoutes)
 app.use("/issues", issuesRoutes)
 app.use("/support", supportRoutes)
 
-const PORT = Number(process.env.PORT) || 5000;
-db.sync({ force: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
+const PORT = process.env.PORT || 5000;
+db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 

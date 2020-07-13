@@ -7,7 +7,7 @@ const app = express.Router()
 app.get('/',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const rides = await Ride.findAll()
-        const response = createResponse(200, rides, null)
+        const response = createResponse("OK", rides, undefined)
         res.status(200).send(response)
     })
 )
@@ -15,9 +15,9 @@ app.get('/',
 app.get('/:id',
     [param("id", "id is invalid").isLength({ min: 1 }).optional(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id)
+        const Id = req.params.id as any as number
         const ride = await Ride.findById(Id)
-        const response = createResponse(200, ride, null)
+        const response = createResponse("OK", ride, undefined)
         res.json(response)
     })
 )
@@ -26,7 +26,7 @@ app.post('/',
     [body('name', "name can't be empty").isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const newride = await Ride.createNew(req.body)
-        const response = createResponse(200, newride, null)
+        const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
@@ -35,9 +35,9 @@ app.put('/:id', [
     param("id", "id is invalid").isLength({ min: 1 }),
     body('name', "name can't be empty").isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id);
+        const Id = req.params.id as any as number;
         const updated = await Ride.updateById(Id, req.body);
-        const response = createResponse(200, updated, null)
+        const response = createResponse("OK", updated, undefined)
         res.json(response)
 
     })
@@ -45,9 +45,9 @@ app.put('/:id', [
 
 app.delete('/:id',
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = Number(req.params.id);
+        const Id = req.params.id as any as number;
         const deleted = await Ride.deleteById(Id);
-        const response = createResponse(200, "feature deleted with id " + Id, null)
+        const response = createResponse("OK", "feature deleted with id " + Id, undefined)
         res.json(response);
     })
 )
