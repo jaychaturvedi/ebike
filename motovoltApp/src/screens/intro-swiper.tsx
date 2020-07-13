@@ -73,7 +73,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State>{
                         {getHeader(true, false, () => console.log('skip pressed'),
                             () => console.log("back pressed"))}
                         {getImage('')}
-                        {getText("HelloThererere")}
+                        {getText("Drive Less, e-Cycle More!")}
                         {getFooter(() => { (this.refs.mySwiper as any).scrollBy(1) })}
                     </View>
                     <View style={styles.slide}>
@@ -94,7 +94,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State>{
                         {getHeader(false, true, undefined,
                             () => { (this.refs.mySwiper as any).scrollBy(-1) })}
                         {getImage('')}
-                        {getText("Gain Gree Miles and Earn Exciting Gifts")}
+                        {getText("Gain Green Miles and earn exciting gifts!")}
                         {/* {getFooter(() => { (this.refs.mySwiper as any).scrollBy(1) })} */}
                         <View style={styles.register}>
                             <View style={{ height: '50%', justifyContent: 'flex-start' }}>
