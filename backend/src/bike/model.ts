@@ -3,8 +3,8 @@ import db from "../db"
 
 export interface TBike {
   id?: number;
-  name?: string;
-  userId?: number;
+  bikeName?: string;
+  userId?: string;
   frameId?: string;
   warrantyId?: string;
   batteryId?: string;
@@ -32,11 +32,11 @@ let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bike
       autoIncrement: true,
       primaryKey: true
     },
-    name: {
+    bikeName: {
       type: Sequelize.STRING
     },
     userId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',

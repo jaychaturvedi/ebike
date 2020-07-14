@@ -8,12 +8,12 @@ const Op = Sequelize.Op
 
 export async function verifyFrame(uid: string, frameId: string) {
   await User.findByUid(uid)
-  const bikedetails = await ConnectmApi.getBikeDetails(frameId as string);
-  if (bikedetails.st === "false") throw new BadRequestError("Cant get details")
-  const bike = await Bike.createNew(bikedetails)
+  const { fid, model: modelType, st: status } = await ConnectmApi.getBikeDetails(frameId as string);
+  if (status) throw new BadRequestError("Cant get details")
+  const bike = await Bike.createNew({ frameId, modelType, userId: uid })
   const isUpdated = await User.updateByUid(uid, { frameId: frameId as string })
   if (!isUpdated) throw new UserError("Unable to update ")
-  return bikedetails;
+  return { frameId: fid, modelType };
 }
 
 export async function paginateBike(filter: TFilter) {

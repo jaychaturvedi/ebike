@@ -43,8 +43,8 @@ app.put('/', [
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const frameId = req.params.frameId;
-        const bikeName = req.body.bikeName as string
-        const updated = await Bike.updateByFrame(frameId, req.body);
+        const bikeName = req.body.bikeName as any as string
+        const updated = await Bike.updateByFrame(frameId, { bikeName });
         const response = createResponse("OK", updated, undefined)
         res.json(response)
     })

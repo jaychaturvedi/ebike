@@ -172,7 +172,7 @@ export type TEndRide = {
     grnmls: number; //green miles
     calbnt: number; //calories burnt
     ptrsav: number; //petrol saved
-    ptrlt: number;
+    ptrlt: number; //petrol saved inn liter
     st: string;
     ec: string;
     em: string

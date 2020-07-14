@@ -1,23 +1,23 @@
 import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
 
-export interface TRide extends Model {
-    id: number;
-    userId: number;
-    frameId: number;
-    feedbackId: number;
-    distance: string;
-    duration: string;
-    modelType: string;
-    averageSpeed: string;
-    maxSpeed: string;
-    greenMiles: string;
-    petrolSaved: string;
-    caloriesBurnt: string;
-    ratings: number;
-    feedbackComment: string;
-    rideStartDate: Date;
-    rideEndDate: Date;
+export interface TRide {
+    id?: number;
+    userId?: string;
+    frameId?: string;
+    feedbackId?: number;
+    distance?: number;
+    duration?: string;
+    averageSpeed?: number;
+    maxSpeed?: number;
+    greenMiles?: number;
+    petrolSaved?: number;
+    litreSaved?: number
+    caloriesBurnt?: number;
+    rating?: number;
+    feedbackComment?: string;
+    startTime?: string;
+    endTime?: string;
 }
 
 type TRideModel<T> = typeof Model & {
@@ -32,28 +32,22 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
             primaryKey: true
         },
         userId: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: false,
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             references: {
                 model: 'users',
-                key: 'id',
+                key: 'uid',
             }
         },
         frameId: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: false,
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-            references: {
-                model: 'bikes',
-                key: 'id',
-            }
         },
         feedbackId: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: true,
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
             references: {
@@ -62,51 +56,40 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
             }
         },
         distance: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
         duration: {
             type: Sequelize.STRING
         },
-
-        modelType: {
-            type: Sequelize.STRING
-        },
-
         averageSpeed: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
         maxSpeed: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
         greenMiles: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
         petrolSaved: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
+        litreSaved: {
+            type: Sequelize.INTEGER
+        },
         caloriesBurnt: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
-        ratings: {
-            type: Sequelize.STRING
+        rating: {
+            type: Sequelize.INTEGER
         },
-
         feedbackComment: {
             type: Sequelize.STRING
         },
-
-        rideStartDate: {
-            type: Sequelize.DATE
+        startTime: {
+            type: Sequelize.STRING
         },
-
-        rideEndDate: {
-            type: Sequelize.DATE
+        endTime: {
+            type: Sequelize.STRING
         },
     },
     {
