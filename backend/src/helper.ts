@@ -52,6 +52,21 @@ export function expressQAsync(fn: Function) {
   }
 }
 
+export function secure(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: any
+) {
+  console.log("Request Middleware ", req)
+
+  // const response = createResponse(500, null, err)
+  // res.json(response);
+  next()
+}
+
+
+
 export function pagination(pageNumber: number, pageSize: number) {
   const limit = pageSize ? pageSize : 1
   const offset = pageNumber ? (pageNumber - 1) * limit : 0
