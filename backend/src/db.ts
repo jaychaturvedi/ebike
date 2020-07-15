@@ -11,7 +11,8 @@ type PgConfig = {
 }
 
 const db = new Sequelize(process.env.DB!, process.env.PG_USER!, process.env.PASSWORD!, {
-  host: process.env.HOST,
+  host: process.env.HOST, 
+  port: Number(process.env.PORT),
   dialect:"postgres",
   pool : {
     max: 5,

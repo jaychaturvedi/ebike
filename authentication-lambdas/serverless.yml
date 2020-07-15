@@ -1,0 +1,52 @@
+plugins: # List of plugins of use on application
+  - serverless-offline # Get your serverless configuration and run the server local
+  - serverless-plugin-typescript-express # Help us with configuration typescript on serverless
+
+service: zelp-motovolt-authentication
+
+provider:
+  name: aws
+  endpointType: REGIONAL
+  runtime: nodejs10.x
+  stage: dev
+  region: us-east-2
+  memorySize: 128
+  environment: 
+    REGISTEREDFRAMEIDFORMOBILEURL: https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra/validateph
+    CREATEUSERURL:  URLTOCREATEUSER
+functions:
+  preSignUp:
+    handler: src/functions.preSignUp
+    events: 
+      - http: 
+          path: /preSignUp
+          method: ANY
+          cors: true
+  postConfirmation:
+    handler: src/functions.postConfirmation
+    events: 
+      - http: 
+          path: /postConfirmation
+          method: ANY
+          cors: true
+  defineAuthChallenge:
+    handler: src/functions.defineAuthChallenge
+    events: 
+      - http: 
+          path: /defineAuthChallenge
+          method: ANY
+          cors: true
+  createAuthChallenge:
+    handler: src/functions.createAuthChallenge
+    events: 
+      - http: 
+          path: /createAuthChallenge
+          method: ANY
+          cors: true
+  verifyAuthChallenge:
+    handler: src/functions.verifyAuthChallenge
+    events: 
+      - http: 
+          path: /verifyAuthChallenge
+          method: ANY
+          cors: true

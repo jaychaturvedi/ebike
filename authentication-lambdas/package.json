@@ -1,0 +1,29 @@
+{
+  "name": "dmt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p .",
+    "start": "node lib/functions.js",
+    "offline": "serverless offline start",
+    "deploy": "serverless deploy"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.713.0",
+    "cors": "^2.8.5",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "serverless-offline": "^6.4.0",
+    "serverless-plugin-typescript-express": "^1.0.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/request-promise": "^4.1.46",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5"
+  }
+}
