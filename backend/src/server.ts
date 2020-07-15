@@ -20,48 +20,51 @@ app.use(cors());
 app.use(bodyparser.json());
 app.use("/user", userRoutes)
 app.use("/bike", bikeRoutes)
-app.use("./features", featuresRoutes)
+app.use("./feature", featuresRoutes)
 app.use("/feedback", feedbackRoutes)
-app.use("/rides", ridesRoutes)
-app.use("/issues", issuesRoutes)
+app.use("/ride", ridesRoutes)
+app.use("/issue", issuesRoutes)
 app.use("/support", supportRoutes)
 
-const PORT = process.env.PORT || 5000;
-db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
+<<<<<<< Updated upstream
+// const PORT = process.env.PORT || 5000;
+// db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
 //deploy express app to aws lambda
-// const handler = serverless(app);
-// module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
-//     // you can do other things here
-//     console.log("context", context, "event", event);
-//     context.callbackWaitsForEmptyEventLoop = false;
-//     await db.sync({ alter: true });
-//     const result = await handler(event, context);
-//     // and here
-//     return result;
-// };
+const handler = serverless(app);
+module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
+    // you can do other things here
+    console.log("context", context, "event", event);
+    context.callbackWaitsForEmptyEventLoop = false;
+    await db.sync({ alter: true });
+    const result = await handler(event, context);
+    // and here
+    return result;
+};
 
 
-//will be pushed other file
-//lambda function to be triggered to create new user
-// module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context) => {
-//     // you can do other things here
-//     const body = JSON.parse(event.body!)
-//     const uid = body.uid as string
-//     const phone = body.phone as string
-//     console.log("new user", { uid: uid, phone: phone })
-//     context.callbackWaitsForEmptyEventLoop = false;
-//     await db.sync({ alter: true });
-//     const newUser = await User.createNew({ uid: uid, phone: phone })
-//     console.log(newUser);
-//     const response = {
-//         statusCode: 200,
-//         headers: {
-//             "x-custom-header": "user_creation"
-//         },
-//         body: JSON.stringify({ uid: uid, phone: phone }),
-//         isBase64Encoded: false
-//     };
-//     context.succeed(response)
-// };
+// will be pushed other file
+// lambda function to be triggered to create new user
+module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context) => {
+    // you can do other things here
+    const body = JSON.parse(event.body!)
+    const uid = body.uid as string
+    const phone = body.phoneNumber as string
+    console.log("new user", { uid: uid, phone: phone })
+    context.callbackWaitsForEmptyEventLoop = false;
+    await db.sync({ alter: true });
+    const newUser = await User.createNew({ uid: uid, phone: phone })
+    console.log(newUser);
+    const response = {
+        statusCode: 200,
+        headers: {
+            "x-custom-header": "user_creation"
+        },
+        body: JSON.stringify({ uid: uid, phone: phone }),
+        isBase64Encoded: false
+    };
+    context.succeed(response)
+};
+=======
+>>>>>>> Stashed changes
 

@@ -12,7 +12,7 @@ export interface TFeatures {
 
 export interface TUserFeatures {
     id: number;
-    userId: number;
+    uid: number;
     featureId: number;
     purchaseDate: Date; // need to make sure
 }
@@ -48,7 +48,7 @@ let UserFeatures: TUserFeaturesModel<TUserFeatures & Model> = <TUserFeaturesMode
             autoIncrement: true,
             primaryKey: true
         },
-        userId: {
+        uid: {
             type: Sequelize.INTEGER,
             allowNull: false,
             onDelete: 'CASCADE',

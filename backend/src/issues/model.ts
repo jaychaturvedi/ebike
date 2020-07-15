@@ -4,7 +4,7 @@ import db from "../db"
 export interface TIssue {
   id: number;
   comments: string;
-  userId: number;
+  uid: number;
   frameId: number;
 }
 type TIssueModel<T> = typeof Model & {
@@ -18,7 +18,7 @@ let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define
       autoIncrement: true,
       primaryKey: true
     },
-    userId: {
+    uid: {
       type: Sequelize.INTEGER,
       allowNull: true,
       onDelete: 'CASCADE',

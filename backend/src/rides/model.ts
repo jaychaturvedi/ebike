@@ -3,7 +3,7 @@ import db from "../db"
 
 export interface TRide {
     id?: number;
-    userId?: string;
+    uid?: string;
     frameId?: string;
     feedbackId?: number;
     distance?: number;
@@ -31,15 +31,9 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
             autoIncrement: true,
             primaryKey: true
         },
-        userId: {
+        uid: {
             type: Sequelize.STRING,
             allowNull: false,
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-            references: {
-                model: 'users',
-                key: 'uid',
-            }
         },
         frameId: {
             type: Sequelize.STRING,

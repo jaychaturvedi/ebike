@@ -1,7 +1,5 @@
 import BikeModel, { TBike } from "./model"
 import { BikeError } from "../error"
-import { TBikeDetails } from "../externalApi/motovolt";
-import { TFilter } from "../user/service";
 
 export default class Bike {
 

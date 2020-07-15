@@ -25,6 +25,7 @@ app.get('/',
 app.post('/',
     [body('name', "name is too short").optional().isString().isLength({ min: 3 }),
     body("email", "Email is invalid").optional().isEmail(),
+    body("frameId").optional().isString(),
     body('phoneNumber', "Phone is too short").isString().isLength({ min: 10, max: 15 }),
     body("uid", "uid is invalid").isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {

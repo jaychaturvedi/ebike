@@ -6,7 +6,7 @@ import User from '../user/model';
 export interface TUserSupportFeatures {
     id: number;
     supportFeaturesId: number;
-    userId: number;
+    uid: number;
 
 }
 export interface TSupportFeatures {
@@ -29,7 +29,7 @@ let UserSupportFeatures: TUserSupportFeaturesModel<TUserSupportFeatures & Model>
             autoIncrement: true,
             primaryKey: true
         },
-        userId: {
+        uid: {
             type: Sequelize.INTEGER,
             allowNull: false,
             onDelete: 'CASCADE',

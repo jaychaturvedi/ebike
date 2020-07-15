@@ -4,7 +4,7 @@ import db from "../db"
 export interface TBike {
   id?: number;
   bikeName?: string;
-  userId?: string;
+  uid?: string;
   frameId?: string;
   warrantyId?: string;
   batteryId?: string;
@@ -35,15 +35,9 @@ let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bike
     bikeName: {
       type: Sequelize.STRING
     },
-    userId: {
+    uid: {
       type: Sequelize.STRING,
-      allowNull: false,
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      references: {
-        model: 'users',
-        key: 'id',
-      }
+      allowNull: true,
     },
     frameId: {
       type: Sequelize.STRING,

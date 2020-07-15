@@ -66,7 +66,7 @@ export default class ConnectmApi {
     }
 
     static async getLocationHistory(frameId: string, startTime: string, endTime: string) {
-        const options = createOptions('/getridegps', {
+        const options = createOptions('/getendridegps', {
             frameid: frameId,
             startTime,
             endTime

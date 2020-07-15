@@ -3,7 +3,7 @@ import db from "../db"
 
 export interface TUser {
   id?: number;
-  uid?: string;
+  uid?: string;//userid
   fullName?: string;
   phone?: string;
   email?: string;
@@ -33,7 +33,6 @@ let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('user
     email: {
       type: Sequelize.STRING,
       allowNull: true,
-
     },
     phone: {
       type: Sequelize.STRING,
