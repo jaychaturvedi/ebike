@@ -1,4 +1,6 @@
 import express from 'express';
+import { APIGatewayProxyEvent, Context } from "aws-lambda";
+import serverless from "serverless-http";
 import userRoutes from './user/routes'
 import bikeRoutes from './bike/routes'
 import issuesRoutes from './issues/routes'
@@ -10,6 +12,7 @@ import cors from 'cors';
 import * as dotenv from "dotenv"
 import * as bodyparser from 'body-parser';
 import db from "./db"
+import User from './user/service';
 dotenv.config()
 
 const app = express();
@@ -25,4 +28,40 @@ app.use("/support", supportRoutes)
 
 const PORT = Number(process.env.PORT) || 5000;
 db.sync({ force: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
+
+//deploy express app to aws lambda
+// const handler = serverless(app);
+// module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
+//     // you can do other things here
+//     console.log("context", context, "event", event);
+//     context.callbackWaitsForEmptyEventLoop = false;
+//     await db.sync({ alter: true });
+//     const result = await handler(event, context);
+//     // and here
+//     return result;
+// };
+
+
+//will be pushed other file
+//lambda function to be triggered to create new user
+// module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context) => {
+//     // you can do other things here
+//     const body = JSON.parse(event.body!)
+//     const uid = body.uid as string
+//     const phone = body.phone as string
+//     console.log("new user", { uid: uid, phone: phone })
+//     context.callbackWaitsForEmptyEventLoop = false;
+//     await db.sync({ alter: true });
+//     const newUser = await User.createNew({ uid: uid, phone: phone })
+//     console.log(newUser);
+//     const response = {
+//         statusCode: 200,
+//         headers: {
+//             "x-custom-header": "user_creation"
+//         },
+//         body: JSON.stringify({ uid: uid, phone: phone }),
+//         isBase64Encoded: false
+//     };
+//     context.succeed(response)
+// };
 
