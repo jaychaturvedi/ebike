@@ -8,10 +8,10 @@ const Op = Sequelize.Op
 
 export async function verifyFrame(uid: string, frameId: string) {
   await User.findByUid(uid)
-  const { fid, model: modelType, st: status } = await ConnectmApi.getBikeDetails(frameId as string);
+  const { model: modelType, st: status } = await ConnectmApi.getBikeDetails(frameId as string);
   if (status) throw new BadRequestError("Cant get details")
   const bike = await Bike.createNew({ frameId, modelType, uid })
-  const isUpdated = await User.updateByUid(uid, { frameId: frameId as string })
+  const isUpdated = await User.updateByUid(uid, { frameId })
   if (!isUpdated) throw new UserError("Unable to update ")
   return bike;
 }

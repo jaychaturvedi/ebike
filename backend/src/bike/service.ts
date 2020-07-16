@@ -26,7 +26,16 @@ export default class Bike {
         if (!isUpdated) throw new BikeError("Unable to update with id ")
         return result
     }
+    static async updateByUid(uid: string, bike: TBike) {
+        console.log(uid, bike);
 
+        const [isUpdated, [result]] = await BikeModel.update(bike, {
+            where: { uid },
+            returning: true
+        })
+        if (!isUpdated) throw new BikeError("Unable to update with id ")
+        return result
+    }
     static async deleteByFrame(frameId: number) {
         const deleted = await BikeModel.destroy({
             where: { frameId }

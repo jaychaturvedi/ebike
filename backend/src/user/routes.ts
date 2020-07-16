@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { body, param, query } from "express-validator";
 import User, { TFilter } from "./service"
-import { TUser } from './model'
 import localstore from "store";
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 const app = express.Router()
@@ -9,34 +8,51 @@ const app = express.Router()
 
 app.get('/all', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        console.log('rouuu', localstore.get('user').phone);
-        const users = await User.findByUid(localstore.get('user').uid)
+        const users = await User.findAll()
         const response = createResponse("OK", users, undefined)
         res.json(response)
     })
 )
 
-app.get('/',
-    [query('phone', "phone is too short").optional().isLength({ min: 3 }), validate],
+app.get('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const user = await User.findByPhone(localstore.get('user').phone)
+        const user = await User.findByUid(localstore.get('user').uid)
         const response = createResponse("OK", user, undefined)
         res.json(response)
     })
 )
 
-app.post('/',
+app.get('/logout', expressQAsync(secure),
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        localstore.remove('user')
+        const response = createResponse("OK", "logged out", undefined)
+        res.json(response)
+    })
+)
+
+app.put('/', expressQAsync(secure),
+    [query('fullName', "name is too short").isString().isLength({ min: 3 }),
+    query("email", "Email is invalid").isEmail(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const uid = localstore.get('user').uid
+        const { fullName, email } = req.query as any
+        const updated = await User.updateByUid(uid, { fullName, email });
+        const response = createResponse("OK", updated, undefined)
+        res.json(response)
+    })
+)
+app.post('/', expressQAsync(secure),
     [body('name', "name is too short").optional().isString().isLength({ min: 3 }),
     body("email", "Email is invalid").optional().isEmail(),
-    body("frameId").optional().isString(),
-    body('phoneNumber', "Phone is too short").isString().isLength({ min: 10, max: 15 }),
-    body("uid", "uid is invalid").isLength({ min: 1 }), validate],
+    body("frameId").optional().isString(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { phoneNumber, uid } = req.body
+        const { phone, uid } = localstore.get('user')
+        const preuser = await User.findByUid(localstore.get('user').uid)
+        if (preuser) res.json(createResponse("OK", preuser, undefined))
         const user = {
-            phone: req.body.phoneNumber as string,
+            phone,
             frameId: req.body.frameId as string,
-            uid: req.body.uid as string,
+            uid,
             email: req.body.email as string
         }
         const newUser = await User.createNew(user)
@@ -45,21 +61,10 @@ app.post('/',
     })
 )
 
-app.put('/:phone',
-    [param("phone", "enter correct phone number").isString().isLength({ min: 1 }),
-    body('fullName', "name is too short").isString().isLength({ min: 3 }),
-    body("email", "Email is invalid").isEmail(), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const updated = await User.updateByPhone(req.params.phone, req.body);
-        const response = createResponse("OK", updated, undefined)
-        res.json(response)
-    })
-)
-
-app.delete('/:uid',
-    [param("uid", "uid is invalid").isLength({ min: 1 }), validate],
+app.delete('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response) => {
-        const deleted = await User.deleteById(req.params.uid);
+        const uid = localstore.get('user').uid
+        const deleted = await User.deleteById(uid);
         const response = createResponse("OK", "User deleted with id " + req.params.uid, undefined)
         res.json(response);
     })

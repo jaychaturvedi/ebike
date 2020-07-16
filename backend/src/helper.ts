@@ -23,7 +23,6 @@ export function createResponse(status: TResponseStatus, body: any,
   }
 }
 
-
 export function expressErrorHandler(err: Error, req: Request, res: Response,
   next: NextFunction) {
 
@@ -67,11 +66,10 @@ export function secure(
   const token = req.headers.authorization as string
   if (!token) return res.status(401).send("pass json token in headers")
   const { sub: uid, phone_number: phone } = JwtDecode(token)
+  if (!uid) return res.status(401).send("invalid token")
   localstore.set('user', { uid, phone })
   next()
 }
-
-
 
 export function pagination(pageNumber: number, pageSize: number) {
   const limit = pageSize ? pageSize : 1
@@ -98,3 +96,4 @@ export function validate(req: Request, res: Response, next: NextFunction) {
   }
   next();
 }
+
