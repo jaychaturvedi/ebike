@@ -4,8 +4,8 @@ import db from "../db"
 export interface TIssue {
   id: number;
   comments: string;
-  uid: number;
-  frameId: number;
+  uid: string;
+  frameId: string;
 }
 type TIssueModel<T> = typeof Model & {
   new(values?: object, options?: BuildOptions): T;
@@ -19,24 +19,12 @@ let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define
       primaryKey: true
     },
     uid: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: true,
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      references: {
-        model: 'users',
-        key: 'id',
-      }
     },
     frameId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      references: {
-        model: 'bikes',
-        key: 'id',
-      }
     },
     comments: {
       type: Sequelize.STRING,

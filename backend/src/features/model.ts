@@ -28,10 +28,10 @@ let Features: TFeaturesModel<TFeatures & Model> = <TFeaturesModel<TFeatures & Mo
             autoIncrement: true,
             primaryKey: true
         },
-        name: Sequelize.STRING,
-        active: Sequelize.STRING,
-        price: Sequelize.STRING,
-        premium: Sequelize.BOOLEAN,
+        name: { type: Sequelize.STRING },
+        active: { type: Sequelize.STRING },
+        price: { type: Sequelize.STRING },
+        premium: { type: Sequelize.BOOLEAN },
     },
         {
             freezeTableName: true
@@ -49,14 +49,8 @@ let UserFeatures: TUserFeaturesModel<TUserFeatures & Model> = <TUserFeaturesMode
             primaryKey: true
         },
         uid: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: false,
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-            references: {
-                model: 'users',
-                key: 'id',
-            }
         },
         featureId: {
             type: Sequelize.INTEGER,

@@ -1,12 +1,16 @@
 import express, { Request, Response, NextFunction } from "express";
 import { body, param, query } from "express-validator";
 import User, { TFilter } from "./service"
-import { expressQAsync, expressErrorHandler, validate, createResponse } from '../helper'
+import { TUser } from './model'
+import localstore from "store";
+import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 const app = express.Router()
 
-app.get('/all',
+
+app.get('/all', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const users = await User.findAll()
+        console.log('rouuu', localstore.get('user').phone);
+        const users = await User.findByUid(localstore.get('user').uid)
         const response = createResponse("OK", users, undefined)
         res.json(response)
     })
@@ -15,8 +19,7 @@ app.get('/all',
 app.get('/',
     [query('phone', "phone is too short").optional().isLength({ min: 3 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const phone = req.query.phone as string
-        const user = await User.findByPhone(phone)
+        const user = await User.findByPhone(localstore.get('user').phone)
         const response = createResponse("OK", user, undefined)
         res.json(response)
     })

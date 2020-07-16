@@ -17,16 +17,19 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.6.0",
-    "mongodb": "^3.5.9",
+    "jwt-decode": "^2.2.0",
     "pg": "^8.2.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "sequelize": "^6.2.0",
     "serverless-http": "^2.5.0",
     "serverless-offline": "^6.4.0",
-    "serverless-plugin-typescript-express": "^1.0.8"
+    "serverless-plugin-typescript-express": "^1.0.8",
+    "store": "^2.0.12"
   },
   "devDependencies": {
+    "@types/jwt-decode": "^2.2.1",
+    "@types/store": "^2.0.2",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.6",

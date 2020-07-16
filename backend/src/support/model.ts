@@ -6,7 +6,7 @@ import User from '../user/model';
 export interface TUserSupportFeatures {
     id: number;
     supportFeaturesId: number;
-    uid: number;
+    uid: string;
 
 }
 export interface TSupportFeatures {
@@ -30,14 +30,8 @@ let UserSupportFeatures: TUserSupportFeaturesModel<TUserSupportFeatures & Model>
             primaryKey: true
         },
         uid: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: false,
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-            references: {
-                model: 'users',
-                key: 'id',
-            }
         },
         supportFeaturesId: {
             type: Sequelize.INTEGER,

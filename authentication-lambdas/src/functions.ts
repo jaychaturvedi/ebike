@@ -2,7 +2,8 @@ import * as rp from 'request-promise'
 const AWS = require('aws-sdk');
 
 type RegisteredFrameResponse = {
-    fid: string
+    fid: string,
+    ec: string
 }
 
 export function createOptions(url: string, body: any, method: "POST" | "GET") {
@@ -46,11 +47,11 @@ module.exports.preSignUp = async (event: any) => {
         "phone_number": event.request.userAttributes.phone_number
     }
     //connectM call
-    const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
+    const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST")
     const response: RegisteredFrameResponse = await rp(options);
     console.log("frame verification response", response)
-    if (Object.values(response).length <= 0) {
-        throw new Error("User have not registered any framId")
+    if (response.ec) {
+        throw new Error("User have not registered any frameId")
     }
     event.response.autoConfirmUser = true;
     event.response.autoVerifyPhone = true;
@@ -58,9 +59,11 @@ module.exports.preSignUp = async (event: any) => {
 }
 
 module.exports.postConfirmation = async (event: any) => {
+    console.log(event, "event");
+
     const body = {
         "uid": event.userName,
-        "phoneNumber": event.request.phone_number
+        "phoneNumber": event.request.userAttributes.phone_number
     }
     const options = createOptions(process.env.CREATEUSERURL!, body, "POST");
     const response = await rp(options);
@@ -78,12 +81,12 @@ module.exports.defineAuthChallenge = async (event: any) => {
         throw new Error("User does not exist");
     }
     if (event.request.session.length >= 3 &&
-         event.request.session.slice(-1)[0].challengeResult === false) { // wrong OTP even After 3 sessions?
+        event.request.session.slice(-1)[0].challengeResult === false) { // wrong OTP even After 3 sessions?
         event.response.issueToken = false;
         event.response.failAuthentication = true;
         throw new Error("Invalid OTP");
     } else if (event.request.session.length > 0 &&
-         event.request.session.slice(-1)[0].challengeResult === true) { // Correct OTP!
+        event.request.session.slice(-1)[0].challengeResult === true) { // Correct OTP!
         event.response.issueTokens = true;
         event.response.failAuthentication = false;
     } else { // not yet received correct OTP
@@ -102,7 +105,7 @@ module.exports.createAuthChallenge = async (event: any) => {
         secretLoginCode = Date.now().toString().slice(-4);
         try {
             const msgSentId = await sendSMS(event.request.userAttributes.phone_number, secretLoginCode);
-            console.log("msg sent ID",msgSentId);
+            console.log("msg sent ID", msgSentId);
         } catch (error) {
             console.log("sending msg", error)    // Handle SMS Failure   
         }

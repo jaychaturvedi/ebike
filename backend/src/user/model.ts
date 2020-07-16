@@ -37,7 +37,6 @@ let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('user
     phone: {
       type: Sequelize.STRING,
       allowNull: true,
-
     },
     frameId: {
       type: Sequelize.STRING,

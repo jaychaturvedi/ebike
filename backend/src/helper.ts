@@ -1,6 +1,8 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import { validationResult, body, param } from "express-validator";
 import Sequelize from 'sequelize';
+import localstore from "store";
+import JwtDecode from "jwt-decode";
 import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError, MotoVoltError, UserError, FeedbackError, IssuesError, FeaturesError, RideError, SupportError, AlertError } from "./error";
 const Op = Sequelize.Op
 
@@ -20,6 +22,7 @@ export function createResponse(status: TResponseStatus, body: any,
     date: new Date()
   }
 }
+
 
 export function expressErrorHandler(err: Error, req: Request, res: Response,
   next: NextFunction) {
@@ -56,16 +59,16 @@ export function expressQAsync(fn: Function) {
   }
 }
 
-export function secure(
-  err: Error,
+
+export async function secure(
   req: Request,
   res: Response,
   next: any
 ) {
-  console.log("Request Middleware ", req)
-
-  // const response = createResponse(500, null, err)
-  // res.json(response);
+  const token = req.headers.authorization as string
+  if (!token) return res.status(401).send("pass json token in headers")
+  const { sub: uid, phone_number: phone } = await JwtDecode(token)
+  localstore.set('user', { uid, phone })
   next()
 }
 
