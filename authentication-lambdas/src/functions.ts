@@ -1,11 +1,14 @@
 import * as rp from 'request-promise'
 const AWS = require('aws-sdk');
 
+<<<<<<< HEAD
 type RegisteredFrameResponse = {
     fid: string,
     ec: string
 }
 
+=======
+>>>>>>> develop
 export function createOptions(url: string, body: any, method: "POST" | "GET") {
     const options: rp.Options = {
         url,
@@ -47,11 +50,11 @@ module.exports.preSignUp = async (event: any) => {
         "phone_number": event.request.userAttributes.phone_number
     }
     //connectM call
-    const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST")
-    const response: RegisteredFrameResponse = await rp(options);
+    const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
+    const response: any = await rp(options);
     console.log("frame verification response", response)
     if (response.ec) {
-        throw new Error("User have not registered any frameId")
+        throw new Error("User have not registered any framId")
     }
     event.response.autoConfirmUser = true;
     event.response.autoVerifyPhone = true;
@@ -59,12 +62,12 @@ module.exports.preSignUp = async (event: any) => {
 }
 
 module.exports.postConfirmation = async (event: any) => {
-    console.log(event, "event");
-
+    console.log("post confirmation", event)
     const body = {
         "uid": event.userName,
         "phoneNumber": event.request.userAttributes.phone_number
     }
+    console.log(body)
     const options = createOptions(process.env.CREATEUSERURL!, body, "POST");
     const response = await rp(options);
     console.log(response);

@@ -59,15 +59,14 @@ export function expressQAsync(fn: Function) {
   }
 }
 
-
-export async function secure(
+export function secure(
   req: Request,
   res: Response,
   next: any
 ) {
   const token = req.headers.authorization as string
   if (!token) return res.status(401).send("pass json token in headers")
-  const { sub: uid, phone_number: phone } = await JwtDecode(token)
+  const { sub: uid, phone_number: phone } = JwtDecode(token)
   localstore.set('user', { uid, phone })
   next()
 }
