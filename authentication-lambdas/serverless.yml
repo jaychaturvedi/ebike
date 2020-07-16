@@ -1,5 +1,5 @@
 plugins: # List of plugins of use on application
-  - serverless-offline # Get your serverless configuration and run the server local
+  # - serverless-offline # Get your serverless configuration and run the server local
   - serverless-plugin-typescript-express # Help us with configuration typescript on serverless
 
 service: zelp-motovolt-authentication

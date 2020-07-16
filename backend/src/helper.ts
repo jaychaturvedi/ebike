@@ -53,7 +53,6 @@ export function expressQAsync(fn: Function) {
 }
 
 export function secure(
-  err: Error,
   req: Request,
   res: Response,
   next: any
