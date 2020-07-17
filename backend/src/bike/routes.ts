@@ -25,7 +25,7 @@ app.get('/', [
         res.json(response)
     })
 )
-//get uid from local store and secure api
+//register frameid to user
 app.get('/verify', expressQAsync(secure), [
     query('frameId', "some message").isLength({ min: 1 }).isString(),
     validate],

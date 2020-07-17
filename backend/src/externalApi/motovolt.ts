@@ -149,7 +149,7 @@ export type TCurrentRide = {
     fid: string;
     batchrg: number; //batery charge
     rngavail: number; //range avialable
-    rngcvr: number; //range covered
+    rngcrv: number; //range covered
     dist: number; //distance
     kmph: number; //speed kmph
     timeelp: string; //unknown abbreviation
