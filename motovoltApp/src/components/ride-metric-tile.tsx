@@ -40,10 +40,11 @@ const styles = StyleSheet.create({
         padding: moderateScale(10),
         borderRadius: scale(10),
         backgroundColor: '#FFFFFF',
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     icon: {
-        width: moderateScale(20)
+        width: moderateScale(20),
+        justifyContent: 'center'
     },
     textarea: {
         flex: 1,

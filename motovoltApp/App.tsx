@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,18 +19,6 @@ import {
   Button,
   useWindowDimensions,
 } from 'react-native';
-
-import SplashScreen from 'react-native-splash-screen';
-import IntroSwipper from './src/screens/intro-swiper';
-import Scanner from './src/screens/scanner';
-import OTP from './src/screens/otp';
-import GPS from './src/screens/gps-lui';
-import RateRide from './src/screens/rate-ride';
-import RideFeedBack from './src/screens/ride-feedback';
-import MyRides from './src/screens/my-rides';
-import IndividualRide from './src/screens/individual-ride';
-import MyCycle from './src/screens/my-cycle';
-import ValidateMobile from './src/screens/validate-mobile';
 
 import Success from './src/components/thumb-up';
 import EnterFrameNumber from './src/screens/onboarding/enter-frame-number';
@@ -49,13 +37,26 @@ import NextButton from './src/screens/onboarding/components/next-page-button';
 import LoginPage from './src/screens/onboarding/login-screen';
 import ForgotPassword from './src/screens/onboarding/forgot-password';
 import CreateNewPassword from './src/screens/onboarding/create-new-password';
-import {Form} from 'native-base';
+import { Form } from 'native-base';
 
 import Home from './src/screens/home';
 
 import BLE from './custom-ble-manager';
+import SplashScreen from 'react-native-splash-screen'
+import IntroSwipper from './src/screens/intro-swiper'
+import ValidateMobile from './src/screens/validate-mobile'
+import OTP from './src/screens/otp'
+import Scanner from './src/screens/scanner'
+import GPS from './src/screens/gps-lui'
+import RateRide from './src/screens/rate-ride'
+import RideFeedBack from './src/screens/ride-feedback'
+import MyRides from './src/screens/my-rides'
+import IndividualRide from './src/screens/individual-ride'
+import MyCycle from './src/screens/my-cycle'
+import Menu from './src/screens/more-menu'
+import Charging from './src/screens/charging'
 
-declare const global: {HermesInternal: null | {}};
+declare const global: { HermesInternal: null | {} };
 
 const styles = StyleSheet.create({});
 
@@ -70,7 +71,7 @@ export default class App extends React.PureComponent<{}, {}> {
 
   render() {
     return (
-      <SafeAreaView style={{height: '100%'}}>
+      <SafeAreaView style={{ height: '100%' }}>
         {/* <IntroSwipper /> */}
         {/* <Scanner /> */}
         {/* <OTP /> */}
@@ -137,7 +138,12 @@ export default class App extends React.PureComponent<{}, {}> {
         subMsg={`Bike A has been successfully removed\n\n\n${'something'}`}
         buttonText="omecnnc"
       /> */}
-      </SafeAreaView>
+        {/* <Menu /> */}
+        <Charging chargingStatus="Charging"
+          charge="80"
+          remainingTime="01:05:00"
+        />
+      </SafeAreaView >
     );
   }
 }
