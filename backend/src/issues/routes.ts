@@ -20,9 +20,7 @@ app.get('/:id',
         res.json(response)
     })
 )
-app.post('/', [
-    body('frameId', "name can't be empty").isLength({ min: 1 }),
-    validate],
+app.post('/',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const issue = await Issues.createNew(req.body)
         const response = createResponse("OK", issue, undefined)

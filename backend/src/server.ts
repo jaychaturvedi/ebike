@@ -21,9 +21,9 @@ app.use(bodyparser.json());
 app.use("/user", userRoutes)
 app.use("/bike", bikeRoutes)
 // app.use("./feature", featuresRoutes)
-// app.use("/feedback", feedbackRoutes)
+app.use("/feedback", feedbackRoutes)
 app.use("/ride", ridesRoutes)
-// app.use("/issue", issuesRoutes)
+app.use("/issue", issuesRoutes)
 // app.use("/support", supportRoutes)
 
 const PORT = Number(process.env.SPORT) || 5000;

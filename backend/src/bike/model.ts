@@ -1,5 +1,7 @@
 import Sequelize, { Model, BuildOptions } from 'sequelize';
 import db from "../db"
+import User from '../user/model';
+import Ride from '../rides/model';
 
 export interface TBike {
   id?: number;
@@ -27,21 +29,22 @@ type TBikeModel<T> = typeof Model & {
 
 let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bikes',
   {
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    bikeName: {
-      type: Sequelize.STRING
+    frameId: {
+      type: Sequelize.STRING,
+      primaryKey: true,
+      allowNull: false,
     },
     uid: {
       type: Sequelize.STRING,
-      allowNull: true,
-    },
-    frameId: {
-      type: Sequelize.STRING,
       allowNull: false,
+      references: {
+        model: 'users',
+        key: 'uid',
+      }
+    },
+    bikeName: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
     warrantyId: {
       type: Sequelize.STRING
@@ -79,5 +82,10 @@ let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bike
   },
   { freezeTableName: true }
 );
+
+Bike.hasMany(Ride, {
+  foreignKey: 'frameId',
+  sourceKey: 'frameId',
+});
 
 export default Bike

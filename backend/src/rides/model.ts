@@ -1,11 +1,11 @@
 import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
+import Issues from '../issues/model';
 
 export interface TRide {
-    id?: number;
+    rideId?: string;
     uid?: string;
     frameId?: string;
-    feedbackId?: number;
     distance?: number;
     duration?: string;
     averageSpeed?: number;
@@ -26,27 +26,22 @@ type TRideModel<T> = typeof Model & {
 
 let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('rides',
     {
-        id: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
+        rideId: {
+            type: Sequelize.STRING,
+            allowNull: false,
             primaryKey: true
         },
         uid: {
             type: Sequelize.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         frameId: {
             type: Sequelize.STRING,
-            allowNull: false,
-        },
-        feedbackId: {
-            type: Sequelize.INTEGER,
             allowNull: true,
             onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
             references: {
-                model: 'feedbacks',
-                key: 'id',
+                model: 'bikes',
+                key: 'frameId',
             }
         },
         distance: {
@@ -90,6 +85,11 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
         freezeTableName: true
     }
 );
+
+Ride.hasOne(Issues, {
+    foreignKey: 'rideId',
+    sourceKey: 'rideId',
+});
 
 
 export default Ride

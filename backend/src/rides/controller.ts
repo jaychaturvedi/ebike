@@ -15,22 +15,21 @@ export async function getNewRide(frameId: string) {
   }
 }
 
-export async function getEndRide(frameId: string, startTime: string, endTime: string, uid?: string) {
+export async function getEndRide(frameId: string, startTime: string, endTime: string, rideId?: string) {
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = await ConnectmApi.getEndRideDetails(frameId, startTime, endTime)
   const body = {
-    frameId, distance, duration, averageSpeed,
+    distance, duration, averageSpeed,
     maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime
   }
   //need to insert uid as userId
-  const ride = await Ride.createNew({ ...body, uid })
+  const ride = await Ride.createNew({ ...body, frameId, rideId })
   return body
 }
 
-export async function rateYourRide(uid: string, startTime: string,
-  endTime: string, rating: number) {
-  const condition = { where: { uid, startTime, endTime } }
+export async function rateYourRide(rideId: string, rating: number) {
+  const condition = { where: { rideId } }
   const updated = Ride.updateWhere(condition, { rating })
   if (!updated) throw new RideError("Couldn't update rating")
   return { rating }

@@ -23,8 +23,8 @@ app.get('/home', expressQAsync(secure),
         res.json(response)
     })
 )
-//start a new ride
-app.get('/newride', expressQAsync(secure),
+//start a new ride with rideId
+app.get('/newRide', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { frameId } = await User.findByUid(res.locals.user.uid)
         const newride = await getNewRide(frameId as string)
@@ -33,38 +33,36 @@ app.get('/newride', expressQAsync(secure),
     })
 )
 //while ending a ride, store it in databasse
-app.post('/endride', expressQAsync(secure),
-    [body('startTime', "name can't be empty").isString().isLength({ min: 1 }),
+app.post('/endRide', expressQAsync(secure),
+    [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
+    body('startTime', "name can't be empty").isString().isLength({ min: 1 }),
     body('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime } = req.body
+        const { startTime, endTime, rideId } = req.body
         const { frameId } = await User.findByUid(res.locals.user.uid)
         const newride = await getEndRide(frameId as string, startTime as string,
-            endTime as string, res.locals.user.uid)
+            endTime as string, rideId as string)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
 //update rating of a ride
 app.put('/rating', expressQAsync(secure),
-    [body('startTime', "can't be empty").isString().isLength({ min: 1 }),
-    body('endTime', "can't be empty").isString().isLength({ min: 1 }),
+    [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
     body('rating', "can't be empty").isLength({ min: 1 }).toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime, rating } = req.body
-        const uid = res.locals.user.uid
-        const newride = await rateYourRide(uid as string, startTime as string,
-            endTime as string, rating as number)
+        const { rideId, rating } = req.body
+        const newride = await rateYourRide(rideId as string, rating as number)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
 
-app.get('/livelocation', expressQAsync(secure),
-    [query('frameId', "can't be empty").isString().isLength({ min: 1 }), validate],
+app.get('/liveLocation', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { frameId } = await User.findByUid(res.locals.user.uid)
         const { lat: latitude, long: longitude, addr: address, utc: lastused } =
-            await ConnectmApi.getCurrentLocation(req.query.frameId as string)
+            await ConnectmApi.getCurrentLocation(frameId as string)
         const response = createResponse("OK", {
             latitude, longitude, address, lastused
         }, undefined)
@@ -72,8 +70,7 @@ app.get('/livelocation', expressQAsync(secure),
     })
 )
 
-
-app.get('/gpspath', expressQAsync(secure),
+app.get('/gpsPath', expressQAsync(secure),
     [query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
     query('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -88,8 +85,8 @@ app.get('/gpspath', expressQAsync(secure),
 app.get('/history', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { frameId } = await User.findByUid(res.locals.user.uid)
-        const ridepath = await ConnectmApi.getRideHistory(frameId as string)
-        const response = createResponse("OK", ridepath, undefined)
+        const history = await ConnectmApi.getRideHistory(frameId as string)
+        const response = createResponse("OK", history, undefined)
         res.json(response)
     })
 )
