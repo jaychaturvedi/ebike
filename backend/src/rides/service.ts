@@ -5,11 +5,9 @@ import { RideError } from "../error"
 
 export default class Ride {
 
-    static async findById(id: number) {
-        const ride = await RideModel.findOne({
-            where: { id }
-        })
-        if (!ride) throw new RideError('Unable to find by id ' + id);
+    static async findOne(condition: any) {
+        const ride = await RideModel.findOne(condition)
+        if (!ride) throw new RideError('Unable to find by id ');
         return ride
 
     }

@@ -75,7 +75,7 @@ app.get('/livelocation',
 )
 
 
-app.get('/ridepath',
+app.get('/gpspath', expressQAsync(secure),
     [query('frameId', "name can't be empty").isString().isLength({ min: 1 }),
     query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
     query('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
@@ -86,8 +86,8 @@ app.get('/ridepath',
         res.json(response)
     })
 )
-//need to get from model
-app.get('/myrides',
+//yantra will add more fields, code later to be changed
+app.get('/history', expressQAsync(secure),
     [query('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { frameId } = req.query
@@ -96,14 +96,15 @@ app.get('/myrides',
         res.json(response)
     })
 )
-
-app.get('/ridedetails',
-    [query('frameId', "name can't be empty").isString().isLength({ min: 1 }),
-    query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
+//single ride history details
+app.get('/details', expressQAsync(secure),
+    [query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
     query('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { frameId, startTime, endTime } = req.query
-        const newride = await getEndRide(frameId as string, startTime as string, endTime as string)
+        const uid = localstore.get('user').uid
+        const condition = { where: { uid, startTime, endTime } }
+        const newride = await Ride.findOne(condition)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
