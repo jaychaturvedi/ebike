@@ -31,9 +31,7 @@
     "react-native-size-matters": "^0.3.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",
-    "react-native-swiper": "^1.6.0",
-    "rn-sliding-button": "^1.1.5",
-    "rn-swipe-button": "^1.2.8"
+    "react-native-swipe-verify": "^0.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
