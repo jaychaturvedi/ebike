@@ -11,6 +11,7 @@ const Colors = {
     TIMELINE_GREY: "rgba(219, 219, 219, 1)",
     TIMELINE_BLACK_TITLE: "rgba(33, 33, 33, 1)",
     ERROR_RED: "rgba(193, 22, 22, 1)",
+    WARNING_RED: "rgba(255, 103, 83, 1)",
     LOCK_PINK: "rgba(188, 32, 116, 1)",
     HEADER_YELLOW: "rgba(255, 196, 15, 1)",
 };
