@@ -2,6 +2,7 @@ const Colors = {
     NAVY_BLUE: "rgba(20, 47, 106, 1)",
     WHITE: "rgba(255, 255, 255, 1)",
     BLACK: "rgba(51, 51, 51, 1)",
+    DARK_BLACK: "rgba(0, 0, 0, 1)",
     BORDER_GREY: "rgba(111, 111, 111, 1)",
     BG_GREY: "rgba(240, 240, 240, 1)",
     LINK_BLUE: "rgba(83, 114, 255, 1)",
