@@ -1,22 +1,21 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import { body, param, query } from "express-validator";
 import Ride from './service'
-import localstore from 'store'
 import { expressErrorHandler, expressQAsync, validate, createResponse, secure } from '../helper'
 import ConnectmApi from "../externalApi/motovolt";
 import { getNewRide, getEndRide, rateYourRide } from "./controller";
+import User from "../user/service";
 const app = express.Router()
 
 //home screen
-app.get('/home',
-    [query("frameId", "frameId is requires").isString().isLength({ min: 1 }), validate],
+app.get('/home', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const frameId = req.query.frameId as any as string
+        const { frameId } = await User.findByUid(res.locals.user.uid)
         const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
             grnmls: greenMiles, costrcv: costRecovered } =
-            await ConnectmApi.getRideStats(frameId)
+            await ConnectmApi.getRideStats(frameId as string)
         const { batchrg: batteryCharge, rngcrv: rangeCovered, rngavail: rangeAvailable } =
-            await ConnectmApi.getCurrentRideDetails(frameId)//get LiveBikeData
+            await ConnectmApi.getCurrentRideDetails(frameId as string)//get LiveBikeData
         const response = createResponse("OK", {
             co2sav, totalDistance, ratings, petrolSaved,
             greenMiles, costRecovered, batteryCharge, rangeCovered, rangeAvailable
@@ -26,35 +25,34 @@ app.get('/home',
 )
 //start a new ride
 app.get('/newride', expressQAsync(secure),
-    [query("frameId", "frameId is requires").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const frameId = req.query.frameId as any as string
-        const newride = await getNewRide(frameId)
+        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const newride = await getNewRide(frameId as string)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
-//end a ride
-app.get('/endride', expressQAsync(secure),
-    [query('frameId', "name can't be empty").isString().isLength({ min: 1 }),
-    query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
-    query('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
+//while ending a ride, store it in databasse
+app.post('/endride', expressQAsync(secure),
+    [body('startTime', "name can't be empty").isString().isLength({ min: 1 }),
+    body('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId, startTime, endTime } = req.query
-        const uid = localstore.get('user').uid
-        const newride = await getEndRide(frameId as string, startTime as string, endTime as string, uid)
+        const { startTime, endTime } = req.body
+        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const newride = await getEndRide(frameId as string, startTime as string,
+            endTime as string, res.locals.user.uid)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
 //update rating of a ride
-app.get('/rating', expressQAsync(secure),
-    [query('startTime', "can't be empty").isString().isLength({ min: 1 }),
-    query('endTime', "can't be empty").isString().isLength({ min: 1 }),
-    query('rating', "can't be empty").isLength({ min: 1 }).toInt(), validate],
+app.put('/rating', expressQAsync(secure),
+    [body('startTime', "can't be empty").isString().isLength({ min: 1 }),
+    body('endTime', "can't be empty").isString().isLength({ min: 1 }),
+    body('rating', "can't be empty").isLength({ min: 1 }).toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime, rating } = req.query as any
-        const uid = localstore.get('user').uid
+        const { startTime, endTime, rating } = req.body
+        const uid = res.locals.user.uid
         const newride = await rateYourRide(uid as string, startTime as string,
             endTime as string, rating as number)
         const response = createResponse("OK", newride, undefined)
@@ -62,7 +60,7 @@ app.get('/rating', expressQAsync(secure),
     })
 )
 
-app.get('/livelocation',
+app.get('/livelocation', expressQAsync(secure),
     [query('frameId', "can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { lat: latitude, long: longitude, addr: address, utc: lastused } =
@@ -76,11 +74,11 @@ app.get('/livelocation',
 
 
 app.get('/gpspath', expressQAsync(secure),
-    [query('frameId', "name can't be empty").isString().isLength({ min: 1 }),
-    query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
+    [query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
     query('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId, startTime, endTime } = req.query
+        const { startTime, endTime } = req.query
+        const { frameId } = await User.findByUid(res.locals.user.uid)
         const ridepath = await ConnectmApi.getLocationHistory(frameId as string, startTime as string, endTime as string)
         const response = createResponse("OK", ridepath, undefined)
         res.json(response)
@@ -88,9 +86,8 @@ app.get('/gpspath', expressQAsync(secure),
 )
 //yantra will add more fields, code later to be changed
 app.get('/history', expressQAsync(secure),
-    [query('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId } = req.query
+        const { frameId } = await User.findByUid(res.locals.user.uid)
         const ridepath = await ConnectmApi.getRideHistory(frameId as string)
         const response = createResponse("OK", ridepath, undefined)
         res.json(response)
@@ -102,7 +99,7 @@ app.get('/details', expressQAsync(secure),
     query('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { frameId, startTime, endTime } = req.query
-        const uid = localstore.get('user').uid
+        const uid = res.locals.user.uid
         const condition = { where: { uid, startTime, endTime } }
         const newride = await Ride.findOne(condition)
         const response = createResponse("OK", newride, undefined)

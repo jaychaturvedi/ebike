@@ -36,7 +36,7 @@ export default class Bike {
         if (!isUpdated) throw new BikeError("Unable to update with id ")
         return result
     }
-    static async deleteByFrame(frameId: number) {
+    static async deleteByFrame(frameId: string) {
         const deleted = await BikeModel.destroy({
             where: { frameId }
         });

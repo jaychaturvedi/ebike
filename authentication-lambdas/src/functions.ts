@@ -1,14 +1,6 @@
 import * as rp from 'request-promise'
 const AWS = require('aws-sdk');
 
-<<<<<<< HEAD
-type RegisteredFrameResponse = {
-    fid: string,
-    ec: string
-}
-
-=======
->>>>>>> develop
 export function createOptions(url: string, body: any, method: "POST" | "GET") {
     const options: rp.Options = {
         url,

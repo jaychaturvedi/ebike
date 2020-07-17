@@ -67,7 +67,7 @@ export function secure(
   if (!token) return res.status(401).send("pass json token in headers")
   const { sub: uid, phone_number: phone } = JwtDecode(token)
   if (!uid) return res.status(401).send("invalid token")
-  localstore.set('user', { uid, phone })
+  res.locals.user = { uid, phone }
   next()
 }
 

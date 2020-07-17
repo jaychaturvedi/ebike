@@ -24,20 +24,16 @@
     "sequelize": "^6.2.0",
     "serverless-http": "^2.5.0",
     "serverless-offline": "^6.4.0",
-    "serverless-plugin-typescript-express": "^1.0.8",
-    "store": "^2.0.12"
+    "serverless-plugin-typescript-express": "^1.0.8"
   },
   "devDependencies": {
     "@types/jwt-decode": "^2.2.1",
-    "@types/store": "^2.0.2",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.6",
-    "@types/mongodb": "^3.5.25",
     "@types/node": "^14.0.14",
     "@types/pg": "^7.14.3",
     "@types/request-promise": "^4.1.46",
-    "claudia": "^5.12.0",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"

@@ -2,12 +2,12 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import { validationResult, body, param, query } from "express-validator";
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import Bike from './service'
-import localstore from "store";
 import ConnectmApi from "../externalApi/motovolt";
 import { verifyFrame } from './controller';
+import User from '../user/service';
 
 const app = express.Router()
-
+//to be removed, just for testing
 app.get('/all',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const bikes = await Bike.findAll()
@@ -15,12 +15,11 @@ app.get('/all',
         res.json(response)
     })
 )
-
-app.get('/', [
-    query('frameId', "pass a valid frameId").isLength({ min: 3 }).isString(),
-    validate],
+//get bike details
+app.get('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const bikedetails = await ConnectmApi.getBikeDetails(req.query.frameId as string);
+        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const bikedetails = await ConnectmApi.getBikeDetails(frameId as string);
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
@@ -31,31 +30,30 @@ app.get('/verify', expressQAsync(secure), [
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { frameId } = req.query
-        const uid = localstore.get('user').uid
+        const uid = res.locals.user.uid
         const bikedetails = await verifyFrame(uid as string, frameId as string);
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
-
+//update bikeName during registration
 app.put('/', expressQAsync(secure), [
-    query('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
+    body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const bikeName = req.query.bikeName as any as string
-        const uid = localstore.get('user').uid
+        const bikeName = req.body.bikeName as string
+        const uid = res.locals.user.uid
         const updated = await Bike.updateByUid(uid, { bikeName });
         const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
-app.delete('/',
-    query('frameId', "frameId is required").notEmpty(),
+app.delete('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = req.query.frameId as any as number
-        const deleted = await Bike.deleteByFrame(Id);
-        const response = createResponse("OK", "deleted with id " + Id, undefined)
+        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const deleted = await Bike.deleteByFrame(frameId as string);
+        const response = createResponse("OK", "deleted with frameId " + frameId, undefined)
         res.json(response);
     })
 )
