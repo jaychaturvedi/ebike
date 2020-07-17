@@ -31,8 +31,8 @@ export default class User {
   }
 
   static async createNew(user: TUser) {
-    const existingUser = await User.findByUid(user.uid as string)
-    if (existingUser) { return existingUser }
+    // const existingUser = await User.findByUid(user.uid as string)
+    // if (existingUser) { return existingUser }
     const newuser = await UserModel.create(user)
     if (!newuser) throw new UserError("Unable to create new ")
     return newuser;
