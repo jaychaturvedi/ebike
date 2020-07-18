@@ -1,15 +1,15 @@
 import RideModel, { TRide } from "./model"
 import Bike from "../bike/model";
 import { RideError } from "../error"
+import Issues from "../issues/model";
 
 
 export default class Ride {
 
     static async findOne(condition: any) {
-        const ride = await RideModel.findOne(condition)
+        const ride = await RideModel.findOne({ where: { ...condition } })
         if (!ride) throw new RideError('Unable to find by id ');
         return ride
-
     }
 
     static async createNew(ride: TRide) { //change types of userId
@@ -19,10 +19,10 @@ export default class Ride {
     }
 
     static async updateWhere(condition: any, ride: TRide) {
-        await Ride.findAll(condition)
+        await Ride.findOne(condition)
         const [isUpdated, [result]] = await RideModel.update(ride,
             {
-                ...condition,
+                where: { ...condition },
                 returning: true
             })
         if (!isUpdated) throw new RideError("Unable to update with id ")
@@ -38,8 +38,8 @@ export default class Ride {
 
     }
 
-    static async findAll(condition: any) {
-        const rides = await RideModel.findAndCountAll(condition)
+    static async findAll() {
+        const rides = await RideModel.findAndCountAll({ include: [{ model: Issues }] })
         if (!rides) throw new RideError("Unable to find and count");
         return rides
     }

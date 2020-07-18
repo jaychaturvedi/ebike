@@ -5,7 +5,7 @@ import { expressQAsync, expressErrorHandler, validate, createResponse, secure } 
 const app = express.Router()
 
 
-app.get('/all', expressQAsync(secure),
+app.get('/all',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const users = await User.findAll()
         const response = createResponse("OK", users, undefined)
@@ -36,20 +36,18 @@ app.put('/', expressQAsync(secure),
 //post routes just for testing purpose, in prod user created by cognito
 app.post('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { phone, uid } = res.locals.user
-        const preuser = await User.findByUid(uid)
-        if (preuser) res.json(createResponse("OK", preuser, undefined))
+        const { phone, uid } = res.locals.user as any
         const newUser = await User.createNew({ phone, uid })
         const response = createResponse("OK", newUser, undefined)
         res.json(response)
     })
 )
 
-app.delete('/', expressQAsync(secure),
+app.delete('/',
     expressQAsync(async (req: Request, res: Response) => {
-        const uid = res.locals.user.uid
+        const uid = "bd204769-1e22-4977-97ad-9cdb149e1c59"
         const deleted = await User.deleteById(uid);
-        const response = createResponse("OK", "User deleted with id " + req.params.uid, undefined)
+        const response = createResponse("OK", "User deleted with id " + uid, undefined)
         res.json(response);
     })
 )

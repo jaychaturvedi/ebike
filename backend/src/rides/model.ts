@@ -44,6 +44,12 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
                 key: 'frameId',
             }
         },
+        startTime: {
+            type: Sequelize.STRING
+        },
+        endTime: {
+            type: Sequelize.STRING
+        },
         distance: {
             type: Sequelize.INTEGER
         },
@@ -73,13 +79,7 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
         },
         feedbackComment: {
             type: Sequelize.STRING
-        },
-        startTime: {
-            type: Sequelize.STRING
-        },
-        endTime: {
-            type: Sequelize.STRING
-        },
+        }
     },
     {
         freezeTableName: true

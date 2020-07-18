@@ -37,6 +37,7 @@ let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bike
     uid: {
       type: Sequelize.STRING,
       allowNull: false,
+      onDelete: 'CASCADE',
       references: {
         model: 'users',
         key: 'uid',

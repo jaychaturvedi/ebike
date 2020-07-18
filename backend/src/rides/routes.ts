@@ -3,14 +3,15 @@ import { body, param, query } from "express-validator";
 import Ride from './service'
 import { expressErrorHandler, expressQAsync, validate, createResponse, secure } from '../helper'
 import ConnectmApi from "../externalApi/motovolt";
-import { getNewRide, getEndRide, rateYourRide } from "./controller";
+import { getNewRide, getEndRide, updateFeedbacks, } from "./controller";
 import User from "../user/service";
 const app = express.Router()
 
 //home screen
-app.get('/home', expressQAsync(secure),
+app.get('/:frameId', expressQAsync(secure),
+    [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const frameId = req.params.frameId as string
         const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
             grnmls: greenMiles, costrcv: costRecovered } =
             await ConnectmApi.getRideStats(frameId as string)
@@ -23,59 +24,56 @@ app.get('/home', expressQAsync(secure),
         res.json(response)
     })
 )
+
+app.get('/', expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const issue = await Ride.findAll()
+    const response = createResponse("OK", issue, undefined)
+    res.send(response)
+})
+)
 //start a new ride with rideId
-app.get('/newRide', expressQAsync(secure),
+app.post('/', expressQAsync(secure),
+    [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
+    body('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId } = await User.findByUid(res.locals.user.uid)
-        const newride = await getNewRide(frameId as string)
+        const { rideId, frameId } = req.body
+        const { uid } = res.locals.user.uid
+        const newride = await getNewRide(uid, frameId, rideId)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
 //while ending a ride, store it in databasse
-app.post('/endRide', expressQAsync(secure),
+app.put('/', expressQAsync(secure),
     [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
     body('startTime', "name can't be empty").isString().isLength({ min: 1 }),
     body('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { startTime, endTime, rideId } = req.body
-        const { frameId } = await User.findByUid(res.locals.user.uid)
-        const newride = await getEndRide(frameId as string, startTime as string,
-            endTime as string, rideId as string)
-        const response = createResponse("OK", newride, undefined)
+        const endRide = await getEndRide(rideId as string, startTime as string,
+            endTime as string)
+        const response = createResponse("OK", endRide, undefined)
         res.json(response)
     })
 )
 //update rating of a ride
 app.put('/rating', expressQAsync(secure),
     [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
-    body('rating', "can't be empty").isLength({ min: 1 }).toInt(), validate],
+    body('rating', "can't be empty").isLength({ min: 1 }).toInt(),
+    body('comments', "can't be empty").optional(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId, rating } = req.body
-        const newride = await rateYourRide(rideId as string, rating as number)
+        const { rideId, rating, comments } = req.body
+        const newride = await updateFeedbacks(rideId as string, rating as number, comments)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
 
-app.get('/liveLocation', expressQAsync(secure),
+app.get('/gpsPath/:rideId', expressQAsync(secure),
+    [param('rideId', "rideId can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId } = await User.findByUid(res.locals.user.uid)
-        const { lat: latitude, long: longitude, addr: address, utc: lastused } =
-            await ConnectmApi.getCurrentLocation(frameId as string)
-        const response = createResponse("OK", {
-            latitude, longitude, address, lastused
-        }, undefined)
-        res.json(response)
-    })
-)
-
-app.get('/gpsPath', expressQAsync(secure),
-    [query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
-    query('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime } = req.query
-        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const { rideId } = req.params as any
+        const { frameId, startTime, endTime } = await Ride.findOne({ rideId })
         const ridepath = await ConnectmApi.getLocationHistory(frameId as string, startTime as string, endTime as string)
         const response = createResponse("OK", ridepath, undefined)
         res.json(response)

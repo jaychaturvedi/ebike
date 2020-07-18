@@ -1,36 +1,39 @@
 import ConnectmApi, { TBikeDetails } from "../externalApi/motovolt";
 import Ride from "./service";
 import { RideError } from "../error";
+import { createIssues } from "../issues/controller";
 
-export async function getNewRide(frameId: string) {
-
+export async function getNewRide(uid: string, frameId: string, rideId: string) {
   const { batchrg: batteryCharge, rngcrv: rangeCovered, rngavail: rangeAvailable,
     dist: distance, kmph: speed, avgspd: averageSpeed, timeelp: timeElapsed,
     maxspd: maxSpeed, pa: pedalAssit, pm: powerMode, ign: ignitionstatus } =
     await ConnectmApi.getCurrentRideDetails(frameId)
-
-  return {
+  const body = {
     batteryCharge, rangeCovered, rangeAvailable, distance, averageSpeed,
     speed, maxSpeed, timeElapsed, pedalAssit, powerMode, ignitionstatus
   }
+  const ride = await Ride.createNew({ uid, frameId, rideId })
+  return body
+
 }
 
-export async function getEndRide(frameId: string, startTime: string, endTime: string, rideId?: string) {
+export async function getEndRide(rideId: string, startTime: string, endTime: string) {
+  const { frameId } = await Ride.findOne({ rideId })
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
-    ptrlt: litreSaved } = await ConnectmApi.getEndRideDetails(frameId, startTime, endTime)
+    ptrlt: litreSaved } = await ConnectmApi.getEndRideDetails(frameId as string, startTime, endTime)
   const body = {
-    distance, duration, averageSpeed,
+    rideId, distance, duration, averageSpeed,
     maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime
   }
-  //need to insert uid as userId
-  const ride = await Ride.createNew({ ...body, frameId, rideId })
+  const updated = Ride.updateWhere({ rideId }, { startTime, endTime })
   return body
 }
 
-export async function rateYourRide(rideId: string, rating: number) {
+export async function updateFeedbacks(rideId: string, rating: number, comments?: string[]) {
   const condition = { where: { rideId } }
   const updated = Ride.updateWhere(condition, { rating })
+  const issue = await createIssues(rideId, comments as string[])
   if (!updated) throw new RideError("Couldn't update rating")
-  return { rating }
+  return { rideId, rating, comments }
 }

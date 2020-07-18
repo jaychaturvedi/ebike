@@ -6,13 +6,19 @@ import Bike from "./service";
 import { pagination, filters } from "../helper";
 const Op = Sequelize.Op
 
+export async function getBikeDetails(uid: string) {
+  const { frameId } = await User.findByUid(uid)
+  const bikedetails = await ConnectmApi.getBikeDetails(frameId as string);
+  return bikedetails
+}
+
 export async function verifyFrame(uid: string, frameId: string) {
-  await User.findByUid(uid)
   const { model: modelType, st: status } = await ConnectmApi.getBikeDetails(frameId as string); //update all fields
   if (status) throw new BadRequestError("Cant get details")
+  const user = await User.findByUid(uid)
+  if (user.frameId) throw new UserError("frameId already verified")
+  await User.updateByUid(uid, { frameId })
   const bike = await Bike.createNew({ frameId, modelType, uid })
-  const isUpdated = await User.updateByUid(uid, { frameId })
-  if (!isUpdated) throw new UserError("Unable to update ")
   return bike;
 }
 
