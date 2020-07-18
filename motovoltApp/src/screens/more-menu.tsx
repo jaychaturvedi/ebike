@@ -3,8 +3,8 @@ import { View, StyleSheet, ScrollView, Text, Image, Dimensions } from 'react-nat
 import { moderateScale } from 'react-native-size-matters'
 import ProfileImage from '../components/profile'
 import RideMetric from '../components/ride-metric'
-import upgrade from '../components/upgrade'
-import Upgrade from '../components/upgrade'
+import upgrade from '../components/upgrade-premium'
+import Upgrade from '../components/upgrade-premium'
 import Feature from '../components/feature'
 
 

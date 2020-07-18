@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { moderateScale } from 'react-native-size-matters'
+import { View, StyleSheet, Image, ImageBackground } from 'react-native'
+import { moderateScale, scale } from 'react-native-size-matters'
 
 type Props = {}
 type State = {}
@@ -21,5 +21,9 @@ const styles = StyleSheet.create({
         width: moderateScale(72),
         borderRadius: moderateScale(72),
         backgroundColor: 'white'
-    }
+    },
+    image: {
+        flex: 1,
+        resizeMode: 'cover',
+    },
 })

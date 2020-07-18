@@ -55,6 +55,12 @@ import IndividualRide from './src/screens/individual-ride'
 import MyCycle from './src/screens/my-cycle'
 import Menu from './src/screens/more-menu'
 import Charging from './src/screens/charging'
+import Profile from './src/screens/home/profile'
+import Upgrades from './src/screens/upgrade'
+
+import Support from './src/screens/support'
+import ReportIssue from './src/screens/report-issue'
+import SupportService from './src/screens/support-service'
 
 declare const global: { HermesInternal: null | {} };
 
@@ -139,10 +145,16 @@ export default class App extends React.PureComponent<{}, {}> {
         buttonText="omecnnc"
       /> */}
         {/* <Menu /> */}
-        <Charging chargingStatus="Charging"
+        {/* <Charging chargingStatus="Charging"
           charge="80"
           remainingTime="01:05:00"
-        />
+        /> */}
+        {/* <Profile /> */}
+
+        {/* <Upgrades /> */}
+        {/* <Support /> */}
+        {/* <ReportIssue /> */}
+        <SupportService />
       </SafeAreaView >
     );
   }
