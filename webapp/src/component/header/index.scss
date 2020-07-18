@@ -2,26 +2,4 @@
 
 .ant-layout-header {
   background-color: $NAV_BAR_BACKGROUND !important;
-  padding: 0 20px;
-}
-
-.web-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  .header-left {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 25%;
-    justify-content: space-between;
-  }
-  .header-right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 25%;
-    justify-content: space-between;
-  }
 }
