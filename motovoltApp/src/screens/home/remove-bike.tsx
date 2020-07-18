@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     backgroundColor: Colors.BG_GREY,
+    paddingVertical: verticalScale(8),
   },
   bottomContainer: {
     justifyContent: 'flex-end',
