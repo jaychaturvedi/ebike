@@ -1,12 +1,13 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import { validationResult, body, param, query } from "express-validator";
-import { expressQAsync, expressErrorHandler, validate, createResponse } from '../helper'
+import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import Bike from './service'
 import ConnectmApi from "../externalApi/motovolt";
-import { verifyFrame } from './controller';
+import { verifyFrame, getBikeDetails } from './controller';
+import User from '../user/service';
 
 const app = express.Router()
-
+//to be removed, just for testing
 app.get('/all',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const bikes = await Bike.findAll()
@@ -14,48 +15,56 @@ app.get('/all',
         res.json(response)
     })
 )
-
-app.get('/', [
-    query('frameId', "pass a valid frameId").isLength({ min: 3 }).isString(),
-    validate],
+//get bike details
+app.get('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const bikedetails = await ConnectmApi.getBikeDetails(req.query.frameId as string);
+        const bikedetails = await getBikeDetails(res.locals.users.uid)
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
-
-app.get('/verify', [
-    query('frameId', "some message").isLength({ min: 1 }).isString(),
-    query('uid', "some message").isLength({ min: 1 }).isString(),
+//register frameid to user
+app.get('/verify/:frameId', expressQAsync(secure), [
+    param('frameId', "frameId is required").isString().isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId, uid } = req.query
+        const { frameId } = req.params as any
+        const { uid } = res.locals.user as any
         const bikedetails = await verifyFrame(uid as string, frameId as string);
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
+app.get('/liveLocation/:frameId', expressQAsync(secure),
+    [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const frameId = req.params.frameId as string
+        const { lat: latitude, long: longitude, addr: address, utc: lastused } =
+            await ConnectmApi.getCurrentLocation(frameId as string)
+        const response = createResponse("OK", {
+            latitude, longitude, address, lastused
+        }, undefined)
+        res.json(response)
+    })
+)
 
-app.put('/', [
-    query('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
-    query('frameId', "frameId is required").isLength({ min: 3 }),
+//update bikeName during registration
+app.put('/', expressQAsync(secure), [
+    body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const frameId = req.params.frameId;
         const bikeName = req.body.bikeName as string
-        const updated = await Bike.updateByFrame(frameId, req.body);
+        const uid = res.locals.user.uid
+        const updated = await Bike.updateWhere({ uid }, { bikeName });
         const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
-app.delete('/',
-    query('frameId', "frameId is required").notEmpty(),
+app.delete('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = req.query.frameId as any as number
-        const deleted = await Bike.deleteByFrame(Id);
-        const response = createResponse("OK", "deleted with id " + Id, undefined)
+        const deleted = await Bike.deleteWhere({ uid: res.locals.user.uid });
+        const response = createResponse("OK", "deleted", undefined)
         res.json(response);
     })
 )

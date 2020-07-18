@@ -1,11 +1,10 @@
 import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
+import User from '../user/model';
 
 export interface TIssue {
-  id: number;
-  comments: string;
-  userId: number;
-  frameId: number;
+  rideId: string;
+  comments: Array<string>;
 }
 type TIssueModel<T> = typeof Model & {
   new(values?: object, options?: BuildOptions): T;
@@ -13,33 +12,17 @@ type TIssueModel<T> = typeof Model & {
 
 let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define('issues',
   {
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    userId: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      references: {
-        model: 'users',
-        key: 'id',
-      }
-    },
-    frameId: {
-      type: Sequelize.INTEGER,
+    rideId: {
+      type: Sequelize.STRING,
       allowNull: false,
       onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
       references: {
-        model: 'bikes',
-        key: 'id',
+        model: 'rides',
+        key: 'rideId',
       }
     },
     comments: {
-      type: Sequelize.STRING,
+      type: Sequelize.ARRAY(Sequelize.STRING),
       allowNull: true
     }
   },
@@ -47,7 +30,6 @@ let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define
     freezeTableName: true
   }
 );
-
-
+// Issues.belongsTo(Ride, { foreignKey: 'rideId', targetKey: 'rideId', constraints: false, onDelete: 'CASCADE' })
 export default Issues
 

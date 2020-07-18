@@ -1,25 +1,25 @@
 import * as dotenv from "dotenv"
-import { Sequelize} from 'sequelize';
+import { Sequelize } from 'sequelize';
 dotenv.config()
 
 type PgConfig = {
-  database : string,
+  database: string,
   host: string,
-  password : string,
+  password: string,
   port: number,
-  user : string
+  user: string
 }
 
 const db = new Sequelize(process.env.DB!, process.env.PG_USER!, process.env.PASSWORD!, {
-  host: process.env.HOST, 
+  host: process.env.HOST,
   port: Number(process.env.PORT),
-  dialect:"postgres",
-  pool : {
+  dialect: "postgres",
+  pool: {
     max: 5,
     min: 0,
     acquire: 30000,
     idle: 10000
-}
+  }
 });
 
 export default db;

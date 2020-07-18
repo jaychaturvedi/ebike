@@ -1,9 +1,10 @@
 import Sequelize, { BuildOptions, DataTypes, Model } from 'sequelize';
 import db from "../db"
+import Bike from '../bike/model';
 
 export interface TUser {
   id?: number;
-  uid?: string;
+  uid?: string;//userid
   fullName?: string;
   phone?: string;
   email?: string;
@@ -17,13 +18,10 @@ type TUserModel<T> = typeof Model & {
 let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('users',
   {
 
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
     uid: {
       type: Sequelize.STRING,
+      primaryKey: true,
+      unique: true,
       allowNull: false,
     },
     fullName: {
@@ -33,12 +31,10 @@ let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('user
     email: {
       type: Sequelize.STRING,
       allowNull: true,
-
     },
     phone: {
       type: Sequelize.STRING,
       allowNull: true,
-
     },
     frameId: {
       type: Sequelize.STRING,
@@ -49,5 +45,10 @@ let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('user
     freezeTableName: true
   }
 );
+
+User.hasOne(Bike, {
+  foreignKey: 'uid',
+  sourceKey: 'uid'
+});
 
 export default User
