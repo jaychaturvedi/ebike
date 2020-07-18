@@ -82,3 +82,15 @@ folder and replace the default icons with Newly downloaded icons
 3. Goto -> Your_React_Native_Project_Folder -> ios -> appname -> Images.xcassets -> AppIcon.appiconset
 folder and replace the default icons with Newly downloaded icons
 
+Keychain:
+========
+npm i react-native-keychain
+react-native link react-native-keychain
+cd ios && pod install
+
+
+Amplify:
+========
+https://techinscribed.com/passwordless-phone-number-authentication-using-aws-amplify-cognito/
+npm install aws-amplify @aws-amplify/core aws-amplify-react-native amazon-cognito-identity-js @react-native-community/netinfo --save-prod
+cd ios && pod install

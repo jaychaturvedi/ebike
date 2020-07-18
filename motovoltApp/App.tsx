@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,7 +19,6 @@ import {
   Button,
   useWindowDimensions,
 } from 'react-native';
-
 import Success from './src/components/thumb-up';
 import EnterFrameNumber from './src/screens/onboarding/enter-frame-number';
 import ValidateFrame from './src/screens/onboarding/register-bike';
@@ -37,30 +36,63 @@ import NextButton from './src/screens/onboarding/components/next-page-button';
 import LoginPage from './src/screens/onboarding/login-screen';
 import ForgotPassword from './src/screens/onboarding/forgot-password';
 import CreateNewPassword from './src/screens/onboarding/create-new-password';
-import { Form } from 'native-base';
+import {Form} from 'native-base';
 
 import Home from './src/screens/home';
 
 import BLE from './custom-ble-manager';
-import SplashScreen from 'react-native-splash-screen'
-import IntroSwipper from './src/screens/intro-swiper'
-import ValidateMobile from './src/screens/validate-mobile'
-import OTP from './src/screens/otp'
-import Scanner from './src/screens/scanner'
-import GPS from './src/screens/gps-lui'
-import RateRide from './src/screens/rate-ride'
-import RideFeedBack from './src/screens/ride-feedback'
-import MyRides from './src/screens/my-rides'
-import IndividualRide from './src/screens/individual-ride'
-import MyCycle from './src/screens/my-cycle'
-import Menu from './src/screens/more-menu'
-import Charging from './src/screens/charging'
+import SplashScreen from 'react-native-splash-screen';
+import IntroSwipper from './src/screens/intro-swiper';
+import ValidateMobile from './src/screens/validate-mobile';
+import OTP from './src/screens/otp';
+import Scanner from './src/screens/scanner';
+import GPS from './src/screens/gps-lui';
+import RateRide from './src/screens/rate-ride';
+import RideFeedBack from './src/screens/ride-feedback';
+import MyRides from './src/screens/my-rides';
+import IndividualRide from './src/screens/individual-ride';
+import MyCycle from './src/screens/my-cycle';
+import Menu from './src/screens/more-menu';
+import Charging from './src/screens/charging';
 
-declare const global: { HermesInternal: null | {} };
+import Notifications from './src/screens/home/notifications';
+
+import ComingSoon from './src/screens/common/coming-soon';
+
+import Premium from './src/screens/common/premium';
+
+import RemoveBike from './src/screens/home/remove-bike';
+
+import Service from './src/screens/home/service';
+
+import Input from './src/screens/onboarding/components/input';
+import * as SecureStorage from './src/service/secure-storage';
+import * as Authentication from './src/service/authentication';
+
+import ObjectId from './src/service/object-id';
+
+declare const global: {HermesInternal: null | {}};
 
 const styles = StyleSheet.create({});
 
-export default class App extends React.PureComponent<{}, {}> {
+type State = {
+  username: string;
+  password: string;
+  otp: string;
+  user: any;
+};
+
+class App extends React.PureComponent<{}, State> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      password: '',
+      username: '',
+      otp: '',
+      user: undefined,
+    };
+  }
+
   componentDidMount() {
     SplashScreen.hide();
   }
@@ -71,7 +103,86 @@ export default class App extends React.PureComponent<{}, {}> {
 
   render() {
     return (
-      <SafeAreaView style={{ height: '100%' }}>
+      <SafeAreaView
+        style={{
+          height: '100%',
+          backgroundColor: Colors.BG_GREY,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Input
+          value={this.state.username}
+          placeHolder={'Username'}
+          onChange={(value) => this.setState({username: value})}></Input>
+        <Input
+          value={this.state.password}
+          placeHolder={'Password'}
+          onChange={(value) => this.setState({password: value})}></Input>
+        <Input
+          value={this.state.otp}
+          placeHolder={'OTP'}
+          onChange={(value) => this.setState({otp: value})}></Input>
+        <Button
+          title={'Store'}
+          onPress={() => {
+            SecureStorage.storeCredentials(
+              this.state.username,
+              this.state.password,
+            );
+          }}></Button>
+        <Button
+          title={'Reset'}
+          onPress={() => {
+            SecureStorage.resetCredentials();
+          }}></Button>
+        <Button
+          title={'Fetch'}
+          onPress={() => {
+            SecureStorage.fetchCredentials().then((cred) => {
+              if (cred) {
+                this.setState({
+                  username: cred.username,
+                  password: cred.password,
+                });
+              }
+            });
+          }}></Button>
+        <Button
+          title={'Signup'}
+          onPress={() => {
+            Authentication.signup(this.state.username);
+          }}></Button>
+        <Button
+          title={'Logout'}
+          onPress={() => {
+            Authentication.signout();
+          }}></Button>
+        <Button
+          title={'Get OTP'}
+          onPress={() => {
+            Authentication.getVerificationOtp(this.state.username).then(
+              (res) => {
+                if (res.success) this.setState({user: res.user});
+              },
+            );
+          }}></Button>
+        <Button
+          title={'Verify OTP'}
+          onPress={() => {
+            Authentication.validateOtp(this.state.user, this.state.otp);
+          }}></Button>
+
+        <Button
+          title={'Get User'}
+          onPress={() => {
+            Authentication.getUser();
+          }}></Button>
+
+        {/* <Service /> */}
+        {/* <RemoveBike /> */}
+        {/* <Premium /> */}
+        {/* <ComingSoon /> */}
+        {/* <Notifications /> */}
         {/* <IntroSwipper /> */}
         {/* <Scanner /> */}
         {/* <OTP /> */}
@@ -139,13 +250,14 @@ export default class App extends React.PureComponent<{}, {}> {
         buttonText="omecnnc"
       /> */}
         {/* <Menu /> */}
-        <Charging chargingStatus="Charging"
+        {/* <Charging
+          chargingStatus="Charging"
           charge="80"
           remainingTime="01:05:00"
-        />
-      </SafeAreaView >
+        /> */}
+      </SafeAreaView>
     );
   }
 }
 
-// export default App;
+export default App;

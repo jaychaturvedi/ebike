@@ -86,6 +86,8 @@ target 'motovoltApp' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
+
   target 'motovoltAppTests' do
     inherit! :complete
     # Pods for testing
