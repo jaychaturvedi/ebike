@@ -1,4 +1,4 @@
-import Amplify, { Auth } from "aws-amplify";
+import Amplify, { Auth, } from "aws-amplify";
 import ObjectId from "../object-id";
 
 Amplify.configure({
@@ -55,10 +55,6 @@ export function getVerificationOtp(phoneNumber: string) {
 export function validateOtp(user: any, otp: string) {
     return Auth.sendCustomChallengeAnswer(user, otp)
         .then((usr) => {
-            console.log({
-                message: "OTP Verified",
-                success: true
-            }, usr)
             return {
                 message: "OTP Verified",
                 success: true
@@ -73,8 +69,47 @@ export function validateOtp(user: any, otp: string) {
 }
 
 export function getUser() {
-
-    Auth.currentAuthenticatedUser().then(user => {
-        console.log("Auth", user)
+    return Auth.currentAuthenticatedUser().then(user => {
+        return {
+            user,
+            success: false,
+            message: null
+        };
+    }).catch(err => {
+        return {
+            message: err.message,
+            success: false,
+            user: null
+        }
     })
+}
+
+export function initiateForgotPassword(username: string) {
+    return Auth.forgotPassword(username)
+        .then(() => {
+            return {
+                success: true,
+                message: "Forgot password initiated successfully"
+            }
+        }).catch(err => {
+            return {
+                success: true,
+                message: err.message
+            }
+        })
+}
+
+export function forgotPassword(username: string, code: string, password: string) {
+    Auth.forgotPasswordSubmit(username, code, password)
+        .then(() => {
+            return {
+                success: true,
+                message: "Password Reset Successfull"
+            }
+        }).catch(err => {
+            return {
+                success: true,
+                message: err.message
+            }
+        })
 }
