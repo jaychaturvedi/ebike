@@ -69,6 +69,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - JKBigInteger2 (0.0.5)
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
@@ -247,6 +248,8 @@ PODS:
     - React
   - react-native-camera/RN (3.31.0):
     - React
+  - react-native-netinfo (5.9.5):
+    - React
   - react-native-splash-screen (3.2.0):
     - React
   - React-RCTActionSheet (0.62.2):
@@ -308,7 +311,12 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/callinvoker (= 0.62.2)
+  - RNAWSCognito (4.3.3):
+    - JKBigInteger2 (= 0.0.5)
+    - React
   - RNDateTimePicker (2.5.0):
+    - React
+  - RNKeychain (6.1.1):
     - React
   - RNPermissions (2.1.5):
     - React
@@ -358,6 +366,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-ble-manager (from `../node_modules/react-native-ble-manager`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -370,7 +379,9 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/callinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNAWSCognito (from `../node_modules/amazon-cognito-identity-js`)
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -387,6 +398,7 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
+    - JKBigInteger2
     - OpenSSL-Universal
     - YogaKit
 
@@ -427,6 +439,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ble-manager"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   React-RCTActionSheet:
@@ -449,8 +463,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNAWSCognito:
+    :path: "../node_modules/amazon-cognito-identity-js"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNSVG:
@@ -475,6 +493,7 @@ SPEC CHECKSUMS:
   FlipperKit: 6dc9b8f4ef60d9e5ded7f0264db299c91f18832e
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  JKBigInteger2: e91672035c42328c48b7dd015b66812ddf40ca9b
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
   Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
@@ -488,6 +507,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-ble-manager: 73a2c5d7ca510866d2bdf67d56bec42bd76c004f
   react-native-camera: 679479bfe0f59103aca704e8dc39b0cedf5e2f65
+  react-native-netinfo: 7f3f3ed9e8f0e7ab3e7cac00cbfdc6997e25ecaf
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
@@ -499,12 +519,14 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
+  RNAWSCognito: 08567d55159547e8ac2a1ce4350cd44a67f3db96
   RNDateTimePicker: 8d8eaff487659a32ad04f6690b33b3248ef9026d
+  RNKeychain: db956c02a018f7dd3a0ea8a6cf3087bc1894bf2b
   RNPermissions: 1888705aebcc81714efa5dbff94351e4388ae012
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 652137c189b4279255f5a45fffb160bac2d20fe1
+PODFILE CHECKSUM: 131106145cf0059baaa98282684501fb5ae3065a
 
 COCOAPODS: 1.9.3

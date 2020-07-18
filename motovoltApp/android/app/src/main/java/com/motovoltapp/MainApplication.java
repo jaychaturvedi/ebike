@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.oblador.keychain.KeychainPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnativecommunity.rnpermissions.RNPermissionsPackage;
