@@ -1,0 +1,15 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-motovoltapp-dev-221642-authRole",
+            "UnauthRoleArn": "arn:aws:iam::447347746650:role/amplify-motovoltapp-dev-221642-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::447347746650:role/amplify-motovoltapp-dev-221642-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-motovoltapp-dev-221642-deployment",
+            "UnauthRoleName": "amplify-motovoltapp-dev-221642-unauthRole",
+            "StackName": "amplify-motovoltapp-dev-221642",
+            "StackId": "arn:aws:cloudformation:us-east-2:447347746650:stack/amplify-motovoltapp-dev-221642/464cc040-c916-11ea-a94f-0a0a04c5437c",
+            "AmplifyAppId": "d2sflgqgzfrqhv"
+        }
+    }
+}

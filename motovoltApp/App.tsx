@@ -19,57 +19,72 @@ import {
   Button,
   useWindowDimensions,
 } from 'react-native';
-import Success from './src/components/thumb-up';
-import EnterFrameNumber from './src/screens/onboarding/enter-frame-number';
-import ValidateFrame from './src/screens/onboarding/register-bike';
-import AccessRequest from './src/screens/onboarding/components/access-request-modal';
-import FrameRegistered from './src/screens/onboarding/frame-registered';
-import CTAHeader from './src/screens/onboarding/components/header';
-import PersonalDetails from './src/screens/onboarding/personal-details';
-import TurnOnBluetooth from './src/screens/onboarding/turn-on-bluetooth';
-import BluetoothDevices from './src/screens/onboarding/bluetooth-devices';
-import Discovering from './src/screens/onboarding/discover-bluetooth';
-import Footer from './src/screens/home/components/footer';
-import Header from './src/screens/home/components/header';
-import Colors from './src/styles/colors';
-import NextButton from './src/screens/onboarding/components/next-page-button';
-import LoginPage from './src/screens/onboarding/login-screen';
-import ForgotPassword from './src/screens/onboarding/forgot-password';
-import CreateNewPassword from './src/screens/onboarding/create-new-password';
-import {Form} from 'native-base';
 
-import Home from './src/screens/home';
-
-import BLE from './custom-ble-manager';
 import SplashScreen from 'react-native-splash-screen';
-import IntroSwipper from './src/screens/intro-swiper';
-import ValidateMobile from './src/screens/validate-mobile';
-import OTP from './src/screens/otp';
-import Scanner from './src/screens/scanner';
-import GPS from './src/screens/gps-lui';
-import RateRide from './src/screens/rate-ride';
-import RideFeedBack from './src/screens/ride-feedback';
-import MyRides from './src/screens/my-rides';
-import IndividualRide from './src/screens/individual-ride';
-import MyCycle from './src/screens/my-cycle';
-import Menu from './src/screens/more-menu';
-import Charging from './src/screens/charging';
 
+//Register
+import IntroSwipper from './src/screens/onboarding/intro-swiper';
+import ValidateMobile from './src/screens/onboarding/validate-mobile';
+import OTP from './src/screens/onboarding/otp';
+import Success from './src/components/thumb-up';
+import ValidateFrame from './src/screens/onboarding/register-bike';
+import EnterFrameNumber from './src/screens/onboarding/enter-frame-number';
+import Scanner from './src/screens/onboarding/scanner';
+import FrameRegistered from './src/screens/onboarding/frame-registered';
+import PersonalDetails from './src/screens/onboarding/personal-details';
+// import Success from './src/components/thumb-up';
+import TurnOnBluetooth from './src/screens/onboarding/turn-on-bluetooth';
+import Discovering from './src/screens/onboarding/discover-bluetooth';
+import BluetoothDevices from './src/screens/onboarding/bluetooth-devices';
+// import Success from './src/components/thumb-up';
+
+//Login
+import LoginPage from './src/screens/onboarding/login-screen';
+
+// Forgot Passord
+import ForgotPassword from './src/screens/onboarding/forgot-password';
+// import OTP from './src/screens/onboarding/otp';
+import CreateNewPassword from './src/screens/onboarding/create-new-password';
+// Show model for success
+
+// Home
+import Home from './src/screens/home';
 import Notifications from './src/screens/home/notifications';
+import GPS from './src/screens/home/gps-lui';
 
+// Statistics
+import MyRides from './src/screens/statistics/my-rides';
+import IndividualRide from './src/screens/statistics/individual-ride';
+
+// LockButton
+import Speedometer from './src/screens/ride/ride-on';
+import RateRide from './src/screens/ride/rate-ride';
+import RideFeedBack from './src/screens/ride/ride-feedback';
+// import Success from './src/components/thumb-up';
+
+// Cycle
+import MyCycle from './src/screens/cycle/my-cycle';
+
+// Menu
+import Menu from './src/screens/menu/more-menu';
+import Profile from './src/screens/menu/profile';
+import Upgrade from './src/screens/menu/upgrade';
 import ComingSoon from './src/screens/common/coming-soon';
-
+import Support from './src/screens/menu/support';
+import SupportSrevice from './src/screens/menu/support-service';
+import ReportIssue from './src/screens/menu/report-issue';
 import Premium from './src/screens/common/premium';
 
-import RemoveBike from './src/screens/home/remove-bike';
+// Common
+import Charging from './src/screens/charging';
+import BLE from './custom-ble-manager';
+import RemoveBike from './src/screens/menu/remove-bike';
 
-import Service from './src/screens/home/service';
-
-import Input from './src/screens/onboarding/components/input';
 import * as SecureStorage from './src/service/secure-storage';
 import * as Authentication from './src/service/authentication';
 
 import ObjectId from './src/service/object-id';
+import Colors from './src/styles/colors';
 
 declare const global: {HermesInternal: null | {}};
 
@@ -106,150 +121,77 @@ class App extends React.PureComponent<{}, State> {
       <SafeAreaView
         style={{
           height: '100%',
-          backgroundColor: Colors.BG_GREY,
+          // backgroundColor: Colors.BG_GREY,
           justifyContent: 'center',
           alignItems: 'center',
+          width: '100%',
         }}>
-        <Input
-          value={this.state.username}
-          placeHolder={'Username'}
-          onChange={(value) => this.setState({username: value})}></Input>
-        <Input
-          value={this.state.password}
-          placeHolder={'Password'}
-          onChange={(value) => this.setState({password: value})}></Input>
-        <Input
-          value={this.state.otp}
-          placeHolder={'OTP'}
-          onChange={(value) => this.setState({otp: value})}></Input>
-        <Button
-          title={'Store'}
-          onPress={() => {
-            SecureStorage.storeCredentials(
-              this.state.username,
-              this.state.password,
-            );
-          }}></Button>
-        <Button
-          title={'Reset'}
-          onPress={() => {
-            SecureStorage.resetCredentials();
-          }}></Button>
-        <Button
-          title={'Fetch'}
-          onPress={() => {
-            SecureStorage.fetchCredentials().then((cred) => {
-              if (cred) {
-                this.setState({
-                  username: cred.username,
-                  password: cred.password,
-                });
-              }
-            });
-          }}></Button>
-        <Button
-          title={'Signup'}
-          onPress={() => {
-            Authentication.signup(this.state.username);
-          }}></Button>
-        <Button
-          title={'Logout'}
-          onPress={() => {
-            Authentication.signout();
-          }}></Button>
-        <Button
-          title={'Get OTP'}
-          onPress={() => {
-            Authentication.getVerificationOtp(this.state.username).then(
-              (res) => {
-                if (res.success) this.setState({user: res.user});
-              },
-            );
-          }}></Button>
-        <Button
-          title={'Verify OTP'}
-          onPress={() => {
-            Authentication.validateOtp(this.state.user, this.state.otp);
-          }}></Button>
-
-        <Button
-          title={'Get User'}
-          onPress={() => {
-            Authentication.getUser();
-          }}></Button>
-
-        {/* <Service /> */}
-        {/* <RemoveBike /> */}
-        {/* <Premium /> */}
-        {/* <ComingSoon /> */}
-        {/* <Notifications /> */}
+        {/** register */}
         {/* <IntroSwipper /> */}
-        {/* <Scanner /> */}
-        {/* <OTP /> */}
-        {/* <GPS /> */}
-        {/* <RateRide /> */}
-        {/* <RideFeedBack /> */}
-        {/* <MyRides /> */}
-        {/* <IndividualRide /> */}
-        {/* <MyCycle /> */}
         {/* <ValidateMobile /> */}
-
-        {/* <BLE /> */}
-        {/* <Header
-        title="Title"
-        hasNotification
-        backgroundColor={Colors.HEADER_YELLOW}
-        hasBackButton
-        hasSubtitle
-        subtitle={'Subtitle'}
+        {/* <OTP /> */}
+        {/* <Success msg={'Mobile Verified'} /> */}
+        {/* <ValidateFrame /> */}
+        {/* <EnterFrameNumber /> */}
+        {/* <Scanner /> */}
+        {/* <FrameRegistered /> */}
+        {/* <PersonalDetails /> */}
+        {/* <Success msg={'Account Created'} /> */}
+        {/* <TurnOnBluetooth /> */}
+        {/* <Discovering /> */}
+        {/* <BluetoothDevices
+          devices={[
+            {
+              deviceName: 'My Device',
+              id: '13',
+            },
+            {
+              deviceName: 'My Device',
+              id: '12',
+            },
+          ]}
         /> */}
-        {/* <Footer
-          lockOnlyVisible={false}
-          locked={true}
-          onItemSelect={() => {}}
-          onLockClick={() => {}}
-          selectedItem="chart"
+        {/* <Success
+          msg={'Success'}
+          subMsg={'Your cycle has been paired successfully.'}
         /> */}
-        {/* <CreateNewPassword /> */}
+        {/** Login */}
         {/* <LoginPage /> */}
         {/* <ForgotPassword /> */}
-        {/* <NextButton mode={'Active'} />
-        <NextButton mode={'Disabled'} /> */}
-        {/* <Footer
-        lockOnlyVisible={false}
-        locked={false}
-        onItemSelect={() => {}}
-        onLockClick={() => {}}
-        selectedItem={'chart'}
-        /> */}
-        {/* <Discovering /> */}
-        {/* <PersonalDetails /> */}
-        {/* <TurnOnBluetooth /> */}
-        {/* <BluetoothDevices
-        devices={[
-          {
-            deviceName: 'My Device',
-            id: '13',
-          },
-          {
-            deviceName: 'My Device',
-            id: '12',
-          },
-        ]}
-        /> */}
-        {/* <FrameRegistered /> */}
-        {/* <EnterFrameNumber
-        onHelp={() => {
-          console.log('Help');
-        }}
-      /> */}
-        {/* <ValidateFrame /> */}
+        {/* <OTP/> */}
+        {/* <CreateNewPassword/> */}
+        {/* // Show model for success */}
+        {/* <Home /> */}
+        {/* <Notifications /> */}
+        {/* <GPS /> */}
+
+        {/* <MyRides /> */}
+        {/* <IndividualRide/> */}
+
+        {/* <Speedometer /> */}
+        {/* <RateRide /> */}
+        {/* <RideFeedBack /> */}
         {/* <Success
-        msg="Mobile Verified"
-        subMsg={`Bike A has been successfully removed\n\n\n${'something'}`}
-        buttonText="omecnnc"
-      /> */}
+          msg={'Thanks you'}
+          subMsg={"We really appreciate you're feedback"}
+        /> */}
+
+        {/* <MyCycle /> */}
+
         {/* <Menu /> */}
+        {/* <Profile /> */}
+        {/* <Upgrade /> */}
+        {/* <ComingSoon /> */}
+        {/* <Support /> */}
+        {/* <SupportSrevice /> */}
+        {/* <ReportIssue /> */}
+        {/* <Premium /> */}
+
+
+
+
+
+        
         {/* <Charging
           chargingStatus="Charging"
           charge="80"

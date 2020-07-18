@@ -2,7 +2,7 @@ import React from 'react'
 import { KeyboardAvoidingView, View, StyleSheet, Text, Platform } from 'react-native'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import { Input, Content, Item } from 'native-base'
-import Button from '../components/cta-button'
+import Button from '../../components/cta-button'
 
 type Props = {}
 type State = {

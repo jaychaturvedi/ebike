@@ -92,5 +92,7 @@ cd ios && pod install
 Amplify:
 ========
 https://techinscribed.com/passwordless-phone-number-authentication-using-aws-amplify-cognito/
+npm install -g @aws-amplify/cli
 npm install aws-amplify @aws-amplify/core aws-amplify-react-native amazon-cognito-identity-js @react-native-community/netinfo --save-prod
 cd ios && pod install
+amplify init

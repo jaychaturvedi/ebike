@@ -7,13 +7,13 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import Footer from './components/footer';
-import Header from './components/header';
+import Footer from '../home/components/footer';
+import Header from '../home/components/header';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
 import { scale, verticalScale } from '../../styles/size-matters';
-import DottedButton from './components/add-new-dotted-button';
-import ProfileInfoCard from './components/profile-info-card';
+import DottedButton from '../home/components/add-new-dotted-button';
+import ProfileInfoCard from '../home/components/profile-info-card';
 import ProfileImage from '../../components/profile'
 
 type Props = {};

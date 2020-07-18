@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { moderateScale, scale } from 'react-native-size-matters'
-import Button from '../components/cta-button'
-import CheckBox from '../components/checkbox'
+import Button from '../../components/cta-button'
+import CheckBox from '../../components/checkbox'
 import { Textarea } from 'native-base'
 
 type Props = {}

@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
-import Rating from '../components/rating'
+import Rating from '../../components/rating'
 import { moderateScale, verticalScale } from 'react-native-size-matters'
-import Button from '../components/cta-button'
-import RideMetric from '../components/ride-metric'
+import Button from '../../components/cta-button'
+import RideMetric from '../../components/ride-metric'
 
 type Props = {}
 
@@ -29,8 +29,8 @@ export default class RateRide extends React.PureComponent<Props, State>{
                     <RideMetric
                         header1="Distance"
                         header2="Duration"
-                        icon1={require("../assets/icons/total_distance_icon.png")}
-                        icon2={require("../assets/icons/charge_time_remaining.png")}
+                        icon1={require("../../assets/icons/total_distance_icon.png")}
+                        icon2={require("../../assets/icons/charge_time_remaining.png")}
                         value1="15"
                         value2="01:10:00"
                         unit1="Km"
@@ -39,8 +39,8 @@ export default class RateRide extends React.PureComponent<Props, State>{
                     <RideMetric
                         header1="Avg. speed"
                         header2="Max. speed"
-                        icon1={require("../assets/icons/total_distance_icon.png")}
-                        icon2={require("../assets/icons/total_distance_icon.png")}
+                        icon1={require("../../assets/icons/total_distance_icon.png")}
+                        icon2={require("../../assets/icons/total_distance_icon.png")}
                         value1="16.5"
                         value2="35"
                         unit1="Kmph"
@@ -49,8 +49,8 @@ export default class RateRide extends React.PureComponent<Props, State>{
                     <RideMetric
                         header1="Green Miles"
                         header2="Calories Burnt"
-                        icon1={require("../assets/icons/green_miles_icon.png")}
-                        icon2={require("../assets/icons/calories_icon_blue.png")}
+                        icon1={require("../../assets/icons/green_miles_icon.png")}
+                        icon2={require("../../assets/icons/calories_icon_blue.png")}
                         value1="5"
                         value2="2"
                         unit1="Km"
@@ -59,8 +59,8 @@ export default class RateRide extends React.PureComponent<Props, State>{
                     <RideMetric
                         header1="Petrol Savings"
                         header2="Petrol Savings"
-                        icon1={require("../assets/icons/inr_icon.png")}
-                        icon2={require("../assets/icons/petrol_savings_icon.png")}
+                        icon1={require("../../assets/icons/inr_icon.png")}
+                        icon2={require("../../assets/icons/petrol_savings_icon.png")}
                         value1="145"
                         value2="2"
                         unit1="INR"

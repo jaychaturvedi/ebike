@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Card from './components/card';
-import Metrics from './components/metrics';
-import Header from './components/header';
-import Footer from './components/footer';
-import Guage from './components/guage';
+import Card from '../home/components/card';
+import Metrics from '../home/components/metrics';
+import Header from '../home/components/header';
+import Footer from '../home/components/footer';
+import Guage from '../home/components/guage';
 import Colors from '../../styles/colors';
 
 const styles = StyleSheet.create({

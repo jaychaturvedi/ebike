@@ -51,6 +51,7 @@ export default class Login extends React.PureComponent<Props, State> {
         style={{
           display: 'flex',
           height: '100%',
+          width: '100%',
           alignItems: 'center',
         }}>
         <CTAHeader hasBackButton onBackClick={this.props.onBackClick} />
