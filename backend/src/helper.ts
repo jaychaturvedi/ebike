@@ -1,25 +1,53 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import { validationResult, body, param } from "express-validator";
 import Sequelize from 'sequelize';
+import localstore from "store";
+import JwtDecode from "jwt-decode";
+import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError, MotoVoltError, UserError, FeedbackError, IssuesError, FeaturesError, RideError, SupportError, AlertError } from "./error";
 const Op = Sequelize.Op
 
-export function createResponse(code: number, body: any, error: any) {
-  let status
-  if (code === 200) status = "OK"
-  if (code === 500) status = "Internal Server Error"
-  const errorMessage = error?.message
-  const response = { status, body, error: { ...error, errorMessage }, date: new Date() }
-  return response
+type TResponseStatus = "OK" | "NOT_FOUND" | "INVALID_REQUEST" | "UNKNOWN_ERROR"
+  | "BAD_REQUEST_EROR" | "FORBIDDEN_ERROR" | "NOT_FOUND_ERROR" | "UNAUTHORIZED_ERROR"
+
+export function createResponse(status: TResponseStatus, body: any,
+  error: { code: number, message: string, name: string } | undefined) {
+  return {
+    status: status,
+    body: body,
+    error: error !== undefined ? {
+      code: error.code,
+      name: error.name,
+      message: error.message,
+    } : null,
+    date: new Date()
+  }
 }
 
-export function expressErrorHandler(
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  res.locals.message = err.message
-  const response = createResponse(500, null, err)
+export function expressErrorHandler(err: Error, req: Request, res: Response,
+  next: NextFunction) {
+
+  let status: TResponseStatus = 'OK'; let statusCode: number = 200;
+
+  if (err instanceof BadRequestError || err instanceof ForbiddenError ||
+    err instanceof NotFoundError || err instanceof UnauthorizedError) {
+    status = err.name as TResponseStatus || "UNKNOWN_ERROR";
+    statusCode = err.errorCode
+  }
+  else if (err instanceof UserError || err instanceof RideError ||
+    err instanceof FeedbackError || err instanceof IssuesError ||
+    err instanceof FeaturesError || err instanceof FeaturesError ||
+    err instanceof SupportError || err instanceof AlertError) {
+    status = "OK"
+    statusCode = 200
+  }
+  console.log(err.name);
+
+  const response = createResponse(status, null, {
+    code: (err as MotoVoltError).errorCode,
+    name: err.name,
+    message: err.message
+  })
+  res.status(statusCode)
   res.json(response);
   next();
 }
@@ -35,14 +63,13 @@ export function secure(
   res: Response,
   next: any
 ) {
-  console.log("Request Middleware ", req)
-
-  // const response = createResponse(500, null, err)
-  // res.json(response);
+  const token = req.headers.authorization as string
+  if (!token) return res.status(401).send("pass json token in headers")
+  const { sub: uid, phone_number: phone } = JwtDecode(token)
+  if (!uid) return res.status(401).send("invalid token")
+  res.locals.user = { uid, phone }
   next()
 }
-
-
 
 export function pagination(pageNumber: number, pageSize: number) {
   const limit = pageSize ? pageSize : 1
@@ -69,57 +96,4 @@ export function validate(req: Request, res: Response, next: NextFunction) {
   }
   next();
 }
-
-
-
-// export const requireLogin = (req : Request,res : Response,next : NextFunction) => {
-//     var token = req.headers['authorization'];
-// request({
-//        url : `https://cognito
-// idp.${pool_region}.amazonaws.com/${poolData.UserPoolId}/.well-known/jwks.json`,
-//        json : true
-//     }, function(error, response, body){
-//        if (!error && response.statusCode === 200) {
-//            pems = {};
-//            var keys = body['keys'];
-//            for(var i = 0; i < keys.length; i++) {
-//                 var key_id = keys[i].kid;
-//                 var modulus = keys[i].n;
-//                 var exponent = keys[i].e;
-//                 var key_type = keys[i].kty;
-//                 var jwk = { kty: key_type, n: modulus, e: exponent};
-//                 var pem = jwkToPem(jwk);
-//                 pems[key_id] = pem;
-//            }
-//            var decodedJwt = jwt.decode(token, {complete: true});
-//                 if (!decodedJwt) {
-//                     console.log("Not a valid JWT token");
-//                     res.status(401);
-//                     return res.send("Invalid token");
-//                }
-//             var kid = decodedJwt.header.kid;
-//                 var pem = pems[kid];
-//                 if (!pem) {
-//                     console.log('Invalid token');
-//                     res.status(401);
-//                     return res.send("Invalid token");              
-//                 }
-//             jwt.verify(token, pem, function(err, payload) {
-//                     if(err) {
-//                         console.log("Invalid Token.");
-//                         res.status(401);
-//                         return res.send("Invalid tokern");
-//                     } else {
-//                          console.log("Valid Token.");
-//                          return next();
-//                     }
-//                });
-//        } else {
-//              console.log("Error! Unable to download JWKs");
-//              res.status(500);
-//              return res.send("Error! Unable to download JWKs");
-//        }
-//    });
-//     next()
-// }
 

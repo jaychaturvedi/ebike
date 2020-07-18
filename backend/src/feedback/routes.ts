@@ -7,16 +7,16 @@ const app = express.Router()
 app.get('/',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const feedback = await Feedback.findAll()
-        const response = createResponse(200, feedback, null)
+        const response = createResponse("OK", feedback, undefined)
         res.json(response)
     })
 )
 
 app.get('/:id',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id)
+        const Id = req.params.id as any as number
         const feedback = await Feedback.findById(Id)
-        const response = createResponse(200, feedback, null)
+        const response = createResponse("OK", feedback, undefined)
         res.json(response)
     })
 )
@@ -25,27 +25,28 @@ app.post('/', [
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const feedback = await Feedback.createNew(req.body)
-        const response = createResponse(200, feedback, null)
+        const response = createResponse("OK", feedback, undefined)
         res.json(response)
     })
 )
 
 app.put('/:id', [
-    body('options', "name can't be empty").isLength({ min: 1 }).optional(),
+    param('id', "id can't be empty").isLength({ min: 1 }),
+    body('options', "name can't be empty").optional().isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = Number(req.params.id);
+        const Id = req.params.id as any as number;
         const updated = await Feedback.updateById(Id, req.body);
-        const response = createResponse(200, updated, null)
+        const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
 app.delete('/:id',
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = Number(req.params.id);
+        const Id = req.params.id as any as number;
         const deleted = await Feedback.deleteById(Id);
-        const response = createResponse(200, "Feedback deleted with id " + Id, null)
+        const response = createResponse("OK", "Feedback deleted with id " + Id, undefined)
         res.json(response);
     })
 )

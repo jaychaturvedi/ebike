@@ -1,15 +1,14 @@
 import BikeModel, { TBike } from "./model"
 import { BikeError } from "../error"
-import { TBikeDetails } from "../externalApi/motovolt";
-import { TFilter } from "../user/service";
+import RideModel from "../rides/model";
 
 export default class Bike {
 
-    static async findByFrame(frameId: string) {
+    static async findOne(condition: any) {
         const bike = await BikeModel.findOne({
-            where: { frameId }
+            where: { ...condition },
         })
-        if (!bike) throw new BikeError('Unable to find bike by id ' + frameId);
+        if (!bike) throw new BikeError('Unable to find bike by ');
         return bike
     }
 
@@ -19,30 +18,32 @@ export default class Bike {
         return newBike;
     }
 
-    static async updateByFrame(frameId: string, bike: TBike) {
-        await Bike.findByFrame(frameId)
+    static async updateWhere(condition: any, bike: TBike) {
+        console.log(condition);
+        await Bike.findOne(condition)
         const [isUpdated, [result]] = await BikeModel.update(bike, {
-            where: { frameId },
+            where: { ...condition },
             returning: true
         })
         if (!isUpdated) throw new BikeError("Unable to update with id ")
         return result
     }
 
-    static async deleteById(id: number) {
+    static async deleteWhere(condition: any) {
         const deleted = await BikeModel.destroy({
-            where: { id }
+            where: { ...condition }
         });
-        if (!deleted) throw new BikeError("Unable to delete with id " + id);
+        if (!deleted) throw new BikeError("Unable to delete with id " + condition);
         return deleted
     }
 
     static async findAll() {
-        const bikes = await BikeModel.findAll()
+        const bikes = await BikeModel.findAll({
+            attributes: ['frameId', 'uid', 'modelType'],
+            include: [{ model: RideModel, attributes: ['rideId'] }]
+        })
         return bikes
-
     }
-
     static async findAndCountAll(paginate: any, where: any) {
         const users = await BikeModel.findAndCountAll({ ...paginate, where })
         if (!users) throw new BikeError("Unable to find and count");

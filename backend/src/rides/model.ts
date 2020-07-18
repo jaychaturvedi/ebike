@@ -1,23 +1,23 @@
 import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
+import Issues from '../issues/model';
 
-export interface TRide extends Model {
-    id: number;
-    userId: number;
-    frameId: number;
-    feedbackId: number;
-    distance: string;
-    duration: string;
-    modelType: string;
-    averageSpeed: string;
-    maxSpeed: string;
-    greenMiles: string;
-    petrolSaved: string;
-    caloriesBurnt: string;
-    ratings: number;
-    feedbackComment: string;
-    rideStartDate: Date;
-    rideEndDate: Date;
+export interface TRide {
+    rideId?: string;
+    uid?: string;
+    frameId?: string;
+    distance?: number;
+    duration?: string;
+    averageSpeed?: number;
+    maxSpeed?: number;
+    greenMiles?: number;
+    petrolSaved?: number;
+    litreSaved?: number
+    caloriesBurnt?: number;
+    rating?: number;
+    feedbackComment?: string;
+    startTime?: string;
+    endTime?: string;
 }
 
 type TRideModel<T> = typeof Model & {
@@ -26,93 +26,71 @@ type TRideModel<T> = typeof Model & {
 
 let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('rides',
     {
-        id: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
+        rideId: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true,
             primaryKey: true
         },
-        userId: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-            references: {
-                model: 'users',
-                key: 'id',
-            }
+        uid: {
+            type: Sequelize.STRING,
+            allowNull: true,
         },
         frameId: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
+            type: Sequelize.STRING,
+            allowNull: true,
             onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
             references: {
                 model: 'bikes',
-                key: 'id',
+                key: 'frameId',
             }
         },
-        feedbackId: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-            references: {
-                model: 'feedbacks',
-                key: 'id',
-            }
-        },
-        distance: {
+        startTime: {
             type: Sequelize.STRING
         },
-
+        endTime: {
+            type: Sequelize.STRING
+        },
+        distance: {
+            type: Sequelize.INTEGER
+        },
         duration: {
             type: Sequelize.STRING
         },
-
-        modelType: {
-            type: Sequelize.STRING
-        },
-
         averageSpeed: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
         maxSpeed: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
         greenMiles: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
         petrolSaved: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
+        litreSaved: {
+            type: Sequelize.INTEGER
+        },
         caloriesBurnt: {
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-
-        ratings: {
-            type: Sequelize.STRING
+        rating: {
+            type: Sequelize.INTEGER
         },
-
         feedbackComment: {
             type: Sequelize.STRING
-        },
-
-        rideStartDate: {
-            type: Sequelize.DATE
-        },
-
-        rideEndDate: {
-            type: Sequelize.DATE
-        },
+        }
     },
     {
         freezeTableName: true
     }
 );
+
+Ride.hasOne(Issues, {
+    foreignKey: 'rideId',
+    sourceKey: 'rideId',
+});
 
 
 export default Ride

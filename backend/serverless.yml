@@ -1,5 +1,5 @@
 plugins: # List of plugins of use on application
-  - serverless-offline # Get your serverless configuration and run the server local
+  # - serverless-offline # Get your serverless configuration and run the server local
   - serverless-plugin-typescript-express # Help us with configuration typescript on serverless
 
 service: zelp-motovolt
@@ -12,10 +12,10 @@ provider:
   region: us-east-2
   memorySize: 128
   environment: 
-    DB: postgres
-    PG_USER: postgres
-    PASSWORD: postgres
-    HOST: localhost
+    DB: zelpmotovolt
+    PG_USER: zelpadmin
+    PASSWORD: Connectm2020!
+    HOST: zelp-motovolt.cpt3cvvrotgm.us-east-2.rds.amazonaws.com
     PORT: 5432
 functions:
   app:

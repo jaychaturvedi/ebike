@@ -1,5 +1,6 @@
 import { get, post, put } from 'request-promise'
 import * as dotenv from "dotenv"
+import { type } from 'os';
 dotenv.config()
 
 function createOptions(url: string, body: TRequestBody,) {
@@ -26,7 +27,7 @@ export default class ConnectmApi {
         const options = createOptions('/getstat', {
             frameid: frameId
         })
-        const fetchedData = await post(options)
+        const fetchedData: TRideStats = await post(options)
         return fetchedData
     }
 
@@ -34,7 +35,7 @@ export default class ConnectmApi {
         const options = createOptions('/getlivedata', {
             frameid: frameId
         })
-        const fetchedData = await post(options)
+        const fetchedData: TBikeLiveDate = await post(options)
         return fetchedData
     }
 
@@ -42,7 +43,7 @@ export default class ConnectmApi {
         const options = createOptions('/getliveloc', {
             frameid: frameId,
         })
-        const fetchedData = await post(options)
+        const fetchedData: TCurrentLocation = await post(options)
         return fetchedData
     }
 
@@ -50,7 +51,7 @@ export default class ConnectmApi {
         const options = createOptions('/getcurride', {
             frameid: frameId
         })
-        const fetchedData = await post(options)
+        const fetchedData: TCurrentRide = await post(options)
         return fetchedData
     }
 
@@ -60,17 +61,17 @@ export default class ConnectmApi {
             startTime,
             endTime
         })
-        const fetchedData = await post(options)
+        const fetchedData: TEndRide = await post(options)
         return fetchedData
     }
 
     static async getLocationHistory(frameId: string, startTime: string, endTime: string) {
-        const options = createOptions('/getridegps', {
+        const options = createOptions('/getendridegps', {
             frameid: frameId,
             startTime,
             endTime
         })
-        const fetchedData = await post(options)
+        const fetchedData: TLocationHistory = await post(options)
         return fetchedData
     }
 
@@ -78,7 +79,7 @@ export default class ConnectmApi {
         const options = createOptions('/getmycycle', {
             frameid: frameId
         })
-        const fetchedData = await post(options)
+        const fetchedData: TBikeDetails = await post(options)
         return fetchedData
     }
 
@@ -86,7 +87,7 @@ export default class ConnectmApi {
         const options = createOptions('/getridehistory', {
             frameid: frameId
         })
-        const fetchedData = await post(options)
+        const fetchedData: TRideHistory = await post(options)
         return fetchedData
     }
 
@@ -94,69 +95,138 @@ export default class ConnectmApi {
         const options = createOptions('/getridehistorystat', {
             frameid: frameId
         })
-        const fetchedData = await post(options)
+        const fetchedData: TRideHistoryStats = await post(options)
         return fetchedData
     }
 
 }
 
 export type TValidatePhone = {
-    DEVICE_ID: string;
-    STATUS: boolean;
-    ERROR_CODE: string;
+    fid: string; //frameid
+    st: string; //status
+    ec: string; //error code
+    em: string //error message
 }
 
-export type TBikeLocation = {
-    STATUS: string,
-    ERROR_CODE: string,
-    LATITUDE: string,
-    LONGITUDE: string,
-    TIMESTAMP: string
+export type TRideStats = {
+    fid: string; //frameid
+    co2sav: number; // co2savings
+    totdist: number //total distance
+    petlsav: number; //petrol saving
+    grnmls: number; //green miles
+    costrcv: number; // cost recovered
+    rats: number; // ratings
+    st: string; //status
+    ec: string; //error code
+    em: string //error message
+}
+
+export type TBikeLiveDate = {
+    fid: string; //frameid
+    ign: number; //ignition status
+    lc: number; //locked
+    rngcvr: number;//range covered
+    rngavail: number; //range available
+    batchrgper: number; //battery charge perceentage
+    noty: number; //promotion
+    prom: number; //promotion
+    st: string; //status
+    ec: string; //error code
+    em: string //error message
+}
+
+export type TCurrentLocation = {
+    lat: number; //latitude
+    long: number; //longitude
+    addr: string; //address
+    utc: string; //Event_utc last used
+    st: string;
+    ec: string;
+    em: string
+}
+
+export type TCurrentRide = {
+    fid: string;
+    batchrg: number; //batery charge
+    rngavail: number; //range avialable
+    rngcrv: number; //range covered
+    dist: number; //distance
+    kmph: number; //speed kmph
+    timeelp: string; //unknown abbreviation
+    avgspd: number; //average speed
+    maxspd: number; //max speed
+    pa: number; //unknown
+    pm: number; //unknown
+    ign: number; //ignition
+    st: string;
+    ec: string;
+    em: string
+}
+
+export type TEndRide = {
+    fid: string;
+    dist: number; //distance
+    dur: string; //duration
+    avgspd: number; //average speed
+    maxspd: number; //max speed    
+    grnmls: number; //green miles
+    calbnt: number; //calories burnt
+    ptrsav: number; //petrol saved
+    ptrlt: number; //petrol saved inn liter
+    st: string;
+    ec: string;
+    em: string
+}
+
+export type TLocationHistory = {
+    lat: number; //latitude
+    long: number; //longitude
+    utc: string; //Event_utc last used
+    st: string;
+    ec: string;
+    em: string;
 }
 
 export type TBikeDetails = {
-    STATUS?: string,
-    ERROR_CODE?: string,
-    IGNITION_STATUS?: string,
-    LOCKED?: string,
-    NO_OF_BATTERIES?: string,
-    BATTERY_DETAILS?: string
-    RANGE_COVERED?: string,
-    RANGE_AVAILABLE?: string,
-    NEW_SERVICE_DATE?: string,
-    DEVICE_ID?: string,
-    OVERALL_BAT_HEALTH_PERCENTAGE?: string
-    BATTERY_CHARGE_PERCENTAGE?: string,
-    MOTOR_PERCENTAGE?: string,
-    TOTAL_DISTANCE?: string,
+    fid: string;
+    mtrper: number; //motor percentage
+    batper: number; //battery percentage
+    batid: string; //battery id
+    bathlt: number; //battery health
+    vehid: number; //vehicle id
+    model: string; // vehicle model
+    servDate: string; //service date
+    st: string;
+    ec: string;
+    em: string;
 }
 
-export type TRideDetails = {
-    STATUS: string,
-    ERROR_CODE: string,
-    FRAMEID: string,
-    DISTANCE: string,
-    DURATION: string,
-    AVG_SPEED: string,
-    MAX_SPEED: string,
-    GREEN_MILES: string,
-    POWER_SAVINGS: string,
-    CALORIES_BURNT: string,
-    SPEED_KMPH: string,
-    MAP_COORDINATES: string,
-    POWERMODE: string
+export type TRideHistory = {
+    fid: string;
+    dist: number; //distance
+    kmph: number; //speed kmph
+    loc: string; //locationg name
+    fromtime: string;
+    totime: string;
+    date: string;
+    st: string;
+    ec: string;
+    em: string;
 }
 
-export type TRideStatistics = {
-    FRAMEID: string,
-    CO2_SAVINGS: string,
-    STATUS: string,
-    ERROR_CODE: string,
-    TOTAL_DISTANCE: string,
-    PETROL_SAVINGS: string,
-    GREEN_MILES: string,
-    COST_RECOVERED: string,
-    RATINGS: string
+export type TRideHistoryStats = {
+    fid: string; //frameid
+    co2sav: number; // co2savings
+    grnmls: number; //green miles
+    totdist: number //total distance
+    petlsav: number; //petrol saving
+    costrcv: number; // cost recovered
+    avgspd: number; //average speed
+    avgkmph: number; //unknown
+    date: string;
+    st: string;
+    ec: string;
+    em: string;
 }
 
 export type TRequestBody = {

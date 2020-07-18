@@ -12,7 +12,7 @@ export interface TFeatures {
 
 export interface TUserFeatures {
     id: number;
-    userId: number;
+    uid: number;
     featureId: number;
     purchaseDate: Date; // need to make sure
 }
@@ -28,10 +28,10 @@ let Features: TFeaturesModel<TFeatures & Model> = <TFeaturesModel<TFeatures & Mo
             autoIncrement: true,
             primaryKey: true
         },
-        name: Sequelize.STRING,
-        active: Sequelize.STRING,
-        price: Sequelize.STRING,
-        premium: Sequelize.BOOLEAN,
+        name: { type: Sequelize.STRING },
+        active: { type: Sequelize.STRING },
+        price: { type: Sequelize.STRING },
+        premium: { type: Sequelize.BOOLEAN },
     },
         {
             freezeTableName: true
@@ -48,15 +48,9 @@ let UserFeatures: TUserFeaturesModel<TUserFeatures & Model> = <TUserFeaturesMode
             autoIncrement: true,
             primaryKey: true
         },
-        userId: {
-            type: Sequelize.INTEGER,
+        uid: {
+            type: Sequelize.STRING,
             allowNull: false,
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-            references: {
-                model: 'users',
-                key: 'id',
-            }
         },
         featureId: {
             type: Sequelize.INTEGER,

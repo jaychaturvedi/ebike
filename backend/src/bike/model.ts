@@ -1,10 +1,12 @@
 import Sequelize, { Model, BuildOptions } from 'sequelize';
 import db from "../db"
+import User from '../user/model';
+import Ride from '../rides/model';
 
 export interface TBike {
   id?: number;
-  name?: string;
-  userId?: number;
+  bikeName?: string;
+  uid?: string;
   frameId?: string;
   warrantyId?: string;
   batteryId?: string;
@@ -27,27 +29,24 @@ type TBikeModel<T> = typeof Model & {
 
 let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bikes',
   {
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    name: {
-      type: Sequelize.STRING
-    },
-    userId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      references: {
-        model: 'users',
-        key: 'id',
-      }
-    },
     frameId: {
       type: Sequelize.STRING,
+      primaryKey: true,
+      unique: true,
       allowNull: false,
+    },
+    uid: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'users',
+        key: 'uid',
+      }
+    },
+    bikeName: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
     warrantyId: {
       type: Sequelize.STRING
@@ -85,5 +84,10 @@ let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bike
   },
   { freezeTableName: true }
 );
+
+Bike.hasMany(Ride, {
+  foreignKey: 'frameId',
+  sourceKey: 'frameId',
+});
 
 export default Bike

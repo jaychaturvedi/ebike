@@ -1,61 +1,70 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import { validationResult, body, param, query } from "express-validator";
-import { expressQAsync, expressErrorHandler, validate, createResponse } from '../helper'
+import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import Bike from './service'
 import ConnectmApi from "../externalApi/motovolt";
-import { verifyFrame } from './controller';
+import { verifyFrame, getBikeDetails } from './controller';
+import User from '../user/service';
 
 const app = express.Router()
-
+//to be removed, just for testing
 app.get('/all',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const bikes = await Bike.findAll()
-        const response = createResponse(200, bikes, null)
+        const response = createResponse("OK", bikes, undefined)
         res.json(response)
     })
 )
-
-app.get('/', [
-    query('frameId', "pass a valid frameId").isLength({ min: 3 }),
-    validate],
+//get bike details
+app.get('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const bikedetails = await ConnectmApi.getBikeDetails(req.query.frameId as string);
-        const response = createResponse(200, bikedetails, null)
+        const bikedetails = await getBikeDetails(res.locals.users.uid)
+        const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
-
-app.get('/verify', [
-    query('frameId', "some message").isLength({ min: 1 }).toString,
-    query('uid', "some message").isLength({ min: 1 }).toString,
+//register frameid to user
+app.get('/verify/:frameId', expressQAsync(secure), [
+    param('frameId', "frameId is required").isString().isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId, uid } = req.query
+        const { frameId } = req.params as any
+        const { uid } = res.locals.user as any
         const bikedetails = await verifyFrame(uid as string, frameId as string);
-        const response = createResponse(200, bikedetails, null)
+        const response = createResponse("OK", bikedetails, undefined)
+        res.json(response)
+    })
+)
+app.get('/liveLocation/:frameId', expressQAsync(secure),
+    [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const frameId = req.params.frameId as string
+        const { lat: latitude, long: longitude, addr: address, utc: lastused } =
+            await ConnectmApi.getCurrentLocation(frameId as string)
+        const response = createResponse("OK", {
+            latitude, longitude, address, lastused
+        }, undefined)
         res.json(response)
     })
 )
 
-app.put('/:frameId', [
-    body('bikeName', "bikeName is too short").isLength({ min: 3 }).optional(),
-    param('frameId', "frameId is required").isLength({ min: 3 }),
+//update bikeName during registration
+app.put('/', expressQAsync(secure), [
+    body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const frameId = req.params.frameId;
         const bikeName = req.body.bikeName as string
-        const updated = await Bike.updateByFrame(frameId, req.body);
-        const response = createResponse(200, updated, null)
+        const uid = res.locals.user.uid
+        const updated = await Bike.updateWhere({ uid }, { bikeName });
+        const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
-app.delete('/:id',
-    param('frameId', "frameId is is required").isLength({ min: 1 }),
+app.delete('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = Number(req.params.id)
-        const deleted = await Bike.deleteById(Id);
-        const response = createResponse(200, "deleted with id " + Id, null)
+        const deleted = await Bike.deleteWhere({ uid: res.locals.user.uid });
+        const response = createResponse("OK", "deleted", undefined)
         res.json(response);
     })
 )

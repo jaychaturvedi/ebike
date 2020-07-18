@@ -6,14 +6,20 @@ import Bike from "./service";
 import { pagination, filters } from "../helper";
 const Op = Sequelize.Op
 
-export async function verifyFrame(uid: string, frameId: string) {
-  await User.findByUid(uid)
+export async function getBikeDetails(uid: string) {
+  const { frameId } = await User.findByUid(uid)
   const bikedetails = await ConnectmApi.getBikeDetails(frameId as string);
-  if (bikedetails.st === "false") throw new BadRequestError("Cant get details")
-  const bike = await Bike.createNew(bikedetails)
-  const isUpdated = await User.updateByUid(uid, { frameId: frameId as string })
-  if (!isUpdated) throw new UserError("Unable to update ")
-  return bikedetails;
+  return bikedetails
+}
+
+export async function verifyFrame(uid: string, frameId: string) {
+  const { model: modelType, st: status } = await ConnectmApi.getBikeDetails(frameId as string); //update all fields
+  if (status) throw new BadRequestError("Cant get details")
+  const user = await User.findByUid(uid)
+  if (user.frameId) throw new UserError("frameId already verified")
+  await User.updateByUid(uid, { frameId })
+  const bike = await Bike.createNew({ frameId, modelType, uid })
+  return bike;
 }
 
 export async function paginateBike(filter: TFilter) {
@@ -24,8 +30,8 @@ export async function paginateBike(filter: TFilter) {
     paginate = pagination(pageNumber!, pageSize!);
   }
   const where = filters(filter)
-  const users = await Bike.findAndCountAll(paginate, where)
-  if (!users) return 0
-  return users
+  const bikes = await Bike.findAndCountAll(paginate, where)
+  if (!bikes) return 0
+  return bikes
 }
 
