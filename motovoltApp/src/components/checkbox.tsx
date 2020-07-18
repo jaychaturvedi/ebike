@@ -17,7 +17,7 @@ type State = {
     option4: boolean,
 }
 
-export default class MeterGauge extends React.PureComponent<Props, State>{
+export default class Select extends React.PureComponent<Props, State>{
     constructor(props: Props) {
         super(props)
         this.state = {

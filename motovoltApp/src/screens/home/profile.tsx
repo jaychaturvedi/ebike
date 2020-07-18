@@ -11,9 +11,10 @@ import Footer from './components/footer';
 import Header from './components/header';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { scale, verticalScale } from '../../styles/size-matters';
 import DottedButton from './components/add-new-dotted-button';
 import ProfileInfoCard from './components/profile-info-card';
+import ProfileImage from '../../components/profile'
 
 type Props = {};
 
@@ -36,31 +37,32 @@ export default class Profile extends React.PureComponent<Props, State> {
         />
         <ScrollView style={styles.body}>
           <View style={styles.avatar}>
-            <Image
-              source={{uri: 'http://a.png'}}
+            <ProfileImage />
+            {/* <Image
+              source={{ uri: 'http://a.png' }}
               defaultSource={require('../../assets/icons/default-avatar.png')}
-              style={{width: '80%', height: '80%'}}
+              style={{ width: '80%', height: '80%' }}
               width={scale(44)}
               height={scale(44)}
-            />
+            /> */}
           </View>
           <Text style={styles.title}>Personal Details</Text>
           <ProfileInfoCard
             style={styles.profileInfo}
-            data={[{key: 'Name', value: 'Vikram Gupta'}]}
+            data={[{ key: 'Name', value: 'Vikram Gupta' }]}
           />
 
           <ProfileInfoCard
             style={styles.profileInfo}
-            data={[{key: 'Email', value: 'Vikram24@gmail.com'}]}
+            data={[{ key: 'Email', value: 'Vikram24@gmail.com' }]}
           />
 
-          <View style={{...familyUserStyle.container, ...styles.profileInfo}}>
+          <View style={{ ...familyUserStyle.container, ...styles.profileInfo }}>
             <Text style={familyUserStyle.title}>Family Users</Text>
             <View style={familyUserStyle.singleInfo}>
               <View style={familyUserStyle.singleInfoLeft}>
                 <Image
-                  source={{uri: 'http'}}
+                  source={{ uri: 'http' }}
                   defaultSource={require('../../assets/icons/default-avatar.png')}
                   style={familyUserStyle.addNewIcon}
                 />
@@ -85,32 +87,33 @@ export default class Profile extends React.PureComponent<Props, State> {
             style={styles.profileInfo}
             hasLeftBorder
             hasTitle
+            hasHeader
             title={'Cycle A'}
             data={[
-              {key: 'Vehicle ID', value: 'Blr1232479'},
-              {key: 'Purchase Date', value: '31 January 2020'},
-              {key: 'Warranty Valid till', value: '31 January 2021'},
+              { key: 'Vehicle ID', value: 'Blr1232479' },
+              { key: 'Purchase Date', value: '31 January 2020' },
+              { key: 'Warranty Valid till', value: '31 January 2021' },
             ]}
           />
-          <DottedButton text={'Add New Cycle'} onPress={() => {}} />
+          <DottedButton text={'Add New Cycle'} onPress={() => { }} />
 
           <Text style={styles.title}>Battery Details</Text>
 
           <ProfileInfoCard
             style={styles.profileInfo}
             data={[
-              {key: 'Batteries Owned', value: '2'},
-              {key: 'Battery ID', value: '7654321, 7654321'},
+              { key: 'Batteries Owned', value: '2' },
+              { key: 'Battery ID', value: '7654321, 7654321' },
             ]}
           />
 
-          <DottedButton text={'Add New Battery'} onPress={() => {}} />
+          <DottedButton text={'Add New Battery'} onPress={() => { }} />
         </ScrollView>
         <Footer
           lockOnlyVisible={false}
           locked
-          onItemSelect={() => {}}
-          onLockClick={() => {}}
+          onItemSelect={() => { }}
+          onLockClick={() => { }}
           selectedItem="home"
         />
       </View>
@@ -139,10 +142,10 @@ const styles = StyleSheet.create({
   },
   avatar: {
     marginVertical: verticalScale(12),
-    width: scale(88),
-    height: scale(88),
-    borderRadius: scale(44),
-    backgroundColor: Colors.WHITE,
+    // width: scale(88),
+    // height: scale(88),
+    // borderRadius: scale(44),
+    // backgroundColor: Colors.WHITE,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
