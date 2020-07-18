@@ -84,6 +84,8 @@ target 'motovoltApp' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'motovoltAppTests' do
     inherit! :complete
     # Pods for testing

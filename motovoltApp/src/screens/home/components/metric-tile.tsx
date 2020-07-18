@@ -3,6 +3,7 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import {Text} from 'native-base';
 import {scale, verticalScale} from '../../../styles/size-matters';
 import Colors from '../../../styles/colors';
+import FontWeight from '../../../styles/font-weight';
 
 const styles = StyleSheet.create({
   tile: {
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   metric: {
-    fontWeight: 'bold',
+    fontWeight: FontWeight.BOLD,
     fontSize: 36,
   },
   unit: {

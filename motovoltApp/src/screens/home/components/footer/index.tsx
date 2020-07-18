@@ -1,11 +1,20 @@
 import React from 'react';
-import {StyleSheet, Image} from 'react-native';
-import {Button, Footer, FooterTab, Icon} from 'native-base';
-import FooterItem from './footer-item';
+import {StyleSheet, View, Text, Image} from 'react-native';
+import {Footer} from 'native-base';
 import {scale} from '../../../../styles/size-matters';
 import Colors from '../../../../styles/colors';
+import Tab from './tab';
+import RNSwipeVerify from 'react-native-swipe-verify';
+import LockButton from './lock-button';
 
 export type TFooterItem = 'home' | 'chart' | 'cycle' | 'menu';
+
+const styles = StyleSheet.create({
+  icon: {
+    width: scale(18),
+    height: scale(18),
+  },
+});
 
 type Props = {
   lockOnlyVisible: boolean;
@@ -15,95 +24,77 @@ type Props = {
   onItemSelect: (item: TFooterItem) => void;
 };
 
-export default class FooterNav extends React.PureComponent<Props, {}> {
+type State = {
+  selectedItem: TFooterItem;
+  verifyMode: boolean;
+  lockedIcon: boolean;
+};
+
+export default class FooterNav extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      selectedItem: 'home',
+      verifyMode: false,
+      lockedIcon: false,
+    };
+  }
+
+  onItemSelect = (item: TFooterItem) => {
+    this.setState({
+      selectedItem: item,
+    });
+  };
+
+  onLockClick = () => {
+    this.setState({verifyMode: !this.state.verifyMode});
+  };
+
+  onVerfied = () => {
+    this.setState({
+      lockedIcon: !this.state.lockedIcon,
+      verifyMode: false,
+    });
+  };
+
   render() {
     return (
       <Footer>
-        <FooterTab style={styles.footerTab}>
-          <FooterItem
-            visible={!this.props.lockOnlyVisible}
-            icon={
-              <Image
-                source={require('../../../../assets/icons/home.png')}
-                style={
-                  this.props.selectedItem === 'home'
-                    ? styles.iconSelected
-                    : styles.icon
-                }
-              />
-            }
-            onPress={() => this.props.onItemSelect('home')}
-            selected={this.props.selectedItem === 'home'}
+        {!this.state.verifyMode && (
+          <Tab
+            lockOnlyVisible={this.state.lockedIcon}
+            locked={this.state.lockedIcon}
+            onItemSelect={this.onItemSelect}
+            onLockClick={this.onLockClick}
+            selectedItem={this.state.selectedItem}
           />
-          <FooterItem
-            visible={!this.props.lockOnlyVisible}
+        )}
+        {this.state.verifyMode && (
+          <RNSwipeVerify
+            buttonSize={56}
+            onVerified={this.onVerfied}
+            okButton={{visible: false, duration: 0}}
             icon={
+              <View style={{height: '100%', width: 80}}>
+                <LockButton
+                  disabled={true}
+                  locked={this.state.lockedIcon}
+                  onClick={() => {}}
+                />
+              </View>
+            }>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{fontSize: 18, color: Colors.BLACK}}>
+                {this.state.lockedIcon ? 'Swipe to lock ' : 'Swipe to unlock '}
+              </Text>
               <Image
-                source={require('../../../../assets/icons/ride_statistics.png')}
-                style={
-                  this.props.selectedItem === 'chart'
-                    ? styles.iconSelected
-                    : styles.icon
-                }
+                source={require('../../../../assets/icons/swipe_right_arrow.png')}
+                style={styles.icon}
               />
-            }
-            onPress={() => this.props.onItemSelect('chart')}
-            selected={this.props.selectedItem === 'chart'}
-          />
-          <Button style={styles.lock} onPress={() => this.props.onLockClick()}>
-            {this.props.locked && (
-              <Image
-                source={require('../../../../assets/icons/lock_icon.png')}
-                style={{height: '100%', width: '100%'}}
-              />
-            )}
-            {!this.props.locked && (
-              <Image
-                source={require('../../../../assets/icons/unlock_icon.png')}
-                style={{height: '100%', width: '100%'}}
-              />
-            )}
-          </Button>
-          <FooterItem
-            visible={!this.props.lockOnlyVisible}
-            icon={
-              <Image
-                source={require('../../../../assets/icons/find_my_cycle.png')}
-                style={
-                  this.props.selectedItem === 'cycle'
-                    ? styles.iconSelected
-                    : styles.icon
-                }
-              />
-            }
-            onPress={() => this.props.onItemSelect('cycle')}
-            selected={this.props.selectedItem === 'cycle'}
-          />
-          <FooterItem
-            visible={!this.props.lockOnlyVisible}
-            icon={
-              <Image
-                source={require('../../../../assets/icons/hamburger_menu.png')}
-                style={
-                  this.props.selectedItem === 'menu'
-                    ? styles.iconSelected
-                    : styles.icon
-                }
-              />
-            }
-            onPress={() => this.props.onItemSelect('menu')}
-            selected={this.props.selectedItem === 'menu'}
-          />
-        </FooterTab>
+            </View>
+          </RNSwipeVerify>
+        )}
       </Footer>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  footerTab: {backgroundColor: Colors.WHITE},
-  lock: {backgroundColor: Colors.LOCK_PINK, borderRadius: 10},
-  lockIcon: {fontSize: scale(40), color: Colors.WHITE},
-  iconSelected: {height: scale(28), width: scale(28)},
-  icon: {height: scale(28), width: scale(28), opacity: 0.5},
-});
