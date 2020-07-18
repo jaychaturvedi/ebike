@@ -12,11 +12,11 @@ provider:
   region: us-east-2
   memorySize: 128
   environment: 
-    DB: postgres
-    PG_USER: postgres
-    PASSWORD: qwerty
-    HOST: 0.tcp.ngrok.io
-    PORT: 17617
+    DB: zelpmotovolt
+    PG_USER: zelpadmin
+    PASSWORD: Connectm2020!
+    HOST: zelp-motovolt.cpt3cvvrotgm.us-east-2.rds.amazonaws.com
+    PORT: 5432
 functions:
   app:
     handler: src/server.handler

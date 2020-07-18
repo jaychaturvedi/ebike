@@ -29,6 +29,7 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
         rideId: {
             type: Sequelize.STRING,
             allowNull: false,
+            unique: true,
             primaryKey: true
         },
         uid: {

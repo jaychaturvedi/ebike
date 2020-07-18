@@ -3,7 +3,6 @@ import db from "../db"
 import Bike from '../bike/model';
 
 export interface TUser {
-  id?: number;
   uid?: string;//userid
   fullName?: string;
   phone?: string;
@@ -21,7 +20,7 @@ let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('user
     uid: {
       type: Sequelize.STRING,
       primaryKey: true,
-      unique: true,
+      unique:true,
       allowNull: false,
     },
     fullName: {
@@ -34,7 +33,7 @@ let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('user
     },
     phone: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     frameId: {
       type: Sequelize.STRING,

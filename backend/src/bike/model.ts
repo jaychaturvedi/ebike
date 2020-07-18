@@ -32,6 +32,7 @@ let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bike
     frameId: {
       type: Sequelize.STRING,
       primaryKey: true,
+      unique: true,
       allowNull: false,
     },
     uid: {
