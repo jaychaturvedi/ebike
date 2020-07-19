@@ -57,6 +57,7 @@ export default class ValidateMobile extends React.PureComponent<Props, State>{
                 </View>
                 <View style={styles.verifyBtn}>
                     <Button
+                        disabled={!this.state.mobile}
                         text="Verify"
                         textColor="white"
                         backgroundColor="#142F6A"
