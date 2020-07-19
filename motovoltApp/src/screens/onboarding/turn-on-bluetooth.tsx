@@ -1,13 +1,21 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, Image, StyleSheet, Text } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
+
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'TurnOnBluetooth'
+>;
 
 type Props = {
-  onBackClick?: () => void;
-  onContinue?: () => void;
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'TurnOnBluetooth'>
 };
 
 const styles = StyleSheet.create({
@@ -40,9 +48,9 @@ export default function RegisterBike(props: Props) {
       <CTAHeader
         hasBackButton
         title="Bluetooth Pairing"
-        onBackClick={props.onBackClick}
+        onBackClick={() => props.navigation.goBack()}
       />
-      <View style={{paddingVertical: verticalScale(30), width: '100%'}}>
+      <View style={{ paddingVertical: verticalScale(30), width: '100%' }}>
         <Text style={styles.msg}>Turn ON the cycle to initiate</Text>
         <Text style={styles.msg}>the bluetooth pairing</Text>
         <Image
@@ -52,7 +60,7 @@ export default function RegisterBike(props: Props) {
       </View>
       <View style={styles.bottomContainer}>
         <CTAButton
-          onPress={props.onContinue}
+          onPress={() => props.navigation.navigate('Discovering', {})}
           text={'Continue'}
           textColor={Colors.WHITE}
           backgroundColor={Colors.NAVY_BLUE}

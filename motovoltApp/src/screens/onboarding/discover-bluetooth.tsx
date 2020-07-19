@@ -1,7 +1,26 @@
 import React from 'react';
-import {Image, View, Text, StyleSheet} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { Image, View, Text, StyleSheet } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import CTAHeader from './components/header';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
+
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'Discovering'
+>;
+
+type Props = {
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'Discovering'>
+};
+
+type State = {
+  intervalId: number;
+  circleCount: number;
+};
+
 
 const styles = StyleSheet.create({
   container: {
@@ -24,20 +43,8 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  onBackClick?: () => void;
-};
-
-type State = {
-  intervalId: number;
-  circleCount: number;
-};
-
-export default class DiscoveringBluetooth extends React.PureComponent<
-  Props,
-  State
-> {
-  constructor(props: {}) {
+export default class DiscoveringBluetooth extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       intervalId: 0,
@@ -46,12 +53,12 @@ export default class DiscoveringBluetooth extends React.PureComponent<
   }
 
   timer = () => {
-    this.setState({circleCount: (this.state.circleCount + 1) % 4});
+    this.setState({ circleCount: (this.state.circleCount + 1) % 4 });
   };
 
   componentDidMount() {
     var intervalId = setInterval(this.timer, 500);
-    this.setState({intervalId: intervalId});
+    this.setState({ intervalId: intervalId });
   }
 
   componentWillUnmount() {
@@ -59,13 +66,14 @@ export default class DiscoveringBluetooth extends React.PureComponent<
   }
 
   render() {
+    setTimeout(() => this.props.navigation.navigate('BluetoothDevices', {}), 3000)
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <CTAHeader
             hasBackButton
             title={'Bluetooth Pairing'}
-            onBackClick={this.props.onBackClick}
+            onBackClick={() => this.props.navigation.goBack()}
           />
         </View>
         <View

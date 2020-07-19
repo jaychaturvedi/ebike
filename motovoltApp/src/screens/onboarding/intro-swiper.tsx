@@ -1,12 +1,24 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
-import {verticalScale, scale, moderateScale} from 'react-native-size-matters';
+import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { verticalScale, scale, moderateScale } from 'react-native-size-matters';
 import Swiper from 'react-native-swiper';
-import {Icon} from 'native-base';
+import { Icon } from 'native-base';
 import Button from '../../components/cta-button';
 import NextButton from './components/next-page-button';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
 
-type Props = {};
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'IntroSwiper'
+>;
+
+type Props = {
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'IntroSwiper'>
+};
+
 type State = {};
 
 export const getHeader = (
@@ -18,7 +30,7 @@ export const getHeader = (
   return (
     <View style={styles.skip}>
       {backButton ? (
-        <TouchableOpacity style={{flex: 1}} onPress={backFunc}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={backFunc}>
           <Icon
             type="FontAwesome"
             name="chevron-left"
@@ -56,7 +68,7 @@ export const getText = (text: string) => {
   return (
     <View style={styles.helpText}>
       <Text
-        style={{fontSize: scale(24), fontWeight: 'bold', textAlign: 'center'}}>
+        style={{ fontSize: scale(24), fontWeight: 'bold', textAlign: 'center' }}>
         {text}
       </Text>
     </View>
@@ -88,7 +100,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
             {getHeader(
               true,
               false,
-              () => console.log('skip pressed'),
+              () => (this.refs.mySwiper as any).scrollBy(3),
               () => console.log('back pressed'),
             )}
             {getImage('')}
@@ -101,7 +113,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
             {getHeader(
               true,
               true,
-              () => console.log('pressed'),
+              () => (this.refs.mySwiper as any).scrollBy(2),
               () => {
                 (this.refs.mySwiper as any).scrollBy(-1);
               },
@@ -116,7 +128,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
             {getHeader(
               true,
               true,
-              () => console.log('pressed'),
+              () => (this.refs.mySwiper as any).scrollBy(1),
               () => {
                 (this.refs.mySwiper as any).scrollBy(-1);
               },
@@ -135,12 +147,12 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
             {getText('Gain Green Miles and earn exciting gifts!')}
             {/* {getFooter(() => { (this.refs.mySwiper as any).scrollBy(1) })} */}
             <View style={styles.register}>
-              <View style={{height: '50%', justifyContent: 'flex-start'}}>
-                <Text style={{textAlign: 'center', fontSize: scale(12)}}>
+              <View style={{ height: '50%', justifyContent: 'flex-start' }}>
+                <Text style={{ textAlign: 'center', fontSize: scale(12) }}>
                   <Text>Already have an account,</Text>
                   <Text
-                    style={{color: 'black', fontWeight: 'bold'}}
-                    onPress={() => console.log('Login Pressed')}>
+                    style={{ color: 'black', fontWeight: 'bold' }}
+                    onPress={() => this.props.navigation.navigate('LoginPage', {})}>
                     {' '}
                     Login
                   </Text>
@@ -157,6 +169,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                   text="REGISTER"
                   textColor="white"
                   backgroundColor="#142F6A"
+                  onPress={() => this.props.navigation.navigate('ValidateMobile', {})}
                 />
               </View>
             </View>
@@ -172,6 +185,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: '100%',
     width: '100%',
+    paddingTop: moderateScale(20),
     flex: 1,
   },
   skip: {

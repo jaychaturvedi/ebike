@@ -2,7 +2,11 @@ import Amplify, { Auth, } from "aws-amplify";
 import ObjectId from "../object-id";
 
 Amplify.configure({
-    Auth: {}
+    Auth: {
+        region: "us-east-1",
+        userPoolId: "us-east-2_3ErdY8hH0",
+        userPoolWebClientId: "201rvp9cga1v0foim2aab6g3of",
+    }
 })
 
 export async function signup(phoneNumber: string) {

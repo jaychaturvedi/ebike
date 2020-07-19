@@ -8,7 +8,11 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import Registration from './src/navigation/registartion'
+import { createStackNavigator } from '@react-navigation/stack';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -22,21 +26,6 @@ import {
 
 import SplashScreen from 'react-native-splash-screen';
 
-//Register
-import IntroSwipper from './src/screens/onboarding/intro-swiper';
-import ValidateMobile from './src/screens/onboarding/validate-mobile';
-import OTP from './src/screens/onboarding/otp';
-import Success from './src/components/thumb-up';
-import ValidateFrame from './src/screens/onboarding/register-bike';
-import EnterFrameNumber from './src/screens/onboarding/enter-frame-number';
-import Scanner from './src/screens/onboarding/scanner';
-import FrameRegistered from './src/screens/onboarding/frame-registered';
-import PersonalDetails from './src/screens/onboarding/personal-details';
-// import Success from './src/components/thumb-up';
-import TurnOnBluetooth from './src/screens/onboarding/turn-on-bluetooth';
-import Discovering from './src/screens/onboarding/discover-bluetooth';
-import BluetoothDevices from './src/screens/onboarding/bluetooth-devices';
-// import Success from './src/components/thumb-up';
 
 //Login
 import LoginPage from './src/screens/onboarding/login-screen';
@@ -46,6 +35,7 @@ import ForgotPassword from './src/screens/onboarding/forgot-password';
 // import OTP from './src/screens/onboarding/otp';
 import CreateNewPassword from './src/screens/onboarding/create-new-password';
 // Show model for success
+import { Form } from 'native-base';
 
 // Home
 import Home from './src/screens/home';
@@ -86,25 +76,21 @@ import * as Authentication from './src/service/authentication';
 import ObjectId from './src/service/object-id';
 import Colors from './src/styles/colors';
 
-declare const global: {HermesInternal: null | {}};
+declare const global: { HermesInternal: null | {} };
 
 const styles = StyleSheet.create({});
 
 type State = {
-  username: string;
-  password: string;
-  otp: string;
-  user: any;
-};
+  isUserLoggedIn: boolean
+}
+
+
 
 class App extends React.PureComponent<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      password: '',
-      username: '',
-      otp: '',
-      user: undefined,
+      isUserLoggedIn: false
     };
   }
 
@@ -116,88 +102,64 @@ class App extends React.PureComponent<{}, State> {
     console.log('Catced err');
   }
 
+
   render() {
     return (
-      <SafeAreaView
-        style={{
-          height: '100%',
-          // backgroundColor: Colors.BG_GREY,
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-        }}>
-        {/** register */}
-        {/* <IntroSwipper /> */}
-        {/* <ValidateMobile /> */}
-        {/* <OTP /> */}
-        {/* <Success msg={'Mobile Verified'} /> */}
-        {/* <ValidateFrame /> */}
-        {/* <EnterFrameNumber /> */}
-        {/* <Scanner /> */}
-        {/* <FrameRegistered /> */}
-        {/* <PersonalDetails /> */}
-        {/* <Success msg={'Account Created'} /> */}
-        {/* <TurnOnBluetooth /> */}
-        {/* <Discovering /> */}
-        {/* <BluetoothDevices
-          devices={[
-            {
-              deviceName: 'My Device',
-              id: '13',
-            },
-            {
-              deviceName: 'My Device',
-              id: '12',
-            },
-          ]}
-        /> */}
-        {/* <Success
-          msg={'Success'}
-          subMsg={'Your cycle has been paired successfully.'}
-        /> */}
-        {/** Login */}
-        {/* <LoginPage /> */}
-        {/* <ForgotPassword /> */}
-        {/* <OTP/> */}
-        {/* <CreateNewPassword/> */}
-        {/* // Show model for success */}
-        {/* <Home /> */}
-        {/* <Notifications /> */}
-        {/* <GPS /> */}
+      // <SafeAreaView
+      //   style={{
+      //     height: '100%',
+      //     // backgroundColor: Colors.BG_GREY,
+      //     justifyContent: 'center',
+      //     alignItems: 'center',
+      //     width: '100%',
+      //   }}>
 
-        {/* <MyRides /> */}
-        {/* <IndividualRide/> */}
+      /** Login */
+      /* <LoginPage /> */
+      /* <ForgotPassword /> */
+      /* <OTP/> */
+      /* <CreateNewPassword/> */
+      /* // Show model for success */
+      /* <Home /> */
+      /* <Notifications /> */
+      /* <GPS /> */
 
-        {/* <Speedometer /> */}
-        {/* <RateRide /> */}
-        {/* <RideFeedBack /> */}
-        {/* <Success
-          msg={'Thanks you'}
-          subMsg={"We really appreciate you're feedback"}
-        /> */}
+      /* <MyRides /> */
+      /* <IndividualRide/> */
 
-        {/* <MyCycle /> */}
+      /* <Speedometer /> */
+      /* <RateRide /> */
+      /* <RideFeedBack /> */
+      /* <Success
+            msg={'Thanks you'}
+            subMsg={"We really appreciate you're feedback"}
+          /> */
 
-        {/* <Menu /> */}
-        {/* <Profile /> */}
-        {/* <Upgrade /> */}
-        {/* <ComingSoon /> */}
-        {/* <Support /> */}
-        {/* <SupportSrevice /> */}
-        {/* <ReportIssue /> */}
-        {/* <Premium /> */}
+      /* <MyCycle /> */
+
+      /* <Menu /> */
+      /* <Profile /> */
+      /* <Upgrade /> */
+      /* <ComingSoon /> */
+      /* <Support /> */
+      /* <SupportSrevice /> */
+      /* <ReportIssue /> */
+      /* <Premium /> */
 
 
 
 
 
-        
-        {/* <Charging
-          chargingStatus="Charging"
-          charge="80"
-          remainingTime="01:05:00"
-        /> */}
-      </SafeAreaView>
+
+      /* <Charging
+            chargingStatus="Charging"
+            charge="80"
+            remainingTime="01:05:00"
+          /> */
+      // </SafeAreaView>
+      <NavigationContainer>
+        <Registration />
+      </NavigationContainer>
     );
   }
 }

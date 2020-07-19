@@ -1,20 +1,45 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
+
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'BluetoothDevices'
+>;
+
+type Props = {
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'BluetoothDevices'>
+};
+
 
 export type Device = {
   deviceName: string;
   id: string;
 };
 
-type Props = {
-  onBackClick?: () => void;
-  onConnect?: (device: Device) => void;
-  devices: Device[];
-};
+const devices: Device[] = [
+  {
+    deviceName: 'My Device',
+    id: '13',
+  },
+  {
+    deviceName: 'My Device',
+    id: '12',
+  },
+]
+
+// type Props = {
+//   onBackClick?: () => void;
+//   onConnect?: (device: Device) => void;
+//   // devices: Device[];
+// };
 
 type State = {
   selectedCycleId: string;
@@ -102,20 +127,21 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <CTAHeader hasBackButton title="Bluetooth Pairing" />
+        <CTAHeader hasBackButton title="Bluetooth Pairing" onBackClick={() =>
+          this.props.navigation.navigate('TurnOnBluetooth', {})} />
         <View style={styles.body}>
           <Text style={styles.title}>Bluetooth Devices</Text>
           <Text style={styles.match}>
-            {`${this.props.devices.length} match found`}
+            {`${devices.length} match found`}
           </Text>
           <View>
-            {this.props.devices.map((device, index) => (
+            {devices.map((device, index) => (
               <CycleDetected
                 key={index.toString()}
                 device={device}
                 selected={this.state.selectedCycleId === device.id}
                 onSelect={() => {
-                  this.setState({selectedCycleId: device.id});
+                  this.setState({ selectedCycleId: device.id });
                 }}
               />
             ))}
@@ -124,10 +150,10 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
         <View style={styles.bottomContainer}>
           <CTAButton
             onPress={() => {
-              const device = this.props.devices.find(
+              const device = devices.find(
                 (dev) => dev.id === this.state.selectedCycleId,
               );
-              if (device && this.props.onConnect) this.props.onConnect(device);
+              // if (device && this.props.onConnect) this.props.onConnect(device);
             }}
             text={'Connect'}
             textColor={Colors.WHITE}

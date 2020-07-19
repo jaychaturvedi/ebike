@@ -1,15 +1,22 @@
 import React from 'react';
-import {scale, verticalScale} from '../../styles/size-matters';
-import {View, StyleSheet, Text} from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
+import { View, StyleSheet, Text } from 'react-native';
 import Colors from '../../styles/colors';
 import Input from './components/input';
 import CTAHeader from './components/header';
 import NextButton from './components/next-page-button';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
+
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'LoginPage'
+>;
 
 type Props = {
-  onBackClick?: () => void;
-  onLogin?: (userName: string, password: string) => void;
-  onForgotPassword?: () => void;
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'LoginPage'>
 };
 
 type State = {
@@ -54,25 +61,25 @@ export default class Login extends React.PureComponent<Props, State> {
           width: '100%',
           alignItems: 'center',
         }}>
-        <CTAHeader hasBackButton onBackClick={this.props.onBackClick} />
+        <CTAHeader hasBackButton onBackClick={() => { this.props.navigation.goBack() }} />
         <Text style={styles.title}>Log In</Text>
         <Input
           placeHolder="Email or Mobile No."
           marginVeritical={verticalScale(InputMarginVeritical)}
           onChange={(value: string) => {
-            this.setState({userName: value});
+            this.setState({ userName: value });
           }}
         />
         <Input
           onChange={(value: string) => {
-            this.setState({password: value});
+            this.setState({ password: value });
           }}
           placeHolder="Password"
           secure
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
         <Text
-          onPress={this.props.onForgotPassword}
+          onPress={() => this.props.navigation.navigate('ForgotPassword', {})}
           style={{
             marginVertical: verticalScale(InputMarginVeritical),
             color: Colors.HYPERLINK_BLUE,
@@ -83,8 +90,8 @@ export default class Login extends React.PureComponent<Props, State> {
           <NextButton
             mode="Active"
             onPress={() => {
-              if (this.props.onLogin)
-                this.props.onLogin(this.state.userName, this.state.password);
+              // if (this.props.onLogin)
+              //   this.props.onLogin(this.state.userName, this.state.password);
             }}
           />
         </View>

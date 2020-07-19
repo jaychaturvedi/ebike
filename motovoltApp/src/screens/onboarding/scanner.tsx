@@ -12,6 +12,21 @@ import {
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
+
+type IntroSwiperNavigationProp = StackNavigationProp<
+    RegistrationStackParamList,
+    'Scanner'
+>;
+
+type Props = {
+    navigation: IntroSwiperNavigationProp,
+    route: RouteProp<RegistrationStackParamList, 'Scanner'>
+};
+
+type State = {}
 
 /**
  * Add permission for iso in ./ios/motovoltApp/info.plist
@@ -20,13 +35,11 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 
 const overlayColor = "#434343"; // this gives us a black color with a 50% transparency
 
-type Props = {}
-type State = {}
-
 export default class ScanScreen extends React.PureComponent<Props, State> {
 
     onSuccess = (e: any) => {
         console.log('Scanned data', e.data)
+        this.props.navigation.navigate('FrameRegistered', {})
     };
 
     render() {
@@ -46,7 +59,7 @@ export default class ScanScreen extends React.PureComponent<Props, State> {
                     <View style={styles.rectangleContainer}>
                         <View style={styles.backButton}>
                             <Icon type="FontAwesome" name="arrow-circle-left" style={{ color: 'white', fontSize: scale(35) }}
-                                onPress={() => console.log("Pressed")}></Icon>
+                                onPress={() => this.props.navigation.goBack()}></Icon>
                         </View>
                         <View style={styles.topOverlay}>
                             <Text style={{ fontSize: scale(16), color: "#F89308", fontWeight: 'bold' }}>

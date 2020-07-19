@@ -1,10 +1,22 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-import {Text} from 'native-base';
-import {scale, moderateScale} from 'react-native-size-matters';
+import { Text } from 'native-base';
+import { scale, moderateScale } from 'react-native-size-matters';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
 
-type Props = {};
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'OTP'
+>;
+
+type Props = {
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'OTP'>
+};
+
 type State = {};
 
 export default class OTPInput extends React.PureComponent<Props, State> {
@@ -22,7 +34,7 @@ export default class OTPInput extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.otp}>
           <OTPInputView
-            style={{width: '100%'}}
+            style={{ width: '100%' }}
             pinCount={4}
             // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
             // onCodeChanged = {code => { this.setState({code})}}
@@ -31,11 +43,15 @@ export default class OTPInput extends React.PureComponent<Props, State> {
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
             onCodeFilled={(code) => {
               console.log(`Code is ${code}, you are good to go!`);
+              switch (this.props.route.params.onSuccessScreen) {
+                case 'ValidateFrame': this.props.navigation.navigate('ValidateFrame', {}); break;
+                case 'CreateNewPassword': this.props.navigation.navigate('CreateNewPassword', {}); break;
+              }
             }}
           />
         </View>
         <View style={styles.footer}>
-          <Text style={{textAlign: 'center'}}>
+          <Text style={{ textAlign: 'center' }}>
             <Text style={styles.footerText}>
               Haven't received the 4-digit OTP?{' '}
             </Text>

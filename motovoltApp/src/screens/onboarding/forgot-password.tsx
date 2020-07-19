@@ -1,12 +1,24 @@
 import React from 'react';
-import {View, StyleSheet, Text, TextInput} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, StyleSheet, Text, TextInput } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import Input from './components/input';
 import CTAHeader from './components/header';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
 
-type Props = {};
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'ForgotPassword'
+>;
+
+type Props = {
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'ForgotPassword'>
+};
+
 
 type State = {};
 
@@ -44,6 +56,7 @@ export default class ForgotPassword extends React.PureComponent<Props, State> {
             text={'Verify'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}
+            onPress={() => this.props.navigation.navigate('OTP', { onSuccessScreen: 'CreateNewPassword' })}
           />
         </View>
       </View>

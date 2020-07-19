@@ -3,8 +3,20 @@ import { KeyboardAvoidingView, View, StyleSheet, Text, Platform } from 'react-na
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import { Input, Content, Item } from 'native-base'
 import Button from '../../components/cta-button'
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
 
-type Props = {}
+type IntroSwiperNavigationProp = StackNavigationProp<
+    RegistrationStackParamList,
+    'ValidateMobile'
+>;
+
+type Props = {
+    navigation: IntroSwiperNavigationProp,
+    route: RouteProp<RegistrationStackParamList, 'ValidateMobile'>
+};
+
 type State = {
     mobile: string
 }
@@ -48,6 +60,9 @@ export default class ValidateMobile extends React.PureComponent<Props, State>{
                         text="Verify"
                         textColor="white"
                         backgroundColor="#142F6A"
+                        onPress={() => this.props.navigation.navigate('OTP', {
+                            onSuccessScreen: 'ValidateFrame'
+                        })}
                     />
                 </View>
             </KeyboardAvoidingView>
@@ -79,6 +94,6 @@ const styles = StyleSheet.create({
     verifyBtn: {
         justifyContent: 'flex-end',
         height: scale(50),
-        alignItems:"center"
+        alignItems: "center"
     }
 })

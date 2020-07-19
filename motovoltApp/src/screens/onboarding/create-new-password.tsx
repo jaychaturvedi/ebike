@@ -1,13 +1,22 @@
 import React from 'react';
-import {View, StyleSheet, Text, TextInput, Image} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, StyleSheet, Text, TextInput, Image } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
+
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'CreateNewPassword'
+>;
 
 type Props = {
-  onContinue?: (password: string) => void;
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'CreateNewPassword'>
 };
 
 type State = {
@@ -66,7 +75,7 @@ export default class NewPassword extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <CTAHeader />
         <Text style={styles.title}>Create New Password</Text>
-        <View style={{marginVertical: verticalScale(100)}}>
+        <View style={{ marginVertical: verticalScale(100) }}>
           <Input
             placeHolder="Enter New Password"
             marginVeritical={verticalScale(InputMarginVeritical)}
@@ -74,7 +83,7 @@ export default class NewPassword extends React.PureComponent<Props, State> {
             onChange={(value: string) => {
               let isValid = false;
               if (value.length >= 8) isValid = true;
-              this.setState({password: value, isValid});
+              this.setState({ password: value, isValid });
             }}
           />
           {!this.state.isValid && (
@@ -93,7 +102,7 @@ export default class NewPassword extends React.PureComponent<Props, State> {
             placeHolder="Re-enter Password"
             marginVeritical={verticalScale(InputMarginVeritical)}
             onChange={(value: string) => {
-              this.setState({confirmPassword: value});
+              this.setState({ confirmPassword: value });
             }}
             secure
           />
@@ -103,7 +112,7 @@ export default class NewPassword extends React.PureComponent<Props, State> {
                 style={styles.warningLogo}
                 source={require('../../assets/icons/error_outline-red.png')}
               />
-              <Text style={{...styles.warningText, color: Colors.ERROR_RED}}>
+              <Text style={{ ...styles.warningText, color: Colors.ERROR_RED }}>
                 Password Mismatch
               </Text>
             </View>
@@ -116,11 +125,10 @@ export default class NewPassword extends React.PureComponent<Props, State> {
             backgroundColor={Colors.NAVY_BLUE}
             onPress={() => {
               if (
-                this.props.onContinue &&
                 this.state.isValid &&
                 this.state.confirmPassword == this.state.password
               ) {
-                this.props.onContinue(this.state.password);
+                // this.props.onContinue(this.state.password);
               }
             }}
           />

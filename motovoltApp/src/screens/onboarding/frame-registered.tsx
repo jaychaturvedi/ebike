@@ -1,13 +1,24 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, Image, StyleSheet, Text } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
 import input from './components/input';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
 
-type Props = {};
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'FrameRegistered'
+>;
+
+type Props = {
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'FrameRegistered'>
+};
 
 type State = {};
 
@@ -64,7 +75,9 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <CTAHeader hasBackButton title="Bike Registered Successfully" />
+        <CTAHeader hasBackButton title="Bike Registered Successfully"
+          onBackClick={() => this.props.navigation.goBack()}
+        />
         <Image
           source={require('../../assets/images/motovolt_logo_medium.png')}
           style={styles.logo}
@@ -87,6 +100,7 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
             text={'Continue'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}
+            onPress={() => this.props.navigation.navigate("PersonalDetails", {})}
           />
         </View>
       </View>

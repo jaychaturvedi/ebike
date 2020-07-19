@@ -6,15 +6,23 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import Input from './components/input';
 import CTAHeader from './components/header';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
+
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'EnterFrameNumber'
+>;
 
 type Props = {
-  onVerify?: (frameId: string) => void;
-  onHelp?: () => void;
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'EnterFrameNumber'>
 };
 
 type State = {
@@ -56,7 +64,7 @@ const styles = StyleSheet.create({
 export default class InputFrameNumber extends React.PureComponent<
   Props,
   State
-> {
+  > {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -80,7 +88,7 @@ export default class InputFrameNumber extends React.PureComponent<
           />
           <Text style={styles.text}>
             <Text>Need help with your Frame Number? </Text>
-            <Text style={styles.link} onPress={this.props.onHelp}>
+            <Text style={styles.link} onPress={() => console.log("Help Pressed")}>
               Click here
             </Text>
           </Text>
@@ -89,7 +97,7 @@ export default class InputFrameNumber extends React.PureComponent<
           <CTAButton
             onPress={() => {
               if (this.state.frameId)
-                this.props.onVerify && this.props.onVerify(this.state.frameId);
+                this.props.navigation.navigate("FrameRegistered", {})
             }}
             text={'Verify'}
             textColor={Colors.WHITE}

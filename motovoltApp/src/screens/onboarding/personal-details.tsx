@@ -1,15 +1,24 @@
 import React from 'react';
-import {View, StyleSheet, Text, TextInput, Image} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, StyleSheet, Text, TextInput, Image } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native'
+import { RegistrationStackParamList } from '../../navigation/registartion'
+
+type IntroSwiperNavigationProp = StackNavigationProp<
+  RegistrationStackParamList,
+  'PersonalDetails'
+>;
 
 type Props = {
-  onBackClick?: () => void;
-  onSubmit?: (name: string, email: string, password: string) => void;
+  navigation: IntroSwiperNavigationProp,
+  route: RouteProp<RegistrationStackParamList, 'PersonalDetails'>
 };
+
 
 type State = {
   name: string;
@@ -61,7 +70,7 @@ export default class PersonalDetails extends React.PureComponent<Props, State> {
           height: '100%',
           alignItems: 'center',
         }}>
-        <CTAHeader hasBackButton onBackClick={this.props.onBackClick} />
+        <CTAHeader hasBackButton onBackClick={() => this.props.navigation.goBack()} />
         <Text style={styles.title}>Please enter your details</Text>
         <Input
           placeHolder="Full Name*"
@@ -87,14 +96,7 @@ export default class PersonalDetails extends React.PureComponent<Props, State> {
             style={styles.image}
           />
           <CTAButton
-            onPress={() => {
-              if (this.props.onSubmit)
-                this.props.onSubmit(
-                  this.state.name,
-                  this.state.email,
-                  this.state.password,
-                );
-            }}
+            onPress={() => { this.props.navigation.navigate("TurnOnBluetooth", {}) }}
             text={'Create my account'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}
