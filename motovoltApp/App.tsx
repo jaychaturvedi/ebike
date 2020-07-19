@@ -8,10 +8,10 @@
  * @format
  */
 
-import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import Registration from './src/navigation/onboarding'
-import FooterNavigation from './src/navigation/footer'
+import React, {useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import Registration from './src/navigation/onboarding';
+import FooterNavigation from './src/navigation/footer';
 
 import {
   SafeAreaView,
@@ -26,18 +26,17 @@ import {
 
 import SplashScreen from 'react-native-splash-screen';
 
-
 //Login
 import LoginPage from './src/screens/onboarding/login-screen';
 
-import EnterFrmeNumber from './src/screens/onboarding/enter-frame-number'
+import EnterFrmeNumber from './src/screens/onboarding/enter-frame-number';
 
 // Forgot Passord
 import ForgotPassword from './src/screens/onboarding/forgot-password';
 // import OTP from './src/screens/onboarding/otp';
 import CreateNewPassword from './src/screens/onboarding/create-new-password';
 // Show model for success
-import { Form } from 'native-base';
+import {Form} from 'native-base';
 
 // Home
 import Home from './src/screens/home';
@@ -78,22 +77,19 @@ import * as Authentication from './src/service/authentication';
 import ObjectId from './src/service/object-id';
 import Colors from './src/styles/colors';
 
-declare const global: { HermesInternal: null | {} };
+import {Provider} from 'react-redux';
+import {store} from './src/service';
+
+declare const global: {HermesInternal: null | {}};
 
 const styles = StyleSheet.create({});
 
-type State = {
-  isUserLoggedIn: boolean
-}
-
-
+type State = {};
 
 class App extends React.PureComponent<{}, State> {
   constructor(props: {}) {
     super(props);
-    this.state = {
-      isUserLoggedIn: false
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -104,63 +100,15 @@ class App extends React.PureComponent<{}, State> {
     console.log('Catced err');
   }
 
-
   render() {
     return (
-      // <SafeAreaView
-      //   style={{
-      //     height: '100%',
-      //     // backgroundColor: Colors.BG_GREY,
-      //     justifyContent: 'center',
-      //     alignItems: 'center',
-      //     width: '100%',
-      //   }}>
 
-      /** Login */
-      /* <LoginPage /> */
-      /* <ForgotPassword /> */
-      /* <OTP/> */
-      /* <CreateNewPassword/> */
-      /* // Show model for success */
-      /* <Home /> */
-      /* <Notifications /> */
-      /* <GPS /> */
-
-      /* <MyRides /> */
-      /* <IndividualRide/> */
-
-      /* <Speedometer /> */
-      /* <RateRide /> */
-      /* <RideFeedBack /> */
-      /* <Success
-            msg={'Thanks you'}
-            subMsg={"We really appreciate you're feedback"}
-          /> */
-
-      /* <MyCycle /> */
-
-      /* <Menu /> */
-      /* <Profile /> */
-      /* <Upgrade /> */
-      /* <ComingSoon /> */
-      /* <Support /> */
-      /* <SupportSrevice /> */
-      /* <ReportIssue /> */
-      /* <Premium /> */
-
-
-
-
-      /* <Charging
-            chargingStatus="Charging"
-            charge="80"
-            remainingTime="01:05:00"
-          /> */
-      // </SafeAreaView>
-      <NavigationContainer>
-        {/* <Registration /> */}
-        <FooterNavigation />
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          {/* <Registration /> */}
+          <FooterNavigation />
+        </NavigationContainer>
+      </Provider>
     );
   }
 }

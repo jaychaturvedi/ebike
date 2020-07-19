@@ -1,53 +1,57 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
-import { moderateScale, scale } from 'react-native-size-matters';
+import {View, StyleSheet, Text, Image, ScrollView} from 'react-native';
+import {moderateScale, scale} from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import VehicleInfo from '../../components/vehicle-info-battery';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { MyCycleStackParamList } from '../../navigation/cycle';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MyCycleStackParamList} from '../../navigation/cycle';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+
+type ReduxState = {
+  bike: TStore['bike'];
+};
 
 type MyCycleNavigationProp = StackNavigationProp<
   MyCycleStackParamList,
   'MyCycleScreen'
 >;
 
-type Props = {
-  navigation: MyCycleNavigationProp,
-  route: RouteProp<MyCycleStackParamList, 'MyCycleScreen'>
-};
-
-
+interface Props extends ReduxState {
+  navigation: MyCycleNavigationProp;
+  route: RouteProp<MyCycleStackParamList, 'MyCycleScreen'>;
+}
 
 type State = {};
 
-export default class MyCycle extends React.PureComponent<Props, State> {
+class MyCycle extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
         <Header
           hasBackButton
-          title={'My Rides'}
+          title={'My Cycle'}
           hasSubtitle
-          subtitle={'Cycle A'}
+          subtitle={this.props.bike.name}
           backgroundColor={Colors.HEADER_YELLOW}
-          onBackClick={() => console.log("To be handled")}
+          onBackClick={() => console.log('To be handled')}
         />
-        <ScrollView style={{ paddingHorizontal: moderateScale(15), flex: 1 }}>
+        <ScrollView style={{paddingHorizontal: moderateScale(15), flex: 1}}>
           <View style={styles.cycle}>
             <Image
               source={require('../../assets/images/cycle.png')}
-              style={{ height: '80%', width: '100%' }}
+              style={{height: '80%', width: '100%'}}
               height={scale(200)}
               width={scale(300)}
             />
           </View>
           <View style={styles.cycleName}>
-            <Text style={{ fontSize: scale(16), fontWeight: 'bold' }}>
-              Cycle A
+            <Text style={{fontSize: scale(16), fontWeight: 'bold'}}>
+              {this.props.bike.name}
             </Text>
           </View>
           <View style={styles.metrics}>
@@ -56,8 +60,8 @@ export default class MyCycle extends React.PureComponent<Props, State> {
               header2="Service Date"
               icon1={require('../../assets/icons/health_green.png')}
               icon2={require('../../assets/icons/calendar_green.png')}
-              value1="100 %"
-              value2="24/10/20"
+              value1={`${this.props.bike.healthPer} %`}
+              value2={`${this.props.bike.serviceDate} %`}
               unit1=""
               unit2=""
             />
@@ -66,23 +70,16 @@ export default class MyCycle extends React.PureComponent<Props, State> {
               header2="Battery"
               icon1={require('../../assets/icons/health_green.png')}
               icon2={require('../../assets/icons/calendar_green.png')}
-              value1="100 %"
-              value2="100 %"
+              value1={`${this.props.bike.motorPer} %`}
+              value2={`${this.props.bike.batteryPer} %`}
               unit1=""
               unit2=""
             />
             <VehicleInfo
               header1="Vehicle ID"
               header2="Battery ID"
-              value1={['1234566']}
-              value2={[
-                '1234567',
-                '2345679',
-                '1234567',
-                '2345679',
-                '1234567',
-                '2345679',
-              ]}
+              value1={[this.props.bike.id]}
+              value2={Object.keys(this.props.bike.batteries)}
             />
           </View>
         </ScrollView>
@@ -90,6 +87,12 @@ export default class MyCycle extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default connect((store: TStore) => {
+  return {
+    bike: store['bike'],
+  };
+})(MyCycle);
 
 const styles = StyleSheet.create({
   container: {

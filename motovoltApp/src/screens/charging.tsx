@@ -3,7 +3,7 @@ import { View, StyleSheet, Image } from 'react-native'
 import { moderateScale } from 'react-native-size-matters'
 import ChargingTile from '../components/charging-tile'
 
-type Props = {
+interface Props {
     chargingStatus: string,
     charge: string,
     remainingTime: string

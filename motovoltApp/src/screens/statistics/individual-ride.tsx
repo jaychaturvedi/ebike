@@ -1,29 +1,35 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { moderateScale, verticalScale } from 'react-native-size-matters';
+import {View, StyleSheet, ScrollView} from 'react-native';
+import {moderateScale, verticalScale} from 'react-native-size-matters';
 import TipCard from '../../components/tip-card';
 import Swiper from 'react-native-swiper';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { StatisticsStackParamList } from '../../navigation/statistics';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {StatisticsStackParamList} from '../../navigation/statistics';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+
+type ReduxState = {
+  ride: TStore['ride'];
+};
 
 type IndividualRideNavigationProp = StackNavigationProp<
   StatisticsStackParamList,
   'IndividualRide'
 >;
 
-type Props = {
-  navigation: IndividualRideNavigationProp,
-  route: RouteProp<StatisticsStackParamList, 'IndividualRide'>
-};
+interface Props extends ReduxState {
+  navigation: IndividualRideNavigationProp;
+  route: RouteProp<StatisticsStackParamList, 'IndividualRide'>;
+}
 
 type State = {};
 
-export default class IndividualRide extends React.PureComponent<Props, State> {
+class IndividualRide extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
@@ -64,8 +70,8 @@ export default class IndividualRide extends React.PureComponent<Props, State> {
               header2="Duration"
               icon1={require('../../assets/icons/total_distance_icon.png')}
               icon2={require('../../assets/icons/charge_time_remaining.png')}
-              value1="15"
-              value2="01:10:00"
+              value1={this.props.ride.totalDistanceKm.toString()}
+              value2={this.props.ride.durationSec.toString()}
               unit1="Km"
               unit2=""
             />
@@ -74,8 +80,8 @@ export default class IndividualRide extends React.PureComponent<Props, State> {
               header2="Max. speed"
               icon1={require('../../assets/icons/total_distance_icon.png')}
               icon2={require('../../assets/icons/total_distance_icon.png')}
-              value1="16.5"
-              value2="35"
+              value1={this.props.ride.avgSpeedKmph.toString()}
+              value2={this.props.ride.maxSpeedKmph.toString()}
               unit1="Kmph"
               unit2="Kmph"
             />
@@ -84,8 +90,8 @@ export default class IndividualRide extends React.PureComponent<Props, State> {
               header2="Calories Burnt"
               icon1={require('../../assets/icons/green_miles_icon.png')}
               icon2={require('../../assets/icons/calories_icon_blue.png')}
-              value1="5"
-              value2="2"
+              value1={this.props.ride.greenMilesKm.toString()}
+              value2={this.props.ride.caloriesBurnt.toString()}
               unit1="Km"
               unit2=""
             />
@@ -94,18 +100,25 @@ export default class IndividualRide extends React.PureComponent<Props, State> {
               header2="Ride Score"
               icon1={require('../../assets/icons/inr_icon.png')}
               icon2={require('../../assets/icons/star_icon_large.png')}
-              value1="145"
-              value2="2"
+              value1={this.props.ride.petrolSavingsInr.toString()}
+              value2={this.props.ride.petrolSavingsLtr.toString()}
               unit1="INR"
               unit2="L"
             />
           </View>
         </ScrollView>
-
       </View>
     );
   }
 }
+
+export default connect(
+  (store: TStore): ReduxState => {
+    return {
+      ride: store['ride'],
+    };
+  },
+)(IndividualRide);
 
 const styles = StyleSheet.create({
   container: {

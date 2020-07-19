@@ -1,11 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Card from '../home/components/card';
 import Metrics from '../home/components/metrics';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Guage from '../home/components/guage';
 import Colors from '../../styles/colors';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+
+type ReduxState = {
+  bikeState: TStore['bikeState'];
+  ride: TStore['ride'];
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -35,24 +42,29 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class RideOn extends React.PureComponent<{}, {}> {
+interface Props extends ReduxState {}
+
+class RideOn extends React.PureComponent<Props, {}> {
   render() {
     return (
       <View style={styles.container}>
-        <Header backgroundColor={Colors.HEADER_YELLOW} title={'Bike ON'} />
+        <Header
+          backgroundColor={Colors.HEADER_YELLOW}
+          title={`Bike ${this.props.bikeState.isOn ? 'ON' : 'OFF'}`}
+        />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
-              batteryCharge="100"
-              rangeAvailable="30"
-              rangeCovered="10"
+              batteryCharge={this.props.bikeState.batteryChargePer.toString()}
+              rangeAvailable={this.props.bikeState.rangeAvailableKm.toString()}
+              rangeCovered={this.props.bikeState.rangeCoveredKm.toString()}
             />
           </View>
           <Guage
             fillDeg={90}
-            speed={90.5}
-            time={'00:05:12'}
-            totalDistanceKm={1000}
+            speed={this.props.ride.speedKmph}
+            time={this.props.ride.durationSec.toString()}
+            totalDistanceKm={this.props.ride.totalDistanceKm}
           />
           <View
             style={{
@@ -60,8 +72,16 @@ export default class RideOn extends React.PureComponent<{}, {}> {
               flexDirection: 'row',
               width: '100%',
             }}>
-            <Card title={'Avg. Speed'} value={'14.5'} unit={'Kmph'} />
-            <Card title={'Max Speed'} value={'24.5'} unit={'Kmph'} />
+            <Card
+              title={'Avg. Speed'}
+              value={this.props.ride.avgSpeedKmph.toString()}
+              unit={'Kmph'}
+            />
+            <Card
+              title={'Max Speed'}
+              value={this.props.ride.maxSpeedKmph.toString()}
+              unit={'Kmph'}
+            />
           </View>
           <View style={styles.rideStat}>
             <View
@@ -78,3 +98,12 @@ export default class RideOn extends React.PureComponent<{}, {}> {
     );
   }
 }
+
+export default connect(
+  (store: TStore): ReduxState => {
+    return {
+      bikeState: store['bikeState'],
+      ride: store['ride'],
+    };
+  },
+)(RideOn);

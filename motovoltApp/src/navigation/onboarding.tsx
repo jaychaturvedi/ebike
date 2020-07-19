@@ -1,7 +1,5 @@
-import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack';
-
-//Register
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
 import IntroSwipper from '../screens/onboarding/intro-swiper';
 import ValidateMobile from '../screens/onboarding/validate-mobile';
 import OTP from '../screens/onboarding/otp';
@@ -17,38 +15,42 @@ import LoginPage from '../screens/onboarding/login-screen';
 import ForgotPassword from '../screens/onboarding/forgot-password';
 import CreateNewPassword from '../screens/onboarding/create-new-password';
 
-
 /**
  * All props definiton goes here
  */
 export type OnboardingStackParamList = {
-  IntroSwiper: {},
-  ValidateMobile: {},
-  OTP: { onSuccessScreen: 'CreateNewPassword' | 'ValidateFrame' },
-  ValidateFrame: {},
-  EnterFrameNumber: {},
-  Scanner: {},
-  FrameRegistered: {},
-  PersonalDetails: {},
-  TurnOnBluetooth: {},
-  Discovering: {},
-  BluetoothDevices: {},
-  LoginPage: {},
-  ForgotPassword: {},
-  CreateNewPassword: {}
-}
+  IntroSwiper: {};
+  ValidateMobile: {};
+  OTP: {onSuccessScreen: 'CreateNewPassword' | 'ValidateFrame'};
+  ValidateFrame: {};
+  EnterFrameNumber: {};
+  Scanner: {};
+  FrameRegistered: {};
+  PersonalDetails: {};
+  TurnOnBluetooth: {};
+  Discovering: {};
+  BluetoothDevices: {};
+  LoginPage: {};
+  ForgotPassword: {};
+  CreateNewPassword: {};
+};
 
 const Onboarding = createStackNavigator<OnboardingStackParamList>();
 
 //Define all your stack here
-export default function OnboardingStack() {
+export default function OnboardingStack(props: {}) {
   return (
-    <Onboarding.Navigator screenOptions={{
-      headerShown: false,
-    }}
-    // mode="modal"
+    <Onboarding.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      // mode="modal"
     >
-      <Onboarding.Screen name="IntroSwiper" component={IntroSwipper} initialParams={{}} />
+      <Onboarding.Screen
+        name="IntroSwiper"
+        component={IntroSwipper}
+        initialParams={{}}
+      />
       <Onboarding.Screen name="ValidateMobile" component={ValidateMobile} />
       <Onboarding.Screen name="OTP" component={OTP} />
       <Onboarding.Screen name="ValidateFrame" component={ValidateFrame} />
@@ -61,7 +63,10 @@ export default function OnboardingStack() {
       <Onboarding.Screen name="BluetoothDevices" component={BluetoothDevices} />
       <Onboarding.Screen name="LoginPage" component={LoginPage} />
       <Onboarding.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Onboarding.Screen name="CreateNewPassword" component={CreateNewPassword} />
+      <Onboarding.Screen
+        name="CreateNewPassword"
+        component={CreateNewPassword}
+      />
     </Onboarding.Navigator>
   );
-}  
+}

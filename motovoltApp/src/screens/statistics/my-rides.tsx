@@ -1,40 +1,43 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { StatisticsStackParamList } from '../../navigation/statistics';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {StatisticsStackParamList} from '../../navigation/statistics';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+
+type ReduxState = {
+  rides: TStore['rides'];
+};
 
 type MyRidesNavigationProp = StackNavigationProp<
   StatisticsStackParamList,
   'MyRides'
 >;
 
-type Props = {
-  navigation: MyRidesNavigationProp,
-  route: RouteProp<StatisticsStackParamList, 'MyRides'>
-};
+interface Props extends ReduxState {
+  navigation: MyRidesNavigationProp;
+  route: RouteProp<StatisticsStackParamList, 'MyRides'>;
+}
 
 type State = {};
 
-export default class MyRides extends React.PureComponent<Props, State> {
+class MyRides extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
   }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Header
-          title={'My Rides'}
-          backgroundColor={Colors.HEADER_YELLOW}
-        />
+      <View style={{flex: 1}}>
+        <Header title={'My Rides'} backgroundColor={Colors.HEADER_YELLOW} />
         <ScrollView style={styles.container}>
           <View style={styles.datePicker}>
             <RideDatePicker />
@@ -60,7 +63,7 @@ export default class MyRides extends React.PureComponent<Props, State> {
               YOUR RIDES
             </Text>
           </View>
-          {[1, 2, 3, 4, 5].map((item, index) => (
+          {Object.keys(this.props.rides).map((key, index) => (
             <RideCard
               key={index}
               fromAddress="HsR layout, Near yelahanka Bangalore 21"
@@ -68,10 +71,12 @@ export default class MyRides extends React.PureComponent<Props, State> {
               progress={30}
               fromTime={new Date()}
               toTime={new Date()}
-              distance="15"
-              rating="8/10"
-              speed="16.5"
-              onItemSelect={() => this.props.navigation.navigate('IndividualRide', {})}
+              distance={this.props.rides[key].totalDistanceKm.toString()}
+              rating={`${this.props.rides[key].score.toString()}/10`}
+              speed={this.props.rides[key].avgSpeedKmph.toString()}
+              onItemSelect={() =>
+                this.props.navigation.navigate('IndividualRide', {})
+              }
             />
           ))}
         </ScrollView>
@@ -79,6 +84,14 @@ export default class MyRides extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default connect(
+  (store: TStore): ReduxState => {
+    return {
+      rides: store['rides'],
+    };
+  },
+)(MyRides);
 
 const styles = StyleSheet.create({
   container: {

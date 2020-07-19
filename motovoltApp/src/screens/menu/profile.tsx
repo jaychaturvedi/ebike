@@ -11,28 +11,31 @@ import Footer from '../home/components/footer';
 import Header from '../home/components/header';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {scale, verticalScale} from '../../styles/size-matters';
 import DottedButton from '../home/components/add-new-dotted-button';
 import ProfileInfoCard from '../home/components/profile-info-card';
-import ProfileImage from '../../components/profile'
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { MenuStackParamList } from '../../navigation/menu';
+import ProfileImage from '../../components/profile';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MenuStackParamList} from '../../navigation/menu';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
 
-type ProfileNavigationProp = StackNavigationProp<
-  MenuStackParamList,
-  'Profile'
->;
-
-type Props = {
-  navigation: ProfileNavigationProp,
-  route: RouteProp<MenuStackParamList, 'Profile'>
+type ReduxState = {
+  user: TStore['user'];
+  bike: TStore['bike'];
 };
 
+type ProfileNavigationProp = StackNavigationProp<MenuStackParamList, 'Profile'>;
+
+interface Props extends ReduxState {
+  navigation: ProfileNavigationProp;
+  route: RouteProp<MenuStackParamList, 'Profile'>;
+}
 
 type State = {};
 
-export default class Profile extends React.PureComponent<Props, State> {
+class Profile extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {};
@@ -51,20 +54,19 @@ export default class Profile extends React.PureComponent<Props, State> {
         <ScrollView style={styles.body}>
           <View style={styles.avatar}>
             <ProfileImage />
-
           </View>
           <Text style={styles.title}>Personal Details</Text>
           <ProfileInfoCard
             style={styles.profileInfo}
-            data={[{ key: 'Name', value: 'Vikram Gupta' }]}
+            data={[{key: 'Name', value: this.props.user.name}]}
           />
 
           <ProfileInfoCard
             style={styles.profileInfo}
-            data={[{ key: 'Email', value: 'Vikram24@gmail.com' }]}
+            data={[{key: 'Email', value: this.props.user.email}]}
           />
 
-          <View style={{ ...familyUserStyle.container, ...styles.profileInfo }}>
+          <View style={{...familyUserStyle.container, ...styles.profileInfo}}>
             <Text style={familyUserStyle.title}>Family Users</Text>
             <View style={familyUserStyle.singleInfo}>
               <View style={familyUserStyle.singleInfoLeft}>
@@ -95,31 +97,40 @@ export default class Profile extends React.PureComponent<Props, State> {
             hasLeftBorder
             hasTitle
             hasHeader
-            title={'Cycle A'}
+            title={this.props.bike.name}
             data={[
-              { key: 'Vehicle ID', value: 'Blr1232479' },
-              { key: 'Purchase Date', value: '31 January 2020' },
-              { key: 'Warranty Valid till', value: '31 January 2021' },
+              {key: 'Vehicle ID', value: this.props.bike.id},
+              {key: 'Purchase Date', value: this.props.bike.purchaseDate},
+              {key: 'Warranty Valid till', value: this.props.bike.warrantyTill},
             ]}
           />
-          <DottedButton text={'Add New Cycle'} onPress={() => { }} />
+          <DottedButton text={'Add New Cycle'} onPress={() => {}} />
 
           <Text style={styles.title}>Battery Details</Text>
 
           <ProfileInfoCard
             style={styles.profileInfo}
             data={[
-              { key: 'Batteries Owned', value: '2' },
-              { key: 'Battery ID', value: '7654321, 7654321' },
+              {key: 'Batteries Owned', value: Object.keys(this.props.bike.batteries).length.toString()},
+              {key: 'Battery ID', value: Object.keys(this.props.bike.batteries).join(',')},
             ]}
           />
 
-          <DottedButton text={'Add New Battery'} onPress={() => { }} />
+          <DottedButton text={'Add New Battery'} onPress={() => {}} />
         </ScrollView>
       </View>
     );
   }
 }
+
+export default connect(
+  (store: TStore): ReduxState => {
+    return {
+      user: store['user'],
+      bike: store["bike"]
+    };
+  },
+)(Profile);
 
 const styles = StyleSheet.create({
   container: {
