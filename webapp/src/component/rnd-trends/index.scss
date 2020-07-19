@@ -1,6 +1,51 @@
 @import "../../global.scss";
 @import "~antd/dist/antd.css";
 
-.connectm-RandDTrends{
+.connectm-RandDTrends {
     border: 1px solid rgb(192, 178, 178);
+    background-color: $TABLE_ROW_DARK;
+    color: white;
+
+    h3 {
+        color: white;
+        margin-left: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+}
+
+.trends-header {
+    display: flex;
+    align-items: center;
+
+    .ant-dropdown-link {
+        border-bottom: 1px solid $ACTIVE;
+        padding-bottom: 2px;
+        margin-bottom: 2px;
+        color: $ACTIVE;
+        margin-left: auto;
+    }
+
+    h1 {
+        color: white;
+        padding-top: 10px;
+
+    }
+
+
+
+
+}
+
+
+
+
+
+
+.connectm-RandDTrends .graph {
+    display: flex;
+    background-color: $GRAPH_BACKGROUND;
+    align-items: center;
+    height: 150px;
 }

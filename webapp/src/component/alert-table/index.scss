@@ -2,19 +2,27 @@
 @import "~antd/dist/antd.css";
 
 .table-row-light {
-    background-color:$TABLE_ROW_DARK;
+    background-color: $TABLE_ROW_DARK;
     color: #ffffff;
 }
 
 .table-row-dark {
-    background-color:$TABLE_ROW_LIGHT;
+    background-color: $TABLE_ROW_LIGHT;
     color: #ffffff;
 }
 
-.thead{
-    background-color:$TABLE_ROW_LIGHT !important;
+.ant-table-thead {
+    tr {
+        th {
+            background-color: $TABLE_ROW_LIGHT !important;
+            color: #ffffff;
+        }
+    }
 }
 
-.table-font{
-    color: #ffffff;
+.ant-table-tbody:hover {
+
+    tr:hover {
+        color: #000000;
+    }
 }
