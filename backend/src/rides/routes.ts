@@ -60,10 +60,10 @@ app.put('/', expressQAsync(secure),
 app.put('/rating', expressQAsync(secure),
     [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
     body('rating', "can't be empty").isLength({ min: 1 }).toInt(),
-    body('comments', "can't be empty").optional(), validate],
+    body('issues', "can't be empty").optional(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId, rating, comments } = req.body
-        const newride = await updateFeedbacks(rideId as string, rating as number, comments)
+        const { rideId, rating, issues } = req.body
+        const newride = await updateFeedbacks(rideId as string, rating as number, issues)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })

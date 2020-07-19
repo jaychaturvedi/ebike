@@ -30,10 +30,10 @@ export async function getEndRide(rideId: string, startTime: string, endTime: str
   return body
 }
 
-export async function updateFeedbacks(rideId: string, rating: number, comments?: string[]) {
+export async function updateFeedbacks(rideId: string, rating: number, issues?: string[]) {
   const condition = { where: { rideId } }
   const updated = Ride.updateWhere(condition, { rating })
-  const issue = await createIssues(rideId, comments as string[])
+  const issue = await createIssues(rideId, issues as string[])
   if (!updated) throw new RideError("Couldn't update rating")
-  return { rideId, rating, comments }
+  return { rideId, rating, issues }
 }

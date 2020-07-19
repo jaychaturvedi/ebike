@@ -1,0 +1,16 @@
+@import "../../global.scss";
+@import "~antd/dist/antd.css";
+
+.table-row-light {
+    background-color:$TABLE_ROW_DARK
+}
+.table-row-dark {
+    background-color:$TABLE_ROW_LIGHT
+}
+.antd-table-head{
+    background-color:$TABLE_ROW_LIGHT
+}
+
+.table-font{
+    color: #ffffff;
+}

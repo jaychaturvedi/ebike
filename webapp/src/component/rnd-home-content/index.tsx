@@ -2,7 +2,6 @@ import './index.scss';
 import React, { PureComponent } from 'react';
 import RandDData from "../rnd-data"
 import RandDTrends from "../rnd-trends"
-
 interface RandDHomeContentProps { }
 
 interface RandDHomeContentStates { }

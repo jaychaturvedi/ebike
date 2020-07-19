@@ -21,7 +21,7 @@ let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define
         key: 'rideId',
       }
     },
-    comments: {
+    issues: {
       type: Sequelize.ARRAY(Sequelize.STRING),
       allowNull: true
     }

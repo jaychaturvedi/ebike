@@ -44,11 +44,11 @@ module.exports.preSignUp = async (event: any) => {
     //connectM call
     // const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
     // const response: any = await rp(options);
-    const response :any = {"frameId" : "123qawsedrftgiop"} 
+    const response: any = { "frameId": "123qawsedrftgiop" }
     console.log("frame verification response", response)
-    if (response.ec) {
-        throw new Error("User have not registered any framId")
-    }
+    // if (response.ec) {
+    //     throw new Error("User have not registered any framId")
+    // }
     event.response.autoConfirmUser = true;
     event.response.autoVerifyPhone = true;
     return event;
