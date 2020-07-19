@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import './index.scss';
 import { Layout } from "antd";
-import WebHeader from "../header"
 import SubHeader from "../subHeader"
-
+import RandDHomeContent from "../rnd-home-content"
 interface ContentProp { }
 interface ContentState { }
 class Content extends PureComponent<ContentProp, ContentState>{
@@ -12,6 +11,7 @@ class Content extends PureComponent<ContentProp, ContentState>{
         return <>
             <Layout.Content className="home-content">
                     <SubHeader />
+                <RandDHomeContent/>
             </Layout.Content>
         </>
     }

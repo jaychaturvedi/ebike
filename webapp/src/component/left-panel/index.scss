@@ -3,8 +3,8 @@
 .left-panel{
     height: 100vh;
     background-color: $LEFT_PANEL_BACKGROUND !important;
-    max-width: 80px;
-    min-width: 80px;
+    max-width: $LEFT_PANEL_WIDTH;
+    min-width: $LEFT_PANEL_WIDTH;
     position: absolute;
     top: 0;
     left: 0;
