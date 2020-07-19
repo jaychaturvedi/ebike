@@ -14,16 +14,16 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import { OnboardingStackParamList } from '../../navigation/onboarding'
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-    RegistrationStackParamList,
+    OnboardingStackParamList,
     'Scanner'
 >;
 
 type Props = {
     navigation: IntroSwiperNavigationProp,
-    route: RouteProp<RegistrationStackParamList, 'Scanner'>
+    route: RouteProp<OnboardingStackParamList, 'Scanner'>
 };
 
 type State = {}

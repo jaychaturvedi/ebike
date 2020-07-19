@@ -76,7 +76,7 @@ export function getUser() {
     return Auth.currentAuthenticatedUser().then(user => {
         return {
             user,
-            success: false,
+            success: true,
             message: null
         };
     }).catch(err => {
@@ -97,14 +97,14 @@ export function initiateForgotPassword(username: string) {
             }
         }).catch(err => {
             return {
-                success: true,
+                success: false,
                 message: err.message
             }
         })
 }
 
 export function forgotPassword(username: string, code: string, password: string) {
-    Auth.forgotPasswordSubmit(username, code, password)
+    return Auth.forgotPasswordSubmit(username, code, password)
         .then(() => {
             return {
                 success: true,
@@ -112,7 +112,7 @@ export function forgotPassword(username: string, code: string, password: string)
             }
         }).catch(err => {
             return {
-                success: true,
+                success: false,
                 message: err.message
             }
         })

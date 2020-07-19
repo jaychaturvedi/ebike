@@ -5,16 +5,16 @@ import { Text } from 'native-base';
 import { scale, moderateScale } from 'react-native-size-matters';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import { OnboardingStackParamList } from '../../navigation/onboarding'
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-  RegistrationStackParamList,
+  OnboardingStackParamList,
   'OTP'
 >;
 
 type Props = {
   navigation: IntroSwiperNavigationProp,
-  route: RouteProp<RegistrationStackParamList, 'OTP'>
+  route: RouteProp<OnboardingStackParamList, 'OTP'>
 };
 
 type State = {};

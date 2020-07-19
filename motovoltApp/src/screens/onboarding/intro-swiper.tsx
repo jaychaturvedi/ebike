@@ -7,16 +7,16 @@ import Button from '../../components/cta-button';
 import NextButton from './components/next-page-button';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import { OnboardingStackParamList } from '../../navigation/onboarding'
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-  RegistrationStackParamList,
+  OnboardingStackParamList,
   'IntroSwiper'
 >;
 
 type Props = {
   navigation: IntroSwiperNavigationProp,
-  route: RouteProp<RegistrationStackParamList, 'IntroSwiper'>
+  route: RouteProp<OnboardingStackParamList, 'IntroSwiper'>
 };
 
 type State = {};
