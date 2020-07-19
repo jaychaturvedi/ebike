@@ -2,13 +2,17 @@
 @import "~antd/dist/antd.css";
 
 .table-row-light {
-    background-color:$TABLE_ROW_DARK
+    background-color:$TABLE_ROW_DARK;
+    color: #ffffff;
 }
+
 .table-row-dark {
-    background-color:$TABLE_ROW_LIGHT
+    background-color:$TABLE_ROW_LIGHT;
+    color: #ffffff;
 }
-.antd-table-head{
-    background-color:$TABLE_ROW_LIGHT
+
+.thead{
+    background-color:$TABLE_ROW_LIGHT !important;
 }
 
 .table-font{

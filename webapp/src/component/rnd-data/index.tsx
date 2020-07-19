@@ -15,9 +15,8 @@ class RandDData extends PureComponent<RandDDataProps, RandDDataStates> {
                 <div className={"all-tabs"}>
                     <Tabs />
                 </div>
-                <div className="connectm-RandDTable">
+                <div >
                     <SmartAlert />
-
                 </div>
             </div>
         )
