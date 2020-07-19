@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, ScrollView} from 'react-native';
-import Footer from './components/footer';
-import Header from './components/header';
+import Footer from '../home/components/footer';
+import Header from '../home/components/header';
 import Colors from '../../styles/colors';
-import Timeline from './components/timeline';
+import Timeline from '../home/components/timeline';
 
 export default class Notifications extends React.PureComponent<{}, {}> {
   render() {
@@ -20,6 +20,7 @@ export default class Notifications extends React.PureComponent<{}, {}> {
           hasSubtitle
           title={'Notifications'}
           subtitle={'Cycle A'}
+          onBackClick={() => {}}
         />
         <ScrollView style={{flex: 1, paddingVertical: 16}}>
           <Timeline

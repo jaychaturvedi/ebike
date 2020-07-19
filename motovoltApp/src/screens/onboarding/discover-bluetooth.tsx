@@ -4,16 +4,16 @@ import { scale, verticalScale } from '../../styles/size-matters';
 import CTAHeader from './components/header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import { OnboardingStackParamList } from '../../navigation/onboarding'
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-  RegistrationStackParamList,
+  OnboardingStackParamList,
   'Discovering'
 >;
 
 type Props = {
   navigation: IntroSwiperNavigationProp,
-  route: RouteProp<RegistrationStackParamList, 'Discovering'>
+  route: RouteProp<OnboardingStackParamList, 'Discovering'>
 };
 
 type State = {

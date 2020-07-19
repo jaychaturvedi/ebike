@@ -8,16 +8,16 @@ import Input from './components/input';
 import input from './components/input';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import { OnboardingStackParamList } from '../../navigation/onboarding'
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-  RegistrationStackParamList,
+  OnboardingStackParamList,
   'FrameRegistered'
 >;
 
 type Props = {
   navigation: IntroSwiperNavigationProp,
-  route: RouteProp<RegistrationStackParamList, 'FrameRegistered'>
+  route: RouteProp<OnboardingStackParamList, 'FrameRegistered'>
 };
 
 type State = {};

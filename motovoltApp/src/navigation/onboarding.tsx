@@ -21,7 +21,7 @@ import CreateNewPassword from '../screens/onboarding/create-new-password';
 /**
  * All props definiton goes here
  */
-export type RegistrationStackParamList = {
+export type OnboardingStackParamList = {
   IntroSwiper: {},
   ValidateMobile: {},
   OTP: { onSuccessScreen: 'CreateNewPassword' | 'ValidateFrame' },
@@ -38,30 +38,30 @@ export type RegistrationStackParamList = {
   CreateNewPassword: {}
 }
 
-const Registration = createStackNavigator<RegistrationStackParamList>();
+const Onboarding = createStackNavigator<OnboardingStackParamList>();
 
 //Define all your stack here
-export default function RegistrationStack() {
+export default function OnboardingStack() {
   return (
-    <Registration.Navigator screenOptions={{
+    <Onboarding.Navigator screenOptions={{
       headerShown: false,
     }}
     // mode="modal"
     >
-      <Registration.Screen name="IntroSwiper" component={IntroSwipper} initialParams={{}} />
-      <Registration.Screen name="ValidateMobile" component={ValidateMobile} />
-      <Registration.Screen name="OTP" component={OTP} />
-      <Registration.Screen name="ValidateFrame" component={ValidateFrame} />
-      <Registration.Screen name="EnterFrameNumber" component={EnterFrameNumber} />
-      <Registration.Screen name="Scanner" component={Scanner} />
-      <Registration.Screen name="FrameRegistered" component={FrameRegistered} />
-      <Registration.Screen name="PersonalDetails" component={PersonalDetails} />
-      <Registration.Screen name="TurnOnBluetooth" component={TurnOnBluetooth} />
-      <Registration.Screen name="Discovering" component={Discovering} />
-      <Registration.Screen name="BluetoothDevices" component={BluetoothDevices} />
-      <Registration.Screen name="LoginPage" component={LoginPage} />
-      <Registration.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Registration.Screen name="CreateNewPassword" component={CreateNewPassword} />
-    </Registration.Navigator>
+      <Onboarding.Screen name="IntroSwiper" component={IntroSwipper} initialParams={{}} />
+      <Onboarding.Screen name="ValidateMobile" component={ValidateMobile} />
+      <Onboarding.Screen name="OTP" component={OTP} />
+      <Onboarding.Screen name="ValidateFrame" component={ValidateFrame} />
+      <Onboarding.Screen name="EnterFrameNumber" component={EnterFrameNumber} />
+      <Onboarding.Screen name="Scanner" component={Scanner} />
+      <Onboarding.Screen name="FrameRegistered" component={FrameRegistered} />
+      <Onboarding.Screen name="PersonalDetails" component={PersonalDetails} />
+      <Onboarding.Screen name="TurnOnBluetooth" component={TurnOnBluetooth} />
+      <Onboarding.Screen name="Discovering" component={Discovering} />
+      <Onboarding.Screen name="BluetoothDevices" component={BluetoothDevices} />
+      <Onboarding.Screen name="LoginPage" component={LoginPage} />
+      <Onboarding.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Onboarding.Screen name="CreateNewPassword" component={CreateNewPassword} />
+    </Onboarding.Navigator>
   );
 }  

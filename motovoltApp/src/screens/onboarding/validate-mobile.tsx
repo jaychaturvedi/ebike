@@ -5,16 +5,16 @@ import { Input, Content, Item } from 'native-base'
 import Button from '../../components/cta-button'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import { OnboardingStackParamList } from '../../navigation/onboarding'
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-    RegistrationStackParamList,
+    OnboardingStackParamList,
     'ValidateMobile'
 >;
 
 type Props = {
     navigation: IntroSwiperNavigationProp,
-    route: RouteProp<RegistrationStackParamList, 'ValidateMobile'>
+    route: RouteProp<OnboardingStackParamList, 'ValidateMobile'>
 };
 
 type State = {

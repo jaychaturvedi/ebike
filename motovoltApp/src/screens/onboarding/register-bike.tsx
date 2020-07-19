@@ -6,16 +6,16 @@ import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import { OnboardingStackParamList } from '../../navigation/onboarding'
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-  RegistrationStackParamList,
+  OnboardingStackParamList,
   'ValidateFrame'
 >;
 
 type Props = {
   navigation: IntroSwiperNavigationProp,
-  route: RouteProp<RegistrationStackParamList, 'ValidateFrame'>
+  route: RouteProp<OnboardingStackParamList, 'ValidateFrame'>
 };
 
 type State = {};

@@ -7,16 +7,16 @@ import CTAHeader from './components/header';
 import NextButton from './components/next-page-button';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import { OnboardingStackParamList } from '../../navigation/onboarding'
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-  RegistrationStackParamList,
+  OnboardingStackParamList,
   'LoginPage'
 >;
 
 type Props = {
   navigation: IntroSwiperNavigationProp,
-  route: RouteProp<RegistrationStackParamList, 'LoginPage'>
+  route: RouteProp<OnboardingStackParamList, 'LoginPage'>
 };
 
 type State = {

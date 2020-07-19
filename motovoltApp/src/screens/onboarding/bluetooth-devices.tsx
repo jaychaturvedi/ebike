@@ -1,21 +1,21 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native'
-import { RegistrationStackParamList } from '../../navigation/registartion'
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
 
 type IntroSwiperNavigationProp = StackNavigationProp<
-  RegistrationStackParamList,
+  OnboardingStackParamList,
   'BluetoothDevices'
 >;
 
 type Props = {
   navigation: IntroSwiperNavigationProp,
-  route: RouteProp<RegistrationStackParamList, 'BluetoothDevices'>
+  route: RouteProp<OnboardingStackParamList, 'BluetoothDevices'>
 };
 
 
@@ -33,7 +33,7 @@ const devices: Device[] = [
     deviceName: 'My Device',
     id: '12',
   },
-]
+];
 
 // type Props = {
 //   onBackClick?: () => void;
@@ -127,13 +127,16 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <CTAHeader hasBackButton title="Bluetooth Pairing" onBackClick={() =>
-          this.props.navigation.navigate('TurnOnBluetooth', {})} />
+        <CTAHeader
+          hasBackButton
+          title="Bluetooth Pairing"
+          onBackClick={() =>
+            this.props.navigation.navigate('TurnOnBluetooth', {})
+          }
+        />
         <View style={styles.body}>
           <Text style={styles.title}>Bluetooth Devices</Text>
-          <Text style={styles.match}>
-            {`${devices.length} match found`}
-          </Text>
+          <Text style={styles.match}>{`${devices.length} match found`}</Text>
           <View>
             {devices.map((device, index) => (
               <CycleDetected
@@ -141,7 +144,7 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
                 device={device}
                 selected={this.state.selectedCycleId === device.id}
                 onSelect={() => {
-                  this.setState({ selectedCycleId: device.id });
+                  this.setState({selectedCycleId: device.id});
                 }}
               />
             ))}
