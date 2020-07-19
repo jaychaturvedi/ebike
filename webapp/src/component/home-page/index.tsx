@@ -10,10 +10,8 @@ class Content extends PureComponent<ContentProp, ContentState>{
 
     render() {
         return <>
-            <Layout.Content className="web-content">
-                <div className="content">
+            <Layout.Content className="home-content">
                     <SubHeader />
-                </div>
             </Layout.Content>
         </>
     }

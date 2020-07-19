@@ -1,5 +1,9 @@
+@import "./global.scss";
+@import "~antd/dist/antd.css";
+
 body {
   margin: 0;
+  color: #ffffff !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -8,8 +12,12 @@ body {
 }
 
 
-//option clicked on home page - TODO better name
-.option-clicked {
-    background-color: lightslategrey !important;
-    color: wheat !important;
+button {
+  color: #ffffff !important;
+  font-family: "Roboto" !important;
+  &:hover {
+        color:$ACTIVE !important;
+        border-bottom: 1px solid $ACTIVE !important;
+    }
 }
+

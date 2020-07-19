@@ -1,0 +1,12 @@
+@import "../../global.scss";
+@import "~antd/dist/antd.css";
+.left-panel{
+    height: 100vh;
+    background-color: $LEFT_PANEL_BACKGROUND !important;
+    max-width: 80px;
+    min-width: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}

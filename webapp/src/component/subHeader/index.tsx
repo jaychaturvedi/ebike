@@ -10,7 +10,11 @@ interface SubHeaderStates { }
 class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     render() {
         return (
-            <div>hello</div>
+            <div className={"sub-header"}>
+                <Button size={"middle"} type="text">
+                    ALL
+                </Button>
+            </div>
         )
     }
 }

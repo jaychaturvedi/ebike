@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import './index.scss';
 import { Layout } from "antd";
 import WebHeader from "../header"
+import LeftPanel from "../left-panel"
 import { Route, withRouter, RouteComponentProps, Switch } from "react-router";
 import HomePage from "../home-page"
 import User from "../user"
@@ -13,6 +14,7 @@ class Content extends PureComponent<ContentProp, ContentState>{
         return <>
             <Layout.Content className="web-content">
                 <WebHeader />
+                <LeftPanel/>
                 <Switch>
                     <Route exact path="/" component={HomePage} />
                     <Route exact path="/:id" component={User} />

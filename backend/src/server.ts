@@ -60,6 +60,14 @@ module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context
     context.callbackWaitsForEmptyEventLoop = false;
     console.log("connecting")
     await db.sync({ alter: true, force: false });
+    // try {
+    //     await db.authenticate()
+    //     console.log("connection ok" ,db.config)
+    // } catch (error) {
+    //     console.log("connecting")
+    //     await db.sync({ alter: true, force: false });
+    // }
+    
     const newUser = await User.createNew({ uid: uid, phone: phone })
     console.log(newUser);
     const response = {

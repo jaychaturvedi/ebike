@@ -1,7 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import { validationResult, body, param } from "express-validator";
 import Sequelize from 'sequelize';
-import localstore from "store";
 import JwtDecode from "jwt-decode";
 import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError, MotoVoltError, UserError, FeedbackError, IssuesError, FeaturesError, RideError, SupportError, AlertError } from "./error";
 const Op = Sequelize.Op

@@ -38,13 +38,13 @@ async function sendSMS(phone: string, code: string) {
 
 module.exports.preSignUp = async (event: any) => {
     console.log("signup", event)
-    const body = {
-        "phone_number": event.request.userAttributes.phone_number
-    }
+    // const body = {
+    //     "phone_number": event.request.userAttributes.phone_number
+    // }
     //connectM call
-    const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
+    // const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
     // const response: any = await rp(options);
-    const response: any = { message: "OK" }
+    const response :any = {"frameId" : "123qawsedrftgiop"} 
     console.log("frame verification response", response)
     if (response.ec) {
         throw new Error("User have not registered any framId")

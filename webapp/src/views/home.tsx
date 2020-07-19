@@ -14,7 +14,7 @@ class Home extends PureComponent<HomeProps, HomeStates> {
         return (
             <div className="connectm-home">
                 <Layout>
-                    <SideBar />
+                    {/* <SideBar /> */}
                     <Content />
                 </Layout>
             </div>
