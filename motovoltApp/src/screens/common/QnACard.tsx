@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
-import {scale} from '../../styles/size-matters';
-import {verticalScale} from 'react-native-size-matters';
+import { scale } from '../../styles/size-matters';
+import { verticalScale } from 'react-native-size-matters';
 
 type Props = {
   title: string;
@@ -67,7 +67,7 @@ export default class Card extends React.PureComponent<Props, State> {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              this.setState({expanded: !this.state.expanded});
+              this.setState({ expanded: !this.state.expanded });
             }}>
             <Image
               source={

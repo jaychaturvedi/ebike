@@ -1,28 +1,33 @@
 import React from 'react';
-import { View, Image, Text, ScrollView } from 'react-native';
+import {View, Image, Text, ScrollView} from 'react-native';
 import Header from '../home/components/header';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
-import { scale } from '../../styles/size-matters';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { MenuStackParamList } from '../../navigation/menu';
+import {scale} from '../../styles/size-matters';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MenuStackParamList} from '../../navigation/menu';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+
+type ReduxState = {
+  services: TStore['services'];
+  bike: TStore['bike'];
+};
 
 type ServiceDetailsNavigationProp = StackNavigationProp<
   MenuStackParamList,
   'ServiceDetails'
 >;
 
-type Props = {
-  navigation: ServiceDetailsNavigationProp,
-  route: RouteProp<MenuStackParamList, 'ServiceDetails'>
-};
-
-
+interface Props extends ReduxState {
+  navigation: ServiceDetailsNavigationProp;
+  route: RouteProp<MenuStackParamList, 'ServiceDetails'>;
+}
 
 type CardProps = {
   title: string;
-  data: { key: string; value: string }[];
+  data: {key: string; value: string}[];
 };
 
 function Card(props: CardProps) {
@@ -43,7 +48,7 @@ function Card(props: CardProps) {
         {props.title}
       </Text>
       {props.data.map((item) => (
-        <Text style={{ marginVertical: scale(8) }}>
+        <Text style={{marginVertical: scale(8)}}>
           <Text
             style={{
               fontSize: 14,
@@ -66,11 +71,12 @@ function Card(props: CardProps) {
   );
 }
 
-export default class ComingSoon extends React.PureComponent<Props, {}> {
+class ComingSoon extends React.PureComponent<Props, {}> {
   render() {
     return (
-      <View style={{ width: '100%', height: '100%' }}>
-        <Header backgroundColor={Colors.HEADER_YELLOW}
+      <View style={{width: '100%', height: '100%'}}>
+        <Header
+          backgroundColor={Colors.HEADER_YELLOW}
           title={'Service'}
           hasBackButton
           onBackClick={() => this.props.navigation.goBack()}
@@ -81,61 +87,46 @@ export default class ComingSoon extends React.PureComponent<Props, {}> {
             backgroundColor: Colors.BG_GREY,
             width: '100%',
           }}>
-          <View
-            style={{
-              paddingHorizontal: scale(16),
-              paddingVertical: scale(8),
-            }}>
-            <Card
-              title="Title of the Service"
-              data={[
-                {
-                  key: 'Cycle ID:',
-                  value: 'BLR 1232479',
-                },
-                {
-                  key: 'Service ID:',
-                  value: '943530',
-                },
-                {
-                  key: 'Time:',
-                  value: '04:21PM 20-04-20',
-                },
-                {
-                  key: 'Staus:',
-                  value: 'Technician Assigned',
-                },
-              ]}
-            />
-          </View>
-          <View style={{
-            paddingHorizontal: scale(16),
-            paddingVertical: scale(8),
-          }}>
-            <Card
-              title="Title of the Service"
-              data={[
-                {
-                  key: 'Cycle ID:',
-                  value: 'BLR 1232479',
-                },
-                {
-                  key: 'Service ID:',
-                  value: '943530',
-                },
-                {
-                  key: 'Time:',
-                  value: '04:21PM 20-04-20',
-                },
-                {
-                  key: 'Staus:',
-                  value: 'Technician Assigned',
-                },
-              ]}
-            />
-          </View>
+          {Object.keys(this.props.services).map((key, index) => (
+            <View
+              style={{
+                paddingHorizontal: scale(16),
+                paddingVertical: scale(8),
+              }}>
+              <Card
+                title={this.props.services[key].title}
+                data={[
+                  {
+                    key: 'Cycle ID:',
+                    value: this.props.bike.id,
+                  },
+                  {
+                    key: 'Service ID:',
+                    value: this.props.services[key].id,
+                  },
+                  {
+                    key: 'Time:',
+                    value: this.props.services[key].openDate,
+                  },
+                  {
+                    key: 'Status:',
+                    value: this.props.services[key].isOpen ? "Open" : "Closed",
+                  },
+                ]}
+              />
+            </View>
+          ))}
         </ScrollView>
       </View>
     );
   }
 }
+
+export default connect(
+  (store: TStore): ReduxState => {
+    return {
+      services: store['services'],
+      bike: store['bike'],
+    };
+  },
+)(ComingSoon);

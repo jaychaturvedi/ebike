@@ -17,6 +17,7 @@ type Props = {
 };
 
 type State = {
+  timeoutIntervalId: number,
   intervalId: number;
   circleCount: number;
 };
@@ -47,6 +48,7 @@ export default class DiscoveringBluetooth extends React.PureComponent<Props, Sta
   constructor(props: Props) {
     super(props);
     this.state = {
+      timeoutIntervalId: 0,
       intervalId: 0,
       circleCount: 0,
     };
@@ -57,16 +59,17 @@ export default class DiscoveringBluetooth extends React.PureComponent<Props, Sta
   };
 
   componentDidMount() {
-    var intervalId = setInterval(this.timer, 500);
-    this.setState({ intervalId: intervalId });
+    const intervalId = setInterval(this.timer, 500);
+    const timeoutIntervalId = setTimeout(() => this.props.navigation.navigate('BluetoothDevices', {}), 3000)
+    this.setState({ intervalId, timeoutIntervalId });
   }
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId);
+    clearInterval(this.state.timeoutIntervalId);
   }
 
   render() {
-    setTimeout(() => this.props.navigation.navigate('BluetoothDevices', {}), 3000)
     return (
       <View style={styles.container}>
         <View style={styles.header}>

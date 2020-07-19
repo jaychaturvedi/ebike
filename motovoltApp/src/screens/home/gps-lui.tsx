@@ -57,13 +57,13 @@ export default class GPSLui extends React.PureComponent<Props, State> {
             </View>
           </View>
         </View>
-        <Footer
+        {/* <Footer
           lockOnlyVisible={false}
           locked
           onItemSelect={() => {}}
           onLockClick={() => {}}
           selectedItem={'home'}
-        />
+        /> */}
       </View>
     );
   }
