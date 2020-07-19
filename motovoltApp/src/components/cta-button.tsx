@@ -2,6 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { Button } from 'native-base';
 import { scale } from '../styles/size-matters';
+import Colors from '../styles/colors';
 
 type Props = {
   text: string;
@@ -18,7 +19,7 @@ export default (props: Props) => {
       style={{
         width: scale(300),
         justifyContent: 'center',
-        backgroundColor: props.backgroundColor ?? 'transparent',
+        backgroundColor: props.backgroundColor ?? Colors.BG_GREY,
         borderColor: props.borderColor ?? 'transparent',
         borderWidth: props.borderColor ? 1 : 0,
         borderRadius: 10,

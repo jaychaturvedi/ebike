@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   skip: {
-    paddingTop: scale(30),
+    paddingTop: scale(10),
     paddingRight: scale(14),
     paddingLeft: scale(14),
     height: '20%',

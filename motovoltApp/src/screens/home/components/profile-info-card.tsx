@@ -67,7 +67,7 @@ export default function ProfileInfo(props: Props) {
       {
         props.hasTitle && <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <Text style={styles.title}>{props.title}&nbsp;&nbsp;
-          <TouchableOpacity onPress={() => console.log("Pencil pressed")}>
+            <TouchableOpacity onPress={() => console.log("Pencil pressed")}>
               <Image source={require("../../../assets/icons/pencil-edit-button.png")} />
             </TouchableOpacity>
           </Text>

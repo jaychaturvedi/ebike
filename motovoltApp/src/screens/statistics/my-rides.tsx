@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
@@ -18,7 +18,7 @@ export default class MyRides extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <Header
           hasBackButton
           title={'My Rides'}
@@ -66,8 +66,8 @@ export default class MyRides extends React.PureComponent<Props, State> {
         <Footer
           lockOnlyVisible={false}
           locked
-          onItemSelect={() => {}}
-          onLockClick={() => {}}
+          onItemSelect={() => { }}
+          onLockClick={() => { }}
           selectedItem={'home'}
         />
       </View>
