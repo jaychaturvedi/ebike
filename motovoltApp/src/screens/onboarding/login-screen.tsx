@@ -71,9 +71,7 @@ export default class Login extends React.PureComponent<Props, State> {
           }}
         />
         <Input
-          onChange={(value: string) => {
-            this.setState({ password: value });
-          }}
+          onChange={(value: string) => this.setState({ password: value })}
           placeHolder="Password"
           secure
           marginVeritical={verticalScale(InputMarginVeritical)}
@@ -88,7 +86,7 @@ export default class Login extends React.PureComponent<Props, State> {
         </Text>
         <View style={styles.bottom}>
           <NextButton
-            mode="Active"
+            mode={this.state.userName && this.state.password ? "Active" : "Disabled"}
             onPress={() => {
               // if (this.props.onLogin)
               //   this.props.onLogin(this.state.userName, this.state.password);

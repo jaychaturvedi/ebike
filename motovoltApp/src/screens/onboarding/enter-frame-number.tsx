@@ -95,6 +95,7 @@ export default class InputFrameNumber extends React.PureComponent<
         </View>
         <View style={styles.button}>
           <CTAButton
+            disabled={!this.state.frameId}
             onPress={() => {
               if (this.state.frameId)
                 this.props.navigation.navigate("FrameRegistered", {})

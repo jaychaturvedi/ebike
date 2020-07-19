@@ -63,6 +63,12 @@ export default class PersonalDetails extends React.PureComponent<Props, State> {
   }
 
   render() {
+    const formDataValid = (
+      this.state.email 
+      && this.state.name 
+      && this.state.password 
+      && this.state.password === this.state.confirmPassword
+    );
     return (
       <View
         style={{
@@ -73,19 +79,23 @@ export default class PersonalDetails extends React.PureComponent<Props, State> {
         <CTAHeader hasBackButton onBackClick={() => this.props.navigation.goBack()} />
         <Text style={styles.title}>Please enter your details</Text>
         <Input
+          onChange={(text:string) => this.setState({name: text})}
           placeHolder="Full Name*"
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
         <Input
+          onChange={(text:string) => this.setState({email: text})}
           placeHolder="Email*"
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
         <Input
+          onChange={(text:string) => this.setState({password: text})}
           placeHolder="Create a password*"
           marginVeritical={verticalScale(InputMarginVeritical)}
           secure
         />
         <Input
+          onChange={(text:string) => this.setState({confirmPassword: text})}
           placeHolder="Re-enter your password*"
           marginVeritical={verticalScale(InputMarginVeritical)}
           secure
@@ -96,6 +106,7 @@ export default class PersonalDetails extends React.PureComponent<Props, State> {
             style={styles.image}
           />
           <CTAButton
+            disabled={!formDataValid}
             onPress={() => { this.props.navigation.navigate("TurnOnBluetooth", {}) }}
             text={'Create my account'}
             textColor={Colors.WHITE}
