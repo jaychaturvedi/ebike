@@ -2,10 +2,11 @@ import React from "react";
 import { Text, StyleSheet, View, ScrollView } from "react-native";
 import { Container, Tabs, Tab } from "native-base";
 import { moderateScale } from "react-native-size-matters";
+import Colors from "../styles/colors";
 
 const styles = StyleSheet.create({
     activeTabStyle: {
-        backgroundColor: "#f8c346",
+        backgroundColor: Colors.HEADER_YELLOW,
         borderBottomRightRadius: 10,
         borderBottomLeftRadius: 10,
     },

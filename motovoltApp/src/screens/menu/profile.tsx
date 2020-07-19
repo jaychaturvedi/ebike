@@ -15,8 +15,20 @@ import { scale, verticalScale } from '../../styles/size-matters';
 import DottedButton from '../home/components/add-new-dotted-button';
 import ProfileInfoCard from '../home/components/profile-info-card';
 import ProfileImage from '../../components/profile'
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MenuStackParamList } from '../../navigation/menu';
 
-type Props = {};
+type ProfileNavigationProp = StackNavigationProp<
+  MenuStackParamList,
+  'Profile'
+>;
+
+type Props = {
+  navigation: ProfileNavigationProp,
+  route: RouteProp<MenuStackParamList, 'Profile'>
+};
+
 
 type State = {};
 
@@ -33,7 +45,8 @@ export default class Profile extends React.PureComponent<Props, State> {
           hasBluetoothNotification
           title="Profile"
           hasBackButton
-          backgroundColor={'white'}
+          backgroundColor={Colors.HEADER_YELLOW}
+          onBackClick={() => this.props.navigation.goBack()}
         />
         <ScrollView style={styles.body}>
           <View style={styles.avatar}>
@@ -56,7 +69,7 @@ export default class Profile extends React.PureComponent<Props, State> {
             <View style={familyUserStyle.singleInfo}>
               <View style={familyUserStyle.singleInfoLeft}>
                 <Image
-                  source={{ uri: 'http' }}
+                  source={{}}
                   defaultSource={require('../../assets/icons/default-avatar.png')}
                   style={familyUserStyle.addNewIcon}
                 />
@@ -103,13 +116,6 @@ export default class Profile extends React.PureComponent<Props, State> {
 
           <DottedButton text={'Add New Battery'} onPress={() => { }} />
         </ScrollView>
-        <Footer
-          lockOnlyVisible={false}
-          locked
-          onItemSelect={() => { }}
-          onLockClick={() => { }}
-          selectedItem="home"
-        />
       </View>
     );
   }

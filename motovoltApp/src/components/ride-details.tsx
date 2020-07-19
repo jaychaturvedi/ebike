@@ -5,6 +5,7 @@ import ProgressBar from './progress-bar'
 // import { scale, verticalScale, moderateScale } from './size'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import Moment from 'moment'
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 type Props = {
     fromTime: Date,
@@ -15,6 +16,7 @@ type Props = {
     distance: string,
     speed: string,
     rating: string
+    onItemSelect: () => void
 
 };
 type State = {};
@@ -24,7 +26,9 @@ export default class RideCard extends React.PureComponent<Props, State> {
     render() {
         return (
             //Make the below view as touchable opacity if the whole card is touchable
-            <View style={styles.container}>
+            <TouchableOpacity style={styles.container}
+                onPress={() => this.props.onItemSelect()}
+            >
                 <View style={styles.leftContainer}>
                     <Text style={styles.headerText}> {Moment(this.props.fromTime).format('HH:MM A')} - {Moment(this.props.toTime).format('HH:MM A')}</Text>
                     <Text style={styles.destinationText} numberOfLines={1}>
@@ -59,7 +63,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
                         <Icon type="FontAwesome" name="chevron-right" style={styles.detailsIcon}></Icon>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
 }

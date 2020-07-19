@@ -1,13 +1,27 @@
 import React from 'react';
-import {View, StyleSheet, Text, Image, ScrollView} from 'react-native';
-import {moderateScale, scale} from 'react-native-size-matters';
+import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
+import { moderateScale, scale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import VehicleInfo from '../../components/vehicle-info-battery';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MyCycleStackParamList } from '../../navigation/cycle';
 
-type Props = {};
+type MyCycleNavigationProp = StackNavigationProp<
+  MyCycleStackParamList,
+  'MyCycleScreen'
+>;
+
+type Props = {
+  navigation: MyCycleNavigationProp,
+  route: RouteProp<MyCycleStackParamList, 'MyCycleScreen'>
+};
+
+
+
 type State = {};
 
 export default class MyCycle extends React.PureComponent<Props, State> {
@@ -19,17 +33,20 @@ export default class MyCycle extends React.PureComponent<Props, State> {
           title={'My Rides'}
           hasSubtitle
           subtitle={'Cycle A'}
-          backgroundColor={Colors.WHITE}
+          backgroundColor={Colors.HEADER_YELLOW}
+          onBackClick={() => console.log("To be handled")}
         />
-        <ScrollView style={{padding: moderateScale(15), flex: 1}}>
+        <ScrollView style={{ paddingHorizontal: moderateScale(15), flex: 1 }}>
           <View style={styles.cycle}>
             <Image
               source={require('../../assets/images/cycle.png')}
-              style={{resizeMode: 'center'}}
+              style={{ height: '80%', width: '100%' }}
+              height={scale(200)}
+              width={scale(300)}
             />
           </View>
           <View style={styles.cycleName}>
-            <Text style={{fontSize: scale(16), fontWeight: 'bold'}}>
+            <Text style={{ fontSize: scale(16), fontWeight: 'bold' }}>
               Cycle A
             </Text>
           </View>
@@ -69,13 +86,6 @@ export default class MyCycle extends React.PureComponent<Props, State> {
             />
           </View>
         </ScrollView>
-        <Footer
-          lockOnlyVisible={false}
-          locked
-          onItemSelect={() => {}}
-          onLockClick={() => {}}
-          selectedItem={'home'}
-        />
       </View>
     );
   }

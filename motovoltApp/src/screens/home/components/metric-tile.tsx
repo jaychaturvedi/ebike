@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
-import {Text} from 'native-base';
-import {scale, verticalScale} from '../../../styles/size-matters';
+import { View, StyleSheet, Dimensions } from 'react-native';
+import { Text } from 'native-base';
+import { scale, verticalScale } from '../../../styles/size-matters';
 import Colors from '../../../styles/colors';
 import FontWeight from '../../../styles/font-weight';
 
