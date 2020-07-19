@@ -38,13 +38,7 @@ export default class Profile extends React.PureComponent<Props, State> {
         <ScrollView style={styles.body}>
           <View style={styles.avatar}>
             <ProfileImage />
-            {/* <Image
-              source={{ uri: 'http://a.png' }}
-              defaultSource={require('../../assets/icons/default-avatar.png')}
-              style={{ width: '80%', height: '80%' }}
-              width={scale(44)}
-              height={scale(44)}
-            /> */}
+
           </View>
           <Text style={styles.title}>Personal Details</Text>
           <ProfileInfoCard
@@ -142,10 +136,6 @@ const styles = StyleSheet.create({
   },
   avatar: {
     marginVertical: verticalScale(12),
-    // width: scale(88),
-    // height: scale(88),
-    // borderRadius: scale(44),
-    // backgroundColor: Colors.WHITE,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',

@@ -30,6 +30,8 @@ import SplashScreen from 'react-native-splash-screen';
 //Login
 import LoginPage from './src/screens/onboarding/login-screen';
 
+import EnterFrmeNumber from './src/screens/onboarding/enter-frame-number'
+
 // Forgot Passord
 import ForgotPassword from './src/screens/onboarding/forgot-password';
 // import OTP from './src/screens/onboarding/otp';
@@ -145,8 +147,6 @@ class App extends React.PureComponent<{}, State> {
       /* <SupportSrevice /> */
       /* <ReportIssue /> */
       /* <Premium /> */
-
-
 
 
 

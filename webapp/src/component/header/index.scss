@@ -4,4 +4,11 @@
 .ant-layout-header {
   background-color: $NAV_BAR_BACKGROUND !important;
   height: $TOP_HEADER_HEIGHT;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  .header-icon{
+    margin-left: 15px;
+  }
 }

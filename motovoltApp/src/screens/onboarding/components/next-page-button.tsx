@@ -1,6 +1,6 @@
 import React from 'react';
-import {scale} from '../../../styles/size-matters';
-import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import { scale } from '../../../styles/size-matters';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../../../styles/colors';
 
 type Props = {
@@ -43,13 +43,13 @@ export default function (props: Props) {
           height={height}
         />
       ) : (
-        <Image
-          source={require('../../../assets/icons/next-disabled.png')}
-          style={styles.img}
-          width={width}
-          height={height}
-        />
-      )}
+          <Image
+            source={require('../../../assets/icons/next-disabled.png')}
+            style={styles.img}
+            width={width}
+            height={height}
+          />
+        )}
     </TouchableOpacity>
   );
 }
