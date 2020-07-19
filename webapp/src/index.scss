@@ -4,20 +4,21 @@
 body {
   margin: 0;
   color: #ffffff !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 
 button {
   color: #ffffff !important;
   font-family: "Roboto" !important;
   &:hover {
-        color:$ACTIVE !important;
-        border-bottom: 1px solid $ACTIVE !important;
-    }
+    color: $ACTIVE !important;
+    border-bottom: 1px solid $ACTIVE !important;
+  }
 }
 
+.ant-layout-header {
+  padding: 0px 20px !important;
+}
