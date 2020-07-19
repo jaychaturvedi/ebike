@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Content from "./component/home-page"
+import Content from "./component/rnd-home-page"
 import Home from './views/home';
 interface AppProp { }
 interface AppState { }

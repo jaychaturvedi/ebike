@@ -1,6 +1,7 @@
 @import "../../global.scss";
+@import "~antd/dist/antd.css";
 
 .ant-layout-header {
   background-color: $NAV_BAR_BACKGROUND !important;
-  height: 60px;
+  height: $TOP_HEADER_HEIGHT;
 }

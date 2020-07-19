@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import WebHeader from "../header"
 import LeftPanel from "../left-panel"
 import { Route, withRouter, RouteComponentProps, Switch } from "react-router";
-import HomePage from "../home-page"
+import HomePage from "../rnd-home-page"
 import User from "../user"
 
 interface ContentProp extends RouteComponentProps { }

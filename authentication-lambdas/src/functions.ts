@@ -1,5 +1,5 @@
 import * as rp from 'request-promise'
-const AWS = require('aws-sdk');
+// const AWS = require('aws-sdk');
 
 export function createOptions(url: string, body: any, method: "POST" | "GET") {
     const options: rp.Options = {
@@ -14,27 +14,27 @@ export function createOptions(url: string, body: any, method: "POST" | "GET") {
     return options
 }
 
-async function snsMessageConfiguration() {
-    AWS.config.update({ region: 'us-east-1' });
-    var configparams = {
-        attributes: { /* required */
-            'DefaultSMSType': 'Transactional', /* highest reliability */
-            //'DefaultSMSType': 'Promotional' /* lowest cost */
-        }
-    };
-    // Create promise and SNS service object
-    var setSMSTypePromise = new AWS.SNS({ apiVersion: '2010-03-31' }).setSMSAttributes(configparams).promise();
-    return setSMSTypePromise;
-}
+// async function snsMessageConfiguration() {
+//     AWS.config.update({ region: 'us-east-1' });
+//     var configparams = {
+//         attributes: { /* required */
+//             'DefaultSMSType': 'Transactional', /* highest reliability */
+//             //'DefaultSMSType': 'Promotional' /* lowest cost */
+//         }
+//     };
+//     // Create promise and SNS service object
+//     var setSMSTypePromise = new AWS.SNS({ apiVersion: '2010-03-31' }).setSMSAttributes(configparams).promise();
+//     return setSMSTypePromise;
+// }
 
-async function sendSMS(phone: string, code: string) {
-    const params = {
-        Message: code, /* required */
-        PhoneNumber: phone,
-    };
-    await snsMessageConfiguration()
-    return new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
-}
+// async function sendSMS(phone: string, code: string) {
+//     const params = {
+//         Message: code, /* required */
+//         PhoneNumber: phone,
+//     };
+//     await snsMessageConfiguration()
+//     return new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
+// }
 
 module.exports.preSignUp = async (event: any) => {
     console.log("signup", event)
@@ -98,13 +98,14 @@ module.exports.createAuthChallenge = async (event: any) => {
     let secretLoginCode;
     if (!event.request.session || !event.request.session.length) {
         // Generate a new secret login code and send it to the user
-        secretLoginCode = Date.now().toString().slice(-4);
-        try {
-            const msgSentId = await sendSMS(event.request.userAttributes.phone_number, secretLoginCode);
-            console.log("msg sent ID", msgSentId);
-        } catch (error) {
-            console.log("sending msg", error)    // Handle SMS Failure   
-        }
+        // secretLoginCode = Date.now().toString().slice(-4);
+        secretLoginCode = "1234"
+        // try {
+        //     const msgSentId = await sendSMS(event.request.userAttributes.phone_number, secretLoginCode);
+        //     console.log("msg sent ID", msgSentId);
+        // } catch (error) {
+        //     console.log("sending msg", error)    // Handle SMS Failure   
+        // }
     } else {
         // re-use code generated in previous challenge
         const previousChallenge = event.request.session.slice(-1)[0];

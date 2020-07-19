@@ -1,3 +1,8 @@
+@import "../../global.scss";
+@import "~antd/dist/antd.css";
 .sub-header {
     // border: 1px solid rgb(192, 178, 178);
+    button {
+          border-bottom: 1px solid #ffffff !important;
+    }
 }
