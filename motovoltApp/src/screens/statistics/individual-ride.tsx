@@ -1,14 +1,26 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import {moderateScale, verticalScale} from 'react-native-size-matters';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { moderateScale, verticalScale } from 'react-native-size-matters';
 import TipCard from '../../components/tip-card';
 import Swiper from 'react-native-swiper';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { StatisticsStackParamList } from '../../navigation/statistics';
 
-type Props = {};
+type IndividualRideNavigationProp = StackNavigationProp<
+  StatisticsStackParamList,
+  'IndividualRide'
+>;
+
+type Props = {
+  navigation: IndividualRideNavigationProp,
+  route: RouteProp<StatisticsStackParamList, 'IndividualRide'>
+};
+
 type State = {};
 
 export default class IndividualRide extends React.PureComponent<Props, State> {
@@ -18,7 +30,8 @@ export default class IndividualRide extends React.PureComponent<Props, State> {
         <Header
           hasBackButton
           title={'My Rides'}
-          backgroundColor={Colors.WHITE}
+          backgroundColor={Colors.HEADER_YELLOW}
+          onBackClick={() => this.props.navigation.goBack()}
         />
         <ScrollView>
           <View style={styles.map}></View>
@@ -88,7 +101,7 @@ export default class IndividualRide extends React.PureComponent<Props, State> {
             />
           </View>
         </ScrollView>
-        
+
       </View>
     );
   }

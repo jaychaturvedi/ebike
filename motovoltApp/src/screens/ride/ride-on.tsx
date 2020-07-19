@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Card from '../home/components/card';
 import Metrics from '../home/components/metrics';
 import Header from '../home/components/header';
@@ -39,7 +39,7 @@ export default class RideOn extends React.PureComponent<{}, {}> {
   render() {
     return (
       <View style={styles.container}>
-        <Header backgroundColor={'white'} title={'Bike ON'} />
+        <Header backgroundColor={Colors.HEADER_YELLOW} title={'Bike ON'} />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
@@ -72,13 +72,6 @@ export default class RideOn extends React.PureComponent<{}, {}> {
               <Text style={styles.modeText}>Power Mode</Text>
               <Text style={styles.modeText}>Pedal Assist</Text>
             </View>
-            <Footer
-              lockOnlyVisible
-              locked
-              onItemSelect={() => {}}
-              onLockClick={() => {}}
-              selectedItem={'chart'}
-            />
           </View>
         </View>
       </View>

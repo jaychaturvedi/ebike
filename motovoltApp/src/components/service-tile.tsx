@@ -6,7 +6,8 @@ import Colors from '../styles/colors'
 type Props = {
     title: string,
     time: string,
-    serviceId: string
+    serviceId: string,
+    onView: () => void
 }
 type State = {}
 
@@ -17,7 +18,7 @@ export default class ServiceTile extends React.PureComponent<Props, State>{
                 <View style={styles.title}>
                     <Text style={{ fontSize: moderateScale(16), fontWeight: '600' }}>{this.props.title}</Text>
                     <Text style={{ fontSize: moderateScale(14), color: Colors.LINK_BLUE, textDecorationLine: 'underline' }}
-                        onPress={() => console.log("View Pressed")}
+                        onPress={() => this.props.onView()}
                     >View</Text>
                 </View>
                 <View style={{ flex: 1, paddingTop: moderateScale(10) }}>

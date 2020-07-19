@@ -1,22 +1,35 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import Tile from '../../components/tile';
-import {moderateScale} from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MenuStackParamList } from '../../navigation/menu';
 
-type Props = {};
+type SupportNavigationProp = StackNavigationProp<
+  MenuStackParamList,
+  'Support'
+>;
+
+type Props = {
+  navigation: SupportNavigationProp,
+  route: RouteProp<MenuStackParamList, 'Support'>
+};
+
 type State = {};
 
-export default class Upgrade extends React.PureComponent<Props, State> {
+export default class Support extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
         <Header
           hasBackButton
           title={'My Rides'}
-          backgroundColor={Colors.WHITE}
+          backgroundColor={Colors.HEADER_YELLOW}
+          onBackClick={() => this.props.navigation.goBack()}
         />
         <View
           style={{
@@ -25,7 +38,7 @@ export default class Upgrade extends React.PureComponent<Props, State> {
             paddingVertical: moderateScale(20),
           }}>
           <View style={styles.header}>
-            <Text style={{fontSize: moderateScale(16)}}>Help with issues</Text>
+            <Text style={{ fontSize: moderateScale(16) }}>Help with issues</Text>
             <Text
               style={{
                 fontSize: moderateScale(13),
@@ -53,13 +66,13 @@ export default class Upgrade extends React.PureComponent<Props, State> {
             <Tile
               feature="Report an Issue"
               icon={require('../../assets/icons/icons1.5x/report-issue.png')}
-              onPress={() => console.log('Feature pressed')}
+              onPress={() => this.props.navigation.navigate('ReportIssue', {})}
               height={moderateScale(110)}
             />
             <Tile
               feature="Book a Service"
               icon={require('../../assets/icons/icons1.5x/book-service.png')}
-              onPress={() => console.log('Feature pressed')}
+              onPress={() => this.props.navigation.navigate('SupportService', {})}
               height={moderateScale(110)}
               premium
             />
@@ -72,13 +85,6 @@ export default class Upgrade extends React.PureComponent<Props, State> {
             />
           </View>
         </View>
-        <Footer
-          lockOnlyVisible={false}
-          locked
-          onItemSelect={() => {}}
-          onLockClick={() => {}}
-          selectedItem={'home'}
-        />
       </View>
     );
   }

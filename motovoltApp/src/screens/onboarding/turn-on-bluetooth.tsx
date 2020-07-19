@@ -8,13 +8,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
 import { OnboardingStackParamList } from '../../navigation/onboarding'
 
-type IntroSwiperNavigationProp = StackNavigationProp<
+type TurnOnBluetoothNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'TurnOnBluetooth'
 >;
 
 type Props = {
-  navigation: IntroSwiperNavigationProp,
+  navigation: TurnOnBluetoothNavigationProp,
   route: RouteProp<OnboardingStackParamList, 'TurnOnBluetooth'>
 };
 
