@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView} from 'react-native';
+import { View, ScrollView } from 'react-native';
 import Footer from '../home/components/footer';
 import Header from '../home/components/header';
 import Colors from '../../styles/colors';
@@ -20,9 +20,9 @@ export default class Notifications extends React.PureComponent<{}, {}> {
           hasSubtitle
           title={'Notifications'}
           subtitle={'Cycle A'}
-          onBackClick={() => {}}
+          onBackClick={() => { }}
         />
-        <ScrollView style={{flex: 1, paddingVertical: 16}}>
+        <ScrollView style={{ flex: 1, paddingVertical: 16 }}>
           <Timeline
             title={'13/04/2020 - Mon'}
             data={[
@@ -74,13 +74,6 @@ export default class Notifications extends React.PureComponent<{}, {}> {
             ]}
           />
         </ScrollView>
-        <Footer
-          lockOnlyVisible={false}
-          locked={false}
-          onItemSelect={() => {}}
-          onLockClick={() => {}}
-          selectedItem={'home'}
-        />
       </View>
     );
   }

@@ -1,9 +1,9 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import {scale} from '../../styles/size-matters';
+import { scale } from '../../styles/size-matters';
 import ExpandCard from './QnACard';
 
 const data = [
@@ -27,7 +27,7 @@ const data = [
 export default class Premium extends React.PureComponent<{}, {}> {
   render() {
     return (
-      <View style={{width: '100%', height: '100%'}}>
+      <View style={{ width: '100%', height: '100%' }}>
         <Header backgroundColor={'white'} title={'Premium'} hasBackButton />
         <View
           style={{
@@ -37,18 +37,11 @@ export default class Premium extends React.PureComponent<{}, {}> {
             paddingVertical: scale(8),
           }}>
           {data.map((item) => (
-            <View style={{marginVertical: scale(4)}}>
+            <View style={{ marginVertical: scale(4) }}>
               <ExpandCard title={item.title} description={item.description} />
             </View>
           ))}
         </View>
-        <Footer
-          lockOnlyVisible={false}
-          locked={false}
-          onItemSelect={() => {}}
-          onLockClick={() => {}}
-          selectedItem={'chart'}
-        />
       </View>
     );
   }
