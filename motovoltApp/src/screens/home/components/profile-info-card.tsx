@@ -1,8 +1,19 @@
 import React from 'react';
-import { StyleSheet, View, Text, ViewStyle, Image, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ViewStyle,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import Colors from '../../../styles/colors';
 import FontWeight from '../../../styles/font-weight';
-import { scale, verticalScale, moderateScale } from '../../../styles/size-matters';
+import {
+  scale,
+  verticalScale,
+  moderateScale,
+} from '../../../styles/size-matters';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +57,7 @@ const styles = StyleSheet.create({
 type Props = {
   hasLeftBorder?: boolean;
   hasTitle?: boolean;
-  hasHeader?: boolean,
+  hasHeader?: boolean;
   title?: string;
   data: {
     key: string;
@@ -63,21 +74,27 @@ export default function ProfileInfo(props: Props) {
         ...(props.hasLeftBorder ? styles.leftBorder : {}),
         ...(props.style || {}),
       }}>
-
-      {
-        props.hasTitle && <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-          <Text style={styles.title}>{props.title}&nbsp;&nbsp;
-            <TouchableOpacity onPress={() => console.log("Pencil pressed")}>
-              <Image source={require("../../../assets/icons/pencil-edit-button.png")} />
+      {props.hasTitle && (
+        <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.title}>{props.title}</Text>
+            <TouchableOpacity onPress={() => console.log('Pencil pressed')}>
+              <Image
+                style={styles.title}
+                source={require('../../../assets/icons/pencil-edit-button.png')}
+              />
             </TouchableOpacity>
-          </Text>
-          <Text style={{
-            fontSize: moderateScale(14), color: Colors.LINK_BLUE
-          }}> {props.hasHeader ? "Default" : null}
+          </View>
+          <Text
+            style={{
+              fontSize: moderateScale(14),
+              color: Colors.LINK_BLUE,
+            }}>
+            {' '}
+            {props.hasHeader ? 'Default' : null}
           </Text>
         </View>
-      }
-
+      )}
 
       {props.data.map((data) => (
         <View style={styles.singleInfo}>
