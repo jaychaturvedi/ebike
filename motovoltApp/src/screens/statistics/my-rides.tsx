@@ -32,10 +32,8 @@ export default class MyRides extends React.PureComponent<Props, State> {
     return (
       <View style={{ flex: 1 }}>
         <Header
-          hasBackButton
           title={'My Rides'}
           backgroundColor={Colors.HEADER_YELLOW}
-          onBackClick={() => console.log("Yet to be handled ")}
         />
         <ScrollView style={styles.container}>
           <View style={styles.datePicker}>

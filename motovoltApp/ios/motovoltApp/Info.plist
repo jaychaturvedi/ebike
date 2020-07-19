@@ -81,5 +81,10 @@
 	<string>location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>location</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+    <string>telprompt</string>
+    <string>tel</string>
+</array> 
 </dict>
 </plist>

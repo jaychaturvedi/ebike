@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Linking, Platform } from 'react-native';
 import Tile from '../../components/tile';
 import { moderateScale } from 'react-native-size-matters';
 import Header from '../home/components/header';
-import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -21,7 +20,32 @@ type Props = {
 
 type State = {};
 
+
 export default class Support extends React.PureComponent<Props, State> {
+
+  dialCall = () => {
+    let phoneNumber = '';
+
+    if (Platform.OS === 'android') {
+      phoneNumber = 'tel:${1234567890}';
+    }
+    else {
+      phoneNumber = 'telprompt:${1234567890}';
+    }
+
+    Linking.canOpenURL(phoneNumber)
+      .then((supported) => {
+        if (!supported) {
+          console.log('Can\'t handle url: ' + phoneNumber);
+        } else {
+          return Linking.openURL(phoneNumber)
+            .then((data) => console.error("then", data))
+            .catch((err) => { throw err; });
+        }
+      })
+      .catch((err) => console.log('An error occurred', err));
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -53,7 +77,7 @@ export default class Support extends React.PureComponent<Props, State> {
             <Tile
               feature="Call us"
               icon={require('../../assets/icons/icons1.5x/call.png')}
-              onPress={() => console.log('Feature pressed')}
+              onPress={() => this.dialCall()}
               height={moderateScale(110)}
             />
             <Tile
