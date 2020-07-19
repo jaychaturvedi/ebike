@@ -3,48 +3,38 @@ import { Table } from 'antd';
 import React, { PureComponent } from 'react';
 
 const columns: any = [
-    { title: 'AlertName', dataIndex: 'alertName' },
     {
-        title: 'Model', dataIndex: 'model',
-        sorter: {
+        title: 'AlertName', dataIndex: 'alertName', sorter: {
+            compare: (a: any, b: any) => a.english - b.english,
+            multiple: 1,
+        },
+    },
+    {
+        title: 'Model', dataIndex: 'model', sorter: {
             compare: (a: any, b: any) => a.model - b.model,
             multiple: 3,
         },
     },
     {
         title: 'VehicleId', dataIndex: 'vehicleId',
-        sorter: {
-            compare: (a: any, b: any) => a.vehicleId - b.vehicleId,
-            multiple: 2,
-        },
     },
     {
-        title: 'Time', dataIndex: 'time',
-        sorter: {
-            compare: (a: any, b: any) => a.english - b.english,
+        title: 'Time', dataIndex: 'time', sorter: {
+            compare: (a: any, b: any) => a.time - b.time,
             multiple: 1,
         },
     },
     {
-        title: 'Open Since', dataIndex: 'openSince',
-        sorter: {
-            compare: (a: any, b: any) => a.english - b.english,
+        title: 'Open Since', dataIndex: 'openSince', sorter: {
+            compare: (a: any, b: any) => a.openSince - b.openSince,
             multiple: 1,
         },
     },
     {
         title: 'Severity', dataIndex: 'severity',
-        sorter: {
-            compare: (a: any, b: any) => a.english - b.english,
-            multiple: 1,
-        },
     },
     {
         title: 'Location', dataIndex: 'location',
-        sorter: {
-            compare: (a: any, b: any) => a.english - b.english,
-            multiple: 1,
-        },
     },
 ];
 type TData = {
@@ -86,7 +76,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     render() {
         return (
             <Table size={"large"}
-                className={''}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                 columns={columns} dataSource={datas} onChange={this.onChange}
             />

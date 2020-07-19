@@ -1,6 +1,10 @@
 @import "../../../global.scss";
 @import "~antd/dist/antd.css";
 .tab-buttons{
-    margin-right: 2px;
+    margin-right: 5px;
+    padding: 30px;
+    text-align:center;
     background-color: $TABLE_ROW_DARK;
+     border-radius: 12px;
+
 }

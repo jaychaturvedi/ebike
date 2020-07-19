@@ -1,4 +1,4 @@
-import ConnectmApi, { TBikeDetails } from "../externalApi/motovolt";
+import ConnectmApi from "../externalApi/motovolt";
 import Ride from "./service";
 import { RideError } from "../error";
 import { createIssues } from "../issues/controller";
