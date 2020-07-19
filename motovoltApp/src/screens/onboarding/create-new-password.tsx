@@ -120,6 +120,7 @@ export default class NewPassword extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.bottom}>
           <CTAButton
+            disabled={!this.state.isValid || this.state.confirmPassword !== this.state.password}
             text={'Save & Continue'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}

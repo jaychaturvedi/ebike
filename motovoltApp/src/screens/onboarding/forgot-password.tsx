@@ -20,7 +20,9 @@ type Props = {
 };
 
 
-type State = {};
+type State = {
+  mobile: string
+};
 
 const styles = StyleSheet.create({
   title: {
@@ -43,16 +45,27 @@ const styles = StyleSheet.create({
 });
 
 export default class ForgotPassword extends React.PureComponent<Props, State> {
+  constructor(props: Props){
+    super(props);
+    this.state = {
+      mobile: "",
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <CTAHeader />
         <Text style={styles.title}>Forgot Password</Text>
         <View style={styles.body}>
-          <Input placeHolder="Enter Registered Mobile No" />
+          <Input 
+            placeHolder="Enter Registered Mobile No" 
+            onChange={(text: string) => this.setState({mobile: text})} 
+          />
         </View>
         <View style={styles.footer}>
           <CTAButton
+            disabled={!this.state.mobile}
             text={'Verify'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}

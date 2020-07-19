@@ -28,11 +28,12 @@ const height = scale(24);
 export default function (props: Props) {
   return (
     <TouchableOpacity
+      disabled={props.mode === "Disabled"}
       onPress={props.onPress}
       style={{
         ...styles.container,
         backgroundColor:
-          props.mode === 'Active' ? Colors.NAVY_BLUE : 'rgba(204, 204, 204, 1)',
+          props.mode === 'Active' ? Colors.NAVY_BLUE : Colors.DISABLED_GREY,
       }}>
       {props.mode === 'Active' ? (
         <Image

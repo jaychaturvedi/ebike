@@ -5,6 +5,7 @@ const Colors = {
     DARK_BLACK: "rgba(0, 0, 0, 1)",
     BORDER_GREY: "rgba(111, 111, 111, 1)",
     BG_GREY: "rgba(240, 240, 240, 1)",
+    DISABLED_GREY: "rgba(183, 183, 183, 1)",
     LINK_BLUE: "rgba(83, 114, 255, 1)",
     HYPERLINK_BLUE: "rgba(8, 137, 247, 1)",
     TIMELINE_BLUE: "rgba(134, 156, 255, 1)",
