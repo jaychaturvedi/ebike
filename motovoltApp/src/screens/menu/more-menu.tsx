@@ -7,12 +7,28 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import {moderateScale} from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import ProfileImage from '../../components/profile';
 import RideMetric from '../../components/ride-metric';
 import upgrade from '../../components/upgrade-premium';
 import Upgrade from '../../components/upgrade-premium';
 import Feature from '../../components/feature';
+import Header from '../home/components/header/index'
+import Colors from '../../styles/colors';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MenuStackParamList } from '../../navigation/menu';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+type MoreMenuNavigationProp = StackNavigationProp<
+  MenuStackParamList,
+  'MenuScreen'
+>;
+
+type Props = {
+  navigation: MoreMenuNavigationProp,
+  route: RouteProp<MenuStackParamList, 'MenuScreen'>
+};
 
 const feature = [
   {
@@ -83,13 +99,17 @@ const feature = [
   },
 ];
 
-type Props = {};
 type State = {};
 
 export default class MoreMenu extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
+        <Header
+          hasBluetoothNotification
+          title="More"
+          backgroundColor={Colors.HEADER_YELLOW}
+        />
         <View style={styles.profile}>
           <ProfileImage />
           <Text
@@ -99,14 +119,21 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
               paddingTop: moderateScale(10),
               textAlign: 'center',
             }}>
-            Vikram
-            <Text onPress={() => console.log('Pencil pressed')}>
+            {' Vikram'}&nbsp;
+            <Text
+              style={{
+                fontSize: moderateScale(24),
+                fontWeight: 'bold',
+                paddingTop: moderateScale(10),
+                textAlign: 'center',
+              }}
+              onPress={() => this.props.navigation.navigate('Profile', {})}>
               <Image
                 source={require('../../assets/icons/pencil-edit-button.png')}
               />
             </Text>
           </Text>
-          <Text style={{textAlign: 'center'}}>Classic Model-A</Text>
+          <Text style={{ textAlign: 'center' }}>Classic Model-A</Text>
         </View>
         <View style={styles.metric}>
           <RideMetric
@@ -120,9 +147,11 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
             value2={String(1358)}
           />
         </View>
-        <View style={styles.upgrade}>
+        <TouchableOpacity style={styles.upgrade}
+          onPress={() => this.props.navigation.navigate('Upgrade', {})}
+        >
           <Upgrade />
-        </View>
+        </TouchableOpacity>
         <ScrollView
           style={styles.features}
           contentContainerStyle={{
@@ -132,11 +161,19 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
           }}>
           {feature.map((feature, index: number) => {
             return (
-              <View style={{width: '33.3%', alignItems: 'center'}} key={index}>
+              <View style={{ width: '33.3%', alignItems: 'center' }} key={index}>
                 <Feature
                   feature={feature.feature}
                   icon={feature.icon}
-                  onPress={feature.onPress}
+                  onPress={() => {
+                    switch (feature.feature) {
+                      case 'Support':
+                        this.props.navigation.navigate('Support', {});
+                        break;
+                      default:
+                        break;
+                    }
+                  }}
                   premium={feature.premium}
                 />
               </View>

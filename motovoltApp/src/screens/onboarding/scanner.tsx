@@ -16,13 +16,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
 import { OnboardingStackParamList } from '../../navigation/onboarding'
 
-type IntroSwiperNavigationProp = StackNavigationProp<
+type ScannerSwiperNavigationProp = StackNavigationProp<
     OnboardingStackParamList,
     'Scanner'
 >;
 
 type Props = {
-    navigation: IntroSwiperNavigationProp,
+    navigation: ScannerSwiperNavigationProp,
     route: RouteProp<OnboardingStackParamList, 'Scanner'>
 };
 

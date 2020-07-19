@@ -1,23 +1,22 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 
-type IntroSwiperNavigationProp = StackNavigationProp<
+type BluetoothDeviceNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'BluetoothDevices'
 >;
 
 type Props = {
-  navigation: IntroSwiperNavigationProp,
+  navigation: BluetoothDeviceNavigationProp,
   route: RouteProp<OnboardingStackParamList, 'BluetoothDevices'>
 };
-
 
 export type Device = {
   deviceName: string;
@@ -144,7 +143,7 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
                 device={device}
                 selected={this.state.selectedCycleId === device.id}
                 onSelect={() => {
-                  this.setState({selectedCycleId: device.id});
+                  this.setState({ selectedCycleId: device.id });
                 }}
               />
             ))}

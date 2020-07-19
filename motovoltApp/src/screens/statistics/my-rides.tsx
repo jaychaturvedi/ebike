@@ -7,9 +7,21 @@ import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { StatisticsStackParamList } from '../../navigation/statistics';
+
+type MyRidesNavigationProp = StackNavigationProp<
+  StatisticsStackParamList,
+  'MyRides'
+>;
+
+type Props = {
+  navigation: MyRidesNavigationProp,
+  route: RouteProp<StatisticsStackParamList, 'MyRides'>
+};
 
 type State = {};
-type Props = {};
 
 export default class MyRides extends React.PureComponent<Props, State> {
   constructor(props: Props) {
@@ -22,7 +34,8 @@ export default class MyRides extends React.PureComponent<Props, State> {
         <Header
           hasBackButton
           title={'My Rides'}
-          backgroundColor={Colors.WHITE}
+          backgroundColor={Colors.HEADER_YELLOW}
+          onBackClick={() => console.log("Yet to be handled ")}
         />
         <ScrollView style={styles.container}>
           <View style={styles.datePicker}>
@@ -60,16 +73,10 @@ export default class MyRides extends React.PureComponent<Props, State> {
               distance="15"
               rating="8/10"
               speed="16.5"
+              onItemSelect={() => this.props.navigation.navigate('IndividualRide', {})}
             />
           ))}
         </ScrollView>
-        <Footer
-          lockOnlyVisible={false}
-          locked
-          onItemSelect={() => { }}
-          onLockClick={() => { }}
-          selectedItem={'home'}
-        />
       </View>
     );
   }

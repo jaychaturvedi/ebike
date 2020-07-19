@@ -1,17 +1,17 @@
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
-import {FooterTab} from 'native-base';
+import { Image, StyleSheet } from 'react-native';
+import { FooterTab } from 'native-base';
 import FooterItem from './footer-item';
 import LockButton from './lock-button';
 import Colors from '../../../../styles/colors';
-import {scale} from '../../../../styles/size-matters';
+import { scale } from '../../../../styles/size-matters';
 
 export type TFooterItem = 'home' | 'chart' | 'cycle' | 'menu';
 
 const styles = StyleSheet.create({
-  footerTab: {backgroundColor: Colors.WHITE},
-  iconSelected: {height: scale(28), width: scale(28)},
-  icon: {height: scale(28), width: scale(28), opacity: 0.5},
+  footerTab: { backgroundColor: Colors.WHITE },
+  iconSelected: { height: scale(28), width: scale(28) },
+  icon: { height: scale(28), width: scale(28), opacity: 0.5 },
 });
 
 type Props = {
@@ -38,7 +38,10 @@ export default class Tab extends React.PureComponent<Props, {}> {
               }
             />
           }
-          onPress={() => this.props.onItemSelect('home')}
+          onPress={() => {
+            console.log("Home pressed")
+            this.props.onItemSelect('home')
+          }}
           selected={this.props.selectedItem === 'home'}
         />
         <FooterItem
@@ -53,7 +56,10 @@ export default class Tab extends React.PureComponent<Props, {}> {
               }
             />
           }
-          onPress={() => this.props.onItemSelect('chart')}
+          onPress={() => {
+            console.log("Chart pressed")
+            this.props.onItemSelect('chart')
+          }}
           selected={this.props.selectedItem === 'chart'}
         />
         <LockButton

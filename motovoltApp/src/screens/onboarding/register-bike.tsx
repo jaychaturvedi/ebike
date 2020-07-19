@@ -8,13 +8,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
 import { OnboardingStackParamList } from '../../navigation/onboarding'
 
-type IntroSwiperNavigationProp = StackNavigationProp<
+type RegisterBikeNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'ValidateFrame'
 >;
 
 type Props = {
-  navigation: IntroSwiperNavigationProp,
+  navigation: RegisterBikeNavigationProp,
   route: RouteProp<OnboardingStackParamList, 'ValidateFrame'>
 };
 

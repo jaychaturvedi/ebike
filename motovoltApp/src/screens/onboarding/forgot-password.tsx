@@ -9,13 +9,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
 import { OnboardingStackParamList } from '../../navigation/onboarding'
 
-type IntroSwiperNavigationProp = StackNavigationProp<
+type ForgotPAsswordNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'ForgotPassword'
 >;
 
 type Props = {
-  navigation: IntroSwiperNavigationProp,
+  navigation: ForgotPAsswordNavigationProp,
   route: RouteProp<OnboardingStackParamList, 'ForgotPassword'>
 };
 

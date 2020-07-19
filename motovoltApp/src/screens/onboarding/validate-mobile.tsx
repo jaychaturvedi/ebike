@@ -7,13 +7,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
 import { OnboardingStackParamList } from '../../navigation/onboarding'
 
-type IntroSwiperNavigationProp = StackNavigationProp<
+type ValidateMobileNavigationProp = StackNavigationProp<
     OnboardingStackParamList,
     'ValidateMobile'
 >;
 
 type Props = {
-    navigation: IntroSwiperNavigationProp,
+    navigation: ValidateMobileNavigationProp,
     route: RouteProp<OnboardingStackParamList, 'ValidateMobile'>
 };
 

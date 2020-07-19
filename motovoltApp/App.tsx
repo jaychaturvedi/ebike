@@ -10,8 +10,8 @@
 
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import Registration from './src/navigation/registartion'
-import { createStackNavigator } from '@react-navigation/stack';
+import Registration from './src/navigation/onboarding'
+import FooterNavigation from './src/navigation/footer'
 
 import {
   SafeAreaView,
@@ -41,7 +41,7 @@ import { Form } from 'native-base';
 
 // Home
 import Home from './src/screens/home';
-import Notifications from './src/screens/home/notifications';
+// import Notifications from './src/screens/home/notifications';
 import GPS from './src/screens/home/gps-lui';
 
 // Statistics
@@ -158,7 +158,8 @@ class App extends React.PureComponent<{}, State> {
           /> */
       // </SafeAreaView>
       <NavigationContainer>
-        <Registration />
+        {/* <Registration /> */}
+        <FooterNavigation />
       </NavigationContainer>
     );
   }
