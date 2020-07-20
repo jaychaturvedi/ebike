@@ -1,22 +1,31 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
+import {TStore} from '../../service/redux/store';
+import {ConnectBLE} from '../../service/redux/actions/ble';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+
+type ReduxState = {
+  connectBle: (id: ConnectBLE) => void;
+  ble: TStore['ble'];
+};
 
 type BluetoothDeviceNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'BluetoothDevices'
 >;
 
-type Props = {
-  navigation: BluetoothDeviceNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'BluetoothDevices'>
-};
+interface Props extends ReduxState {
+  navigation: BluetoothDeviceNavigationProp;
+  route: RouteProp<OnboardingStackParamList, 'BluetoothDevices'>;
+}
 
 export type Device = {
   deviceName: string;
@@ -33,12 +42,6 @@ const devices: Device[] = [
     id: '12',
   },
 ];
-
-// type Props = {
-//   onBackClick?: () => void;
-//   onConnect?: (device: Device) => void;
-//   // devices: Device[];
-// };
 
 type State = {
   selectedCycleId: string;
@@ -115,7 +118,7 @@ function CycleDetected(props: CycleProps) {
   );
 }
 
-export default class RegisterBike extends React.PureComponent<Props, State> {
+class RegisterBike extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -135,15 +138,21 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
         />
         <View style={styles.body}>
           <Text style={styles.title}>Bluetooth Devices</Text>
-          <Text style={styles.match}>{`${devices.length} match found`}</Text>
+          <Text
+            style={
+              styles.match
+            }>{`${this.props.ble.devices.length} match found`}</Text>
           <View>
-            {devices.map((device, index) => (
+            {this.props.ble.devices.map((device, index) => (
               <CycleDetected
                 key={index.toString()}
-                device={device}
+                device={{
+                  deviceName: device.name || device.id,
+                  id: device.id,
+                }}
                 selected={this.state.selectedCycleId === device.id}
                 onSelect={() => {
-                  this.setState({ selectedCycleId: device.id });
+                  this.setState({selectedCycleId: device.id});
                 }}
               />
             ))}
@@ -152,9 +161,17 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
         <View style={styles.bottomContainer}>
           <CTAButton
             onPress={() => {
-              const device = devices.find(
+              const device = this.props.ble.devices.find(
                 (dev) => dev.id === this.state.selectedCycleId,
               );
+              if (device) {
+                this.props.connectBle({
+                  type: 'ConnectBLE',
+                  payload: {
+                    id: device.id,
+                  },
+                });
+              }
               // if (device && this.props.onConnect) this.props.onConnect(device);
             }}
             text={'Connect'}
@@ -166,3 +183,16 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      ble: store['ble'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      connectBle: (params: ConnectBLE) => dispatch(params),
+    };
+  },
+)(RegisterBike);

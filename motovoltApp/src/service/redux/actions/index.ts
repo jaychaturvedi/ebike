@@ -26,6 +26,13 @@ import {
     ReadService,
     ReportIssue
 } from "./service-actions";
+import {
+    ConnectBLE,
+    DisconnectBLE,
+    ScanBLEDevices,
+    TurnOnBLE,
+    UpdateBleStore
+} from "./ble";
 
 type Action = InitiateForgotPassword
     | InitiateMobileValidation
@@ -44,7 +51,13 @@ type Action = InitiateForgotPassword
     | SubmitRide
     | ReadNotifications
     | ReadService
-    | ReportIssue;
+    | ReportIssue
+    | ConnectBLE
+    | DisconnectBLE
+    | ScanBLEDevices
+    | TurnOnBLE
+    | UpdateBleStore
+    ;
 
 export default Action;
 
@@ -66,5 +79,10 @@ export type {
     SubmitRide,
     ReadNotifications,
     ReadService,
-    ReportIssue
+    ReportIssue,
+    ConnectBLE,
+    DisconnectBLE,
+    ScanBLEDevices,
+    TurnOnBLE,
+    UpdateBleStore
 } 
