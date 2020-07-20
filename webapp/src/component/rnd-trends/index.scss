@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     color: white;
+
     .trends-header {
         display: flex;
         justify-content: space-between;
@@ -13,13 +14,16 @@
         height: 40px;
         align-items: center;
     }
+
     .trends-graph {
         min-height: 100%;
         display: flex;
         flex-direction: column;
+
         .graph {
             min-height: 100%;
             background-color: $GRAPH_BACKGROUND;
+
             .titleheader {
                 background-color: $TABLE_ROW_DARK;
                 font-size: 12px;
@@ -32,7 +36,7 @@
 }
 
 .trend-dropdown-active {
-    color : $ACTIVE;
+    color: $ACTIVE;
     border-bottom: 1px solid #FCC84A;
 }
 

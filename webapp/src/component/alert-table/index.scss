@@ -3,27 +3,29 @@
 
 .table-row-light {
     background-color: $TABLE_ROW_DARK;
-    color: #ffffff;
 }
 
 .table-row-dark {
     background-color: $TABLE_ROW_LIGHT;
-    color: #ffffff;
 }
 
 .ant-table-thead {
     tr {
         th {
             background-color: $TABLE_ROW_LIGHT !important;
-            color: #ffffff;
         }
     }
 }
 
-.ant-table-tbody:hover {
-    tr:hover {
-        color: #000000;
-    }
+.ant-table-cell {
+    text-align: center;
+    color: white;
+}
+
+.ant-table-tbody>tr:hover>td {
+    cursor: pointer;
+    background: none;
+    color: black;
 }
 
 table,
