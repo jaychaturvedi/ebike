@@ -21,8 +21,19 @@
 }
 
 .ant-table-tbody:hover {
-
     tr:hover {
         color: #000000;
     }
+}
+
+table,
+tr,
+td {
+    border: none !important;
+    font-size: 12px;
+}
+
+table,
+th {
+    border: none !important;
 }

@@ -1,11 +1,16 @@
 @import "../../../global.scss";
 @import "~antd/dist/antd.css";
 
-.connectm-Tabs .tab-buttons {
-    margin-right: 5px;
-    margin-bottom: 5px;
-    padding: 20px;
-    background-color: $TABLE_ROW_DARK;
-    border-radius: 12px;
-    line-height: 10px;
+.connectm-Tabs {
+    .tab-buttons {
+        background-color: $TABLE_ROW_DARK;
+        margin-right: 2px;
+        color: #ffffff;
+        opacity: 90%;
+    }
+    .tab-active { 
+        color: #ffffff;
+        opacity: 100%;
+        border-bottom: 1px solid #ffffff;
+    }
 }

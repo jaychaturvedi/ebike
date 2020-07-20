@@ -10,13 +10,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-button {
+.connectM-button {
   color: #ffffff !important;
   font-family: "Roboto" !important;
   &:hover {
     color: $ACTIVE !important;
     border-bottom: 1px solid $ACTIVE !important;
   }
+}
+
+.connectM-button-active {
+  color: $ACTIVE !important;
+  border-bottom: 1px solid $ACTIVE !important;
 }
 
 .ant-layout-header {

@@ -1,5 +1,5 @@
 import './index.scss';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import React, { PureComponent } from 'react';
 import {
@@ -31,12 +31,14 @@ const data = [
 const menu = (
     <Menu style={{ float: 'right' }}>
         <Menu.Item key="0">
-            <a href="http://www.alipay.com/">Today</a>
+            Today
         </Menu.Item>
         <Menu.Item key="1">
-            <a href="http://www.taobao.com/">Last 7 Days</a>
+            Last 7 Days
         </Menu.Item>
-        <Menu.Item key="3">Last 30 Days</Menu.Item>
+        <Menu.Item key="3">
+            Last 30 Days
+        </Menu.Item>
     </Menu>
 );
 
@@ -48,55 +50,63 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
 
     render() {
         return <>
-            <div className="trends-header">
-                <h1><b>TRENDS </b></h1>
-                <Dropdown overlay={menu} trigger={['click']}>
-                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        Last 7 Days<DownOutlined />
-                    </a>
-                </Dropdown>
-
-            </div>
             <div className="connectm-RandDTrends">
-                <h3>Total Alerts</h3>
-                <div className="graph">
-                    <LineChart width={420} height={150} data={data}>
-                        <CartesianGrid strokeDasharray="3 4 5 2" />
-                        <XAxis dataKey="days" />
-                        <Tooltip />
-                        <YAxis type="number" domain={[0, 500]} />
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                <div className="trends-header">
+                    <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "2px" }}>TRENDS</Typography.Text>
+                    <Dropdown overlay={menu} trigger={['click']}>
+                        <Typography.Text className={"pair trend-dropdown-active"} style={{ paddingLeft: "2px" }}>
+                            Last 7 Days
+                        <DownOutlined style={{ marginLeft: "10px", paddingRight: "2px" }} />
+                        </Typography.Text>
+                    </Dropdown>
+                </div>
+                <div className={"trends-graph"}>
+                    <div className="graph">
+                        <div className={"titleheader"}>
+                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Total Alerts</Typography.Text>
+                        </div>
+                        <LineChart width={220} height={100} data={data}>
+                            <CartesianGrid strokeDasharray="3 4 5 2" />
+                            <XAxis dataKey="days" />
+                            <Tooltip />
+                            <YAxis type="number" domain={[0, 500]} />
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                        </LineChart>
+                    </div>
+                    <div className="graph">
+                        <div className={"titleheader"}>
+                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
+                        </div>
+                        <LineChart width={220} height={100} data={data}>
+                            <CartesianGrid strokeDasharray="3 4 5 2" />
+                            <XAxis dataKey="days" />
+                            <Tooltip />
+                            <YAxis type="number" domain={['auto', 'auto']} />
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                            <Line type="monotone" dataKey="uv" stroke="#77bdf8" strokeWidth={2} />
+                            <Line type="monotone" dataKey="tv" stroke="#999fff" strokeWidth={2} />
+                            <Line type="monotone" dataKey="av" stroke="#338fff" strokeWidth={2} />
+                            <Line type="monotone" dataKey="bv" stroke="#2287ff" strokeWidth={2} />
+                            <Legend />
+                        </LineChart>
+                    </div>
+                    <div className="graph">
+                        <div className={"titleheader"}>
+                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
+                        </div>
+                        <LineChart width={220} height={100} data={data}>
+                            <CartesianGrid strokeDasharray="3 5 5 2" />
+                            <XAxis dataKey="days" />
+                            <YAxis type="number" domain={['auto', 'auto']} />
+                            <Legend />
+                            <Tooltip />
+                            <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                            <Line type="monotone" dataKey="tv" stroke="#999fff" strokeWidth={2} />
+                            <Line type="monotone" dataKey="bv" stroke="#2287ff" strokeWidth={2} />
+                        </LineChart>
+                    </div>
+                </div>
 
-                    </LineChart>
-                </div>
-                <h3>Top 5 Alerts</h3>
-                <div className="graph">
-                    <LineChart width={420} height={150} data={data}>
-                        <CartesianGrid strokeDasharray="3 4 5 2" />
-                        <XAxis dataKey="days" />
-                        <Tooltip />
-                        <YAxis type="number" domain={['auto', 'auto']} />
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                        <Line type="monotone" dataKey="uv" stroke="#77bdf8" strokeWidth={2} />
-                        <Line type="monotone" dataKey="tv" stroke="#999fff" strokeWidth={2} />
-                        <Line type="monotone" dataKey="av" stroke="#338fff" strokeWidth={2} />
-                        <Line type="monotone" dataKey="bv" stroke="#2287ff" strokeWidth={2} />
-                        <Legend />
-                    </LineChart>
-                </div>
-                <h3>Location-Wise Alerts</h3>
-                <div className="graph">
-                    <LineChart width={420} height={150} data={data}>
-                        <CartesianGrid strokeDasharray="3 5 5 2" />
-                        <XAxis dataKey="days" />
-                        <YAxis type="number" domain={['auto', 'auto']} />
-                        <Legend />
-                        <Tooltip />
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                        <Line type="monotone" dataKey="tv" stroke="#999fff" strokeWidth={2} />
-                        <Line type="monotone" dataKey="bv" stroke="#2287ff" strokeWidth={2} />
-                    </LineChart>
-                </div>
             </div>
         </>
     }

@@ -2,50 +2,43 @@
 @import "~antd/dist/antd.css";
 
 .connectm-RandDTrends {
-    border: 1px solid rgb(192, 178, 178);
-    background-color: $TABLE_ROW_DARK;
+    // border: 1px solid rgb(192, 178, 178);
+    display: flex;
+    flex-direction: column;
     color: white;
-
-    h3 {
-        color: white;
-        margin-left: 20px;
-        padding-top: 20px;
-        padding-bottom: 20px;
+    .trends-header {
+        display: flex;
+        justify-content: space-between;
+        background-color: $APP_BACKGROUND;
+        height: 40px;
+        align-items: center;
     }
-
+    .trends-graph {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        .graph {
+            min-height: 100%;
+            background-color: $GRAPH_BACKGROUND;
+            .titleheader {
+                background-color: $TABLE_ROW_DARK;
+                font-size: 12px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
 }
 
-.trends-header {
-    display: flex;
-    align-items: center;
-
-    .ant-dropdown-link {
-        border-bottom: 1px solid $ACTIVE;
-        padding-bottom: 2px;
-        margin-bottom: 2px;
-        color: $ACTIVE;
-        margin-left: auto;
-    }
-
-    h1 {
-        color: white;
-        padding-top: 10px;
-
-    }
-
-
-
-
+.trend-dropdown-active {
+    color : $ACTIVE;
+    border-bottom: 1px solid #FCC84A;
 }
 
-
-
-
-
-
-.connectm-RandDTrends .graph {
-    display: flex;
-    background-color: $GRAPH_BACKGROUND;
-    align-items: center;
-    height: 150px;
-}
+// .connectm-RandDTrends .graph {
+//     display: flex;
+//     background-color: $GRAPH_BACKGROUND;
+//     align-items: center;
+//     height: 150px;
+// }

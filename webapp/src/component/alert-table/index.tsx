@@ -47,7 +47,6 @@ type TData = {
     openSince: string,
     severity: string,
     location: string
-
 }
 
 let datas: Array<TData> = []
@@ -76,11 +75,13 @@ interface AlertStates {
 class AlertTable extends React.Component<AlertProps, AlertStates> {
     render() {
         return (
-            <Table size={"large"}
+            <Table size={"small"}
+                tableLayout="auto"
+                bordered={false}
                 className="ant-table-thead"
+                showSorterTooltip={false}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                 columns={columns} dataSource={datas} onChange={this.onChange} pagination={{ pageSize: 10 }} loading={false}
-
             />
             // onRowDoubleClick={(record: any, index: any) => this.handleRowClick(record, index)}
         );
