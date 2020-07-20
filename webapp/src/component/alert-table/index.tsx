@@ -1,6 +1,7 @@
 import './index.scss';
 import { Table } from 'antd';
 import React, { PureComponent } from 'react';
+import { DownOutlined } from '@ant-design/icons';
 
 const columns: any = [
     {
@@ -46,11 +47,10 @@ type TData = {
     openSince: string,
     severity: string,
     location: string
-
 }
 
 let datas: Array<TData> = []
-for (var i = 1; i < 21; i++) {
+for (var i = 1; i < 30; i++) {
     datas.push({
         key: i,
         alertName: "Capacity Deteroriation",
@@ -75,9 +75,13 @@ interface AlertStates {
 class AlertTable extends React.Component<AlertProps, AlertStates> {
     render() {
         return (
-            <Table size={"large"}
+            <Table size={"small"}
+                tableLayout="auto"
+                bordered={false}
+                className="ant-table-thead"
+                showSorterTooltip={false}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                columns={columns} dataSource={datas} onChange={this.onChange}
+                columns={columns} dataSource={datas} onChange={this.onChange} pagination={{ pageSize: 10 }} loading={false}
             />
             // onRowDoubleClick={(record: any, index: any) => this.handleRowClick(record, index)}
         );

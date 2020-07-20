@@ -10,11 +10,12 @@ class Content extends PureComponent<ContentProp, ContentState>{
     render() {
         return <>
             <Layout.Content className="home-content">
-                    <SubHeader />
-                <RandDHomeContent/>
+                <SubHeader />
+                <RandDHomeContent />
             </Layout.Content>
         </>
     }
 }
+
 
 export default Content;

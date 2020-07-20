@@ -10,7 +10,7 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
     render() {
         return (
             <div className="connectm-Tabs">
-                <Button size={"middle"} type="text" className={"tab-buttons"}>
+                <Button size={"middle"} type="text" className={"tab-buttons tab-active"}>
                     Smart Alerts (100)
                 </Button>
                 <Button size={"middle"} type="text" className={"tab-buttons"}>

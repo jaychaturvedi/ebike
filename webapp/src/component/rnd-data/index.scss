@@ -1,15 +1,15 @@
 @import "../../global.scss";
 @import "~antd/dist/antd.css";
-.connectm-RandDData{
-    border: 1px solid rgb(192, 178, 178);
-    .all-tabs{
+
+.connectm-RandDData {
+    // border: 1px solid rgb(192, 178, 178);
+    .all-tabs {
         display: flex;
-         align-self: center;
         margin-bottom: 3px;
+        align-self: center;
     }
 }
 
-.connectm-RandDTable :hover{
-        color: rgb(0, 178, 178);
-
+.connectm-RandDTable :hover {
+    color: rgb(0, 178, 178);
 }

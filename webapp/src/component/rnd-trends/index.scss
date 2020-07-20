@@ -1,6 +1,44 @@
 @import "../../global.scss";
 @import "~antd/dist/antd.css";
 
-.connectm-RandDTrends{
-    border: 1px solid rgb(192, 178, 178);
+.connectm-RandDTrends {
+    // border: 1px solid rgb(192, 178, 178);
+    display: flex;
+    flex-direction: column;
+    color: white;
+    .trends-header {
+        display: flex;
+        justify-content: space-between;
+        background-color: $APP_BACKGROUND;
+        height: 40px;
+        align-items: center;
+    }
+    .trends-graph {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        .graph {
+            min-height: 100%;
+            background-color: $GRAPH_BACKGROUND;
+            .titleheader {
+                background-color: $TABLE_ROW_DARK;
+                font-size: 12px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
 }
+
+.trend-dropdown-active {
+    color : $ACTIVE;
+    border-bottom: 1px solid #FCC84A;
+}
+
+// .connectm-RandDTrends .graph {
+//     display: flex;
+//     background-color: $GRAPH_BACKGROUND;
+//     align-items: center;
+//     height: 150px;
+// }
