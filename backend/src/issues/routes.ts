@@ -24,8 +24,8 @@ app.get('/:rideId',
 )
 app.post('/',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId, comments } = req.body
-        const issue = await createIssues(rideId, comments)
+        const { rideId, issues } = req.body
+        const issue = await createIssues(rideId, issues)
         const response = createResponse("OK", issue, undefined)
         res.json(response)
     })

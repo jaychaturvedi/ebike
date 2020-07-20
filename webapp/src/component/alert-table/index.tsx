@@ -2,40 +2,38 @@ import './index.scss';
 import { Table } from 'antd';
 import React, { PureComponent } from 'react';
 import { DownOutlined } from '@ant-design/icons';
+import { ReactComponent as Severity } from "../../assets/severity_icon.svg"
+import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
 
 const columns: any = [
     {
-        title: 'AlertName', dataIndex: 'alertName', sorter: {
-            compare: (a: any, b: any) => a.english - b.english,
-            multiple: 1,
-        },
+        dataIndex: 'alertName', title: () =>
+            <div className="ant-table-cell"> Alert Name <DownOutlined /></div>,
     },
     {
-        title: 'Model', dataIndex: 'model', sorter: {
-            compare: (a: any, b: any) => a.model - b.model,
-            multiple: 3,
-        },
+        dataIndex: 'model', title: () =>
+            <div className="ant-table-cell">Model  <DownOutlined /></div>,
     },
     {
-        title: 'VehicleId', dataIndex: 'vehicleId',
+        dataIndex: 'vehicleId',
+        title: () => <div className="ant-table-cell">Vehicle ID </div>,
     },
     {
-        title: 'Time', dataIndex: 'time', sorter: {
-            compare: (a: any, b: any) => a.time - b.time,
-            multiple: 1,
-        },
+        dataIndex: 'time', title: () => <div className="ant-table-cell"
+            style={{ display: 'flex', justifyContent: 'center' }} >
+            Time  <ActiveSort width="20" height="20" cursor='pointer' /></div>,
     },
     {
-        title: 'Open Since', dataIndex: 'openSince', sorter: {
-            compare: (a: any, b: any) => a.openSince - b.openSince,
-            multiple: 1,
-        },
+        dataIndex: 'openSince', title: () =>
+            <div className="ant-table-cell">Open Since  <DownOutlined /></div>,
     },
     {
-        title: 'Severity', dataIndex: 'severity',
+        dataIndex: 'severity', title: () =>
+            <div className="ant-table-cell">Severity  <DownOutlined /></div>,
     },
     {
-        title: 'Location', dataIndex: 'location',
+        dataIndex: 'location', title: () =>
+            <div className="ant-table-cell">Location </div>,
     },
 ];
 type TData = {
@@ -45,7 +43,7 @@ type TData = {
     vehicleId: string,
     time: string,
     openSince: string,
-    severity: string,
+    severity: any,
     location: string
 }
 
@@ -58,7 +56,7 @@ for (var i = 1; i < 30; i++) {
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
         openSince: "24hrs" + i + "0min",
-        severity: "major",
+        severity: <Severity width="20" height="20" />,
         location: "Bangalore " + i
     })
 }
@@ -81,9 +79,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 className="ant-table-thead"
                 showSorterTooltip={false}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                columns={columns} dataSource={datas} onChange={this.onChange} pagination={{ pageSize: 10 }} loading={false}
+                columns={columns} dataSource={datas} pagination={{ pageSize: 10 }} loading={false}
             />
-            // onRowDoubleClick={(record: any, index: any) => this.handleRowClick(record, index)}
         );
     }
     onChange(pagination: any, filters: any, sorter: any, extra: any) {
