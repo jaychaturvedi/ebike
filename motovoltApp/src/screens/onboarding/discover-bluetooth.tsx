@@ -1,27 +1,37 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {Image, View, Text, StyleSheet} from 'react-native';
+import {scale, verticalScale} from '../../styles/size-matters';
 import CTAHeader from './components/header';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
+import {TStore} from '../../service/redux/store';
+import {TurnOnBLE, ScanBLEDevices} from '../../service/redux/actions/ble';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+
+type ReduxState = {
+  enableBluetooth: (params: TurnOnBLE) => void;
+  scanDevices: (params: ScanBLEDevices) => void;
+  ble: TStore['ble'];
+};
 
 type DiscoverNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'Discovering'
 >;
 
-type Props = {
-  navigation: DiscoverNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'Discovering'>
-};
+interface Props extends ReduxState {
+  navigation: DiscoverNavigationProp;
+  route: RouteProp<OnboardingStackParamList, 'Discovering'>;
+}
 
 type State = {
-  timeoutIntervalId: number,
+  bleScanRequested: boolean;
+  bleScanning: boolean;
   intervalId: number;
   circleCount: number;
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -44,32 +54,52 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class DiscoveringBluetooth extends React.PureComponent<Props, State> {
+class DiscoveringBluetooth extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      timeoutIntervalId: 0,
+      bleScanRequested: false,
+      bleScanning: false,
       intervalId: 0,
       circleCount: 0,
     };
   }
 
   timer = () => {
-    this.setState({ circleCount: (this.state.circleCount + 1) % 4 });
+    this.setState({circleCount: (this.state.circleCount + 1) % 4});
   };
 
   componentDidMount() {
+    this.props.enableBluetooth({
+      type: 'TurnOnBLE',
+      payload: {},
+    });
     const intervalId = setInterval(this.timer, 500);
-    const timeoutIntervalId = setTimeout(() => this.props.navigation.navigate('BluetoothDevices', {}), 3000)
-    this.setState({ intervalId, timeoutIntervalId });
+    this.setState({intervalId});
+  }
+
+  static getDerivedStateFromProps(props: Props, state: State) {
+    if (props.ble.state == "on" && !state.bleScanRequested) {
+      props.scanDevices({
+        type: 'ScanBLEDevices',
+        payload: {},
+      });
+      state.bleScanRequested = true;
+    }
+    if (props.ble.scanning) {
+      state.bleScanning = true;
+    }
+    return state;
   }
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId);
-    clearInterval(this.state.timeoutIntervalId);
   }
 
   render() {
+    if (this.state.bleScanning && !this.props.ble.scanning) {
+      this.props.navigation.navigate('BluetoothDevices', {});
+    }
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -117,3 +147,17 @@ export default class DiscoveringBluetooth extends React.PureComponent<Props, Sta
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      ble: store['ble'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      enableBluetooth: (params: TurnOnBLE) => dispatch(params),
+      scanDevices: (params: ScanBLEDevices) => dispatch(params),
+    };
+  },
+)(DiscoveringBluetooth);

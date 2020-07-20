@@ -1,3 +1,8 @@
+import {
+    BLEState,
+    TPeripheral
+} from "../ble";
+
 type TBikeStat = {
     isStale: boolean,
     co2SavingKg: number,
@@ -83,6 +88,13 @@ type Service = {
     closeDate: string,
 }
 
+type BLE = {
+    scanning: boolean,
+    state: BLEState,
+    devices: TPeripheral[],
+    connectedPeripheral: string,
+}
+
 const ZeroUser: TUser = {
     isStale: true,
     id: "",
@@ -145,6 +157,13 @@ const ZeroBike: TBike = {
     batteries: {}
 }
 
+const ZeroBLE: BLE = {
+    scanning: false,
+    state: "off",
+    devices: [],
+    connectedPeripheral: ''
+}
+
 export type TStore = {
     user: TUser,
     bikeStat: TBikeStat,
@@ -153,7 +172,8 @@ export type TStore = {
     notifications: { [id: string]: TNotification },
     bike: TBike,
     services: { [id: string]: Service },
-    rides: { [id: string]: TRide }
+    rides: { [id: string]: TRide },
+    ble: BLE,
 }
 
 export default {
@@ -164,5 +184,6 @@ export default {
     bike: ZeroBike,
     notifications: {},
     rides: {},
-    services: {}
+    services: {},
+    ble: ZeroBLE
 } as TStore

@@ -31,35 +31,6 @@ export type TBleListeners = {
     onUpdateValueForCharacteristic: (data: Characteristic) => void;
 }
 
-let bleListeners: TBleListeners = {
-    onStopScan: (peripherals: TPeripheral[]) => { },
-    onStateChange: (state: BLEState) => { },
-    onDisconnectPeripheral: (data: PeripheralDisconnected) => { },
-    onUpdateValueForCharacteristic: (data: Characteristic) => { },
-}
-
-const listeners = {
-    onStopScan: () => {
-        BleManager.getDiscoveredPeripherals()
-            .then((peripherals: Peripheral[]) => {
-                bleListeners.onStopScan(peripherals);
-            })
-            .catch(err => {
-                console.log(err)
-                bleListeners.onStopScan([]);
-            })
-    },
-    onStateChange: (state: { state: BLEState }) => {
-        bleListeners.onStateChange(state.state);
-    },
-    onDisconnectPeripheral: (data: PeripheralDisconnected) => {
-        bleListeners.onDisconnectPeripheral(data);
-    },
-    onUpdateValueForCharacteristic: (data: Characteristic) => {
-        bleListeners.onUpdateValueForCharacteristic(data);
-    }
-}
-
 async function requestPermission() {
     if (Platform.OS === 'android' && Platform.Version >= 23) {
         return PermissionsAndroid.check(
@@ -92,7 +63,8 @@ export async function enableBluetooth() {
         /** Starting BLE Manager*/
         await BleManager.start({ showAlert: false });
         const granted = await requestPermission();
-        if (!granted)
+        console.log("Granted", granted)
+        if (!granted.success)
             throw new Error("Permission not granted");
         return { success: true }
     } catch (error) {
@@ -100,34 +72,48 @@ export async function enableBluetooth() {
     }
 }
 
-export async function initialiseListeners(lstners: TBleListeners) {
+export function initialiseListeners(listeners: TBleListeners) {
 
     try {
-        bleListeners = lstners;
-
         /** On Stop Scan */
         const onStopScan = bleManagerEmitter.addListener(
             'BleManagerStopScan',
-            listeners.onStopScan,
+            () => {
+                BleManager.getDiscoveredPeripherals()
+                    .then((peripherals: Peripheral[]) => {
+                        console.log("peri", JSON.stringify(peripherals))
+                        listeners.onStopScan(peripherals.filter(p => p.name === "ConnectM"));
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        listeners.onStopScan([]);
+                    })
+            },
         );
 
         /** On BLE State change*/
         const onStateChange = bleManagerEmitter.addListener(
             'BleManagerDidUpdateState',
-            listeners.onStateChange,
+            (state: { state: BLEState }) => {
+                listeners.onStateChange(state.state);
+            },
         );
 
         /** On Peripheral Disconnected */
         const onDisconnectPeripheral = bleManagerEmitter.addListener(
             'BleManagerDisconnectPeripheral',
-            listeners.onDisconnectPeripheral,
+            (data: PeripheralDisconnected) => {
+                listeners.onDisconnectPeripheral(data);
+            },
         );
 
         const onUpdateValueForCharacteristic = bleManagerEmitter.addListener(
             'BleManagerDidUpdateValueForCharacteristic',
-            listeners.onUpdateValueForCharacteristic,
+            (data: Characteristic) => {
+                console.log("Data", data)
+                listeners.onUpdateValueForCharacteristic(data);
+            },
         );
-
         BleManager.checkState();
         const unsubscriber = () => {
             onStopScan.remove();
@@ -142,7 +128,7 @@ export async function initialiseListeners(lstners: TBleListeners) {
 }
 
 export function startScan(timeSecs: number) {
-    return BleManager.scan([ServiceId], timeSecs, false)
+    return BleManager.scan([], timeSecs, false)
         .then((results) => {
             return { success: true };
         }).catch(err => {
@@ -153,7 +139,6 @@ export function startScan(timeSecs: number) {
 
 export function getConnectedPeripherals() {
     return BleManager.getConnectedPeripherals([ServiceId]).then((ps) => {
-        console.log('Connected Per', JSON.stringify(ps));
         return { peripherals: ps, success: true }
     }).catch(err => {
         console.log(err);

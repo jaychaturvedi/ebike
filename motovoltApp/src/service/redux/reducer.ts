@@ -2,8 +2,28 @@ import Store, { TStore } from "./store";
 import Action from "./actions";
 
 export default (store: TStore = Store, params: Action): TStore => {
-    console.log("Reecived", params, store)
+    console.log("Received", JSON.stringify(params), store)
     switch (params.type) {
+        //BLE
+        case "UpdateBleStore":
+            return {
+                ...store,
+                ble: {
+                    ...store.ble,
+                    ...params.payload
+                }
+            }
+        case "TurnOnBLE": return store;
+        case "ConnectBLE": return store;
+        case "DisconnectBLE": return store;
+        case "ScanBLEDevices":
+            return {
+                ...store,
+                ble: {
+                    ...store.ble,
+                    scanning: true
+                }
+            }
         case "InitiateForgotPassword":
         case "InitiateMobileValidation":
         case "SignIn":
