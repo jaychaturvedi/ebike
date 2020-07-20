@@ -8,8 +8,8 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import Registration from './src/navigation/onboarding';
 import FooterNavigation from './src/navigation/footer';
 
@@ -36,7 +36,7 @@ import ForgotPassword from './src/screens/onboarding/forgot-password';
 // import OTP from './src/screens/onboarding/otp';
 import CreateNewPassword from './src/screens/onboarding/create-new-password';
 // Show model for success
-import {Form} from 'native-base';
+import { Form } from 'native-base';
 
 // Home
 import Home from './src/screens/home';
@@ -77,10 +77,10 @@ import * as Authentication from './src/service/authentication';
 import ObjectId from './src/service/object-id';
 import Colors from './src/styles/colors';
 
-import {Provider} from 'react-redux';
-import {store} from './src/service';
+import { Provider } from 'react-redux';
+import { store } from './src/service';
 
-declare const global: {HermesInternal: null | {}};
+declare const global: { HermesInternal: null | {} };
 
 const styles = StyleSheet.create({});
 

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { View, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Dimensions, StatusBar } from 'react-native'
 import { Icon } from 'native-base'
 import BarcodeMask from 'react-native-barcode-mask';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
@@ -44,49 +44,53 @@ export default class ScanScreen extends React.PureComponent<Props, State> {
 
     render() {
         return (
-            <QRCodeScanner
-                onRead={this.onSuccess}
-                cameraStyle={{ height: Dimensions.get('window').height }}
-                showMarker
-                reactivate
-                reactivateTimeout={1000}
-                /**
-                 * The below property needs to be removed when the issue @qr code scanner library is fixed
-                 * issue  @link : https://github.com/moaazsidat/react-native-qrcode-scanner/issues/270
-                 **/
-                topViewStyle={{ marginTop: -Dimensions.get('window').width - moderateScale(1) }}
-                customMarker={
-                    <View style={styles.rectangleContainer}>
-                        <View style={styles.backButton}>
-                            <Icon type="FontAwesome" name="arrow-circle-left" style={{ color: 'white', fontSize: scale(35) }}
-                                onPress={() => this.props.navigation.goBack()}></Icon>
-                        </View>
-                        <View style={styles.topOverlay}>
-                            <Text style={{ fontSize: scale(16), color: "#F89308", fontWeight: 'bold' }}>
-                                Scan QR Code to register
-                        </Text>
-                        </View>
-                        <View style={{ flexDirection: "row" }}>
-                            <View style={styles.leftAndRightOverlay} />
-                            <View style={styles.rectangle}>
-                                <BarcodeMask
-                                    showAnimatedLine={false}
-                                    width={'100%'}
-                                    height={verticalScale(200)}
-                                    edgeHeight={verticalScale(30)}
-                                    edgeWidth={scale(30)}
-                                />
+
+            <View style={{ height: '100%', backgroundColor: '#434343' }}>
+                <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#434343" translucent={true} />
+                <QRCodeScanner
+                    onRead={this.onSuccess}
+                    cameraStyle={{ height: Dimensions.get('window').height, marginBottom: 0 }}
+                    showMarker
+                    reactivate
+                    reactivateTimeout={1000}
+                    /**
+                     * The below property needs to be removed when the issue @qr code scanner library is fixed
+                     * issue  @link : https://github.com/moaazsidat/react-native-qrcode-scanner/issues/270
+                     **/
+                    topViewStyle={{ marginTop: -Dimensions.get('window').width, marginBottom: 0 }}
+                    customMarker={
+                        <View style={styles.rectangleContainer}>
+                            <View style={styles.backButton}>
+                                <Icon type="FontAwesome" name="arrow-circle-left" style={{ color: 'white', fontSize: scale(35) }}
+                                    onPress={() => this.props.navigation.goBack()}></Icon>
                             </View>
-                            <View style={styles.leftAndRightOverlay} />
-                        </View>
-                        <View style={styles.bottomOverlay}>
-                            <Text style={{ fontSize: scale(16), color: "white" }}>
-                                Point your camera at the QR Code
+                            <View style={styles.topOverlay}>
+                                <Text style={{ fontSize: scale(16), color: "#F89308", fontWeight: 'bold' }}>
+                                    Scan QR Code to register
+                        </Text>
+                            </View>
+                            <View style={{ flexDirection: "row" }}>
+                                <View style={styles.leftAndRightOverlay} />
+                                <View style={styles.rectangle}>
+                                    <BarcodeMask
+                                        showAnimatedLine={false}
+                                        width={'100%'}
+                                        height={verticalScale(200)}
+                                        edgeHeight={verticalScale(30)}
+                                        edgeWidth={scale(30)}
+                                    />
+                                </View>
+                                <View style={styles.leftAndRightOverlay} />
+                            </View>
+                            <View style={styles.bottomOverlay}>
+                                <Text style={{ fontSize: scale(16), color: "white" }}>
+                                    Point your camera at the QR Code
                       </Text>
+                            </View>
                         </View>
-                    </View>
-                }
-            />
+                    }
+                />
+            </View>
         );
     }
 }

@@ -30,8 +30,8 @@ export default class ValidateMobile extends React.PureComponent<Props, State>{
     }
     render() {
         return (
-            <KeyboardAvoidingView style={styles.container}
-                behavior={Platform.OS == "ios" ? "padding" : "height"}
+            <View style={styles.container}
+            // behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
                 <View style={styles.header}>
                     <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: scale(20) }}>
@@ -66,7 +66,7 @@ export default class ValidateMobile extends React.PureComponent<Props, State>{
                         })}
                     />
                 </View>
-            </KeyboardAvoidingView>
+            </View>
         )
     }
 }

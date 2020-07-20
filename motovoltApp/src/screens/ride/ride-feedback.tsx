@@ -4,8 +4,20 @@ import { moderateScale, scale } from 'react-native-size-matters'
 import Button from '../../components/cta-button'
 import CheckBox from '../../components/checkbox'
 import { Textarea } from 'native-base'
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { FeedbackStackParamList } from '../../navigation/feedback';
 
-type Props = {}
+type FeedbackNavigationProp = StackNavigationProp<
+    FeedbackStackParamList,
+    'RideFeedback'
+>;
+
+type Props = {
+    navigation: FeedbackNavigationProp,
+    route: RouteProp<FeedbackStackParamList, 'RideFeedback'>
+};
+
 type State = {
     checkboxValue: string,
     description: string
@@ -71,12 +83,13 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-        height: '10%',
+        height: '20%',
         flexDirection: 'row',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        paddingTop: moderateScale(20)
     },
     reviews: {
-        height: '80%',
+        height: '70%',
         justifyContent: 'flex-end',
         alignItems: 'center'
     },

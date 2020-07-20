@@ -6,20 +6,22 @@ import StatisticsStack from './statistics'
 import MyCycleStack from './cycle'
 import MenuStack from './menu'
 import RideStack from './ride'
+import RideFeedBack from './feedback'
 
 type Props = {}
 type State = {
     screen: TFooterItem,
-    lockVerified: boolean
+    lockVerified?: boolean,
+    hideFooter?: boolean
 }
-
 
 export default class FooterNavigation extends React.PureComponent<Props, State>{
     constructor(props: Props) {
         super(props)
         this.state = {
             screen: "home",
-            lockVerified: false
+            lockVerified: undefined,
+            hideFooter: undefined,
         }
     }
 
@@ -42,22 +44,27 @@ export default class FooterNavigation extends React.PureComponent<Props, State>{
     render() {
         return (
             <View style={styles.container} >
-                <View style={styles.screen}>
+                <View style={{ ...styles.screen }}>
                     {
-                        this.state.lockVerified ? <RideStack />
-                            : this.renderScreen(this.state.screen)
+                        this.state.lockVerified === true ? <RideStack />
+                            : this.state.lockVerified === false ?
+                                <RideFeedBack /> : this.renderScreen(this.state.screen)
+
                     }
                 </View>
-                <FooterNav
-                    locked
-                    onItemSelect={(item) => {
-                        this.setState({ screen: item })
-                    }}
-                    onLockClick={() => console.log("Lock clicked")}
-                    selectedItem={this.state.screen}
-                    lockOnlyVisible={this.state.lockVerified}
-                    onLockVerified={(verified) => this.setState({ lockVerified: verified })}
-                />
+                {
+                    !this.state.hideFooter && <FooterNav
+                        locked
+                        onItemSelect={(item) => {
+                            this.setState({ screen: item, lockVerified: undefined })
+                        }}
+                        onLockClick={() => console.log("Lock clicked")}
+                        selectedItem={this.state.screen}
+                        lockOnlyVisible={this.state.lockVerified !== undefined ? this.state.lockVerified : false}
+                        onLockVerified={(verified) => this.setState({ lockVerified: verified, hideFooter: !verified })}
+                    />
+                }
+
             </View>
         )
     }
