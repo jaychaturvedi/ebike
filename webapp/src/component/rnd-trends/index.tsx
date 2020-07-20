@@ -7,25 +7,25 @@ import {
 } from 'recharts';
 const data = [
     {
-        days: 'MON', uv: 4000, pv: 2400, amt: 2400, tv: 3000, av: 1000, bv: 7500,
+        days: 'MON', uv: 4000, pv: 10, amt: 2400, tv: 3000, av: 1000, bv: 7500,
     },
     {
-        days: 'TUE', uv: 3000, pv: 1398, amt: 2210, tv: 2500, av: 2000, bv: 8500,
+        days: 'TUE', uv: 3000, pv: 20, amt: 2210, tv: 2500, av: 2000, bv: 8500,
     },
     {
-        days: 'WED', uv: 2000, pv: 9800, amt: 2290, tv: 5000, av: 4000, bv: 7855,
+        days: 'WED', uv: 2000, pv: 15, amt: 2290, tv: 5000, av: 4000, bv: 7855,
     },
     {
-        days: 'THU', uv: 2780, pv: 3908, amt: 2000, tv: 10000, av: 9000, bv: 2355,
+        days: 'THU', uv: 2780, pv: 30, amt: 2000, tv: 10000, av: 9000, bv: 2355,
     },
     {
-        days: 'FRI', uv: 1890, pv: 4800, amt: 2181, tv: 8000, av: 11000, bv: 6145,
+        days: 'FRI', uv: 1890, pv: 45, amt: 2181, tv: 8000, av: 11000, bv: 6145,
     },
     {
-        days: 'SAT', uv: 2390, pv: 3800, amt: 2500, tv: 6230, av: 5000, bv: 1234,
+        days: 'SAT', uv: 2390, pv: 15, amt: 2500, tv: 6230, av: 5000, bv: 1234,
     },
     {
-        days: 'SUN', uv: 3490, pv: 4300, amt: 2100, tv: 4000, av: 6600, bv: 4751,
+        days: 'SUN', uv: 3490, pv: 90, amt: 2100, tv: 4000, av: 6600, bv: 4751,
     },
 ];
 const menu = (
@@ -65,44 +65,36 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                         <div className={"titleheader"}>
                             <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Total Alerts</Typography.Text>
                         </div>
-                        <LineChart width={220} height={100} data={data}>
+                        <LineChart width={300} height={100} data={data} style={{ fontSize: "10px" }}>
                             <CartesianGrid strokeDasharray="3 4 5 2" />
                             <XAxis dataKey="days" />
                             <Tooltip />
-                            <YAxis type="number" domain={[0, 500]} />
+                            <YAxis type="number" domain={[0, 100]} />
                             <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
                         </LineChart>
                     </div>
                     <div className="graph">
                         <div className={"titleheader"}>
-                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
+                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px"}} >Top 5 Alerts</Typography.Text>
                         </div>
-                        <LineChart width={220} height={100} data={data}>
+                        <LineChart width={300} height={100} data={data} style={{ fontSize: "10px" }}>
                             <CartesianGrid strokeDasharray="3 4 5 2" />
                             <XAxis dataKey="days" />
                             <Tooltip />
-                            <YAxis type="number" domain={['auto', 'auto']} />
+                            <YAxis type="number" domain={[0, 100]} />
                             <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                            <Line type="monotone" dataKey="uv" stroke="#77bdf8" strokeWidth={2} />
-                            <Line type="monotone" dataKey="tv" stroke="#999fff" strokeWidth={2} />
-                            <Line type="monotone" dataKey="av" stroke="#338fff" strokeWidth={2} />
-                            <Line type="monotone" dataKey="bv" stroke="#2287ff" strokeWidth={2} />
-                            <Legend />
                         </LineChart>
                     </div>
                     <div className="graph">
                         <div className={"titleheader"}>
                             <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
                         </div>
-                        <LineChart width={220} height={100} data={data}>
-                            <CartesianGrid strokeDasharray="3 5 5 2" />
+                        <LineChart width={300} height={100} data={data} style={{ fontSize: "10px" }}>
+                            <CartesianGrid strokeDasharray="3 4 5 2" />
                             <XAxis dataKey="days" />
-                            <YAxis type="number" domain={['auto', 'auto']} />
-                            <Legend />
                             <Tooltip />
+                            <YAxis type="number" domain={[0, 100]} />
                             <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                            <Line type="monotone" dataKey="tv" stroke="#999fff" strokeWidth={2} />
-                            <Line type="monotone" dataKey="bv" stroke="#2287ff" strokeWidth={2} />
                         </LineChart>
                     </div>
                 </div>
