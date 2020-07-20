@@ -2,8 +2,9 @@ import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
 
 export interface TFeedback {
-  id: number;
-  options: string;
+  rideId: string;
+  comments?: string;
+  options: string[];
 }
 
 type TFeedbackModel<T> = typeof Model & {
@@ -18,6 +19,10 @@ let Feedback: TFeedbackModel<TFeedback & Model> = <TFeedbackModel<TFeedback & Mo
       primaryKey: true
     },
     options: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
+      allowNull: false,
+    },
+    comments: {
       type: Sequelize.STRING,
       allowNull: false,
     }

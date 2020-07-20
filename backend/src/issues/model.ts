@@ -4,7 +4,7 @@ import User from '../user/model';
 
 export interface TIssue {
   rideId: string;
-  comments: Array<string>;
+  issues: string;
 }
 type TIssueModel<T> = typeof Model & {
   new(values?: object, options?: BuildOptions): T;
@@ -22,7 +22,7 @@ let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define
       }
     },
     issues: {
-      type: Sequelize.ARRAY(Sequelize.STRING),
+      type: Sequelize.STRING,
       allowNull: true
     }
   },
