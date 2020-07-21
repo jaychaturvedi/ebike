@@ -1,11 +1,13 @@
 import React from 'react'
 import { KeyboardAvoidingView, View, StyleSheet, Text, Platform } from 'react-native'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
-import { Input, Content, Item } from 'native-base'
+import { Content, Item } from 'native-base'
 import Button from '../../components/cta-button'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
 import { OnboardingStackParamList } from '../../navigation/onboarding'
+import Colors from '../../styles/colors'
+import Input from '../onboarding/components/input'
 
 type ValidateMobileNavigationProp = StackNavigationProp<
     OnboardingStackParamList,
@@ -28,6 +30,11 @@ export default class ValidateMobile extends React.PureComponent<Props, State>{
             mobile: ''
         }
     }
+
+    onChange = (text: string) => {
+        this.setState({ mobile: text })
+    }
+
     render() {
         return (
             <View style={styles.container}
@@ -38,12 +45,11 @@ export default class ValidateMobile extends React.PureComponent<Props, State>{
                         Validate Your Mobile Number</Text>
                 </View>
                 <View style={styles.input}>
-                    <Item regular style={{ borderRadius: 10 }}>
-                        <Input
-                            placeholder="Enter your registered mobile No."
-                            onChangeText={(text: string) => this.setState({ mobile: text })}
-                        />
-                    </Item>
+                    <Input
+                        placeHolder="Enter Registered Mobile No."
+                        keyboardNumericType
+                        onChange={this.onChange}
+                    />
                 </View>
                 <View style={styles.helpText}>
                     <Text style={{ fontSize: moderateScale(14, 0.1), textAlign: 'center' }}>
@@ -80,21 +86,21 @@ const styles = StyleSheet.create({
         padding: scale(30)
     },
     header: {
-        height: '30%',
+        height: '20%',
         justifyContent: 'center'
     },
     input: {
         height: '20%',
-        justifyContent: 'flex-start',
-        alignContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     helpText: {
         height: '40%',
         justifyContent: 'flex-start'
     },
     verifyBtn: {
+        flex: 1,
         justifyContent: 'flex-end',
-        height: scale(50),
         alignItems: "center"
     }
 })
