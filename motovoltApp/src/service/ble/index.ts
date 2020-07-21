@@ -82,7 +82,7 @@ export function initialiseListeners(listeners: TBleListeners) {
                 BleManager.getDiscoveredPeripherals()
                     .then((peripherals: Peripheral[]) => {
                         console.log("peri", JSON.stringify(peripherals))
-                        listeners.onStopScan(peripherals.filter(p => p.name === "ConnectM"));
+                        listeners.onStopScan(peripherals);
                     })
                     .catch(err => {
                         console.log(err)
