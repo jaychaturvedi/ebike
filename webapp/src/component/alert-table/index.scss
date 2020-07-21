@@ -10,20 +10,35 @@
 }
 
 .ant-table-thead {
+
     tr {
         th {
             background-color: $TABLE_ROW_LIGHT !important;
+            background-color: red;
         }
+    }
+
+    .fa-arrow-down {
+        transform: rotate(0deg);
+        transition: transform 1ms linear;
+    }
+
+    .fa-arrow-down.open {
+        transform: rotate(180deg);
+        transition: transform 1ms linear;
     }
 }
 
+
+
+
 .ant-table-cell {
+    cursor: pointer;
     text-align: center;
     color: white;
 }
 
 .ant-table-tbody>tr:hover>td {
-    cursor: pointer;
     background: none;
     color: black;
 }
