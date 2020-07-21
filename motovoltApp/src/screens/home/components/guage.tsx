@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {AnimatedCircularProgress} from 'react-native-circular-progress';
-import {Svg} from 'react-native-svg';
-import {scale} from '../../../styles/size-matters';
+import { View, Text, StyleSheet } from 'react-native';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { Svg } from 'react-native-svg';
+import { scale } from '../../../styles/size-matters';
 import Marking from './markings';
 import Colors from '../../../styles/colors';
 
@@ -11,7 +11,7 @@ const Width = scale(300);
 const guageStyle = StyleSheet.create({
   marking: {
     position: 'absolute',
-    transform: [{rotateZ: '-120deg'}],
+    transform: [{ rotateZ: '-120deg' }],
   },
   guageContainer: {
     width: '100%',
@@ -54,7 +54,7 @@ type Props = {
 export default class Guage extends React.PureComponent<Props, {}> {
   render() {
     return (
-      <View style={{width: '100%', alignItems: 'center'}}>
+      <View style={{ width: '100%', alignItems: 'center' }}>
         <Svg height={Width} width={Width} style={guageStyle.marking}>
           <Marking
             centerX={Width / 2}
@@ -71,7 +71,7 @@ export default class Guage extends React.PureComponent<Props, {}> {
           fill={this.props.fillDeg}
           arcSweepAngle={240}
           rotation={240}
-          tintColor="#ff0000"
+          tintColor="#6d83a6"
           backgroundColor={Colors.BG_GREY}
           lineCap="round"
           children={(fill) => {

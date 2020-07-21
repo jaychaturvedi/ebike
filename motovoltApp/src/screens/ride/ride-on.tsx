@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Card from '../home/components/card';
 import Metrics from '../home/components/metrics';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Guage from '../home/components/guage';
 import Colors from '../../styles/colors';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
 
 type ReduxState = {
   bikeState: TStore['bikeState'];
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Props extends ReduxState {}
+interface Props extends ReduxState { }
 
 class RideOn extends React.PureComponent<Props, {}> {
   render() {
@@ -52,6 +52,7 @@ class RideOn extends React.PureComponent<Props, {}> {
         <Header
           backgroundColor={Colors.WHITE}
           title={`Bike ${this.props.bikeState.isOn ? 'ON' : 'OFF'}`}
+          hasTabs
         />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
@@ -62,7 +63,7 @@ class RideOn extends React.PureComponent<Props, {}> {
             />
           </View>
           <Guage
-            fillDeg={90}
+            fillDeg={60}
             speed={this.props.ride.speedKmph}
             time={this.props.ride.durationSec.toString()}
             totalDistanceKm={this.props.ride.totalDistanceKm}
