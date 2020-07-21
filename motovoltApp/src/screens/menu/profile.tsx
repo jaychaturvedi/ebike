@@ -45,7 +45,6 @@ class Profile extends React.PureComponent<Props, State> {
     return (
       <View style={styles.container}>
         <Header
-          hasBluetoothNotification
           title="Profile"
           hasBackButton
           backgroundColor={Colors.HEADER_YELLOW}
@@ -111,8 +110,14 @@ class Profile extends React.PureComponent<Props, State> {
           <ProfileInfoCard
             style={styles.profileInfo}
             data={[
-              {key: 'Batteries Owned', value: Object.keys(this.props.bike.batteries).length.toString()},
-              {key: 'Battery ID', value: Object.keys(this.props.bike.batteries).join(',')},
+              {
+                key: 'Batteries Owned',
+                value: Object.keys(this.props.bike.batteries).length.toString(),
+              },
+              {
+                key: 'Battery ID',
+                value: Object.keys(this.props.bike.batteries).join(','),
+              },
             ]}
           />
 
@@ -127,7 +132,7 @@ export default connect(
   (store: TStore): ReduxState => {
     return {
       user: store['user'],
-      bike: store["bike"]
+      bike: store['bike'],
     };
   },
 )(Profile);

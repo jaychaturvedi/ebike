@@ -7,18 +7,18 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import { moderateScale } from 'react-native-size-matters';
+import {moderateScale} from 'react-native-size-matters';
 import ProfileImage from '../../components/profile';
 import RideMetric from '../../components/ride-metric';
 import upgrade from '../../components/upgrade-premium';
 import Upgrade from '../../components/upgrade-premium';
 import Feature from '../../components/feature';
-import Header from '../home/components/header/index'
+import Header from '../home/components/header/index';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { MenuStackParamList } from '../../navigation/menu';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MenuStackParamList} from '../../navigation/menu';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -26,8 +26,8 @@ type MoreMenuNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-  navigation: MoreMenuNavigationProp,
-  route: RouteProp<MenuStackParamList, 'MenuScreen'>
+  navigation: MoreMenuNavigationProp;
+  route: RouteProp<MenuStackParamList, 'MenuScreen'>;
 };
 
 const feature = [
@@ -105,11 +105,7 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <Header
-          hasBluetoothNotification
-          title="More"
-          backgroundColor={Colors.HEADER_YELLOW}
-        />
+        <Header title="More" backgroundColor={Colors.HEADER_YELLOW} />
         <View style={styles.profile}>
           <ProfileImage />
           <Text
@@ -133,7 +129,7 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
               />
             </Text>
           </Text>
-          <Text style={{ textAlign: 'center' }}>Classic Model-A</Text>
+          <Text style={{textAlign: 'center'}}>Classic Model-A</Text>
         </View>
         <View style={styles.metric}>
           <RideMetric
@@ -147,9 +143,9 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
             value2={String(1358)}
           />
         </View>
-        <TouchableOpacity style={styles.upgrade}
-          onPress={() => this.props.navigation.navigate('Upgrade', {})}
-        >
+        <TouchableOpacity
+          style={styles.upgrade}
+          onPress={() => this.props.navigation.navigate('Upgrade', {})}>
           <Upgrade />
         </TouchableOpacity>
         <ScrollView
@@ -161,7 +157,7 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
           }}>
           {feature.map((feature, index: number) => {
             return (
-              <View style={{ width: '33.3%', alignItems: 'center' }} key={index}>
+              <View style={{width: '33.3%', alignItems: 'center'}} key={index}>
                 <Feature
                   feature={feature.feature}
                   icon={feature.icon}

@@ -4,10 +4,11 @@ import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Header, Left, Right, Button, Subtitle, Title} from 'native-base';
 import {scale} from '../../../../styles/size-matters';
 import Colors from '../../../../styles/colors';
+import {verticalScale} from 'react-native-size-matters';
 
 type Props = {
   hasPromoNotification?: boolean;
-  hasBluetoothNotification?: boolean;
+  isBluetoothOn?: boolean;
   hasNotification?: boolean;
   title: string;
   subtitle?: string;
@@ -15,6 +16,9 @@ type Props = {
   hasSubtitle?: boolean;
   hasTabs?: boolean;
   hasBackButton?: boolean;
+  hidePromo?: boolean;
+  hideBluetooth?: boolean;
+  hideNotification?: boolean;
   onBackClick?: () => void;
   onPromotionClick?: () => void;
   onBluetoothClick?: () => void;
@@ -52,27 +56,36 @@ export default class CHeader extends React.PureComponent<Props, {}> {
             </View>
           </Left>
           <Right>
-            <Button transparent onPress={this.props.onPromotionClick}>
-              {this.props.hasPromoNotification && <Badge />}
-              <Image
-                source={require('../../../../assets/icons/promos.png')}
-                style={styles.rightIcon}
-              />
-            </Button>
-            <Button transparent onPress={this.props.onBluetoothClick}>
-              {this.props.hasBluetoothNotification && <Badge />}
-              <Image
-                source={require('../../../../assets/icons/bluetooth.png')}
-                style={styles.rightIcon}
-              />
-            </Button>
-            <Button transparent onPress={this.props.onNotificationClick}>
-              {this.props.hasNotification && <Badge />}
-              <Image
-                source={require('../../../../assets/icons/notification.png')}
-                style={styles.rightIcon}
-              />
-            </Button>
+            {!this.props.hidePromo && (
+              <Button transparent onPress={this.props.onPromotionClick}>
+                {this.props.hasPromoNotification && <Badge />}
+                <Image
+                  source={require('../../../../assets/icons/promos.png')}
+                  style={styles.rightIcon}
+                />
+              </Button>
+            )}
+            {!this.props.hideBluetooth && (
+              <Button transparent onPress={this.props.onBluetoothClick}>
+                <Image
+                  source={require('../../../../assets/icons/bluetooth.png')}
+                  style={{
+                    ...styles.rightIcon,
+                    height: verticalScale(24),
+                    opacity: this.props.isBluetoothOn ? 1 : 0.3,
+                  }}
+                />
+              </Button>
+            )}
+            {!this.props.hideNotification && (
+              <Button transparent onPress={this.props.onNotificationClick}>
+                {this.props.hasNotification && <Badge />}
+                <Image
+                  source={require('../../../../assets/icons/notification.png')}
+                  style={styles.rightIcon}
+                />
+              </Button>
+            )}
           </Right>
         </View>
       </Header>
@@ -98,5 +111,5 @@ const styles = StyleSheet.create({
   },
   title: {fontSize: 20, fontWeight: 'bold', color: Colors.BLACK},
   subtitle: {fontSize: 12, fontWeight: 'normal', color: Colors.BLACK},
-  rightIcon: {width: scale(26), height: scale(26)},
+  rightIcon: {width: scale(26), height: verticalScale(26)},
 });

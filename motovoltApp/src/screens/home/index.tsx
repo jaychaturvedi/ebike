@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, View, Image, Text} from 'react-native';
 import Metrics from './components/metrics';
 import RideStatSection from './components/ridestats';
 import Header from './components/header';
@@ -30,7 +30,6 @@ class Home extends React.PureComponent<Props, State> {
     return (
       <View style={styles.container}>
         <Header
-          hasBluetoothNotification
           title={`Hello ${this.props.user.name}`}
           backgroundColor={Colors.HEADER_YELLOW}
         />
@@ -42,14 +41,40 @@ class Home extends React.PureComponent<Props, State> {
               rangeCovered={this.props.bikeState.rangeCoveredKm.toString()}
             />
           </View>
-          <View style={{height: moderateScale(200)}}>
-            <Image
-              source={require('../../assets/images/cycle.png')}
-              resizeMethod="scale"
-              style={styles.image}
-              width={moderateScale(300)}
-              height={moderateScale(200)}
-            />
+          <View
+            style={{
+              height: 250,
+              width: '100%',
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                position: 'relative',
+                right: scale(100),
+                width: '70%',
+              }}>
+              <Image
+                source={require('../../assets/images/cycle.png')}
+                style={{height: '100%'}}
+                width={scale(350)}
+              />
+            </View>
+            <View
+              style={{
+                width: '30%',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                padding: 10,
+              }}>
+              <Text
+                style={{fontSize: 20, fontWeight: 'bold'}}
+                numberOfLines={1}>
+                Cycle A
+              </Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>ON{'\n'}</Text>
+              <Image
+                source={require('../../assets/icons/GPS_tracker.png')}></Image>
+            </View>
           </View>
           <RideStatSection
             co2Saving={this.props.bikeStat.co2SavingKg.toString()}
@@ -81,5 +106,4 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   body: {flex: 1},
-  image: {flex: 1, width: '80%'},
 });

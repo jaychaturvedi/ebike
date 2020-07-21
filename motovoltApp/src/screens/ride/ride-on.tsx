@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
+    backgroundColor: Colors.WHITE,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -49,7 +50,7 @@ class RideOn extends React.PureComponent<Props, {}> {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor={Colors.HEADER_YELLOW}
+          backgroundColor={Colors.WHITE}
           title={`Bike ${this.props.bikeState.isOn ? 'ON' : 'OFF'}`}
         />
         <View style={styles.flexAlignHorizontalCentre}>

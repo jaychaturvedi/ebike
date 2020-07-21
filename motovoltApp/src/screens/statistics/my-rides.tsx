@@ -63,6 +63,20 @@ class MyRides extends React.PureComponent<Props, State> {
               YOUR RIDES
             </Text>
           </View>
+          <RideCard
+            key={"12"}
+            fromAddress="HsR layout, Near yelahanka Bangalore 21"
+            toAddress="HsR layout, Near yelahanka Bangalore 21"
+            progress={30}
+            fromTime={new Date()}
+            toTime={new Date()}
+            distance={"12"}
+            rating={`12/10`}
+            speed={"12"}
+            onItemSelect={() =>
+              this.props.navigation.navigate('IndividualRide', {})
+            }
+          />
           {Object.keys(this.props.rides).map((key, index) => (
             <RideCard
               key={index}
