@@ -71,7 +71,7 @@ export default class CHeader extends React.PureComponent<Props, {}> {
                   source={require('../../../../assets/icons/bluetooth.png')}
                   style={{
                     ...styles.rightIcon,
-                    height: verticalScale(24),
+                    height: scale(24),
                     opacity: this.props.isBluetoothOn ? 1 : 0.3,
                   }}
                 />
@@ -111,5 +111,5 @@ const styles = StyleSheet.create({
   },
   title: {fontSize: 20, fontWeight: 'bold', color: Colors.BLACK},
   subtitle: {fontSize: 12, fontWeight: 'normal', color: Colors.BLACK},
-  rightIcon: {width: scale(26), height: verticalScale(26)},
+  rightIcon: {width: scale(26), height: scale(26)},
 });
