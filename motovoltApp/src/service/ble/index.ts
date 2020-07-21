@@ -34,14 +34,14 @@ export type TBleListeners = {
 async function requestPermission() {
     if (Platform.OS === 'android' && Platform.Version >= 23) {
         return PermissionsAndroid.check(
-            PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         ).then((result) => {
             if (result) {
                 console.log('Ble Permission Already Granted');
                 return { success: true };
             } else {
                 return PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                 ).then((result) => {
                     if (result) {
                         console.log('Ble Permission Granted');
