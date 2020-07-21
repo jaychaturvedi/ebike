@@ -79,7 +79,7 @@ class DiscoveringBluetooth extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State) {
-    if (props.ble.state == "on" && !state.bleScanRequested) {
+    if (props.ble.state == 'on' && !state.bleScanRequested) {
       props.scanDevices({
         type: 'ScanBLEDevices',
         payload: {},
@@ -92,12 +92,9 @@ class DiscoveringBluetooth extends React.PureComponent<Props, State> {
     return state;
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.intervalId);
-  }
-
   render() {
     if (this.state.bleScanning && !this.props.ble.scanning) {
+      clearInterval(this.state.intervalId);
       this.props.navigation.navigate('BluetoothDevices', {});
     }
     return (
@@ -111,7 +108,7 @@ class DiscoveringBluetooth extends React.PureComponent<Props, State> {
         </View>
         <View
           style={{
-            borderColor: 'rgba(240, 240, 240, 1)',
+            borderColor: 'rgba(100, 100, 100, 0.2)',
             borderRadius: 150,
             width: 300,
             height: 300,
@@ -120,7 +117,7 @@ class DiscoveringBluetooth extends React.PureComponent<Props, State> {
           }}>
           <View
             style={{
-              borderColor: 'rgba(204, 204, 204, 1)',
+              borderColor: 'rgba(100, 100, 100, 0.4)',
               borderRadius: 100,
               width: 200,
               height: 200,
@@ -129,7 +126,7 @@ class DiscoveringBluetooth extends React.PureComponent<Props, State> {
             }}>
             <View
               style={{
-                borderColor: 'rgba(100, 100, 100, 1)',
+                borderColor: 'rgba(100, 100, 100, 0.7)',
                 borderRadius: 50,
                 width: 100,
                 height: 100,
