@@ -44,7 +44,7 @@ export default class Upgrade extends React.PureComponent<Props, State>{
 
 const styles = StyleSheet.create({
     container: {
-        width: moderateScale(163),
+        width: '47%',
         backgroundColor: 'white',
         borderRadius: moderateScale(10),
         marginBottom: moderateScale(20)
