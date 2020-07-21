@@ -26,7 +26,7 @@ export default (props: Props) => {
         borderWidth: props.borderColor ? 1 : 0,
         borderRadius: 10,
       }}>
-      <Text style={{ color: props.textColor, fontSize: 16 }}>{props.text}</Text>
+      <Text style={{ color: props.textColor, fontSize: 16, fontWeight: 'bold' }} >{props.text.toUpperCase()}</Text>
     </Button>
   );
 };

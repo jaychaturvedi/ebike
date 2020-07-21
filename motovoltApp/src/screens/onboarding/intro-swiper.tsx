@@ -60,9 +60,12 @@ export const getHeader = (
   );
 };
 
-export const getImage = (src: string) => {
-  return <View style={styles.image}></View>;
-};
+// export const getImage = (img: any) => {
+//   return <View style={styles.image}>
+//     <Image source={img} style={{ height: scale(300), width: scale(450) }}
+//       height={scale(250)} width={scale(350)} />
+//   </View>;
+// };
 
 export const getText = (text: string) => {
   return (
@@ -94,7 +97,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
           index={0}
           ref="mySwiper"
           paginationStyle={{
-            bottom: '40%',
+            bottom: '35%',
           }}>
           <View style={styles.slide}>
             {getHeader(
@@ -103,7 +106,16 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
               () => (this.refs.mySwiper as any).scrollBy(3),
               () => console.log('back pressed'),
             )}
-            {getImage('')}
+            {/* {getImage(require('../../assets/images/Intro_1.png'))} */}
+            <View style={{
+              ...styles.image, justifyContent: 'flex-end', borderBottomColor: 'black',
+              borderBottomWidth: 2,
+            }}>
+              <Image source={require('../../assets/images/Intro_1.png')}
+                style={{ height: '84%', aspectRatio: 1.3, }}
+              />
+
+            </View>
             {getText('Drive Less, e-Cycle More!')}
             {getFooter(() => {
               (this.refs.mySwiper as any).scrollBy(1);
@@ -118,7 +130,14 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                 (this.refs.mySwiper as any).scrollBy(-1);
               },
             )}
-            {getImage('')}
+            {/* {getImage(require('../../assets/images/Intro_2.png'))} */}
+            <View style={{
+              ...styles.image, borderBottomColor: 'black',
+              borderBottomWidth: 2
+            }}>
+              <Image source={require('../../assets/images/Intro_2.png')} style={{ height: '100%', aspectRatio: 1 }}
+              />
+            </View>
             {getText('Remotely control and locate your cycle')}
             {getFooter(() => {
               (this.refs.mySwiper as any).scrollBy(1);
@@ -133,7 +152,12 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                 (this.refs.mySwiper as any).scrollBy(-1);
               },
             )}
-            {getImage('')}
+            {/* {getImage('')} */}
+            <View style={{ ...styles.image, alignItems: 'center' }}>
+              <Image source={require('../../assets/images/Intro_3.png')} style={{ height: '100%', aspectRatio: 0.65 }}
+                resizeMode='contain'
+              />
+            </View>
             {getText('Analyse cycle statistics on your phone')}
             {getFooter(() => {
               (this.refs.mySwiper as any).scrollBy(1);
@@ -143,7 +167,12 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
             {getHeader(false, true, undefined, () => {
               (this.refs.mySwiper as any).scrollBy(-1);
             })}
-            {getImage('')}
+            {/* {getImage('')} */}
+            <View style={{ ...styles.image, justifyContent: 'center' }}>
+              <Image source={require('../../assets/images/Intro_4.png')}
+                style={{ height: '100%', aspectRatio: 1.1 }}
+              />
+            </View>
             {getText('Gain Green Miles and earn exciting gifts!')}
             {/* {getFooter(() => { (this.refs.mySwiper as any).scrollBy(1) })} */}
             <View style={styles.register}>
@@ -189,15 +218,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   skip: {
-    paddingTop: scale(10),
+    paddingTop: scale(15),
     paddingRight: scale(14),
     paddingLeft: scale(14),
-    height: '20%',
+    height: '15%',
     width: '100%',
     flexDirection: 'row',
   },
   image: {
-    height: '40%',
+    height: '45%',
+    width: '100%',
   },
   helpText: {
     height: '20%',

@@ -92,7 +92,7 @@ export default class ReportIssue extends React.PureComponent<Props, State> {
           </View>
           <View style={styles.button}>
             <Button
-              text="Submit"
+              text="SUBMIT"
               onPress={() => console.log('Submitted')}
               textColor="white"
               backgroundColor="#142F6A"

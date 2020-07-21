@@ -99,7 +99,7 @@ class RateRide extends React.PureComponent<Props, State> {
                 <View style={styles.button}>
                     <Button
                         textColor={this.state.rating > 0 ? 'white' : '#333333'}
-                        text="Submit"
+                        text="SUBMIT"
                         backgroundColor={this.state.rating > 0 ? '#142F6A' : '#B7B7B7'}
                         onPress={() => {
                             this.state.rating > 0

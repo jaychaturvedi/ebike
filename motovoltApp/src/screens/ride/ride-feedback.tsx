@@ -37,7 +37,7 @@ export default class RideFeedback extends React.PureComponent<Props, State>{
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text
-                        style={{ fontSize: moderateScale(18), color: '#FFFFFF', fontWeight: 'bold' }}
+                        style={{ fontSize: moderateScale(18), color: 'black', fontWeight: 'bold' }}
                         onPress={() => console.log("Skip pressed")}
                     >Skip</Text>
                 </View>
@@ -48,13 +48,13 @@ export default class RideFeedback extends React.PureComponent<Props, State>{
                         >What went wrong?</Text>
                         <CheckBox
                             option1="Battery Issue"
-                            option2="Low Pickup"
-                            option3="Break Failure"
+                            option2="Low Pick Up"
+                            option3="Break failure"
                             option4="Other"
                             returnValue={(value: string) => this.setState({ checkboxValue: value })}
                         />
                         <View style={{ paddingTop: moderateScale(20) }}>
-                            <Textarea underline rowSpan={4} bordered placeholder="Please describe your concern"
+                            <Textarea underline rowSpan={4} bordered placeholder="Please describe your concern ..."
                                 style={{ borderRadius: moderateScale(10), backgroundColor: '#F8F8FC', borderColor: '#F8F8FC' }}
                                 onChangeText={(text: string) => this.setState({ description: text })}
                             />

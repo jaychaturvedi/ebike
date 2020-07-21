@@ -1,17 +1,17 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {StatisticsStackParamList} from '../../navigation/statistics';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { StatisticsStackParamList } from '../../navigation/statistics';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
 
 type ReduxState = {
   rides: TStore['rides'];
@@ -36,8 +36,13 @@ class MyRides extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <Header title={'My Rides'} backgroundColor={Colors.HEADER_YELLOW} />
+      <View style={{ flex: 1 }}>
+        <Header title={'My Rides'}
+          backgroundColor={Colors.HEADER_YELLOW}
+          subtitle={"Cycle A"}
+          hasSubtitle
+          hasTabs
+        />
         <ScrollView style={styles.container}>
           <View style={styles.datePicker}>
             <RideDatePicker />
@@ -120,7 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(10),
     width: '50%',
     alignSelf: 'center',
-    height: verticalScale(40),
+    height: verticalScale(30),
   },
   chart: {
     height: verticalScale(280),

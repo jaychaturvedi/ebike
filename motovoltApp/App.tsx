@@ -107,6 +107,12 @@ class App extends React.PureComponent<{}, State> {
         <NavigationContainer>
           {/* <Registration /> */}
           <FooterNavigation />
+          {/* <Charging
+            chargingStatus="21"
+            charge="212"
+            remainingTime="232"
+          /> */}
+          {/* <RemoveBike /> */}
         </NavigationContainer>
       </Provider>
     );

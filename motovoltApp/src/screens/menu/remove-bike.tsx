@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
-import {Header} from 'native-base';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, Image, StyleSheet, Text, Platform, StatusBar } from 'react-native';
+import { Header } from 'native-base';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import FontWeight from '../../styles/font-weight';
+import Background from '../../components/background'
 
 type Props = {
   onBackClick?: () => void;
@@ -14,11 +15,12 @@ type Props = {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
+    width: '100%',
     alignItems: 'center',
     backgroundColor: Colors.BG_GREY,
-    paddingVertical: verticalScale(8),
   },
   bottomContainer: {
+    flex: 1,
     justifyContent: 'flex-end',
     marginVertical: verticalScale(24),
   },
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
     fontWeight: FontWeight.BOLD,
   },
   body: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     width: '100%',
     alignItems: 'center',
@@ -71,12 +73,16 @@ const styles = StyleSheet.create({
 export default function RegisterBike(props: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Cycle A</Text>
-      <View style={styles.body}>
+      <Background />
+      <View style={{ height: '20%', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        <Text style={styles.header}>Cycle A</Text>
+      </View>
+      <View style={{ ...styles.body, height: '40%' }}>
+
         <Image
           source={require('../../assets/images/cycle.png')}
-          style={{height: scale(240)}}
-          width={scale(360)}
+          style={{ resizeMode: 'contain', aspectRatio: 1 }}
+        // width={scale(360)}
         />
         <View style={styles.card}>
           <View style={styles.cardHeader}>

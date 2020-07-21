@@ -37,10 +37,7 @@ export default function (props: Props) {
       }}>
       {props.mode === 'Active' ? (
         <Image
-          source={require('../../../assets/icons/next-white.png')}
-          style={styles.img}
-          width={width}
-          height={height}
+          source={require('../../../assets/icons/next_active_arrow.png')}
         />
       ) : (
           <Image
