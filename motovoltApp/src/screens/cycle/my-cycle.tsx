@@ -63,7 +63,7 @@ class MyCycle extends React.PureComponent<Props, State> {
               icon1={require('../../assets/icons/health_green.png')}
               icon2={require('../../assets/icons/calendar_green.png')}
               value1={`${this.props.bike.healthPer} %`}
-              value2={`${this.props.bike.serviceDate} %`}
+              value2={`${this.props.bike.serviceDate}`}
               unit1=""
               unit2=""
             />
