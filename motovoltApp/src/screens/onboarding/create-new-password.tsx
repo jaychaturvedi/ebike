@@ -1,13 +1,21 @@
 import React from 'react';
-import { View, StyleSheet, Text, TextInput, Image } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
 
 type CreateNewPasswordNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -15,8 +23,8 @@ type CreateNewPasswordNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-  navigation: CreateNewPasswordNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'CreateNewPassword'>
+  navigation: CreateNewPasswordNavigationProp;
+  route: RouteProp<OnboardingStackParamList, 'CreateNewPassword'>;
 };
 
 type State = {
@@ -46,9 +54,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   warningContainer: {
-    paddingBottom: verticalScale(8),
+    paddingVertical: verticalScale(4),
+    paddingHorizontal: scale(10),
     flexDirection: 'row',
-    alignItems: 'center',
   },
   warningLogo: {
     width: scale(18),
@@ -72,10 +80,12 @@ export default class NewPassword extends React.PureComponent<Props, State> {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
         <CTAHeader />
         <Text style={styles.title}>Create New Password</Text>
-        <View style={{ marginVertical: verticalScale(100) }}>
+        <View style={{marginVertical: verticalScale(100)}}>
           <Input
             placeHolder="Enter New Password"
             marginVeritical={verticalScale(InputMarginVeritical)}
@@ -83,7 +93,7 @@ export default class NewPassword extends React.PureComponent<Props, State> {
             onChange={(value: string) => {
               let isValid = false;
               if (value.length >= 8) isValid = true;
-              this.setState({ password: value, isValid });
+              this.setState({password: value, isValid});
             }}
           />
           {!this.state.isValid && (
@@ -92,17 +102,19 @@ export default class NewPassword extends React.PureComponent<Props, State> {
                 style={styles.warningLogo}
                 source={require('../../assets/icons/error_outline-grey.png')}
               />
-              <Text style={styles.warningText}>
-                Password must be alphanumeric with min 8 characters, 1 upper
-                case and a special character.
-              </Text>
+              <View style={{paddingHorizontal: 4}}>
+                <Text style={styles.warningText}>
+                  Password must be alphanumeric with min 8 characters, 1 upper
+                  case and a special character.
+                </Text>
+              </View>
             </View>
           )}
           <Input
             placeHolder="Re-enter Password"
             marginVeritical={verticalScale(InputMarginVeritical)}
             onChange={(value: string) => {
-              this.setState({ confirmPassword: value });
+              this.setState({confirmPassword: value});
             }}
             secure
           />
@@ -112,15 +124,20 @@ export default class NewPassword extends React.PureComponent<Props, State> {
                 style={styles.warningLogo}
                 source={require('../../assets/icons/error_outline-red.png')}
               />
-              <Text style={{ ...styles.warningText, color: Colors.ERROR_RED }}>
-                Password Mismatch
-              </Text>
+              <View style={{paddingHorizontal: 4}}>
+                <Text style={{...styles.warningText, color: Colors.ERROR_RED}}>
+                  Password Mismatch
+                </Text>
+              </View>
             </View>
           )}
         </View>
         <View style={styles.bottom}>
           <CTAButton
-            disabled={!this.state.isValid || this.state.confirmPassword !== this.state.password}
+            disabled={
+              !this.state.isValid ||
+              this.state.confirmPassword !== this.state.password
+            }
             text={'Save & Continue'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}
@@ -134,7 +151,7 @@ export default class NewPassword extends React.PureComponent<Props, State> {
             }}
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
