@@ -23,14 +23,55 @@
     border-bottom: 1px solid #ffffff;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     cursor: pointer;
     margin-left: 5px;
+    font-family: "Roboto" !important;
+    &:hover {
+        color: $ACTIVE !important;
+        border-bottom: 1px solid $ACTIVE !important;
+        .dropdown-typography {
+            color: $ACTIVE !important;
+        }
+        .dropdown-svg-fill > g > g > g > path {
+            fill: $ACTIVE !important;
+        }
+        .dropdown-svg-fill-location > g :first-child {
+            stroke: $ACTIVE !important;
+        }
+        .dropdown-svg-fill-timeframe > g > g > path{
+            fill: $ACTIVE !important;
+        }
+    }
 }
 
-.pair{
+.connectM-dropdown-active {
+    color: $ACTIVE !important;
+    border-bottom: 1px solid $ACTIVE !important;
+    .dropdown-svg-fill-active > g > g > g > path {
+        fill: $ACTIVE !important;
+    }
+    .dropdown-svg-fill-location-active > g :first-child {
+        stroke: $ACTIVE !important;
+    }
+    .dropdown-svg-fill-timeframe-active > g > g > path {
+        fill: $ACTIVE !important;
+    }
+    .typography-active {
+        color: $ACTIVE !important;
+    }
+}
+
+
+.pair {
     display: flex;
     align-items: center;
+}
+
+.ant-dropdown-open {
+    .flip {
+        transform: rotate(180deg) !important;
+    }
 }
 
 .ant-dropdown-menu {
@@ -47,8 +88,7 @@
 }
 
 .ant-dropdown-menu-item-active {
-    opacity: 85%;
-    background-color: $DROPDOWN_BACKGROUND_COLOR !important;
+    background-color: $ROW_HOVER !important;
 }
 
 //need to change
@@ -61,7 +101,7 @@
 
 input {
     background-color: $APP_BACKGROUND !important;
-     color: #ffffff !important;
+    color: #ffffff !important;
 }
 
 .ant-input-affix-wrapper {
@@ -75,7 +115,7 @@ input {
     border-color: $APP_BACKGROUND !important;
     outline: none !important;
     border-bottom: 1px solid #ffffff !important;
-    box-shadow :none !important;
+    box-shadow: none !important;
 }
 
 .apply-button {
@@ -89,4 +129,33 @@ input {
     border-color: #ffffff !important;
     color: #ffffff !important;
     margin-left: 5px;
+}
+
+.dropdown-typography {
+    color: #ffffff !important;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+// .connectM-dropdown-selected {
+//     color: #ffffff !important;
+//     font-family: "Roboto" !important;
+//     &:hover {
+//         color: $ACTIVE !important;
+//         border-bottom: 1px solid $ACTIVE !important;
+//         .typography-active {
+//             color: $ACTIVE !important;
+//         }
+//         .dropdown-svg-fill > g > g > g > path {
+//             fill: $ACTIVE !important;
+//         }
+//         .dropdown-svg-fill-location > g > path {
+//             stroke: $ACTIVE !important;
+//         }
+//     }
+// }
+
+.ant-dropdown-menu-item-disabled {
+    cursor: pointer !important;
+    background-color: $DROPDOWN_BACKGROUND_COLOR !important;
 }

@@ -10,7 +10,6 @@
 }
 
 .ant-table-thead {
-
     tr {
         th {
             background-color: $TABLE_ROW_LIGHT !important;
@@ -29,16 +28,13 @@
     }
 }
 
-
-
-
 .ant-table-cell {
     cursor: pointer;
     text-align: center;
     color: white;
 }
 
-.ant-table-tbody>tr:hover>td {
+.ant-table-tbody > tr:hover > td {
     background: none;
     color: black;
 }
@@ -54,3 +50,5 @@ table,
 th {
     border: none !important;
 }
+
+
