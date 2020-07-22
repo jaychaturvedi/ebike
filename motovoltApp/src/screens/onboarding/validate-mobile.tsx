@@ -6,12 +6,12 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
-import {Content, Item} from 'native-base';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { Content, Item } from 'native-base';
 import Button from '../../components/cta-button';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 import Colors from '../../styles/colors';
 import Input from '../onboarding/components/input';
 
@@ -70,10 +70,10 @@ export default class ValidateMobile extends React.PureComponent<Props, State> {
           />
         </View>
         <View style={styles.helpText}>
-          <Text style={{fontSize: moderateScale(14, 0.1), textAlign: 'center'}}>
+          <Text style={{ fontSize: moderateScale(14, 0.1), textAlign: 'center' }}>
             <Text>By Signing up with Motovolt, you accept our </Text>
             <Text
-              style={{color: '#0934F2'}}
+              style={{ color: '#0934F2' }}
               onPress={() => {
                 console.log('T & C Pressed');
               }}>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   verifyBtn: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
 });

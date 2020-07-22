@@ -1,14 +1,14 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, Image, StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
 import input from './components/input';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 
 type FrameRegisteredNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -73,7 +73,10 @@ const styles = StyleSheet.create({
 export default class RegisterBike extends React.PureComponent<Props, State> {
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+        style={styles.container}>
         <CTAHeader
           hasBackButton
           title="Bike Registered Successfully"
@@ -106,7 +109,7 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
             }
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

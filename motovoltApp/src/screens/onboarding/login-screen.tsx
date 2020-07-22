@@ -1,5 +1,5 @@
 import React from 'react';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { scale, verticalScale } from '../../styles/size-matters';
 import {
   View,
   StyleSheet,
@@ -11,9 +11,9 @@ import Colors from '../../styles/colors';
 import Input from './components/input';
 import CTAHeader from './components/header';
 import NextButton from './components/next-page-button';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 
 type LoginNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -85,6 +85,7 @@ export default class Login extends React.PureComponent<Props, State> {
         </View>
         <Input
           placeHolder="Mobile No."
+          keyboardNumericType
           marginVeritical={verticalScale(InputMarginVeritical)}
           onChange={(value: string) => {
             const matches = value.match(/\d/g);
@@ -95,12 +96,12 @@ export default class Login extends React.PureComponent<Props, State> {
           }}
         />
         <Input
-          onChange={(value: string) => this.setState({password: value})}
+          onChange={(value: string) => this.setState({ password: value })}
           placeHolder="Password"
           secure
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
-        <View style={{height: '5%', justifyContent: 'flex-end'}}>
+        <View style={{ height: '5%', justifyContent: 'flex-end' }}>
           <Text
             onPress={() => this.props.navigation.navigate('ForgotPassword', {})}
             style={{

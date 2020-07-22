@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, StyleSheet, Text, TextInput, Image} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, StyleSheet, Text, TextInput, Image } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 
 type PersonalDetailsNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -80,23 +80,23 @@ export default class PersonalDetails extends React.PureComponent<Props, State> {
         />
         <Text style={styles.title}>Please enter your details</Text>
         <Input
-          onChange={(text: string) => this.setState({name: text})}
+          onChange={(text: string) => this.setState({ name: text })}
           placeHolder="Full Name*"
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
         <Input
-          onChange={(text: string) => this.setState({email: text})}
+          onChange={(text: string) => this.setState({ email: text })}
           placeHolder="Email*"
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
         <Input
-          onChange={(text: string) => this.setState({password: text})}
+          onChange={(text: string) => this.setState({ password: text })}
           placeHolder="Create a password*"
           marginVeritical={verticalScale(InputMarginVeritical)}
           secure
         />
         <Input
-          onChange={(text: string) => this.setState({confirmPassword: text})}
+          onChange={(text: string) => this.setState({ confirmPassword: text })}
           placeHolder="Re-enter your password*"
           marginVeritical={verticalScale(InputMarginVeritical)}
           secure
