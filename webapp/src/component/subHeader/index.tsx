@@ -11,6 +11,7 @@ import moment from 'moment';
 interface SubHeaderProps { }
 
 interface SubHeaderStates {
+    allSelected: boolean
     selectedVehicle: string
     selectedLocation: string
     vehicleActive: boolean
@@ -23,24 +24,27 @@ interface SubHeaderStates {
         endTime: string
     } | null
     dateRangeApplied: boolean
+    searchText: string
 }
 
 class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     constructor(props: SubHeaderProps) {
         super(props);
         this.state = {
+            allSelected: true,
             selectedVehicle: "Vehicle",
-            vehicleActive: false,
+            selectedCalender: "Time Frame",
             selectedLocation: "Location",
+            vehicleActive: false,
             locationActive: false,
             calenderActive: false,
-            selectedCalender: "Time Frame",
             timeFrameVisible: false,
             timeFrame: {
                 endTime: "",
                 starTime: ""
             },
-            dateRangeApplied: false
+            dateRangeApplied: false,
+            searchText: ""
         }
     }
 
@@ -49,6 +53,9 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         console.log('click', e);
         this.setState({
             selectedVehicle: e.key,
+            selectedCalender: "Time Frame",
+            selectedLocation: "Location",
+            allSelected: false,
             vehicleActive: true,
             locationActive: false,
             calenderActive: false,
@@ -60,6 +67,9 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         console.log('click', e);
         this.setState({
             selectedLocation: e.key,
+            selectedVehicle: "Vehicle",
+            selectedCalender: "Time Frame",
+            allSelected: false,
             vehicleActive: false,
             locationActive: true,
             calenderActive: false,
@@ -72,7 +82,10 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         switch (e.key) {
             case "1": {
                 this.setState({
-                    selectedCalender: moment(new Date(), this.dateFormatList[0]).toLocaleString(),
+                    selectedCalender: moment().format(this.dateFormatList[0]),
+                    selectedVehicle: "Vehicle",
+                    selectedLocation: "Location",
+                    allSelected: false,
                     vehicleActive: false,
                     locationActive: false,
                     calenderActive: true,
@@ -81,8 +94,13 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 break;
             }
             case "2": {
+                const startDate = moment().subtract(7, 'days').format(this.dateFormatList[0]);
+                const endDate = moment().format(this.dateFormatList[0])
                 this.setState({
-                    selectedCalender: moment(new Date(), this.dateFormatList[0]).toLocaleString(),
+                    selectedCalender: `${startDate} to ${endDate}`,
+                    selectedVehicle: "Vehicle",
+                    selectedLocation: "Location",
+                    allSelected: false,
                     vehicleActive: false,
                     locationActive: false,
                     calenderActive: true,
@@ -91,8 +109,13 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 break;
             }
             case "3": {
+                const startDate = moment().subtract(1, 'months').format(this.dateFormatList[0]);
+                const endDate = moment().format(this.dateFormatList[0])
                 this.setState({
-                    selectedCalender: moment(new Date(), this.dateFormatList[0]).toLocaleString(),
+                    selectedCalender: `${startDate} to ${endDate}`,
+                    selectedVehicle: "Vehicle",
+                    selectedLocation: "Location",
+                    allSelected: false,
                     vehicleActive: false,
                     locationActive: false,
                     calenderActive: true,
@@ -109,7 +132,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             timeFrameVisible: open
         })
     }
-
     onFromChange = (value: any, dateString: string) => {
         console.log('Selected Time: ', value);
         console.log('Formatted Selected Time: ', dateString)
@@ -134,11 +156,13 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             }
         )
     }
-
     timeRangeApply = () => {
         console.log("applying date", this.state.timeFrame)
         this.setState({
             selectedCalender: `${this.state.timeFrame!.starTime} to ${this.state.timeFrame!.endTime}`,
+            selectedVehicle: "Vehicle",
+            selectedLocation: "Location",
+            allSelected: false,
             vehicleActive: false,
             locationActive: false,
             calenderActive: true,
@@ -147,6 +171,54 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         })
     }
     dateFormatList = ['DD/MM/YYYY'];
+
+    onReset = () => {
+        this.setState({
+            allSelected: true,
+            selectedVehicle: "Vehicle",
+            vehicleActive: false,
+            selectedLocation: "Location",
+            locationActive: false,
+            calenderActive: false,
+            selectedCalender: "Time Frame",
+            timeFrameVisible: false,
+            timeFrame: {
+                endTime: "",
+                starTime: ""
+            },
+            dateRangeApplied: false,
+            searchText : ""
+        })
+    }
+
+    onAll = () => {
+        this.setState({
+            allSelected: true,
+            selectedVehicle: "Vehicle",
+            vehicleActive: false,
+            selectedLocation: "Location",
+            locationActive: false,
+            calenderActive: false,
+            selectedCalender: "Time Frame",
+            timeFrameVisible: false,
+            timeFrame: {
+                endTime: "",
+                starTime: ""
+            },
+            dateRangeApplied: false
+        })
+    }
+
+    onSearch = (e: any) => {
+        console.log("search", e.target)
+        this.setState(
+            {
+                ...this.state,
+                searchText: e.target.value
+            }
+        )
+    }
+
     render() {
         const vehicle = (
             <Menu onClick={this.handleVehicleClick}>
@@ -198,28 +270,32 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
 
         const timeFrame = (
             <Menu onClick={this.handleDateClick}>
-                <Menu.Item key="1" style={{ marginLeft: "5%" }}>
+                <Menu.Item key="1" >
                     As of Today
                 </Menu.Item>
-                <Menu.Item key="2" style={{ marginLeft: "5%" }}>
+                <Menu.Item key="2" >
                     Last Week
                 </Menu.Item>
-                <Menu.Item key="3" style={{ marginLeft: "5%" }}>
+                <Menu.Item key="3" >
                     Month Till Date
                 </Menu.Item>
-                <Menu.Item key="4" style={{ marginLeft: "5%" }} disabled={true}>
+                <Menu.Item key="4" disabled={true} className={"connectM-DatePicker-container"}>
                     <Typography.Text strong style={{ color: "#ffffff", whiteSpace: "nowrap" }}>Date Range</Typography.Text>
-                    <DatePicker onChange={this.onFromChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
-                    <DatePicker onChange={this.onToChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
-                    <Button size={"small"} className={"apply-button"} onClick={this.timeRangeApply}>
-                        APPLY
+                    <div className={"datepicker-text-pair"}>
+                        From <DatePicker onChange={this.onFromChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
+                    </div>
+                    <div className={"datepicker-text-pair"}>
+                        To <DatePicker onChange={this.onToChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
+                    </div>
+                    <Button size={"small"} className={"apply-button-datepicker"} onClick={this.timeRangeApply}>
+                        <Typography.Text style={{ color: "black" }} strong>APPLY</Typography.Text>
                     </Button>
                 </Menu.Item>
             </Menu>
         );
         return (
             <div className={"sub-header"}>
-                <Button className={"connectM-button connectM-button-active"} size={"middle"} type="text">
+                <Button className={`connectM-button ${this.state.allSelected ? "connectM-button-active" : ""}`} size={"middle"} type="text" onClick={this.onAll}>
                     ALL
                 </Button>
                 <Dropdown overlay={vehicle} trigger={['click']}>
@@ -252,8 +328,10 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                     </div>
                 </Dropdown>
-                <div style={{ width: "200px" }} className={"search-background-color"}>
+                <div style={{ width: "200px" }} className={"search-background-color "}>
                     <Input
+                        onChange={this.onSearch}
+                        value={this.state.searchText}
                         placeholder="Search for Vehicles,Batteries,customers..."
                         prefix={<SearchOutlined />}
                         maxLength={50}
@@ -261,11 +339,11 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     />
                 </div>
                 <Button size={"small"} className={"apply-button"}>
-                    APPLY
+                    <Typography.Text style={{ color: "black" }} strong>APPLY</Typography.Text>
                 </Button>
-                <Button size={"small"} className={"reset-button"} >
-                    RESET
-                 </Button>
+                <Button size={"small"} className={"reset-button"} onClick={this.onReset}>
+                    <Typography.Text style={{ color: "#ffffff" }} strong>RESET</Typography.Text>
+                </Button>
             </div>
         )
     }

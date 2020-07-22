@@ -18,7 +18,7 @@
 
 .connectM-dropDown {
     color: #ffffff;
-    width: 175px;
+    width: 200px;
     min-height: 32px;
     border-bottom: 1px solid #ffffff;
     display: flex;
@@ -39,7 +39,7 @@
         .dropdown-svg-fill-location > g :first-child {
             stroke: $ACTIVE !important;
         }
-        .dropdown-svg-fill-timeframe > g > g > path{
+        .dropdown-svg-fill-timeframe > g > g > path {
             fill: $ACTIVE !important;
         }
     }
@@ -61,7 +61,6 @@
         color: $ACTIVE !important;
     }
 }
-
 
 .pair {
     display: flex;
@@ -91,19 +90,18 @@
     background-color: $ROW_HOVER !important;
 }
 
+//search
 //need to change
 .search-background-color {
     background-color: $APP_BACKGROUND !important;
     color: #ffffff !important;
     margin-left: 2px;
+    input {
+        background-color: $APP_BACKGROUND !important;
+        color: #ffffff !important;
+    }
     // border-bottom: 1px solid #ffffff !important;
 }
-
-input {
-    background-color: $APP_BACKGROUND !important;
-    color: #ffffff !important;
-}
-
 .ant-input-affix-wrapper {
     color: #ffffff !important;
     border: none !important;
@@ -114,10 +112,13 @@ input {
     border: none !important;
     border-color: $APP_BACKGROUND !important;
     outline: none !important;
-    border-bottom: 1px solid #ffffff !important;
+    border-bottom: 1px solid $ACTIVE !important;
     box-shadow: none !important;
+    .ant-input-prefix {
+        color : $ACTIVE !important;
+    }
 }
-
+//search
 .apply-button {
     background-color: $APPLY_BUTTON !important;
     border: none !important;
@@ -137,25 +138,41 @@ input {
     white-space: nowrap;
 }
 
-// .connectM-dropdown-selected {
-//     color: #ffffff !important;
-//     font-family: "Roboto" !important;
-//     &:hover {
-//         color: $ACTIVE !important;
-//         border-bottom: 1px solid $ACTIVE !important;
-//         .typography-active {
-//             color: $ACTIVE !important;
-//         }
-//         .dropdown-svg-fill > g > g > g > path {
-//             fill: $ACTIVE !important;
-//         }
-//         .dropdown-svg-fill-location > g > path {
-//             stroke: $ACTIVE !important;
-//         }
-//     }
-// }
-
 .ant-dropdown-menu-item-disabled {
     cursor: pointer !important;
     background-color: $DROPDOWN_BACKGROUND_COLOR !important;
+}
+
+.connectM-DatePicker-container {
+    display: flex;
+    flex-direction: column;
+    .datepicker-text-pair {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    .ant-picker {
+        padding: 4px 0px 4px 11px;
+    }
+    .ant-picker-input > input {
+        color: #ffffff;
+        font-size: 10px;
+        min-width: 100px !important;
+    }
+    .ant-picker-input {
+        border-bottom: 1px solid #ffffff;
+        font-size: 10px;
+    }
+    .ant-picker-suffix {
+        color: #ffffff;
+    }
+    .ant-picker-clear {
+        color: #ffffff;
+        background: $DROPDOWN_BACKGROUND_COLOR !important;
+    }
+    .apply-button-datepicker {
+        background-color: $APPLY_BUTTON !important;
+        border: none !important;
+        margin-left: 50%;
+    }
 }
