@@ -1,9 +1,9 @@
 import './index.scss';
-import { Table, Select, Button } from 'antd';
 import React, { PureComponent, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Header } from './header'
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
+import { Table, Select, Button } from 'antd';
 const { Option } = Select;
 const classname = 'fa-arrow-down'
 const paginationDate = ['10', '20', '30'];

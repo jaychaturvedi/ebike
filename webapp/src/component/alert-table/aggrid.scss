@@ -4,14 +4,13 @@
     justify-content: center;
     align-self: center;
     color: white;
-    flex: auto;
+
 
 
     .ag-row {
         vertical-align: middle;
         text-align: center;
-        justify-content: center;
-
+        padding-top: 10px;
 
         &:hover {
             flood-opacity: 0%;
@@ -40,6 +39,12 @@
     display: flex;
     justify-content: center;
     background-color: $TABLE_ROW_LIGHT;
+}
+
+.ag-theme-footer {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-top: 10px;
 }
 
 // .ag-header-cell-label .ag-header-cell-text {

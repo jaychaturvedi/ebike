@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import { Table, Select, Button } from 'antd';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
-import { DownOutlined } from "@ant-design/icons";
 import './aggrid.scss'
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
-import { GridOptionsWrapper } from 'ag-grid-community';
+const { Option } = Select;
 
 interface AppProps { }
 interface AppState {
@@ -15,59 +13,22 @@ interface AppState {
     defaultColDef: any;
     sortingOrder: any;
     rowClassRules?: any;
+    pagination?: any;
 }
+const paginationDate = ['10', '20', '30'];
 
 const columnDefs = [
-    {
-        headerName: 'Alert Name',
-        field: 'alert',
-        sortable: true,
-        width: 150
-    },
-    {
-        headerName: 'Model',
-        field: 'model',
-        sortable: true,
-        width: 150,
-
-    },
-    {
-        headerName: 'Vehicle Id',
-        width: 150,
-
-        field: 'vehicle',
-        sortable: true
-    },
-    {
-        headerName: 'Time',
-        field: 'time',
-        width: 150,
-        sortable: true
-    },
-    {
-        headerName: 'Open Since',
-        field: 'open',
-        sortable: true,
-        width: 150,
-        // icons: {
-        //     sortAscending: `<span>${<ActiveSort />}</span>`,
-        //     sortDescending: '<i class="fa fa-sort-alpha-down"/>',
-        // },
-    },
-    {
-        headerName: 'Severity',
-        width: 150,
-
-        field: 'severity',
-        sortable: true
-    },
-    {
-        headerName: 'Location',
-        width: 150,
-
-        field: 'location',
-        sortable: true
-    }
+    { headerName: 'Alert Name', field: 'alert', sortable: true },
+    { headerName: 'Model', field: 'model', sortable: true, width: 150 },
+    { headerName: 'Vehicle Id', field: 'vehicle', sortable: true },
+    { headerName: 'Time', field: 'time', sortable: true },
+    { headerName: 'Open Since', field: 'open', sortable: true },
+    // icons: {
+    //     sortAscending: `<span>${<ActiveSort />}</span>`,
+    //     sortDescending: '<i class="fa fa-sort-alpha-down"/>',
+    // },
+    { headerName: 'Severity', width: 150, field: 'severity', sortable: true },
+    { headerName: 'Location', width: 150, field: 'location', sortable: true }
 ]
 let rowData: Array<object> = []
 
@@ -105,6 +66,7 @@ export default class App extends Component<AppProps, AppState> {
             columnDefs: columnDefs,
             defaultColDef: { sortable: true },
             sortingOrder: ['desc', 'asc', null],
+            pagination: 10
             // rowClassRules: {
             //     rowEven: (params: any) => params.node.rowIndex % 2 === 0,
             //     rowOdd: (params: any) => params.node.rowIndex % 2 === 0,
@@ -140,10 +102,10 @@ export default class App extends Component<AppProps, AppState> {
         //         return { background: '#3C4473' };
         //     }
         // }
-        return (
+        return <>
             <div
                 className="ag-theme-alpine"
-                style={{ height: '400px', width: 'auto' }}
+                style={{ height: '400px', width: '', justifyContent: 'space-evenly' }}
             >
                 <AgGridReact
 
@@ -158,9 +120,18 @@ export default class App extends Component<AppProps, AppState> {
                     onGridReady={this.onGridReady}
 
                 />
-
+            </div>
+            <div className="ag-theme-footer">
+                <Select
+                    defaultValue={this.state.pagination}
+                >
+                    {paginationDate.map(page => (
+                        <Option key={page} value={page} title={page}>{page}</Option>
+                    ))}
+                </Select>
             </div>
 
-        );
+
+        </>;
     }
 }
