@@ -1,5 +1,5 @@
 import './index.scss';
-import { Table, Select } from 'antd';
+import { Table, Select, Button } from 'antd';
 import React, { PureComponent, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Header } from './header'
@@ -8,6 +8,7 @@ const { Option } = Select;
 const classname = 'fa-arrow-down'
 const paginationDate = ['10', '20', '30'];
 type TData = {
+    id?: any,
     key: number,
     alertName: string,
     model: string,
@@ -40,7 +41,7 @@ interface AlertProps {
 }
 
 interface AlertStates {
-    column?: any, data?: Array<TData>, pagination?: string; isClicked: boolean; classname: string;
+    column?: any, data?: Array<TData>, pagination?: string; isAsc: boolean; classname: string; sortedInfo: any; sortDirections: string
 }
 
 class AlertTable extends React.Component<AlertProps, AlertStates> {
@@ -49,75 +50,116 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         super(props);
         this.state = {
             pagination: '10',
-            isClicked: false,
-            classname: 'fa-arrow-down'
+            isAsc: false,
+            classname: 'fa-arrow-down',
+            sortedInfo: null,
+            sortDirections: 'ascend',
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
-
     }
 
 
     handleClick() {
-        this.setState({
-            isClicked: !this.state.isClicked,
-        });
-        this.setState({
-            classname: this.state.isClicked ? 'fa-arrow-down open' : 'fa-arrow-down'
-        });
-    }
-    columns: any = [
-        {
-            dataIndex: 'alertName', title: () => <Header className={this.state.classname} name='Alert Name' clickFunction={this.handleClick} isClicked={this.state.isClicked} />
-        },
-        {
-            dataIndex: 'model', title: () => <Header className={this.state.classname} name='Model' />
-        },
-        {
-            dataIndex: 'vehicleId',
-            title: () => <Header className={this.state.classname} name='Vehicle Id' />
-        },
-        {
-            dataIndex: 'time', title: () => <div>
-                <Header className={this.state.classname} name='Time' />
-                {/* <ActiveSort width="20" height="20" cursor='pointer' /> */}
-            </div>
-        },
-        {
-            dataIndex: 'openSince', title: () =>
-                <Header className={this.state.classname} name='Open Since' />
-        },
-        {
-            dataIndex: 'severity', title: () =>
-                <Header className={this.state.classname} name='Severity' />
-        },
-        {
-            dataIndex: 'location', title: () =>
-                <Header className={this.state.classname} name='Location' />
-        },
-    ];
+        const { isAsc } = this.state
+        if (isAsc) {
+            this.setState({
+                isAsc: !this.state.isAsc,
+                classname: 'fa-arrow-down active open',
+                sortDirections: 'descend',
+                sortedInfo: {
+                    order: this.state.sortDirections,
+                    columnKey: 'time',
+                },
+            });
+        }
+        else {
+            this.setState({
+                isAsc: !this.state.isAsc,
+                classname: 'fa-arrow-down active',
+                sortDirections: '',
+                sortedInfo: {
+                    order: this.state.sortDirections,
+                    columnKey: 'time',
+                },
+            });
+        }
+        console.log(this.state.isAsc);
 
-    handleChange() {
-        console.log(this.state.pagination)
+    }
+
+
+    handleChange = (pagination: any, filters: any, sorter: any) => {
+        console.log('Various parameters', pagination, filters, sorter);
         this.setState({
-            pagination: "20"
+            sortedInfo: sorter,
         });
     }
+
 
     render() {
+        let { sortedInfo, isAsc } = this.state;
+        sortedInfo = sortedInfo || {};
+        const columns: any = [
+            {
+                dataIndex: 'alertName', defaultSortOrder: 'descend',
+                title: () =>
+
+                    <div className="ant-table-cell" onClick={this.handleClick} > Alert Name
+                <button onClick={() => this.setState({ isAsc: true })}
+                            onAnimationEnd={() => this.setState({ isAsc: false })}
+                            className={isAsc ? 'rotate' : ''}>
+                            <DownOutlined />
+                        </button>
+                    </div>
+            },
+            {
+                dataIndex: 'model', key: 'model',
+                title: () => <Header className={this.state.classname} name='Model' />
+            },
+            {
+                dataIndex: 'vehicleId', key: 'vehicleId',
+                sorter: (a: any, b: any) => a.vehicleId.length - b.vehicleId.length,
+                sortDirections: ['descend', 'ascend'], headerSort: false,
+                title: () => <Header className={this.state.classname} name='Vehicle Id'
+                    clickFunction={this.handleClick} isClicked={this.state.isAsc} />
+            },
+            {
+                dataIndex: 'time', key: 'time',
+                sorter: (a: any, b: any) => a.time.length - b.time.length,
+                sortOrder: sortedInfo.columnKey === 'time' && sortedInfo.order,
+                title: () => <div>
+                    <Header className={this.state.classname} name='Time' />
+                    {/* <ActiveSort width="20" height="20" cursor='pointer' /> */}
+                </div>
+            },
+            {
+                dataIndex: 'openSince', title: () =>
+                    <Header className={this.state.classname} name='Open Since' />
+            },
+            {
+                dataIndex: 'severity', title: () =>
+                    <Header className={this.state.classname} name='Severity' />
+            },
+            {
+                dataIndex: 'location', title: () =>
+                    <Header className={this.state.classname} name='Location' />
+            },
+        ];
+
         return <>
             <Table size={"small"}
                 tableLayout="auto"
                 bordered={false}
                 className="ant-table-thead"
+                onChange={this.handleChange}
                 showSorterTooltip={false}
+                rowKey={record => record.id}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                columns={this.columns} dataSource={datas} pagination={{ pageSize: 10 }} loading={false}
+                columns={columns} dataSource={datas} pagination={{ pageSize: 10 }} loading={false}
             />
             <Select
-                style={{ marginLeft: "10px", paddingRight: "2px", width: 80 }}
                 defaultValue={this.state.pagination}
-                onChange={this.handleChange}
                 className='paginate-dropdown'
             >
                 {paginationDate.map(page => (

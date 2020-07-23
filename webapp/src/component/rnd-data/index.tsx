@@ -1,7 +1,7 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
 import Tabs from "./tabs"
-import SmartAlert from "../alert-table"
+import SmartAlert from "../alert-table/aggrid"
 
 interface RandDDataProps { }
 
