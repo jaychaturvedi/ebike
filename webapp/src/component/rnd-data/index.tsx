@@ -1,7 +1,7 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
 import Tabs from "./tabs"
-import SmartAlert from "../alert-table/aggrid"
+import AlertsTable from "./rnd-table"
 
 interface RandDDataProps { }
 
@@ -15,8 +15,8 @@ class RandDData extends PureComponent<RandDDataProps, RandDDataStates> {
                 <div className={"all-tabs"}>
                     <Tabs />
                 </div>
-                <div >
-                    <SmartAlert />
+                <div className={"alert-table"}>
+                    <AlertsTable />
                 </div>
             </div>
         )
