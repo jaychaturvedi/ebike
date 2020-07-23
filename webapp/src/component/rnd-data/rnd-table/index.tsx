@@ -28,7 +28,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 editable: false,
                 sortable: true,
                 filter: false
-            }
+            },
         }
     }
 
@@ -177,7 +177,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
         state.ColumnDefs = [{
             headerName: "Alert Name",
             field: "alertName",
-            autoHeight : true
+            autoHeight: true
         },
         {
             headerName: "Model",
@@ -216,7 +216,6 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
 
     onGridReady = (event: GridReadyEvent) => {
         event.api.sizeColumnsToFit();
-        event.api.resetRowHeights()
     }
 
     navigateTo = (target: string) => {
@@ -227,6 +226,9 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
         const data = event.data
         console.log(data)
         this.navigateTo("/" + data.id);
+    }
+    getRowHeight = (params: any) => {
+        return 30;
     }
 
     render() {
@@ -251,6 +253,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                     paginationPageSize={10}
                     onRowClicked={this.rowSelected}
                     // gridAutoHeight={true}
+                    getRowHeight={this.getRowHeight}
                 />
             </div>
         )
