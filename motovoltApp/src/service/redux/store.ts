@@ -92,7 +92,6 @@ type BLE = {
     scanning: boolean,
     state: BLEState,
     devices: TPeripheral[],
-    connectedPeripheral: string,
 }
 
 const ZeroUser: TUser = {
@@ -161,7 +160,6 @@ const ZeroBLE: BLE = {
     scanning: false,
     state: "off",
     devices: [],
-    connectedPeripheral: ''
 }
 
 export type TStore = {

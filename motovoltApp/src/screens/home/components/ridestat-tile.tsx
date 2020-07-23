@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Text} from 'native-base';
-import {scale, verticalScale} from '../../../styles/size-matters';
+import { View, StyleSheet } from 'react-native';
+import { Text } from 'native-base';
+import { scale, verticalScale, moderateScale } from '../../../styles/size-matters';
 import Colors from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   tile: {
-    width: scale(100),
-    height: verticalScale(92),
+    width: moderateScale(100),
+    height: moderateScale(92),
     borderRadius: scale(10),
     display: 'flex',
     flexDirection: 'column',

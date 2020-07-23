@@ -91,7 +91,7 @@ class RideOn extends React.PureComponent<Props, {}> {
                 ...styles.flexAlignHorizontalCentre,
                 justifyContent: 'space-evenly',
               }}>
-              <Text style={styles.modeText}>Power Mode</Text>
+              <Text style={{...styles.modeText, color: Colors.WARNING_RED}}>Power Mode</Text>
               <Text style={styles.modeText}>Pedal Assist</Text>
             </View>
           </View>

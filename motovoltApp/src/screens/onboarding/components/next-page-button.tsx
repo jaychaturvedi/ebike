@@ -41,10 +41,7 @@ export default function (props: Props) {
         />
       ) : (
           <Image
-            source={require('../../../assets/icons/next-disabled.png')}
-            style={styles.img}
-            width={width}
-            height={height}
+            source={require('../../../assets/icons/next_disabled_arrow.png')}
           />
         )}
     </TouchableOpacity>

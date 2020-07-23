@@ -1,20 +1,17 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-import { Text } from 'native-base';
-import { scale, moderateScale } from 'react-native-size-matters';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import {Text} from 'native-base';
+import {scale, moderateScale} from 'react-native-size-matters';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
 
-type OTPNavigationProp = StackNavigationProp<
-  OnboardingStackParamList,
-  'OTP'
->;
+type OTPNavigationProp = StackNavigationProp<OnboardingStackParamList, 'OTP'>;
 
 type Props = {
-  navigation: OTPNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'OTP'>
+  navigation: OTPNavigationProp;
+  route: RouteProp<OnboardingStackParamList, 'OTP'>;
 };
 
 type State = {};
@@ -28,14 +25,14 @@ export default class OTPInput extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.description}>
           <Text style={styles.helpText}>
-            Please enter the 4-digit OTP (One Time Password){' '}
+            Please enter the 6-digit OTP (One Time Password){' '}
           </Text>
           <Text style={styles.helpText}>sent to your registered mobile no</Text>
         </View>
         <View style={styles.otp}>
           <OTPInputView
-            style={{ width: '100%' }}
-            pinCount={4}
+            style={{width: '100%'}}
+            pinCount={6}
             // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
             // onCodeChanged = {code => { this.setState({code})}}
             autoFocusOnLoad
@@ -44,16 +41,20 @@ export default class OTPInput extends React.PureComponent<Props, State> {
             onCodeFilled={(code) => {
               console.log(`Code is ${code}, you are good to go!`);
               switch (this.props.route.params.onSuccessScreen) {
-                case 'ValidateFrame': this.props.navigation.navigate('ValidateFrame', {}); break;
-                case 'CreateNewPassword': this.props.navigation.navigate('CreateNewPassword', {}); break;
+                case 'ValidateFrame':
+                  this.props.navigation.navigate('ValidateFrame', {});
+                  break;
+                case 'CreateNewPassword':
+                  this.props.navigation.navigate('CreateNewPassword', {});
+                  break;
               }
             }}
           />
         </View>
         <View style={styles.footer}>
-          <Text style={{ textAlign: 'center' }}>
+          <Text style={{textAlign: 'center'}}>
             <Text style={styles.footerText}>
-              Haven't received the 4-digit OTP?{' '}
+              Haven't received the 6-digit OTP?{' '}
             </Text>
             <Text
               style={styles.resendOTP}
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   underlineStyleBase: {
-    width: scale(40),
+    width: scale(30),
     // height: 45,
     borderWidth: 0,
     borderBottomWidth: 1,

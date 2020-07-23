@@ -1,15 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import {StyleSheet, View, Image, Text} from 'react-native';
 import Metrics from './components/metrics';
 import RideStatSection from './components/ridestats';
 import Header from './components/header';
 import Colors from '../../styles/colors';
-import { scale, verticalScale } from '../../styles/size-matters';
-import { ScrollView } from 'react-native-gesture-handler';
-import { moderateScale } from 'react-native-size-matters';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import Background from '../../components/background'
+import {scale, verticalScale} from '../../styles/size-matters';
+import {ScrollView} from 'react-native-gesture-handler';
+import {moderateScale} from 'react-native-size-matters';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import Background from '../../components/background';
 
 type ReduxState = {
   bikeStat: TStore['bikeStat'];
@@ -17,7 +17,7 @@ type ReduxState = {
   user: TStore['user'];
 };
 
-interface Props extends ReduxState { }
+interface Props extends ReduxState {}
 
 type State = {};
 
@@ -37,7 +37,7 @@ class Home extends React.PureComponent<Props, State> {
           hasTabs
         />
         <ScrollView style={styles.body}>
-          <View style={{ marginVertical: verticalScale(20) }}>
+          <View style={{marginVertical: verticalScale(20)}}>
             <Metrics
               batteryCharge={this.props.bikeState.batteryChargePer.toString()}
               rangeAvailable={this.props.bikeState.rangeAvailableKm.toString()}
@@ -49,6 +49,7 @@ class Home extends React.PureComponent<Props, State> {
               height: 250,
               width: '100%',
               flexDirection: 'row',
+              paddingHorizontal: scale(10),
             }}>
             <View
               style={{
@@ -57,7 +58,7 @@ class Home extends React.PureComponent<Props, State> {
               }}>
               <Image
                 source={require('../../assets/images/cycle.png')}
-                style={{ height: '100%', aspectRatio: 1.8 }}
+                style={{height: '100%', aspectRatio: 1.8}}
               />
             </View>
             <View
@@ -68,11 +69,11 @@ class Home extends React.PureComponent<Props, State> {
                 padding: 10,
               }}>
               <Text
-                style={{ fontSize: 20, fontWeight: 'bold' }}
+                style={{fontSize: 20, fontWeight: 'bold'}}
                 numberOfLines={1}>
                 Cycle A
               </Text>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ON{'\n'}</Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>ON{'\n'}</Text>
               <Image
                 source={require('../../assets/icons/GPS_tracker.png')}></Image>
             </View>
@@ -106,5 +107,5 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BG_GREY,
     height: '100%',
   },
-  body: { flex: 1 },
+  body: {flex: 1},
 });
