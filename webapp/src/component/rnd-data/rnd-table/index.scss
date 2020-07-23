@@ -1,0 +1,9 @@
+@import "../../..//global.scss";
+@import "~antd/dist/antd.css";
+
+.ag-theme-material {
+    font-size: 12px !important;
+    .ag-cell {
+        line-height: 30px !important;
+    }
+}

@@ -13,8 +13,8 @@ type TFeedbackModel<T> = typeof Model & {
 
 let Feedback: TFeedbackModel<TFeedback & Model> = <TFeedbackModel<TFeedback & Model>>db.define('feedbacks',
   {
-    id: {
-      type: Sequelize.INTEGER,
+    rideId: {
+      type: Sequelize.STRING,
       autoIncrement: true,
       primaryKey: true
     },

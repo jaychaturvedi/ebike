@@ -9,14 +9,17 @@ export interface TBike {
   uid?: string;
   frameId?: string;
   warrantyId?: string;
-  batteryId?: string;
-  modelType?: string;
+  batteries: {
+    [id: string]: {
+      id: string
+    }
+  };
+  model?: string;
   //frequently updated fields below
-  batteryCharge?: string;
+  batteryPer?: string;
   rangeCovered?: string;
   rangeAvailable?: string;
-  overallBatteryHealth?: string;
-  motorHealth?: string;
+  motorPer?: string;
   ignitionStatus?: boolean;
   isLocked?: boolean;
   purchaseDate?: Date;
@@ -54,19 +57,16 @@ let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bike
     batteryId: {
       type: Sequelize.ARRAY(Sequelize.STRING)
     },
-    modelType: {
+    model: {
       type: Sequelize.STRING
     },
-    batteryCharge: {
+    batteryPer: {
       type: Sequelize.STRING
     },
     rangeCovered: {
       type: Sequelize.STRING
     },
     rangeAvailable: {
-      type: Sequelize.STRING
-    },
-    overallBatteryHealth: {
       type: Sequelize.STRING
     },
     ignitionStatus: {

@@ -28,35 +28,51 @@ const data = [
         days: 'SUN', uv: 3490, pv: 90, amt: 2100, tv: 4000, av: 6600, bv: 4751,
     },
 ];
-const menu = (
-    <Menu style={{ float: 'right' }}>
-        <Menu.Item key="0">
-            Today
-        </Menu.Item>
-        <Menu.Item key="1">
-            Last 7 Days
-        </Menu.Item>
-        <Menu.Item key="3">
-            Last 30 Days
-        </Menu.Item>
-    </Menu>
-);
+
 
 interface RandDTrendsProps { }
 
-interface RandDTrendsStates { }
+interface RandDTrendsStates {
+    trendsPeriod: string
+}
 
 class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
+    constructor(props: RandDTrendsProps) {
+        super(props);
+        this.state = {
+            trendsPeriod: "Last 7 Days"
+        }
+    }
+    handlePeriodChange = (e: any) => {
+        this.setState({
+            trendsPeriod: e.key
+        })
+    }
+
+    trendPeriod = (
+        <Menu onClick={this.handlePeriodChange}>
+            <Menu.Item key="Today">
+                Today
+        </Menu.Item>
+            <Menu.Item key="Last 7 Days">
+                Last 7 Days
+        </Menu.Item>
+            <Menu.Item key="Last 30 Days">
+                Last 30 Days
+        </Menu.Item>
+        </Menu>
+    );
+
 
     render() {
         return <>
             <div className="connectm-RandDTrends">
                 <div className="trends-header">
                     <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "2px" }}>TRENDS</Typography.Text>
-                    <Dropdown overlay={menu} trigger={['click']}>
-                        <Typography.Text className={"pair trend-dropdown-active"} style={{ paddingLeft: "2px" }}>
-                            Last 7 Days
-                        <DownOutlined style={{ marginLeft: "10px", paddingRight: "2px" }} />
+                    <Dropdown overlay={this.trendPeriod} trigger={['click']}>
+                        <Typography.Text className={"pair trend-dropdown-active"} style={{ paddingLeft: "2px", whiteSpace: "nowrap", minWidth: "50%" }}>
+                            {this.state.trendsPeriod}
+                            <DownOutlined className={"flip"} style={{ marginLeft: "30px", paddingRight: "2px" }} />
                         </Typography.Text>
                     </Dropdown>
                 </div>
@@ -75,7 +91,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                     </div>
                     <div className="graph">
                         <div className={"titleheader"}>
-                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px"}} >Top 5 Alerts</Typography.Text>
+                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
                         </div>
                         <LineChart width={300} height={100} data={data} style={{ fontSize: "10px" }}>
                             <CartesianGrid strokeDasharray="3 4 5 2" />

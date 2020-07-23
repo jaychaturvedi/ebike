@@ -2,27 +2,46 @@
 @import "~antd/dist/antd.css";
 
 .table-row-light {
-    background-color: $TABLE_ROW_DARK;
+    background: $TABLE_ROW_DARK;
+
+    &:hover {
+        color: $ACTIVE !important;
+        border-left: 1px solid $ACTIVE !important;
+        opacity: 90%;
+    }
 }
 
 .table-row-dark {
-    background-color: $TABLE_ROW_LIGHT;
+    background: $TABLE_ROW_LIGHT;
+
+    &:hover {
+        color: $ACTIVE !important;
+        border-left: 1px solid $ACTIVE !important;
+        opacity: 90%;
+    }
 }
 
 .ant-table-thead {
     tr {
         th {
-            background-color: $TABLE_ROW_LIGHT !important;
-            background-color: red;
+            background: $TABLE_ROW_LIGHT !important;
         }
     }
 
     .fa-arrow-down {
+        -ms-transform: rotate(0deg);
+        /* IE 9 */
+        -webkit-transform: rotate(0deg);
+        /* Chrome, Safari, Opera */
         transform: rotate(0deg);
         transition: transform 1ms linear;
     }
 
     .fa-arrow-down.open {
+        -ms-transform: rotate(180deg);
+        /* IE 9 */
+        -webkit-transform: rotate(180deg);
+        /* Chrome, Safari, Opera */
         transform: rotate(180deg);
         transition: transform 1ms linear;
     }
@@ -32,9 +51,18 @@
     cursor: pointer;
     text-align: center;
     color: white;
+
+    .rotate {
+        -ms-transform: rotate(180deg);
+        /* IE 9 */
+        -webkit-transform: rotate(180deg);
+        /* Chrome, Safari, Opera */
+        transform: rotate(180deg);
+        transition: transform 1ms linear;
+    }
 }
 
-.ant-table-tbody > tr:hover > td {
+.ant-table-tbody>tr:hover>td {
     background: none;
     color: black;
 }
@@ -50,5 +78,3 @@ table,
 th {
     border: none !important;
 }
-
-
