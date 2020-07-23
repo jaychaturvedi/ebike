@@ -8,6 +8,7 @@ import Input from './components/input';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { OnboardingStackParamList } from '../../navigation/onboarding';
+import ThumbsUp from '../../components/thumb-up'
 
 type PersonalDetailsNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -24,6 +25,7 @@ type State = {
   email: string;
   password: string;
   confirmPassword: string;
+  success: boolean
 };
 
 const styles = StyleSheet.create({
@@ -59,7 +61,16 @@ export default class PersonalDetails extends React.PureComponent<Props, State> {
       email: '',
       name: '',
       password: '',
+      success: false
     };
+  }
+
+  renderSuccess() {
+    this.setState({ success: true })
+    setTimeout(() => {
+      this.props.navigation.navigate('TurnOnBluetooth', {});
+      this.setState({ success: false })
+    }, 5000)
   }
 
   render() {
@@ -69,61 +80,65 @@ export default class PersonalDetails extends React.PureComponent<Props, State> {
       this.state.password &&
       this.state.password === this.state.confirmPassword;
     return (
-      <View
-        style={{
-          height: '100%',
-          alignItems: 'center',
-        }}>
-        <CTAHeader
-          hasBackButton
-          onBackClick={() => this.props.navigation.goBack()}
-        />
-        <Text style={styles.title}>Please enter your details</Text>
-        <Input
-          onChange={(text: string) => this.setState({ name: text })}
-          placeHolder="Full Name*"
-          marginVeritical={verticalScale(InputMarginVeritical)}
-        />
-        <Input
-          onChange={(text: string) => this.setState({ email: text })}
-          placeHolder="Email*"
-          marginVeritical={verticalScale(InputMarginVeritical)}
-        />
-        <Input
-          onChange={(text: string) => this.setState({ password: text })}
-          placeHolder="Create a password*"
-          marginVeritical={verticalScale(InputMarginVeritical)}
-          secure
-        />
-        <Input
-          onChange={(text: string) => this.setState({ confirmPassword: text })}
-          placeHolder="Re-enter your password*"
-          marginVeritical={verticalScale(InputMarginVeritical)}
-          secure
-        />
+      this.state.success ? <ThumbsUp
+        msg="Account Created"
+      /> :
         <View
           style={{
-            width: '100%',
-            flex: 1,
-            justifyContent: 'center',
+            height: '100%',
+            alignItems: 'center',
           }}>
-          <Image
-            source={require('../../assets/images/cycle_with_headlight.png')}
-            style={styles.image}
+          <CTAHeader
+            hasBackButton
+            onBackClick={() => this.props.navigation.goBack()}
           />
-        </View>
-        <View style={styles.bottom}>
-          <CTAButton
-            disabled={!formDataValid}
-            onPress={() => {
-              this.props.navigation.navigate('TurnOnBluetooth', {});
-            }}
-            text={'Create my account'}
-            textColor={Colors.WHITE}
-            backgroundColor={Colors.NAVY_BLUE}
+          <Text style={styles.title}>Please enter your details</Text>
+          <Input
+            onChange={(text: string) => this.setState({ name: text })}
+            placeHolder="Full Name*"
+            marginVeritical={verticalScale(InputMarginVeritical)}
           />
+          <Input
+            onChange={(text: string) => this.setState({ email: text })}
+            placeHolder="Email*"
+            marginVeritical={verticalScale(InputMarginVeritical)}
+          />
+          <Input
+            onChange={(text: string) => this.setState({ password: text })}
+            placeHolder="Create a password*"
+            marginVeritical={verticalScale(InputMarginVeritical)}
+            secure
+          />
+          <Input
+            onChange={(text: string) => this.setState({ confirmPassword: text })}
+            placeHolder="Re-enter your password*"
+            marginVeritical={verticalScale(InputMarginVeritical)}
+            secure
+          />
+          <View
+            style={{
+              width: '100%',
+              flex: 1,
+              justifyContent: 'center',
+            }}>
+            <Image
+              source={require('../../assets/images/cycle_with_headlight.png')}
+              style={styles.image}
+            />
+          </View>
+          <View style={styles.bottom}>
+            <CTAButton
+              disabled={!formDataValid}
+              onPress={() => {
+                // this.props.navigation.navigate('TurnOnBluetooth', {});
+                this.renderSuccess()
+              }}
+              text={'Create my account'}
+              textColor={Colors.WHITE}
+              backgroundColor={Colors.NAVY_BLUE}
+            />
+          </View>
         </View>
-      </View>
     );
   }
 }
