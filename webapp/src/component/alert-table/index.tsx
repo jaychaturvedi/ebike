@@ -3,6 +3,7 @@ import React, { PureComponent, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Header } from './header'
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
+import { ReactComponent as Severity } from "../../assets/severity_icon.svg"
 import { Table, Select, Button } from 'antd';
 const { Option } = Select;
 const classname = 'fa-arrow-down'
@@ -27,10 +28,8 @@ for (var i = 1; i < 30; i++) {
         model: "Calssic",
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
-        openSince: "24hrs" + i + "0min",
-        severity: <svg height="25" width="25">
-            <circle cx="10" cy="15" r="10" fill='#F88828' />
-        </svg>,
+        openSince: "24 hrs " + i + " 0 min",
+        severity: <Severity height="15" width="15"/>,
         location: "Bangalore " + i
     })
 }
@@ -88,7 +87,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
     }
 
-
     handleChange = (pagination: any, filters: any, sorter: any) => {
         console.log('Various parameters', pagination, filters, sorter);
         this.setState({
@@ -102,48 +100,50 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         sortedInfo = sortedInfo || {};
         const columns: any = [
             {
-                dataIndex: 'alertName', defaultSortOrder: 'descend',
-                title: () =>
+                dataIndex: 'alertName', defaultSortOrder: 'descend',title:"Alert Name",
+                sorter: (a: any, b: any) => a.alertName.length - b.alertName.length,
+                // title: () =>
 
-                    <div className="ant-table-cell" onClick={this.handleClick} > Alert Name
-                <button onClick={() => this.setState({ isAsc: true })}
-                            onAnimationEnd={() => this.setState({ isAsc: false })}
-                            className={isAsc ? 'rotate' : ''}>
-                            <DownOutlined />
-                        </button>
-                    </div>
+                //     <div className="ant-table-cell" onClick={this.handleClick} > Alert Name
+                // <button onClick={() => this.setState({ isAsc: true })}
+                //             onAnimationEnd={() => this.setState({ isAsc: false })}
+                //             className={isAsc ? 'rotate' : ''}>
+                //             <DownOutlined />
+                //         </button>
+                //     </div>
             },
             {
-                dataIndex: 'model', key: 'model',
-                title: () => <Header className={this.state.classname} name='Model' />
+                dataIndex: 'model', key: 'model',title : "Model",
+                sorter: (a: any, b: any) => a.model.length - b.model.length,
+                //  title: () => <Header className={this.state.classname} name='Model' />
             },
             {
-                dataIndex: 'vehicleId', key: 'vehicleId',
-                sorter: (a: any, b: any) => a.vehicleId.length - b.vehicleId.length,
-                sortDirections: ['descend', 'ascend'], headerSort: false,
-                title: () => <Header className={this.state.classname} name='Vehicle Id'
-                    clickFunction={this.handleClick} isClicked={this.state.isAsc} />
+                dataIndex: 'vehicleId', key: 'vehicleId',title : "Vehicle ID",
+                // sortDirections: ['descend', 'ascend'], headerSort: false,
+                // title: () => <Header className={this.state.classname} name='Vehicle Id'
+                //     clickFunction={this.handleClick} isClicked={this.state.isAsc} />
             },
             {
-                dataIndex: 'time', key: 'time',
+                dataIndex: 'time', key: 'time', title: "Time",
                 sorter: (a: any, b: any) => a.time.length - b.time.length,
-                sortOrder: sortedInfo.columnKey === 'time' && sortedInfo.order,
-                title: () => <div>
-                    <Header className={this.state.classname} name='Time' />
-                    {/* <ActiveSort width="20" height="20" cursor='pointer' /> */}
-                </div>
+                // sortOrder: sortedInfo.columnKey === 'time' && sortedInfo.order,
+                // title: () => <div>
+                //     <Header className={this.state.classname} name='Time' />
+                //     {/* <ActiveSort width="20" height="20" cursor='pointer' /> */}
+                // </div>
             },
             {
-                dataIndex: 'openSince', title: () =>
-                    <Header className={this.state.classname} name='Open Since' />
+                dataIndex: 'openSince',key : 'openSince',title : "Open Since",
+                sorter: (a: any, b: any) => a.openSince.length - b.openSince.length,
+                //  title: () =><Header className={this.state.classname} name='Open Since' />
             },
             {
-                dataIndex: 'severity', title: () =>
-                    <Header className={this.state.classname} name='Severity' />
+                dataIndex: 'severity', key: 'severity', title: "Severity",
+                // title: () => <Header className={this.state.classname} name='Severity' />
             },
             {
-                dataIndex: 'location', title: () =>
-                    <Header className={this.state.classname} name='Location' />
+                dataIndex: 'location', key: 'location', title: "Location",
+                // title: () =>     <Header className={this.state.classname} name='Location' />
             },
         ];
 
@@ -158,14 +158,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                 columns={columns} dataSource={datas} pagination={{ pageSize: 10 }} loading={false}
             />
-            <Select
+            {/* <Select
                 defaultValue={this.state.pagination}
                 className='paginate-dropdown'
             >
                 {paginationDate.map(page => (
                     <Option key={page} value={page} title={page}>{page}</Option>
                 ))}
-            </Select>
+            </Select> */}
             {/* todo align select menu */}
         </>;
     }

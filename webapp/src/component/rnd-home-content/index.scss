@@ -1,20 +1,20 @@
 @import "../../global.scss";
 @import "~antd/dist/antd.css";
 .connectm-RandDHomeContent{
-    border: 1px solid rgb(192, 178, 178);
+    // border: 1px solid rgb(192, 178, 178);
     min-height: calc(100vh - (60px + 32px + 15px));
     padding: 24px 24px;
     display: flex;
     justify-content: space-between;
     .connectM-left{ 
         min-width:72%;
-        border: 1px solid rgb(192, 178, 178);
+        // border: 1px solid rgb(192, 178, 178);
         border-radius: 8px;  
     }
     .connectM-right{
         background-color: $TABLE_ROW_DARK;
         min-width: 25%;
-        border: 1px solid rgb(192, 178, 178);
+        // border: 1px solid rgb(192, 178, 178);
         border-radius: 8px;
     }
 }

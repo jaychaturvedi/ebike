@@ -1,7 +1,7 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
 import Tabs from "./tabs"
-import AlertsTable from "./rnd-table"
+import AlertsTable from "../alert-table"
 
 interface RandDDataProps { }
 

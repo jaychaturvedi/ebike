@@ -22,6 +22,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
         }
         this.gridOptions = {
             suppressCellSelection: true,
+            headerHeight: 40,
             defaultColDef: {
                 resizable: false,
                 suppressMovable: true,
@@ -29,6 +30,13 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 sortable: true,
                 filter: false
             },
+            rowClass: "alert-grid-row"
+            // getRowClass: (params: any) => {
+
+            //     if (params.node.rowIndex % 2 === 0) {
+            //         return 'my-shaded-effect';
+            //     }
+            // }
         }
     }
 
@@ -241,7 +249,8 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
         state.ColumnDefs = [{
             headerName: "Alert Name",
             field: "alertName",
-            autoHeight: true
+            autoHeight: true,
+
         },
         {
             headerName: "Model",
@@ -294,7 +303,12 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
     getRowHeight = (params: any) => {
         return 30;
     }
-
+    getRowClass = (params: any) => {
+        if ((params.node.rowIndex + 1) % 2 === 0) {
+            return 'ag-grid-row-light';
+        }
+        return 'ag-grid-row-dark'
+    }
     render() {
         return (
             <div id="center">

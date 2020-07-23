@@ -3,78 +3,92 @@
 
 .table-row-light {
     background: $TABLE_ROW_DARK;
-
-    &:hover {
-        color: $ACTIVE !important;
-        border-left: 1px solid $ACTIVE !important;
-        opacity: 90%;
-    }
 }
 
 .table-row-dark {
     background: $TABLE_ROW_LIGHT;
+}
 
-    &:hover {
-        color: $ACTIVE !important;
-        border-left: 1px solid $ACTIVE !important;
-        opacity: 90%;
-    }
+.ant-table table {
+    text-align: center;
 }
 
 .ant-table-thead {
     tr {
         th {
             background: $TABLE_ROW_LIGHT !important;
+            text-align: center;
+            font-size: 14px;
         }
     }
-
-    .fa-arrow-down {
-        -ms-transform: rotate(0deg);
-        /* IE 9 */
-        -webkit-transform: rotate(0deg);
-        /* Chrome, Safari, Opera */
-        transform: rotate(0deg);
-        transition: transform 1ms linear;
-    }
-
-    .fa-arrow-down.open {
-        -ms-transform: rotate(180deg);
-        /* IE 9 */
-        -webkit-transform: rotate(180deg);
-        /* Chrome, Safari, Opera */
-        transform: rotate(180deg);
-        transition: transform 1ms linear;
-    }
 }
 
-.ant-table-cell {
-    cursor: pointer;
-    text-align: center;
-    color: white;
-
-    .rotate {
-        -ms-transform: rotate(180deg);
-        /* IE 9 */
-        -webkit-transform: rotate(180deg);
-        /* Chrome, Safari, Opera */
-        transform: rotate(180deg);
-        transition: transform 1ms linear;
-    }
-}
-
-.ant-table-tbody>tr:hover>td {
-    background: none;
-    color: black;
-}
-
-table,
-tr,
-td {
+table,tr,td,th 
+{
     border: none !important;
     font-size: 12px;
+    color: #ffffff !important;
 }
 
-table,
-th {
-    border: none !important;
+.ant-table-row{
+    &:hover{
+        background-color: $ROW_HOVER !important;
+    }
 }
+.ant-table-tbody > tr.ant-table-row:hover > td {
+    background: none !important;
+}
+
+td.ant-table-column-sort {
+    background: none !important;
+}
+
+.ant-pagination{
+    color: #ffffff !important;
+}
+.ant-pagination-item > a {
+    color: #ffffff !important;
+}
+
+.ant-pagination-item-active{
+     background: none !important;
+     border: none !important;
+}
+
+    // .fa-arrow-down {
+    //     -ms-transform: rotate(0deg);
+    //     /* IE 9 */
+    //     -webkit-transform: rotate(0deg);
+    //     /* Chrome, Safari, Opera */
+    //     transform: rotate(0deg);
+    //     transition: transform 1ms linear;
+    // }
+
+    // .fa-arrow-down.open {
+    //     -ms-transform: rotate(180deg);
+    //     /* IE 9 */
+    //     -webkit-transform: rotate(180deg);
+    //     /* Chrome, Safari, Opera */
+    //     transform: rotate(180deg);
+    //     transition: transform 1ms linear;
+    // }
+
+// .ant-table-cell {
+//     cursor: pointer;
+//     text-align: center;
+//     color: white;
+
+//     .rotate {
+//         -ms-transform: rotate(180deg);
+//         /* IE 9 */
+//         -webkit-transform: rotate(180deg);
+//         /* Chrome, Safari, Opera */
+//         transform: rotate(180deg);
+//         transition: transform 1ms linear;
+//     }
+// }
+
+// .ant-table-tbody>tr:hover>td {
+//     background: none;
+//     color: black;
+// }
