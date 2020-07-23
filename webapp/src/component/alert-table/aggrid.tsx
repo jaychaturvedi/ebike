@@ -32,7 +32,7 @@ const columnDefs = [
 ]
 let rowData: Array<object> = []
 
-for (var i = 0; i < 50; i++) {
+for (var i = 0; i < 2; i++) {
     rowData.push({
         alert: 'Capacity', time: '11-12-2020', severity: 'major',
         location: 'Bangalore 1', open: '24hrs 10min', vehicle: 'BLE123', model: 'hum'
@@ -83,7 +83,6 @@ export default class App extends Component<AppProps, AppState> {
     setDataValue = () => {
         this.gridApi.forEachNode(function (rowNode: any) {
             rowNode.setDataValue('time', <div>mf</div>);
-
         });
     }
     render() {

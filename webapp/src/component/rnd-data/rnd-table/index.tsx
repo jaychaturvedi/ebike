@@ -27,7 +27,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 suppressMovable: true,
                 editable: false,
                 sortable: true,
-                filter: false
+                filter: false,
             }
         }
     }
@@ -48,7 +48,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 location: "Kolkata",
             },
             {
-                id: "1",
+                id: "2",
                 alertName: "Capacity Detoriation",
                 model: "Hum",
                 vehicleId: "BLR 12345",
@@ -57,7 +57,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 severity: "major",
                 location: "Kolkata",
             }, {
-                id: "1",
+                id: "3",
                 alertName: "Capacity Detoriation",
                 model: "Hum",
                 vehicleId: "BLR 12345",
@@ -66,7 +66,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 severity: "major",
                 location: "Kolkata",
             }, {
-                id: "1",
+                id: "4",
                 alertName: "Capacity Detoriation",
                 model: "Hum",
                 vehicleId: "BLR 12345",
@@ -75,7 +75,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 severity: "major",
                 location: "Kolkata",
             }, {
-                id: "1",
+                id: "5",
                 alertName: "Capacity Detoriation",
                 model: "Hum",
                 vehicleId: "BLR 12345",
@@ -177,7 +177,7 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
         state.ColumnDefs = [{
             headerName: "Alert Name",
             field: "alertName",
-            autoHeight : true
+            autoHeight: true
         },
         {
             headerName: "Model",
@@ -231,27 +231,29 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
 
     render() {
         return (
-            <div
-                className="ag-theme-material"
-                style={{
-                    width: "100%",
-                    height: "90%"
-                }}
-            >
-                <AgGridReact
-                    {...this.gridOptions}
-                    columnDefs={this.state.ColumnDefs}
-                    rowData={this.state.rowData}
-                    suppressDragLeaveHidesColumns={true}
-                    enterMovesDown={true}
-                    suppressRowClickSelection={true}
-                    onGridReady={this.onGridReady}
-                    pagination={true}
-                    // paginationAutoPageSize={true}
-                    paginationPageSize={10}
-                    onRowClicked={this.rowSelected}
+            <div id="center">
+                <div
+                    className="ag-theme-material"
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <AgGridReact
+                        {...this.gridOptions}
+                        columnDefs={this.state.ColumnDefs}
+                        rowData={this.state.rowData}
+                        suppressDragLeaveHidesColumns={true}
+                        enterMovesDown={true}
+                        suppressRowClickSelection={true}
+                        onGridReady={this.onGridReady}
+                        pagination={true}
+                        // paginationAutoPageSize={true}
+                        paginationPageSize={30}
+                        onRowClicked={this.rowSelected}
                     // gridAutoHeight={true}
-                />
+                    />
+                </div>
             </div>
         )
     }

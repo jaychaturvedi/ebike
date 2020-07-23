@@ -1,0 +1,39 @@
+// @import "../../../global.scss";
+#center {
+    height: calc(100% - 25px);
+    overflow: hidden !important;
+    margin: 0;
+}
+
+// .ag-body-viewport {
+//     overflow-y: scroll !important;
+// }
+
+// .ag-theme-material {
+//     justify-content: center;
+//     align-self: center;
+//     color: white;
+
+//     .ag-row {
+//         vertical-align: middle;
+//         text-align: center;
+
+//         &:hover {
+//             flood-opacity: 0%;
+//             border: 1px solid white;
+//         }
+//     }
+
+//     .ag-cell {
+//         /* use theme parameters where possible */
+//         background: $TABLE_ROW_DARK;
+//         color: white;
+
+//     }
+
+//     .ag-row-odd {
+//         /* use theme parameters where possible */
+//         background-color: $TABLE_ROW_LIGHT;
+//     }
+
+// }
