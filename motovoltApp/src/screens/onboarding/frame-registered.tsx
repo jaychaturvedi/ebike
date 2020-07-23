@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
@@ -7,8 +7,8 @@ import CTAHeader from './components/header';
 import Input from './components/input';
 import input from './components/input';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 
 type FrameRegisteredNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -16,8 +16,8 @@ type FrameRegisteredNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-  navigation: FrameRegisteredNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'FrameRegistered'>
+  navigation: FrameRegisteredNavigationProp;
+  route: RouteProp<OnboardingStackParamList, 'FrameRegistered'>;
 };
 
 type State = {};
@@ -61,8 +61,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     marginTop: verticalScale(16),
-    height: scale(70),
-    width: scale(70),
+    resizeMode: 'contain',
   },
   image: {
     marginBottom: verticalScale(16),
@@ -74,8 +73,13 @@ const styles = StyleSheet.create({
 export default class RegisterBike extends React.PureComponent<Props, State> {
   render() {
     return (
-      <View style={styles.container}>
-        <CTAHeader hasBackButton title="Bike Registered Successfully"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+        style={styles.container}>
+        <CTAHeader
+          hasBackButton
+          title="Bike Registered Successfully"
           onBackClick={() => this.props.navigation.goBack()}
         />
         <Image
@@ -100,10 +104,12 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
             text={'Continue'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}
-            onPress={() => this.props.navigation.navigate("PersonalDetails", {})}
+            onPress={() =>
+              this.props.navigation.navigate('PersonalDetails', {})
+            }
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

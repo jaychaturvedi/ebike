@@ -5,6 +5,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
@@ -74,7 +76,9 @@ export default class InputFrameNumber extends React.PureComponent<
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
         <CTAHeader />
         <View style={styles.body}>
           <Text style={styles.title}>Validate Frame Number</Text>
@@ -105,7 +109,7 @@ export default class InputFrameNumber extends React.PureComponent<
             backgroundColor={Colors.NAVY_BLUE}
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

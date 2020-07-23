@@ -5,6 +5,8 @@ import User from '../user/model';
 export interface TIssue {
   rideId: string;
   issues: string;
+  title?: string;
+
 }
 type TIssueModel<T> = typeof Model & {
   new(values?: object, options?: BuildOptions): T;

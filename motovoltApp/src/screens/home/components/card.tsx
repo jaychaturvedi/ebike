@@ -6,6 +6,7 @@ const cardStyles = StyleSheet.create({
   title: {
     color: Colors.BORDER_GREY,
     fontSize: 14,
+    lineHeight: 28,
   },
   value: {
     color: 'rgba(0, 0, 0, 1)',

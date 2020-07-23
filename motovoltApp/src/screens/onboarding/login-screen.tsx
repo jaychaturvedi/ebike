@@ -1,13 +1,19 @@
 import React from 'react';
 import { scale, verticalScale } from '../../styles/size-matters';
-import { View, StyleSheet, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import Colors from '../../styles/colors';
 import Input from './components/input';
 import CTAHeader from './components/header';
 import NextButton from './components/next-page-button';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 
 type LoginNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -15,13 +21,14 @@ type LoginNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-  navigation: LoginNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'LoginPage'>
+  navigation: LoginNavigationProp;
+  route: RouteProp<OnboardingStackParamList, 'LoginPage'>;
 };
 
 type State = {
   userName: string;
   password: string;
+  isValid: boolean;
 };
 
 const styles = StyleSheet.create({
@@ -49,25 +56,43 @@ export default class Login extends React.PureComponent<Props, State> {
     this.state = {
       userName: '',
       password: '',
+      isValid: false,
     };
   }
 
   render() {
     return (
-      <View
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         style={{
           display: 'flex',
           height: '100%',
           width: '100%',
           alignItems: 'center',
         }}>
-        <CTAHeader hasBackButton onBackClick={() => { this.props.navigation.goBack() }} />
-        <Text style={styles.title}>Log In</Text>
+        <CTAHeader
+          hasBackButton
+          onBackClick={() => {
+            this.props.navigation.goBack();
+          }}
+        />
+        <View
+          style={{
+            height: '10%',
+            justifyContent: 'flex-start',
+          }}>
+          <Text style={styles.title}>Log In</Text>
+        </View>
         <Input
-          placeHolder="Email or Mobile No."
+          placeHolder="Mobile No."
+          keyboardNumericType
           marginVeritical={verticalScale(InputMarginVeritical)}
           onChange={(value: string) => {
-            this.setState({ userName: value });
+            const matches = value.match(/\d/g);
+            this.setState({
+              userName: value,
+              isValid: matches && matches.length === 10 ? true : false,
+            });
           }}
         />
         <Input
@@ -76,24 +101,30 @@ export default class Login extends React.PureComponent<Props, State> {
           secure
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
-        <Text
-          onPress={() => this.props.navigation.navigate('ForgotPassword', {})}
-          style={{
-            marginVertical: verticalScale(InputMarginVeritical),
-            color: Colors.HYPERLINK_BLUE,
-          }}>
-          Forgot Password?
-        </Text>
+        <View style={{ height: '5%', justifyContent: 'flex-end' }}>
+          <Text
+            onPress={() => this.props.navigation.navigate('ForgotPassword', {})}
+            style={{
+              marginVertical: verticalScale(InputMarginVeritical),
+              color: Colors.HYPERLINK_BLUE,
+            }}>
+            Forgot Password?
+          </Text>
+        </View>
         <View style={styles.bottom}>
           <NextButton
-            mode={this.state.userName && this.state.password ? "Active" : "Disabled"}
+            mode={
+              this.state.userName && this.state.password && this.state.isValid
+                ? 'Active'
+                : 'Disabled'
+            }
             onPress={() => {
               // if (this.props.onLogin)
               //   this.props.onLogin(this.state.userName, this.state.password);
             }}
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
