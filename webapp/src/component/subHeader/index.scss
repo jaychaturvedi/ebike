@@ -18,7 +18,7 @@
 
 .connectM-dropDown {
     color: #ffffff;
-    width: 200px;
+    width: 208px;
     min-height: 32px;
     border-bottom: 1px solid #ffffff;
     display: flex;
@@ -86,6 +86,10 @@
     padding-left: 25%;
 }
 
+.location-dropdown-sub-item {
+    padding-left: 10%;
+}
+
 .ant-dropdown-menu-item-active {
     background-color: $ROW_HOVER !important;
 }
@@ -115,16 +119,20 @@
     border-bottom: 1px solid $ACTIVE !important;
     box-shadow: none !important;
     .ant-input-prefix {
-        color : $ACTIVE !important;
+        color: $ACTIVE !important;
     }
 }
 //search
 .apply-button {
     background-color: $APPLY_BUTTON !important;
     border: none !important;
-    margin-left: 20px;
+    margin-left: 40px;
 }
-
+//should be inside
+.ant-btn-sm {
+    font-size: 10px !important;
+    border-radius: 7px !important;
+}
 .reset-button {
     background-color: $APP_BACKGROUND !important;
     border-color: #ffffff !important;
@@ -174,9 +182,50 @@
         background-color: $APPLY_BUTTON !important;
         border: none !important;
         margin-left: 50%;
+        margin-top: 10px;
     }
 }
 
-.ant-picker-panel-container{
+.ant-picker-panel-container {
     background-color: $DROPDOWN_BACKGROUND_COLOR !important;
+    .ant-picker-header {
+        color: #ffffff !important;
+    }
+    .ant-picker-header-super-prev-btn {
+        color: #ffffff !important;
+    }
+    .ant-picker-header-prev-btn {
+        color: #ffffff !important;
+    }
+    .ant-picker-header-super-next-btn {
+        color: #ffffff !important;
+    }
+    .ant-picker-header-next-btn {
+        color: #ffffff !important;
+    }
+}
+.ant-picker-footer {
+    display: none;
+}
+.ant-picker-panel {
+    border: none;
+}
+
+// .ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today ant-picker-cell-selectedf
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+    border-radius: 50%;
+    &:hover {
+        background-color: none !important;
+    }
+}
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    border: none;
+}
+
+.ant-picker-cell-inner {
+    &:hover {
+        background-color: $ROW_HOVER !important;
+    }
 }
