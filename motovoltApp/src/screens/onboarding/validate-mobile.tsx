@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   verifyBtn: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });

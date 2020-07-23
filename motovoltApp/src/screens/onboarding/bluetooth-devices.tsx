@@ -1,16 +1,16 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
-import {TStore} from '../../service/redux/store';
-import {ConnectBLE} from '../../service/redux/actions/ble';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
+import { TStore } from '../../service/redux/store';
+import { ConnectBLE } from '../../service/redux/actions/ble';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 type ReduxState = {
   connectBle: (id: ConnectBLE) => void;
@@ -105,8 +105,8 @@ function CycleDetected(props: CycleProps) {
       <View
         style={{
           ...cycleStyles.container,
-          borderColor: Colors.BORDER_GREY,
-          borderWidth: props.selected ? 1 : 0,
+          // borderColor: Colors.BORDER_GREY,
+          // borderWidth: props.selected ? 1 : 0,
         }}>
         <Image
           source={require('../../assets/images/cycle.png')}
@@ -152,7 +152,7 @@ class RegisterBike extends React.PureComponent<Props, State> {
                 }}
                 selected={this.state.selectedCycleId === device.id}
                 onSelect={() => {
-                  this.setState({selectedCycleId: device.id});
+                  this.setState({ selectedCycleId: device.id });
                 }}
               />
             ))}

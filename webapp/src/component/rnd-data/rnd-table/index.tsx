@@ -27,8 +27,8 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 suppressMovable: true,
                 editable: false,
                 sortable: true,
-                filter: false,
-            }
+                filter: false
+            },
         }
     }
 
@@ -95,6 +95,70 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                 location: "Kolkata",
             },
             {
+                id: "1",
+                alertName: "Capacity Detoriation",
+                model: "Hum",
+                vehicleId: "BLR 12345",
+                time: "15-May-2020 10:05 AM",
+                openSince: "24 hrs 10 mins",
+                severity: "major",
+                location: "Kolkata",
+            },
+            {
+                id: "1",
+                alertName: "Capacity Detoriation",
+                model: "Hum",
+                vehicleId: "BLR 12345",
+                time: "15-May-2020 10:05 AM",
+                openSince: "24 hrs 10 mins",
+                severity: "major",
+                location: "Kolkata",
+            }, {
+                id: "1",
+                alertName: "Capacity Detoriation",
+                model: "Hum",
+                vehicleId: "BLR 12345",
+                time: "15-May-2020 10:05 AM",
+                openSince: "24 hrs 10 mins",
+                severity: "major",
+                location: "Kolkata",
+            }, {
+                id: "1",
+                alertName: "Capacity Detoriation",
+                model: "Hum",
+                vehicleId: "BLR 12345",
+                time: "15-May-2020 10:05 AM",
+                openSince: "24 hrs 10 mins",
+                severity: "major",
+                location: "Kolkata",
+            }, {
+                id: "1",
+                alertName: "Capacity Detoriation",
+                model: "Hum",
+                vehicleId: "BLR 12345",
+                time: "15-May-2020 10:05 AM",
+                openSince: "24 hrs 10 mins",
+                severity: "major",
+                location: "Kolkata",
+            }, {
+                id: "1",
+                alertName: "Capacity Detoriation",
+                model: "Hum",
+                vehicleId: "BLR 12345",
+                time: "15-May-2020 10:05 AM",
+                openSince: "24 hrs 10 mins",
+                severity: "major",
+                location: "Kolkata",
+            }, {
+                id: "1",
+                alertName: "Capacity Detoriation",
+                model: "Hum",
+                vehicleId: "BLR 12345",
+                time: "15-May-2020 10:05 AM",
+                openSince: "24 hrs 10 mins",
+                severity: "major",
+                location: "Kolkata",
+            }, {
                 id: "1",
                 alertName: "Capacity Detoriation",
                 model: "Hum",
@@ -216,7 +280,6 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
 
     onGridReady = (event: GridReadyEvent) => {
         event.api.sizeColumnsToFit();
-        event.api.resetRowHeights()
     }
 
     navigateTo = (target: string) => {
@@ -227,6 +290,9 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
         const data = event.data
         console.log(data)
         this.navigateTo("/" + data.id);
+    }
+    getRowHeight = (params: any) => {
+        return 30;
     }
 
     render() {
@@ -249,9 +315,10 @@ class AlertsTable extends PureComponent<AlertsTableProps, AlertsTableStates> {
                         onGridReady={this.onGridReady}
                         pagination={true}
                         // paginationAutoPageSize={true}
-                        paginationPageSize={30}
+                        paginationPageSize={20}
                         onRowClicked={this.rowSelected}
                     // gridAutoHeight={true}
+                    // getRowHeight={this.getRowHeight}
                     />
                 </div>
             </div>
