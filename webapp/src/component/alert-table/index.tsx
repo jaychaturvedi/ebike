@@ -237,7 +237,9 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         ];
 
         return <>
-            <Table size={"small"}
+            <Table
+                // scroll={{ x: 1500, y: 300 }}
+                size={"small"}
                 tableLayout="auto"
                 bordered={false}
                 className="ant-table-thead"
