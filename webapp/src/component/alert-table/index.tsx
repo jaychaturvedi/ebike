@@ -1,16 +1,13 @@
 import './index.scss';
 import React, { PureComponent, useState } from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import { Header } from './header'
+import { DownOutlined, DownCircleFilled } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
 import { ReactComponent as Severity } from "../../assets/severity_icon.svg"
 import { Table, Select, Button } from 'antd';
-const { Option } = Select;
-const classname = 'fa-arrow-down'
 const paginationDate = ['10', '20', '30'];
 type TData = {
     id?: any,
-    key: number,
+    key?: number,
     alertName: string,
     model: string,
     vehicleId: string,
@@ -21,15 +18,15 @@ type TData = {
 }
 
 let datas: Array<TData> = []
-for (var i = 1; i < 30; i++) {
+for (var i = 1; i < 101; i++) {
     datas.push({
-        key: i,
+        id: i,
         alertName: "Capacity Deteroriation",
-        model: "Calssic",
+        model: "Calssic" + i,
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
         openSince: "24 hrs " + i + " 0 min",
-        severity: <Severity height="15" width="15"/>,
+        severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}><Severity height="15" width="15" /></span>,
         location: "Bangalore " + i
     })
 }
@@ -40,7 +37,10 @@ interface AlertProps {
 }
 
 interface AlertStates {
-    column?: any, data?: Array<TData>, pagination?: string; isAsc: boolean; classname: string; sortedInfo: any; sortDirections: string
+    id?: any, column?: any, isDesc: boolean, data?: Array<TData>,
+    pagination?: any; isAsc: boolean; classname: string; sortedInfo: any;
+    sortDirections: string; alertClicked: boolean; modelClicked: boolean;
+    timeClicked: boolean; loading: boolean; severityClicked: boolean, openSinceClicked: boolean
 }
 
 class AlertTable extends React.Component<AlertProps, AlertStates> {
@@ -48,98 +48,187 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     constructor(props: AlertProps) {
         super(props);
         this.state = {
-            pagination: '10',
-            isAsc: false,
-            classname: 'fa-arrow-down',
+            pagination: {},
+            data: [],
+            isAsc: true,
+            isDesc: false,
+            classname: '',
             sortedInfo: null,
             sortDirections: 'ascend',
+            loading: false,
+            alertClicked: false,
+            modelClicked: false,
+            timeClicked: false,
+            openSinceClicked: false,
+            severityClicked: false,
         }
-        this.handleClick = this.handleClick.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        // this.handleClickTime=this.handleClickTime.bind(this);
     }
 
-
-    handleClick() {
-        const { isAsc } = this.state
+    renderClass = () => {
+        const { isAsc, isDesc } = this.state
         if (isAsc) {
             this.setState({
                 isAsc: !this.state.isAsc,
-                classname: 'fa-arrow-down active open',
-                sortDirections: 'descend',
-                sortedInfo: {
-                    order: this.state.sortDirections,
-                    columnKey: 'time',
-                },
+                isDesc: !this.state.isDesc,
+                classname: 'alert-down-circle',
             });
         }
-        else {
+        if (isDesc) {
             this.setState({
                 isAsc: !this.state.isAsc,
-                classname: 'fa-arrow-down active',
-                sortDirections: '',
-                sortedInfo: {
-                    order: this.state.sortDirections,
-                    columnKey: 'time',
-                },
+                isDesc: !this.state.isDesc,
+                classname: 'alert-down-circle open',
             });
         }
-        console.log(this.state.isAsc);
-
     }
 
-    handleChange = (pagination: any, filters: any, sorter: any) => {
-        console.log('Various parameters', pagination, filters, sorter);
+
+    handleTableChange = (pagination: any, filters: any, sorter: any) => {
+        console.log('tableChange', pagination, filters, sorter);
+        const pager: any = this.state.pagination;
+        pager.current = pagination.current;
         this.setState({
-            sortedInfo: sorter,
+            pagination: pager
         });
+        const params = {
+            pageSize: pagination.pageSize,
+            currentPage: pagination.current,
+            sortField: sorter.field,
+            sortOrder: sorter.order
+        };
+        // for (let key in filters) {
+        //   if (filters.hasOwnProperty(key)) {
+        //     params[key] = filters[key];
+        //   }
+        // }
+        this.fetch(params);
     }
 
+    fetch = (params = {}) => {
+        console.log('param', params);
+        this.setState({ loading: true });
+
+        setTimeout(() => {
+            //demoData
+            const result = datas;
+            const page = 1; const pageSize = 50;
+            let pagination = this.state.pagination;
+            pagination.total = result?.length;
+            this.setState({
+                loading: false,
+                data: result.slice((page - 1) * pageSize, pageSize * page),//insert here page no. and page size
+                pagination,
+            });
+        }, 1500);
+    }
+    componentDidMount() {
+        this.fetch()
+    }
+    handleClickAlert = (event: any) => {
+        event?.stopPropagation()
+        const { alertClicked } = this.state
+        if (!alertClicked) this.setState({
+            alertClicked: true, modelClicked: false, timeClicked: false,
+            openSinceClicked: false, severityClicked: false
+        })
+        this.renderClass()
+        console.log(this.state.classname);
+    }
+
+    handleClickModel = (event: any) => {
+        event?.stopPropagation()
+        const { modelClicked } = this.state
+        if (!modelClicked) this.setState({
+            alertClicked: false, modelClicked: true, timeClicked: false,
+            openSinceClicked: false, severityClicked: false
+        })
+        this.renderClass()
+        console.log(this.state.classname);
+    }
+
+    handleClickTime = (event: any) => {
+        const { isAsc, isDesc, timeClicked } = this.state
+        if (!timeClicked) this.setState({
+            alertClicked: false, modelClicked: false, timeClicked: true,
+            openSinceClicked: false, severityClicked: false
+        })
+        this.renderClass()
+        console.log(this.state.classname);
+    }
+
+    handleClickOpenSince = (event: any) => {
+        const { isAsc, isDesc, openSinceClicked } = this.state
+        if (!openSinceClicked) this.setState({
+            alertClicked: false, modelClicked: false, timeClicked: false,
+            openSinceClicked: true, severityClicked: false
+        })
+        this.renderClass()
+        console.log(this.state.classname);
+    }
+
+    handleClickSeverity = (event: any) => {
+        const { isAsc, isDesc, severityClicked } = this.state
+        if (!severityClicked) this.setState({
+            alertClicked: false, modelClicked: false, timeClicked: false,
+            openSinceClicked: false, severityClicked: true
+        })
+        this.renderClass()
+        console.log(this.state.classname);
+    }
 
     render() {
-        let { sortedInfo, isAsc } = this.state;
+        // this.fetch()
+        let { sortedInfo, isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         sortedInfo = sortedInfo || {};
+
         const columns: any = [
             {
-                dataIndex: 'alertName', defaultSortOrder: 'descend',title:"Alert Name",
+                dataIndex: 'alertName', defaultSortOrder: 'ascend',
+                title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
+                    {alertClicked ? <ActiveSort height='20px' width='20px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                </span>,
                 sorter: (a: any, b: any) => a.alertName.length - b.alertName.length,
-                // title: () =>
+            },
+            {
+                dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend',
+                title:
+                    <span className="header-sorter" onClick={this.handleClickModel}> Model
+                        {modelClicked ? <ActiveSort height='20px' width='20px'
+                            className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                    </span>,
+                sorter: (a: any, b: any) => a.model.length - b.model.length
+            },
+            {
+                dataIndex: 'vehicleId', key: 'vehicleId',
+                // sortDirections: ['descend', 'ascend'], headerSort: false,                
+                title: <span className="header-sorter" > Vehicle Id </span>
 
-                //     <div className="ant-table-cell" onClick={this.handleClick} > Alert Name
-                // <button onClick={() => this.setState({ isAsc: true })}
-                //             onAnimationEnd={() => this.setState({ isAsc: false })}
-                //             className={isAsc ? 'rotate' : ''}>
-                //             <DownOutlined />
-                //         </button>
-                //     </div>
             },
             {
-                dataIndex: 'model', key: 'model',title : "Model",
-                sorter: (a: any, b: any) => a.model.length - b.model.length,
-                //  title: () => <Header className={this.state.classname} name='Model' />
-            },
-            {
-                dataIndex: 'vehicleId', key: 'vehicleId',title : "Vehicle ID",
-                // sortDirections: ['descend', 'ascend'], headerSort: false,
-                // title: () => <Header className={this.state.classname} name='Vehicle Id'
-                //     clickFunction={this.handleClick} isClicked={this.state.isAsc} />
-            },
-            {
-                dataIndex: 'time', key: 'time', title: "Time",
+                dataIndex: 'time', key: 'time', defaultSortOrder: 'ascend',
                 sorter: (a: any, b: any) => a.time.length - b.time.length,
-                // sortOrder: sortedInfo.columnKey === 'time' && sortedInfo.order,
-                // title: () => <div>
-                //     <Header className={this.state.classname} name='Time' />
-                //     {/* <ActiveSort width="20" height="20" cursor='pointer' /> */}
-                // </div>
+                sortOrder: 'ascend',
+                title: <span className="header-sorter" onClick={this.handleClickTime}> Time
+                        {timeClicked ? <ActiveSort height='20px' width='20px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                </span>,
             },
             {
-                dataIndex: 'openSince',key : 'openSince',title : "Open Since",
+                dataIndex: 'openSince', key: 'openSince',
                 sorter: (a: any, b: any) => a.openSince.length - b.openSince.length,
-                //  title: () =><Header className={this.state.classname} name='Open Since' />
+                title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
+                        {openSinceClicked ? <ActiveSort height='20px' width='20px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                </span>,
             },
             {
-                dataIndex: 'severity', key: 'severity', title: "Severity",
-                // title: () => <Header className={this.state.classname} name='Severity' />
+                dataIndex: 'severity', key: 'severity',
+                title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
+                        {severityClicked ? <ActiveSort height='20px' width='20px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                </span>,
             },
             {
                 dataIndex: 'location', key: 'location', title: "Location",
@@ -152,13 +241,26 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 tableLayout="auto"
                 bordered={false}
                 className="ant-table-thead"
-                onChange={this.handleChange}
+                onChange={this.handleTableChange}
                 showSorterTooltip={false}
                 rowKey={record => record.id}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                columns={columns} dataSource={datas} pagination={{ pageSize: 10 }} loading={false}
+                columns={columns}
+                dataSource={datas}//{this.state.data}
+                pagination={this.state.pagination}
+                loading={false}
             />
-            {/* <Select
+
+            {/*// scroll={{ x: 'true' }}
+            //     onHeaderRow={(column, index) => {
+            //         return {
+            //             onClick: () => {
+            //                 console.log(column.indexOf);
+            //             }, // click header row
+            //         };
+            //     }}
+           
+             <Select
                 defaultValue={this.state.pagination}
                 className='paginate-dropdown'
             >

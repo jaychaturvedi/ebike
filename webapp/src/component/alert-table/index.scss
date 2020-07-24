@@ -10,32 +10,39 @@
 }
 
 .ant-table table {
-    text-align: center;
+    height: calc(100% - 25px);
+    overflow: hidden !important;
+    text-indent: 10px;
 }
 
 .ant-table-thead {
+
     tr {
+
         th {
             background: $TABLE_ROW_LIGHT !important;
-            text-align: center;
+            text-indent: 5px;
             font-size: 14px;
         }
     }
 }
 
-table,tr,td,th 
-{
+table,
+tr,
+td,
+th {
     border: none !important;
     font-size: 12px;
     color: #ffffff !important;
 }
 
-.ant-table-row{
-    &:hover{
+.ant-table-row {
+    &:hover {
         background-color: $ROW_HOVER !important;
     }
 }
-.ant-table-tbody > tr.ant-table-row:hover > td {
+
+.ant-table-tbody>tr.ant-table-row:hover>td {
     background: none !important;
 }
 
@@ -43,35 +50,61 @@ td.ant-table-column-sort {
     background: none !important;
 }
 
-.ant-pagination{
-    color: #ffffff !important;
-}
-.ant-pagination-item > a {
+.ant-pagination {
     color: #ffffff !important;
 }
 
-.ant-pagination-item-active{
-     background: none !important;
-     border: none !important;
+.ant-pagination-item>a {
+    color: #ffffff !important;
 }
 
-    // .fa-arrow-down {
-    //     -ms-transform: rotate(0deg);
-    //     /* IE 9 */
-    //     -webkit-transform: rotate(0deg);
-    //     /* Chrome, Safari, Opera */
-    //     transform: rotate(0deg);
-    //     transition: transform 1ms linear;
-    // }
+.ant-pagination-item-active {
+    background: none !important;
+    border: none !important;
+}
 
-    // .fa-arrow-down.open {
-    //     -ms-transform: rotate(180deg);
-    //     /* IE 9 */
-    //     -webkit-transform: rotate(180deg);
-    //     /* Chrome, Safari, Opera */
-    //     transform: rotate(180deg);
-    //     transition: transform 1ms linear;
-    // }
+.alert-down-circle {
+    transform: rotate(0deg);
+    transition: transform 1ms linear;
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    float: right;
+    margin-left: 10px;
+
+}
+
+
+.header-sorter {
+    display: flex;
+    justify-content: center;
+    float: left;
+}
+
+
+.alert-down-circle.open {
+
+    transform: rotate(180deg);
+    transition: transform 1ms linear;
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    float: right;
+    margin-left: 10px;
+
+
+}
+
+
+
+// .fa-arrow-down.open {
+//     -ms-transform: rotate(180deg);
+//     /* IE 9 */
+//     -webkit-transform: rotate(180deg);
+//     /* Chrome, Safari, Opera */
+//     transform: rotate(180deg);
+//     transition: transform 1ms linear;
+// }
 
 // .ant-table-cell {
 //     cursor: pointer;
