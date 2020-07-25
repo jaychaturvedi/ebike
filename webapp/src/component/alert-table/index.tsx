@@ -1,10 +1,16 @@
 import './index.scss';
 import React, { PureComponent, useState } from 'react';
-import { DownOutlined, DownCircleFilled } from '@ant-design/icons';
+import { DownOutlined, DownCircleFilled, RightSquareOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
 import { ReactComponent as Severity } from "../../assets/severity_icon.svg"
-import { Table, Select, Button } from 'antd';
+import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
+import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
+import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
+import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
+import { Table, Select, Button, Pagination } from 'antd';
 const paginationDate = ['10', '20', '30'];
+const { Option } = Select;
+
 type TData = {
     id?: any,
     key?: number,
@@ -38,8 +44,8 @@ interface AlertProps {
 
 interface AlertStates {
     id?: any, column?: any, isDesc: boolean, data?: Array<TData>,
-    pagination?: any; isAsc: boolean; classname: string; sortedInfo: any;
-    sortDirections: string; alertClicked: boolean; modelClicked: boolean;
+    current: number; isAsc: boolean; classname: string; sortedInfo: any; pageSize: number;
+    sortDirections: string; alertClicked: boolean; modelClicked: boolean; total: number;
     timeClicked: boolean; loading: boolean; severityClicked: boolean, openSinceClicked: boolean
 }
 
@@ -48,7 +54,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     constructor(props: AlertProps) {
         super(props);
         this.state = {
-            pagination: {},
+
+            current: 1,
+            pageSize: 10,
+            total: 100,
             data: [],
             isAsc: true,
             isDesc: false,
@@ -86,14 +95,11 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
     handleTableChange = (pagination: any, filters: any, sorter: any) => {
         console.log('tableChange', pagination, filters, sorter);
-        const pager: any = this.state.pagination;
-        pager.current = pagination.current;
-        this.setState({
-            pagination: pager
-        });
+        const { pageSize, current } = this.state;
+
         const params = {
-            pageSize: pagination.pageSize,
-            currentPage: pagination.current,
+            pageSize: pageSize,
+            current: current,
             sortField: sorter.field,
             sortOrder: sorter.order
         };
@@ -102,29 +108,29 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         //     params[key] = filters[key];
         //   }
         // }
-        this.fetch(params);
+        // this.fetch(params);
     }
 
-    fetch = (params = {}) => {
-        console.log('param', params);
-        this.setState({ loading: true });
+    // fetch = (params = {}) => {
+    //     console.log('param', params);
+    //     this.setState({ loading: true });
 
-        setTimeout(() => {
-            //demoData
-            const result = datas;
-            const page = 1; const pageSize = 50;
-            let pagination = this.state.pagination;
-            pagination.total = result?.length;
-            this.setState({
-                loading: false,
-                data: result.slice((page - 1) * pageSize, pageSize * page),//insert here page no. and page size
-                pagination,
-            });
-        }, 1500);
-    }
-    componentDidMount() {
-        this.fetch()
-    }
+    //     setTimeout(() => {
+    //         //demoData
+    //         const result = datas;
+    //         const page = 1; const pageSize = 50;
+    //         let {pageSize, current} = this.state;
+    //         pagination.total = result?.length;
+    //         this.setState({
+    //             loading: false,
+    //             data: result.slice((page - 1) * pageSize, pageSize * page),//insert here page no. and page size
+    //             pagination,
+    //         });
+    //     }, 1500);
+    // }
+    // componentDidMount() {
+    //     this.fetch()
+    // }
     handleClickAlert = (event: any) => {
         event?.stopPropagation()
         const { alertClicked } = this.state
@@ -176,6 +182,34 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         this.renderClass()
         console.log(this.state.classname);
     }
+
+    handleSelect = (event: any) => {
+        const { pageSize, current } = this.state
+        this.setState({ pageSize: Number(event), current: 1 })
+        console.log(pageSize, current);
+    }
+
+    handleNav = (name: any, e: any) => {
+        e.preventDefault()
+        let { current, total, pageSize } = this.state
+        const from = current * pageSize
+        const last = Math.floor(total / pageSize)
+        if (name === "next" && from < total) { this.setState({ current: ++current }) }
+        if (name === "prev" && current != 1) { this.setState({ current: --current }) }
+        if (name === "first") { this.setState({ current: 1 }) }
+        if (name === "last") {
+            (total % pageSize > 0) ? this.setState({ current: last + 1 }) : this.setState({ current: last })
+        }
+    }
+
+    getData = (current: any, pageSize: any) => {
+        // Normally you should get the data from the server
+        const data = datas.slice((current - 1) * pageSize, pageSize * current);
+        // this.setState({ total: datas.length })
+        console.log("this is total", this.state.total);
+
+        return data
+    };
 
     render() {
         // this.fetch()
@@ -236,24 +270,62 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             },
         ];
 
-        return <>
-            <Table
-                // scroll={{ x: 1500, y: 300 }}
-                size={"small"}
-                tableLayout="auto"
-                bordered={false}
-                className="ant-table-thead"
-                onChange={this.handleTableChange}
-                showSorterTooltip={false}
-                rowKey={record => record.id}
-                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                columns={columns}
-                dataSource={datas}//{this.state.data}
-                pagination={this.state.pagination}
-                loading={false}
-            />
 
-            {/*// scroll={{ x: 'true' }}
+        const data = this.getData(this.state.current, this.state.pageSize)
+
+        return <>
+            <div className="container" >
+                <div>
+                    <Table
+                        tableLayout={"fixed"}
+                        scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
+                        style={{ overflow: 'hidden' }}
+                        size={"small"}
+                        bordered={false}
+                        className="ant-table-thead"
+                        onChange={this.handleTableChange}
+                        showSorterTooltip={false}
+                        rowKey={record => record.id}
+                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
+                        columns={columns}
+                        dataSource={data}//{this.state.data}
+                        pagination={false}
+                        loading={false}
+                    />
+                </div>
+                <div style={{ display: 'flex', justifyContent: "space-between", float: 'right', marginTop: '20px' }}
+                    className={"pagination-footer"}>
+                    Showing &nbsp;&nbsp;&nbsp; <span >
+                        <Select className={'select-button'}
+                            defaultValue={this.state.pageSize} onChange={this.handleSelect}>
+                            {paginationDate.map(page => (
+                                <Option value={page} key={page}>{page}</Option>
+                            ))}
+                        </Select>
+                    </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div className={'spacer'}></div>
+                    <span className={'nav-button'}>
+                        {this.state.pageSize * (this.state.current - 1) + 1} -- {this.state.pageSize * this.state.current}
+                        of {this.state.total}
+                    </span>
+                    <div className={'spacer'}></div>
+                    <span onClick={(e) => { this.handleNav("first", e) }} className={'nav-button'} >
+                        <FirstPage style={{ border: '1px solid #818181' }} className='icon' />
+                    </span>
+                    <span onClick={(e) => { this.handleNav("prev", e) }} className={'nav-button'}>
+                        <PrevPage style={{ border: '1px solid #818181' }} className='icon' />
+                    </span>
+                    <span onClick={(e) => { this.handleNav("next", e) }} className={'nav-button'}>
+                        <NextPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                    </span>
+                    <span onClick={(e) => { this.handleNav("last", e) }} className={'nav-button'}>
+                        <LastPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                    </span>
+                </div>
+            </div>
+
+
+            {/* // scroll={{ x: 'true' }}
             //     onHeaderRow={(column, index) => {
             //         return {
             //             onClick: () => {
@@ -261,15 +333,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             //             }, // click header row
             //         };
             //     }}
-           
-             <Select
-                defaultValue={this.state.pagination}
-                className='paginate-dropdown'
-            >
-                {paginationDate.map(page => (
-                    <Option key={page} value={page} title={page}>{page}</Option>
-                ))}
-            </Select> */}
+            */}
+
             {/* todo align select menu */}
         </>;
     }
