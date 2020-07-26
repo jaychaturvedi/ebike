@@ -18,14 +18,13 @@
         flex-direction: column;
         align-items: center;
         margin-top: 12%;
-        margin-bottom: 12%;
+        margin-bottom: 25%;
     }
 
     .tab-icons {
         &:hover {
-            color: $ACTIVE !important;
             border-left: 1px solid $ACTIVE !important;
-            opacity: 90%;
+            background-color: rgba($color: #eff0f9eb, $alpha: 0.4) !important;
         }
 
         display: flex;
@@ -34,15 +33,8 @@
         margin-bottom: 12%;
         border-left: 1px solid $LEFT_PANEL_BACKGROUND;
     }
-}
-
-// button {
-//   color: #ffffff !important;
-//   font-family: "Roboto" !important;
-
-// }
-.option-clicked {
-    color: $ACTIVE !important;
-    border-left: 1px solid $ACTIVE !important;
-    opacity: 90%;
+    .option-clicked {
+        border-left: 1px solid $ACTIVE !important;
+        background-color: rgba($color: #eff0f9eb, $alpha: 0.4) !important;
+    }
 }

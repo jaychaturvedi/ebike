@@ -328,7 +328,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                     </div>
                 </Dropdown>
-                <div style={{ width: "200px" }} className={"search-background-color "}>
+                <div style={{ width: "18%" }} className={"search-background-color "}>
                     <Input
                         onChange={this.onSearch}
                         value={this.state.searchText}

@@ -67,15 +67,15 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                     </div>
                     <div className={`tab-icons ${this.state.alertsClicked ? "option-clicked" : ""}`} onClick={this.alertsClicked}>
                         <Alerts width="32" height="32" />
-                        <Typography.Text strong style={{ color: "#ffffff" }}>Alerts</Typography.Text>
+                        <Typography.Text >Alerts</Typography.Text>
                     </div>
                     <div className={`tab-icons ${this.state.b2bClicked ? "option-clicked" : ""}`} onClick={this.b2bClicked}>
                         <B2BLogo width="32" height="32" />
-                        <Typography.Text strong style={{ color: "#ffffff" }}>B2B</Typography.Text>
+                        <Typography.Text >B2B</Typography.Text>
                     </div>
                     <div className={`tab-icons ${this.state.stationsClicked ? "option-clicked" : ""}`} onClick={this.stationsClicked}>
                         <CharginStation width="32" height="32" />
-                        <Typography.Text strong style={{ color: "#ffffff" }}>Stations</Typography.Text>
+                        <Typography.Text >Stations</Typography.Text>
                     </div>
                 </div>
             </div>
