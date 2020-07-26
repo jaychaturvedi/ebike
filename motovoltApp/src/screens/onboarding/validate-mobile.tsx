@@ -14,13 +14,23 @@ import { RouteProp } from '@react-navigation/native';
 import { OnboardingStackParamList } from '../../navigation/onboarding';
 import Colors from '../../styles/colors';
 import Input from '../onboarding/components/input';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux'
+import { SignUp } from '../../service/redux/actions/saga/authentication-actions'
+import Toast from 'react-native-simple-toast';
+
+type ReduxState = {
+  signUp: (params: SignUp) => void;
+  onboarding: TStore["onboarding"]
+}
 
 type ValidateMobileNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'ValidateMobile'
 >;
 
-type Props = {
+interface Props extends ReduxState {
   navigation: ValidateMobileNavigationProp;
   route: RouteProp<OnboardingStackParamList, 'ValidateMobile'>;
 };
@@ -30,7 +40,7 @@ type State = {
   isValid: boolean;
 };
 
-export default class ValidateMobile extends React.PureComponent<Props, State> {
+class ValidateMobile extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -40,14 +50,24 @@ export default class ValidateMobile extends React.PureComponent<Props, State> {
   }
 
   onChange = (text: string) => {
-    const matches = text.match(/\d/g);
+    const matches = text.match(/^[+]\d/g);
     this.setState({
       mobile: text,
-      isValid: matches && matches.length === 10 ? true : false,
+      // isValid: matches && matches.length === 13 ? true : false,
+      isValid: true
     });
   };
 
   render() {
+    if (this.props.onboarding.signUpSuccess) {
+      this.props.navigation.navigate('OTP', {
+        onSuccessScreen: 'ValidateFrame',
+        mobileNumber: this.state.mobile
+      })
+      return null
+    } else if (this.props.onboarding.signUpSuccess === false) {
+      Toast.show("Error Occurred")
+    }
     return (
       <KeyboardAvoidingView
         style={styles.container}
@@ -88,9 +108,10 @@ export default class ValidateMobile extends React.PureComponent<Props, State> {
             textColor="white"
             backgroundColor="#142F6A"
             onPress={() =>
-              this.props.navigation.navigate('OTP', {
-                onSuccessScreen: 'ValidateFrame',
-              })
+              // this.props.navigation.navigate('OTP', {
+              //   onSuccessScreen: 'ValidateFrame',
+              // })
+              this.props.signUp({ type: 'SignUp', payload: { mobileNumber: this.state.mobile } })
             }
           />
         </View>
@@ -98,6 +119,20 @@ export default class ValidateMobile extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      onboarding: store["onboarding"]
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      signUp: (params: SignUp) => dispatch(params),
+    };
+  },
+)(ValidateMobile);
+
 
 const styles = StyleSheet.create({
   container: {

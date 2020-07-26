@@ -21,7 +21,7 @@ import CreateNewPassword from '../screens/onboarding/create-new-password';
 export type OnboardingStackParamList = {
   IntroSwiper: {};
   ValidateMobile: {};
-  OTP: { onSuccessScreen: 'CreateNewPassword' | 'ValidateFrame' };
+  OTP: { onSuccessScreen: 'CreateNewPassword' | 'ValidateFrame', mobileNumber: string };
   ValidateFrame: {};
   EnterFrameNumber: {};
   Scanner: {};

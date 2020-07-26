@@ -27,6 +27,21 @@ export type SignUp = {
     }
 }
 
+export type ResendSignUp = {
+    type: "ResendSignUp",
+    payload: {
+        mobileNumber: string,
+    }
+}
+
+export type ConfirmSignUp = {
+    type: "ConfirmSignUp",
+    payload: {
+        mobileNumber: string,
+        code: string
+    }
+}
+
 export type InitiateForgotPassword = {
     type: "InitiateForgotPassword",
     payload: {
@@ -41,6 +56,11 @@ export type CompleteForgotPassword = {
         code: string,
         password: string,
     }
+}
+
+export type SignOut = {
+    type: "SignOut",
+    payload: {}
 }
 
 

@@ -6,46 +6,73 @@ import { scale, moderateScale } from 'react-native-size-matters';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { OnboardingStackParamList } from '../../navigation/onboarding';
-import ThumbsUp from '../../components/thumb-up'
+import ThumbsUp from '../../components/thumb-up';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux'
+import { ConfirmSignUp, ResendSignUp } from '../../service/redux/actions/saga/authentication-actions'
+import Toast from 'react-native-simple-toast';
+
+type ReduxState = {
+  confirmSignUp: (params: ConfirmSignUp) => void;
+  resendSignUp: (params: ResendSignUp) => void;
+  onboarding: TStore["onboarding"]
+}
 
 type OTPNavigationProp = StackNavigationProp<OnboardingStackParamList, 'OTP'>;
 
-type Props = {
+interface Props extends ReduxState {
   navigation: OTPNavigationProp;
   route: RouteProp<OnboardingStackParamList, 'OTP'>;
 };
 
 type State = {
-  success: boolean
+  success: boolean,
+  isThumbVisible: boolean,
+  timerStart: boolean,
+  code: string
 };
 
-export default class OTPInput extends React.PureComponent<Props, State> {
+class OTPInput extends React.PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props)
     this.state = {
-      success: false
+      success: false,
+      isThumbVisible: false,
+      timerStart: false,
+      code: ""
     }
   }
 
-  renderSuccess() {
-    this.setState({ success: true })
-    setTimeout(() => {
-      switch (this.props.route.params.onSuccessScreen) {
-        case 'ValidateFrame':
-          this.props.navigation.navigate('ValidateFrame', {});
-          break;
-        case 'CreateNewPassword':
-          this.props.navigation.navigate('CreateNewPassword', {});
-          break;
-      }
-      this.setState({ success: false })
-    }, 5000)
+  navigate() {
+    switch (this.props.route.params.onSuccessScreen) {
+      case 'ValidateFrame':
+        this.props.navigation.navigate('ValidateFrame', {});
+        break;
+      case 'CreateNewPassword':
+        this.props.navigation.navigate('CreateNewPassword', {});
+        break;
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+    if (nextProps.onboarding.confirmSignUpSuccess === true) {
+      Toast.show("OTP Verified")
+      prevState.success = true
+      prevState.isThumbVisible = true
+    }
+    return prevState
   }
 
   render() {
+    if (this.state.success === true && !this.state.timerStart) {
+      setTimeout(() => { this.navigate(), this.setState({ isThumbVisible: false }) },
+        5000)
+      this.setState({ timerStart: true })
+    }
     return (
-      this.state.success ? <ThumbsUp
+      this.state.isThumbVisible ? <ThumbsUp
         msg="Mobile Verified"
       /> :
         <View style={styles.container}>
@@ -62,23 +89,26 @@ export default class OTPInput extends React.PureComponent<Props, State> {
             <OTPInputView
               style={{ width: '100%' }}
               pinCount={6}
-              // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-              // onCodeChanged = {code => { this.setState({code})}}
+              code={this.state.code.length === 6 ? "" : this.state.code}
               autoFocusOnLoad
+              onCodeChanged={(code: string) => this.setState({ code: code })}
               codeInputFieldStyle={styles.underlineStyleBase}
               codeInputHighlightStyle={styles.underlineStyleHighLighted}
               onCodeFilled={(code) => {
                 console.log(`Code is ${code}, you are good to go!`);
-                /**Navigation happens here */
-                // switch (this.props.route.params.onSuccessScreen) {
-                //   case 'ValidateFrame':
-                //     this.props.navigation.navigate('ValidateFrame', {});
-                //     break;
-                //   case 'CreateNewPassword':
-                //     this.props.navigation.navigate('CreateNewPassword', {});
-                //     break;
-                // }
-                this.renderSuccess()
+                switch (this.props.route.params.onSuccessScreen) {
+                  case 'ValidateFrame':
+                    this.props.confirmSignUp({
+                      type: 'ConfirmSignUp', payload: {
+                        mobileNumber: this.props.route.params.mobileNumber,
+                        code: code
+                      }
+                    })
+                    break;
+                  case 'CreateNewPassword':
+                    break;
+                }
+                // this.setState({ code: "" })
               }}
             />
           </View>
@@ -89,7 +119,13 @@ export default class OTPInput extends React.PureComponent<Props, State> {
               </Text>
               <Text
                 style={styles.resendOTP}
-                onPress={() => console.log('Resend OTP')}>
+                onPress={() => {
+                  console.log('Resend OTP')
+                  this.props.resendSignUp({
+                    type: 'ResendSignUp', payload:
+                      { mobileNumber: this.props.route.params.mobileNumber }
+                  })
+                }}>
                 Resend OTP
             </Text>
             </Text>
@@ -98,6 +134,20 @@ export default class OTPInput extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      onboarding: store["onboarding"]
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      confirmSignUp: (params: ConfirmSignUp) => dispatch(params),
+      resendSignUp: (params: ResendSignUp) => dispatch(params)
+    };
+  },
+)(OTPInput);
 
 const styles = StyleSheet.create({
   container: {

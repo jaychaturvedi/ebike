@@ -13,7 +13,7 @@ import * as Authentication from "../authentication";
 import * as BLEActions from "./actions/saga/ble";
 import * as AuthenticationActions from "./actions/saga/authentication-actions";
 import * as OnboardingActions from "./actions/saga/onboarding-actions";
-import { Store_UpdateBle } from "./actions/store";
+import { Store_UpdateBle, Store_UpdateOnboarding, Store_UpdateUser } from "./actions/store";
 
 function* initBLE() {
     console.log("intiBle")
@@ -96,13 +96,87 @@ function* disconnectBle(params: BLEActions.DisconnectBLE) {
     yield call(BLE.disconnectPeripherals)
 }
 
-function* initiateMobileValidation(params: AuthenticationActions.InitiateMobileValidation){
-    yield call(Authentication.signup, params.payload.mobileNumber);
+//Onboarding
+function* signIn(params: AuthenticationActions.SignIn) {
+    const response = yield call(Authentication.signIn, params.payload.mobileNumber, params.payload.password)
+    if (response.success) {
+        console.log(response.user)
+        // yield put({
+        //     type: 'Store_UpdateUser',
+        //     payload: {
+
+        //     }
+        // } as Store_UpdateUser)
+    }
 }
 
-function* signUp(params: AuthenticationActions.SignUp){
-    yield call(Authentication.signup, params.payload.mobileNumber);
+function* signUp(params: AuthenticationActions.SignUp) {
+    const response = yield call(Authentication.signup, params.payload.mobileNumber)
+    if (response.success) {
+        yield put({
+            type: "Store_UpdateOnboarding",
+            payload: {
+                signUpSuccess: true,
+                user: response.user
+            }
+        } as Store_UpdateOnboarding)
+    } else {
+        yield put({
+            type: "Store_UpdateOnboarding",
+            payload: {
+                signUpSuccess: false,
+            }
+        } as Store_UpdateOnboarding)
+    }
 }
+
+function* resendSignUp(params: AuthenticationActions.ResendSignUp) {
+    yield call(Authentication.resendSignUp, params.payload.mobileNumber)
+}
+
+function* confirmSignUp(params: AuthenticationActions.ConfirmSignUp) {
+    const response = yield call(Authentication.confirmSignUp, params.payload.mobileNumber, params.payload.code)
+    if (response.success) {
+        yield put({
+            type: "Store_UpdateOnboarding",
+            payload: {
+                confirmSignUpSuccess: true,
+            }
+        } as Store_UpdateOnboarding)
+    } else {
+        yield put({
+            type: "Store_UpdateOnboarding",
+            payload: {
+                confirmSignUpSuccess: false
+            }
+        } as Store_UpdateOnboarding)
+    }
+}
+
+function* signOut(params: AuthenticationActions.SignOut) {
+    yield call(Authentication.signout)
+    yield put({
+        type: "SignOut",
+        payload: {}
+    } as AuthenticationActions.SignOut)
+}
+
+function* initiateMobileValidation(params: AuthenticationActions.InitiateMobileValidation) {
+    const response = yield call(Authentication.getVerificationOtp, params.payload.mobileNumber)
+    console.log(response)
+    if (response.success) {
+
+    }
+}
+
+function* initForgotPassword(params: AuthenticationActions.InitiateForgotPassword) {
+    yield call(Authentication.initiateForgotPassword, params.payload.mobileNumber)
+}
+
+function* completeForgotPassword(params: AuthenticationActions.CompleteForgotPassword) {
+    yield call(Authentication.forgotPassword, params.payload.mobileNumber, params.payload.code, params.payload.password)
+}
+
 
 function* actionWatcher() {
     // BLE
@@ -111,6 +185,15 @@ function* actionWatcher() {
     yield takeLatest("ConnectBLE", connectBle);
     yield takeLatest("DisconnectBLE", disconnectBle);
     // Onboarding
+    yield takeLatest("SignUp", signUp);
+    yield takeLatest("ResendSignUp", resendSignUp);
+    yield takeLatest("ConfirmSignUp", confirmSignUp);
+
+    yield takeLatest("SignOut", signOut);
+    yield takeLatest("InitiateMobileValidation", initiateMobileValidation);
+    yield takeLatest("InitiateForgotPassword", initForgotPassword);
+    yield takeLatest("CompleteForgotPassword", completeForgotPassword)
+
 }
 
 export default function* rootSaga() {

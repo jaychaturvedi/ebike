@@ -23,6 +23,15 @@ export type Store_UpdateBle = {
     }
 }
 
-type Action = Store_UpdateUser | Store_UpdateBle;
+export type Store_UpdateOnboarding = {
+    type: "Store_UpdateOnboarding",
+    payload: {
+        signUpSuccess?: boolean,
+        confirmSignUpSuccess?: boolean,
+        user?: any
+    }
+}
+
+type Action = Store_UpdateUser | Store_UpdateBle | Store_UpdateOnboarding;
 
 export default Action;

@@ -4,7 +4,10 @@ import {
     SignIn,
     SignUp,
     ValidateMobile,
-    CompleteForgotPassword
+    CompleteForgotPassword,
+    ConfirmSignUp,
+    ResendSignUp,
+    SignOut
 } from "./authentication-actions";
 import {
     ValidateFrame,

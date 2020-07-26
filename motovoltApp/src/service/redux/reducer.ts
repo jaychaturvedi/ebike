@@ -20,6 +20,15 @@ export default (store: TStore = Store, params: Action): TStore => {
                     ...params.payload
                 }
             }
+        case "Store_UpdateOnboarding":
+            return {
+                ...store,
+                onboarding: {
+                    ...store.onboarding,
+                    ...params.payload
+                }
+            }
+
         default: return store;
     }
 }

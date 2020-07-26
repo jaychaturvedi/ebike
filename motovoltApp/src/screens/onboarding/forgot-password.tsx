@@ -7,14 +7,14 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import Input from './components/input';
 import CTAHeader from './components/header';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 
 type ForgotPAsswordNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -89,6 +89,7 @@ export default class ForgotPassword extends React.PureComponent<Props, State> {
             onPress={() =>
               this.props.navigation.navigate('OTP', {
                 onSuccessScreen: 'CreateNewPassword',
+                mobileNumber: this.state.mobile
               })
             }
           />
