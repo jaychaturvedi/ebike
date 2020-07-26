@@ -82,7 +82,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
   componentDidMount() {
     fetchCredentials().then((cred) => {
       if (cred) {
-        this.setState({oldPassword: cred.password});
+        this.setState({oldPassword: cred.password, mobileNumber: cred.username});
       }
     });
   }

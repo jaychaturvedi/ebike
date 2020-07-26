@@ -57,7 +57,11 @@ export async function resendSignUp(phoneNumber: string) {
 }
 
 export async function confirmSignUp(mobileNumber: string, code: string) {
-    return Auth.confirmSignUp(mobileNumber, code).then((data) => {
+    return Auth.confirmSignUp(mobileNumber, code).then(async (data) => {
+        const cred = await fetchCredentials();
+        if (!cred)
+            throw new Error("Somethign went wrong");
+        await signIn(cred.username, cred.password);
         return {
             success: true,
             message: "Success"
@@ -153,6 +157,7 @@ export function changePassword(mobileNumber: string, oldpassword: string, newpas
         }
         throw new Error("User not authenticated");
     }).catch(err => {
+        console.log(err)
         return {
             success: false
         }
