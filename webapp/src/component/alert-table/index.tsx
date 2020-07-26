@@ -56,7 +56,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     constructor(props: AlertProps) {
         super(props);
         this.state = {
-
             current: 1,
             pageSize: 10,
             total: 100,

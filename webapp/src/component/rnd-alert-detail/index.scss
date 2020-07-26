@@ -1,0 +1,44 @@
+@import "../../global.scss";
+@import "~antd/dist/antd.css";
+
+.connectm-AlertDetail {
+    min-height: calc(100vh - 60px);
+    min-width: calc(100vw - 80px);
+    max-width: calc(100vw - 80px);
+    position: absolute;
+    left: 80px;
+    padding-bottom: 20px;
+    padding-left: 20Px;
+    padding-right: 20px;
+}
+
+.connectm-breadcrum {
+    min-height: 40px;
+    line-height: 40px;
+    .ant-breadcrumb-link {
+        color: $APPLY_BUTTON !important;
+    }
+    .ant-breadcrumb-separator {
+        color: $APPLY_BUTTON !important;
+    }
+    .breadcrum-active {
+        color: #ffffff;
+    }
+}
+
+.connectm-alert-detail-container {
+    border: 1px solid #ffffff;
+    height: 1px;//used so that child can use persent height
+    min-height: calc(100vh - (60px + 60px));
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    .alert-top-container {
+        min-height: 50%;
+        border: 1px solid #ffffff;
+    }
+    .alert-bottom-container {
+        min-height: 50%;
+        border: 1px solid #ffffff;
+    }
+}
