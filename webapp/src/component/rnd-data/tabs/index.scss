@@ -5,12 +5,12 @@
     .tab-buttons {
         background-color: $TABLE_ROW_DARK;
         margin-right: 2px;
-        color: #ffffff;
-        opacity: 90%;
+        // color: #ffffff;
+        // opacity: 90%;
     }
     .tab-active { 
-        color: #ffffff;
-        opacity: 100%;
+        // color: #ffffff;
+        // opacity: 100%;
         border-bottom: 1px solid $ACTIVE;
     }
 }

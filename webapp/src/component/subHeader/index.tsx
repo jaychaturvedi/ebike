@@ -187,7 +187,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 starTime: ""
             },
             dateRangeApplied: false,
-            searchText : ""
+            searchText: ""
         })
     }
 
@@ -245,25 +245,25 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         const location = (
             <Menu onClick={this.handleLocationClick}>
                 <Menu.Item key="North">
-                    <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>North</Typography.Text>
+                    <Typography.Text strong >North</Typography.Text>
                 </Menu.Item>
                 <Menu.Item key="South">
-                    <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>South</Typography.Text>
+                    <Typography.Text strong>South</Typography.Text>
                 </Menu.Item>
-                <Menu.Item key="Bangalore" className={"dropdown-sub-item"}>
+                <Menu.Item key="Bangalore" className={"location-dropdown-sub-item"}>
                     Bangalore
                 </Menu.Item>
-                <Menu.Item key="Hyderabad" className={"dropdown-sub-item"}>
+                <Menu.Item key="Hyderabad" className={"location-dropdown-sub-item"}>
                     Hyderabad
                 </Menu.Item>
                 <Menu.Item key="East">
-                    <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>East</Typography.Text>
+                    <Typography.Text strong >East</Typography.Text>
                 </Menu.Item>
-                <Menu.Item key="kolkata" className={"dropdown-sub-item"}>
+                <Menu.Item key="kolkata" className={"location-dropdown-sub-item"}>
                     kolkata
                 </Menu.Item>
                 <Menu.Item key="West">
-                    <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>West</Typography.Text>
+                    <Typography.Text strong >West</Typography.Text>
                 </Menu.Item>
             </Menu>
         );
@@ -280,7 +280,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     Month Till Date
                 </Menu.Item>
                 <Menu.Item key="4" disabled={true} className={"connectM-DatePicker-container"}>
-                    <Typography.Text strong style={{ color: "#ffffff", whiteSpace: "nowrap" }}>Date Range</Typography.Text>
+                    <Typography.Text strong style={{ whiteSpace: "nowrap" }}>Date Range</Typography.Text>
                     <div className={"datepicker-text-pair"}>
                         From <DatePicker onChange={this.onFromChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
                     </div>
@@ -288,7 +288,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         To <DatePicker onChange={this.onToChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
                     </div>
                     <Button size={"small"} className={"apply-button-datepicker"} onClick={this.timeRangeApply}>
-                        <Typography.Text style={{ color: "black" }} strong>APPLY</Typography.Text>
+                        <Typography.Text style={{ color: "black" }} strong>Done</Typography.Text>
                     </Button>
                 </Menu.Item>
             </Menu>
@@ -296,12 +296,12 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         return (
             <div className={"sub-header"}>
                 <Button className={`connectM-button ${this.state.allSelected ? "connectM-button-active" : ""}`} size={"middle"} type="text" onClick={this.onAll}>
-                    ALL
+                    All
                 </Button>
                 <Dropdown overlay={vehicle} trigger={['click']}>
                     <div className={`connectM-dropDown ${this.state.vehicleActive ? "connectM-dropdown-active" : ""}`}>
-                        <div className={"pair "} >
-                            <Vehicle width="20" height="20" className={`dropdown-svg-fill ${this.state.vehicleActive ? "dropdown-svg-fill-active" : ""}`} />
+                        <div className={"pair"}>
+                            <Vehicle style={{marginLeft: "5px"}} width="20" height="20" className={`dropdown-svg-fill ${this.state.vehicleActive ? "dropdown-svg-fill-active" : ""}`} />
                             <Typography.Text className={`dropdown-typography ${this.state.vehicleActive ? "typography-active" : ""}`}>{this.state.selectedVehicle}</Typography.Text>
                         </div>
                         <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
@@ -309,7 +309,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 </Dropdown>
                 <Dropdown overlay={location} trigger={['click']}>
                     <div className={`connectM-dropDown ${this.state.locationActive ? "connectM-dropdown-active" : ""}`}>
-                        <div className={"pair "} >
+                        <div className={"pair"} >
                             <Location width="20" height="20" className={`dropdown-svg-fill-location ${this.state.locationActive ? "dropdown-svg-fill-location-active" : ""}`} />
                             <Typography.Text className={`dropdown-typography ${this.state.locationActive ? "typography-active" : ""}`}>{this.state.selectedLocation}</Typography.Text>
                         </div>
@@ -321,14 +321,14 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     onVisibleChange={this.timeFrameVisibleChange}
                 >
                     <div className={`connectM-dropDown ${this.state.calenderActive ? "connectM-dropdown-active" : ""}`}>
-                        <div className={"pair "} >
+                        <div className={"pair"} >
                             <Calender width="20" height="20" className={`dropdown-svg-fill-timeframe ${this.state.calenderActive ? "dropdown-svg-fill-timeframe-active" : ""}`} />
                             <Typography.Text className={`dropdown-typography ${this.state.calenderActive ? "typography-active" : ""}`}>{this.state.selectedCalender}</Typography.Text>
                         </div>
                         <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                     </div>
                 </Dropdown>
-                <div style={{ width: "200px" }} className={"search-background-color "}>
+                <div style={{ width: "18%" }} className={"search-background-color "}>
                     <Input
                         onChange={this.onSearch}
                         value={this.state.searchText}

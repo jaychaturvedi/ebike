@@ -3,6 +3,7 @@
 .connectm-RandDHomeContent{
     // border: 1px solid rgb(192, 178, 178);
     min-height: calc(100vh - (60px + 32px + 15px));
+    max-height: calc(100vh - (60px + 32px + 15px));
     padding: 24px 24px;
     display: flex;
     justify-content: space-between;

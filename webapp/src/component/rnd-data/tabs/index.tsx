@@ -1,6 +1,6 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Button } from 'antd';
+import { Button, Typography } from 'antd';
 interface TabsProps { }
 
 interface TabsStates { }
@@ -11,13 +11,13 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
         return (
             <div className="connectm-Tabs">
                 <Button size={"middle"} type="text" className={"tab-buttons tab-active"}>
-                    Smart Alerts (100)
+                    <Typography.Text strong style={{whiteSpace:"nowrap"}}>Smart Alerts <span style={{paddingLeft : "5px"}}>(100)</span></Typography.Text>
                 </Button>
                 <Button size={"middle"} type="text" className={"tab-buttons"}>
-                    BMS Alerts (100)
+                    <Typography.Text style={{ whiteSpace: "nowrap" }}>BMS Alerts <span style={{ paddingLeft: "5px" }}>(100)</span></Typography.Text>
                 </Button>
                 <Button size={"middle"} type="text" className={"tab-buttons"}>
-                    Motor Controller Alerts (4)
+                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Motor Controller Alerts <span style={{ paddingLeft: "5px" }}>(4)</span></Typography.Text>
                 </Button>
             </div>
         )
