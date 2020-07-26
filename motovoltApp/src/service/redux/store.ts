@@ -6,6 +6,7 @@ import {
 type TOnboarding = {
     signUpSuccess: boolean | null,
     confirmSignUpSuccess: boolean | null,
+    passwordResetSuccess: boolean | null,
     user: any
 }
 
@@ -104,7 +105,8 @@ type TBLE = {
 const ZeroOnboarding: TOnboarding = {
     confirmSignUpSuccess: null,
     signUpSuccess: null,
-    user: null
+    user: null,
+    passwordResetSuccess: null,
 }
 
 const ZeroUser: TUser = {

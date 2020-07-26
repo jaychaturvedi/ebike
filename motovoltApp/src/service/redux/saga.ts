@@ -100,34 +100,26 @@ function* disconnectBle(params: BLEActions.DisconnectBLE) {
 function* signIn(params: AuthenticationActions.SignIn) {
     const response = yield call(Authentication.signIn, params.payload.mobileNumber, params.payload.password)
     if (response.success) {
+        // call fetch user API
         console.log(response.user)
-        // yield put({
-        //     type: 'Store_UpdateUser',
-        //     payload: {
-
-        //     }
-        // } as Store_UpdateUser)
+        yield put({
+            type: 'Store_UpdateUser',
+            payload: {
+                isLoggedIn: true,
+            }
+        } as Store_UpdateUser)
     }
 }
 
 function* signUp(params: AuthenticationActions.SignUp) {
     const response = yield call(Authentication.signup, params.payload.mobileNumber)
-    if (response.success) {
-        yield put({
-            type: "Store_UpdateOnboarding",
-            payload: {
-                signUpSuccess: true,
-                user: response.user
-            }
-        } as Store_UpdateOnboarding)
-    } else {
-        yield put({
-            type: "Store_UpdateOnboarding",
-            payload: {
-                signUpSuccess: false,
-            }
-        } as Store_UpdateOnboarding)
-    }
+    yield put({
+        type: "Store_UpdateOnboarding",
+        payload: {
+            signUpSuccess: response.success,
+            user: response.user
+        }
+    } as Store_UpdateOnboarding)
 }
 
 function* resendSignUp(params: AuthenticationActions.ResendSignUp) {
@@ -136,37 +128,16 @@ function* resendSignUp(params: AuthenticationActions.ResendSignUp) {
 
 function* confirmSignUp(params: AuthenticationActions.ConfirmSignUp) {
     const response = yield call(Authentication.confirmSignUp, params.payload.mobileNumber, params.payload.code)
-    if (response.success) {
-        yield put({
-            type: "Store_UpdateOnboarding",
-            payload: {
-                confirmSignUpSuccess: true,
-            }
-        } as Store_UpdateOnboarding)
-    } else {
-        yield put({
-            type: "Store_UpdateOnboarding",
-            payload: {
-                confirmSignUpSuccess: false
-            }
-        } as Store_UpdateOnboarding)
-    }
+    yield put({
+        type: "Store_UpdateOnboarding",
+        payload: {
+            confirmSignUpSuccess: response.success,
+        }
+    } as Store_UpdateOnboarding)
 }
 
 function* signOut(params: AuthenticationActions.SignOut) {
     yield call(Authentication.signout)
-    yield put({
-        type: "SignOut",
-        payload: {}
-    } as AuthenticationActions.SignOut)
-}
-
-function* initiateMobileValidation(params: AuthenticationActions.InitiateMobileValidation) {
-    const response = yield call(Authentication.getVerificationOtp, params.payload.mobileNumber)
-    console.log(response)
-    if (response.success) {
-
-    }
 }
 
 function* initForgotPassword(params: AuthenticationActions.InitiateForgotPassword) {
@@ -174,9 +145,26 @@ function* initForgotPassword(params: AuthenticationActions.InitiateForgotPasswor
 }
 
 function* completeForgotPassword(params: AuthenticationActions.CompleteForgotPassword) {
-    yield call(Authentication.forgotPassword, params.payload.mobileNumber, params.payload.code, params.payload.password)
+    const response = yield call(Authentication.forgotPassword,
+        params.payload.mobileNumber, params.payload.code, params.payload.password);
+    yield put({
+        type: "Store_UpdateOnboarding",
+        payload: {
+            passwordResetSuccess: response.success
+        }
+    } as Store_UpdateOnboarding)
 }
 
+function* changePassword(params: AuthenticationActions.ChangePassword) {
+    const response = yield call(Authentication.changePassword,
+        params.payload.mobileNumber, params.payload.oldPassword, params.payload.newPassword);
+    yield put({
+        type: "Store_UpdateOnboarding",
+        payload: {
+            passwordResetSuccess: response.success
+        }
+    } as Store_UpdateOnboarding)
+}
 
 function* actionWatcher() {
     // BLE
@@ -188,12 +176,11 @@ function* actionWatcher() {
     yield takeLatest("SignUp", signUp);
     yield takeLatest("ResendSignUp", resendSignUp);
     yield takeLatest("ConfirmSignUp", confirmSignUp);
-
     yield takeLatest("SignOut", signOut);
-    yield takeLatest("InitiateMobileValidation", initiateMobileValidation);
+    yield takeLatest("SignIn", signIn);
     yield takeLatest("InitiateForgotPassword", initForgotPassword);
-    yield takeLatest("CompleteForgotPassword", completeForgotPassword)
-
+    yield takeLatest("CompleteForgotPassword", completeForgotPassword);
+    yield takeLatest("ChangePassword", changePassword);
 }
 
 export default function* rootSaga() {

@@ -3,8 +3,8 @@ import { BLEState, TPeripheral, PeripheralDisconnected } from "../../../ble";
 export type Store_UpdateUser = {
     type: "Store_UpdateUser",
     payload: {
-        isStale?: true,
-        isLoggedIn?: false,
+        isStale?: boolean,
+        isLoggedIn?: boolean,
         id?: string,
         phone?: string,
         name?: string,
@@ -28,6 +28,7 @@ export type Store_UpdateOnboarding = {
     payload: {
         signUpSuccess?: boolean,
         confirmSignUpSuccess?: boolean,
+        passwordResetSuccess?: boolean,
         user?: any
     }
 }

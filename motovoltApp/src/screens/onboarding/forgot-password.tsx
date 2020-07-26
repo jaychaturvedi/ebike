@@ -7,28 +7,38 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import Input from './components/input';
 import CTAHeader from './components/header';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
+import {InitiateForgotPassword} from '../../service/redux/actions/saga/authentication-actions';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import OTP from './otp';
+
+type ReduxState = {
+  initiateForgotPassword: (params: InitiateForgotPassword) => void;
+};
 
 type ForgotPAsswordNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'ForgotPassword'
 >;
 
-type Props = {
+interface Props extends ReduxState {
   navigation: ForgotPAsswordNavigationProp;
   route: RouteProp<OnboardingStackParamList, 'ForgotPassword'>;
-};
+}
 
 type State = {
   mobile: string;
   isValid: boolean;
+  showOtp: boolean;
 };
 
 const styles = StyleSheet.create({
@@ -51,17 +61,43 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ForgotPassword extends React.PureComponent<Props, State> {
+class ForgotPassword extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       isValid: false,
       mobile: '',
+      showOtp: false,
     };
   }
 
+  onOtpFilled = (code: string) => {
+    this.setState({showOtp: false});
+    this.props.navigation.navigate('CreateNewPassword', {
+      code,
+      mobileNumber: this.state.mobile,
+    });
+  };
+
+  onOtpResend = () => {
+    this.props.initiateForgotPassword({
+      type: 'InitiateForgotPassword',
+      payload: {
+        mobileNumber: this.state.mobile,
+      },
+    });
+  };
+
   render() {
-    return (
+    return this.state.showOtp ? (
+      <OTP
+        onFilled={this.onOtpFilled}
+        onResend={this.onOtpResend}
+        onSuccess={() => {}}
+        success={false}
+        successMessage={''}
+      />
+    ) : (
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         style={styles.container}>
@@ -72,10 +108,11 @@ export default class ForgotPassword extends React.PureComponent<Props, State> {
             keyboardNumericType
             placeHolder="Enter Registered Mobile No"
             onChange={(text: string) => {
-              const matches = text.match(/\d/g);
+              // const matches = text.match(/\d/g);
               this.setState({
                 mobile: text,
-                isValid: matches && matches.length === 10 ? true : false,
+                isValid: true,
+                // isValid: matches && matches.length === 10 ? true : false,
               });
             }}
           />
@@ -86,15 +123,30 @@ export default class ForgotPassword extends React.PureComponent<Props, State> {
             text={'Verify'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}
-            onPress={() =>
-              this.props.navigation.navigate('OTP', {
-                onSuccessScreen: 'CreateNewPassword',
-                mobileNumber: this.state.mobile
-              })
-            }
+            onPress={() => {
+              this.props.initiateForgotPassword({
+                type: 'InitiateForgotPassword',
+                payload: {
+                  mobileNumber: this.state.mobile,
+                },
+              });
+              this.setState({showOtp: true});
+            }}
           />
         </View>
       </KeyboardAvoidingView>
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {};
+  },
+  (dispatch: Dispatch) => {
+    return {
+      initiateForgotPassword: (params: InitiateForgotPassword) =>
+        dispatch(params),
+    };
+  },
+)(ForgotPassword);

@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {View, Image, StyleSheet, Text} from 'react-native';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
 
 type RegisterBikeNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -14,8 +14,8 @@ type RegisterBikeNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-  navigation: RegisterBikeNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'ValidateFrame'>
+  navigation: RegisterBikeNavigationProp;
+  route: RouteProp<OnboardingStackParamList, 'ValidateFrame'>;
 };
 
 type State = {};
@@ -59,7 +59,9 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
         <CTAHeader
           hasBackButton
           title="Register your bike"
-          onBackClick={() => { this.props.navigation.navigate('ValidateMobile', {}) }}
+          onBackClick={() => {
+            this.props.navigation.goBack();
+          }}
         />
         <Image
           source={require('../../assets/images/cycle.png')}
@@ -69,7 +71,9 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
         <Text style={styles.msg}>the QR code on your warranty card.</Text>
         <View style={styles.bottomContainer}>
           <View style={styles.bottonContentContainer}>
-            <Text style={styles.helpMsg} onPress={() => console.log("Help pressed")}>
+            <Text
+              style={styles.helpMsg}
+              onPress={() => console.log('Help pressed')}>
               Need help with your Frame Number?
             </Text>
             <CTAButton
@@ -79,7 +83,9 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
               backgroundColor={Colors.NAVY_BLUE}
             />
             <CTAButton
-              onPress={() => this.props.navigation.navigate('EnterFrameNumber', {})}
+              onPress={() =>
+                this.props.navigation.navigate('EnterFrameNumber', {})
+              }
               text={'Enter Frame Number Manually'}
               textColor={Colors.NAVY_BLUE}
               borderColor={Colors.BORDER_GREY}

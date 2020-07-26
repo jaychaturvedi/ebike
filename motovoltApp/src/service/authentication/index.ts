@@ -1,6 +1,6 @@
 import Amplify, { Auth, } from "aws-amplify";
 import ObjectId from "../object-id";
-import { storeCredentials } from '../secure-storage'
+import { storeCredentials, fetchCredentials } from '../secure-storage'
 
 Amplify.configure({
     Auth: {
@@ -11,14 +11,14 @@ Amplify.configure({
 })
 
 export async function signup(phoneNumber: string) {
-    const password = `${ObjectId()}${phoneNumber}A@`
-    console.log(password)
+    const password = `${phoneNumber}motovOlt@`
     return Auth.signUp({
         username: phoneNumber,
         password: password,
     }).then(async (res) => {
         console.log(JSON.stringify(res));
         await storeCredentials(phoneNumber, password)
+        console.log(await fetchCredentials())
         return {
             success: true,
             user: res.user,
@@ -74,42 +74,8 @@ export async function signout() {
     await Auth.signOut();
 }
 
-export function getVerificationOtp(phoneNumber: string) {
-    return Auth.signIn(phoneNumber).then(user => {
-        console.log(user)
-        return {
-            user,
-            message: "Otp Sent",
-            success: true,
-        }
-    }).catch(err => {
-        console.log("Err", err);
-        return {
-            user: null,
-            message: "Invalid Phone Number",
-            success: false,
-        }
-    })
-}
-
-// export function validateOtp(user: any, otp: string) {
-//     return Auth.sendCustomChallengeAnswer(user, otp)
-//         .then((usr) => {
-//             return {
-//                 message: "OTP Verified",
-//                 success: true
-//             }
-//         }).catch(err => {
-//             console.log(err)
-//             return {
-//                 message: "OTP verification failed",
-//                 success: false,
-//             }
-//         })
-// }
-
 export function getUser() {
-    return Auth.currentAuthenticatedUser().then(user => {
+    return Auth.currentAuthenticatedUser().then((user) => {
         return {
             user,
             success: true,
@@ -141,7 +107,9 @@ export function initiateForgotPassword(username: string) {
 
 export function forgotPassword(username: string, code: string, password: string) {
     return Auth.forgotPasswordSubmit(username, code, password)
-        .then(() => {
+        .then(async () => {
+            await storeCredentials(username, password)
+            console.log(await fetchCredentials())
             return {
                 success: true,
                 message: "Password Reset Successfull"
@@ -156,6 +124,7 @@ export function forgotPassword(username: string, code: string, password: string)
 
 export function signIn(username: string, password: string) {
     return Auth.signIn({ username, password }).then(user => {
+        console.log(user)
         return {
             user,
             success: true,
@@ -166,6 +135,26 @@ export function signIn(username: string, password: string) {
             message: err.message,
             success: false,
             user: null
+        }
+    })
+}
+
+export function changePassword(mobileNumber: string, oldpassword: string, newpassword: string,) {
+    return getUser().then(async response => {
+        if (response.success) {
+            await storeCredentials(mobileNumber, newpassword);
+            console.log(await fetchCredentials())
+            return Auth.changePassword(response.user, oldpassword, newpassword)
+                .then(res => {
+                    return {
+                        success: true
+                    }
+                })
+        }
+        throw new Error("User not authenticated");
+    }).catch(err => {
+        return {
+            success: false
         }
     })
 }

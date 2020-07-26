@@ -63,4 +63,11 @@ export type SignOut = {
     payload: {}
 }
 
-
+export type ChangePassword = {
+    type: "ChangePassword",
+    payload: {
+        mobileNumber: string,
+        oldPassword: string,
+        newPassword: string,
+    }
+}

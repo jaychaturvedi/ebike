@@ -6,24 +6,31 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
-import { Content, Item } from 'native-base';
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import {Content, Item} from 'native-base';
 import Button from '../../components/cta-button';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
 import Colors from '../../styles/colors';
 import Input from '../onboarding/components/input';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux'
-import { SignUp } from '../../service/redux/actions/saga/authentication-actions'
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import {
+  SignUp,
+  ConfirmSignUp,
+  ResendSignUp,
+} from '../../service/redux/actions/saga/authentication-actions';
 import Toast from 'react-native-simple-toast';
+import OTP from './otp';
 
 type ReduxState = {
   signUp: (params: SignUp) => void;
-  onboarding: TStore["onboarding"]
-}
+  confirmSignUp: (params: ConfirmSignUp) => void;
+  resendSignUp: (params: ResendSignUp) => void;
+  onboarding: TStore['onboarding'];
+};
 
 type ValidateMobileNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -33,11 +40,12 @@ type ValidateMobileNavigationProp = StackNavigationProp<
 interface Props extends ReduxState {
   navigation: ValidateMobileNavigationProp;
   route: RouteProp<OnboardingStackParamList, 'ValidateMobile'>;
-};
+}
 
 type State = {
   mobile: string;
   isValid: boolean;
+  showOtp: boolean;
 };
 
 class ValidateMobile extends React.PureComponent<Props, State> {
@@ -46,6 +54,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
     this.state = {
       mobile: '',
       isValid: false,
+      showOtp: false,
     };
   }
 
@@ -54,21 +63,50 @@ class ValidateMobile extends React.PureComponent<Props, State> {
     this.setState({
       mobile: text,
       // isValid: matches && matches.length === 13 ? true : false,
-      isValid: true
+      isValid: true,
     });
   };
 
+  onOtpFilled = (code: string) => {
+    this.props.confirmSignUp({
+      type: 'ConfirmSignUp',
+      payload: {
+        mobileNumber: this.state.mobile,
+        code: code,
+      },
+    });
+  };
+
+  onOtpResend = () => {
+    this.props.resendSignUp({
+      type: 'ResendSignUp',
+      payload: {
+        mobileNumber: this.state.mobile,
+      },
+    });
+  };
+
+  onOtpSuccessComplete = () => {
+    this.setState({showOtp: false});
+    this.props.navigation.replace('ValidateFrame', {});
+  };
+
   render() {
+    console.log('Validate mobile called');
     if (this.props.onboarding.signUpSuccess) {
-      this.props.navigation.navigate('OTP', {
-        onSuccessScreen: 'ValidateFrame',
-        mobileNumber: this.state.mobile
-      })
-      return null
+      this.setState({showOtp: true});
     } else if (this.props.onboarding.signUpSuccess === false) {
-      Toast.show("Error Occurred")
+      Toast.show('Error Occurred');
     }
-    return (
+    return this.state.showOtp ? (
+      <OTP
+        onFilled={this.onOtpFilled}
+        onResend={this.onOtpResend}
+        onSuccess={this.onOtpSuccessComplete}
+        success={Boolean(this.props.onboarding.confirmSignUpSuccess)}
+        successMessage={'Mobile Verified'}
+      />
+    ) : (
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
@@ -90,10 +128,10 @@ class ValidateMobile extends React.PureComponent<Props, State> {
           />
         </View>
         <View style={styles.helpText}>
-          <Text style={{ fontSize: moderateScale(14, 0.1), textAlign: 'center' }}>
+          <Text style={{fontSize: moderateScale(14, 0.1), textAlign: 'center'}}>
             <Text>By Signing up with Motovolt, you accept our </Text>
             <Text
-              style={{ color: '#0934F2' }}
+              style={{color: '#0934F2'}}
               onPress={() => {
                 console.log('T & C Pressed');
               }}>
@@ -108,10 +146,10 @@ class ValidateMobile extends React.PureComponent<Props, State> {
             textColor="white"
             backgroundColor="#142F6A"
             onPress={() =>
-              // this.props.navigation.navigate('OTP', {
-              //   onSuccessScreen: 'ValidateFrame',
-              // })
-              this.props.signUp({ type: 'SignUp', payload: { mobileNumber: this.state.mobile } })
+              this.props.signUp({
+                type: 'SignUp',
+                payload: {mobileNumber: this.state.mobile},
+              })
             }
           />
         </View>
@@ -123,16 +161,17 @@ class ValidateMobile extends React.PureComponent<Props, State> {
 export default connect(
   (store: TStore) => {
     return {
-      onboarding: store["onboarding"]
+      onboarding: store['onboarding'],
     };
   },
   (dispatch: Dispatch) => {
     return {
       signUp: (params: SignUp) => dispatch(params),
+      confirmSignUp: (params: ConfirmSignUp) => dispatch(params),
+      resendSignUp: (params: ResendSignUp) => dispatch(params),
     };
   },
 )(ValidateMobile);
-
 
 const styles = StyleSheet.create({
   container: {
