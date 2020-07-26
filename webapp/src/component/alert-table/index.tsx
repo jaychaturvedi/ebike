@@ -27,15 +27,16 @@ let datas: Array<TData> = []
 for (var i = 1; i < 101; i++) {
     datas.push({
         id: i,
-        alertName: "Capacity Deteroriation",
+        alertName: i % 2 ? "Capacity Deteroriation " : "Voltage Deviation",
         model: "Calssic" + i,
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
-        openSince: "24 hrs " + i + " 0 min",
+        openSince: "24 hrs " + i + "0 min",
         severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}><Severity height="15" width="15" /></span>,
         location: "Bangalore " + i
     })
 }
+
 
 interface AlertProps {
     column?: any, data?: any,
@@ -44,9 +45,10 @@ interface AlertProps {
 
 interface AlertStates {
     id?: any, column?: any, isDesc: boolean, data?: Array<TData>,
-    current: number; isAsc: boolean; classname: string; sortedInfo: any; pageSize: number;
+    current: number; isAsc: boolean; classname: string; pageSize: number;
     sortDirections: string; alertClicked: boolean; modelClicked: boolean; total: number;
-    timeClicked: boolean; loading: boolean; severityClicked: boolean, openSinceClicked: boolean
+    timeClicked: boolean; loading: boolean; severityClicked: boolean, openSinceClicked: boolean;
+    sortingKey: any;
 }
 
 class AlertTable extends React.Component<AlertProps, AlertStates> {
@@ -59,10 +61,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             pageSize: 10,
             total: 100,
             data: [],
-            isAsc: true,
-            isDesc: false,
+            isAsc: false,
+            sortingKey: '',
+            isDesc: true,
             classname: '',
-            sortedInfo: null,
             sortDirections: 'ascend',
             loading: false,
             alertClicked: false,
@@ -80,14 +82,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             this.setState({
                 isAsc: !this.state.isAsc,
                 isDesc: !this.state.isDesc,
-                classname: 'alert-down-circle',
+                classname: 'alert-down-circle open',
             });
         }
         if (isDesc) {
             this.setState({
                 isAsc: !this.state.isAsc,
                 isDesc: !this.state.isDesc,
-                classname: 'alert-down-circle open',
+                classname: 'alert-down-circle',
             });
         }
     }
@@ -95,42 +97,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
     handleTableChange = (pagination: any, filters: any, sorter: any) => {
         console.log('tableChange', pagination, filters, sorter);
-        const { pageSize, current } = this.state;
-
-        const params = {
-            pageSize: pageSize,
-            current: current,
-            sortField: sorter.field,
-            sortOrder: sorter.order
-        };
-        // for (let key in filters) {
-        //   if (filters.hasOwnProperty(key)) {
-        //     params[key] = filters[key];
-        //   }
-        // }
-        // this.fetch(params);
     }
 
-    // fetch = (params = {}) => {
-    //     console.log('param', params);
-    //     this.setState({ loading: true });
-
-    //     setTimeout(() => {
-    //         //demoData
-    //         const result = datas;
-    //         const page = 1; const pageSize = 50;
-    //         let {pageSize, current} = this.state;
-    //         pagination.total = result?.length;
-    //         this.setState({
-    //             loading: false,
-    //             data: result.slice((page - 1) * pageSize, pageSize * page),//insert here page no. and page size
-    //             pagination,
-    //         });
-    //     }, 1500);
-    // }
-    // componentDidMount() {
-    //     this.fetch()
-    // }
     handleClickAlert = (event: any) => {
         event?.stopPropagation()
         const { alertClicked } = this.state
@@ -138,6 +106,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             alertClicked: true, modelClicked: false, timeClicked: false,
             openSinceClicked: false, severityClicked: false
         })
+        this.setState({ sortingKey: "alertName" })
         this.renderClass()
         console.log(this.state.classname);
     }
@@ -150,6 +119,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             openSinceClicked: false, severityClicked: false
         })
         this.renderClass()
+        this.setState({ sortingKey: "model" })
+
         console.log(this.state.classname);
     }
 
@@ -160,6 +131,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             openSinceClicked: false, severityClicked: false
         })
         this.renderClass()
+        this.setState({ sortingKey: "time" })
+
         console.log(this.state.classname);
     }
 
@@ -170,6 +143,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             openSinceClicked: true, severityClicked: false
         })
         this.renderClass()
+        this.setState({ sortingKey: "openSince" })
+
         console.log(this.state.classname);
     }
 
@@ -180,10 +155,13 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             openSinceClicked: false, severityClicked: true
         })
         this.renderClass()
+        // this.setState({ sortingKey: "severity" })
+
         console.log(this.state.classname);
     }
 
     handleSelect = (event: any) => {
+        this.setState({ sortingKey: '' })
         const { pageSize, current } = this.state
         this.setState({ pageSize: Number(event), current: 1 })
         console.log(pageSize, current);
@@ -202,20 +180,25 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         }
     }
 
-    getData = (current: any, pageSize: any) => {
+    handleColumnSort = (arr: any, key: string) => {
+        if (!key) { return arr }
+        return arr.sort((a: any, b: any) => {
+            return a[key].localeCompare(b[key])
+        });
+    };
+
+    getData = () => {
         // Normally you should get the data from the server
+        const { current, pageSize, sortingKey, isAsc, isDesc } = this.state
         const data = datas.slice((current - 1) * pageSize, pageSize * current);
         // this.setState({ total: datas.length })
-        console.log("this is total", this.state.total);
-
-        return data
+        const sortedData = sortingKey ? this.handleColumnSort(data, sortingKey) : data
+        return sortingKey ? isDesc ? sortedData.reverse() : sortedData : data;
     };
 
     render() {
         // this.fetch()
-        let { sortedInfo, isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
-        sortedInfo = sortedInfo || {};
-
+        let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
             {
                 dataIndex: 'alertName', defaultSortOrder: 'ascend',
@@ -223,7 +206,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
                 </span>,
-                sorter: (a: any, b: any) => a.alertName.length - b.alertName.length,
             },
             {
                 dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend',
@@ -232,7 +214,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         {modelClicked ? <ActiveSort height='20px' width='20px'
                             className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
                     </span>,
-                sorter: (a: any, b: any) => a.model.length - b.model.length
             },
             {
                 dataIndex: 'vehicleId', key: 'vehicleId',
@@ -242,7 +223,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             },
             {
                 dataIndex: 'time', key: 'time', defaultSortOrder: 'ascend',
-                sorter: (a: any, b: any) => a.time.length - b.time.length,
                 sortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
                         {timeClicked ? <ActiveSort height='20px' width='20px'
@@ -250,15 +230,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 </span>,
             },
             {
-                dataIndex: 'openSince', key: 'openSince',
-                sorter: (a: any, b: any) => a.openSince.length - b.openSince.length,
+                dataIndex: 'openSince', key: 'openSince', width: 150,
                 title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
                         {openSinceClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
                 </span>,
             },
             {
-                dataIndex: 'severity', key: 'severity',
+                dataIndex: 'severity', key: 'severity', width: 100,
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
                         {severityClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
@@ -266,21 +245,19 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             },
             {
                 dataIndex: 'location', key: 'location', title: "Location",
-                // title: () =>     <Header className={this.state.classname} name='Location' />
             },
         ];
 
 
-        const data = this.getData(this.state.current, this.state.pageSize)
+        const data = this.getData()
 
         return <>
             <div className="container" >
-                <div>
+                <div className={'table-body'}>
                     <Table
                         tableLayout={"fixed"}
-                        scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        style={{ overflow: 'hidden' }}
-                        size={"small"}
+                        // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
+                        size={"middle"}
                         bordered={false}
                         className="ant-table-thead"
                         onChange={this.handleTableChange}
@@ -296,7 +273,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 <div style={{ display: 'flex', justifyContent: "space-between", float: 'right', marginTop: '20px' }}
                     className={"pagination-footer"}>
                     Showing &nbsp;&nbsp;&nbsp; <span >
-                        <Select className={'select-button'}
+                        <Select className={'select-button'} style={{ height: 30 }}
                             defaultValue={this.state.pageSize} onChange={this.handleSelect}>
                             {paginationDate.map(page => (
                                 <Option value={page} key={page}>{page}</Option>
@@ -305,8 +282,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div className={'spacer'}></div>
                     <span className={'nav-button'}>
-                        {this.state.pageSize * (this.state.current - 1) + 1} -- {this.state.pageSize * this.state.current}
-                        of {this.state.total}
+                        <pre> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+                        {this.state.pageSize * this.state.current > this.state.total
+                                ? this.state.total : this.state.pageSize * this.state.current}
+                          &nbsp;of {this.state.total}</pre>
                     </span>
                     <div className={'spacer'}></div>
                     <span onClick={(e) => { this.handleNav("first", e) }} className={'nav-button'} >

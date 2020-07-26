@@ -10,7 +10,8 @@
 }
 
 .ant-table table {
-    // height: calc(100% - 25px);
+    height: calc(100% - 25px);
+
     overflow: hidden !important;
     text-indent: 10px;
     // height: 450px;
@@ -78,6 +79,14 @@ td.ant-table-column-sort {
 .container {
     padding-right: 30px;
 
+    .table-body {
+
+        height: 490px !important;
+        overflow-y: auto;
+        /* Trigger vertical scroll    */
+        overflow-x: auto;
+    }
+
     .pagination-footer {
         padding-top: 20px;
 
@@ -96,6 +105,9 @@ td.ant-table-column-sort {
             border-radius: 10px 10px 10px 10px;
             width: 60px;
         }
+
+        // .select-button>div>span {
+        //     }
 
         .spacer {
             width: 30px;
