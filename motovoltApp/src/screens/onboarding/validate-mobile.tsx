@@ -22,6 +22,7 @@ import {
   ConfirmSignUp,
   ResendSignUp,
 } from '../../service/redux/actions/saga/authentication-actions';
+import {Store_UpdateOnboarding} from '../../service/redux/actions/store';
 import Toast from 'react-native-simple-toast';
 import OTP from './otp';
 
@@ -29,6 +30,7 @@ type ReduxState = {
   signUp: (params: SignUp) => void;
   confirmSignUp: (params: ConfirmSignUp) => void;
   resendSignUp: (params: ResendSignUp) => void;
+  updateOnboarding: (params: Store_UpdateOnboarding) => void;
   onboarding: TStore['onboarding'];
 };
 
@@ -56,6 +58,16 @@ class ValidateMobile extends React.PureComponent<Props, State> {
       isValid: false,
       showOtp: false,
     };
+  }
+
+  componentDidMount() {
+    this.props.updateOnboarding({
+      type: 'Store_UpdateOnboarding',
+      payload: {
+        confirmSignUpSuccess: null,
+        signUpSuccess: null,
+      },
+    });
   }
 
   onChange = (text: string) => {
@@ -87,18 +99,14 @@ class ValidateMobile extends React.PureComponent<Props, State> {
   };
 
   onOtpSuccessComplete = () => {
-    this.setState({showOtp: false});
     this.props.navigation.replace('ValidateFrame', {});
   };
 
   render() {
-    console.log('Validate mobile called');
-    if (this.props.onboarding.signUpSuccess) {
-      this.setState({showOtp: true});
-    } else if (this.props.onboarding.signUpSuccess === false) {
+    if (this.props.onboarding.signUpSuccess === false) {
       Toast.show('Error Occurred');
     }
-    return this.state.showOtp ? (
+    return this.props.onboarding.signUpSuccess ? (
       <OTP
         onFilled={this.onOtpFilled}
         onResend={this.onOtpResend}
@@ -169,6 +177,7 @@ export default connect(
       signUp: (params: SignUp) => dispatch(params),
       confirmSignUp: (params: ConfirmSignUp) => dispatch(params),
       resendSignUp: (params: ResendSignUp) => dispatch(params),
+      updateOnboarding: (params: Store_UpdateOnboarding) => dispatch(params),
     };
   },
 )(ValidateMobile);

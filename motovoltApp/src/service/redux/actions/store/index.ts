@@ -26,10 +26,9 @@ export type Store_UpdateBle = {
 export type Store_UpdateOnboarding = {
     type: "Store_UpdateOnboarding",
     payload: {
-        signUpSuccess?: boolean,
-        confirmSignUpSuccess?: boolean,
-        passwordResetSuccess?: boolean,
-        user?: any
+        signUpSuccess?: boolean | null,
+        confirmSignUpSuccess?: boolean | null,
+        passwordResetSuccess?: boolean | null
     }
 }
 

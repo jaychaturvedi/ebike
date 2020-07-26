@@ -7,7 +7,6 @@ type TOnboarding = {
     signUpSuccess: boolean | null,
     confirmSignUpSuccess: boolean | null,
     passwordResetSuccess: boolean | null,
-    user: any
 }
 
 type TBikeStat = {
@@ -105,7 +104,6 @@ type TBLE = {
 const ZeroOnboarding: TOnboarding = {
     confirmSignUpSuccess: null,
     signUpSuccess: null,
-    user: null,
     passwordResetSuccess: null,
 }
 
