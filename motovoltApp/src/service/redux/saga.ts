@@ -8,30 +8,21 @@ import {
     put,
     delay,
 } from "redux-saga/effects";
-import { } from "../redux/actions";
-import {
-    connectPeripheral,
-    disconnectPeripherals,
-    enableBluetooth,
-    initialiseListeners,
-    startScan,
-} from "../ble";
-import {
-    ConnectBLE,
-    ScanBLEDevices,
-    TurnOnBLE,
-    DisconnectBLE,
-    UpdateBleStore
-} from "../redux/actions/ble";
+import * as BLE from "../ble";
+import * as Authentication from "../authentication";
+import * as BLEActions from "./actions/saga/ble";
+import * as AuthenticationActions from "./actions/saga/authentication-actions";
+import * as OnboardingActions from "./actions/saga/onboarding-actions";
+import { Store_UpdateBle } from "./actions/store";
 
 function* initBLE() {
     console.log("intiBle")
     return eventChannel(emit => {
         console.log("Event Channel")
-        const response = initialiseListeners({
+        const response = BLE.initialiseListeners({
             onDisconnectPeripheral: (data) => {
                 emit({
-                    type: "UpdateBleStore",
+                    type: "Store_UpdateBle",
                     payload: {
                         connectedPeripheral: "",
                     }
@@ -40,7 +31,7 @@ function* initBLE() {
             onStateChange: (state) => {
                 console.log("Saga on state chnage", state)
                 emit({
-                    type: "UpdateBleStore",
+                    type: "Store_UpdateBle",
                     payload: {
                         state: state
                     }
@@ -48,7 +39,7 @@ function* initBLE() {
             },
             onStopScan: (peripherals) => {
                 emit({
-                    type: "UpdateBleStore",
+                    type: "Store_UpdateBle",
                     payload: {
                         devices: peripherals,
                         scanning: false,
@@ -57,9 +48,9 @@ function* initBLE() {
             },
             onUpdateValueForCharacteristic: (char) => {
                 emit({
-                    type: "UpdateBleStore",
+                    type: "Store_UpdateBle",
                     payload: {
-                        
+
                     }
                 })
             }
@@ -68,8 +59,8 @@ function* initBLE() {
     })
 }
 
-function* turnOnBle(params: TurnOnBLE) {
-    const response = yield call(enableBluetooth)
+function* turnOnBle(params: BLEActions.TurnOnBLE) {
+    const response = yield call(BLE.enableBluetooth)
     if (response.success) {
         const bleChannel = yield call(initBLE);
         while (true) {
@@ -79,31 +70,47 @@ function* turnOnBle(params: TurnOnBLE) {
     }
 }
 
-function* scanBleDevices(params: ScanBLEDevices) {
-    yield call(startScan, 10)
+function* scanBleDevices(params: BLEActions.ScanBLEDevices) {
+    yield call(BLE.startScan, 10)
+    yield put({
+        type: "Store_UpdateBle",
+        payload: {
+            scanning: true
+        }
+    } as Store_UpdateBle)
 }
 
-function* connectBle(params: ConnectBLE) {
-    const response = yield call(connectPeripheral, params.payload.id)
+function* connectBle(params: BLEActions.ConnectBLE) {
+    const response = yield call(BLE.connectPeripheral, params.payload.id)
     if (response.success) {
         yield put({
-            type: "UpdateBleStore",
+            type: "Store_UpdateBle",
             payload: {
                 connectedPeripheral: params.payload.id
             }
-        } as UpdateBleStore)
+        } as Store_UpdateBle)
     }
 }
 
-function* disconnectBle(params: DisconnectBLE) {
-    yield call(disconnectPeripherals)
+function* disconnectBle(params: BLEActions.DisconnectBLE) {
+    yield call(BLE.disconnectPeripherals)
+}
+
+function* initiateMobileValidation(params: AuthenticationActions.InitiateMobileValidation){
+    yield call(Authentication.signup, params.payload.mobileNumber);
+}
+
+function* signUp(params: AuthenticationActions.SignUp){
+    yield call(Authentication.signup, params.payload.mobileNumber);
 }
 
 function* actionWatcher() {
+    // BLE
     yield takeLatest("TurnOnBLE", turnOnBle);
     yield takeLatest("ScanBLEDevices", scanBleDevices);
     yield takeLatest("ConnectBLE", connectBle);
     yield takeLatest("DisconnectBLE", disconnectBle);
+    // Onboarding
 }
 
 export default function* rootSaga() {

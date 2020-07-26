@@ -47,6 +47,7 @@ type TRide = {
 
 type TUser = {
     isStale: boolean,
+    isLoggedIn: boolean,
     id: string,
     phone: string,
     name: string,
@@ -96,6 +97,7 @@ type BLE = {
 
 const ZeroUser: TUser = {
     isStale: true,
+    isLoggedIn: false,
     id: "",
     phone: "",
     name: "",

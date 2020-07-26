@@ -31,7 +31,6 @@ import {
     DisconnectBLE,
     ScanBLEDevices,
     TurnOnBLE,
-    UpdateBleStore
 } from "./ble";
 
 type Action = InitiateForgotPassword
@@ -55,9 +54,7 @@ type Action = InitiateForgotPassword
     | ConnectBLE
     | DisconnectBLE
     | ScanBLEDevices
-    | TurnOnBLE
-    | UpdateBleStore
-    ;
+    | TurnOnBLE;
 
 export default Action;
 
@@ -84,5 +81,4 @@ export type {
     DisconnectBLE,
     ScanBLEDevices,
     TurnOnBLE,
-    UpdateBleStore
 } 
