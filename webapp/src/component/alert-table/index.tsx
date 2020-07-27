@@ -8,7 +8,7 @@ import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
 import { Table, Select, Button, Pagination } from 'antd';
-const paginationDate = ['10', '20', '30'];
+const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
 type TData = {
@@ -32,7 +32,8 @@ for (var i = 1; i < 101; i++) {
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
         openSince: "24 hrs " + i + "0 min",
-        severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}><Severity height="15" width="15" /></span>,
+        severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}>
+            <Severity height="15" width="15" className={`${i == 1 ? "" : i % 2 ? "severity-color-major" : "severity-color-minor"}`} /></span>,
         location: "Bangalore " + i
     })
 }
@@ -254,9 +255,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             <div className="container" >
                 <div className={'table-body'}>
                     <Table
-                        tableLayout={"fixed"}
+                        tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        size={"middle"}
+                        // scroll={{ y: "500", x: 'max-content'}}
+                        // size={"small"}
                         bordered={false}
                         className="ant-table-thead"
                         onChange={this.handleTableChange}
@@ -269,8 +271,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         loading={false}
                     />
                 </div>
-                <div style={{ display: 'flex', justifyContent: "space-between", float: 'right', marginTop: '20px' }}
-                    className={"pagination-footer"}>
+                <div className={"pagination-footer"}>
                     Showing &nbsp;&nbsp;&nbsp; <span >
                         <Select className={'select-button'} style={{ height: 30 }}
                             defaultValue={this.state.pageSize} onChange={this.handleSelect}>

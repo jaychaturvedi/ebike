@@ -2,7 +2,6 @@ import './index.scss';
 import { Layout } from "antd";
 import React, { PureComponent } from 'react';
 import Content from '../component/content'
-import SideBar from '../component/sideBar'
 
 interface HomeProps { }
 

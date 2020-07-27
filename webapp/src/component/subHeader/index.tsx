@@ -271,7 +271,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         const timeFrame = (
             <Menu onClick={this.handleDateClick}>
                 <Menu.Item key="1" >
-                    As of Today
+                    As of Now
                 </Menu.Item>
                 <Menu.Item key="2" >
                     Last Week
@@ -295,6 +295,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         );
         return (
             <div className={"sub-header"}>
+                <div className={"sub-header-left"}>
                 <Button className={`connectM-button ${this.state.allSelected ? "connectM-button-active" : ""}`} size={"middle"} type="text" onClick={this.onAll}>
                     All
                 </Button>
@@ -328,7 +329,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                     </div>
                 </Dropdown>
-                <div style={{ width: "18%" }} className={"search-background-color "}>
+                <div style={{ width: "27%" }} className={"search-background-color "}>
                     <Input
                         onChange={this.onSearch}
                         value={this.state.searchText}
@@ -338,12 +339,15 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         className={"search-background-color"}
                     />
                 </div>
+                </div>
+                <div className={"sub-header-right"}>
                 <Button size={"small"} className={"apply-button"}>
                     <Typography.Text style={{ color: "black" }} strong>APPLY</Typography.Text>
                 </Button>
                 <Button size={"small"} className={"reset-button"} onClick={this.onReset}>
                     <Typography.Text style={{ color: "#ffffff" }} strong>RESET</Typography.Text>
                 </Button>
+                </div>
             </div>
         )
     }
