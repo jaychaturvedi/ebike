@@ -10,11 +10,21 @@
 }
 
 .ant-table-thead {
+    // tr {
+    //     text-align: left;
+    // }
+
     tr {
+
         th {
+            border: 1px solid yellow;
+            position: sticky;
+            top: 0;
+            z-index: 2;
             background: $TABLE_ROW_LIGHT !important;
-            text-indent: 5px;
+            text-align: left;
             font-size: 14px;
+
         }
     }
 }
@@ -34,7 +44,7 @@ th {
     }
 }
 
-.ant-table-tbody > tr.ant-table-row:hover > td {
+.ant-table-tbody>tr.ant-table-row:hover>td {
     background: none !important;
 }
 
@@ -46,7 +56,7 @@ td.ant-table-column-sort {
     color: #ffffff !important;
 }
 
-.ant-pagination-item > a {
+.ant-pagination-item>a {
     color: #ffffff !important;
 }
 
@@ -66,6 +76,7 @@ td.ant-table-column-sort {
 }
 
 .container {
+
     // border: 1px solid red;
     .ant-table table {
         // height: calc(100% - 25px);
@@ -77,9 +88,11 @@ td.ant-table-column-sort {
         border-bottom-right-radius: 10px;
         // height: 450px;
     }
+
     .ant-table {
         background-color: transparent;
     }
+
     // padding-right: 30px;
 
     .table-body {
@@ -100,6 +113,7 @@ td.ant-table-column-sort {
         padding-top: 2%;
         display: flex;
         justify-content: flex-end;
+
         .nav-button {
             .icon {
                 width: 30px;
@@ -178,14 +192,17 @@ td.ant-table-column-sort {
 //     display: block;
 // }
 
-.severity-color-major > circle {
+.severity-color-major>circle {
     fill: $MAJOR;
 }
 
-.severity-color-minor > circle {
+.severity-color-minor>circle {
     fill: $MINOR;
 }
 
-.ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td {
+.ant-table-thead>tr>th,
+.ant-table-tbody>tr>td,
+.ant-table tfoot>tr>th,
+.ant-table tfoot>tr>td {
     padding: 0.8% 0.8%;
 }

@@ -194,6 +194,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         // this.setState({ total: datas.length })
         const sortedData = sortingKey ? this.handleColumnSort(data, sortingKey) : data
         return sortingKey ? isDesc ? sortedData.reverse() : sortedData : data;
+
     };
 
     render() {
@@ -258,7 +259,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
                         // scroll={{ y: "500", x: 'max-content'}}
-                        // size={"small"}
+                        // size={"middle"}
                         bordered={false}
                         className="ant-table-thead"
                         onChange={this.handleTableChange}
