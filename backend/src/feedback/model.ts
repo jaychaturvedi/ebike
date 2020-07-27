@@ -15,8 +15,12 @@ let Feedback: TFeedbackModel<TFeedback & Model> = <TFeedbackModel<TFeedback & Mo
   {
     rideId: {
       type: Sequelize.STRING,
-      autoIncrement: true,
-      primaryKey: true
+      allowNull: false,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'rides',
+        key: 'rideId',
+      }
     },
     options: {
       type: Sequelize.ARRAY(Sequelize.STRING),

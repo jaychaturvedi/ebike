@@ -13,12 +13,12 @@ export async function getBikeDetails(uid: string) {
 }
 
 export async function verifyFrame(uid: string, frameId: string) {
-  const { model: modelType, st: status } = await ConnectmApi.getBikeDetails(frameId as string); //update all fields
+  const { model, st: status } = await ConnectmApi.getBikeDetails(frameId as string); //update all fields
   if (status) throw new BadRequestError("Cant get details")
   const user = await User.findByUid(uid)
   if (user.frameId) throw new UserError("frameId already verified")
   await User.updateByUid(uid, { frameId })
-  const bike = await Bike.createNew({ frameId, modelType, uid })
+  const bike = await Bike.createNew({ frameId, model, uid })
   return bike;
 }
 

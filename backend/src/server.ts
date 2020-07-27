@@ -26,27 +26,27 @@ app.use("/ride", ridesRoutes)
 app.use("/issue", issuesRoutes)
 // app.use("/support", supportRoutes)
 
-// const PORT = Number(process.env.SPORT) || 5000;
-// db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
+const PORT = Number(process.env.SPORT) || 5000;
+db.sync({ force: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
 
-// deploy express app to aws lambda
-const handler = serverless(app);
-module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
-    // you can do other things here
-    console.log("context", context, "event", event);
-    context.callbackWaitsForEmptyEventLoop = false;
-    try {
-        db.authenticate()
-        console.log("connection ok")
-    } catch (error) {
-        console.log("connecting")
-        await db.sync({ alter: true, force: false });
-    }
-    const result = await handler(event, context);
-    // and here
-    return result;
-};
+// // deploy express app to aws lambda
+// const handler = serverless(app);
+// module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
+//     // you can do other things here
+//     console.log("context", context, "event", event);
+//     context.callbackWaitsForEmptyEventLoop = false;
+//     try {
+//         db.authenticate()
+//         console.log("connection ok")
+//     } catch (error) {
+//         console.log("connecting")
+//         await db.sync({ alter: true, force: false });
+//     }
+//     const result = await handler(event, context);
+//     // and here
+//     return result;
+// };
 
 
 // //will be pushed other file
@@ -67,7 +67,7 @@ module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context
     //     console.log("connecting")
     //     await db.sync({ alter: true, force: false });
     // }
-    
+
     const newUser = await User.createNew({ uid: uid, phone: phone })
     console.log(newUser);
     const response = {

@@ -9,11 +9,12 @@ export interface TBike {
   uid?: string;
   frameId?: string;
   warrantyId?: string;
-  batteries: {
+  batteries?: {
     [id: string]: {
       id: string
     }
   };
+  batteryId?: Array<string>
   model?: string;
   //frequently updated fields below
   batteryPer?: string;

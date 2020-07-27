@@ -46,10 +46,10 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
             }
         },
         startTime: {
-            type: Sequelize.STRING
+            type: Sequelize.DATE
         },
         endTime: {
-            type: Sequelize.STRING
+            type: Sequelize.DATE
         },
         distance: {
             type: Sequelize.INTEGER

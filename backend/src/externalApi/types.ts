@@ -44,7 +44,7 @@ export type TCurrentLocation = {
 
 export type TCurrentRide = {
     fid: string;
-    batchrg: number; //batery charge
+    batchrgper: number; //batery charge
     rngavail: number; //range avialable
     rngcrv: number; //range covered
     dist: number; //distance
