@@ -81,45 +81,52 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                         <div className={"titleheader"}>
                             <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Total Alerts</Typography.Text>
                         </div>
-                        <ResponsiveContainer width={'95%'} height={135} >
-                            <LineChart
-                                data={data}
-                                style={{ display: 'flex', fontSize: "10px", color: '#ffffff' }}>
-                                <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                                <XAxis dataKey="days" />
-                                <Tooltip />
-                                <YAxis type="number" domain={[0, 100]} />
-                                <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                            </LineChart>
-                        </ResponsiveContainer>
+                        <div className={'line-chart'}>
+                            <ResponsiveContainer width={'100%'} height={150} >
+                                <LineChart margin={{ top: 0, right: 10, left: -30, bottom: 0 }}
+                                    data={data}>
+                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
+                                    <XAxis dataKey="days" tick={{ fill: 'white' }} />
+                                    <Tooltip />
+                                    <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
+                                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
                     <div className="graph">
                         <div className={"titleheader"}>
                             <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
                         </div>
-                        <ResponsiveContainer width={'95%'} height={135} >
-                            <LineChart data={data} style={{ fontSize: "10px" }}>
-                                <CartesianGrid strokeDasharray="3 4 5 2" stroke="#717171" />
-                                <XAxis dataKey="days" />
-                                <Tooltip />
-                                <YAxis type="number" domain={[0, 100]} />
-                                <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                            </LineChart>
-                        </ResponsiveContainer>
+                        <div className={'line-chart'}>
+                            <ResponsiveContainer width={'100%'} height={150}  >
+                                <LineChart data={data} margin={{ top: 0, right: 10, left: -30, bottom: 0 }}>
+                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#717171" />
+                                    <XAxis dataKey="days" tick={{ fill: 'white' }} />
+                                    <Tooltip />
+                                    <Legend />
+                                    <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
+                                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
                     <div className="graph">
                         <div className={"titleheader"}>
                             <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
                         </div>
-                        <ResponsiveContainer width={'95%'} height={135} >
-                            <LineChart data={data} style={{ fontSize: "10px" }}>
-                                <CartesianGrid strokeDasharray="3 4 5 2" stroke="#717171" />
-                                <XAxis dataKey="days" />
-                                <Tooltip />
-                                <YAxis type="number" domain={[0, 100]} />
-                                <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                            </LineChart>
-                        </ResponsiveContainer>
+                        <div className={'line-chart'}>
+                            <ResponsiveContainer width={'100%'} height={150}  >
+                                <LineChart data={data} margin={{ top: 0, left: -20, right: 10, bottom: 0 }}>
+                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#717171" />
+                                    <XAxis dataKey="days" tick={{ fill: 'white' }} />
+                                    <Tooltip />
+                                    <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
+                                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+
                     </div>
                 </div>
 

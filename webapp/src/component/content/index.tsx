@@ -15,8 +15,8 @@ class Content extends PureComponent<ContentProp, ContentState>{
         return <>
             <Layout.Content className="web-content">
                 <WebHeader />
-                <LeftPanel/>
-                {/* <AlertDetail/> */}
+                <LeftPanel />
+                {/* <AlertDetail /> */}
                 <Switch>
                     <Route exact path="/" component={HomePage} />
                     <Route exact path="/:id" component={User} />

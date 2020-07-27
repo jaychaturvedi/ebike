@@ -7,6 +7,7 @@
     flex-direction: column;
     color: white;
     max-height: 100%;
+
     .trends-header {
         display: flex;
         justify-content: space-between;
@@ -33,7 +34,17 @@
                 display: flex;
                 align-items: center;
             }
+
+            // .line-chart {
+            //     font-size: 10px;
+            // }
+
+            .recharts-responsive-container {
+                font-size: 10px;
+            }
+
         }
+
     }
 }
 
