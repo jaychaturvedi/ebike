@@ -3,6 +3,12 @@ import {
     TPeripheral
 } from "../ble";
 
+type TOnboarding = {
+    signUpSuccess: boolean | null,
+    confirmSignUpSuccess: boolean | null,
+    passwordResetSuccess: boolean | null,
+}
+
 type TBikeStat = {
     isStale: boolean,
     co2SavingKg: number,
@@ -47,6 +53,7 @@ type TRide = {
 
 type TUser = {
     isStale: boolean,
+    isLoggedIn: boolean,
     id: string,
     phone: string,
     name: string,
@@ -79,7 +86,7 @@ type TBike = {
     }
 }
 
-type Service = {
+type TService = {
     isStale: boolean,
     id: string,
     title: string,
@@ -88,14 +95,21 @@ type Service = {
     closeDate: string,
 }
 
-type BLE = {
+type TBLE = {
     scanning: boolean,
     state: BLEState,
     devices: TPeripheral[],
 }
 
+const ZeroOnboarding: TOnboarding = {
+    confirmSignUpSuccess: null,
+    signUpSuccess: null,
+    passwordResetSuccess: null,
+}
+
 const ZeroUser: TUser = {
     isStale: true,
+    isLoggedIn: false,
     id: "",
     phone: "",
     name: "",
@@ -156,25 +170,29 @@ const ZeroBike: TBike = {
     batteries: {}
 }
 
-const ZeroBLE: BLE = {
+const ZeroBLE: TBLE = {
     scanning: false,
     state: "off",
     devices: [],
 }
 
+
+
 export type TStore = {
+    onboarding: TOnboarding,
     user: TUser,
     bikeStat: TBikeStat,
     bikeState: TBikeState,
     ride: TRide,
     notifications: { [id: string]: TNotification },
     bike: TBike,
-    services: { [id: string]: Service },
+    services: { [id: string]: TService },
     rides: { [id: string]: TRide },
-    ble: BLE,
+    ble: TBLE,
 }
 
 export default {
+    onboarding: ZeroOnboarding,
     user: ZeroUser,
     bikeStat: ZeroBikeStat,
     bikeState: ZeroBikeState,

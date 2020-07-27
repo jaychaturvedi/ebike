@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import IntroSwipper from '../screens/onboarding/intro-swiper';
 import ValidateMobile from '../screens/onboarding/validate-mobile';
 import OTP from '../screens/onboarding/otp';
@@ -21,7 +21,6 @@ import CreateNewPassword from '../screens/onboarding/create-new-password';
 export type OnboardingStackParamList = {
   IntroSwiper: {};
   ValidateMobile: {};
-  OTP: { onSuccessScreen: 'CreateNewPassword' | 'ValidateFrame' };
   ValidateFrame: {};
   EnterFrameNumber: {};
   Scanner: {};
@@ -32,7 +31,7 @@ export type OnboardingStackParamList = {
   BluetoothDevices: {};
   LoginPage: {};
   ForgotPassword: {};
-  CreateNewPassword: {};
+  CreateNewPassword: {code: string; mobileNumber: string};
 };
 
 const Onboarding = createStackNavigator<OnboardingStackParamList>();
@@ -44,11 +43,14 @@ export default function OnboardingStack(props: {}) {
       screenOptions={{
         headerShown: false,
       }}
-    // mode="modal"
+      // mode="modal"
     >
-      <Onboarding.Screen name="IntroSwiper" component={IntroSwipper} initialParams={{}} />
+      <Onboarding.Screen
+        name="IntroSwiper"
+        component={IntroSwipper}
+        initialParams={{}}
+      />
       <Onboarding.Screen name="ValidateMobile" component={ValidateMobile} />
-      <Onboarding.Screen name="OTP" component={OTP} />
       <Onboarding.Screen name="ValidateFrame" component={ValidateFrame} />
       <Onboarding.Screen name="EnterFrameNumber" component={EnterFrameNumber} />
       <Onboarding.Screen name="Scanner" component={Scanner} />

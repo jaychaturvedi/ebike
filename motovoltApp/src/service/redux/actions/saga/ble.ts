@@ -1,5 +1,3 @@
-import { BLEState, TPeripheral, PeripheralDisconnected } from "../../ble";
-
 export type TurnOnBLE = {
     type: "TurnOnBLE",
     payload: {}
@@ -20,14 +18,4 @@ export type ConnectBLE = {
 export type DisconnectBLE = {
     type: "DisconnectBLE",
     payload: {}
-}
-
-export type UpdateBleStore = {
-    type: "UpdateBleStore",
-    payload: {
-        scanning?: boolean,
-        state?: BLEState,
-        devices?: TPeripheral[],
-        connectedPeripheral?: string,
-    }
 }
