@@ -21,10 +21,12 @@
         display: flex;
         flex-direction: column;
         background-color: $APP_BACKGROUND;
+
         .graph {
             min-height: 100%;
             position: relative;
             float: left;
+
             .titleheader {
                 background-color: $TABLE_ROW_DARK;
                 font-size: 12px;

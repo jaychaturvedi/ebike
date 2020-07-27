@@ -64,12 +64,12 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             isAsc: false,
             sortingKey: '',
             isDesc: true,
-            classname: '',
+            classname: 'alert-down-circle',
             sortDirections: 'ascend',
             loading: false,
             alertClicked: false,
             modelClicked: false,
-            timeClicked: false,
+            timeClicked: true,
             openSinceClicked: false,
             severityClicked: false,
         }
@@ -205,7 +205,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 dataIndex: 'alertName', defaultSortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
                     {alertClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} />}
                 </span>,
             },
             {
@@ -213,13 +213,13 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 title:
                     <span className="header-sorter" onClick={this.handleClickModel}> Model
                         {modelClicked ? <ActiveSort height='20px' width='20px'
-                            className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                            className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} />}
                     </span>,
             },
             {
                 dataIndex: 'vehicleId', key: 'vehicleId',
                 // sortDirections: ['descend', 'ascend'], headerSort: false,                
-                title: <span className="header-sorter" > Vehicle Id </span>
+                title: <span > Vehicle Id </span>
 
             },
             {
@@ -227,21 +227,21 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 sortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
                         {timeClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
                 </span>,
             },
             {
                 dataIndex: 'openSince', key: 'openSince', width: 150,
                 title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
                         {openSinceClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
                 </span>,
             },
             {
                 dataIndex: 'severity', key: 'severity', width: 100,
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
                         {severityClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
                 </span>,
             },
             {

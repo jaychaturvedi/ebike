@@ -79,8 +79,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                             <Typography.Text strong style={{ paddingLeft: "10px" }} >Total Alerts</Typography.Text>
                         </div>
                         <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} minHeight={100} >
-                                <LineChart margin={{ top: 10, right: 10,left: -30, bottom: 0 }}
+                            <ResponsiveContainer width={'100%'} minHeight={150} >
+                                <LineChart margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
                                     data={data}>
                                     <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                                     <XAxis dataKey="days" tick={{ fill: 'white' }} />
@@ -93,12 +93,12 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                     </div>
                     <div className="graph">
                         <div className={"titleheader"}>
-                            <Typography.Text strong style={{paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
+                            <Typography.Text strong style={{ paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
                         </div>
                         <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} minHeight={100}  >
+                            <ResponsiveContainer width={'100%'} minHeight={150}  >
                                 <LineChart data={data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#717171" />
+                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                                     <XAxis dataKey="days" tick={{ fill: 'white' }} />
                                     <Tooltip />
                                     <Legend />
@@ -113,9 +113,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                             <Typography.Text strong style={{ paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
                         </div>
                         <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} minHeight={100}  >
+                            <ResponsiveContainer width={'100%'} minHeight={150}  >
                                 <LineChart data={data} margin={{ top: 10, left: -20, right: 10, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#717171" />
+                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                                     <XAxis dataKey="days" tick={{ fill: 'white' }} />
                                     <Tooltip />
                                     <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
