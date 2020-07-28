@@ -83,7 +83,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                                 <LineChart margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
                                     data={data}>
                                     <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                                    <XAxis dataKey="days" tick={{ fill: 'white' }} />
+                                    <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
                                     <Tooltip />
                                     <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
                                     <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
@@ -99,7 +99,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                             <ResponsiveContainer width={'100%'} minHeight={150}  >
                                 <LineChart data={data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                                    <XAxis dataKey="days" tick={{ fill: 'white' }} />
+                                    <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
                                     <Tooltip />
                                     <Legend />
                                     <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
@@ -116,7 +116,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                             <ResponsiveContainer width={'100%'} minHeight={150}  >
                                 <LineChart data={data} margin={{ top: 10, left: -20, right: 10, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                                    <XAxis dataKey="days" tick={{ fill: 'white' }} />
+                                    <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
                                     <Tooltip />
                                     <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
                                     <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />

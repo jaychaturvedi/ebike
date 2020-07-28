@@ -1,6 +1,6 @@
 import './index.scss';
 import React, { PureComponent, useState } from 'react';
-import { DownOutlined, DownCircleFilled, RightSquareOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
 import { ReactComponent as Severity } from "../../assets/severity_icon.svg"
 import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
@@ -73,7 +73,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             openSinceClicked: false,
             severityClicked: false,
         }
-        // this.handleClickTime=this.handleClickTime.bind(this);
     }
 
     renderClass = () => {

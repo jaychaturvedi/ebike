@@ -10,9 +10,6 @@
 }
 
 .ant-table-thead {
-    // tr {
-    //     text-align: left;
-    // }
 
     tr {
 
@@ -63,16 +60,6 @@ td.ant-table-column-sort {
 .ant-pagination-item-active {
     background: none !important;
     border: none !important;
-}
-
-.alert-down-circle {
-    transform: rotate(0deg);
-    transition: transform 1ms linear;
-    display: flex;
-    justify-content: center;
-    padding: 2px;
-    float: right;
-    margin-left: 10px;
 }
 
 .container {
@@ -144,6 +131,16 @@ td.ant-table-column-sort {
     justify-content: center;
     float: left;
     cursor: pointer;
+}
+
+.alert-down-circle {
+    transform: rotate(0deg);
+    transition: transform 1ms linear;
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    float: right;
+    margin-left: 10px;
 }
 
 .alert-down-circle.open {

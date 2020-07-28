@@ -32,9 +32,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             <AlertInsights />
                         </div>
                         <div className={"alert-bottom-content-right"}>
-                            <div className={"connectm-header"}>
+                            {/* <div className={"connectm-header"}>
                                 <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
-                            </div>
+                            </div> */}
                             <AlertPastTable />
                         </div>
                     </div>
