@@ -69,7 +69,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 offset={0}
                                 content={props => { return this.DynamicLabel(props) }}
                             />                        </XAxis>
-                        <YAxis tick={{ fill: 'white', color: 'white' }} padding={{ top: 20, bottom: 30 }}>
+                        <YAxis tick={{ fill: 'white' }} padding={{ top: 20, bottom: 30 }}>
                             <Label angle={270} position='left' offset={-10} fill="#ffffff"
                                 style={{
                                     fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'

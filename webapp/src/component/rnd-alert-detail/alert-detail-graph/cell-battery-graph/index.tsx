@@ -76,13 +76,13 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                         margin={{
                             top: 0, right: 0, left: 0, bottom: 0,
                         }}
-                        barSize={20}
+                        maxBarSize={50}
                     >
                         <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} hide={false} />
                         <YAxis tick={{ fill: 'white' }} orientation="right" />
                         {/* <Tooltip /> */}
                         {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                        <Bar dataKey="uv" fill="green" background={{ fill: '#2D3456' }} />
+                        <Bar dataKey="uv" fill="green" background={{ fill: '#2D3456' }} radius={[10, 10, 0, 0]} />
                     </BarChart>
                 </ResponsiveContainer>
                 <ResponsiveContainer width="100%" height="50%">
@@ -91,16 +91,16 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                         margin={{
                             top: 0, right: 0, left: 0, bottom: 0,
                         }}
-                        barSize={20}
+                        maxBarSize={50}
                     >
-                        <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} />
+                        <XAxis hide dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} />
                         <YAxis tick={{ fill: 'white' }} orientation="right" />
                         {/* <Tooltip /> */}
                         <Legend />
                         {/* <CartesianGrid strokeDasharray="3 3" /> */}
                         {/* <ReferenceLine y={3200} stroke="#000" /> */}
 
-                        <Bar dataKey="uv" fill="green" background={{ fill: '#2D3456' }} />
+                        <Bar dataKey="uv" fill="green" background={{ fill: '#2D3456' }} strokeWidth={80} radius={[10, 10, 0, 0]} />
                     </BarChart>
                 </ResponsiveContainer>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>

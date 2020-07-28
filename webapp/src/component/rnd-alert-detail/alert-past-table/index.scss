@@ -2,7 +2,7 @@
 @import "~antd/dist/antd.css";
 
 .connectm-AlertPastTable {
-    width: 100%;
+    width: 100wh;
     // height: 40%;
     background-color: #272B3C;
     border-radius: 2%;
@@ -47,7 +47,7 @@
         // max-height: 350px;
 
         //use media screen size to set height
-        height: 320px  !important; //change table height here
+        height: 38vh !important; //change table height here
         // for test scrren
         // height: 100%;
         overflow-y: auto;
