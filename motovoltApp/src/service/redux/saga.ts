@@ -99,16 +99,14 @@ function* disconnectBle(params: BLEActions.DisconnectBLE) {
 //Onboarding
 function* signIn(params: AuthenticationActions.SignIn) {
     const response = yield call(Authentication.signIn, params.payload.mobileNumber, params.payload.password)
-    if (response.success) {
-        // call fetch user API
-        console.log(response.user)
-        yield put({
-            type: 'Store_UpdateUser',
-            payload: {
-                isLoggedIn: true,
-            }
-        } as Store_UpdateUser)
-    }
+    // call fetch user API
+    console.log(response.user)
+    yield put({
+        type: 'Store_UpdateUser',
+        payload: {
+            isLoggedIn: response.success,
+        }
+    } as Store_UpdateUser)
 }
 
 function* signUp(params: AuthenticationActions.SignUp) {
