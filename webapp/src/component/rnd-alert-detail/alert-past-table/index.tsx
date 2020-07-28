@@ -2,19 +2,19 @@ import './index.scss';
 import { Layout } from "antd";
 import React, { PureComponent } from 'react';
 
-interface HomeProps { }
+interface AlertPastTableProps { }
 
-interface HomeStates { }
+interface AlertPastTableStates { }
 
-class Home extends PureComponent<HomeProps, HomeStates> {
+class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableStates> {
 
     render() {
         return (
-            <div className="connectm-home">
+            <div className="connectm-AlertPastTable">
             </div>
         )
     }
 
 }
 
-export default Home;
+export default AlertPastTable;

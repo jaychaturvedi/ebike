@@ -1,10 +1,10 @@
 import './index.scss';
-import { Layout } from "antd";
+import { Button, Typography } from "antd";
 import React, { PureComponent } from 'react';
 
-interface AlertDetailSingleProps { }
+interface AlertDetailSingleProps {}
 
-interface AlertDetailSingleStates { }
+interface AlertDetailSingleStates {}
 
 class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetailSingleStates> {
 
@@ -12,40 +12,45 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
         return (
             <div className="connectm-AlertDetailSingle">
                 <div className={"single-row"}>
-                    <div>Alert Name:</div>
-                    <div>Capacity Deterioration</div>
+                    <div className={"single-cell-left"}>Alert Name:</div>
+                    <div className={"single-cell-right"}>Capacity Deterioration</div>
                 </div>
                 <div className={"single-row"}>
-                    <div>Alert Time:</div>
-                    <div>15-May-2020 10:05 AM</div>
+                    <div className={"single-cell-left"}>Alert Time:</div>
+                    <div className={"single-cell-right"}>15-May-2020 10:05 AM</div>
                 </div>
                 <div className={"single-row"}>
-                    <div>Open Since:</div>
-                    <div>48 hrs 10 mins</div>
+                    <div className={"single-cell-left"}>Open Since:</div>
+                    <div className={"single-cell-right"}>48 hrs 10 mins</div>
                 </div>
                 <div className={"single-row"}>
-                    <div>Vehicle ID:</div>
-                    <div>BLR 327490</div>
+                    <Button className={"clear-alert-button"}>
+                        <Typography.Text style={{ color: "black" }} strong>CLEAR ALERT</Typography.Text>
+                    </Button>
                 </div>
                 <div className={"single-row"}>
-                    <div>Model:</div>
-                    <div>Kivo Easy</div>
+                    <div className={"single-cell-left"}>Vehicle ID:</div>
+                    <div className={"single-cell-right"}>BLR 327490</div>
                 </div>
                 <div className={"single-row"}>
-                    <div>Mfg Date:</div>
-                    <div>15-Feb-2020</div>
+                    <div className={"single-cell-left"}>Model:</div>
+                    <div className={"single-cell-right"}>Kivo Easy</div>
                 </div>
                 <div className={"single-row"}>
-                    <div>Battery ID:</div>
-                    <div>BAT 123456</div>
+                    <div className={"single-cell-left"}>Mfg Date:</div>
+                    <div className={"single-cell-right"}>15-Feb-2020</div>
                 </div>
                 <div className={"single-row"}>
-                    <div>Customer ID:</div>
-                    <div>CUS 123456</div>
+                    <div className={"single-cell-left"}>Battery ID:</div>
+                    <div className={"single-cell-right"}>BAT 123456</div>
                 </div>
                 <div className={"single-row"}>
-                    <div>Location:</div>
-                    <div>Kolkata</div>
+                    <div className={"single-cell-left"}>Customer ID:</div>
+                    <div className={"single-cell-right"}>CUS 123456</div>
+                </div>
+                <div className={"single-row"}>
+                    <div className={"single-cell-left"}>Location:</div>
+                    <div className={"single-cell-right"}>Kolkata</div>
                 </div>
             </div>
         )

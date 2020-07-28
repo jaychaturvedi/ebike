@@ -2,19 +2,19 @@ import './index.scss';
 import { Layout } from "antd";
 import React, { PureComponent } from 'react';
 
-interface HomeProps { }
+interface AlertDetailGraphProps { }
 
-interface HomeStates { }
+interface AlertDetailGraphStates { }
 
-class Home extends PureComponent<HomeProps, HomeStates> {
+class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailGraphStates> {
 
     render() {
         return (
-            <div className="connectm-home">
+            <div className="connectm-AlertDetailGraph">
             </div>
         )
     }
 
 }
 
-export default Home;
+export default AlertDetailGraph;

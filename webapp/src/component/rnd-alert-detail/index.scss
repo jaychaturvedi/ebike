@@ -8,7 +8,7 @@
     position: absolute;
     left: 80px;
     padding-bottom: 20px;
-    padding-left: 20Px;
+    padding-left: 20px;
     padding-right: 20px;
 }
 
@@ -39,6 +39,9 @@
     flex-direction: column;
 
     .alert-top-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         min-height: 50%;
         border: 1px solid #ffffff;
     }
@@ -46,5 +49,29 @@
     .alert-bottom-container {
         min-height: 50%;
         border: 1px solid #ffffff;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .alert-bottom-content-left {
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            .connectm-header {
+                height: 15%;
+                display: flex;
+                align-items: center;
+            }
+        }
+        .alert-bottom-content-right {
+            width: 79%;
+            display: flex;
+            flex-direction: column;
+            margin-left: 1%;
+            .connectm-header {
+                height: 15%;
+                display: flex;
+                align-items: center;
+            }
+        }
     }
 }

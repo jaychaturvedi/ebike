@@ -1,18 +1,36 @@
 @import "../../../global.scss";
 @import "~antd/dist/antd.css";
 
-
-.connectm-AlertDetailSingle{
-    max-width: 25%;
+.connectm-AlertDetailSingle {
+    width: 20%;
     height: 100%;
     background-color: $TABLE_ROW_DARK;
     border-radius: 2%;
     padding: 10px;
     display: flex;
+    font-size: 12px;
     flex-direction: column;
-    .single-row{
+    justify-content: space-between;
+    .single-row {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        .single-cell-left {
+            width: 40%;
+
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 4%;
+        }
+        .single-cell-right {
+            width: 60%;
+        }
+
+        .clear-alert-button {
+            background-color: $APPLY_BUTTON !important;
+            border: none !important;
+            margin-left: 2.5%;
+            border-radius: 10%;
+        }
     }
 }

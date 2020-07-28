@@ -1,7 +1,10 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, Typography } from 'antd';
 import AlertDetailSingle from "./alert-detail-single"
+import AlertInsights from "./alert-additional-insights"
+import AlertDetailGraph from "./alert-detail-graph"
+import AlertPastTable from "./alert-past-table"
 interface AlertDetailProps { }
 
 interface AlertDetailStates { }
@@ -18,13 +21,22 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 </Breadcrumb>
                 <div className={"connectm-alert-detail-container"}>
                     <div className={"alert-top-container"}>
-                        <AlertDetailSingle/>
-                        {/* //graph */}
+                        <AlertDetailSingle />
+                        <AlertDetailGraph />
                     </div>
                     <div className={"alert-bottom-container"}>
-                        Bottom
-                        {/* //ins */}
-                        {/* //past table */}
+                        <div className={"alert-bottom-content-left"}>
+                            <div className={"connectm-header"}>
+                                <Typography.Text style={{ color: "#ffffff" }} strong>ADDITIONAL INSIGHTS</Typography.Text>
+                            </div>
+                            <AlertInsights />
+                        </div>
+                        <div className={"alert-bottom-content-right"}>
+                            <div className={"connectm-header"}>
+                                <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
+                            </div>
+                            <AlertPastTable />
+                        </div>
                     </div>
                 </div>
             </div>
