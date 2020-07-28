@@ -53,7 +53,7 @@ type TRide = {
 
 type TUser = {
     isStale: boolean,
-    isLoggedIn: boolean,
+    isLoggedIn: boolean | null,
     id: string,
     phone: string,
     name: string,
@@ -109,7 +109,7 @@ const ZeroOnboarding: TOnboarding = {
 
 const ZeroUser: TUser = {
     isStale: true,
-    isLoggedIn: false,
+    isLoggedIn: null,
     id: "",
     phone: "",
     name: "",
