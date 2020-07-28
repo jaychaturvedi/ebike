@@ -51,9 +51,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
 
     trendPeriod = (
         <Menu onClick={this.handlePeriodChange}>
-            <Menu.Item key="Today">
-                Today
-        </Menu.Item>
             <Menu.Item key="Last 7 Days">
                 Last 7 Days
         </Menu.Item>
@@ -68,7 +65,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         return <>
             <div className="connectm-RandDTrends">
                 <div className="trends-header">
-                    <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "2px" }}>TRENDS</Typography.Text>
+                    <Typography.Text strong style={{ paddingLeft: "2px" }}>TRENDS</Typography.Text>
                     <Dropdown overlay={this.trendPeriod} trigger={['click']}>
                         <Typography.Text className={"pair trend-dropdown-active"} style={{ paddingLeft: "2px", whiteSpace: "nowrap", minWidth: "50%" }}>
                             {this.state.trendsPeriod}
@@ -78,12 +75,12 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </div>
                 <div className={"trends-graph"}>
                     <div className="graph">
-                        <div className={"titleheader"}>
-                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Total Alerts</Typography.Text>
+                        <div className={"titleheader total-alerts"}>
+                            <Typography.Text strong style={{ paddingLeft: "10px" }} >Total Alerts</Typography.Text>
                         </div>
                         <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} height={150} >
-                                <LineChart margin={{ top: 0, right: 10, left: -30, bottom: 0 }}
+                            <ResponsiveContainer width={'100%'} minHeight={150} >
+                                <LineChart margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
                                     data={data}>
                                     <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                                     <XAxis dataKey="days" tick={{ fill: 'white' }} />
@@ -96,12 +93,12 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                     </div>
                     <div className="graph">
                         <div className={"titleheader"}>
-                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
+                            <Typography.Text strong style={{ paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
                         </div>
                         <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} height={150}  >
-                                <LineChart data={data} margin={{ top: 0, right: 10, left: -30, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#717171" />
+                            <ResponsiveContainer width={'100%'} minHeight={150}  >
+                                <LineChart data={data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
+                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                                     <XAxis dataKey="days" tick={{ fill: 'white' }} />
                                     <Tooltip />
                                     <Legend />
@@ -113,12 +110,12 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                     </div>
                     <div className="graph">
                         <div className={"titleheader"}>
-                            <Typography.Text strong style={{ color: "#ffffff", paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
+                            <Typography.Text strong style={{ paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
                         </div>
                         <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} height={150}  >
-                                <LineChart data={data} margin={{ top: 0, left: -20, right: 10, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#717171" />
+                            <ResponsiveContainer width={'100%'} minHeight={150}  >
+                                <LineChart data={data} margin={{ top: 10, left: -20, right: 10, bottom: 0 }}>
+                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                                     <XAxis dataKey="days" tick={{ fill: 'white' }} />
                                     <Tooltip />
                                     <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />

@@ -8,7 +8,7 @@ import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
 import { Table, Select, Button, Pagination } from 'antd';
-const paginationDate = ['10', '20', '30'];
+const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
 type TData = {
@@ -32,7 +32,8 @@ for (var i = 1; i < 101; i++) {
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
         openSince: "24 hrs " + i + "0 min",
-        severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}><Severity height="15" width="15" /></span>,
+        severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}>
+            <Severity height="15" width="15" className={`${i == 1 ? "" : i % 2 ? "severity-color-major" : "severity-color-minor"}`} /></span>,
         location: "Bangalore " + i
     })
 }
@@ -63,12 +64,12 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             isAsc: false,
             sortingKey: '',
             isDesc: true,
-            classname: '',
+            classname: 'alert-down-circle',
             sortDirections: 'ascend',
             loading: false,
             alertClicked: false,
             modelClicked: false,
-            timeClicked: false,
+            timeClicked: true,
             openSinceClicked: false,
             severityClicked: false,
         }
@@ -193,6 +194,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         // this.setState({ total: datas.length })
         const sortedData = sortingKey ? this.handleColumnSort(data, sortingKey) : data
         return sortingKey ? isDesc ? sortedData.reverse() : sortedData : data;
+
     };
 
     render() {
@@ -203,7 +205,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 dataIndex: 'alertName', defaultSortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
                     {alertClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} />}
                 </span>,
             },
             {
@@ -211,13 +213,13 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 title:
                     <span className="header-sorter" onClick={this.handleClickModel}> Model
                         {modelClicked ? <ActiveSort height='20px' width='20px'
-                            className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                            className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} />}
                     </span>,
             },
             {
                 dataIndex: 'vehicleId', key: 'vehicleId',
                 // sortDirections: ['descend', 'ascend'], headerSort: false,                
-                title: <span className="header-sorter" > Vehicle Id </span>
+                title: <span > Vehicle Id </span>
 
             },
             {
@@ -225,21 +227,21 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 sortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
                         {timeClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
                 </span>,
             },
             {
                 dataIndex: 'openSince', key: 'openSince', width: 150,
                 title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
                         {openSinceClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
                 </span>,
             },
             {
                 dataIndex: 'severity', key: 'severity', width: 100,
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
                         {severityClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
                 </span>,
             },
             {
@@ -254,9 +256,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             <div className="container" >
                 <div className={'table-body'}>
                     <Table
-                        tableLayout={"fixed"}
+                        tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        size={"middle"}
+                        // scroll={{ y: "500", x: 'max-content'}}
+                        // size={"middle"}
                         bordered={false}
                         className="ant-table-thead"
                         onChange={this.handleTableChange}
@@ -269,8 +272,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         loading={false}
                     />
                 </div>
-                <div style={{ display: 'flex', justifyContent: "space-between", float: 'right', marginTop: '20px' }}
-                    className={"pagination-footer"}>
+                <div className={"pagination-footer"}>
                     Showing &nbsp;&nbsp;&nbsp; <span >
                         <Select className={'select-button'} style={{ height: 30 }}
                             defaultValue={this.state.pageSize} onChange={this.handleSelect}>

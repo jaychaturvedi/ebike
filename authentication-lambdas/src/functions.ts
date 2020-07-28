@@ -38,19 +38,19 @@ export function createOptions(url: string, body: any, method: "POST" | "GET") {
 
 module.exports.preSignUp = async (event: any) => {
     console.log("signup", event)
-    // const body = {
-    //     "phone_number": event.request.userAttributes.phone_number
-    // }
-    //connectM call
-    // const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
-    // const response: any = await rp(options);
-    const response: any = { "frameId": "123qawsedrftgiop" }
+    const body = {
+        "phone_number": event.request.userAttributes.phone_number
+    }
+    // connectM call
+    const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
+    const response: any = await rp(options);
+    // const response: any = { "frameId": "123qawsedrftgiop" }
     console.log("frame verification response", response)
     // if (response.ec) {
     //     throw new Error("User have not registered any framId")
     // }
-    event.response.autoConfirmUser = true;
-    event.response.autoVerifyPhone = true;
+    // event.response.autoConfirmUser = true;
+    // event.response.autoVerifyPhone = true;
     return event;
 }
 

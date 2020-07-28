@@ -3,29 +3,28 @@
 
 .table-row-light {
     background: $TABLE_ROW_DARK;
-    white-space: pre-wrap;
 }
 
 .table-row-dark {
     background: $TABLE_ROW_LIGHT;
 }
 
-.ant-table table {
-    height: calc(100% - 25px);
-
-    overflow: hidden !important;
-    text-indent: 10px;
-    // height: 450px;
-}
-
 .ant-table-thead {
+    // tr {
+    //     text-align: left;
+    // }
 
     tr {
 
         th {
+            border: 1px solid yellow;
+            position: sticky;
+            top: 0;
+            z-index: 2;
             background: $TABLE_ROW_LIGHT !important;
-            text-indent: 5px;
+            text-align: left;
             font-size: 14px;
+
         }
     }
 }
@@ -74,22 +73,46 @@ td.ant-table-column-sort {
     padding: 2px;
     float: right;
     margin-left: 10px;
-
 }
 
 .container {
-    padding-right: 30px;
+
+    // border: 1px solid red;
+    .ant-table table {
+        // height: calc(100% - 25px);
+        overflow: hidden !important;
+        text-indent: 10px;
+        border-top-left-radius: none;
+        border-top-right-radius: none;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        // height: 450px;
+    }
+
+    .ant-table {
+        background-color: transparent;
+    }
+
+    // padding-right: 30px;
 
     .table-body {
+        // display: block !important;
+        // max-height: 350px;
 
-        height: 490px !important;
+        //use media screen size to set height
+        height: 400px !important;
+        // for test scrren
+        // height: 100%;
         overflow-y: auto;
         /* Trigger vertical scroll    */
         overflow-x: auto;
     }
 
     .pagination-footer {
-        padding-top: 20px;
+        // border: 1px solid yellow;
+        padding-top: 2%;
+        display: flex;
+        justify-content: flex-end;
 
         .nav-button {
             .icon {
@@ -113,20 +136,17 @@ td.ant-table-column-sort {
         .spacer {
             width: 30px;
         }
-
     }
 }
-
 
 .header-sorter {
     display: flex;
     justify-content: center;
     float: left;
+    cursor: pointer;
 }
 
-
 .alert-down-circle.open {
-
     transform: rotate(180deg);
     transition: transform 1ms linear;
     display: flex;
@@ -134,14 +154,11 @@ td.ant-table-column-sort {
     padding: 2px;
     float: right;
     margin-left: 10px;
-
-
 }
 
 .ant-table-column-sorter-full {
     display: none;
 }
-
 
 // .fa-arrow-down.open {
 //     -ms-transform: rotate(180deg);
@@ -171,3 +188,22 @@ td.ant-table-column-sort {
 //     background: none;
 //     color: black;
 // }
+
+// .ant-table-tbody{
+//     display: block;
+// }
+
+.severity-color-major>circle {
+    fill: $MAJOR;
+}
+
+.severity-color-minor>circle {
+    fill: $MINOR;
+}
+
+.ant-table-thead>tr>th,
+.ant-table-tbody>tr>td,
+.ant-table tfoot>tr>th,
+.ant-table tfoot>tr>td {
+    padding: 0.8% 0.8%;
+}
