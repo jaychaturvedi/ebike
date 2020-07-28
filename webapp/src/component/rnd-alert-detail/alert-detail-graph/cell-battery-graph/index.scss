@@ -1,4 +1,4 @@
-@import "../../../global.scss";
+@import "../../../../global.scss";
 @import "~antd/dist/antd.css";
 
 .connectm-AlertDetailGraph {
@@ -19,8 +19,8 @@
         align-items: center;
     }
 
-    .recharts-responsive-container {
-        // font-size: 12px;
-        background-color: $GRAPH_BACKGROUND;
-    }
+    // .recharts-responsive-container {
+  //     // font-size: 12px;
+  //     // background-color: $GRAPH_BACKGROUND;
+  // }
 }

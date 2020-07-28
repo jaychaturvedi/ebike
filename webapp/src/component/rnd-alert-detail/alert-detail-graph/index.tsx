@@ -51,25 +51,25 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>Mileage Graph</Typography.Text>
+                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>Low Mileage</Typography.Text>
                 </div>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                         data={data}
                         margin={{
-                            top: 5, right: 10, left: 5, bottom: 20,
+                            top: 0, right: 0, left: 0, bottom: 0,
                         }}
                     >
-                        {/* <Legend /> */}
-                        <CartesianGrid strokeDasharray="3 3 5 2" stroke="#818181" />
-                        <XAxis dataKey="name" tick={{ fill: 'white' }} interval="preserveEnd" >
+                        <Legend wrapperStyle={{ top: -18, left: 30 }} />
+                        <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
+                        <XAxis dataKey="name" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 30, right: 20 }}>
                             <Label
                                 value="No. of Cycles"
                                 position="bottom"
                                 offset={0}
                                 content={props => { return this.DynamicLabel(props) }}
                             />                        </XAxis>
-                        <YAxis tick={{ fill: 'white', color: 'white' }} >
+                        <YAxis tick={{ fill: 'white', color: 'white' }} padding={{ top: 20, bottom: 30 }}>
                             <Label angle={270} position='left' offset={-10} fill="#ffffff"
                                 style={{
                                     fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
