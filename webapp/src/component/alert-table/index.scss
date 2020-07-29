@@ -65,15 +65,16 @@ td.ant-table-column-sort {
 }
 
 .container {
+    height: 100%;
+    // height: calc(100% - 250px);
 
     // border: 1px solid red;
     .ant-table table {
-        // height: calc(100% - 25px);
         overflow: hidden !important;
         text-indent: 10px;
         border-top-left-radius: none;
         border-top-right-radius: none;
-        border-bottom-left-radius: 10px;
+        // border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
         // height: 450px;
     }
@@ -83,19 +84,19 @@ td.ant-table-column-sort {
     }
 
     // padding-right: 30px;
+    // .table-body {
+    //     // display: block !important;
+    //     // max-height: 350px;
+    //     height: 68%;
 
-    .table-body {
-        // display: block !important;
-        // max-height: 350px;
-
-        //use media screen size to set height
-        height: calc(100vh - 235px) !important;
-        // for test scrren
-        // height: 100%;    
-        overflow-y: auto;
-        /* Trigger vertical scroll    */
-        overflow-x: auto;
-    }
+    //     //use media screen size to set height
+    //     // height: calc(100vh - 235px) !important;
+    //     // for test scrren
+    //     // height: 100%;
+    //     overflow-y: scroll;
+    //     /* Trigger vertical scroll    */
+    //     overflow-x: auto;
+    // }
 
     .pagination-footer {
         // border: 1px solid yellow;
@@ -200,9 +201,9 @@ td.ant-table-column-sort {
     fill: $MINOR;
 }
 
-// .ant-table-thead>tr>th,
-// .ant-table-tbody>tr>td,
-// .ant-table tfoot>tr>th,
-// .ant-table tfoot>tr>td {
-//     // padding: 0.8% 0.8%;
-// }
+.ant-table-thead>tr>th,
+.ant-table-tbody>tr>td,
+.ant-table tfoot>tr>th,
+.ant-table tfoot>tr>td {
+    padding: 8px 8px;
+}

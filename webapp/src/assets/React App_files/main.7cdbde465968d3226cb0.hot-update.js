@@ -1,0 +1,24 @@
+webpackHotUpdate("main",{
+
+/***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/resolve-url-loader/index.js?!./node_modules/sass-loader/dist/cjs.js?!./src/component/alert-table/index.scss":
+/*!**************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--6-oneOf-5-1!./node_modules/postcss-loader/src??postcss!./node_modules/resolve-url-loader??ref--6-oneOf-5-3!./node_modules/sass-loader/dist/cjs.js??ref--6-oneOf-5-4!./src/component/alert-table/index.scss ***!
+  \**************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+var ___CSS_LOADER_AT_RULE_IMPORT_0___ = __webpack_require__(/*! -!../../../node_modules/css-loader/dist/cjs.js??ref--6-oneOf-5-1!../../../node_modules/postcss-loader/src??postcss!../../../node_modules/resolve-url-loader??ref--6-oneOf-5-3!../../../node_modules/sass-loader/dist/cjs.js??ref--6-oneOf-5-4!antd/dist/antd.css */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/resolve-url-loader/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/antd/dist/antd.css");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+exports.i(___CSS_LOADER_AT_RULE_IMPORT_0___);
+// Module
+exports.push([module.i, ".table-row-light {\n  background: #2D3456; }\n\n.table-row-dark {\n  background: #3C4473; }\n\n.ant-table-thead tr {\n  border: 1px solid yellow;\n  position: sticky;\n  top: 0;\n  z-index: 2; }\n  .ant-table-thead tr th {\n    border: 1px solid yellow;\n    background: #3C4473 !important;\n    text-align: left;\n    font-size: 14px; }\n\ntable,\ntr,\ntd,\nth {\n  border: none !important;\n  font-size: 12px;\n  color: #ffffff !important; }\n\n.ant-table-row:hover {\n  background-color: #8699ff !important; }\n\n.ant-table-tbody > tr.ant-table-row:hover > td {\n  background: none !important; }\n\ntd.ant-table-column-sort {\n  background: none !important; }\n\n.ant-pagination {\n  color: #ffffff !important; }\n\n.ant-pagination-item > a {\n  color: #ffffff !important; }\n\n.ant-pagination-item-active {\n  background: none !important;\n  border: none !important; }\n\n.container {\n  border: 1px solid red; }\n  .container .ant-table table {\n    overflow: hidden !important;\n    text-indent: 10px;\n    border-top-left-radius: none;\n    border-top-right-radius: none;\n    border-bottom-left-radius: 10px;\n    border-bottom-right-radius: 10px; }\n  .container .ant-table {\n    background-color: transparent; }\n  .container .table-body {\n    height: calc(400px + 0.5vh) !important;\n    overflow-y: auto;\n    /* Trigger vertical scroll    */\n    overflow-x: auto; }\n  .container .pagination-footer {\n    border: 1px solid yellow;\n    padding-top: 2%;\n    display: flex;\n    justify-content: flex-end; }\n    .container .pagination-footer .nav-button .icon {\n      width: 30px;\n      height: 30px; }\n    .container .pagination-footer .select-button {\n      border-radius: 3px;\n      overflow: hidden;\n      -webkit-appearance: none;\n         -moz-appearance: none;\n              appearance: none;\n      background-color: transparent;\n      border-radius: 10px 10px 10px 10px;\n      width: 60px; }\n    .container .pagination-footer .spacer {\n      width: 30px; }\n\n.header-sorter {\n  display: flex;\n  justify-content: center;\n  float: left;\n  cursor: pointer; }\n\n.alert-down-circle {\n  transform: rotate(0deg);\n  transition: transform 1ms linear;\n  display: flex;\n  justify-content: center;\n  padding: 2px;\n  float: right;\n  margin-left: 10px; }\n\n.alert-down-circle.open {\n  transform: rotate(180deg);\n  transition: transform 1ms linear;\n  display: flex;\n  justify-content: center;\n  padding: 2px;\n  float: right;\n  margin-left: 10px; }\n\n.ant-table-column-sorter-full {\n  display: none; }\n\n.severity-color-major > circle {\n  fill: #F88828; }\n\n.severity-color-minor > circle {\n  fill: #EBDA05; }\n", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ })
+
+})
+//# sourceMappingURL=main.7cdbde465968d3226cb0.hot-update.js.map

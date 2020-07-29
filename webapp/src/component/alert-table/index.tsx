@@ -227,7 +227,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span>,
             },
             {
-                dataIndex: 'vehicleId', key: 'vehicleId',
+                dataIndex: 'vehicleId', key: 'vehicleId', width: 100,
                 // sortDirections: ['descend', 'ascend'], headerSort: false,                
                 title: <span > Vehicle Id </span>
 
@@ -268,7 +268,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     <Table
                         tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        // scroll={{ y: "500", x: 'max-content'}}
+                        scroll={{ y: '38vh' }}
                         // size={"middle"}
                         bordered={false}
                         className="ant-table-thead"

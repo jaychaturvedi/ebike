@@ -67,66 +67,51 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 <div className="trends-header">
                     <Typography.Text strong style={{ paddingLeft: "2px" }}>TRENDS</Typography.Text>
                     <Dropdown overlay={this.trendPeriod} trigger={['click']}>
-                        <Typography.Text className={"pair trend-dropdown-active"} style={{ paddingLeft: "2px", whiteSpace: "nowrap", minWidth: "50%" }}>
+                        <Typography.Text className={"pair trend-dropdown-active"}
+                            style={{ paddingLeft: "2px", whiteSpace: "nowrap", minWidth: "50%" }}>
                             {this.state.trendsPeriod}
                             <DownOutlined className={"flip"} style={{ marginLeft: "30px", paddingRight: "2px" }} />
                         </Typography.Text>
                     </Dropdown>
                 </div>
-                <div className={"trends-graph"}>
-                    <div className="graph">
-                        <div className={"titleheader total-alerts"}>
-                            <Typography.Text strong style={{ paddingLeft: "10px" }} >Total Alerts</Typography.Text>
-                        </div>
-                        <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} minHeight={150} >
-                                <LineChart margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
-                                    data={data}>
-                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                                    <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
-                                    <Tooltip />
-                                    <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
-                                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </div>
-                    <div className="graph">
-                        <div className={"titleheader"}>
-                            <Typography.Text strong style={{ paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
-                        </div>
-                        <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} minHeight={150}  >
-                                <LineChart data={data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                                    <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
-                                    <Tooltip />
-                                    <Legend />
-                                    <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
-                                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </div>
-                    <div className="graph">
-                        <div className={"titleheader"}>
-                            <Typography.Text strong style={{ paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
-                        </div>
-                        <div className={'line-chart'}>
-                            <ResponsiveContainer width={'100%'} minHeight={150}  >
-                                <LineChart data={data} margin={{ top: 10, left: -20, right: 10, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                                    <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
-                                    <Tooltip />
-                                    <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
-                                    <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
-
-                    </div>
+                <div className={"title-header"}>
+                    <Typography.Text strong style={{ paddingLeft: "10px" }} >Total Alerts</Typography.Text>
                 </div>
-
+                <ResponsiveContainer width="100%" height="28%">
+                    <LineChart margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
+                        data={data}>
+                        <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
+                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
+                        <Tooltip />
+                        <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
+                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                    </LineChart>
+                </ResponsiveContainer>
+                <div className={"title-header"}>
+                    <Typography.Text strong style={{ paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
+                </div>
+                <ResponsiveContainer width="100%" height="28%">
+                    <LineChart data={data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
+                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
+                        <Tooltip />
+                        <Legend />
+                        <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
+                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                    </LineChart>
+                </ResponsiveContainer>
+                <div className={"title-header"}>
+                    <Typography.Text strong style={{ paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
+                </div>
+                <ResponsiveContainer width="100%" height="28%">
+                    <LineChart data={data} margin={{ top: 10, left: -20, right: 10, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
+                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" />
+                        <Tooltip />
+                        <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} />
+                        <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
+                    </LineChart>
+                </ResponsiveContainer>
             </div>
         </>
     }
