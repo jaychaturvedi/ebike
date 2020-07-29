@@ -93,23 +93,27 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                         }}
                         maxBarSize={50}
                     >
-                        <XAxis hide dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} />
+                        <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} />
                         <YAxis tick={{ fill: 'white' }} orientation="right" />
-                        {/* <Tooltip /> */}
+                        <Tooltip cursor={{ fill: 'transparent' }} />
                         <Legend />
                         {/* <CartesianGrid strokeDasharray="3 3" /> */}
                         {/* <ReferenceLine y={3200} stroke="#000" /> */}
 
-                        <Bar dataKey="uv" fill="green" background={{ fill: '#2D3456' }} strokeWidth={80} radius={[10, 10, 0, 0]} />
+                        <Bar dataKey="uv" fill="green" background={{ fill: '#2D3456' }} radius={[10, 10, 0, 0]} />
                     </BarChart>
                 </ResponsiveContainer>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}><span>Max Cell Voltage : 3.888v </span><span>Cell Position : 3</span>  </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                        <span>Max Cell Voltage : 3.888v </span><span>Cell Position : 3</span>  </div>
                     <div style={{ width: '20px' }} />
-                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}><span>Min Cell Voltage : 3.888v </span><span>Cell Position : 2</span>  </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                        <span>Min Cell Voltage : 3.888v </span><span>Cell Position : 2</span>  </div>
                     <div style={{ width: '20px' }} />
-                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}><span>                    <Typography.Text style={{ color: "#fcc84a", fontSize: '13px' }} strong>Voltage Difference : 0.900V</Typography.Text>
-                    </span> </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                        <span><Typography.Text style={{ color: "#fcc84a", fontSize: '13px' }} strong>Voltage Difference : 0.900V
+                        </Typography.Text>
+                        </span> </div>
                 </div></div>
         )
     }
