@@ -5,7 +5,7 @@ export type TValidatePhone = {
     em: string //error message
 }
 
-export type TRideStats = {
+export type TBikeStat = {
     fid: string; //frameid
     co2sav: number; // co2savings
     totdist: number //total distance
@@ -20,19 +20,19 @@ export type TRideStats = {
 
 export type TBikeLiveDate = {
     fid: string; //frameid
-    ign: number; //ignition status
-    lc: number; //locked
+    ign: boolean; //ignition status
+    lc: boolean; //locked
     rngcvr: number;//range covered
     rngavail: number; //range available
     batchrgper: number; //battery charge perceentage
-    noty: number; //promotion
-    prom: number; //promotion
+    noty: boolean; //promotion
+    prom: boolean; //promotion
     st: string; //status
     ec: string; //error code
     em: string //error message
 }
 
-export type TCurrentLocation = {
+export type TLiveLocation = {
     lat: number; //latitude
     long: number; //longitude
     addr: string; //address
@@ -52,15 +52,15 @@ export type TCurrentRide = {
     timeelp: string; //unknown abbreviation
     avgspd: number; //average speed
     maxspd: number; //max speed
-    pa: number; //unknown
-    pm: number; //unknown
-    ign: number; //ignition
+    pa: boolean; //unknown
+    pm: boolean; //unknown
+    ign: boolean; //ignition
     st: string;
     ec: string;
     em: string
 }
 
-export type TEndRide = {
+export type TEndRideStat = {
     fid: string;
     dist: number; //distance
     dur: string; //duration
@@ -75,7 +75,7 @@ export type TEndRide = {
     em: string
 }
 
-export type TLocationHistory = {
+export type TEndRideGps = {
     lat: number; //latitude
     long: number; //longitude
     utc: string; //Event_utc last used
@@ -84,14 +84,15 @@ export type TLocationHistory = {
     em: string;
 }
 
-export type TBikeDetails = {
+export type TMyBike = {
     fid: string;
     mtrper: number; //motor percentage
-    batper: number; //battery percentage
+    batchrgper: number; //battery percentage
     batid: string; //battery id
-    bathlt: number; //battery health
+    bathltper: number; //battery health
     vehid: number; //vehicle id
     model: string; // vehicle model
+    type: string;
     servDate: string; //service date
     st: string;
     ec: string;
@@ -102,9 +103,14 @@ export type TRideHistory = {
     fid: string;
     dist: number; //distance
     kmph: number; //speed kmph
-    loc: string; //locationg name
+    pm: string;
+    pa: string;
+    ecom: string;
+    startloc: string;
+    endloc: string; //locationg name
     fromtime: string;
     totime: string;
+    rating: number;
     date: string;
     st: string;
     ec: string;
@@ -114,13 +120,25 @@ export type TRideHistory = {
 export type TRideHistoryStats = {
     fid: string; //frameid
     co2sav: number; // co2savings
+    dist: number //total distance
     grnmls: number; //green miles
     totdist: number //total distance
-    petlsav: number; //petrol saving
-    costrcv: number; // cost recovered
     avgspd: number; //average speed
     avgkmph: number; //unknown
     date: string;
+    speed: string;
+    st: string;
+    ec: string;
+    em: string;
+}
+
+export type TNotification = {
+    fid: string; //frameid
+    title: string;
+    description: string;
+    date: string;
+    type: boolean;
+    time: string;
     st: string;
     ec: string;
     em: string;
@@ -128,6 +146,8 @@ export type TRideHistoryStats = {
 
 export type TRequestBody = {
     frameid?: string;
+    pageSize?: number;
+    pageNo?: number
     phone_number?: string;
     startTime?: string;
     endTime?: string;

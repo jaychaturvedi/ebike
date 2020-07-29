@@ -9,7 +9,7 @@ export async function getSpeedometer(rideId: string) {
   const { batchrgper: batteryChargePer, rngcrv: rangeCovered, rngavail: rangeAvailable,
     dist: distance, kmph: speed, avgspd: averageSpeed, timeelp: timeElapsed,
     maxspd: maxSpeed, pa: pedalAssit, pm: powerMode, ign: ignitionstatus } =
-    await ConnectmApi.getCurrentRideDetails(frameId as string)
+    await ConnectmApi.getCurrentRide(frameId as string)
   const body = {
     batteryChargePer, rangeCovered, rangeAvailable, distance, averageSpeed,
     speed, maxSpeed, timeElapsed, pedalAssit, powerMode, ignitionstatus
@@ -29,7 +29,7 @@ export async function getEndRide(rideId: string) {
   const endTime = Date.now() as any as string
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
-    ptrlt: litreSaved } = await ConnectmApi.getEndRideDetails(frameId as string, startTime as string, endTime)
+    ptrlt: litreSaved } = await ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime)
   const body = {
     rideId, distance, duration, averageSpeed,
     maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime

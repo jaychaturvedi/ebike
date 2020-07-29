@@ -1,9 +1,9 @@
 import { get, post, put } from 'request-promise'
 import * as dotenv from "dotenv"
 import {
-    TValidatePhone, TRequestBody, TBikeDetails, TBikeLiveDate,
-    TCurrentLocation, TCurrentRide, TEndRide, TLocationHistory, TRideHistory,
-    TRideHistoryStats, TRideStats
+    TValidatePhone, TRequestBody, TMyBike, TBikeLiveDate,
+    TLiveLocation, TCurrentRide, TEndRideStat, TEndRideGps, TRideHistory,
+    TRideHistoryStats, TBikeStat, TNotification
 } from "./types";
 
 dotenv.config()
@@ -27,11 +27,11 @@ export default class ConnectmApi {
         return fetchedData
     }
 
-    static async getRideStats(frameId: string) {
+    static async getBikeStat(frameId: string) {
         const options = createOptions('/getstat', {
             frameid: frameId
         })
-        const fetchedData: TRideStats = await post(options)
+        const fetchedData: TBikeStat = await post(options)
         return fetchedData
     }
 
@@ -43,15 +43,15 @@ export default class ConnectmApi {
         return fetchedData
     }
 
-    static async getCurrentLocation(frameId: string) {
+    static async getLiveLocation(frameId: string) {
         const options = createOptions('/getliveloc', {
             frameid: frameId,
         })
-        const fetchedData: TCurrentLocation = await post(options)
+        const fetchedData: TLiveLocation = await post(options)
         return fetchedData
     }
 
-    static async getCurrentRideDetails(frameId: string) {
+    static async getCurrentRide(frameId: string) {
         const options = createOptions('/getcurride', {
             frameid: frameId
         })
@@ -59,47 +59,66 @@ export default class ConnectmApi {
         return fetchedData
     }
 
-    static async getEndRideDetails(frameId: string, startTime: string, endTime: string) {
+    static async getEndRideStat(frameId: string, startTime: string, endTime: string) {
         const options = createOptions('/getendridestat', {
             frameid: frameId,
             startTime,
             endTime
         })
-        const fetchedData: TEndRide = await post(options)
+        const fetchedData: TEndRideStat = await post(options)
         return fetchedData
     }
 
-    static async getLocationHistory(frameId: string, startTime: string, endTime: string) {
+    static async getEndRideGps(frameId: string, startTime: string, endTime: string) {
         const options = createOptions('/getendridegps', {
             frameid: frameId,
             startTime,
             endTime
         })
-        const fetchedData: TLocationHistory = await post(options)
+        const fetchedData: TEndRideGps[] = await post(options)
         return fetchedData
     }
 
-    static async getBikeDetails(frameId: string) {
+    static async getMyBike(frameId: string) {
         const options = createOptions('/getmycycle', {
             frameid: frameId
         })
-        const fetchedData: TBikeDetails = await post(options)
+        const fetchedData: TMyBike = await post(options)
         return fetchedData
     }
 
-    static async getRideHistory(frameId: string) {
+    static async getRideHistory(frameId: string, startTime: string, endTime: string, pageNo: number, pageSize: number) {
         const options = createOptions('/getridehistory', {
-            frameid: frameId
+            frameid: frameId,
+            pageSize,
+            pageNo,
+            startTime,
+            endTime
+
         })
         const fetchedData: TRideHistory = await post(options)
         return fetchedData
     }
 
-    static async getRideHistoryStats(frameId: string) {
+    static async getRideHistoryStat(frameId: string, startTime: string, endTime: string, pageNo: number, pageSize: number) {
         const options = createOptions('/getridehistorystat', {
-            frameid: frameId
+            frameid: frameId,
+            pageSize,
+            pageNo,
+            startTime,
+            endTime
         })
         const fetchedData: TRideHistoryStats = await post(options)
+        return fetchedData
+    }
+
+    static async getNotification(frameId: string, pageNo: number, pageSize: number) {
+        const options = createOptions('/getnotific', {
+            frameid: frameId,
+            pageSize,
+            pageNo,
+        })
+        const fetchedData: TNotification = await post(options)
         return fetchedData
     }
 

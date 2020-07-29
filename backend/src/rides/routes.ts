@@ -14,9 +14,9 @@ app.get('/:frameId', expressQAsync(secure),
         const frameId = req.params.frameId as string
         const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
             grnmls: greenMiles, costrcv: costRecovered } =
-            await ConnectmApi.getRideStats(frameId as string)
+            await ConnectmApi.getBikeStat(frameId as string)
         const { batchrgper: batteryCharge, rngcrv: rangeCovered, rngavail: rangeAvailable } =
-            await ConnectmApi.getCurrentRideDetails(frameId as string)//get LiveBikeData
+            await ConnectmApi.getCurrentRide(frameId as string)//get LiveBikeData
         const response = createResponse("OK", {
             co2sav, totalDistance, ratings, petrolSaved,
             greenMiles, costRecovered, batteryCharge, rangeCovered, rangeAvailable
@@ -85,28 +85,47 @@ app.get('/gpsPath/:rideId', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { rideId } = req.params as any
         const { frameId, startTime, endTime } = await Ride.findOne({ rideId })
-        const ridepath = await ConnectmApi.getLocationHistory(frameId as string, startTime as string, endTime as string)
+        const ridepath = await ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)
         const response = createResponse("OK", ridepath, undefined)
         res.json(response)
     })
 )
 //yantra will add more fields, code later to be changed
 app.get('/history', expressQAsync(secure),
+    [body('startTime', "can't be empty").isString().isLength({ min: 1 }),
+    body('endTime', "can't be empty").isString().isLength({ min: 1 }),
+    body('pageNo', "can't be empty").optional().toInt(),
+    body('pageSize', "can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { startTime, endTime, pageNo, pageSize } = req.body
         const { frameId } = await User.findByUid(res.locals.user.uid)
-        const history = await ConnectmApi.getRideHistory(frameId as string)
+        const history = await ConnectmApi.getRideHistory(frameId as string, startTime as string,
+            endTime as string, pageNo as number, pageSize as number)
+        const response = createResponse("OK", history, undefined)
+        res.json(response)
+    })
+)
+//get graph data points and other values
+app.get('/graphData', expressQAsync(secure),
+    [body('startTime', "can't be empty").isString().isLength({ min: 1 }),
+    body('endTime', "can't be empty").isString().isLength({ min: 1 }),
+    body('pageNo', "can't be empty").optional().toInt(),
+    body('pageSize', "can't be empty").optional().toInt(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { startTime, endTime, pageNo, pageSize } = req.body
+        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const history = await ConnectmApi.getRideHistoryStat(frameId as string, startTime as string,
+            endTime as string, pageNo as number, pageSize as number)
         const response = createResponse("OK", history, undefined)
         res.json(response)
     })
 )
 //single ride history details
 app.get('/details', expressQAsync(secure),
-    [query('startTime', "name can't be empty").isString().isLength({ min: 1 }),
-    query('endTime', "name can't be empty").isString().isLength({ min: 1 }), validate],
+    [param('rideId', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId, startTime, endTime } = req.query
-        const uid = res.locals.user.uid
-        const condition = { where: { uid, startTime, endTime } }
+        const { rideId } = req.param as any
+        const condition = { where: { rideId } }
         const newride = await Ride.findOne(condition)
         const response = createResponse("OK", newride, undefined)
         res.json(response)

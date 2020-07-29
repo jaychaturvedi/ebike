@@ -40,14 +40,25 @@ app.get('/liveLocation/:frameId', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const frameId = req.params.frameId as string
         const { lat: latitude, long: longitude, addr: address, utc: lastused } =
-            await ConnectmApi.getCurrentLocation(frameId as string)
+            await ConnectmApi.getLiveLocation(frameId as string)
         const response = createResponse("OK", {
             latitude, longitude, address, lastused
         }, undefined)
         res.json(response)
     })
 )
-
+//whether to check if notificatin is true or false
+app.get('/notification', expressQAsync(secure),
+    [body('pageNo', "can't be empty").optional().toInt(),
+    body('pageSize', "can't be empty").optional().toInt(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { pageNo, pageSize } = req.body
+        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const history = await ConnectmApi.getNotification(frameId as string, pageNo as number, pageSize as number)
+        const response = createResponse("OK", history, undefined)
+        res.json(response)
+    })
+)
 //update bikeName during registration
 app.put('/', expressQAsync(secure), [
     body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
