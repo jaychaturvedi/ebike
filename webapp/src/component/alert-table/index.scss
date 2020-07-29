@@ -64,7 +64,7 @@ td.ant-table-column-sort {
 
 .container {
 
-    // border: 1px solid red;
+    border: 1px solid red;
     .ant-table table {
         // height: calc(100% - 25px);
         overflow: hidden !important;
@@ -87,7 +87,7 @@ td.ant-table-column-sort {
         // max-height: 350px;
 
         //use media screen size to set height
-        height: calc(100vh - 235px)  !important;
+        height: calc(400px + 0.5vh)  !important;
         // for test scrren
         // height: 100%;
         overflow-y: auto;
@@ -96,7 +96,7 @@ td.ant-table-column-sort {
     }
 
     .pagination-footer {
-        // border: 1px solid yellow;
+        border: 1px solid yellow;
         padding-top: 2%;
         display: flex;
         justify-content: flex-end;
@@ -156,39 +156,6 @@ td.ant-table-column-sort {
 .ant-table-column-sorter-full {
     display: none;
 }
-
-// .fa-arrow-down.open {
-//     -ms-transform: rotate(180deg);
-//     /* IE 9 */
-//     -webkit-transform: rotate(180deg);
-//     /* Chrome, Safari, Opera */
-//     transform: rotate(180deg);
-//     transition: transform 1ms linear;
-// }
-
-// .ant-table-cell {
-//     cursor: pointer;
-//     text-align: center;
-//     color: white;
-
-//     .rotate {
-//         -ms-transform: rotate(180deg);
-//         /* IE 9 */
-//         -webkit-transform: rotate(180deg);
-//         /* Chrome, Safari, Opera */
-//         transform: rotate(180deg);
-//         transition: transform 1ms linear;
-//     }
-// }
-
-// .ant-table-tbody>tr:hover>td {
-//     background: none;
-//     color: black;
-// }
-
-// .ant-table-tbody{
-//     display: block;
-// }
 
 .severity-color-major>circle {
     fill: $MAJOR;
