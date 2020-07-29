@@ -15,9 +15,9 @@
 
         th {
             border: 1px solid yellow;
-            position: sticky;
-            top: 0;
-            z-index: 2;
+            // position: sticky;
+            // top: 0;
+            // z-index: 2;
             background: $TABLE_ROW_LIGHT !important;
             text-align: left;
             font-size: 14px;
@@ -87,7 +87,7 @@ td.ant-table-column-sort {
         // max-height: 350px;
 
         //use media screen size to set height
-        height: 400px !important;
+        height: calc(100vh - 235px)  !important;
         // for test scrren
         // height: 100%;
         overflow-y: auto;

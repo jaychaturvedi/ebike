@@ -8,6 +8,7 @@ import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
 import { Table, Select, Button, Pagination } from 'antd';
+import { withRouter, RouteComponentProps } from "react-router";
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
@@ -28,7 +29,7 @@ for (var i = 1; i < 101; i++) {
     datas.push({
         id: i,
         alertName: i % 2 ? "Capacity Deteroriation " : "Voltage Deviation",
-        model: "Calssic" + i,
+        model: "Classic" + i,
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
         openSince: "24 hrs " + i + "0 min",
@@ -38,8 +39,7 @@ for (var i = 1; i < 101; i++) {
     })
 }
 
-
-interface AlertProps {
+interface AlertProps extends RouteComponentProps{
     column?: any, data?: any,
 
 }
@@ -186,6 +186,17 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         });
     };
 
+    onRowClick = (record : any) => {
+        console.log(record)
+        this.props.history.push("/"+record.id);
+    }
+
+    onRow = (record: any, rowIndex: any) => {
+        return {
+            onClick: () => { this.onRowClick(record) }
+        }
+    }
+
     getData = () => {
         // Normally you should get the data from the server
         const { current, pageSize, sortingKey, isAsc, isDesc } = this.state
@@ -269,6 +280,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         dataSource={data}//{this.state.data}
                         pagination={false}
                         loading={false}
+                        onRow={this.onRow}
                     />
                 </div>
                 <div className={"pagination-footer"}>
@@ -325,7 +337,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 }
 
-export default AlertTable;
+export default withRouter(AlertTable);
 
 //todo pagination and filter request
 
