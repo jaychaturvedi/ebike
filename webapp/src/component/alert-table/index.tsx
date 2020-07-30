@@ -2,13 +2,17 @@ import './index.scss';
 import React, { PureComponent, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
-import { ReactComponent as Severity } from "../../assets/severity_icon.svg"
 import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
-import { Table, Select, Button, Pagination } from 'antd';
+import { Table, Select, Button, Pagination, Alert } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
+import SeverityRenderer from "./severity-rendere"
+import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
+import { Alert as AlertModel } from "../../connectm-client/redux/connectm-state"
+import { connect } from 'react-redux'
+
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
@@ -24,33 +28,33 @@ type TData = {
     location: string
 }
 
-let datas: Array<TData> = []
-for (var i = 1; i < 101; i++) {
-    datas.push({
-        id: i,
-        alertName: i % 2 ? "Capacity Deteroriation " : "Voltage Deviation",
-        model: "Classic" + i,
-        vehicleId: "BDS" + i,
-        time: i + " May 2020 10:05AM",
-        openSince: "24 hrs " + i + "0 min",
-        severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}>
-            <Severity height="15" width="15" className={`${i == 1 ? "" : i % 2 ? "severity-color-major" : "severity-color-minor"}`} /></span>,
-        location: "Bangalore " + i
-    })
-}
+// let datas: Array<TData> = []
+// for (var i = 1; i < 101; i++) {
+//     datas.push({
+//         id: i,
+//         alertName: i % 2 ? "Capacity Deteroriation " : "Voltage Deviation",
+//         model: "Classic" + i,
+//         vehicleId: "BDS" + i,
+//         time: i + " May 2020 10:05AM",
+//         openSince: "24 hrs " + i + "0 min",
+//         severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}>
+//             <Severity height="15" width="15" className={`${i == 1 ? "" : i % 2 ? "severity-color-major" : "severity-color-minor"}`} /></span>,
+//         location: "Bangalore " + i
+//     })
+// }
 
-interface AlertProps extends RouteComponentProps {
+interface AlertProps extends RouteComponentProps, ReduxAlertActions, ReduxAlertState {
     column?: any, data?: any,
-
 }
 
 interface AlertStates {
-    id?: any, column?: any, isDesc: boolean, data?: Array<TData>,
+    id?: any, column?: any, isDesc: boolean, data: AlertModel[],
     current: number; isAsc: boolean; classname: string; pageSize: number;
     sortDirections: string; alertClicked: boolean; modelClicked: boolean; total: number;
     timeClicked: boolean; loading: boolean; severityClicked: boolean, openSinceClicked: boolean;
-    sortingKey: any;
+    sortingKey: any; alertType: { [key: string]: boolean }, dataLoaded: boolean
 }
+
 
 class AlertTable extends React.Component<AlertProps, AlertStates> {
 
@@ -72,7 +76,30 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             timeClicked: true,
             openSinceClicked: false,
             severityClicked: false,
+            dataLoaded: false,
+            alertType: {
+                smart: true
+            }
         }
+    }
+
+    static getDerivedStateFromProps(props: AlertProps, state: AlertStates) {
+        console.log(props.alerts.activeAlertTab)
+        if (state.alertType["smart"] && state.dataLoaded == false) {
+            props.getAlerts(
+                {
+                    type: "GET_ALERTS",
+                    payload: {
+                        alertType: "smart",
+                        pageNumber: state.current,
+                        pageSize: state.pageSize
+                    }
+                }
+            )
+            state.dataLoaded = true
+        }
+        state.data = Object.values(props.alerts.smart)
+        return state;
     }
 
     renderClass = () => {
@@ -92,7 +119,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             });
         }
     }
-
 
     handleTableChange = (pagination: any, filters: any, sorter: any) => {
         console.log('tableChange', pagination, filters, sorter);
@@ -162,7 +188,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     handleSelect = (event: any) => {
         this.setState({ sortingKey: '' })
         const { pageSize, current } = this.state
-        this.setState({ pageSize: Number(event), current: 1 })
+        this.setState({ pageSize: Number(event), current: 1, dataLoaded: false })
         console.log(pageSize, current);
     }
 
@@ -171,11 +197,11 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         let { current, total, pageSize } = this.state
         const from = current * pageSize
         const last = Math.floor(total / pageSize)
-        if (name === "next" && from < total) { this.setState({ current: ++current }) }
-        if (name === "prev" && current != 1) { this.setState({ current: --current }) }
-        if (name === "first") { this.setState({ current: 1 }) }
+        if (name === "next" && from < total) { this.setState({ current: ++current, dataLoaded: false }) }
+        if (name === "prev" && current != 1) { this.setState({ current: --current, dataLoaded: false }) }
+        if (name === "first") { this.setState({ current: 1, dataLoaded: false }) }
         if (name === "last") {
-            (total % pageSize > 0) ? this.setState({ current: last + 1 }) : this.setState({ current: last })
+            (total % pageSize > 0) ? this.setState({ current: last + 1, dataLoaded: false }) : this.setState({ current: last, dataLoaded: false })
         }
     }
 
@@ -200,10 +226,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     getData = () => {
         // Normally you should get the data from the server
         const { current, pageSize, sortingKey, isAsc, isDesc } = this.state
-        const data = datas.slice((current - 1) * pageSize, pageSize * current);
+        // const data = datas.slice((current - 1) * pageSize, pageSize * current);
         // this.setState({ total: datas.length })
-        const sortedData = sortingKey ? this.handleColumnSort(data, sortingKey) : data
-        return sortingKey ? isDesc ? sortedData.reverse() : sortedData : data;
+        const sortedData = sortingKey ? this.handleColumnSort(this.state.data, sortingKey) : this.state.data
+        return sortingKey ? isDesc ? sortedData.reverse() : sortedData : this.state.data;
 
     };
 
@@ -227,13 +253,13 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span>,
             },
             {
-                dataIndex: 'vehicleId', key: 'vehicleId', width: 100,
+                dataIndex: 'frameId', key: 'frameId', width: 100,
                 // sortDirections: ['descend', 'ascend'], headerSort: false,                
                 title: <span > Vehicle Id </span>
 
             },
             {
-                dataIndex: 'time', key: 'time', defaultSortOrder: 'ascend',
+                dataIndex: 'alertTime', key: 'alertTime', defaultSortOrder: 'ascend',
                 sortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
                         {timeClicked ? <ActiveSort height='20px' width='20px'
@@ -248,11 +274,12 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 </span>,
             },
             {
-                dataIndex: 'severity', key: 'severity', width: 100,
+                dataIndex: 'Severity', key: 'Severity', width: 100,
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
                         {severityClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
                 </span>,
+                render: (text: any, record: any, index: any) => <SeverityRenderer text={text} record={record} index={index} />,
             },
             {
                 dataIndex: 'location', key: 'location', title: "Location",
@@ -260,7 +287,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         ];
 
 
-        const data = this.getData()
+        // const data = this.getData()
 
         return <>
             <div className="container" >
@@ -268,16 +295,16 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     <Table
                         tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        scroll={{ y: '38vh' }}
                         // size={"middle"}
+                        scroll={{ y: this.state.pageSize > 10 ? '54vh' : undefined }}
                         bordered={false}
                         className="ant-table-thead"
                         onChange={this.handleTableChange}
                         showSorterTooltip={false}
-                        rowKey={record => record.id}
+                        rowKey={record => record.alertId}
                         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                         columns={columns}
-                        dataSource={data}//{this.state.data}
+                        dataSource={this.state.data}
                         pagination={false}
                         loading={false}
                         onRow={this.onRow}
@@ -337,7 +364,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 }
 
-export default withRouter(AlertTable);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AlertTable));
 
 //todo pagination and filter request
 
