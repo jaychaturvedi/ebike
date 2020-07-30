@@ -26,11 +26,11 @@ export function mapDispatchToProps(dispatch: Dispatch): ReduxUserAction {
 }
 
 export interface ReduxUserState {
-    user: State["user"]
+    // user: State["user"]
 }
 
 export function mapStateToProps(state: State): ReduxUserState {
     return {
-        user: state.user
+        // user: state.user
     }
 }

@@ -5,7 +5,13 @@ import './index.scss';
 import { mapStateToProps, mapDispatchToProps, ReduxUserState, ReduxUserAction } from '../../connectm-client/actions/user';
 import { connect } from 'react-redux';
 
-interface UserProp extends ReduxUserState, ReduxUserAction { }
+interface UserProp extends ReduxUserState, ReduxUserAction { 
+    //remove error
+    user :{
+        name: string;
+        email: string;
+    }
+}
 interface UserState {
     name: string;
     email: string;
