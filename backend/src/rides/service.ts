@@ -6,7 +6,7 @@ import Issues from "../issues/model";
 
 export default class Ride {
 
-    static async findOne(condition: any) {
+    static async findOneWhere(condition: any) {
         const ride = await RideModel.findOne({ where: { ...condition } })
         if (!ride) throw new RideError('Unable to find by id ');
         return ride
@@ -19,7 +19,7 @@ export default class Ride {
     }
 
     static async updateWhere(condition: any, ride: TRide) {
-        await Ride.findOne(condition)
+        await Ride.findOneWhere(condition)
         const [isUpdated, [result]] = await RideModel.update(ride,
             {
                 where: { ...condition },

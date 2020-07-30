@@ -3,7 +3,7 @@ import { validationResult, body, param, query } from "express-validator";
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import Bike from './service'
 import ConnectmApi from "../externalApi/motovolt";
-import { verifyFrame, getBikeDetails } from './controller';
+import { verifyFrame, getMyBike, getHomeSreen } from './controller';
 import User from '../user/service';
 
 const app = express.Router()
@@ -15,10 +15,31 @@ app.get('/all',
         res.json(response)
     })
 )
+//home screen
+app.get('/:frameId', expressQAsync(secure),
+    [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const frameId = req.params.frameId as string
+        const body = await getHomeSreen(frameId)
+        const response = createResponse("OK", body, undefined)
+        res.json(response)
+    })
+)
+//get bike details
+// app.get('/detail', expressQAsync(secure),
+//     [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
+//     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+//         const frameId = req.params.frameId as string
+//         const body = await getMyBike(frameId)
+//         const response = createResponse("OK", body, undefined)
+//         res.json(response)
+//     })
+// )
+
 //get bike details
 app.get('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const bikedetails = await getBikeDetails(res.locals.users.uid)
+        const bikedetails = await getMyBike(res.locals.users.uid)
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })

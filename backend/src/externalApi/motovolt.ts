@@ -96,7 +96,7 @@ export default class ConnectmApi {
             endTime
 
         })
-        const fetchedData: TRideHistory = await post(options)
+        const fetchedData: TRideHistory[] = await post(options)
         return fetchedData
     }
 
@@ -108,7 +108,7 @@ export default class ConnectmApi {
             startTime,
             endTime
         })
-        const fetchedData: TRideHistoryStats = await post(options)
+        const fetchedData: TRideHistoryStats[] = await post(options)
         return fetchedData
     }
 

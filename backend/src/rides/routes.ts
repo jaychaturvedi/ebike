@@ -7,23 +7,7 @@ import { getNewRide, getEndRide, updateFeedback, getSpeedometer, } from "./contr
 import User from "../user/service";
 const app = express.Router()
 
-//home screen
-app.get('/:frameId', expressQAsync(secure),
-    [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const frameId = req.params.frameId as string
-        const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
-            grnmls: greenMiles, costrcv: costRecovered } =
-            await ConnectmApi.getBikeStat(frameId as string)
-        const { batchrgper: batteryCharge, rngcrv: rangeCovered, rngavail: rangeAvailable } =
-            await ConnectmApi.getCurrentRide(frameId as string)//get LiveBikeData
-        const response = createResponse("OK", {
-            co2sav, totalDistance, ratings, petrolSaved,
-            greenMiles, costRecovered, batteryCharge, rangeCovered, rangeAvailable
-        }, undefined)
-        res.json(response)
-    })
-)
+
 
 app.get('/', expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
     const issue = await Ride.findAll()
@@ -38,8 +22,11 @@ app.post('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { rideId, frameId } = req.body
         const { uid } = res.locals.user.uid
-        const newride = await getNewRide(uid, frameId, rideId)
-        const response = createResponse("OK", newride, undefined)
+        const { ign: ignition, lc: locked } = await ConnectmApi.getBikeLiveData(frameId as string)
+        let newride = {}
+        if (!locked && ignition) {//if bike is on then only start a ride
+            newride = await getNewRide(uid, frameId, rideId)
+        } const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
@@ -49,7 +36,8 @@ app.get('/', expressQAsync(secure),
     [body('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { rideId } = req.body
-        const speedometer = await getSpeedometer(rideId as string)
+        const newride = await Ride.findOneWhere({ rideId })
+        const speedometer = newride ? await getSpeedometer(rideId as string) : 'unable to start a ride'
         const response = createResponse("OK", speedometer, undefined)
         res.json(response)
     })
@@ -66,6 +54,17 @@ app.put('/', expressQAsync(secure),
     })
 )
 
+app.get('/gpsPath/:rideId', expressQAsync(secure),
+    [param('rideId', "rideId can't be empty").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { rideId } = req.params as any
+        const { frameId, startTime, endTime } = await Ride.findOneWhere({ rideId })
+        const ridepath = await ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)
+        const response = createResponse("OK", ridepath, undefined)
+        res.json(response)
+    })
+)
+
 //update rating and feedbacks of a ride
 app.put('/rating', expressQAsync(secure),
     [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
@@ -74,23 +73,12 @@ app.put('/rating', expressQAsync(secure),
     body('comment', "can't be empty").optional(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { rideId, rating, option, comment } = req.body
-        const newride = await updateFeedback(rideId as string, rating as number, option as any, comment)
+        const newride = await updateFeedback(rideId as string, rating as number, option as any, comment as string)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
 
-app.get('/gpsPath/:rideId', expressQAsync(secure),
-    [param('rideId', "rideId can't be empty").isString().isLength({ min: 1 }), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId } = req.params as any
-        const { frameId, startTime, endTime } = await Ride.findOne({ rideId })
-        const ridepath = await ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)
-        const response = createResponse("OK", ridepath, undefined)
-        res.json(response)
-    })
-)
-//yantra will add more fields, code later to be changed
 app.get('/history', expressQAsync(secure),
     [body('startTime', "can't be empty").isString().isLength({ min: 1 }),
     body('endTime', "can't be empty").isString().isLength({ min: 1 }),
@@ -125,8 +113,7 @@ app.get('/details', expressQAsync(secure),
     [param('rideId', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { rideId } = req.param as any
-        const condition = { where: { rideId } }
-        const newride = await Ride.findOne(condition)
+        const newride = await Ride.findOneWhere({ rideId })
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
