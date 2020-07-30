@@ -11,7 +11,7 @@ export async function getMyBike(uid: string) {
   const { mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
     servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string);
-  return { motorPer, batteryChargePer, batteryHealthPer, batteryId: { id: batteryId }, vehicleId, serviceDate }
+  return { motorPer, batteryChargePer, batteryHealthPer, batteries: { id: batteryId }, vehicleId, serviceDate }
 }
 
 export async function getHomeSreen(frameId: string,) {
@@ -30,11 +30,11 @@ export async function getHomeSreen(frameId: string,) {
 }
 
 export async function verifyFrame(uid: string, frameId: string) {
-  const { model, st: status } = await ConnectmApi.getMyBike(frameId as string); //update all fields
+  const { model, vehid: vehicleId, st: status } = await ConnectmApi.getMyBike(frameId as string); //update all fields
   if (status) throw new BadRequestError("Cant get details")
   const user = await User.findByUid(uid)
   if (user.frameId) throw new UserError("frameId already verified")
-  await User.updateByUid(uid, { frameId })
+  await User.updateByUid(uid, { frameId, model, vehicleId })
   const bike = await Bike.createNew({ frameId, model, uid })
   return bike;
 }

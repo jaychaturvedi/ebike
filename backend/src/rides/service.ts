@@ -1,7 +1,7 @@
 import RideModel, { TRide } from "./model"
 import Bike from "../bike/model";
 import { RideError } from "../error"
-import Issues from "../issues/model";
+import Issues from "../service/model";
 
 
 export default class Ride {

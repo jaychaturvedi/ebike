@@ -1,6 +1,6 @@
 import Sequelize, { Model, DataTypes, BuildOptions } from 'sequelize';
 import db from "../db"
-import Issues from '../issues/model';
+import Feedback from '../feedback/model';
 
 export interface TRide {
     rideId?: string;
@@ -87,7 +87,7 @@ let Ride: TRideModel<TRide & Model> = <TRideModel<TRide & Model>>db.define('ride
     }
 );
 
-Ride.hasOne(Issues, {
+Ride.hasOne(Feedback, {
     foreignKey: 'rideId',
     sourceKey: 'rideId',
 });

@@ -1,7 +1,6 @@
 import ConnectmApi from "../externalApi/motovolt";
 import Ride from "./service";
 import { RideError } from "../error";
-import { createIssues } from "../issues/controller";
 import { createFeedback } from "../feedback/controller";
 
 export async function getSpeedometer(rideId: string) {

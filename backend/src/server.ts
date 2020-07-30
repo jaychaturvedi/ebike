@@ -3,7 +3,7 @@ import { APIGatewayProxyEvent, Context } from "aws-lambda";
 import serverless from "serverless-http";
 import userRoutes from './user/routes'
 import bikeRoutes from './bike/routes'
-import issuesRoutes from './issues/routes'
+import issuesRoutes from './service/routes'
 import supportRoutes from "./support/routes";
 import feedbackRoutes from "./feedback/routes";
 import ridesRoutes from "./rides/routes";

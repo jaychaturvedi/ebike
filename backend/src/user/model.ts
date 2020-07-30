@@ -8,6 +8,8 @@ export interface TUser {
   phone?: string;
   email?: string;
   frameId?: string;
+  model?: string;
+  vehicleId?: string;
 }
 
 type TUserModel<T> = typeof Model & {
@@ -20,7 +22,7 @@ let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('user
     uid: {
       type: Sequelize.STRING,
       primaryKey: true,
-      unique:true,
+      unique: true,
       allowNull: false,
     },
     fullName: {
@@ -36,6 +38,14 @@ let User: TUserModel<TUser & Model> = <TUserModel<TUser & Model>>db.define('user
       allowNull: false,
     },
     frameId: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    vehicleId: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    model: {
       type: Sequelize.STRING,
       allowNull: true
     }

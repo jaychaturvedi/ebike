@@ -3,9 +3,12 @@ import db from "../db"
 import User from '../user/model';
 
 export interface TIssue {
-  rideId: string;
-  issues: string;
-  title?: string;
+  serviceId?: number;
+  uid?: string;
+  status: number;
+  comments?: string;
+  openTime?: Date;
+  closeTime?: Date;
 
 }
 type TIssueModel<T> = typeof Model & {
@@ -14,17 +17,35 @@ type TIssueModel<T> = typeof Model & {
 
 let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define('issues',
   {
-    rideId: {
+    serviceId: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    uid: {
       type: Sequelize.STRING,
       allowNull: false,
       onDelete: 'CASCADE',
       references: {
-        model: 'rides',
-        key: 'rideId',
+        model: 'users',
+        key: 'uid',
       }
     },
-    issues: {
+    status: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    comments: {
       type: Sequelize.STRING,
+      allowNull: true
+    },
+    openTime: {
+      type: Sequelize.DATE,
+      allowNull: true
+    },
+    closeTime: {
+      type: Sequelize.DATE,
       allowNull: true
     }
   },

@@ -90,7 +90,7 @@ export type TMyBike = {
     batchrgper: number; //battery percentage
     batid: string; //battery id
     bathltper: number; //battery health
-    vehid: number; //vehicle id
+    vehid: string; //vehicle id
     model: string; // vehicle model
     type: string;
     servDate: string; //service date
