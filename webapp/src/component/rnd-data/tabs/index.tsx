@@ -6,15 +6,15 @@ import { connect } from 'react-redux'
 import { TAlertType } from '../../../connectm-client/redux/connectm-state';
 interface TabsProps extends ReduxAlertActions, ReduxAlertState { }
 
-interface TabsStates { 
-    activeTab : TAlertType
+interface TabsStates {
+    activeTab: TAlertType
 }
 
 class Tabs extends PureComponent<TabsProps, TabsStates> {
-    constructor(props : TabsProps){
+    constructor(props: TabsProps) {
         super(props)
         this.state = {
-            activeTab : this.props.alerts.activeAlertTab
+            activeTab: this.props.alerts.activeAlertTab
         }
     }
 
@@ -23,14 +23,17 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
         return state;
     }
 
-    tabClicked = (tab : TAlertType) => {
-        console.log("tab clicked",tab)
+    tabClicked = (tab: TAlertType) => {
+        console.log("tab clicked", tab)
         this.props.alertTabChanged({
-            type : "UPDATE_ACTIVE_ALERT",
-            payload : {
-                alertType : tab,
-                pageNumber : 1,
-                pageSize : 10
+            type: "UPDATE_ACTIVE_ALERT",
+            payload: {
+                alertType: tab,
+                pagination: {
+                    pageNumber: 1,
+                    pageSize: 10
+                },
+                sort: this.props.alerts.sort
             }
         })
     }
@@ -38,8 +41,8 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
     render() {
         return (
             <div className="connectm-Tabs">
-                <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "smart" ? 'tab-active' :''}`} onClick={() => this.tabClicked("smart")}>
-                    <Typography.Text strong style={{whiteSpace:"nowrap"}}>Smart Alerts <span style={{paddingLeft : "5px"}}>(100)</span></Typography.Text>
+                <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "smart" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("smart")}>
+                    <Typography.Text strong style={{ whiteSpace: "nowrap" }}>Smart Alerts <span style={{ paddingLeft: "5px" }}>(100)</span></Typography.Text>
                 </Button>
                 <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "bms" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("bms")}>
                     <Typography.Text style={{ whiteSpace: "nowrap" }}>BMS Alerts <span style={{ paddingLeft: "5px" }}>(100)</span></Typography.Text>

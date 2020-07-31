@@ -1,5 +1,5 @@
 import { IAlertActions } from "../actions/alerts";
-import { Alert as AlertModel, TAlertType } from "../redux/connectm-state"
+import { Alert as AlertModel, TAlertType, TSort, TPagination } from "../redux/connectm-state"
 import { put } from "redux-saga/effects";
 
 export type Store_AlertUpdate = {
@@ -7,8 +7,8 @@ export type Store_AlertUpdate = {
     payload: {
         alertType: TAlertType,
         alerts: [AlertModel],
-        pageNumber: number,
-        pageSize: number
+        pagination: TPagination,
+        sort: TSort
     }
 }
 
@@ -16,8 +16,7 @@ export type Store_AlertTabChange = {
     type: "STORE_ALERT_TAB_CHANGE",
     payload: {
         alertType: TAlertType,
-        pageNumber: number,
-        pageSize: number
+        pagination: TPagination
     }
 }
 
@@ -29,8 +28,8 @@ export function* getAlerts(params: IAlertActions) {
         payload: {
             alertType: params.payload.alertType,
             alerts: response,
-            pageNumber: params.payload.pageNumber,
-            pageSize: params.payload.pageSize
+            pagination: params.payload.pagination,
+            sort: params.payload.sort
         }
     } as Store_AlertUpdate);
 }
@@ -41,9 +40,10 @@ export function* updateAlertTabChange(params: IAlertActions) {
         payload: params.payload
     } as Store_AlertTabChange)
 }
+
 function generateAlertsData(params: IAlertActions) {
     let datas: AlertModel[] = []
-    for (var i = 1; i < params.payload.pageSize + 1; i++) {
+    for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
         datas.push({
             alertId: i,
             alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
@@ -53,7 +53,7 @@ function generateAlertsData(params: IAlertActions) {
             openSince: "24 hrs " + i + "0 min",
             Severity: i,
             mfgDate: "",
-            customerId: "",
+            customerId: params.payload.alertType,
             batteryId: "",
             location: "Bangalore " + i
         })

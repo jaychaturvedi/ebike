@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { State,TAlertType } from "../redux/connectm-state";
+import { State,TAlertType, TSort,TPagination } from "../redux/connectm-state";
 
 export type AlertActions = "GET_ALERTS" | "UPDATE_ACTIVE_ALERT"
 
@@ -7,8 +7,8 @@ export interface AlertTypePayload {
     alertType: TAlertType
 }
 export interface AlertPayload extends AlertTypePayload  {
-    pageNumber: number,
-    pageSize: number
+    pagination : TPagination,
+    sort : TSort
 }
 
 export interface IAlertActions {
