@@ -7,8 +7,12 @@ import { ReactComponent as CargoVehicle } from "../../assets/cargo_vehicle_icon.
 import { ReactComponent as Location } from "../../assets/location_icon.svg"
 import { ReactComponent as Calender } from "../../assets/calendar_icon.svg"
 import { ReactComponent as Search } from "../../assets/search_icon.svg"
+import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
+import { connect } from 'react-redux'
 import moment from 'moment';
-interface SubHeaderProps { }
+import { TFilter } from '../../connectm-client/redux/connectm-state';
+
+interface SubHeaderProps extends ReduxAlertActions, ReduxAlertState { }
 
 interface SubHeaderStates {
     allSelected: boolean
@@ -24,7 +28,8 @@ interface SubHeaderStates {
         endTime: string
     } | null
     dateRangeApplied: boolean
-    searchText: string
+    searchText: string,
+    applyFilter: TFilter
 }
 
 class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
@@ -44,7 +49,11 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 starTime: ""
             },
             dateRangeApplied: false,
-            searchText: ""
+            searchText: "",
+            applyFilter: {
+                fieldName: "all",
+                value: ""
+            }
         }
     }
 
@@ -59,6 +68,10 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: true,
             locationActive: false,
             calenderActive: false,
+            applyFilter: {
+                fieldName: "model",
+                value: e.key
+            }
         })
     }
 
@@ -73,6 +86,10 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: false,
             locationActive: true,
             calenderActive: false,
+            applyFilter: {
+                fieldName: "location",
+                value: String(e.key)
+            }
         })
     }
 
@@ -89,7 +106,11 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     vehicleActive: false,
                     locationActive: false,
                     calenderActive: true,
-                    timeFrameVisible: false
+                    timeFrameVisible: false,
+                    applyFilter: {
+                        fieldName: "timeFrame",
+                        value: "As of Now"
+                    }
                 });
                 break;
             }
@@ -104,7 +125,11 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     vehicleActive: false,
                     locationActive: false,
                     calenderActive: true,
-                    timeFrameVisible: false
+                    timeFrameVisible: false,
+                    applyFilter: {
+                        fieldName: "timeFrame",
+                        value: "Last Week"
+                    }
                 });
                 break;
             }
@@ -119,7 +144,11 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     vehicleActive: false,
                     locationActive: false,
                     calenderActive: true,
-                    timeFrameVisible: false
+                    timeFrameVisible: false,
+                    applyFilter: {
+                        fieldName: "timeFrame",
+                        value: "Month Till Date"
+                    }
                 });
                 break;
             }
@@ -157,9 +186,10 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         )
     }
     timeRangeApply = () => {
-        console.log("applying date", this.state.timeFrame)
+        console.log("applying date", this.state.timeFrame, "moment",moment(new Date(), this.dateFormatList[0]))
+        const dateRange = `${this.state.timeFrame!.starTime || moment().format(this.dateFormatList[0])} to ${this.state.timeFrame!.endTime || moment().format(this.dateFormatList[0])}`
         this.setState({
-            selectedCalender: `${this.state.timeFrame!.starTime} to ${this.state.timeFrame!.endTime}`,
+            selectedCalender: dateRange,
             selectedVehicle: "Vehicle",
             selectedLocation: "Location",
             allSelected: false,
@@ -168,9 +198,29 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             calenderActive: true,
             timeFrameVisible: false,
             dateRangeApplied: false,
+            applyFilter: {
+                fieldName: "DateRange",
+                value: dateRange
+            }
         })
     }
     dateFormatList = ['DD/MM/YYYY'];
+
+    onApplyFilter = () => {
+        console.log(moment("2020-07-24 10:13:00").toDate())
+        this.props.alertFilterChanged({
+            type: "UPDATE_FILTER",
+            payload: {
+                alertType: this.props.alerts.activeAlertTab,
+                pagination: {
+                    pageNumber: 1,
+                    pageSize: 10
+                },
+                sort: this.props.alerts.sort,
+                filter: this.state.applyFilter
+            }
+        })
+    }
 
     onReset = () => {
         this.setState({
@@ -189,6 +239,21 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             dateRangeApplied: false,
             searchText: ""
         })
+        this.props.alertFilterChanged({
+            type: "UPDATE_FILTER",
+            payload: {
+                alertType: this.props.alerts.activeAlertTab,
+                pagination: {
+                    pageNumber: 1,
+                    pageSize: 10
+                },
+                sort: this.props.alerts.sort,
+                filter: {
+                    fieldName: "all",
+                    value: ""
+                }
+            }
+        })
     }
 
     onAll = () => {
@@ -205,8 +270,12 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 endTime: "",
                 starTime: ""
             },
-            dateRangeApplied: false
-        })
+            dateRangeApplied: false,
+            applyFilter: {
+                fieldName: "all",
+                value: ""
+            }
+        });
     }
 
     onSearch = (e: any) => {
@@ -296,61 +365,61 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         return (
             <div className={"sub-header"}>
                 <div className={"sub-header-left"}>
-                <Button className={`connectM-button ${this.state.allSelected ? "connectM-button-active" : ""}`} size={"middle"} type="text" onClick={this.onAll}>
-                    All
+                    <Button className={`connectM-button ${this.state.allSelected ? "connectM-button-active" : ""}`} size={"middle"} type="text" onClick={this.onAll}>
+                        All
                 </Button>
-                <Dropdown overlay={vehicle} trigger={['click']}>
-                    <div className={`connectM-dropDown ${this.state.vehicleActive ? "connectM-dropdown-active" : ""}`}>
-                        <div className={"pair"}>
-                            <Vehicle style={{marginLeft: "5px"}} width="20" height="20" className={`dropdown-svg-fill ${this.state.vehicleActive ? "dropdown-svg-fill-active" : ""}`} />
-                            <Typography.Text className={`dropdown-typography ${this.state.vehicleActive ? "typography-active" : ""}`}>{this.state.selectedVehicle}</Typography.Text>
+                    <Dropdown overlay={vehicle} trigger={['click']}>
+                        <div className={`connectM-dropDown ${this.state.vehicleActive ? "connectM-dropdown-active" : ""}`}>
+                            <div className={"pair"}>
+                                <Vehicle style={{ marginLeft: "5px" }} width="20" height="20" className={`dropdown-svg-fill ${this.state.vehicleActive ? "dropdown-svg-fill-active" : ""}`} />
+                                <Typography.Text className={`dropdown-typography ${this.state.vehicleActive ? "typography-active" : ""}`}>{this.state.selectedVehicle}</Typography.Text>
+                            </div>
+                            <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                         </div>
-                        <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
-                    </div>
-                </Dropdown>
-                <Dropdown overlay={location} trigger={['click']}>
-                    <div className={`connectM-dropDown ${this.state.locationActive ? "connectM-dropdown-active" : ""}`}>
-                        <div className={"pair"} >
-                            <Location width="20" height="20" className={`dropdown-svg-fill-location ${this.state.locationActive ? "dropdown-svg-fill-location-active" : ""}`} />
-                            <Typography.Text className={`dropdown-typography ${this.state.locationActive ? "typography-active" : ""}`}>{this.state.selectedLocation}</Typography.Text>
+                    </Dropdown>
+                    <Dropdown overlay={location} trigger={['click']}>
+                        <div className={`connectM-dropDown ${this.state.locationActive ? "connectM-dropdown-active" : ""}`}>
+                            <div className={"pair"} >
+                                <Location width="20" height="20" className={`dropdown-svg-fill-location ${this.state.locationActive ? "dropdown-svg-fill-location-active" : ""}`} />
+                                <Typography.Text className={`dropdown-typography ${this.state.locationActive ? "typography-active" : ""}`}>{this.state.selectedLocation}</Typography.Text>
+                            </div>
+                            <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                         </div>
-                        <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
-                    </div>
-                </Dropdown>
-                <Dropdown overlay={timeFrame} trigger={['click']}
-                    visible={this.state.timeFrameVisible}
-                    onVisibleChange={this.timeFrameVisibleChange}
-                >
-                    <div className={`connectM-dropDown ${this.state.calenderActive ? "connectM-dropdown-active" : ""}`}>
-                        <div className={"pair"} >
-                            <Calender width="20" height="20" className={`dropdown-svg-fill-timeframe ${this.state.calenderActive ? "dropdown-svg-fill-timeframe-active" : ""}`} />
-                            <Typography.Text className={`dropdown-typography ${this.state.calenderActive ? "typography-active" : ""}`}>{this.state.selectedCalender}</Typography.Text>
+                    </Dropdown>
+                    <Dropdown overlay={timeFrame} trigger={['click']}
+                        visible={this.state.timeFrameVisible}
+                        onVisibleChange={this.timeFrameVisibleChange}
+                    >
+                        <div className={`connectM-dropDown ${this.state.calenderActive ? "connectM-dropdown-active" : ""}`}>
+                            <div className={"pair"} >
+                                <Calender width="20" height="20" className={`dropdown-svg-fill-timeframe ${this.state.calenderActive ? "dropdown-svg-fill-timeframe-active" : ""}`} />
+                                <Typography.Text className={`dropdown-typography ${this.state.calenderActive ? "typography-active" : ""}`}>{this.state.selectedCalender}</Typography.Text>
+                            </div>
+                            <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                         </div>
-                        <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
+                    </Dropdown>
+                    <div style={{ width: "27%" }} className={"search-background-color "}>
+                        <Input
+                            onChange={this.onSearch}
+                            value={this.state.searchText}
+                            placeholder="Search for Vehicles,Batteries,customers..."
+                            prefix={<SearchOutlined />}
+                            maxLength={50}
+                            className={"search-background-color"}
+                        />
                     </div>
-                </Dropdown>
-                <div style={{ width: "27%" }} className={"search-background-color "}>
-                    <Input
-                        onChange={this.onSearch}
-                        value={this.state.searchText}
-                        placeholder="Search for Vehicles,Batteries,customers..."
-                        prefix={<SearchOutlined />}
-                        maxLength={50}
-                        className={"search-background-color"}
-                    />
-                </div>
                 </div>
                 <div className={"sub-header-right"}>
-                <Button size={"small"} className={"apply-button"}>
-                    <Typography.Text style={{ color: "black" }} strong>APPLY</Typography.Text>
-                </Button>
-                <Button size={"small"} className={"reset-button"} onClick={this.onReset}>
-                    <Typography.Text style={{ color: "#ffffff" }} strong>RESET</Typography.Text>
-                </Button>
+                    <Button size={"small"} className={"apply-button"} onClick={this.onApplyFilter}>
+                        <Typography.Text style={{ color: "black" }} strong>APPLY</Typography.Text>
+                    </Button>
+                    <Button size={"small"} className={"reset-button"} onClick={this.onReset}>
+                        <Typography.Text style={{ color: "#ffffff" }} strong>RESET</Typography.Text>
+                    </Button>
                 </div>
             </div>
         )
     }
 }
 
-export default SubHeader;
+export default connect(mapStateToProps, mapDispatchToProps)(SubHeader);

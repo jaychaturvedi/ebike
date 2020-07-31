@@ -33,7 +33,8 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
                     pageNumber: 1,
                     pageSize: 10
                 },
-                sort: this.props.alerts.sort
+                sort: this.props.alerts.sort,
+                filter: this.props.alerts.filter
             }
         })
     }

@@ -1,7 +1,7 @@
 import connectmState, { State, TSort, Alert } from "./connectm-state";
 import { IUsersAction } from "../actions/user"
-import { Store_AlertUpdate, Store_AlertTabChange } from "../saga/alert"
-type ActionParams = IUsersAction | Store_AlertUpdate | Store_AlertTabChange
+import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
+type ActionParams = IUsersAction | Store_AlertUpdate | Store_AlertTabChange | Store_AlertFilterChange
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -12,9 +12,6 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
             }
         };
         case "STORE_ALERT_UPDATE": {
-            // const sortedData: Alert[] = handleSort((actionParams as Store_AlertUpdate).payload.alerts,
-            //     (actionParams as Store_AlertUpdate).payload.sort)
-            // console.log("sorted data",sortedData)
             const alertData = Object.assign({}, ...(actionParams as Store_AlertUpdate).payload.alerts.map(alert => {
                 return {
                     [String(alert.alertId)]: alert
@@ -39,6 +36,16 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                     pagination: (actionParams as Store_AlertTabChange).payload.pagination
                 }
             }
+        };
+        case "STORE_UPDATE_FILTER": {
+            return {
+                ...state,
+                alerts: {
+                    ...state.alerts,
+                    filter: (actionParams as Store_AlertFilterChange).payload.filter,
+                    pagination: (actionParams as Store_AlertFilterChange).payload.pagination
+                }
+            }
         }
         default: {
             return state
@@ -47,14 +54,3 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
 }
 
 export default AppReducer;
-
-// const handleSort = (arr: any, sort: TSort) => {
-//     if (!sort.fieldName) { return arr }
-//     let sortedData = arr.sort((a: any, b: any) => {
-//         return a[sort.fieldName].localeCompare(b[sort.fieldName])
-//     });
-//     if (sort.direction == "descend") {
-//         return sortedData.reverse()
-//     }
-//     return sortedData
-// };

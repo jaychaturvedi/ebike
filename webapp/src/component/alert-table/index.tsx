@@ -10,7 +10,7 @@ import { Table, Select, Button, Pagination, Alert } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
-import { Alert as AlertModel, TAlertType, TSort } from "../../connectm-client/redux/connectm-state"
+import { Alert as AlertModel, TAlertType, TSort, TFilter } from "../../connectm-client/redux/connectm-state"
 import { connect } from 'react-redux'
 
 const paginationDate = ['10', '25', '50'];
@@ -52,7 +52,8 @@ interface AlertStates {
     current: number; isAsc: boolean; classname: string; pageSize: number;
     sortDirections: string; alertClicked: boolean; modelClicked: boolean; total: number;
     timeClicked: boolean; loading: boolean; severityClicked: boolean, openSinceClicked: boolean;
-    sortingKey: any; alertType: TAlertType, dataLoaded: boolean, handleSort: (arr: any, sort: TSort) => any
+    sortingKey: any; alertType: TAlertType, dataLoaded: boolean, handleSort: (arr: any, sort: TSort) => any,
+    filterField: TFilter
 }
 
 
@@ -77,13 +78,19 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             severityClicked: false,
             dataLoaded: false,
             alertType: "smart",
-            handleSort: this.handleSort
+            handleSort: this.handleSort,
+            filterField: {
+                fieldName: "all",
+                value: ""
+            }
         }
     }
 
     static getDerivedStateFromProps(props: AlertProps, state: AlertStates) {
         console.log(props.alerts.activeAlertTab, state.isAsc, state.isDesc)
-        if ((state.alertType != props.alerts.activeAlertTab) || state.dataLoaded == false) {
+        if ((state.alertType != props.alerts.activeAlertTab)
+            || state.dataLoaded == false
+            || (state.filterField.value != props.alerts.filter.value)) {
             props.getAlerts(
                 {
                     type: "GET_ALERTS",
@@ -96,13 +103,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         sort: {
                             fieldName: state.sortingKey,
                             direction: state.isAsc ? "ascend" : "descend"
-                        }
+                        },
+                        filter: props.alerts.filter
                     }
                 }
             )
             state.dataLoaded = true
             state.alertType = props.alerts.activeAlertTab
-
+            state.filterField = props.alerts.filter
         }
         state.data = state.handleSort(Object.values(props.alerts[state.alertType]), props.alerts.sort) as AlertModel[]
         return state;
