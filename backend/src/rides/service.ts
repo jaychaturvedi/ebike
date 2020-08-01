@@ -13,8 +13,10 @@ export default class Ride {
     }
 
     static async createNew(ride: TRide) { //change types of userId
+        const exists = await RideModel.findOne({ where: { rideId: ride.rideId } })
+        if (exists) throw new RideError('rideId already exists');
         const newride = await RideModel.create(ride)
-        if (!newride) throw new RideError("Unable to create new")
+        if (!newride) throw new RideError("Ride already exists")
         return newride;
     }
 

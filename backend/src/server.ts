@@ -3,7 +3,7 @@ import { APIGatewayProxyEvent, Context } from "aws-lambda";
 import serverless from "serverless-http";
 import userRoutes from './user/routes'
 import bikeRoutes from './bike/routes'
-import issuesRoutes from './service/routes'
+import serviceRoutes from './service/routes'
 import supportRoutes from "./support/routes";
 import feedbackRoutes from "./feedback/routes";
 import ridesRoutes from "./rides/routes";
@@ -23,7 +23,7 @@ app.use("/bike", bikeRoutes)
 // app.use("./feature", featuresRoutes)
 // app.use("/feedback", feedbackRoutes)
 app.use("/ride", ridesRoutes)
-app.use("/issue", issuesRoutes)
+app.use("/service", serviceRoutes)
 // app.use("/support", supportRoutes)
 
 const PORT = Number(process.env.SPORT) || 5000;

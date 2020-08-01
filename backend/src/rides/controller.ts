@@ -10,21 +10,24 @@ export async function getSpeedometer(rideId: string) {
     maxspd: maxSpeed, pa: pedalAssit, pm: powerMode } =
     await ConnectmApi.getCurrentRide(frameId as string)
   const body = {
-    batteryChargePer, rangeCovered, rangeAvailable, distance, averageSpeed,
+    frameId, batteryChargePer, rangeCovered, rangeAvailable, distance, averageSpeed,
     speed, maxSpeed, timeElapsed, pedalAssit, powerMode,
   }
   return body
 }
-
 export async function createNewRide(uid: string, frameId: string, rideId: string) {
-  const ride = await Ride.createNew({ uid, frameId, rideId, startTime: Date.now() as any })
-  return ride
+  const startTime = "2020-06-30 11:08:38"//Date.now() as any
+  const { startTime: time } = await Ride.createNew({ uid, frameId, rideId, startTime })
+  return { rideId, frameId, uid, startTime: time }
 }
 
+// "startTime":"2020-06-30 11:08:38",
+//     "endTime":"2020-06-30 12:45:30"    
+
 export async function endRide(rideId: string) {
-  const endTime = Date.now() as any as string
-  const result = await Ride.findOneWhere({ rideId })
-  const { frameId, startTime } = result
+  const endTime = "2020-06-30 12:45:30"//Date.now() as any
+  const { frameId, startTime } = await Ride.findOneWhere({ rideId })
+  console.log(startTime)
   const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
   ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string), Ride.updateWhere({ rideId }, { endTime })])
   if (!ride[0].fid) throw new RideError("couldn't end ride");
@@ -32,9 +35,10 @@ export async function endRide(rideId: string) {
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = ride[0]
   const gpsPath = ride[1]
+  const { endTime: time } = ride[2] as any
   return {
     frameId, rideId, distance, duration, averageSpeed,
-    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime, gpsPath
+    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime: time, gpsPath
   }
 }
 

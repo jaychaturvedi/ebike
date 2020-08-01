@@ -7,9 +7,10 @@ import { pagination, filters } from "../helper";
 const Op = Sequelize.Op
 
 export async function getMyBike(frameId: string) {
-  const { mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
+  const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
     servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string);
+  if (!fid) throw new BikeError("frameId is not registered");
   const { bikeName } = await Bike.findOne({ frameId })
   return { bikeName, motorPer, batteryChargePer, batteryHealthPer, batteries: [{ id: batteryId }], vehicleId, serviceDate }
 }
@@ -32,10 +33,14 @@ export async function homeScreen(frameId: string,) {
 }
 
 export async function verifyFrame(uid: string, frameId: string) {
-  const { fid, model, } = await ConnectmApi.getMyBike(frameId as string)
+  const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
+    bathltper: batteryHealthPer, vehid: vehicleId, model, type,
+    servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string)
   if (!fid) throw new BikeError("frameId is not registered");
   const result = await Promise.all([Bike.createNew({ frameId, model, uid }), User.updateByUid(uid, { frameId })])
-  return result[1];
+  return {
+    uid, frameId, model, type, serviceDate, batteryChargePer, batteries: [{ id: batteryId }]
+  };
 }
 
 export async function paginate(pageNumber: number, pageSize: number, condition: any) {

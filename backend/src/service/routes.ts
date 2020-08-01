@@ -12,8 +12,8 @@ app.get('/all', expressQAsync(secure),
         res.send(response)
     })
 )
-
-app.post('/status/:status', expressQAsync(secure),
+//get open or closed jobs
+app.post('/jobs/', expressQAsync(secure),
     [body('pageNo', "can't be empty").toInt().isLength({ min: 1 }),
     body('pageSize', "can't be empty").toInt().isLength({ min: 1 }),
     body('status', "can't be empty").toInt().isLength({ min: 1 }), validate],
@@ -25,7 +25,7 @@ app.post('/status/:status', expressQAsync(secure),
         res.send(response)
     })
 )
-
+//get single job
 app.get('/:serviceId', expressQAsync(secure),
     [param('serviceId', "can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -37,20 +37,22 @@ app.get('/:serviceId', expressQAsync(secure),
 )
 
 app.post('/', expressQAsync(secure),
-    [body('comments', "can't be empty").isString().isLength({ min: 1 }), validate],
+    [body('frameId', "can't be empty").isString().isLength({ min: 1 }),
+    body('comments', "can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { comments } = req.body
-        const issue = await createIssues(res.locals.user.uid, comments as string)//one more field of frameId
+        const { comments, frameId } = req.body
+        const issue = await createIssues(res.locals.user.uid, frameId, comments as string)//one more field of frameId
         const response = createResponse("OK", issue, undefined)
         res.json(response)
     })
 )
 
 app.put('/', expressQAsync(secure),
-    [body('serviceId', "can't be empty").isString().isLength({ min: 1 }), validate],
+    [body('status', "status can't be empty").toInt().isLength({ min: 1 }),
+    body('serviceId', "serviceIdcan't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const serviceId = req.body.serviceId as any as string
-        const issue = await closeIssues(serviceId)
+        const { serviceId, status } = req.body
+        const issue = await closeIssues(serviceId, status as number)
         const response = createResponse("OK", issue, undefined)
         res.json(response)
     })

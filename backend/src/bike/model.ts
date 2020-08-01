@@ -2,6 +2,7 @@ import Sequelize, { Model, BuildOptions } from 'sequelize';
 import db from "../db"
 import User from '../user/model';
 import Ride from '../rides/model';
+import Issues from '../service/model';
 
 export interface TBike {
   id?: number;
@@ -87,6 +88,11 @@ let Bike: TBikeModel<TBike & Model> = <TBikeModel<TBike & Model>>db.define('bike
 );
 
 Bike.hasMany(Ride, {
+  foreignKey: 'frameId',
+  sourceKey: 'frameId',
+});
+
+Bike.hasMany(Issues, {
   foreignKey: 'frameId',
   sourceKey: 'frameId',
 });
