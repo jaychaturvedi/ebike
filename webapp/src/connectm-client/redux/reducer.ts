@@ -1,7 +1,7 @@
-import connectmState, { State } from "./connectm-state";
+import connectmState, { State, TSort, Alert } from "./connectm-state";
 import { IUsersAction } from "../actions/user"
-import { Store_AlertUpdate,Store_AlertTabChange } from "../saga/alert"
-type ActionParams = IUsersAction | Store_AlertUpdate | Store_AlertTabChange
+import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
+type ActionParams = IUsersAction | Store_AlertUpdate | Store_AlertTabChange | Store_AlertFilterChange
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -22,19 +22,28 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                 alerts: {
                     ...state.alerts,
                     [(actionParams as Store_AlertUpdate).payload.alertType]: alertData,
-                    pageNumber: (actionParams as Store_AlertUpdate).payload.pageNumber,
-                    pageSize: (actionParams as Store_AlertUpdate).payload.pageSize
+                    pagination: (actionParams as Store_AlertUpdate).payload.pagination,
+                    sort: (actionParams as Store_AlertUpdate).payload.sort
                 }
             }
         };
-        case "STORE_ALERT_TAB_CHANGE" :{
+        case "STORE_ALERT_TAB_CHANGE": {
             return {
                 ...state,
-                alerts :{
+                alerts: {
                     ...state.alerts,
                     activeAlertTab: (actionParams as Store_AlertTabChange).payload.alertType,
-                    pageNumber: (actionParams as Store_AlertTabChange).payload.pageNumber,
-                    pageSize: (actionParams as Store_AlertTabChange).payload.pageSize
+                    pagination: (actionParams as Store_AlertTabChange).payload.pagination
+                }
+            }
+        };
+        case "STORE_UPDATE_FILTER": {
+            return {
+                ...state,
+                alerts: {
+                    ...state.alerts,
+                    filter: (actionParams as Store_AlertFilterChange).payload.filter,
+                    pagination: (actionParams as Store_AlertFilterChange).payload.pagination
                 }
             }
         }

@@ -10,7 +10,7 @@ import { Table, Select, Button, Pagination, Alert } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
-import { Alert as AlertModel } from "../../connectm-client/redux/connectm-state"
+import { Alert as AlertModel, TAlertType, TSort, TFilter } from "../../connectm-client/redux/connectm-state"
 import { connect } from 'react-redux'
 
 const paginationDate = ['10', '25', '50'];
@@ -52,12 +52,12 @@ interface AlertStates {
     current: number; isAsc: boolean; classname: string; pageSize: number;
     sortDirections: string; alertClicked: boolean; modelClicked: boolean; total: number;
     timeClicked: boolean; loading: boolean; severityClicked: boolean, openSinceClicked: boolean;
-    sortingKey: any; alertType: { [key: string]: boolean }, dataLoaded: boolean
+    sortingKey: any; alertType: TAlertType, dataLoaded: boolean, handleSort: (arr: any, sort: TSort) => any,
+    filterField: TFilter
 }
 
 
 class AlertTable extends React.Component<AlertProps, AlertStates> {
-
     constructor(props: AlertProps) {
         super(props);
         this.state = {
@@ -66,7 +66,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             total: 100,
             data: [],
             isAsc: false,
-            sortingKey: '',
+            sortingKey: 'alertTime',
             isDesc: true,
             classname: 'alert-down-circle',
             sortDirections: 'ascend',
@@ -77,51 +77,76 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             openSinceClicked: false,
             severityClicked: false,
             dataLoaded: false,
-            alertType: {
-                smart: true
+            alertType: "smart",
+            handleSort: this.handleSort,
+            filterField: {
+                fieldName: "all",
+                value: ""
             }
         }
     }
 
     static getDerivedStateFromProps(props: AlertProps, state: AlertStates) {
-        console.log(props.alerts.activeAlertTab)
-        if (state.alertType["smart"] && state.dataLoaded == false) {
+        console.log(props.alerts.activeAlertTab, state.isAsc, state.isDesc)
+        if ((state.alertType != props.alerts.activeAlertTab)
+            || state.dataLoaded == false
+            || (state.filterField.value != props.alerts.filter.value)) {
             props.getAlerts(
                 {
                     type: "GET_ALERTS",
                     payload: {
-                        alertType: "smart",
-                        pageNumber: state.current,
-                        pageSize: state.pageSize
+                        alertType: props.alerts.activeAlertTab,
+                        pagination: {
+                            pageNumber: state.current,
+                            pageSize: state.pageSize
+                        },
+                        sort: {
+                            fieldName: state.sortingKey,
+                            direction: state.isAsc ? "ascend" : "descend"
+                        },
+                        filter: props.alerts.filter
                     }
                 }
             )
             state.dataLoaded = true
+            state.alertType = props.alerts.activeAlertTab
+            state.filterField = props.alerts.filter
         }
-        state.data = Object.values(props.alerts.smart)
+        state.data = state.handleSort(Object.values(props.alerts[state.alertType]), props.alerts.sort) as AlertModel[]
         return state;
     }
+    /**Sorting */
+    handleSort = (arr: any, sort: TSort) => {
+        if (!sort.fieldName) { return arr }
+        let sortedData = arr.sort((a: any, b: any) => {
+            if (typeof (a[sort.fieldName]) == "number") {
+                return a[sort.fieldName] > b[sort.fieldName]
+            }
+            return a[sort.fieldName].localeCompare(b[sort.fieldName])
+        });
+        if (sort.direction == "descend") {
+            return sortedData.reverse()
+        }
+        return sortedData
+    };
 
     renderClass = () => {
         const { isAsc, isDesc } = this.state
+
         if (isAsc) {
-            this.setState({
-                isAsc: !this.state.isAsc,
-                isDesc: !this.state.isDesc,
-                classname: 'alert-down-circle open',
-            });
-        }
-        if (isDesc) {
             this.setState({
                 isAsc: !this.state.isAsc,
                 isDesc: !this.state.isDesc,
                 classname: 'alert-down-circle',
             });
         }
-    }
-
-    handleTableChange = (pagination: any, filters: any, sorter: any) => {
-        console.log('tableChange', pagination, filters, sorter);
+        if (isDesc) {
+            this.setState({
+                isAsc: !this.state.isAsc,
+                isDesc: !this.state.isDesc,
+                classname: 'alert-down-circle open',
+            });
+        }
     }
 
     handleClickAlert = (event: any) => {
@@ -129,10 +154,11 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         const { alertClicked } = this.state
         if (!alertClicked) this.setState({
             alertClicked: true, modelClicked: false, timeClicked: false,
-            openSinceClicked: false, severityClicked: false
+            openSinceClicked: false, severityClicked: false, dataLoaded: false
         })
-        this.setState({ sortingKey: "alertName" })
+        this.setState({ sortingKey: "alertName", dataLoaded: false })
         this.renderClass()
+        console.log("isAsc, isDesc ", this.state.isAsc, this.state.isDesc)
         console.log(this.state.classname);
     }
 
@@ -141,10 +167,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         const { modelClicked } = this.state
         if (!modelClicked) this.setState({
             alertClicked: false, modelClicked: true, timeClicked: false,
-            openSinceClicked: false, severityClicked: false
+            openSinceClicked: false, severityClicked: false, dataLoaded: false
         })
         this.renderClass()
-        this.setState({ sortingKey: "model" })
+        this.setState({ sortingKey: "model", dataLoaded: false })
 
         console.log(this.state.classname);
     }
@@ -153,11 +179,11 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         const { isAsc, isDesc, timeClicked } = this.state
         if (!timeClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: true,
-            openSinceClicked: false, severityClicked: false
+            openSinceClicked: false, severityClicked: false, dataLoaded: false
         })
         this.renderClass()
-        this.setState({ sortingKey: "time" })
-
+        this.setState({ sortingKey: "alertTime", dataLoaded: false })
+        console.log("isAsc, isDesc ", this.state.isAsc, this.state.isDesc)
         console.log(this.state.classname);
     }
 
@@ -165,10 +191,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         const { isAsc, isDesc, openSinceClicked } = this.state
         if (!openSinceClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: false,
-            openSinceClicked: true, severityClicked: false
+            openSinceClicked: true, severityClicked: false, dataLoaded: false
         })
         this.renderClass()
-        this.setState({ sortingKey: "openSince" })
+        this.setState({ sortingKey: "openSince", dataLoaded: false })
 
         console.log(this.state.classname);
     }
@@ -177,14 +203,22 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         const { isAsc, isDesc, severityClicked } = this.state
         if (!severityClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: false,
-            openSinceClicked: false, severityClicked: true
+            openSinceClicked: false, severityClicked: true, dataLoaded: false
         })
         this.renderClass()
-        // this.setState({ sortingKey: "severity" })
+        this.setState({ sortingKey: "Severity", dataLoaded: false })
 
         console.log(this.state.classname);
     }
+    handleColumnSort = (arr: any, key: string) => {
+        if (!key) { return arr }
+        return arr.sort((a: any, b: any) => {
+            return a[key].localeCompare(b[key])
+        });
+    };
+    /**Sorting */
 
+    /**Pagination */
     handleSelect = (event: any) => {
         this.setState({ sortingKey: '' })
         const { pageSize, current } = this.state
@@ -204,14 +238,9 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             (total % pageSize > 0) ? this.setState({ current: last + 1, dataLoaded: false }) : this.setState({ current: last, dataLoaded: false })
         }
     }
+    /**Pagination */
 
-    handleColumnSort = (arr: any, key: string) => {
-        if (!key) { return arr }
-        return arr.sort((a: any, b: any) => {
-            return a[key].localeCompare(b[key])
-        });
-    };
-
+    /**Navigation */
     onRowClick = (record: any) => {
         console.log(record)
         this.props.history.push("/" + record.id);
@@ -222,18 +251,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             onClick: () => { this.onRowClick(record) }
         }
     }
-
-    getData = () => {
-        // Normally you should get the data from the server
-        const { current, pageSize, sortingKey, isAsc, isDesc } = this.state
-        // const data = datas.slice((current - 1) * pageSize, pageSize * current);
-        // this.setState({ total: datas.length })
-        const sortedData = sortingKey ? this.handleColumnSort(this.state.data, sortingKey) : this.state.data
-        return sortingKey ? isDesc ? sortedData.reverse() : sortedData : this.state.data;
-
-    };
+    /**Navigation */
 
     render() {
+        console.log("isAsc, isDesc ", this.state.isAsc, this.state.isDesc)
         // this.fetch()
         let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
@@ -286,9 +307,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             },
         ];
 
-
-        // const data = this.getData()
-
         return <>
             <div className="container" >
                 <div className={'table-body'}>
@@ -299,7 +317,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         scroll={{ y: this.state.pageSize > 10 ? '54vh' : undefined }}
                         bordered={false}
                         className="ant-table-thead"
-                        onChange={this.handleTableChange}
                         showSorterTooltip={false}
                         rowKey={record => record.alertId}
                         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
@@ -341,38 +358,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span>
                 </div>
             </div>
-
-
-            {/* // scroll={{ x: 'true' }}
-            //     onHeaderRow={(column, index) => {
-            //         return {
-            //             onClick: () => {
-            //                 console.log(column.indexOf);
-            //             }, // click header row
-            //         };
-            //     }}
-            */}
-
-            {/* todo align select menu */}
         </>;
-    }
-
-    onChange(pagination: any, filters: any, sorter: any, extra: any) {
-        console.log('params', pagination, filters, sorter, extra);
-    }
-    handleRowClick(vehicleId: string, alertName: string) {
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AlertTable));
-
-//todo pagination and filter request
-
-//   handleTableChange = (pagination, filters, sorter) => {
-//     this.fetch({
-//       sortField: sorter.field,
-//       sortOrder: sorter.order,
-//       pagination,
-//       ...filters,
-//     });
-//   };

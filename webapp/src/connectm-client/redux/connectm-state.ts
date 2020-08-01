@@ -1,4 +1,10 @@
 export type TAlertType = "smart" | "bms" | "mc"
+export type TSort = { fieldName: string, direction: 'descend' | 'ascend' }
+export type TFilter = { fieldName: string, value: string }
+export type TPagination = {
+    pageNumber: number,
+    pageSize: number,
+}
 export interface Alert {
     alertId: number,
     alertName: string,
@@ -24,9 +30,9 @@ export interface State {
         mc: {
             [alertId: string]: Alert
         },
-        pageNumber: number,
-        pageSize: number,
-        sort: { fieldName: string, direction: 'descend' | 'ascend' },
+        sort: TSort,
+        pagination: TPagination,
+        filter: TFilter,
         activeAlertTab: TAlertType
     }
 }
@@ -36,9 +42,15 @@ const connectmState: State = {
         smart: {},
         bms: {},
         mc: {},
-        pageNumber: 1,
-        pageSize: 10,
-        sort: { fieldName: "Time", direction: 'descend' },
+        pagination: {
+            pageNumber: 1,
+            pageSize: 10,
+        },
+        sort: {
+            fieldName: "Time",
+            direction: 'descend'
+        },
+        filter: { fieldName: "all", value: "" },
         activeAlertTab: "smart"
     }
 }
