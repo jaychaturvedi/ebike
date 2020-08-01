@@ -16,24 +16,44 @@ export async function getSpeedometer(rideId: string) {
   return body
 }
 
-export async function getNewRide(uid: string, frameId: string, rideId: string) {
+export async function createNewRide(uid: string, frameId: string, rideId: string) {
   const ride = await Ride.createNew({ uid, frameId, rideId, startTime: Date.now() as any })
   return ride
 }
 
-export async function getEndRide(rideId: string) {
-  const { frameId, startTime } = await Ride.findOneWhere({ rideId })
+export async function endRide(rideId: string) {
   const endTime = Date.now() as any as string
-  const updated = await Ride.updateWhere({ rideId }, { endTime })
+  const result = await Ride.findOneWhere({ rideId })
+  const { frameId, startTime } = result
+  const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
+  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string), Ride.updateWhere({ rideId }, { endTime })])
+  if (!ride[0].fid) throw new RideError("couldn't end ride");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
-    ptrlt: litreSaved } = await ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime)
-  const gpsPath = await ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)//get gpspath
+    ptrlt: litreSaved } = ride[0]
+  const gpsPath = ride[1]
   return {
-    rideId, distance, duration, averageSpeed,
+    frameId, rideId, distance, duration, averageSpeed,
     maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime, gpsPath
   }
 }
+
+export async function rideDetail(frameId: string, startTime: string, endTime: string) {
+  const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
+  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),
+  Ride.findOneWhere({ frameId, startTime, endTime })])
+  if (!ride[0].fid) throw new RideError("couldn't end ride");
+  const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
+    grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
+    ptrlt: litreSaved } = ride[0]
+  const gpsPath = ride[1]
+  const { rating } = ride[2]
+  return {
+    frameId, distance, duration, averageSpeed,
+    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime, gpsPath, rating
+  }
+}
+
 
 export async function updateFeedback(rideId: string, rating: number, options: string[], comment?: string) {
   const updated = Ride.updateWhere({ rideId }, { rating })

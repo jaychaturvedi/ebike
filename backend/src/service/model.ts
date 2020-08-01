@@ -5,6 +5,7 @@ import User from '../user/model';
 export interface TIssue {
   serviceId?: number;
   uid?: string;
+  frameId?: string;
   status: number;
   comments?: string;
   openTime?: Date;
@@ -30,6 +31,15 @@ let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define
       references: {
         model: 'users',
         key: 'uid',
+      }
+    },
+    frameId: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'bikes',
+        key: 'frameId',
       }
     },
     status: {

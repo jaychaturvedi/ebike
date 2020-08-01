@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import { body, param, query } from "express-validator";
 import User, { TFilter } from "./service"
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
+import { profile } from "./controller";
 const app = express.Router()
 
 
@@ -15,7 +16,7 @@ app.get('/all',
 
 app.get('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const user = await User.findByUid(res.locals.user.uid)
+        const user = await profile(res.locals.user.uid)
         const response = createResponse("OK", user, undefined)
         res.json(response)
     })

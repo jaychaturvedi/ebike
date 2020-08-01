@@ -3,7 +3,7 @@ import { body, param, query } from "express-validator";
 import Ride from './service'
 import { expressErrorHandler, expressQAsync, validate, createResponse, secure } from '../helper'
 import ConnectmApi from "../externalApi/motovolt";
-import { getNewRide, getEndRide, updateFeedback, getSpeedometer, } from "./controller";
+import { createNewRide, endRide, updateFeedback, getSpeedometer, rideDetail, } from "./controller";
 import User from "../user/service";
 const app = express.Router()
 
@@ -25,19 +25,19 @@ app.post('/', expressQAsync(secure),
         const { ign: ignition, lc: locked } = await ConnectmApi.getBikeLiveData(frameId as string)
         let newride = {}
         if (!locked && ignition) {//if bike is on then only start a ride
-            newride = await getNewRide(uid, frameId, rideId)
-        } const response = createResponse("OK", newride, undefined)
+            newride = await createNewRide(uid, frameId, rideId)
+        }
+        const response = createResponse("OK", newride, undefined)//send locked state and send starttime
         res.json(response)
     })
 )
 
 //speedometer and other details
 app.get('/', expressQAsync(secure),
-    [body('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
+    [query('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId } = req.body
-        const newride = await Ride.findOneWhere({ rideId })
-        const speedometer = newride ? await getSpeedometer(rideId as string) : 'unable to start a ride'
+        const { rideId } = req.query as any
+        const speedometer = rideId ? await getSpeedometer(rideId as string) : 'unable to start a ride'
         const response = createResponse("OK", speedometer, undefined)
         res.json(response)
     })
@@ -47,9 +47,9 @@ app.get('/', expressQAsync(secure),
 app.put('/', expressQAsync(secure),
     [body('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime, rideId } = req.body
-        const endRide = await getEndRide(rideId as string)
-        const response = createResponse("OK", endRide, undefined)
+        const { rideId } = req.body
+        const ride = await endRide(rideId as string)
+        const response = createResponse("OK", ride, undefined)
         res.json(response)
     })
 )
@@ -80,13 +80,13 @@ app.put('/rating', expressQAsync(secure),
 )
 
 app.get('/history', expressQAsync(secure),
-    [body('startTime', "can't be empty").isString().isLength({ min: 1 }),
-    body('endTime', "can't be empty").isString().isLength({ min: 1 }),
-    body('pageNo', "can't be empty").optional().toInt(),
-    body('pageSize', "can't be empty").optional().toInt(), validate],
+    [query('frameId', "name can't be empty").isString().isLength({ min: 1 }),
+    query('startTime', "can't be empty").isString().isLength({ min: 1 }),
+    query('endTime', "can't be empty").isString().isLength({ min: 1 }),
+    query('pageNo', "can't be empty").optional().toInt(),
+    query('pageSize', "can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime, pageNo, pageSize } = req.body
-        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const { startTime, endTime, pageNo, pageSize, frameId } = req.query as any
         const history = await ConnectmApi.getRideHistory(frameId as string, startTime as string,
             endTime as string, pageNo as number, pageSize as number)
         const response = createResponse("OK", history, undefined)
@@ -94,14 +94,14 @@ app.get('/history', expressQAsync(secure),
     })
 )
 //get graph data points and other values
-app.get('/graphData', expressQAsync(secure),
-    [body('startTime', "can't be empty").isString().isLength({ min: 1 }),
+app.post('/graphData', expressQAsync(secure),
+    [body('frameId', "name can't be empty").isString().isLength({ min: 1 }),
+    body('startTime', "can't be empty").isString().isLength({ min: 1 }),
     body('endTime', "can't be empty").isString().isLength({ min: 1 }),
     body('pageNo', "can't be empty").optional().toInt(),
     body('pageSize', "can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime, pageNo, pageSize } = req.body
-        const { frameId } = await User.findByUid(res.locals.user.uid)
+        const { startTime, endTime, pageNo, pageSize, frameId } = req.body
         const history = await ConnectmApi.getRideHistoryStat(frameId as string, startTime as string,
             endTime as string, pageNo as number, pageSize as number)
         const response = createResponse("OK", history, undefined)
@@ -109,16 +109,17 @@ app.get('/graphData', expressQAsync(secure),
     })
 )
 //single ride history details
-app.get('/details', expressQAsync(secure),
-    [param('rideId', "name can't be empty").isString().isLength({ min: 1 }), validate],
+app.get('/detail', expressQAsync(secure),
+    [query('frameId', "name can't be empty").isString().isLength({ min: 1 }),
+    query('startTime', "can't be empty").isString().isLength({ min: 1 }),
+    query('endTime', "can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId } = req.param as any
-        const newride = await Ride.findOneWhere({ rideId })
+        const { startTime, endTime, frameId } = req.body
+        const newride = await rideDetail(frameId, startTime, endTime)
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
 )
-
 
 app.use(expressErrorHandler)
 export default app

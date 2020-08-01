@@ -6,23 +6,25 @@ import Bike from "./service";
 import { pagination, filters } from "../helper";
 const Op = Sequelize.Op
 
-export async function getMyBike(uid: string) {
-  const { frameId } = await User.findByUid(uid)
+export async function getMyBike(frameId: string) {
   const { mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
     servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string);
-  return { motorPer, batteryChargePer, batteryHealthPer, batteries: { id: batteryId }, vehicleId, serviceDate }
+  const { bikeName } = await Bike.findOne({ frameId })
+  return { bikeName, motorPer, batteryChargePer, batteryHealthPer, batteries: [{ id: batteryId }], vehicleId, serviceDate }
 }
 
-export async function getHomeSreen(frameId: string,) {
+export async function homeScreen(frameId: string,) {
+  const [bikeStat, myBike, bikeLiveData] = await Promise.all([
+    ConnectmApi.getBikeStat(frameId as string),
+    ConnectmApi.getMyBike(frameId as string),
+    ConnectmApi.getBikeLiveData(frameId as string)])
+  const { type } = myBike
   const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
-    grnmls: greenMiles, costrcv: costRecovered } =
-    await ConnectmApi.getBikeStat(frameId as string)
-  const { type } =
-    await ConnectmApi.getMyBike(frameId as string)// get bike types cellular or internet
+    grnmls: greenMiles, costrcv: costRecovered } = bikeStat
+
   const { batchrgper: batteryCharge, rngcvr: rangeCovered,
-    rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } =
-    await ConnectmApi.getBikeLiveData(frameId as string)//get LiveBikeData
+    rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } = bikeLiveData
   return {
     co2sav, totalDistance, ratings, petrolSaved, type, greenMiles, costRecovered,
     batteryCharge, rangeCovered, rangeAvailable, ignition, locked, promotion, notification
@@ -30,25 +32,17 @@ export async function getHomeSreen(frameId: string,) {
 }
 
 export async function verifyFrame(uid: string, frameId: string) {
-  const { model, vehid: vehicleId, st: status } = await ConnectmApi.getMyBike(frameId as string); //update all fields
-  if (status) throw new BadRequestError("Cant get details")
-  const user = await User.findByUid(uid)
-  if (user.frameId) throw new UserError("frameId already verified")
-  await User.updateByUid(uid, { frameId, model, vehicleId })
-  const bike = await Bike.createNew({ frameId, model, uid })
-  return bike;
+  const { fid, model, } = await ConnectmApi.getMyBike(frameId as string)
+  if (!fid) throw new BikeError("frameId is not registered");
+  const result = await Promise.all([Bike.createNew({ frameId, model, uid }), User.updateByUid(uid, { frameId })])
+  return result[1];
 }
 
-export async function paginateBike(filter: TFilter) {
-  const { pageNumber, pageSize } = filter
-  delete filter.pageNumber; delete filter.pageSize
+export async function paginate(pageNumber: number, pageSize: number, condition: any) {
   let paginate = {}
   if (pageNumber || pageSize) {
-    paginate = pagination(pageNumber!, pageSize!);
+    paginate = pagination(pageNumber, pageSize);
   }
-  const where = filters(filter)
-  const bikes = await Bike.findAndCountAll(paginate, where)
-  if (!bikes) return 0
-  return bikes
+  const issues = await Bike.pagination(paginate, condition)
+  return issues
 }
-

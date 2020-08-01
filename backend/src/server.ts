@@ -27,7 +27,7 @@ app.use("/issue", issuesRoutes)
 // app.use("/support", supportRoutes)
 
 const PORT = Number(process.env.SPORT) || 5000;
-db.sync({ force: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
+db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
 
 // // deploy express app to aws lambda

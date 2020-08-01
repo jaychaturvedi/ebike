@@ -3,7 +3,7 @@ import { validationResult, body, param, query } from "express-validator";
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import Bike from './service'
 import ConnectmApi from "../externalApi/motovolt";
-import { verifyFrame, getMyBike, getHomeSreen } from './controller';
+import { verifyFrame, getMyBike, homeScreen } from './controller';
 import User from '../user/service';
 
 const app = express.Router()
@@ -20,34 +20,24 @@ app.get('/:frameId', expressQAsync(secure),
     [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const frameId = req.params.frameId as string
-        const body = await getHomeSreen(frameId)
+        const body = await homeScreen(frameId)
         const response = createResponse("OK", body, undefined)
         res.json(response)
     })
 )
-//get bike details
-// app.get('/detail', expressQAsync(secure),
-//     [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
-//     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-//         const frameId = req.params.frameId as string
-//         const body = await getMyBike(frameId)
-//         const response = createResponse("OK", body, undefined)
-//         res.json(response)
-//     })
-// )
 
 //get bike details
-app.get('/', expressQAsync(secure),
+app.get('/myBike/:frameId', expressQAsync(secure),
+    [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const bikedetails = await getMyBike(res.locals.users.uid)
+        const bikedetails = await getMyBike(req.params.frameId as string)
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
 //register frameid to user
-app.get('/verify/:frameId', expressQAsync(secure), [
-    param('frameId', "frameId is required").isString().isLength({ min: 1 }),
-    validate],
+app.get('/verify/:frameId', expressQAsync(secure),
+    [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { frameId } = req.params as any
         const { uid } = res.locals.user as any
@@ -70,25 +60,24 @@ app.get('/liveLocation/:frameId', expressQAsync(secure),
 )
 //whether to check if notificatin is true or false
 app.get('/notification', expressQAsync(secure),
-    [body('pageNo', "can't be empty").optional().toInt(),
-    body('pageSize', "can't be empty").optional().toInt(), validate],
+    [query('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
+    query('pageNo', "can't be empty").optional().toInt(),
+    query('pageSize', "can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { pageNo, pageSize } = req.body
-        const { frameId } = await User.findByUid(res.locals.user.uid)
-        const history = await ConnectmApi.getNotification(frameId as string, pageNo as number, pageSize as number)
-        const response = createResponse("OK", history, undefined)
+        const { pageNo, pageSize, frameId } = req.params as any
+        const notification = await ConnectmApi.getNotification(frameId as string, pageNo as number, pageSize as number)
+        const response = createResponse("OK", notification, undefined)
         res.json(response)
     })
 )
 //update bikeName during registration
-app.put('/', expressQAsync(secure), [
-    body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
-    validate],
+app.put('/', expressQAsync(secure),
+    [body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
+    body('frameId', "frameId can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const bikeName = req.body.bikeName as string
-        const uid = res.locals.user.uid
-        const updated = await Bike.updateWhere({ uid }, { bikeName });
-        const response = createResponse("OK", updated, undefined)
+        const { bikeName, frameId } = req.body
+        const { uid } = await Bike.updateWhere({ frameId }, { bikeName });
+        const response = createResponse("OK", { uid, frameId, bikeName }, undefined)
         res.json(response)
     })
 )

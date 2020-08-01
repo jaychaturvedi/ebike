@@ -34,8 +34,14 @@ export default class Issues {
 
     }
     static async findAllWhere(condition: any) { // page limit skip
-        const issues = await Ride.findAndCountAll({ where: { ...condition } })
+        const issues = await IssuesModel.findAndCountAll({ where: { ...condition } })
         if (!issues) throw new IssuesError("Could not receive any data")
+        return issues
+    }
+
+    static async paginate(paginate: any, condition: any) {
+        const issues = await IssuesModel.findAndCountAll({ ...paginate, where: { ...condition } })
+        if (!issues) throw new IssuesError("Unable to find and count");
         return issues
     }
 

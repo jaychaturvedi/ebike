@@ -1,6 +1,7 @@
 import { IssuesError, BikeError, BadRequestError } from "../error"
 import Sequelize from 'sequelize';
 import Issues from "./service";
+import { pagination } from "../helper";
 const Op = Sequelize.Op
 
 export async function createIssues(uid: string, comments: string) {
@@ -15,3 +16,11 @@ export async function closeIssues(serviceId: string) {
     return issue;
 }
 
+export async function paginate(pageNumber: number, pageSize: number, condition: any) {
+    let paginate = {}
+    if (pageNumber || pageSize) {
+        paginate = pagination(pageNumber, pageSize);
+    }
+    const issues = await Issues.paginate(paginate, condition)
+    return issues
+}

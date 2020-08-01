@@ -8,7 +8,7 @@ export default class Bike {
         const bike = await BikeModel.findOne({
             where: { ...condition },
         })
-        if (!bike) throw new BikeError('Unable to find bike by ');
+        if (!bike) throw new BikeError('Unable to find bike by id ');
         return bike
     }
 
@@ -39,13 +39,14 @@ export default class Bike {
 
     static async findAll() {
         const bikes = await BikeModel.findAll({
-            attributes: ['frameId', 'uid', 'modelType'],
+            attributes: ['frameId', 'uid'],
             include: [{ model: RideModel, attributes: ['rideId'] }]
         })
         return bikes
     }
-    static async findAndCountAll(paginate: any, where: any) {
-        const users = await BikeModel.findAndCountAll({ ...paginate, where })
+
+    static async pagination(paginate: any, condition: any) {
+        const users = await BikeModel.findAndCountAll({ ...paginate, where: { ...condition } })
         if (!users) throw new BikeError("Unable to find and count");
         return users
     }
