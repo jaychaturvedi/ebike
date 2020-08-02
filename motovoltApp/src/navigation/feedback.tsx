@@ -2,8 +2,6 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 
 import RateRide from '../screens/ride/rate-ride'
-import RideFeedback from '../screens/ride/ride-feedback'
-
 
 /**
  * All props definiton goes here
@@ -25,7 +23,6 @@ export default function RideStack() {
         // mode="modal"
         >
             <Feedback.Screen name="RateRide" component={RateRide} />
-            <Feedback.Screen name="RideFeedback" component={RideFeedback} />
         </Feedback.Navigator>
     );
 }  

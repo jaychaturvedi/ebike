@@ -10,6 +10,7 @@ type Props = {
   borderColor?: string;
   backgroundColor?: string;
   disabled?: boolean;
+  fullWidth?: boolean;
   onPress?: () => void;
 };
 
@@ -19,7 +20,7 @@ export default (props: Props) => {
       onPress={props.onPress}
       disabled={props.disabled}
       style={{
-        width: scale(300),
+        width: props.fullWidth ? '100%' : scale(300),
         justifyContent: 'center',
         backgroundColor: props.disabled
           ? Colors.BORDER_GREY
