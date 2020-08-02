@@ -36,6 +36,7 @@ type State = {
   problem: string;
   description: string;
   showFeedback: boolean;
+  showThumpUp: boolean;
 };
 
 class RateRide extends React.PureComponent<Props, State> {
@@ -46,10 +47,19 @@ class RateRide extends React.PureComponent<Props, State> {
       description: '',
       problem: '',
       showFeedback: false,
+      showThumpUp: false,
     };
   }
 
   render() {
+    if (this.state.showThumpUp) {
+      return (
+        <ThumbsUp
+          msg={'Thank you!'}
+          subMsg={'We really appreciate your feedback.'}
+        />
+      );
+    }
     return (
       <TouchableWithoutFeedback
         onPress={() => {
@@ -136,8 +146,10 @@ class RateRide extends React.PureComponent<Props, State> {
                     console.log('Submit clicked');
                     this.setState({showFeedback: true});
                   } else {
+                    setTimeout(() => this.setState({showThumpUp: false}), 5000);
+                    this.setState({showThumpUp: true});
                     //
-                    this.props.navigation.popToTop();
+                    // this.props.navigation.popToTop();
                   }
                 }}
                 onFeedback={(problem, description) => {
