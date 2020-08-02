@@ -12,18 +12,18 @@ import React from 'react';
 import Registration from './src/navigation/onboarding';
 import FooterNavigation from './src/navigation/footer';
 
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
-import {fetchCredentials} from './src/service/secure-storage';
+import { fetchCredentials } from './src/service/secure-storage';
 
-import {TStore} from './src/service/redux/store';
-import {signIn} from './src/service/authentication';
-import {SignIn} from './src/service/redux/actions/saga';
-import {connect} from 'react-redux';
-import {Store_UpdateUser} from 'src/service/redux/actions/store';
+import { TStore } from './src/service/redux/store';
+import { signIn } from './src/service/authentication';
+import { SignIn } from './src/service/redux/actions/saga';
+import { connect } from 'react-redux';
+import { Store_UpdateUser } from 'src/service/redux/actions/store';
 
-declare const global: {HermesInternal: null | {}};
+declare const global: { HermesInternal: null | {} };
 
 const styles = StyleSheet.create({});
 
@@ -33,7 +33,7 @@ interface ReduxState {
   updateUser: (params: Store_UpdateUser) => void;
 }
 
-interface Props extends ReduxState {}
+interface Props extends ReduxState { }
 
 class App extends React.PureComponent<Props, {}> {
   componentDidMount() {
@@ -65,7 +65,8 @@ class App extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    return this.props.user.isLoggedIn ? <FooterNavigation /> : <Registration />;
+    // return this.props.user.isLoggedIn ? <FooterNavigation /> : <Registration />;
+    return <FooterNavigation />
   }
 }
 

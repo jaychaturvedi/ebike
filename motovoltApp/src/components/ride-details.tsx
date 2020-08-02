@@ -19,9 +19,20 @@ type Props = {
     onItemSelect: () => void
 
 };
-type State = {};
+type State = {
+    isMorning: boolean
+};
+
+const beforeTime = Moment('06:00:00', 'HH:MM A');
+const afterTime = Moment('18:00:00', 'HH:MM A');
 
 export default class RideCard extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props)
+        this.state = {
+            isMorning: Moment(this.props.fromTime, 'HH:MM A').isBetween(beforeTime, afterTime)
+        }
+    }
 
     render() {
         return (
@@ -30,7 +41,13 @@ export default class RideCard extends React.PureComponent<Props, State> {
                 onPress={() => this.props.onItemSelect()}
             >
                 <View style={styles.leftContainer}>
-                    <Text style={styles.headerText}> {Moment(this.props.fromTime).format('HH:MM A')} - {Moment(this.props.toTime).format('HH:MM A')}</Text>
+                    <View style={{ flexDirection: 'row', height: moderateScale(30) }}>
+                        <View style={{ height: '100%' }}><Image source={
+                            this.state.isMorning ? require('../assets/icons/sun_icon.png') :
+                                require('../assets/icons/moon_icon.png')
+                        } style={{ height: 16, aspectRatio: 1 }} /></View>
+                        <Text style={styles.headerText}> {Moment(this.props.fromTime).format('HH:MM A')} - {Moment(this.props.toTime).format('HH:MM A')}</Text>
+                    </View>
                     <Text style={styles.destinationText} numberOfLines={1}>
                         <Icon type="FontAwesome" name="circle" style={{ color: 'green', fontSize: 10 }}></Icon>
                     &nbsp;&nbsp;{this.props.fromAddress}
@@ -80,7 +97,8 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: moderateScale(10),
-        paddingBottom: moderateScale(5)
+        paddingBottom: moderateScale(5),
+        justifyContent: 'center'
     },
     icon: {
         fontSize: moderateScale(15),

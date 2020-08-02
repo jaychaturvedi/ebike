@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import { View, StyleSheet, Text } from 'react-native';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import Button from '../../components/cta-button';
 import CheckBox from '../../components/checkbox';
-import {Textarea} from 'native-base';
+import { Textarea } from 'native-base';
 
 type Props = {
   showFeedback: boolean;
@@ -46,11 +46,11 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
                 option3="Break failure"
                 option4="Other"
                 returnValue={(value: string) => {
-                  this.setState({checkboxValue: value});
+                  this.setState({ checkboxValue: value });
                   this.props.onFeedback(value, this.state.description);
                 }}
               />
-              <View style={{paddingTop: moderateScale(20)}}>
+              <View style={{ paddingTop: moderateScale(20) }}>
                 <Textarea
                   underline
                   rowSpan={4}
@@ -62,7 +62,7 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
                     borderColor: '#F8F8FC',
                   }}
                   onChangeText={(text: string) => {
-                    this.setState({description: text});
+                    this.setState({ description: text });
                     this.props.onFeedback(this.state.description, text);
                   }}
                 />
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     padding: moderateScale(20),
     height: moderateScale(335),
     width: '100%',
+    marginVertical: moderateScale(16),
     borderRadius: moderateScale(10),
   },
   button: {

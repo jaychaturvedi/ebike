@@ -1,17 +1,17 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import {moderateScale, verticalScale} from 'react-native-size-matters';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { moderateScale, verticalScale } from 'react-native-size-matters';
 import TipCard from '../../components/tip-card';
 import Swiper from 'react-native-swiper';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {StatisticsStackParamList} from '../../navigation/statistics';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { StatisticsStackParamList } from '../../navigation/statistics';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -78,8 +78,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1="Avg. speed"
               header2="Max. speed"
-              icon1={require('../../assets/icons/total_distance_icon.png')}
-              icon2={require('../../assets/icons/total_distance_icon.png')}
+              icon1={require('../../assets/icons/average_speed_icon.png')}
+              icon2={require('../../assets/icons/max_speed_icon.png')}
               value1={this.props.ride.avgSpeedKmph.toString()}
               value2={this.props.ride.maxSpeedKmph.toString()}
               unit1="Kmph"

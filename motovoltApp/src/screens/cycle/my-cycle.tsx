@@ -70,8 +70,8 @@ class MyCycle extends React.PureComponent<Props, State> {
             <RideMetric
               header1="Motor"
               header2="Battery"
-              icon1={require('../../assets/icons/health_green.png')}
-              icon2={require('../../assets/icons/calendar_green.png')}
+              icon1={require('../../assets/icons/motor_icon.png')}
+              icon2={require('../../assets/icons/battery_green_icon.png')}
               value1={`${this.props.bike.motorPer} %`}
               value2={`${this.props.bike.batteryPer} %`}
               unit1=""

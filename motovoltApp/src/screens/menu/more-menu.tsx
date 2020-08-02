@@ -7,7 +7,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import {moderateScale} from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import ProfileImage from '../../components/profile';
 import RideMetric from '../../components/ride-metric';
 import upgrade from '../../components/upgrade-premium';
@@ -15,10 +15,10 @@ import Upgrade from '../../components/upgrade-premium';
 import Feature from '../../components/feature';
 import Header from '../home/components/header/index';
 import Colors from '../../styles/colors';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {MenuStackParamList} from '../../navigation/menu';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MenuStackParamList } from '../../navigation/menu';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -87,7 +87,7 @@ const feature = [
   },
   {
     feature: 'Insurance',
-    icon: require('../../assets/icons/logout_icon.png'),
+    icon: require('../../assets/icons/insurance_icon.png'),
     onPress: () => console.log('Feature pressed'),
     premium: false,
   },
@@ -129,7 +129,7 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
               />
             </Text>
           </Text>
-          <Text style={{textAlign: 'center'}}>Classic Model-A</Text>
+          <Text style={{ textAlign: 'center' }}>Classic Model-A</Text>
         </View>
         <View style={styles.metric}>
           <RideMetric
@@ -157,7 +157,7 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
           }}>
           {feature.map((feature, index: number) => {
             return (
-              <View style={{width: '33.3%', alignItems: 'center'}} key={index}>
+              <View style={{ width: '33.3%', alignItems: 'center' }} key={index}>
                 <Feature
                   feature={feature.feature}
                   icon={feature.icon}
