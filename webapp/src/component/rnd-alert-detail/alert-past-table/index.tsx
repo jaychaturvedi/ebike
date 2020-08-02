@@ -50,7 +50,10 @@ interface AlertPastTableStates {
     sortDirections: string; alertClicked: boolean; total: number;
     loading: boolean;
     sortingKey: any;
+    selectedRowId:number;
 }
+
+
 
 class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableStates> {
     constructor(props: AlertPastTableProps) {
@@ -67,11 +70,12 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             sortDirections: 'ascend',
             loading: false,
             alertClicked: false,
+            selectedRowId : -1
         }
     }
 
     static getDerivedStateFromProps(props: AlertPastTableProps, state: AlertPastTableStates) {
-        if(state.data?.length === 0){
+        if (state.data?.length === 0) {
             state.data = datas
         }
         return state
@@ -151,10 +155,15 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     alertGraph: !data.alertGraph
                 }
             }
-            return data
+            return {
+                ...data,
+                alertGraph: false
+            }
         })
+        const selectedRow = this.state.selectedRowId == record.id ? -1 : record.id
         this.setState({
-            data: newDatas
+            data: newDatas,
+            selectedRowId: selectedRow
         })
     }
 
@@ -165,8 +174,15 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
     /**Row Selection*/
 
+    setRowClassName = (record: any, index: any) => {
+        if (record.id === this.state.selectedRowId){
+            return 'past-alert-selected-row'
+        }
+        return index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
+    }
+
     render() {
-        {console.log("datas",this.state.data)}
+        { console.log("datas", this.state.data) }
         let { isAsc, alertClicked } = this.state;
         const columns: any = [
             {
@@ -241,7 +257,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                         className="ant-table-thead"
                         showSorterTooltip={false}
                         rowKey={record => record.id}
-                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
+                        rowClassName={this.setRowClassName}
                         columns={columns}
                         dataSource={this.state.data}//{this.state.data}
                         pagination={false}
