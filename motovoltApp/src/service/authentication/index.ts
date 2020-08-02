@@ -143,6 +143,25 @@ export function signIn(username: string, password: string) {
     })
 }
 
+export async function getToken() {
+    try {
+        const session = await Auth.currentSession()
+        const token = session.getIdToken()
+        console.log("TOken : ", token)
+        return {
+            success: true,
+            token: token.getJwtToken(),
+            message: "Success"
+        }
+    } catch (error) {
+        return {
+            success: false,
+            token: null,
+            message: "Error getting token"
+        }
+    }
+}
+
 export function changePassword(mobileNumber: string, oldpassword: string, newpassword: string,) {
     return getUser().then(async response => {
         if (response.success) {

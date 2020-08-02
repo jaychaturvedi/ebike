@@ -5,7 +5,6 @@ import { View, Dimensions, StatusBar } from 'react-native'
 import { Icon } from 'native-base'
 import BarcodeMask from 'react-native-barcode-mask';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
-
 import {
     StyleSheet,
     Text,
@@ -14,14 +13,24 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import { OnboardingStackParamList } from '../../navigation/onboarding';
+import { ValidateFrame } from '../../service/redux/actions/saga/bike-actions';
+import { Store_UpdateBike } from '../../service/redux/actions/store';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+
+interface ReduxState {
+    validateFrame: (params: ValidateFrame) => void,
+    bike: TStore['bike'];
+};
 
 type ScannerSwiperNavigationProp = StackNavigationProp<
     OnboardingStackParamList,
     'Scanner'
 >;
 
-type Props = {
+interface Props extends ReduxState {
     navigation: ScannerSwiperNavigationProp,
     route: RouteProp<OnboardingStackParamList, 'Scanner'>
 };
@@ -35,16 +44,23 @@ type State = {}
 
 const overlayColor = "#434343"; // this gives us a black color with a 50% transparency
 
-export default class ScanScreen extends React.PureComponent<Props, State> {
+class ScanScreen extends React.PureComponent<Props, State> {
 
     onSuccess = (e: any) => {
         console.log('Scanned data', e.data)
-        this.props.navigation.navigate('FrameRegistered', {})
+        this.props.validateFrame({
+            type: "ValidateFrame",
+            payload: {
+                frameNumber: e.data
+            }
+        })
     };
 
     render() {
+        if (this.props.bike.id) {
+            this.props.navigation.replace("FrameRegistered", {})
+        }
         return (
-
             <View style={{ height: '100%', backgroundColor: '#434343' }}>
                 <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#434343" translucent={true} />
                 <QRCodeScanner
@@ -136,3 +152,16 @@ const styles = StyleSheet.create({
         backgroundColor: overlayColor
     },
 });
+
+export default connect(
+    (store: TStore) => {
+        return {
+            bike: store['bike'],
+        };
+    },
+    (dispatch: Dispatch) => {
+        return {
+            validateFrame: (params: ValidateFrame) => dispatch(params),
+        };
+    },
+)(ScanScreen);

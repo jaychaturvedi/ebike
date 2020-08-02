@@ -80,6 +80,7 @@ type TBike = {
     serviceDate: string,
     motorPer: number,
     batteryPer: number,
+    type: null | "GPS" | "BLE",
     batteries: {
         [id: string]: {
             id: string
@@ -169,7 +170,8 @@ const ZeroBike: TBike = {
     serviceDate: "",
     motorPer: 0,
     batteryPer: 0,
-    batteries: {}
+    batteries: {},
+    type: null
 }
 
 const ZeroBLE: TBLE = {

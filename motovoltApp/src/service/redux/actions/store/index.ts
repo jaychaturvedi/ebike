@@ -38,6 +38,28 @@ export type Store_ResetOnboarding = {
     payload: {}
 }
 
-type Action = Store_UpdateUser | Store_UpdateBle | Store_UpdateOnboarding | Store_ResetOnboarding;
+export type Store_UpdateBike = {
+    type: "Store_UpdateBike",
+    payload: {
+        isStale?: boolean,
+        id?: string,
+        modal?: string,
+        name?: string,
+        purchaseDate?: string,
+        warrantyTill?: string,
+        healthPer?: number,
+        serviceDate?: string,
+        motorPer?: number,
+        batteryPer?: number,
+        type?: "GPS" | "BLE" | null,
+        batteries?: {
+            [id: string]: {
+                id: string
+            }
+        }
+    }
+}
+
+type Action = Store_UpdateUser | Store_UpdateBle | Store_UpdateOnboarding | Store_ResetOnboarding | Store_UpdateBike;
 
 export default Action;

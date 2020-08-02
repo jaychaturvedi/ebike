@@ -10,6 +10,7 @@ import {
 } from "redux-saga/effects";
 import * as BLE from "./saga/ble";
 import * as Onboarding from "./saga/onboarding";
+import * as Bike from './saga/bike'
 
 function* actionWatcher() {
     // BLE
@@ -26,6 +27,8 @@ function* actionWatcher() {
     yield takeLatest("InitiateForgotPassword", Onboarding.initForgotPassword);
     yield takeLatest("CompleteForgotPassword", Onboarding.completeForgotPassword);
     yield takeLatest("ChangePassword", Onboarding.changePassword);
+
+    yield takeLatest("ValidateFrame", Bike.validateFrame);
 }
 
 export default function* rootSaga() {

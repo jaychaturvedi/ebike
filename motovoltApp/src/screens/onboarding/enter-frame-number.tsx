@@ -15,14 +15,24 @@ import Input from './components/input';
 import CTAHeader from './components/header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import { OnboardingStackParamList } from '../../navigation/onboarding';
+import { ValidateFrame } from '../../service/redux/actions/saga/bike-actions';
+import { Store_UpdateBike } from '../../service/redux/actions/store';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+
+interface ReduxState {
+  validateFrame: (params: ValidateFrame) => void,
+  bike: TStore['bike'];
+};
 
 type EnterFrameNumberNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
   'EnterFrameNumber'
 >;
 
-type Props = {
+interface Props extends ReduxState {
   navigation: EnterFrameNumberNavigationProp,
   route: RouteProp<OnboardingStackParamList, 'EnterFrameNumber'>
 };
@@ -63,7 +73,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class InputFrameNumber extends React.PureComponent<
+class InputFrameNumber extends React.PureComponent<
   Props,
   State
   > {
@@ -75,6 +85,9 @@ export default class InputFrameNumber extends React.PureComponent<
   }
 
   render() {
+    if (this.props.bike.id) {
+      this.props.navigation.replace("FrameRegistered", {})
+    }
     return (
       <KeyboardAvoidingView
         style={styles.container}
@@ -102,7 +115,13 @@ export default class InputFrameNumber extends React.PureComponent<
             disabled={!this.state.frameId}
             onPress={() => {
               if (this.state.frameId)
-                this.props.navigation.navigate("FrameRegistered", {})
+                this.props.validateFrame({
+                  type: "ValidateFrame",
+                  payload: {
+                    frameNumber: this.state.frameId
+                  }
+                })
+              // this.props.navigation.navigate("FrameRegistered", {})
             }}
             text={'Verify'}
             textColor={Colors.WHITE}
@@ -113,3 +132,17 @@ export default class InputFrameNumber extends React.PureComponent<
     );
   }
 }
+
+
+export default connect(
+  (store: TStore) => {
+    return {
+      bike: store['bike'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      validateFrame: (params: ValidateFrame) => dispatch(params),
+    };
+  },
+)(InputFrameNumber);

@@ -33,6 +33,14 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 onboarding: ZeroOnboarding
             }
+        case "Store_UpdateBike":
+            return {
+                ...store,
+                bike: {
+                    ...store.bike,
+                    ...params.payload
+                }
+            }
         default: return store;
     }
 }
