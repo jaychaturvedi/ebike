@@ -8,6 +8,7 @@ import { ReactComponent as NextPage } from "../../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../../assets/first_page_icon.svg"
+import GraphSelector from "./graph-selector"
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
@@ -21,6 +22,7 @@ type TData = {
     openSince: string,
     severity: any,
     location: string
+    alertGraph: boolean
 }
 
 let datas: Array<TData> = []
@@ -34,7 +36,8 @@ for (var i = 1; i < 101; i++) {
         openSince: "24 hrs " + i + "0 min",
         severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}>
             <Severity height="15" width="15" className={`${i == 1 ? "" : i % 2 ? "severity-color-major" : "severity-color-minor"}`} /></span>,
-        location: "Bangalore " + i
+        location: "Bangalore " + i,
+        alertGraph: false
     })
 }
 interface AlertPastTableProps {
@@ -65,6 +68,13 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             loading: false,
             alertClicked: false,
         }
+    }
+
+    static getDerivedStateFromProps(props: AlertPastTableProps, state: AlertPastTableStates) {
+        if(state.data?.length === 0){
+            state.data = datas
+        }
+        return state
     }
     renderClass = () => {
         const { isAsc, isDesc } = this.state
@@ -131,8 +141,32 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
 
     };
 
+    /**Row Selection*/
+    onRowClick = (record: any) => {
+        console.log(record)
+        let newDatas = this.state.data!.map(data => {
+            if (record.id == data.id) {
+                return {
+                    ...data,
+                    alertGraph: !data.alertGraph
+                }
+            }
+            return data
+        })
+        this.setState({
+            data: newDatas
+        })
+    }
+
+    onRow = (record: any, rowIndex: any) => {
+        return {
+            onClick: () => { this.onRowClick(record) }
+        }
+    }
+    /**Row Selection*/
 
     render() {
+        {console.log("datas",this.state.data)}
         let { isAsc, alertClicked } = this.state;
         const columns: any = [
             {
@@ -151,23 +185,23 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 dataIndex: 'location', key: 'location', title: "Location",
             },
             {
-                dataIndex: 'vehicleId', key: 'vehicleId',
+                dataIndex: 'alertGraph', key: 'alertGraph',
                 // sortDirections: ['descend', 'ascend'], headerSort: false,                
-                title: <span > Alert graph </span>
-
+                title: <span > Alert graph </span>,
+                render: (text: any, record: any, index: any) => <GraphSelector text={text} record={record} index={index} />
             },
         ];
 
 
-        const data = this.getData()
+        // const data = this.getData()
 
         return <>
             <div className="connectm-AlertPastTable">
-                <div className={"connectm-header"}>
+                <div className={"connectm-AlertPastTable-header"}>
                     <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
                     <div className={"pagination-footer"}>
                         Showing &nbsp;&nbsp;&nbsp; <span >
-                            <Select className={'select-button'} style={{ height: 30 }}
+                            <Select className={'select-button'}
                                 defaultValue={this.state.pageSize} onChange={this.handleSelect}>
                                 {paginationDate.map(page => (
                                     <Option value={page} key={page}>{page}</Option>
@@ -201,7 +235,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     <Table
                         tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        scroll={{ y: '100%' }}
+                        scroll={{ y: '28vh' }} //not able to make dynamic
                         // size={"middle"}
                         bordered={false}
                         className="ant-table-thead"
@@ -209,9 +243,10 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                         rowKey={record => record.id}
                         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                         columns={columns}
-                        dataSource={data}//{this.state.data}
+                        dataSource={this.state.data}//{this.state.data}
                         pagination={false}
                         loading={false}
+                        onRow={this.onRow}
                     />
                 </div>
             </div>

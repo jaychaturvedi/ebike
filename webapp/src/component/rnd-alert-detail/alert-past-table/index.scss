@@ -2,19 +2,18 @@
 @import "~antd/dist/antd.css";
 
 .connectm-AlertPastTable {
-    width: 100wh;
     // height: 40%;
-    background-color: #272B3C;
+    background-color: #272b3c;
     border-radius: 2%;
     // padding: 10px;
     color: white;
     justify-content: space-between;
 
-
-    .connectm-header {
-        // height: 15%;        
+    .connectm-AlertPastTable-header {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        height: 16%;
     }
 
     .table-row-light {
@@ -26,9 +25,7 @@
     }
 
     .ant-table-thead {
-
         tr {
-
             th {
                 border: 1px solid yellow;
                 position: sticky;
@@ -37,7 +34,6 @@
                 background: $TABLE_ROW_LIGHT !important;
                 text-align: left;
                 font-size: 14px;
-
             }
         }
     }
@@ -47,12 +43,34 @@
         // max-height: 350px;
 
         //use media screen size to set height
-        height: 38vh !important; //change table height here
+        // height: 10vh !important; //change table height here
         // for test scrren
         // height: 100%;
-        overflow-y: auto;
+        overflow-y: hidden;
         /* Trigger vertical scroll    */
         overflow-x: auto;
+    }
+
+    .ant-table table {
+        // height: calc(100% - 25px);
+
+        overflow: hidden !important;
+        text-indent: 10px;
+        // border-bottom-left-radius: 10px;
+        // border-bottom-right-radius: 10px;
+        // height: 450px;
+    }
+    .ant-table-header {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .ant-table-body {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    //curve edges bg
+    .ant-table {
+        background-color: transparent;
     }
 
     .pagination-footer {
@@ -63,8 +81,8 @@
 
         .nav-button {
             .icon {
-                width: 30px;
-                height: 30px;
+                width: 24px;
+                height: 24px;
             }
         }
 
@@ -75,8 +93,17 @@
             background-color: transparent;
             border-radius: 10px 10px 10px 10px;
             width: 60px;
+            .ant-select-selector {
+                height: 24px;
+                border: none !important;
+            }
+            .ant-select-selection-item {
+                line-height: 24px;
+            }
+            .ant-select-arrow svg {
+                color: black;
+            }
         }
-
         // .select-button>div>span {
         //     }
 
@@ -84,25 +111,6 @@
             width: 30px;
         }
     }
-
-    .ant-table table {
-        // height: calc(100% - 25px);
-
-        overflow: hidden !important;
-        text-indent: 10px;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        // height: 450px;
-    }
-
-    //curve edges bg
-    .ant-table {
-
-        background-color: transparent;
-    }
-
 }
 
 table,
@@ -120,7 +128,7 @@ th {
     }
 }
 
-.ant-table-tbody>tr.ant-table-row:hover>td {
+.ant-table-tbody > tr.ant-table-row:hover > td {
     background: none !important;
 }
 

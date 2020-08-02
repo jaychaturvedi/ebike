@@ -29,8 +29,33 @@
         .clear-alert-button {
             background-color: $APPLY_BUTTON !important;
             border: none !important;
+            overflow: hidden;
             margin-left: 2.5%;
-            border-radius: 10%;
+            border-radius: 10px;
         }
+    }
+}
+
+.clear-alert-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid grey;
+    .ant-dropdown-menu {
+        background-color: $APP_BACKGROUND !important;
+    }
+
+    .ant-dropdown-menu-item {
+        background-color: $APP_BACKGROUND !important;
+        flex-direction: column;
+    }
+    textarea.ant-input {
+        background-color: $DROPDOWN_BACKGROUND_COLOR;
+        color: #ffffff;
+        border: none;
+    }
+    .dropdown-clear-alert-button {
+        margin-top: 3%;
+        background-color: $APPLY_BUTTON !important;
+        border: none !important;
     }
 }
