@@ -7,13 +7,10 @@ import {
     GestureResponderEvent,
 } from 'react-native';
 import Rating from '../../components/rating';
-import { moderateScale, verticalScale } from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { FeedbackStackParamList } from '../../navigation/feedback';
 import Feedback from './feedback';
 import ThumbsUp from '../../components/thumb-up';
 
@@ -21,14 +18,8 @@ type ReduxState = {
     ride: TStore['ride'];
 };
 
-type RateRideNavigationProp = StackNavigationProp<
-    FeedbackStackParamList,
-    'RateRide'
->;
-
 interface Props extends ReduxState {
-    navigation: RateRideNavigationProp;
-    route: RouteProp<FeedbackStackParamList, 'RateRide'>;
+    onComplete: () => void
 }
 
 type State = {
@@ -64,7 +55,6 @@ class RateRide extends React.PureComponent<Props, State> {
             <TouchableWithoutFeedback
                 onPress={() => {
                     if (this.state.showFeedback) {
-                        console.log('Pressed outside');
                         this.setState({ showFeedback: false, problem: '', description: '' });
                     }
                 }}>
@@ -146,20 +136,17 @@ class RateRide extends React.PureComponent<Props, State> {
                                         console.log('Submit clicked');
                                         this.setState({ showFeedback: true });
                                     } else {
-                                        setTimeout(() => this.setState({ showThumpUp: false }), 5000);
+                                        setTimeout(() => {
+                                            this.props.onComplete()
+                                        }, 5000);
                                         this.setState({ showThumpUp: true });
-                                        //
-                                        // this.props.navigation.popToTop();
                                     }
                                 }}
                                 onFeedback={(problem, description) => {
                                     this.setState({
                                         problem: problem,
                                         description: description,
-                                        // submitDisabled:
-                                        //   this.state.rating < 4 && (!problem || !description),
                                     });
-                                    console.log('Probelm', problem, description);
                                 }}
                                 showFeedback={this.state.showFeedback}
                                 submitDisabled={!this.state.rating}

@@ -61,7 +61,7 @@ class App extends React.PureComponent<Props, {}> {
   }
 
   componentDidCatch() {
-    console.log('Catced err');
+    console.log('Catched err');
   }
 
   render() {

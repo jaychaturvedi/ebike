@@ -5,8 +5,8 @@ import HomeStack from './home'
 import StatisticsStack from './statistics'
 import MyCycleStack from './cycle'
 import MenuStack from './menu'
-import RideStack from './ride'
-import RideFeedBack from './feedback'
+import RateRide from '../screens/ride/rate-ride'
+import RideOn from '../screens/ride/ride-on';
 
 type Props = {}
 type State = {
@@ -46,10 +46,11 @@ export default class FooterNavigation extends React.PureComponent<Props, State>{
             <View style={styles.container} >
                 <View style={{ ...styles.screen }}>
                     {
-                        this.state.lockVerified === true ? <RideStack />
+                        this.state.lockVerified === true ? <RideOn />
                             : this.state.lockVerified === false ?
-                                <RideFeedBack /> : this.renderScreen(this.state.screen)
-
+                                <RateRide
+                                    onComplete={() => { this.setState({ screen: 'home', lockVerified: undefined, hideFooter: false }) }}
+                                /> : this.renderScreen(this.state.screen)
                     }
                 </View>
                 {
