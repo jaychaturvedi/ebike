@@ -8,7 +8,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { OnboardingStackParamList } from '../../navigation/onboarding';
 import { TStore } from '../../service/redux/store';
-import { ConnectBLE } from '../../service/redux/actions/ble';
+import { ConnectBLE } from '../../service/redux/actions/saga/ble';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -31,17 +31,6 @@ export type Device = {
   deviceName: string;
   id: string;
 };
-
-const devices: Device[] = [
-  {
-    deviceName: 'My Device',
-    id: '13',
-  },
-  {
-    deviceName: 'My Device',
-    id: '12',
-  },
-];
 
 type State = {
   selectedCycleId: string;
