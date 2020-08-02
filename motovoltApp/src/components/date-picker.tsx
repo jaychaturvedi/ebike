@@ -7,15 +7,18 @@ import Moment from 'moment';
 
 type State = {
     isVisible: boolean,
-    currentDate: Date
 }
 
-type Props = {}
+type Props = {
+    date?: Date,
+    onDateChange: (date: Date) => void;
+    maxDate?: Date,
+}
 
 export default class RideDatePicker extends React.PureComponent<Props, State>{
     constructor(props: Props) {
         super(props)
-        this.state = { isVisible: false, currentDate: new Date() }
+        this.state = { isVisible: false }
     }
 
     showDatePicker = () => {
@@ -27,8 +30,8 @@ export default class RideDatePicker extends React.PureComponent<Props, State>{
     };
 
     handleConfirm = (date: Date) => {
-        console.warn("A date has been picked: ", date);
-        this.setState({ currentDate: date })
+        // console.warn("A date has been picked: ", date);
+        this.props.onDateChange(date);
         this.hideDatePicker();
     };
 
@@ -36,7 +39,7 @@ export default class RideDatePicker extends React.PureComponent<Props, State>{
         return (
             <View style={style.container}>
                 <View style={style.leftContainer}>
-                    <Text>{Moment(this.state.currentDate).format('D MMM YYYY')}</Text></View>
+                    <Text>{Moment(this.props.date).format('DD MMM YYYY')}</Text></View>
                 <TouchableOpacity
                     style={style.rightContainer}
                     onPress={() => this.setState({ isVisible: !this.state.isVisible })}
@@ -44,8 +47,10 @@ export default class RideDatePicker extends React.PureComponent<Props, State>{
                     <DateTimePickerModal
                         isVisible={this.state.isVisible}
                         mode="date"
+                        date={this.props.date}
                         onConfirm={this.handleConfirm}
                         onCancel={this.hideDatePicker}
+                        maximumDate={this.props.maxDate || new Date()}
                     />
                     <Icon type="FontAwesome" name="chevron-down" style={style.bottomIcon}></Icon>
                 </TouchableOpacity>
@@ -72,6 +77,6 @@ const style = StyleSheet.create({
         width: '30%'
     },
     bottomIcon: {
-        fontSize: moderateScale(20)
+        fontSize: moderateScale(16)
     }
 })

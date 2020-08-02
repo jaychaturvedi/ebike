@@ -28,10 +28,16 @@ export type Store_UpdateOnboarding = {
     payload: {
         signUpSuccess?: boolean | null,
         confirmSignUpSuccess?: boolean | null,
-        passwordResetSuccess?: boolean | null
+        passwordResetSuccess?: boolean | null,
+        errorMessage?: string
     }
 }
 
-type Action = Store_UpdateUser | Store_UpdateBle | Store_UpdateOnboarding;
+export type Store_ResetOnboarding = {
+    type: "Store_ResetOnboarding",
+    payload: {}
+}
+
+type Action = Store_UpdateUser | Store_UpdateBle | Store_UpdateOnboarding | Store_ResetOnboarding;
 
 export default Action;

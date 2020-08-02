@@ -29,6 +29,7 @@ export default function MenuStack() {
     return (
         <Menu.Navigator screenOptions={{
             headerShown: false,
+            animationEnabled: false,
         }}
         // mode="modal"
         >

@@ -42,6 +42,7 @@ export default function OnboardingStack(props: {}) {
     <Onboarding.Navigator
       screenOptions={{
         headerShown: false,
+        animationEnabled: false,
       }}
       // mode="modal"
     >

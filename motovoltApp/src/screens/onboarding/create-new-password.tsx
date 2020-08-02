@@ -8,25 +8,29 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
 import ThumbsUp from '../../components/thumb-up';
-import { CompleteForgotPassword } from '../../service/redux/actions/saga/authentication-actions';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import Toast from 'react-native-simple-toast'
-import { Store_UpdateOnboarding } from 'src/service/redux/actions/store';
+import {CompleteForgotPassword} from '../../service/redux/actions/saga/authentication-actions';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import Toast from 'react-native-simple-toast';
+import {
+  Store_UpdateOnboarding,
+  Store_ResetOnboarding,
+} from 'src/service/redux/actions/store';
 
 type ReduxState = {
   completeForgotPassword: (params: CompleteForgotPassword) => void;
   updateOnboarding: (params: Store_UpdateOnboarding) => void;
+  resetOnboarding: (params: Store_ResetOnboarding) => void;
   onboarding: TStore['onboarding'];
 };
 
@@ -93,11 +97,13 @@ class NewPassword extends React.PureComponent<Props, State> {
   }
 
   render() {
-    if (this.props.onboarding.passwordResetSuccess === false) {
-      Toast.show("Invalid OTP")
-      this.props.updateOnboarding({ type: 'Store_UpdateOnboarding', payload: { passwordResetSuccess: null } })
-      this.props.navigation.goBack()
-      return null;
+    if (this.props.onboarding.errorMessage) {
+      Toast.show(this.props.onboarding.errorMessage);
+      this.props.resetOnboarding({
+        type: 'Store_ResetOnboarding',
+        payload: {},
+      });
+      this.props.navigation.replace('ForgotPassword', {});
     }
     return this.props.onboarding.passwordResetSuccess ? (
       <ThumbsUp
@@ -106,86 +112,86 @@ class NewPassword extends React.PureComponent<Props, State> {
         onButtonPress={() => this.props.navigation.navigate('LoginPage', {})}
       />
     ) : (
-        <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          style={styles.container}>
-          <CTAHeader />
-          <Text style={styles.title}>Create New Password</Text>
-          <View style={{ marginVertical: verticalScale(100) }}>
-            <Input
-              placeHolder="Enter New Password"
-              marginVeritical={verticalScale(InputMarginVeritical)}
-              secure
-              onChange={(value: string) => {
-                let isValid = false;
-                if (value.length >= 8) isValid = true;
-                this.setState({ password: value, isValid });
-              }}
-            />
-            {!this.state.isValid && (
-              <View style={styles.warningContainer}>
-                <Image
-                  style={styles.warningLogo}
-                  source={require('../../assets/icons/error_outline-grey.png')}
-                />
-                <View style={{ paddingHorizontal: 4 }}>
-                  <Text style={styles.warningText}>
-                    Password must be alphanumeric with min 8 characters, 1 upper
-                    case and a special character.
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        <CTAHeader />
+        <Text style={styles.title}>Create New Password</Text>
+        <View style={{marginVertical: verticalScale(100)}}>
+          <Input
+            placeHolder="Enter New Password"
+            marginVeritical={verticalScale(InputMarginVeritical)}
+            secure
+            onChange={(value: string) => {
+              let isValid = false;
+              if (value.length >= 8) isValid = true;
+              this.setState({password: value, isValid});
+            }}
+          />
+          {!this.state.isValid && (
+            <View style={styles.warningContainer}>
+              <Image
+                style={styles.warningLogo}
+                source={require('../../assets/icons/error_outline-grey.png')}
+              />
+              <View style={{paddingHorizontal: 4}}>
+                <Text style={styles.warningText}>
+                  Password must be alphanumeric with min 8 characters, 1 upper
+                  case and a special character.
                 </Text>
-                </View>
               </View>
-            )}
-            <Input
-              placeHolder="Re-enter Password"
-              marginVeritical={verticalScale(InputMarginVeritical)}
-              onChange={(value: string) => {
-                this.setState({ confirmPassword: value });
-              }}
-              secure
-            />
-            {this.state.confirmPassword !== this.state.password && (
-              <View style={styles.warningContainer}>
-                <Image
-                  style={styles.warningLogo}
-                  source={require('../../assets/icons/error_outline-red.png')}
-                />
-                <View style={{ paddingHorizontal: 4 }}>
-                  <Text style={{ ...styles.warningText, color: Colors.ERROR_RED }}>
-                    Password Mismatch
+            </View>
+          )}
+          <Input
+            placeHolder="Re-enter Password"
+            marginVeritical={verticalScale(InputMarginVeritical)}
+            onChange={(value: string) => {
+              this.setState({confirmPassword: value});
+            }}
+            secure
+          />
+          {this.state.confirmPassword !== this.state.password && (
+            <View style={styles.warningContainer}>
+              <Image
+                style={styles.warningLogo}
+                source={require('../../assets/icons/error_outline-red.png')}
+              />
+              <View style={{paddingHorizontal: 4}}>
+                <Text style={{...styles.warningText, color: Colors.ERROR_RED}}>
+                  Password Mismatch
                 </Text>
-                </View>
               </View>
-            )}
-          </View>
-          <View style={styles.bottom}>
-            <CTAButton
-              disabled={
-                !this.state.isValid ||
-                this.state.confirmPassword !== this.state.password
+            </View>
+          )}
+        </View>
+        <View style={styles.bottom}>
+          <CTAButton
+            disabled={
+              !this.state.isValid ||
+              this.state.confirmPassword !== this.state.password
+            }
+            text={'Save & Continue'}
+            textColor={Colors.WHITE}
+            backgroundColor={Colors.NAVY_BLUE}
+            onPress={() => {
+              if (
+                this.state.isValid &&
+                this.state.confirmPassword == this.state.password
+              ) {
+                this.props.completeForgotPassword({
+                  type: 'CompleteForgotPassword',
+                  payload: {
+                    code: this.props.route.params.code,
+                    mobileNumber: this.props.route.params.mobileNumber,
+                    password: this.state.password,
+                  },
+                });
               }
-              text={'Save & Continue'}
-              textColor={Colors.WHITE}
-              backgroundColor={Colors.NAVY_BLUE}
-              onPress={() => {
-                if (
-                  this.state.isValid &&
-                  this.state.confirmPassword == this.state.password
-                ) {
-                  this.props.completeForgotPassword({
-                    type: 'CompleteForgotPassword',
-                    payload: {
-                      code: this.props.route.params.code,
-                      mobileNumber: this.props.route.params.mobileNumber,
-                      password: this.state.password,
-                    },
-                  });
-                }
-              }}
-            />
-          </View>
-        </KeyboardAvoidingView>
-      );
+            }}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    );
   }
 }
 
@@ -199,7 +205,8 @@ export default connect(
     return {
       completeForgotPassword: (params: CompleteForgotPassword) =>
         dispatch(params),
-      updateOnboarding: (params: Store_UpdateOnboarding) => dispatch(params)
+      updateOnboarding: (params: Store_UpdateOnboarding) => dispatch(params),
+      resetOnboarding: (params: Store_ResetOnboarding) => dispatch(params),
     };
   },
 )(NewPassword);

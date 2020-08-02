@@ -1,4 +1,4 @@
-import Store, { TStore } from "./store";
+import Store, { TStore, ZeroOnboarding } from "./store";
 import Action from "./actions/store";
 
 export default (store: TStore = Store, params: Action): TStore => {
@@ -28,7 +28,11 @@ export default (store: TStore = Store, params: Action): TStore => {
                     ...params.payload
                 }
             }
-
+        case "Store_ResetOnboarding":
+            return {
+                ...store,
+                onboarding: ZeroOnboarding
+            }
         default: return store;
     }
 }

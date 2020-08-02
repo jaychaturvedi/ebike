@@ -18,11 +18,14 @@ import {TStore} from '../../service/redux/store';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import {SignIn} from '../../service/redux/actions/saga/authentication-actions';
+import {Store_UpdateOnboarding, Store_ResetOnboarding} from '../../service/redux/actions/store';
 import Toast from 'react-native-simple-toast';
 
 type ReduxState = {
   signIn: (params: SignIn) => void;
   onboarding: TStore['onboarding'];
+  updateOnboarding: (params: Store_UpdateOnboarding) => void,
+  resetOnboarding: (params: Store_ResetOnboarding) => void,
 };
 
 type LoginNavigationProp = StackNavigationProp<
@@ -71,6 +74,13 @@ class Login extends React.PureComponent<Props, State> {
   }
 
   render() {
+    if(this.props.onboarding.errorMessage){
+      Toast.show(this.props.onboarding.errorMessage);
+      this.props.resetOnboarding({
+        type: "Store_ResetOnboarding",
+        payload: {},
+      })
+    }
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
@@ -114,7 +124,7 @@ class Login extends React.PureComponent<Props, State> {
         />
         <View style={{height: '5%', justifyContent: 'flex-end'}}>
           <Text
-            onPress={() => this.props.navigation.navigate('ForgotPassword', {})}
+            onPress={() => this.props.navigation.replace('ForgotPassword', {})}
             style={{
               marginVertical: verticalScale(InputMarginVeritical),
               color: Colors.HYPERLINK_BLUE,
@@ -154,6 +164,8 @@ export default connect(
   (dispatch: Dispatch) => {
     return {
       signIn: (params: SignIn) => dispatch(params),
+      updateOnboarding: (params: Store_UpdateOnboarding) => dispatch(params),
+      resetOnboarding: (params: Store_ResetOnboarding) => dispatch(params),
     };
   },
 )(Login);
