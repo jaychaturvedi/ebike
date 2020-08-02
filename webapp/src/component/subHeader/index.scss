@@ -13,12 +13,12 @@
     .place {
         color: #ffffff !important;
     }
-    .sub-header-left{
+    .sub-header-left {
         width: 72%;
         display: flex;
         padding-left: 24px;
     }
-    .sub-header-right{
+    .sub-header-right {
         width: 25%;
         padding-left: 1%;
     }
@@ -35,6 +35,7 @@
     cursor: pointer;
     margin-left: 0.4%;
     font-family: "Roboto" !important;
+
     &:hover {
         color: $ACTIVE !important;
         border-bottom: 1px solid $ACTIVE !important;
@@ -82,7 +83,7 @@
 }
 
 .ant-dropdown-menu {
-    background-color: $DROPDOWN_BACKGROUND_COLOR !important;
+    background-color: $DROPDOWN_BACKGROUND_COLOR;
 }
 
 .ant-dropdown-menu-item {

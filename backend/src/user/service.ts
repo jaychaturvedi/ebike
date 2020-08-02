@@ -15,7 +15,7 @@ export default class User {
 
   static async findByPhone(phone: string) {
     const user = await UserModel.findOne({ where: { phone } })
-    if (!user) throw new UserError(`${phone} not found `)
+    if (!user) throw new UserError(`${phone} not found`)
     return user
   }
 
@@ -31,8 +31,9 @@ export default class User {
   }
 
   static async createNew(user: TUser) {
-    // const existingUser = await User.findByUid(user.uid as string)
-    // if (existingUser) { return existingUser }
+    const phone = user.phone;
+    const existingUser = await UserModel.findOne({ where: { phone } })
+    if (existingUser) { return existingUser }
     const newuser = await UserModel.create(user)
     if (!newuser) throw new UserError("Unable to create new ")
     return newuser;

@@ -46,9 +46,9 @@ module.exports.preSignUp = async (event: any) => {
     const response: any = await rp(options);
     // const response: any = { "frameId": "123qawsedrftgiop" }
     console.log("frame verification response", response)
-    // if (response.ec) {
-    //     throw new Error("User have not registered any framId")
-    // }
+    if (response.ec) {
+        throw new Error("User have not registered any framId")
+    }
     // event.response.autoConfirmUser = true;
     // event.response.autoVerifyPhone = true;
     return event;
@@ -67,71 +67,71 @@ module.exports.postConfirmation = async (event: any) => {
     return event
 }
 
-module.exports.defineAuthChallenge = async (event: any) => {
-    console.log("auth challenge", event.request);
+// module.exports.defineAuthChallenge = async (event: any) => {
+//     console.log("auth challenge", event.request);
 
-    // If user is not registered
-    if (event.request.userNotFound) {
-        event.response.issueToken = false;
-        event.response.failAuthentication = true;
-        throw new Error("User does not exist");
-    }
-    if (event.request.session.length >= 3 &&
-        event.request.session.slice(-1)[0].challengeResult === false) { // wrong OTP even After 3 sessions?
-        event.response.issueToken = false;
-        event.response.failAuthentication = true;
-        throw new Error("Invalid OTP");
-    } else if (event.request.session.length > 0 &&
-        event.request.session.slice(-1)[0].challengeResult === true) { // Correct OTP!
-        event.response.issueTokens = true;
-        event.response.failAuthentication = false;
-    } else { // not yet received correct OTP
-        event.response.issueTokens = false;
-        event.response.failAuthentication = false;
-        event.response.challengeName = 'CUSTOM_CHALLENGE';
-    }
-    return event;
-};
+//     // If user is not registered
+//     if (event.request.userNotFound) {
+//         event.response.issueToken = false;
+//         event.response.failAuthentication = true;
+//         throw new Error("User does not exist");
+//     }
+//     if (event.request.session.length >= 3 &&
+//         event.request.session.slice(-1)[0].challengeResult === false) { // wrong OTP even After 3 sessions?
+//         event.response.issueToken = false;
+//         event.response.failAuthentication = true;
+//         throw new Error("Invalid OTP");
+//     } else if (event.request.session.length > 0 &&
+//         event.request.session.slice(-1)[0].challengeResult === true) { // Correct OTP!
+//         event.response.issueTokens = true;
+//         event.response.failAuthentication = false;
+//     } else { // not yet received correct OTP
+//         event.response.issueTokens = false;
+//         event.response.failAuthentication = false;
+//         event.response.challengeName = 'CUSTOM_CHALLENGE';
+//     }
+//     return event;
+// };
 
-module.exports.createAuthChallenge = async (event: any) => {
-    console.log("CUSTOM_CHALLENGE_LAMBDA", event.request);
-    let secretLoginCode;
-    if (!event.request.session || !event.request.session.length) {
-        // Generate a new secret login code and send it to the user
-        // secretLoginCode = Date.now().toString().slice(-4);
-        secretLoginCode = "1234"
-        // try {
-        //     const msgSentId = await sendSMS(event.request.userAttributes.phone_number, secretLoginCode);
-        //     console.log("msg sent ID", msgSentId);
-        // } catch (error) {
-        //     console.log("sending msg", error)    // Handle SMS Failure   
-        // }
-    } else {
-        // re-use code generated in previous challenge
-        const previousChallenge = event.request.session.slice(-1)[0];
-        secretLoginCode = previousChallenge.challengeMetadata.match(/CODE-(\d*)/)[1];
-    }
+// module.exports.createAuthChallenge = async (event: any) => {
+//     console.log("CUSTOM_CHALLENGE_LAMBDA", event.request);
+//     let secretLoginCode;
+//     if (!event.request.session || !event.request.session.length) {
+//         // Generate a new secret login code and send it to the user
+//         // secretLoginCode = Date.now().toString().slice(-4);
+//         secretLoginCode = "1234"
+//         // try {
+//         //     const msgSentId = await sendSMS(event.request.userAttributes.phone_number, secretLoginCode);
+//         //     console.log("msg sent ID", msgSentId);
+//         // } catch (error) {
+//         //     console.log("sending msg", error)    // Handle SMS Failure   
+//         // }
+//     } else {
+//         // re-use code generated in previous challenge
+//         const previousChallenge = event.request.session.slice(-1)[0];
+//         secretLoginCode = previousChallenge.challengeMetadata.match(/CODE-(\d*)/)[1];
+//     }
 
-    console.log(event.request.userAttributes);
+//     console.log(event.request.userAttributes);
 
-    // Add the secret login code to the private challenge parameters
-    // so it can be verified by the "Verify Auth Challenge Response" trigger
-    event.response.privateChallengeParameters = { secretLoginCode };
+//     // Add the secret login code to the private challenge parameters
+//     // so it can be verified by the "Verify Auth Challenge Response" trigger
+//     event.response.privateChallengeParameters = { secretLoginCode };
 
-    // Add the secret login code to the session so it is available
-    // in a next invocation of the "Create Auth Challenge" trigger
-    event.response.challengeMetadata = `CODE-${secretLoginCode}`;
+//     // Add the secret login code to the session so it is available
+//     // in a next invocation of the "Create Auth Challenge" trigger
+//     event.response.challengeMetadata = `CODE-${secretLoginCode}`;
 
-    return event;
-};
+//     return event;
+// };
 
-module.exports.verifyAuthChallenge = async (event: any) => {
-    console.log(event.request);
-    const expectedAnswer = event.request.privateChallengeParameters.secretLoginCode;
-    if (event.request.challengeAnswer === expectedAnswer) {
-        event.response.answerCorrect = true;
-    } else {
-        event.response.answerCorrect = false;
-    }
-    return event;
-};
+// module.exports.verifyAuthChallenge = async (event: any) => {
+//     console.log(event.request);
+//     const expectedAnswer = event.request.privateChallengeParameters.secretLoginCode;
+//     if (event.request.challengeAnswer === expectedAnswer) {
+//         event.response.answerCorrect = true;
+//     } else {
+//         event.response.answerCorrect = false;
+//     }
+//     return event;
+// };
