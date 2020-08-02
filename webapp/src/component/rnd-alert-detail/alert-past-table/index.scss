@@ -24,6 +24,10 @@
         background: $TABLE_ROW_LIGHT;
     }
 
+    .past-alert-selected-row {
+        background-color: $ROW_HOVER !important;
+    }
+
     .ant-table-thead {
         tr {
             th {
@@ -71,6 +75,11 @@
     //curve edges bg
     .ant-table {
         background-color: transparent;
+    }
+
+    .tableSelectCheckboxOverride .ant-checkbox-inner {
+        background: transparent;
+        display: none;
     }
 
     .pagination-footer {
