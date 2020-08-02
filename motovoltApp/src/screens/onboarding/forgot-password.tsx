@@ -16,13 +16,17 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {OnboardingStackParamList} from '../../navigation/onboarding';
 import {InitiateForgotPassword} from '../../service/redux/actions/saga/authentication-actions';
+import {Store_ResetOnboarding} from '../../service/redux/actions/store';
 import {TStore} from '../../service/redux/store';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import OTP from './otp';
+import Toast from 'react-native-simple-toast';
 
 type ReduxState = {
   initiateForgotPassword: (params: InitiateForgotPassword) => void;
+  resetOnboarding: (params: Store_ResetOnboarding) => void;
+  onboarding: TStore['onboarding'];
 };
 
 type ForgotPAsswordNavigationProp = StackNavigationProp<
@@ -73,7 +77,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
 
   onOtpFilled = (code: string) => {
     this.setState({showOtp: false});
-    this.props.navigation.navigate('CreateNewPassword', {
+    this.props.navigation.replace('CreateNewPassword', {
       code,
       mobileNumber: this.state.mobile,
     });
@@ -141,12 +145,15 @@ class ForgotPassword extends React.PureComponent<Props, State> {
 
 export default connect(
   (store: TStore) => {
-    return {};
+    return {
+      onboarding: store['onboarding'],
+    };
   },
   (dispatch: Dispatch) => {
     return {
       initiateForgotPassword: (params: InitiateForgotPassword) =>
         dispatch(params),
+      resetOnboarding: (params: Store_ResetOnboarding) => dispatch(params),
     };
   },
 )(ForgotPassword);

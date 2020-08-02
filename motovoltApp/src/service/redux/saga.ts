@@ -106,7 +106,14 @@ function* signIn(params: AuthenticationActions.SignIn) {
         payload: {
             isLoggedIn: response.success,
         }
-    } as Store_UpdateUser)
+    } as Store_UpdateUser);
+    yield put({
+        type: 'Store_UpdateOnboarding',
+        payload: {
+            isLoggedIn: response.success,
+            errorMessage: response.success ? "" : response.message,
+        }
+    } as Store_UpdateOnboarding);
 }
 
 function* signUp(params: AuthenticationActions.SignUp) {
@@ -115,13 +122,19 @@ function* signUp(params: AuthenticationActions.SignUp) {
         type: "Store_UpdateOnboarding",
         payload: {
             signUpSuccess: response.success,
-            user: response.user
+            errorMessage: response.success ? "" : response.message,
         }
     } as Store_UpdateOnboarding)
 }
 
 function* resendSignUp(params: AuthenticationActions.ResendSignUp) {
-    yield call(Authentication.resendSignUp, params.payload.mobileNumber)
+    const response = yield call(Authentication.resendSignUp, params.payload.mobileNumber);
+    yield put({
+        type: "Store_UpdateOnboarding",
+        payload: {
+            errorMessage: response.message,
+        }
+    } as Store_UpdateOnboarding)
 }
 
 function* confirmSignUp(params: AuthenticationActions.ConfirmSignUp) {
@@ -130,6 +143,7 @@ function* confirmSignUp(params: AuthenticationActions.ConfirmSignUp) {
         type: "Store_UpdateOnboarding",
         payload: {
             confirmSignUpSuccess: response.success,
+            errorMessage: response.success ? "" : response.message,
         }
     } as Store_UpdateOnboarding)
 }
@@ -145,10 +159,12 @@ function* initForgotPassword(params: AuthenticationActions.InitiateForgotPasswor
 function* completeForgotPassword(params: AuthenticationActions.CompleteForgotPassword) {
     const response = yield call(Authentication.forgotPassword,
         params.payload.mobileNumber, params.payload.code, params.payload.password);
+    console.log("Response", response)
     yield put({
         type: "Store_UpdateOnboarding",
         payload: {
-            passwordResetSuccess: response.success
+            passwordResetSuccess: response.success,
+            errorMessage: response.success ? "" : response.message,
         }
     } as Store_UpdateOnboarding)
 }
@@ -159,7 +175,8 @@ function* changePassword(params: AuthenticationActions.ChangePassword) {
     yield put({
         type: "Store_UpdateOnboarding",
         payload: {
-            passwordResetSuccess: response.success
+            passwordResetSuccess: response.success,
+            errorMessage: response.success ? "" : response.message,
         }
     } as Store_UpdateOnboarding)
 }

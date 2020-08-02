@@ -7,6 +7,7 @@ type TOnboarding = {
     signUpSuccess: boolean | null,
     confirmSignUpSuccess: boolean | null,
     passwordResetSuccess: boolean | null,
+    errorMessage: string
 }
 
 type TBikeStat = {
@@ -101,10 +102,11 @@ type TBLE = {
     devices: TPeripheral[],
 }
 
-const ZeroOnboarding: TOnboarding = {
+export const ZeroOnboarding: TOnboarding = {
     confirmSignUpSuccess: null,
     signUpSuccess: null,
     passwordResetSuccess: null,
+    errorMessage: ""
 }
 
 const ZeroUser: TUser = {
