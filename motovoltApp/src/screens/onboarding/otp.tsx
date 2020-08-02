@@ -15,7 +15,6 @@ interface Props {
 
 type State = {
   success: boolean;
-  code: string;
 };
 
 export default class OTPInput extends React.PureComponent<Props, State> {
@@ -23,7 +22,6 @@ export default class OTPInput extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       success: false,
-      code: '',
     };
   }
 
@@ -51,9 +49,7 @@ export default class OTPInput extends React.PureComponent<Props, State> {
           <OTPInputView
             style={{width: '100%'}}
             pinCount={6}
-            code={this.state.code.length === 6 ? '' : this.state.code}
             autoFocusOnLoad
-            onCodeChanged={(code: string) => this.setState({code: code})}
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
             onCodeFilled={(code) => {
