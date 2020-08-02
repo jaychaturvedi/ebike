@@ -1,17 +1,26 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { StatisticsStackParamList } from '../../navigation/statistics';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {StatisticsStackParamList} from '../../navigation/statistics';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Icon} from 'native-base';
+import Moment from 'moment';
 
 type ReduxState = {
   rides: TStore['rides'];
@@ -27,25 +36,65 @@ interface Props extends ReduxState {
   route: RouteProp<StatisticsStackParamList, 'MyRides'>;
 }
 
-type State = {};
+type State = {
+  focusDate: Date;
+};
 
 class MyRides extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
+    this.state = {
+      focusDate: new Date(),
+    };
   }
+
+  setNewDate = (date: Date) => {
+    if (date.getTime() <= new Date().getTime())
+      this.setState({
+        focusDate: date,
+      });
+  };
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Header title={'My Rides'}
+      <View style={{flex: 1}}>
+        <Header
+          title={'My Rides'}
           backgroundColor={Colors.HEADER_YELLOW}
-          subtitle={"Cycle A"}
+          subtitle={'Cycle A'}
           hasSubtitle
           hasTabs
         />
         <ScrollView style={styles.container}>
-          <View style={styles.datePicker}>
-            <RideDatePicker />
+          <View style={styles.date}>
+            <TouchableOpacity
+              onPress={() =>
+                this.setNewDate(
+                  Moment(this.state.focusDate).add(-1, 'days').toDate(),
+                )
+              }>
+              <Icon
+                type="FontAwesome"
+                name="chevron-left"
+                style={styles.icon}></Icon>
+            </TouchableOpacity>
+            <View style={styles.datePicker}>
+              <RideDatePicker
+                date={this.state.focusDate}
+                onDateChange={(date) => this.setNewDate(date)}
+              />
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                this.setNewDate(
+                  Moment(this.state.focusDate).add(1, 'days').toDate(),
+                );
+              }}>
+              <Icon
+                type="FontAwesome"
+                name="chevron-right"
+                style={styles.icon}></Icon>
+            </TouchableOpacity>
           </View>
           <RideMetric
             header1="CO2e Savings"
@@ -69,15 +118,15 @@ class MyRides extends React.PureComponent<Props, State> {
             </Text>
           </View>
           <RideCard
-            key={"12"}
+            key={'12'}
             fromAddress="HsR layout, Near yelahanka Bangalore 21"
             toAddress="HsR layout, Near yelahanka Bangalore 21"
             progress={30}
             fromTime={new Date()}
             toTime={new Date()}
-            distance={"12"}
+            distance={'12'}
             rating={`12/10`}
-            speed={"12"}
+            speed={'12'}
             onItemSelect={() =>
               this.props.navigation.navigate('IndividualRide', {})
             }
@@ -120,12 +169,20 @@ const styles = StyleSheet.create({
     width: '100%',
     // paddingTop: 20
   },
-  datePicker: {
+  date: {
     marginTop: verticalScale(20),
     marginBottom: verticalScale(10),
+    height: verticalScale(30),
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  datePicker: {
     width: '50%',
     alignSelf: 'center',
-    height: verticalScale(30),
+  },
+  icon: {
+    fontSize: moderateScale(12),
   },
   chart: {
     height: verticalScale(280),
