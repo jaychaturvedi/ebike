@@ -110,7 +110,6 @@ function* signIn(params: AuthenticationActions.SignIn) {
     yield put({
         type: 'Store_UpdateOnboarding',
         payload: {
-            isLoggedIn: response.success,
             errorMessage: response.success ? "" : response.message,
         }
     } as Store_UpdateOnboarding);
