@@ -29,7 +29,7 @@ export default function RideStack() {
         >
             <Ride.Screen name="RideOn" component={RideOn} />
             <Ride.Screen name="RateRide" component={RateRide} />
-            <Ride.Screen name="RideFeedback" component={RideFeedback} />
+            {/* <Ride.Screen name="RideFeedback" component={RideFeedback} /> */}
         </Ride.Navigator>
     );
 }  

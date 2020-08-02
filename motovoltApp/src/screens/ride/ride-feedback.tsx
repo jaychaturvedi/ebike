@@ -14,8 +14,8 @@ type FeedbackNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-    navigation: FeedbackNavigationProp,
-    route: RouteProp<FeedbackStackParamList, 'RideFeedback'>
+    // navigation: FeedbackNavigationProp,
+    // route: RouteProp<FeedbackStackParamList, 'RideFeedback'>
 };
 
 type State = {
@@ -66,6 +66,7 @@ export default class RideFeedback extends React.PureComponent<Props, State>{
                         text="Submit"
                         textColor="white"
                         backgroundColor="#142F6A"
+                        onPress={() => console.log("Submitted Feedback")}
                     />
                 </View>
             </View>
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         padding: moderateScale(20),
-        backgroundColor: '#bfbbb8'
+        backgroundColor: '#bdb7b7'
     },
     header: {
         width: '100%',

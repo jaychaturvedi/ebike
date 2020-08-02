@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { FeedbackStackParamList } from '../../navigation/feedback';
+import RideFeedback from './ride-feedback';
 
 type ReduxState = {
     ride: TStore['ride'];
@@ -37,6 +38,11 @@ class RateRide extends React.PureComponent<Props, State> {
     }
 
     render() {
+        if (this.state.rating < 4 && this.state.rating > 0) {
+            return (
+                <RideFeedback />
+            )
+        }
         return (
             <View style={styles.container}>
                 <View style={styles.map}></View>
@@ -102,9 +108,7 @@ class RateRide extends React.PureComponent<Props, State> {
                         text="SUBMIT"
                         backgroundColor={this.state.rating > 0 ? '#142F6A' : '#B7B7B7'}
                         onPress={() => {
-                            this.state.rating > 0
-                                ? this.props.navigation.navigate('RideFeedback', {})
-                                : console.log('Disabled');
+                            console.log('Submitted');
                         }}
                     />
                 </View>
