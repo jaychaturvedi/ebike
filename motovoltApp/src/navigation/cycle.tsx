@@ -17,6 +17,7 @@ export default function CycleStack() {
     <MyCycle.Navigator
       screenOptions={{
         headerShown: false,
+        animationEnabled: false,
       }}
       // mode="modal"
     >

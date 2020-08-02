@@ -20,6 +20,7 @@ export default function RideStack() {
     return (
         <Feedback.Navigator screenOptions={{
             headerShown: false,
+            animationEnabled: false,
         }}
         // mode="modal"
         >

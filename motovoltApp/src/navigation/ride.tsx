@@ -12,8 +12,8 @@ import RideFeedback from '../screens/ride/ride-feedback'
  */
 export type RideStackParamList = {
     RideOn: {},
-    // RateRide: {},
-    // RideFeedback: {}
+    RateRide: {},
+    RideFeedback: {}
 }
 
 const Ride = createStackNavigator<RideStackParamList>();
@@ -23,12 +23,13 @@ export default function RideStack() {
     return (
         <Ride.Navigator screenOptions={{
             headerShown: false,
+            animationEnabled: false,
         }}
         // mode="modal"
         >
             <Ride.Screen name="RideOn" component={RideOn} />
-            {/* <Ride.Screen name="RateRide" component={RateRide} />
-            <Ride.Screen name="RideFeedback" component={RideFeedback} /> */}
+            <Ride.Screen name="RateRide" component={RateRide} />
+            <Ride.Screen name="RideFeedback" component={RideFeedback} />
         </Ride.Navigator>
     );
 }  

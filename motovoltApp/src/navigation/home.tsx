@@ -19,6 +19,7 @@ export default function HomeStack() {
     return (
         <Home.Navigator screenOptions={{
             headerShown: false,
+            animationEnabled: false,
         }}
         // mode="modal"
         >

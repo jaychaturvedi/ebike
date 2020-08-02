@@ -21,6 +21,7 @@ export default function StatisticsStack() {
     return (
         <Statistics.Navigator screenOptions={{
             headerShown: false,
+            animationEnabled: false,
         }}
         // mode="modal"
         >
