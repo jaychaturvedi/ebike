@@ -43,7 +43,11 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) =
     app.use("/ride", ridesRoutes)
     app.use("/service", serviceRoutes)
     const handler = serverless(app);
-    await db.sync({ alter: true, force: false });
+    try{
+        await db.authenticate();
+    }catch(error){
+        await db.sync({ alter: true, force: false });
+    }
     const result = await handler(event, context);
     return result;
 };

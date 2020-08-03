@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text
 } from 'recharts';
-
+import LineGraph from "./line-graph"
 const data = [
     {
         name: 'Page A', uv: 4000, pv: 2400, amt: 2400,
@@ -53,6 +53,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                 <div className={"connectm-header"}>
                     <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>Low Mileage</Typography.Text>
                 </div>
+                {/* <LineGraph/> */}
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                         data={data}
