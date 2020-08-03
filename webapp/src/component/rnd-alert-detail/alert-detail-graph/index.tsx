@@ -2,30 +2,42 @@ import './index.scss';
 import { Layout, Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine
 } from 'recharts';
 import LineGraph from "./line-graph"
 const data = [
     {
-        name: 'Page A', uv: 4000, pv: 2400, amt: 2400,
+        nocycles: 0, amilage: 30, smilage: 39,
     },
     {
-        name: 'Page B', uv: 3000, pv: 1398, amt: 2210,
+        nocycles: 100, amilage: 39, smilage: 35,
     },
     {
-        name: 'Page C', uv: 2000, pv: 9800, amt: 2290,
+        nocycles: 200, amilage: 15, smilage: 20,
     },
     {
-        name: 'Page D', uv: 2780, pv: 3908, amt: 2000,
+        nocycles: 300, amilage: 39, smilage: 15,
     },
     {
-        name: 'Page E', uv: 1890, pv: 4800, amt: 2181,
+        nocycles: 400, amilage: 13, smilage: 19,
     },
     {
-        name: 'Page F', uv: 2390, pv: 3800, amt: 2500,
+        nocycles: 500, amilage: 39, smilage: 29,
     },
     {
-        name: 'Page G', uv: 3490, pv: 4300, amt: 2100,
+        nocycles: 600, amilage: 14, smilage: 31,
+    },
+    {
+        nocycles: 700, amilage: 14, smilage: 31,
+    },
+    {
+        nocycles: 800, amilage: 14, smilage: 31,
+    },
+    {
+        nocycles: 900, amilage: 14, smilage: 31,
+    },
+    {
+        nocycles: 1000, amilage: 14, smilage: 31,
     },
 ];
 interface AlertDetailGraphProps { }
@@ -54,36 +66,53 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                     <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>Low Mileage</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="95%" height="100%">
                     <LineChart
                         data={data}
                         margin={{
                             top: 0, right: 0, left: 0, bottom: 0,
                         }}
                     >
-                        <Legend wrapperStyle={{ top: -18, left: 30 }} />
+                        <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                         <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                        <XAxis dataKey="name" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 30, right: 20 }}>
+                        <ReferenceLine y={35} stroke="green" strokeDasharray="3 3 5 2"
+                            isFront={true} >
+                            <Label position={'insideBottomLeft'} fill="#ffffff"
+                                style={{
+                                    fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                }} value="L1">
+                            </Label>
+                        </ReferenceLine>
+                        <ReferenceLine y={25} stroke="green" strokeDasharray="3 3 5 2"
+                            isFront={true} >
+                            <Label position={'insideTopLeft'} fill="#ffffff"
+                                style={{
+                                    fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                }} value="L2">
+                            </Label>
+                        </ReferenceLine>
+                        {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
+                        <XAxis dataKey="nocycles" tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" padding={{ left: 30, right: 20 }}>
                             <Label
                                 value="No. of Cycles"
                                 position="bottom"
                                 offset={0}
+                                style={{ padding: 5 }}
                                 content={props => { return this.DynamicLabel(props) }}
                             />                        </XAxis>
-                        <YAxis tick={{ fill: 'white' }} padding={{ top: 20, bottom: 30 }}>
-                            <Label angle={270} position='left' offset={-10} fill="#ffffff"
+                        <YAxis tick={{ fill: 'white' }} padding={{ top: 20, bottom: 30 }} domain={[5, 50]} stroke='#ffffff'>
+                            <Label angle={270} position='left' offset={-25} fill="#ffffff"
                                 style={{
                                     fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
                                 }} value="Mileage (KM)">
                             </Label>
                         </YAxis>
-                        <Tooltip />
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 6 }} strokeWidth={3} />
-                        <Line type="monotone" dataKey="uv" stroke="#82ca9d" strokeWidth={3} />
+                        <Line name="Specified Mileage" type="monotone" dataKey="smilage" stroke="#8884d8" dot={{ r: 1 }} strokeWidth={3} />
+                        <Line name="Actual Mileage" type="monotone" dataKey="amilage" stroke="#82ca9d" strokeWidth={3} dot={{ r: 1 }} />
                     </LineChart>
                 </ResponsiveContainer>
 
-            </div>
+            </div >
         )
     }
 

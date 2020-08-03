@@ -13,79 +13,79 @@ interface LineGraphStates { }
 const data = [
     {
         "km": 20,
-        "smilage": 39,
+        smilage: 39,
         "amilage": 30,
         "nocycles": 10
     },
     {
         "km": 10,
-        "smilage": 30,
+        smilage: 30,
         "amilage": 23,
         "nocycles": 12
     },
     {
         "km": 30,
-        "smilage": 29,
+        smilage: 29,
         "amilage": 27,
         "nocycles": 120
     },
     {
         "km": 30,
-        "smilage": 25,
+        smilage: 25,
         "amilage": 23,
         "nocycles": 124
     },
     {
         "km": 30,
-        "smilage": 24,
+        smilage: 24,
         "amilage": 20,
         "nocycles": 129
     },
     {
         "km": 30,
-        "smilage": 20,
+        smilage: 20,
         "amilage": 20,
         "nocycles": 149
     },
     {
         "km": 30,
-        "smilage": 19,
+        smilage: 19,
         "amilage": 18,
         "nocycles": 152
     },
     {
         "km": 30,
-        "smilage": 16,
+        smilage: 16,
         "amilage": 15,
         "nocycles": 170
     },
     {
         "km": 30,
-        "smilage": 15,
+        smilage: 15,
         "amilage": 14,
         "nocycles": 290
     },
     {
         "km": 30,
-        "smilage": 12,
+        smilage: 12,
         "amilage": 10,
         "nocycles": 330
     },
     {
         "km": 30,
-        "smilage": 10,
+        smilage: 10,
         "amilage": 9,
         "nocycles": 550
     },
     {
         "km": 30,
-        "smilage": 7,
+        smilage: 7,
         "amilage": 7,
         "nocycles": 660
     },
     {
         "km": 30,
-        "smilage": 5,
+        smilage: 5,
         "amilage": 4,
         "nocycles": 1200
     }

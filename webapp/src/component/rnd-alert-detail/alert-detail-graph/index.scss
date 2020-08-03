@@ -20,6 +20,8 @@
     }
 
     .recharts-responsive-container {
+        display: flex;
+        justify-content: center;
         // font-size: 12px;
         background-color: $GRAPH_BACKGROUND;
     }

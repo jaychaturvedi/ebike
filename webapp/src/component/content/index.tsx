@@ -7,6 +7,8 @@ import { Route, withRouter, RouteComponentProps, Switch } from "react-router";
 import HomePage from "../rnd-home-page"
 import User from "../user"
 import AlertDetail from "../rnd-alert-detail"
+import Battery from "../rnd-alert-detail/alert-detail-graph/cell-battery-graph"
+
 
 interface ContentProp extends RouteComponentProps { }
 interface ContentState { }
@@ -16,6 +18,7 @@ class Content extends PureComponent<ContentProp, ContentState>{
             <Layout.Content className="web-content">
                 <WebHeader />
                 <LeftPanel />
+                {/* <Battery/> */}
                 <Switch>
                     <Route exact path="/" component={HomePage} />
                     <Route exact path="/:id" component={AlertDetail} />
