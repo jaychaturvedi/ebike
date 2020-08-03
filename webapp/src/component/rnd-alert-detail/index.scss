@@ -27,6 +27,13 @@
     .breadcrum-active {
         color: #ffffff;
     }
+    .link {
+        color: $APPLY_BUTTON;
+        text-decoration: underline;
+        &:hover {
+            color: #ffffff;
+        }
+    }
 }
 
 .connectm-alert-detail-container {

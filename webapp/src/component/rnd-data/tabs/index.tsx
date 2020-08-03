@@ -43,7 +43,7 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
         return (
             <div className="connectm-Tabs">
                 <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "smart" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("smart")}>
-                    <Typography.Text strong style={{ whiteSpace: "nowrap" }}>Smart Alerts <span style={{ paddingLeft: "5px" }}>(100)</span></Typography.Text>
+                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Smart Alerts <span style={{ paddingLeft: "5px" }}>(100)</span></Typography.Text>
                 </Button>
                 <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "bms" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("bms")}>
                     <Typography.Text style={{ whiteSpace: "nowrap" }}>BMS Alerts <span style={{ paddingLeft: "5px" }}>(100)</span></Typography.Text>

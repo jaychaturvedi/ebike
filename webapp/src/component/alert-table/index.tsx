@@ -243,7 +243,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     /**Navigation */
     onRowClick = (record: any) => {
         console.log(record)
-        this.props.history.push("/" + record.id);
+        this.props.history.push("/" + record.alertId);
     }
 
     onRow = (record: any, rowIndex: any) => {
@@ -329,7 +329,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 </div>
                 <div className={"pagination-footer"}>
                     Showing &nbsp;&nbsp;&nbsp; <span >
-                        <Select className={'select-button'} style={{ height: 30 }}
+                        <Select className={'select-button'}
                             defaultValue={this.state.pageSize} onChange={this.handleSelect}>
                             {paginationDate.map(page => (
                                 <Option value={page} key={page}>{page}</Option>
