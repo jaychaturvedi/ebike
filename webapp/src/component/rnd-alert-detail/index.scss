@@ -37,7 +37,7 @@
 }
 
 .connectm-alert-detail-container {
-    border: 1px solid #ffffff;
+    // border: 1px solid #ffffff;
     height: 1px; //used so that child can use persent height
     width: auto;
     min-height: calc(100vh - (60px + 60px));
@@ -50,12 +50,12 @@
         flex-direction: row;
         justify-content: space-between;
         min-height: 50%;
-        border: 1px solid #ffffff;
+        // border: 1px solid #ffffff;
     }
 
     .alert-bottom-container {
         min-height: 50%;
-        border: 1px solid #ffffff;
+        // border: 1px solid #ffffff;
         display: flex;
         flex-direction: row;
         justify-content: space-between;

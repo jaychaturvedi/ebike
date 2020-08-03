@@ -250,7 +250,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     <Table
                         tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        scroll={{ y: '28vh' }} //not able to make dynamic
+                        scroll={{ y: '28.5vh' }} //not able to make dynamic
                         // size={"middle"}
                         bordered={false}
                         className="ant-table-thead"
