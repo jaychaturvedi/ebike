@@ -29,8 +29,8 @@ let datas: Array<TData> = []
 for (var i = 1; i < 101; i++) {
     datas.push({
         id: i,
-        alertName: i % 2 ? "Capacity Deteroriation " : "Voltage Deviation",
-        model: "Calssic" + i,
+        alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
+        model: "Classic" + i,
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
         openSince: "24 hrs " + i + "0 min",
@@ -201,8 +201,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 dataIndex: 'location', key: 'location', title: "Location",
             },
             {
-                dataIndex: 'alertGraph', key: 'alertGraph',
-                // sortDirections: ['descend', 'ascend'], headerSort: false,                
+                dataIndex: 'alertGraph', key: 'alertGraph',               
                 title: <span > Alert graph </span>,
                 render: (text: any, record: any, index: any) => <GraphSelector text={text} record={record} index={index} />
             },

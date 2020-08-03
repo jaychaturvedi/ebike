@@ -24,7 +24,7 @@ class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsState
                     <div className={"single-cell-right"} style={{ width: "40%" }}>10</div>
                 </div>
                 <div className={"single-row"}>
-                    <div className={"single-cell-left"} style={{ width: "60%" }}>Avg Range/ride:</div>
+                    <div className={"single-cell-left"} style={{ width: "60%" }}>Avg Range/Ride:</div>
                     <div className={"single-cell-right"} style={{ width: "40%" }}>25 Km</div>
                 </div>
                 <div className={"single-row"}>

@@ -54,7 +54,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                     <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>Low Mileage</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="99%" height="95%">
                     <LineChart
                         data={data}
                         margin={{

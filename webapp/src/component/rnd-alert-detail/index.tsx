@@ -6,6 +6,7 @@ import AlertInsights from "./alert-additional-insights"
 import AlertDetailGraph from "./alert-detail-graph"
 import CellBatteryGraph from "./alert-detail-graph/cell-battery-graph"
 import AlertPastTable from "./alert-past-table"
+import { Link } from 'react-router-dom';
 
 interface AlertDetailProps { }
 
@@ -17,8 +18,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return (
             <div className="connectm-AlertDetail">
                 <Breadcrumb separator=">" className={"connectm-breadcrum"}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item href="" ><span>Smart Alerts</span></Breadcrumb.Item>
+                    <Breadcrumb.Item href=""><Link to={"/"} className="link">Home</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item href="" ><Link to={"/"} className="link"><span>Smart Alerts</span></Link></Breadcrumb.Item>
                     <Breadcrumb.Item href={""} ><span className={"breadcrum-active"}>Alert Details</span></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className={"connectm-alert-detail-container"}>
