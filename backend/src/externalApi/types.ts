@@ -152,3 +152,46 @@ export type TRequestBody = {
     startTime?: string;
     endTime?: string;
 }
+
+//webapp graph types
+export type TDashboardData = {
+    alertName: string;
+    model: string;
+    alertId: number;
+    mfgDate: string;
+    batteryId: string;
+    customerId: string;
+    frameId: string;
+    alertTime: string;
+    location: string;
+    openSince: string;
+    Severity: number;
+}
+
+export type TDashboard = {
+    dataCount?: number;
+    data: Array<TDashboardData>;
+}
+
+export type TTotalAlert = [{
+    data: string;
+    count: number
+}]
+
+export type TDashboardFilter = {
+    vehicleId?: string;
+    alertName?: string;
+    model?: string;
+    subModel?: string;
+    location?: string;
+    subLocation?: string;
+    startDate?: string;
+    endDate?: string;
+    batteryId?: string;
+    customerId?: string;
+    alertType?: string;
+    timeFrame?: string;
+    page?: number;
+    pageSize?: number;
+
+}

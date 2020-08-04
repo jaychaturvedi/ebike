@@ -1,5 +1,6 @@
 import { get, post, put } from 'request-promise'
 import * as dotenv from "dotenv"
+import { TDashboardFilter, TDashboard } from './types';
 
 dotenv.config()
 function createOptions(url: string, body: any,) {
@@ -16,32 +17,32 @@ function createOptions(url: string, body: any,) {
 }
 
 export default class WebAPI {
-    static async allAlerts(alertType: string, pageNo: number, pageSize: number) {
+    static async mainAlerts(alertType: string, pageNo: number, pageSize: number) {
         const options = createOptions('/allalerts', { alertType, pageNo, pageSize })
-        const fetchedData = await post(options)
-        return fetchedData
+        const fetchedData: TDashboard = await post(options)
+        return fetchedData.data
     }
 
-    static async trendToAlerts(alertType: string, startDate: number, endDate: number) {
+    static async totalAlerts(alertType: string, startDate: string, endDate: string) {
         const options = createOptions('/trendtoalerts', { alertType, startDate, endDate })
         const fetchedData = await post(options)
         return fetchedData
     }
 
-    static async topFiveAlert(alertType: string, startDate: number, endDate: number) {
+    static async topFiveAlert(alertType: string, startDate: string, endDate: string) {
         const options = createOptions('/trndgphtopfivalrt', { alertType, startDate, endDate })
         const fetchedData = await post(options)
         return fetchedData
     }
 
-    static async locationWiseAlert(alertType: string, startDate: number, endDate: number) {
+    static async locationWiseAlert(alertType: string, startDate: string, endDate: string) {
         const options = createOptions('/trndgphlocwise', { alertType, startDate, endDate })
         const fetchedData = await post(options)
         return fetchedData
     }
 
-    static async dashFilter(alertType: string, startDate: number, endDate: number) {//add filters
-        const options = createOptions('/dashboardfilter', { alertType, startDate, endDate })
+    static async dashFilter(filter: TDashboardFilter) {//add filters
+        const options = createOptions('/dashboardfilter', { ...filter })
         const fetchedData = await post(options)
         return fetchedData
     }
