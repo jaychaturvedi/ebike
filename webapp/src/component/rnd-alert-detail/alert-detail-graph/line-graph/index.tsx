@@ -15,7 +15,7 @@ const data = [
         "km": 20,
         smilage: 39,
         "amilage": 30,
-        "nocycles": 10
+        nocycles: 10
     },
     {
         "km": 10,

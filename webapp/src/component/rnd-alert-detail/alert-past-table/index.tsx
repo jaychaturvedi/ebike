@@ -15,12 +15,10 @@ const { Option } = Select;
 type TData = {
     id?: any,
     key?: number,
-    alertName: string,
-    model: string,
+    alertTime: string,
+    tat: string,
     vehicleId: string,
     time: string,
-    openSince: string,
-    severity: any,
     location: string
     alertGraph: boolean
 }
@@ -29,13 +27,10 @@ let datas: Array<TData> = []
 for (var i = 1; i < 101; i++) {
     datas.push({
         id: i,
-        alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
-        model: "Classic" + i,
+        alertTime: i + " May 2020 10:05AM",
+        tat: "24 hrs " + i + "0 min",
         vehicleId: "BDS" + i,
         time: i + " May 2020 10:05AM",
-        openSince: "24 hrs " + i + "0 min",
-        severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}>
-            <Severity height="15" width="15" className={`${i == 1 ? "" : i % 2 ? "severity-color-major" : "severity-color-minor"}`} /></span>,
         location: "Bangalore " + i,
         alertGraph: false
     })
@@ -50,7 +45,7 @@ interface AlertPastTableStates {
     sortDirections: string; alertClicked: boolean; total: number;
     loading: boolean;
     sortingKey: any;
-    selectedRowId:number;
+    selectedRowId: number;
 }
 
 
@@ -70,7 +65,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             sortDirections: 'ascend',
             loading: false,
             alertClicked: false,
-            selectedRowId : -1
+            selectedRowId: -1
         }
     }
 
@@ -175,7 +170,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     /**Row Selection*/
 
     setRowClassName = (record: any, index: any) => {
-        if (record.id === this.state.selectedRowId){
+        if (record.id === this.state.selectedRowId) {
             return 'past-alert-selected-row'
         }
         return index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
@@ -186,14 +181,14 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         let { isAsc, alertClicked } = this.state;
         const columns: any = [
             {
-                dataIndex: 'alertName', defaultSortOrder: 'ascend',
-                title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
+                dataIndex: 'alertTime', defaultSortOrder: 'ascend',
+                title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Time
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} />}
                 </span>,
             },
             {
-                dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend',
+                dataIndex: 'tat', key: 'tat', defaultSortOrder: 'ascend',
                 title: 'TAT'
             },
 
@@ -201,8 +196,8 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 dataIndex: 'location', key: 'location', title: "Location",
             },
             {
-                dataIndex: 'alertGraph', key: 'alertGraph',               
-                title: <span > Alert graph </span>,
+                dataIndex: 'alertGraph', key: 'alertGraph',
+                title: <span > Alert Graph </span>,
                 render: (text: any, record: any, index: any) => <GraphSelector text={text} record={record} index={index} />
             },
         ];
