@@ -5,7 +5,7 @@ import JwtDecode from "jwt-decode";
 import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError, MotoVoltError, UserError, FeedbackError, IssuesError, FeaturesError, RideError, SupportError, AlertError } from "./error";
 const Op = Sequelize.Op
 
-type TResponseStatus = "OK" | "NOT_FOUND" | "INVALID_REQUEST" | "UNKNOWN_ERROR"
+type TResponseStatus = "ERROR" | "OK" | "NOT_FOUND" | "INVALID_REQUEST" | "UNKNOWN_ERROR"
   | "BAD_REQUEST_EROR" | "FORBIDDEN_ERROR" | "NOT_FOUND_ERROR" | "UNAUTHORIZED_ERROR"
 
 export function createResponse(status: TResponseStatus, body: any,
@@ -25,7 +25,7 @@ export function createResponse(status: TResponseStatus, body: any,
 export function expressErrorHandler(err: Error, req: Request, res: Response,
   next: NextFunction) {
 
-  let status: TResponseStatus = 'OK'; let statusCode: number = 200;
+  let status: TResponseStatus = 'ERROR'; let statusCode: number = 200;
 
   if (err instanceof BadRequestError || err instanceof ForbiddenError ||
     err instanceof NotFoundError || err instanceof UnauthorizedError) {
@@ -36,7 +36,7 @@ export function expressErrorHandler(err: Error, req: Request, res: Response,
     err instanceof FeedbackError || err instanceof IssuesError ||
     err instanceof FeaturesError || err instanceof FeaturesError ||
     err instanceof SupportError || err instanceof AlertError) {
-    status = "OK"
+    status = "ERROR"
     statusCode = 200
   }
   console.log(err.name);

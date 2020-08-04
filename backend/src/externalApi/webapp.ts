@@ -1,0 +1,176 @@
+import { get, post, put } from 'request-promise'
+import * as dotenv from "dotenv"
+
+dotenv.config()
+function createOptions(url: string, body: any,) {
+    const uri = process.env.MOTOVOLTAPI + url
+    const options = {
+        uri,
+        body,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        json: true
+    };
+    return options
+}
+
+export default class WebAPI {
+    static async allAlerts(alertType: string, pageNo: number, pageSize: number) {
+        const options = createOptions('/allalerts', { alertType, pageNo, pageSize })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async trendToAlerts(alertType: string, startDate: number, endDate: number) {
+        const options = createOptions('/trendtoalerts', { alertType, startDate, endDate })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async topFiveAlert(alertType: string, startDate: number, endDate: number) {
+        const options = createOptions('/trndgphtopfivalrt', { alertType, startDate, endDate })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async locationWiseAlert(alertType: string, startDate: number, endDate: number) {
+        const options = createOptions('/trndgphlocwise', { alertType, startDate, endDate })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async dashFilter(alertType: string, startDate: number, endDate: number) {//add filters
+        const options = createOptions('/dashboardfilter', { alertType, startDate, endDate })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async additionalInsight(vehicleId: string, alertId: number, alertName: string, customerId: string) {
+        const options = createOptions('/additinsts', { vehicleId, alertId, alertName, customerId })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async pastAlerts(vehicleId: string, alertId: number, alertName: string, customerId: string, pageNo: number, pageSize: number) {
+        const options = createOptions('/pastalerts', { vehicleId, alertId, alertName, customerId, pageNo, pageSize })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+
+    static async clearAlert(vehicleId: string, alertId: number, alertName: string, comment: string) {
+        const options = createOptions('/clearalerts', { vehicleId, alertId, alertName, comment })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async lowMileageGraph(vehicleId: string, alertId: number, alertName: string) {
+        const options = createOptions('/maingraph', { vehicleId, alertId, alertName: "voltage deviation" })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async batteryCellGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 1,
+            alertName: "voltage deviation"
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async vehicleUsageGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 2,
+            alertName: "vehicle active or idle"
+
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async batteryTempGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 3,
+            alertName: "high operating temperature "
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async unitVoltageGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 4,
+            alertName: "unit over voltage"
+
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async chargingTempGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 5,
+            alertName: "high charging temperature "
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async chargingCurrentGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 6,
+            alertName: "charging over current"
+
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async highSocGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 7,
+            alertName: "high soc"
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async batteryTempDiffGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 8,
+            alertName: "excessive temperature difference"
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async speedGraph(vehicleId: string, alertId: number) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleId,
+            alertId,
+            alertType: 9,
+            alertName: "hall sensor fault"
+        })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+}
+

@@ -102,7 +102,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                     content={props => { return this.DynamicLabel(props) }}
                                 />                        </XAxis>
                             <YAxis tick={{ fill: 'white' }} padding={{ top: 20, bottom: 30 }} domain={[5, 50]} stroke='#ffffff'>
-                                <Label angle={270} position='left' offset={-25} fill="#ffffff"
+                                <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
                                     }} value="Mileage (KM)">

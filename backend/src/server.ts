@@ -13,7 +13,7 @@ import * as dotenv from "dotenv"
 import * as bodyparser from 'body-parser';
 import db from "./db"
 import User from './user/service';
-import webappRoutes from "./webapp/route"
+import webappRoutes from "./webapp/routes"
 dotenv.config()
 
 const app = express();
@@ -43,9 +43,9 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) =
     app.use("/ride", ridesRoutes)
     app.use("/service", serviceRoutes)
     const handler = serverless(app);
-    try{
+    try {
         await db.authenticate();
-    }catch(error){
+    } catch (error) {
         await db.sync({ alter: true, force: false });
     }
     const result = await handler(event, context);
