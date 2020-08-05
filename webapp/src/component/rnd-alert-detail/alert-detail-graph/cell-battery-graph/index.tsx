@@ -168,7 +168,8 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                 <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} />
                                 <YAxis tick={{ fill: 'white', }} orientation="right"
                                     ticks={[2.000, 3.001, 3.730, 3.880, 4.201]} domain={['dataMin - 0.005', 'dataMax + 0.005']} />
-                                {/* <Tooltip /> */}
+                                <Tooltip wrapperStyle={{ backgroundColor: "red" }} coordinate={{ x: -20, y: 150 }} cursor={{ fill: '#f0', border: '5px solid #ffffff' }}
+                                />
                                 {/* <CartesianGrid strokeDasharray="3 3" /> */}
                                 <ReferenceLine y={3.880} stroke="#717171" strokeDasharray="3 3 5 2" dx={25}
                                     isFront={true} >

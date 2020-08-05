@@ -3,9 +3,12 @@ import React, { PureComponent } from 'react';
 import { Breadcrumb, Typography } from 'antd';
 import AlertDetailSingle from "./alert-detail-single"
 import AlertInsights from "./alert-additional-insights"
-import AlertDetailGraph from "./alert-detail-graph"
+import LineGraph from "./alert-detail-graph/line-graph"
 import CellBatteryGraph from "./alert-detail-graph/cell-battery-graph"
+import StackedBarGraph from "./alert-detail-graph/stacked-bar"
+
 import AlertPastTable from "./alert-past-table"
+
 import { Link } from 'react-router-dom';
 
 interface AlertDetailProps { }
@@ -25,9 +28,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 <div className={"connectm-alert-detail-container"}>
                     <div className={"alert-top-container"}>
                         <AlertDetailSingle />
-                        {/* <AlertDetailGraph /> */}
-                        <CellBatteryGraph />
-
+                        {/* <LineGraph /> */}
+                        {/* <CellBatteryGraph /> */}
+                        <StackedBarGraph />
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>

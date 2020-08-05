@@ -18,17 +18,18 @@
     display: flex;
     align-items: center;
   }
-.top-graph-container {
-  .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+4) {
-    display: none;
-  }
-}
 
-.bottom-graph-container {
-  .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+8) {
-    display: none;
+  .top-graph-container {
+    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+4) {
+      display: none;
+    }
   }
-}
+
+  .bottom-graph-container {
+    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+8) {
+      display: none;
+    }
+  }
 
 
   .recharts-responsive-container {
@@ -36,5 +37,42 @@
     justify-content: center;
     // font-size: 12px;
     background-color: $TABLE_ROW_DARK;
+
+    .recharts-rectangle {
+      height: 40px;
+      box-sizing: border-box;
+      border: 1px solid #ffffff;
+
+
+      &:hover {
+        border: 1px solid #ffffff;
+        overflow: hidden;
+      }
+
+    }
+
+    .recharts-tooltip-wrapper {
+      width: 0;
+
+      // .recharts-default-tooltip {
+
+      //   //
+      //   .recharts-tooltip-label {}
+
+      //   .recharts-tooltip-item-list {
+      //     .recharts-tooltip-item {
+      //       .recharts-tooltip-item-name {}
+
+      //       .recharts-tooltip-item-separator {}
+
+      //       .recharts-tooltip-item-value {}
+
+      //       .recharts-tooltip-item-unit {}
+      //     }
+      //   }
+      // }
+    }
+
+
   }
 }
