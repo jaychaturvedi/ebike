@@ -184,7 +184,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 dataIndex: 'alertTime', defaultSortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Time
                     {alertClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} className={this.state.classname} />}
                 </span>,
             },
             {

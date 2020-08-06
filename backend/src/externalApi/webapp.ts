@@ -1,10 +1,10 @@
 import { get, post, put } from 'request-promise'
 import * as dotenv from "dotenv"
-import { TDashboardFilter, TDashboard } from './types';
+import { TDashboardFilter, TDashboard, TTotalAlert } from './types';
 
 dotenv.config()
 function createOptions(url: string, body: any,) {
-    const uri = process.env.MOTOVOLTAPI + url
+    const uri = process.env.WEBAPPAPI + url
     const options = {
         uri,
         body,
@@ -20,12 +20,12 @@ export default class WebAPI {
     static async mainAlerts(alertType: string, pageNo: number, pageSize: number) {
         const options = createOptions('/allalerts', { alertType, pageNo, pageSize })
         const fetchedData: TDashboard = await post(options)
-        return fetchedData.data
+        return fetchedData
     }
 
     static async totalAlerts(alertType: string, startDate: string, endDate: string) {
-        const options = createOptions('/trendtoalerts', { alertType, startDate, endDate })
-        const fetchedData = await post(options)
+        const options = createOptions('/trendtotalerts', { alertType, startDate, endDate })
+        const fetchedData: TTotalAlert = await post(options)
         return fetchedData
     }
 
@@ -67,16 +67,16 @@ export default class WebAPI {
     }
 
     static async lowMileageGraph(vehicleId: string, alertId: number, alertName: string) {
-        const options = createOptions('/maingraph', { vehicleId, alertId, alertName: "voltage deviation" })
+        const options = createOptions('/maingraph', { vehicleID: vehicleId, alertId, alertName: "voltage deviation" })
         const fetchedData = await post(options)
         return fetchedData
     }
 
     static async batteryCellGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
-            alertType: 1,
+            alertTypeId: 1,
             alertName: "voltage deviation"
         })
         const fetchedData = await post(options)
@@ -85,9 +85,9 @@ export default class WebAPI {
 
     static async vehicleUsageGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
-            alertType: 2,
+            alertTypeId: 2,
             alertName: "vehicle active or idle"
 
         })
@@ -99,7 +99,7 @@ export default class WebAPI {
         const options = createOptions('/subgraph/dynamic', {
             vehicleId,
             alertId,
-            alertType: 3,
+            alertTypeId: 3,
             alertName: "high operating temperature "
         })
         const fetchedData = await post(options)
@@ -110,7 +110,7 @@ export default class WebAPI {
         const options = createOptions('/subgraph/dynamic', {
             vehicleId,
             alertId,
-            alertType: 4,
+            alertTypeId: 4,
             alertName: "unit over voltage"
 
         })
@@ -122,7 +122,7 @@ export default class WebAPI {
         const options = createOptions('/subgraph/dynamic', {
             vehicleId,
             alertId,
-            alertType: 5,
+            alertTypeId: 5,
             alertName: "high charging temperature "
         })
         const fetchedData = await post(options)
@@ -133,7 +133,7 @@ export default class WebAPI {
         const options = createOptions('/subgraph/dynamic', {
             vehicleId,
             alertId,
-            alertType: 6,
+            alertTypeId: 6,
             alertName: "charging over current"
 
         })
@@ -145,7 +145,7 @@ export default class WebAPI {
         const options = createOptions('/subgraph/dynamic', {
             vehicleId,
             alertId,
-            alertType: 7,
+            alertTypeId: 7,
             alertName: "high soc"
         })
         const fetchedData = await post(options)
@@ -156,7 +156,7 @@ export default class WebAPI {
         const options = createOptions('/subgraph/dynamic', {
             vehicleId,
             alertId,
-            alertType: 8,
+            alertTypeId: 8,
             alertName: "excessive temperature difference"
         })
         const fetchedData = await post(options)
@@ -167,7 +167,7 @@ export default class WebAPI {
         const options = createOptions('/subgraph/dynamic', {
             vehicleId,
             alertId,
-            alertType: 9,
+            alertTypeId: 9,
             alertName: "hall sensor fault"
         })
         const fetchedData = await post(options)

@@ -1,5 +1,5 @@
 import * as Express from "express";
-import { validationResult, body } from "express-validator";
+import { validationResult, body, query } from "express-validator";
 import { createResponse } from "../helper";
 import WebAPI from "../externalApi/webapp";
 
@@ -33,19 +33,6 @@ function secure(
     next();
 }
 
-app.get("/test",
-    secure,
-    [validate],
-    expressQAsync(async (
-        req: Express.Request,
-        res: Express.Response,
-        next: Express.NextFunction
-    ) => {
-        console.log("hi")
-        res.json("Hello world!");
-    })
-)
-
 function expressErrorHandler(
     err: Error,
     req: Express.Request,
@@ -60,56 +47,56 @@ function expressErrorHandler(
 }
 
 //dashboard main alerts
-app.post('/mainAlerts', expressQAsync(secure),
-    [body('alertType', "name is too short").isString().isLength({ min: 3 }),
-    body("pageNo", "Email is invalid").toInt(),
-    body("pageSize", "Email is invalid").toInt(), validate],
+app.get('/mainAlerts', expressQAsync(secure),
+    [query('alertType', "name is too short").isString().isLength({ min: 3 }),
+    query("pageNo", "Email is invalid").toInt(),
+    query("pageSize", "Email is invalid").toInt(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { alertType, pageNo, pageSize } = req.body
+        const { alertType, pageNo, pageSize } = req.query as any
         const updated = await WebAPI.mainAlerts(alertType, pageNo, pageSize)
         const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 //
-app.post('/totalAlerts', expressQAsync(secure),
-    [body('alertType', "name is too short").isString().isLength({ min: 3 }),
-    body("startDate", "Email is invalid").isString(),
-    body("endDate", "Email is invalid").isString(), validate],
+app.get('/totalAlerts', expressQAsync(secure),
+    [query('alertType', "name is too short").isString().isLength({ min: 3 }),
+    query("startDate", "Email is invalid").isString(),
+    query("endDate", "Email is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { alertType, startDate, endDate } = req.body
+        const { alertType, startDate, endDate } = req.query as any
         const updated = await WebAPI.totalAlerts(alertType, startDate, endDate)
         const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
-app.post('/topFive', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 3 }),
-    body("startDate", "startDate is invalid").isString(),
-    body("endDate", "endDate is invalid").isString(), validate],
+app.get('/topFive', expressQAsync(secure),
+    [query('alertType', "alertType is too short").isString().isLength({ min: 3 }),
+    query("startDate", "startDate is invalid").isString(),
+    query("endDate", "endDate is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { alertType, startDate, endDate } = req.body
+        const { alertType, startDate, endDate } = req.query as any
         const updated = await WebAPI.topFiveAlert(alertType, startDate, endDate)
         const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
-app.post('/locationWise', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 3 }),
-    body("startDate", "startDate is invalid").isString(),
-    body("endDate", "endDate is invalid").isString(), validate],
+app.get('/locationWise', expressQAsync(secure),
+    [query('alertType', "alertType is too short").isString().isLength({ min: 3 }),
+    query("startDate", "startDate is invalid").isString(),
+    query("endDate", "endDate is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { alertType, startDate, endDate } = req.body
+        const { alertType, startDate, endDate } = req.query as any
         const updated = await WebAPI.locationWiseAlert(alertType, startDate, endDate)
         const response = createResponse("OK", updated, undefined)
         res.json(response)
@@ -192,131 +179,132 @@ app.post('/clearAlert', expressQAsync(secure),
     })
 )
 
-app.post('/lowMileage', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
-    body("alertName", "alertName is invalid").isString(), validate],
+app.get('/lowMileage', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
+    query("alertName", "alertName is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId, alertName } = req.body
+        const { vehicleId, alertId, alertName } = req.query as any
         const result = await WebAPI.lowMileageGraph(vehicleId, alertId, alertName)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/batteryCell', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/batteryCell', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
         const result = await WebAPI.batteryCellGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/vehicleUsage', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/vehicleUsage', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
         const result = await WebAPI.vehicleUsageGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/batteryTemp', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/batteryTemp', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
         const result = await WebAPI.batteryTempGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/unitVoltage', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/unitVoltage', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
         const result = await WebAPI.unitVoltageGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/chargingTemp', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/chargingTemp', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
         const result = await WebAPI.chargingTempGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/chargingCurrent', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/chargingCurrent', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
         const result = await WebAPI.chargingCurrentGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/highSoc', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/highSoc', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
         const result = await WebAPI.highSocGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/betteryTempDiff', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/betteryTempDiff', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
+        console.log(req.query);
         const result = await WebAPI.batteryTempDiffGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/speedGraph', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
+app.get('/speedGraph', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.body
+        const { vehicleId, alertId } = req.query as any
         const result = await WebAPI.speedGraph(vehicleId, alertId)
         const response = createResponse("OK", result, undefined)
         res.json(response)

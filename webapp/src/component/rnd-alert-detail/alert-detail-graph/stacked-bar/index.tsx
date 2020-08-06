@@ -49,7 +49,7 @@ const data1 = [
         name: '12th', uv: 2000, pv: 9800, amt: 2290,
     },
     {
-        name: '13th', uv: 2780, pv: 3908, amt: 2000, color: 'red'
+        name: '13th', uv: 2780, pv: 3908, amt: 2000,
     },
     {
         name: '14th', uv: 1890, pv: 4800, amt: 2181,
@@ -92,10 +92,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                 top: 10, right: 0, left: 0, bottom: 0,
                             }}
                             maxBarSize={25}
-                            style={{ fontSize: '8px' }}
-
-                        >
-
+                            style={{ fontSize: '8px' }}>
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
                             <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} />
@@ -106,12 +103,14 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     }} value="Mileage (KM)">
                                 </Label>
                             </YAxis>
-                            {/* <Brush
+                            <Brush
                                 dataKey='name'
+                                fill="#131731"
                                 height={20}
                                 stroke="#3C4473"
                                 startIndex={0}
-                                endIndex={14} />                            <Tooltip /> */}
+                                endIndex={10} />
+                            {/* <Tooltip /> */}
                             {/* <CartesianGrid strokeDasharray="3 3" /> */}
                             {/* <ReferenceLine y={3.880} stroke="#717171" strokeDasharray="3 3 5 2" dx={25}
                                     isFront={true} >
@@ -129,14 +128,14 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                         }} value="3.730 Min">
                                     </Label>
                                 </ReferenceLine> */}
-                            <Bar name="active time" dataKey="pv" stackId="a" >
+                            <Bar name="active time" dataKey="pv" stackId="a" isAnimationActive={true}>
                                 {data1.map((entry: any, index) => (
-                                    <Cell fill={entry.color && entry.pv == 0 ? entry.color : '#3C4473'} />
+                                    <Cell fill={entry.color ? 'red' : '#3C4473'} />
                                 ))}
                             </Bar>
-                            <Bar name="idle time" dataKey="uv" stackId="a" fill="#4888ff" >
+                            <Bar name="idle time" dataKey="uv" stackId="a" fill="#4888ff" isAnimationActive={true}>
                                 {data1.map((entry: any, index) => (
-                                    <Cell fill={entry.color && entry.pv == 0 ? entry.color : '#4888ff'} />
+                                    <Cell fill={(entry.pv == 0) ? 'red' : '#4888ff'} />
                                 ))}
                             </Bar>
                         </BarChart>

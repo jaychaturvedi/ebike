@@ -159,11 +159,10 @@ th {
 .alert-down-circle {
     transform: rotate(0deg);
     transition: transform 1ms linear;
-    display: flex;
-    justify-content: center;
-    padding: 2px;
+    // display: flex;// justify-content: center;
+    // padding: 2px;
     float: right;
-    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .alert-down-circle.open {
@@ -171,7 +170,7 @@ th {
     transition: transform 1ms linear;
     display: flex;
     justify-content: center;
-    padding: 2px;
+    // padding: 2px;
     float: right;
     margin-left: 10px;
 }
