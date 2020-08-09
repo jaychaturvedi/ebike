@@ -186,6 +186,7 @@ function generateQueryAlertsData(params: IAlertActions) {
 }
 
 async function getSmartAlert() {
+    console.log(process.env.REACT_APP_API_KEY)
     const data = await axios.post('https://x3vxs4134h.execute-api.us-east-2.amazonaws.com/dev/mainAlerts',
         {
             alertType: "smart",
