@@ -254,3 +254,66 @@ async function locationWiseAlerts() {
         }, { headers: { 'Content-Type': 'application/json' } }
     )
 }
+
+async function getAdditionalInsights() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/additionalInsight',
+        {
+            vehicleID: "069bcc081a68a0832f123",
+            alertId: 123,
+            alertName: "voltage deviation",
+            customerId: "CUS14567"
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+}
+
+async function getPastAlerts() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/pastAlerts',
+        {
+            vehicleID: "069bcc081a68a0832f123",
+            alertId: 123,
+            alertName: "voltage deviation",
+            customerId: "CUS14567",
+            pageSize: 10,
+            pageNo: 1
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+}
+
+async function clearAlert() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/clearAlert',
+        {
+            vehicleID: "069bcc081a68a0832f123",
+            alertId: 123,
+            alertName: "voltage deviation",
+            comment: "comment cleared",
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+}
+
+async function lowMileageGraph() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
+        {
+            vehicleID: "069bcc081a68a0832f123",
+            alertId: 123,
+            alertName: "voltage deviation",
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+}
+
+async function batteryCellGraph() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
+        {
+            vehicleID: "069bcc081a68a0832f123",
+            alertId: 123,
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+}
+
+async function vehicleUsageGraph() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/vehicleUsage',
+        {
+            vehicleID: "069bcc081a68a0832f123",
+            alertId: 123,
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+}

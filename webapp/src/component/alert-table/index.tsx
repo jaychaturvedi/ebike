@@ -56,7 +56,6 @@ interface AlertStates {
     filterField: TFilter
 }
 
-
 class AlertTable extends React.Component<AlertProps, AlertStates> {
     constructor(props: AlertProps) {
         super(props);

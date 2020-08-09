@@ -2,14 +2,16 @@
 @import "~antd/dist/antd.css";
 
 .table-row-light {
+    cursor: pointer;
     background: $TABLE_ROW_DARK;
 }
 
 .table-row-dark {
+    cursor: pointer;
     background: $TABLE_ROW_LIGHT;
 }
 
-.ant-table-thead > tr > th {
+.ant-table-thead>tr>th {
     // border: 1px solid yellow;
     // position: sticky !important;
     // top: 0;
@@ -34,7 +36,7 @@
     }
 }
 
-.ant-table-tbody > tr.ant-table-row:hover > td {
+.ant-table-tbody>tr.ant-table-row:hover>td {
     background: none !important;
 }
 
@@ -46,7 +48,7 @@ td.ant-table-column-sort {
     color: #ffffff !important;
 }
 
-.ant-pagination-item > a {
+.ant-pagination-item>a {
     color: #ffffff !important;
 }
 
@@ -100,16 +102,20 @@ td.ant-table-column-sort {
             width: 60px;
             height: 24px;
         }
+
         .ant-select-selector {
             height: 24px;
             border: none !important;
         }
+
         .ant-select-selection-item {
             line-height: 27px;
         }
+
         .ant-select-arrow svg {
             color: black;
         }
+
         // .select-button>div>span {
         //     }
 
@@ -150,15 +156,15 @@ td.ant-table-column-sort {
     display: none;
 }
 
-.severity-color-major > circle {
+.severity-color-major>circle {
     fill: $MAJOR;
 }
 
-.severity-color-minor > circle {
+.severity-color-minor>circle {
     fill: $MINOR;
 }
 
-.ant-table-thead > tr > th,
-.ant-table-tbody > tr > td {
+.ant-table-thead>tr>th,
+.ant-table-tbody>tr>td {
     padding: 8px 2px;
 }
