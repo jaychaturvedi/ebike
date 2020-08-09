@@ -2,7 +2,7 @@ import {
     put,
 } from "redux-saga/effects";
 import * as UserActions from "../actions/saga/user";
-import { Store_UpdateUser } from "../actions/store";
+import { Store_UpdateUser, Store_UpdateBike } from "../actions/store";
 import { store } from "../../index";
 import { config, request } from './utils';
 
@@ -21,6 +21,13 @@ export function* readUser(params: UserActions.ReadUser) {
                     defaultBikeId: data.frameId,
                 }
             } as Store_UpdateUser)
+            yield put({
+                type: "Store_UpdateBike",
+                payload: {
+                    batteries: data.batteries,
+                    serviceDate: data.serviceDate
+                }
+            } as Store_UpdateBike);
         }
     } catch (error) {
         console.log(error)
@@ -29,7 +36,7 @@ export function* readUser(params: UserActions.ReadUser) {
 
 export function* updateUser(params: UserActions.UpdateUser) {
     try {
-        const dataresponse = yield request(`${config.baseUrl}/user/`, "GET", {
+        const dataresponse = yield request(`${config.baseUrl}/user/`, "PUT", {
             "fullName": params.payload.name,
             "email": params.payload.email
         });

@@ -6,6 +6,14 @@ export type ReadRideData = {
     }
 }
 
+export type ReadCurrentRideData = {
+    type: "ReadCurrentRideData",
+    payload: {
+        bikeId: string,
+        rideId: string,
+    }
+}
+
 export type ReadRideHistory = {
     type: "ReadRideHistory",
     payload: {

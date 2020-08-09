@@ -80,6 +80,22 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                 }
             } as Store_UpdateNotification)
         }
+        const myBikeResopnse = yield request(`${config.baseUrl}/bike/myBike/${params.payload.bikeId}`, "GET");
+        if (myBikeResopnse.success) {
+            const data = myBikeResopnse.response.body;
+            yield put({
+                type: "Store_UpdateBike",
+                payload: {
+                    id: params.payload.bikeId,
+                    name: data.bikeName,
+                    motorPer: data.motorPer,
+                    batteryChargePer: data.batteryChargePer,
+                    batteryHealthPer: data.batteryHealthPer,
+                    batteries: data.batteries,
+                    serviceDate: data.serviceDate,
+                }
+            } as Store_UpdateBike);
+        }
     } catch (error) {
         console.log(error)
     }
