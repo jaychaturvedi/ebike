@@ -1,14 +1,14 @@
 import React from 'react';
-import {Image, View, Text, StyleSheet} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { Image, View, Text, StyleSheet } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import CTAHeader from './components/header';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
-import {TStore} from '../../service/redux/store';
-import {TurnOnBLE, ScanBLEDevices} from '../../service/redux/actions/saga/ble';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { RegistartionStackParamList } from '../../navigation/registration';
+import { TStore } from '../../service/redux/store';
+import { TurnOnBLE, ScanBLEDevices } from '../../service/redux/actions/saga/ble';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 type ReduxState = {
   enableBluetooth: (params: TurnOnBLE) => void;
@@ -17,13 +17,13 @@ type ReduxState = {
 };
 
 type DiscoverNavigationProp = StackNavigationProp<
-  OnboardingStackParamList,
+  RegistartionStackParamList,
   'Discovering'
 >;
 
 interface Props extends ReduxState {
   navigation: DiscoverNavigationProp;
-  route: RouteProp<OnboardingStackParamList, 'Discovering'>;
+  route: RouteProp<RegistartionStackParamList, 'Discovering'>;
 }
 
 type State = {
@@ -66,7 +66,7 @@ class DiscoveringBluetooth extends React.PureComponent<Props, State> {
   }
 
   timer = () => {
-    this.setState({circleCount: (this.state.circleCount + 1) % 4});
+    this.setState({ circleCount: (this.state.circleCount + 1) % 4 });
   };
 
   componentDidMount() {
@@ -75,7 +75,7 @@ class DiscoveringBluetooth extends React.PureComponent<Props, State> {
       payload: {},
     });
     const intervalId = setInterval(this.timer, 500);
-    this.setState({intervalId});
+    this.setState({ intervalId });
   }
 
   static getDerivedStateFromProps(props: Props, state: State) {

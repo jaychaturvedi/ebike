@@ -22,6 +22,7 @@ function* request(url: string, method: string, body?: any, query?: any) {
                     'Content-Type': 'application/json'
                 },
             })
+            console.log("RESPONSE : ", res);
             if (res.status >= 200 && res.status < 300) {
                 response = yield res.json()
                 console.log("Response : ", response)
