@@ -24,8 +24,17 @@
         }
         .single-cell-right {
             width: 60%;
+            .detail-link {
+                color: #ffffff;
+                text-decoration: underline;
+                &:hover {
+                    color: $APPLY_BUTTON;
+                }
+            }
         }
-
+        .toolate {
+            color: red !important;
+        }
         .clear-alert-button {
             background-color: $APPLY_BUTTON !important;
             border: none !important;

@@ -3,6 +3,7 @@ import { Button, Typography, Modal, Dropdown, Menu } from "antd";
 import React, { PureComponent } from 'react';
 import { AnyCnameRecord } from 'dns';
 import { Input } from 'antd';
+import { Link } from 'react-router-dom';
 interface AlertDetailSingleProps { }
 
 interface AlertDetailSingleStates {
@@ -61,7 +62,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Open Since:</div>
-                    <div className={"single-cell-right"}>48 hrs 10 mins</div>
+                    <div className={"single-cell-right toolate"}>48 hrs 10 mins</div>
                 </div>
                 <div className={"single-row"}>
                     <Dropdown overlay={clearAlert} trigger={['click']} visible={this.state.clearBoxToggle}>
@@ -72,7 +73,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Vehicle ID:</div>
-                    <div className={"single-cell-right"}>BLR 327490</div>
+                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>BLR 327490</Link></div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Model:</div>
@@ -84,11 +85,11 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Battery ID:</div>
-                    <div className={"single-cell-right"}>BAT 123456</div>
+                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>BAT 123456</Link></div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Customer ID:</div>
-                    <div className={"single-cell-right"}>CUS 123456</div>
+                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>CUS 123456</Link></div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Location:</div>
