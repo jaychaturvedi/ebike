@@ -90,8 +90,8 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     name: data.bikeName,
                     motorPer: data.motorPer,
                     batteryChargePer: data.batteryChargePer,
-                    batteryHealthPer: data.batteryHealthPer,
-                    batteries: data.batteries,
+                    healthPer: data.batteryHealthPer,
+                    batteries: Object.assign({}, ...data.batteries.map((battery: any) => { return { [battery.id]: battery } })),
                     serviceDate: data.serviceDate,
                 }
             } as Store_UpdateBike);

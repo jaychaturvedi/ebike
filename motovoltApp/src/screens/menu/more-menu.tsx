@@ -19,89 +19,111 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { SignOut } from '../../service/redux/actions/saga/authentication-actions';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
   'MenuScreen'
 >;
 
-type Props = {
+interface ReduxState {
+  // user: TStore["user"]
+}
+
+interface Props extends ReduxState {
   navigation: MoreMenuNavigationProp;
   route: RouteProp<MenuStackParamList, 'MenuScreen'>;
+  logout: (params: SignOut) => void
 };
 
-const feature = [
-  {
-    feature: 'Battery Analytics',
-    icon: require('../../assets/icons/battery_analytics.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: true,
-  },
-  {
-    feature: 'Geo fencing',
-    icon: require('../../assets/icons/geo_fencing_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: true,
-  },
-  {
-    feature: 'Nearby',
-    icon: require('../../assets/icons/nearby_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-  {
-    feature: 'FAQs',
-    icon: require('../../assets/icons/faq_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-  {
-    feature: 'Community',
-    icon: require('../../assets/icons/comunity_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-  {
-    feature: 'Support',
-    icon: require('../../assets/icons/support_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-  {
-    feature: 'Languages',
-    icon: require('../../assets/icons/languages_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-  {
-    feature: 'Promotions',
-    icon: require('../../assets/icons/promotions_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-  {
-    feature: 'Send Invite',
-    icon: require('../../assets/icons/send_invite_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-  {
-    feature: 'Insurance',
-    icon: require('../../assets/icons/insurance_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-  {
-    feature: 'Logout',
-    icon: require('../../assets/icons/logout_icon.png'),
-    onPress: () => console.log('Feature pressed'),
-    premium: false,
-  },
-];
+type State = {
+  feature: {
+    feature: string,
+    icon: any,
+    onPress: () => void,
+    premium: boolean
+  }[]
+};
 
-type State = {};
+class MoreMenu extends React.PureComponent<Props, State> {
 
-export default class MoreMenu extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      feature: [
+        {
+          feature: 'Battery Analytics',
+          icon: require('../../assets/icons/battery_analytics.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: true,
+        },
+        {
+          feature: 'Geo fencing',
+          icon: require('../../assets/icons/geo_fencing_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: true,
+        },
+        {
+          feature: 'Nearby',
+          icon: require('../../assets/icons/nearby_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
+          feature: 'FAQs',
+          icon: require('../../assets/icons/faq_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
+          feature: 'Community',
+          icon: require('../../assets/icons/comunity_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
+          feature: 'Support',
+          icon: require('../../assets/icons/support_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
+          feature: 'Languages',
+          icon: require('../../assets/icons/languages_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
+          feature: 'Promotions',
+          icon: require('../../assets/icons/promotions_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
+          feature: 'Send Invite',
+          icon: require('../../assets/icons/send_invite_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
+          feature: 'Insurance',
+          icon: require('../../assets/icons/insurance_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
+          feature: 'Logout',
+          icon: require('../../assets/icons/logout_icon.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+      ]
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -155,7 +177,7 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
             flexWrap: 'wrap',
             alignContent: 'center',
           }}>
-          {feature.map((feature, index: number) => {
+          {this.state.feature.map((feature, index: number) => {
             return (
               <View style={{ width: '33.3%', alignItems: 'center' }} key={index}>
                 <Feature
@@ -165,6 +187,9 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
                     switch (feature.feature) {
                       case 'Support':
                         this.props.navigation.navigate('Support', {});
+                        break;
+                      case 'Logout':
+                        this.props.logout({ type: 'SignOut', payload: {} });
                         break;
                       default:
                         break;
@@ -180,6 +205,20 @@ export default class MoreMenu extends React.PureComponent<Props, State> {
     );
   }
 }
+
+
+export default connect(
+  (store: TStore) => {
+    return {
+      // user: store['user'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      logout: (params: SignOut) => dispatch(params)
+    };
+  },
+)(MoreMenu);
 
 const styles = StyleSheet.create({
   container: {

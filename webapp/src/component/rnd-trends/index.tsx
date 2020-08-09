@@ -2,7 +2,6 @@ import './index.scss';
 import { Menu, Dropdown, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import React, { PureComponent } from 'react';
-import Moment from 'react-moment';
 import moment from "moment";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
@@ -50,7 +49,11 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             trendsPeriod: "Last 7 Days"
         }
     }
-    //
+
+    static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
+        return state
+    }
+
     handlePeriodChange = (e: any) => {
         this.setState({
             trendsPeriod: e.key
@@ -69,8 +72,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     );
 
     formatDate = (label: any) => {
-        console.log(moment(`${label}`).format('yy'));
-        return moment(`${label}`).format('yy')
+        console.log("label", label)
+        console.log(moment(`${label}`).format('dddd'));
+        return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
         // return <Moment format="DDDD">
         //     {`${labels}`}
         // </Moment>
@@ -113,8 +117,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 <ResponsiveContainer width="100%" height="28%">
                     <LineChart data={top5alerts.slice(1)} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }} />
-                        {/* tickFormatter={(label) => this.formatDate(label)} */}
+                        <XAxis dataKey="date" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
+                            tickFormatter={(label) => this.formatDate(label)} />
                         <Legend iconType="circle" iconSize={5} align="right"
                             wrapperStyle={{
                                 paddingRight: "10px"

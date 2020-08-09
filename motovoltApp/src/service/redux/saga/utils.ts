@@ -20,7 +20,10 @@ export async function request(url: string, method: string, body?: any) {
                 'Content-Type': 'application/json'
             },
             body: body ?? JSON.stringify(body),
-        }).then(res => res.json());
+        }).then(res => {
+            console.log("First res : ", res);
+            return res.json()
+        });
         console.log("Response : ", response)
         if (response.status === "OK")
             return {
