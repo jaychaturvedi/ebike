@@ -127,7 +127,8 @@ export function forgotPassword(username: string, code: string, password: string)
 }
 
 export function signIn(username: string, password: string) {
-    return Auth.signIn({ username, password }).then(user => {
+    return Auth.signIn({ username, password }).then(async user => {
+        await storeCredentials(username, password)
         console.log("Logged in :", user)
         return {
             user,
