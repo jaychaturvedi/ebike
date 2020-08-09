@@ -12,6 +12,7 @@ import { MyCycleStackParamList } from '../../navigation/cycle';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import Background from '../../components/background'
+import moment from 'moment';
 
 type ReduxState = {
   bike: TStore['bike'];
@@ -63,7 +64,7 @@ class MyCycle extends React.PureComponent<Props, State> {
               icon1={require('../../assets/icons/health_green.png')}
               icon2={require('../../assets/icons/calendar_green.png')}
               value1={`${this.props.bike.healthPer} %`}
-              value2={`${this.props.bike.serviceDate}`}
+              value2={`${moment(this.props.bike.serviceDate).format('DD/MM/YY')}`}
               unit1=""
               unit2=""
             />

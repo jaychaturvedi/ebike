@@ -1,22 +1,25 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import Metrics from './components/metrics';
 import RideStatSection from './components/ridestats';
 import Header from './components/header';
 import Colors from '../../styles/colors';
-import {scale, verticalScale} from '../../styles/size-matters';
-import {ScrollView} from 'react-native-gesture-handler';
-import {moderateScale} from 'react-native-size-matters';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
+import { scale, verticalScale } from '../../styles/size-matters';
+import { ScrollView } from 'react-native-gesture-handler';
+import { moderateScale } from 'react-native-size-matters';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import Background from '../../components/background';
+import { ReadBikeStat } from '../../service/redux/actions/saga/bike-actions';
 
 type ReduxState = {
+  readBikeStat: (params: ReadBikeStat) => void
   bike: TStore['bike'];
   user: TStore['user'];
 };
 
-interface Props extends ReduxState {}
+interface Props extends ReduxState { }
 
 type State = {};
 
@@ -24,6 +27,15 @@ class Home extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    this.props.readBikeStat({
+      type: 'ReadBikeStat',
+      payload: {
+        bikeId: this.props.user.defaultBikeId
+      }
+    })
   }
 
   render() {
@@ -36,7 +48,7 @@ class Home extends React.PureComponent<Props, State> {
           hasTabs
         />
         <ScrollView style={styles.body}>
-          <View style={{marginVertical: verticalScale(20)}}>
+          <View style={{ marginVertical: verticalScale(20) }}>
             <Metrics
               batteryCharge={this.props.bike.batteryChargePer.toString()}
               rangeAvailable={this.props.bike.rangeAvailableKm.toString()}
@@ -57,7 +69,7 @@ class Home extends React.PureComponent<Props, State> {
               }}>
               <Image
                 source={require('../../assets/images/cycle.png')}
-                style={{height: '100%', aspectRatio: 1.8}}
+                style={{ height: '100%', aspectRatio: 1.8 }}
               />
             </View>
             <View
@@ -68,11 +80,11 @@ class Home extends React.PureComponent<Props, State> {
                 padding: 10,
               }}>
               <Text
-                style={{fontSize: 20, fontWeight: 'bold'}}
+                style={{ fontSize: 20, fontWeight: 'bold' }}
                 numberOfLines={1}>
                 Cycle A
               </Text>
-              <Text style={{fontSize: 20, fontWeight: 'bold'}}>ON{'\n'}</Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ON{'\n'}</Text>
               <Image
                 source={require('../../assets/icons/GPS_tracker.png')}></Image>
             </View>
@@ -92,10 +104,15 @@ class Home extends React.PureComponent<Props, State> {
 }
 
 export default connect(
-  (store: TStore): ReduxState => {
+  (store: TStore) => {
     return {
       bike: store['bike'],
       user: store['user'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      readBikeStat: (params: ReadBikeStat) => dispatch(params)
     };
   },
 )(Home);
@@ -105,5 +122,5 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BG_GREY,
     height: '100%',
   },
-  body: {flex: 1},
+  body: { flex: 1 },
 });

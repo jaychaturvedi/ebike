@@ -61,6 +61,12 @@ export function* confirmSignUp(params: AuthenticationActions.ConfirmSignUp) {
 
 export function* signOut(params: AuthenticationActions.SignOut) {
     yield call(Authentication.signout)
+    yield put({
+        type: 'Store_UpdateUser',
+        payload: {
+            isLoggedIn: false
+        }
+    } as Store_UpdateUser)
 }
 
 export function* initForgotPassword(params: AuthenticationActions.InitiateForgotPassword) {

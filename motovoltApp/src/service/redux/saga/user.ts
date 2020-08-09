@@ -19,15 +19,28 @@ export function* readUser(params: UserActions.ReadUser) {
                     name: data.fullName,
                     phone: data.phone,
                     defaultBikeId: data.frameId,
+                    isBikeRegistered: Boolean(data.frameId),
                 }
             } as Store_UpdateUser)
             yield put({
                 type: "Store_UpdateBike",
                 payload: {
-                    batteries: data.batteries,
+                    batteries: Object.assign({}, ...data.batteries.map((battery: any) => { return { [battery.id]: battery } })),
                     serviceDate: data.serviceDate
                 }
             } as Store_UpdateBike);
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getUser() {
+    try {
+        const dataresponse = await request(`${config.baseUrl}/user/`, "GET");
+        console.log(dataresponse);
+        if (dataresponse.success) {
+            return dataresponse.response.body;
         }
     } catch (error) {
         console.log(error)
@@ -58,4 +71,4 @@ export function* updateUser(params: UserActions.UpdateUser) {
     }
 }
 
-store.getState()
+// store.getState()
