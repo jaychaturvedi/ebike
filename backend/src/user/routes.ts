@@ -44,9 +44,9 @@ app.post('/', expressQAsync(secure),
     })
 )
 
-app.delete('/',
+app.delete('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response) => {
-        const uid = "bd204769-1e22-4977-97ad-9cdb149e1c59"
+        const { phone, uid } = res.locals.user as any
         const deleted = await User.deleteById(uid);
         const response = createResponse("OK", "User deleted with id " + uid, undefined)
         res.json(response);

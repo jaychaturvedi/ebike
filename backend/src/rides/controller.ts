@@ -20,7 +20,7 @@ export async function createNewRide(uid: string, frameId: string, rideId: string
   const { startTime: time } = await Ride.createNew({ uid, frameId, rideId, startTime })
   return { rideId, frameId, uid, startTime: time }
 }
-
+//need to be removed in prod
 // "startTime":"2020-06-30 11:08:38",
 //     "endTime":"2020-06-30 12:45:30"    
 
