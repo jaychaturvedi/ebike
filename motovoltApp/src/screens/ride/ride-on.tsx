@@ -10,7 +10,7 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 
 type ReduxState = {
-  bikeState: TStore['bikeState'];
+  bike: TStore['bike'];
   ride: TStore['ride'];
 };
 
@@ -51,15 +51,15 @@ class RideOn extends React.PureComponent<Props, {}> {
       <View style={styles.container}>
         <Header
           backgroundColor={Colors.WHITE}
-          title={`Bike ${this.props.bikeState.isOn ? 'ON' : 'OFF'}`}
+          title={`Bike ${this.props.bike.isOn ? 'ON' : 'OFF'}`}
           hasTabs
         />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
-              batteryCharge={this.props.bikeState.batteryChargePer.toString()}
-              rangeAvailable={this.props.bikeState.rangeAvailableKm.toString()}
-              rangeCovered={this.props.bikeState.rangeCoveredKm.toString()}
+              batteryCharge={this.props.bike.batteryChargePer.toString()}
+              rangeAvailable={this.props.bike.rangeAvailableKm.toString()}
+              rangeCovered={this.props.bike.rangeCoveredKm.toString()}
             />
           </View>
           <Guage
@@ -104,7 +104,7 @@ class RideOn extends React.PureComponent<Props, {}> {
 export default connect(
   (store: TStore): ReduxState => {
     return {
-      bikeState: store['bikeState'],
+      bike: store['bike'],
       ride: store['ride'],
     };
   },
