@@ -10,18 +10,17 @@ import {
     SignOut
 } from "./authentication-actions";
 import {
-    ValidateFrame,
-    SetBikeName,
-    SetPersonalDetails
-} from "./onboarding-actions";
-import {
-    EndRide,
     ReadBikeLocation,
     ReadBikeStat,
+    ValidateFrame,
+    UpdateBike,
+} from "./bike-actions";
+import {
+    EndRide,
     ReadRideData,
     StartRide,
-    SubmitRide
-} from "./bike-actions";
+    SubmitRide,
+} from './rides';
 import {
     ReadNotifications
 } from "./notification-actions";
@@ -43,8 +42,7 @@ type Action = InitiateForgotPassword
     | ValidateMobile
     | CompleteForgotPassword
     | ValidateFrame
-    | SetBikeName
-    | SetPersonalDetails
+    | UpdateBike
     | EndRide
     | ReadBikeLocation
     | ReadBikeStat
@@ -69,8 +67,7 @@ export type {
     ValidateMobile,
     CompleteForgotPassword,
     ValidateFrame,
-    SetBikeName,
-    SetPersonalDetails,
+    UpdateBike,
     EndRide,
     ReadBikeLocation,
     ReadBikeStat,

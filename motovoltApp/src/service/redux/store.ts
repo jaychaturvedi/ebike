@@ -11,6 +11,7 @@ type TOnboarding = {
 }
 
 type TRide = {
+    id: string,
     isStale: boolean,
     isRiding: boolean,
     totalDistanceKm: number,
@@ -27,8 +28,11 @@ type TRide = {
     comment: string,
     path: {
         lat: number,
-        long: number
-    }[]
+        long: number,
+        time: string,
+    }[],
+    startTime: string,
+    endTime: string,
 }
 
 type TUser = {
@@ -116,7 +120,8 @@ const ZeroUser: TUser = {
     isBikeRegistered: null
 }
 
-const ZeroRide: TRide = {
+export const ZeroRide: TRide = {
+    id: "",
     isStale: true,
     isRiding: false,
     totalDistanceKm: 0,
@@ -131,7 +136,9 @@ const ZeroRide: TRide = {
     petrolSavingsLtr: 0,
     petrolSavingsInr: 0,
     comment: "",
-    path: []
+    path: [],
+    startTime: "",
+    endTime: "",
 }
 
 const ZeroBike: TBike = {

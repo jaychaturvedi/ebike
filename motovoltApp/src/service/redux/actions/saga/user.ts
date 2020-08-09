@@ -10,3 +10,12 @@ export type UpdateUser = {
         email: string,
     }
 }
+
+export type SetPersonalDetails = {
+    type: "SetPersonalDetails",
+    payload: {
+        name: string,
+        email: string,
+        password: string,
+    }
+}

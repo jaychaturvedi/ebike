@@ -12,43 +12,6 @@ export type ReadBikeLocation = {
     }
 }
 
-
-export type ReadRideData = {
-    type: "ReadRideData",
-    payload: {
-        bikeId: string,
-        rideId: string,
-    }
-}
-
-export type StartRide = {
-    type: "StartRide",
-    payload: {
-        bikeId: string,
-        rideId: string,
-        startDate: string
-    }
-}
-
-export type EndRide = {
-    type: "EndRide",
-    payload: {
-        bikeId: string,
-        rideId: string,
-        endDate: string
-    }
-}
-
-export type SubmitRide = {
-    type: "SubmitRide",
-    payload: {
-        bikeId: string,
-        rideId: string,
-        rating: number,
-        comment: string,
-    }
-}
-
 export type ValidateFrame = {
     type: "ValidateFrame",
     payload: {
@@ -61,14 +24,5 @@ export type UpdateBike = {
     payload: {
         id: string,
         name: string
-    }
-}
-
-export type SetPersonalDetails = {
-    type: "SetPersonalDetails",
-    payload: {
-        name: string,
-        email: string,
-        password: string,
     }
 }

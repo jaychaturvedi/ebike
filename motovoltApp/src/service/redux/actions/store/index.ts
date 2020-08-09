@@ -44,7 +44,8 @@ export type Store_UpdateBike = {
     type: "Store_UpdateBike",
     payload: {
         isStale?: boolean,
-        id?: string,
+        // Id should not be null
+        id: string,
         modal?: string,
         name?: string,
         purchaseDate?: string,
@@ -82,12 +83,68 @@ type TNotification = {
     body: string,
 }
 
-export type Store_Notification = {
-    type: "Store_Notification",
+export type Store_UpdateNotification = {
+    type: "Store_UpdateNotification",
     payload: {
         isPresent?: boolean,
         data?: { [id: string]: TNotification }
     }
+}
+
+export type Store_UpdateRide = {
+    type: "Store_UpdateRide",
+    payload: {
+        // Should not be optional
+        id: string,
+        isRiding?: boolean,
+        totalDistanceKm?: number,
+        durationSec?: number,
+        speedKmph?: number,
+        avgSpeedKmph?: number,
+        maxSpeedKmph?: number,
+        greenMilesKm?: number,
+        caloriesBurnt: number,
+        mode?: "POWER" | "PEDAL_ASSIST",
+        score?: number,
+        petrolSavingsLtr?: number,
+        petrolSavingsInr?: number,
+        comment?: string,
+        path?: {
+            lat: number,
+            long: number,
+            time: string,
+        }[],
+        startTime?: string,
+        endTime?: string,
+    }
+}
+
+export type Store_SetRideHistory = {
+    type: "Store_SetRideHistory",
+    payload: {
+        // Should not be optional
+        id: string,
+        isRiding?: boolean,
+        totalDistanceKm?: number,
+        durationSec?: number,
+        speedKmph?: number,
+        avgSpeedKmph?: number,
+        maxSpeedKmph?: number,
+        greenMilesKm?: number,
+        caloriesBurnt: number,
+        mode?: "POWER" | "PEDAL_ASSIST",
+        score?: number,
+        petrolSavingsLtr?: number,
+        petrolSavingsInr?: number,
+        comment?: string,
+        path?: {
+            lat: number,
+            long: number,
+            time: string,
+        }[],
+        startTime?: string,
+        endTime?: string,
+    }[]
 }
 
 type Action = Store_UpdateUser
@@ -95,6 +152,8 @@ type Action = Store_UpdateUser
     | Store_UpdateOnboarding
     | Store_ResetOnboarding
     | Store_UpdateBike
-    | Store_Notification;
+    | Store_UpdateNotification
+    | Store_UpdateRide
+    | Store_SetRideHistory;
 
 export default Action;

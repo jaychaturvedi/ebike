@@ -1,4 +1,4 @@
-import Store, { TStore, ZeroOnboarding } from "./store";
+import Store, { TStore, ZeroOnboarding, ZeroRide } from "./store";
 import Action from "./actions/store";
 
 export default (store: TStore = Store, params: Action): TStore => {
@@ -42,6 +42,28 @@ export default (store: TStore = Store, params: Action): TStore => {
                     ...params.payload,
                     isStale: false,
                 }
+            }
+        case 'Store_UpdateNotification':
+            return {
+                ...store,
+                notifications: {
+                    ...store.notifications,
+                    ...params.payload,
+                }
+            }
+        case 'Store_UpdateRide':
+            return {
+                ...store,
+                ride: {
+                    ...store.ride,
+                    ...params.payload
+                },
+            }
+        case 'Store_SetRideHistory':
+            return {
+                ...store,
+                ride: ZeroRide,
+                rides: Object.assign(params.payload.map(ride => ({ [ride.id]: ride })))
             }
         default: return store;
     }

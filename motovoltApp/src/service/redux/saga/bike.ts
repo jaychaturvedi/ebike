@@ -3,7 +3,7 @@ import {
     put,
 } from "redux-saga/effects";
 import * as BikeActions from "../actions/saga/bike-actions";
-import { Store_UpdateBike, Store_Notification } from "../actions/store";
+import { Store_UpdateBike, Store_UpdateNotification, Store_UpdateRide } from "../actions/store";
 import { config, request } from "./utils";
 
 export function* updateBike(params: BikeActions.UpdateBike) {
@@ -27,8 +27,27 @@ export function* updateBike(params: BikeActions.UpdateBike) {
     }
 }
 
-export async function validateFrame(params: BikeActions.ValidateFrame) {
-
+export function* validateFrame(params: BikeActions.ValidateFrame) {
+    try {
+        const dataresponse = yield request(`${config.baseUrl}/bike/verify/${params.payload.frameNumber}`, "GET");
+        if (dataresponse.success) {
+            const data = dataresponse.response.body;
+            yield put({
+                type: "Store_UpdateBike",
+                payload: {
+                    id: data.frameId,
+                    name: data.bikeName,
+                    modal: data.model,
+                    type: data.type === "Internet" ? "GPS" : "BLE",
+                    serviceDate: data.serviceDate,
+                    batteryChargePer: data.batteryChargePer,
+                    batteries: data.batteries
+                }
+            } as Store_UpdateBike);
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export function* getBikeStat(params: BikeActions.ReadBikeStat) {
@@ -54,132 +73,12 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     isOn: Boolean(data.ignition),
                 }
             } as Store_UpdateBike);
-            // read notification if available
             yield put({
-                type: "Store_Notification",
+                type: "Store_UpdateNotification",
                 payload: {
                     isPresent: Boolean(data.notification),
                 }
-            } as Store_Notification)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-export function* startRide(params: BikeActions.StartRide) {
-    try {
-        // {
-        //     "rideId":"123",
-        //     "frameId": "069bcc081a68a0832f126"
-        // }
-        // {
-        //     "status": "OK",
-        //     "body": {},
-        //     "error": null,
-        //     "date": "2020-08-09T11:51:27.462Z"
-        // }
-        const dataResponse = yield request(`${config.baseUrl}/ride/`, "POST",
-            {
-                "rideId": params.payload.rideId,
-                "frameId": params.payload.bikeId
-            }
-        );
-        if (dataResponse.success) {
-            const data = dataResponse.response.body;
-            // Update redux with ride details
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-export function* endRide(params: BikeActions.EndRide) {
-    try {
-        // {
-        //     "rideId":"123"
-        // }
-        // {
-        //     "status": "OK",
-        //     "body": {},
-        //     "error": null,
-        //     "date": "2020-08-09T11:51:27.462Z"
-        // }
-        // {
-        //     "status": "OK",
-        //     "body": {
-        //         "frameId": "069bcc081a68a0832f123",
-        //         "rideId": "123",
-        //         "distance": 100,
-        //         "duration": 60,
-        //         "averageSpeed": 80,
-        //         "maxSpeed": 85,
-        //         "caloriesBurnt": 2,
-        //         "petrolSaved": 50,
-        //         "litreSaved": 0,
-        //         "startTime": "2020-06-30 11:08:38",
-        //         "endTime": "2020-06-30 12:45:30",
-        //         "gpsPath": [
-        //             {
-        //                 "lat": 0.145,
-        //                 "lng": 0.7845,
-        //                 "utc": "2020-06-30 05:35:52.000"
-        //             },
-        //             {
-        //                 "lat": 0.145,
-        //                 "lng": 0.7845,
-        //                 "utc": "2020-06-30 06:47:28.000"
-        //             },
-        //             {
-        //                 "lat": 0.145,
-        //                 "lng": 0.7845,
-        //                 "utc": "2020-06-30 07:14:53.000"
-        //             }
-        //         ]
-        //     },
-        //     "error": null,
-        //     "date": "2020-08-09T12:05:11.347Z"
-        // }
-        const dataResponse = yield request(`${config.baseUrl}/ride/`, "PUT",
-            {
-                "rideId": params.payload.rideId,
-            }
-        );
-        if (dataResponse.success) {
-            const data = dataResponse.response.body;
-            // Update redux with ride details
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-
-export function* rateRide(params: BikeActions.SubmitRide) {
-    try {
-        // {
-        // 	"rideId":"123",
-        // 	"rating": 5,
-        // 	"option":["Battery overHeating", "Low mileage"],
-        // 	"comment": "this is a comment"
-        // }
-        // {
-        // 	"rideId":"123",
-        // 	"rating": 5,
-        // 	"option":["Battery overHeating", "Low mileage"],
-        // 	"comment": "this is a comment"
-        // }
-        const dataResponse = yield request(`${config.baseUrl}/ride/rating`, "PUT",
-            {
-                "rideId": params.payload.rideId,
-                "rating": params.payload.rating,
-                "option": [params.payload.comment],
-                "comment": params.payload.comment
-            }
-        );
-        if (dataResponse.success) {
-            const data = dataResponse.response.body;
-            // Update redux with ride details
+            } as Store_UpdateNotification)
         }
     } catch (error) {
         console.log(error)
@@ -188,24 +87,21 @@ export function* rateRide(params: BikeActions.SubmitRide) {
 
 export function* getLocation(params: BikeActions.ReadBikeLocation) {
     try {
-        // {
-        // 	"rideId":"123",
-        // 	"rating": 5,
-        // 	"option":["Battery overHeating", "Low mileage"],
-        // 	"comment": "this is a comment"
-        // }
-        // {
-        // 	"rideId":"123",
-        // 	"rating": 5,
-        // 	"option":["Battery overHeating", "Low mileage"],
-        // 	"comment": "this is a comment"
-        // }
-        const dataResponse = yield request(`${config.baseUrl}/ride/livelocation/?frameId=${params.payload.bikeId}`, "GET",);
+        const dataResponse = yield request(`${config.baseUrl}/bike/liveLocation/${params.payload.bikeId}`, "GET",);
         if (dataResponse.success) {
             const data = dataResponse.response.body;
+            yield put({
+                type: "Store_UpdateBike",
+                payload: {
+                    lat: data.latitude,
+                    long: data.longitude,
+                    lastLocationKnownTime: data.lastused
+                }
+            } as Store_UpdateBike);
             // Update redux with ride details
         }
     } catch (error) {
         console.log(error)
     }
 }
+
