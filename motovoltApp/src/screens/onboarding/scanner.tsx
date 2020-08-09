@@ -13,7 +13,7 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import { RegistartionStackParamList } from '../../navigation/registration';
 import { ValidateFrame } from '../../service/redux/actions/saga/bike-actions';
 import { Store_UpdateBike } from '../../service/redux/actions/store';
 import { TStore } from '../../service/redux/store';
@@ -26,13 +26,13 @@ interface ReduxState {
 };
 
 type ScannerSwiperNavigationProp = StackNavigationProp<
-    OnboardingStackParamList,
+    RegistartionStackParamList,
     'Scanner'
 >;
 
 interface Props extends ReduxState {
     navigation: ScannerSwiperNavigationProp,
-    route: RouteProp<OnboardingStackParamList, 'Scanner'>
+    route: RouteProp<RegistartionStackParamList, 'Scanner'>
 };
 
 type State = {}

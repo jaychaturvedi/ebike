@@ -64,9 +64,12 @@ export function secure(
 ) {
   const token = req.headers.authorization as string
   if (!token) return res.status(401).send("pass json token in headers")
-  const { sub: uid, phone_number: phone } = JwtDecode(token)
+  const { sub: uid, phone_number: phone, phone_number_verified } = JwtDecode(token)
+  console.log("decoded", JwtDecode(token));
+
   if (!uid) return res.status(401).send("invalid token")
   res.locals.user = { uid, phone }
+  console.log(res.locals);
   next()
 }
 

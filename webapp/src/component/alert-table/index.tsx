@@ -262,7 +262,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 dataIndex: 'alertName', defaultSortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
                     {alertClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                 </span>,
             },
             {
@@ -270,7 +270,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 title:
                     <span className="header-sorter" onClick={this.handleClickModel}> Model
                         {modelClicked ? <ActiveSort height='20px' width='20px'
-                            className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} />}
+                            className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                     </span>,
             },
             {
@@ -284,21 +284,21 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 sortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
                         {timeClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                 </span>,
             },
             {
                 dataIndex: 'openSince', key: 'openSince', width: 150,
                 title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
                         {openSinceClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                 </span>,
             },
             {
                 dataIndex: 'Severity', key: 'Severity', width: 100,
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
                         {severityClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '12px' }} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                 </span>,
                 render: (text: any, record: any, index: any) => <SeverityRenderer text={text} record={record} index={index} />,
             },

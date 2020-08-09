@@ -6,17 +6,17 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
-import {Content, Item} from 'native-base';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { Content, Item } from 'native-base';
 import Button from '../../components/cta-button';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
 import Colors from '../../styles/colors';
 import Input from '../onboarding/components/input';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import {
   SignUp,
   ConfirmSignUp,
@@ -25,6 +25,7 @@ import {
 import {
   Store_UpdateOnboarding,
   Store_ResetOnboarding,
+  Store_UpdateUser,
 } from '../../service/redux/actions/store';
 import Toast from 'react-native-simple-toast';
 import OTP from './otp';
@@ -35,6 +36,7 @@ type ReduxState = {
   resendSignUp: (params: ResendSignUp) => void;
   updateOnboarding: (params: Store_UpdateOnboarding) => void;
   resetOnboarding: (params: Store_ResetOnboarding) => void;
+  updateUser: (params: Store_UpdateUser) => void;
   onboarding: TStore['onboarding'];
 };
 
@@ -100,7 +102,14 @@ class ValidateMobile extends React.PureComponent<Props, State> {
   };
 
   onOtpSuccessComplete = () => {
-    this.props.navigation.replace('ValidateFrame', {});
+    // this.props.navigation.replace('ValidateFrame', {});
+    this.props.updateUser({
+      type: 'Store_UpdateUser',
+      payload: {
+        isPhoneValidated: true,
+        isBikeRegistered: false,
+      }
+    })
   };
 
   render() {
@@ -122,54 +131,54 @@ class ValidateMobile extends React.PureComponent<Props, State> {
         successMessage={'Mobile Verified'}
       />
     ) : (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-        <View style={styles.header}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: scale(20),
-            }}>
-            Validate Your Mobile Number
-          </Text>
-        </View>
-        <View style={styles.input}>
-          <Input
-            placeHolder="Enter Registered Mobile No."
-            keyboardNumericType
-            onChange={this.onChange}
-          />
-        </View>
-        <View style={styles.helpText}>
-          <Text style={{fontSize: moderateScale(14, 0.1), textAlign: 'center'}}>
-            <Text>By Signing up with Motovolt, you accept our </Text>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          <View style={styles.header}>
             <Text
-              style={{color: '#0934F2'}}
-              onPress={() => {
-                console.log('T & C Pressed');
+              style={{
+                textAlign: 'center',
+                fontWeight: 'bold',
+                fontSize: scale(20),
               }}>
-              T & C
-            </Text>
+              Validate Your Mobile Number
           </Text>
-        </View>
-        <View style={styles.verifyBtn}>
-          <Button
-            disabled={!this.state.isValid}
-            text="Verify"
-            textColor="white"
-            backgroundColor="#142F6A"
-            onPress={() =>
-              this.props.signUp({
-                type: 'SignUp',
-                payload: {mobileNumber: this.state.mobile},
-              })
-            }
-          />
-        </View>
-      </KeyboardAvoidingView>
-    );
+          </View>
+          <View style={styles.input}>
+            <Input
+              placeHolder="Enter Registered Mobile No."
+              keyboardNumericType
+              onChange={this.onChange}
+            />
+          </View>
+          <View style={styles.helpText}>
+            <Text style={{ fontSize: moderateScale(14, 0.1), textAlign: 'center' }}>
+              <Text>By Signing up with Motovolt, you accept our </Text>
+              <Text
+                style={{ color: '#0934F2' }}
+                onPress={() => {
+                  console.log('T & C Pressed');
+                }}>
+                T & C
+            </Text>
+            </Text>
+          </View>
+          <View style={styles.verifyBtn}>
+            <Button
+              disabled={!this.state.isValid}
+              text="Verify"
+              textColor="white"
+              backgroundColor="#142F6A"
+              onPress={() =>
+                this.props.signUp({
+                  type: 'SignUp',
+                  payload: { mobileNumber: this.state.mobile },
+                })
+              }
+            />
+          </View>
+        </KeyboardAvoidingView>
+      );
   }
 }
 
@@ -186,6 +195,7 @@ export default connect(
       resendSignUp: (params: ResendSignUp) => dispatch(params),
       updateOnboarding: (params: Store_UpdateOnboarding) => dispatch(params),
       resetOnboarding: (params: Store_ResetOnboarding) => dispatch(params),
+      updateUser: (params: Store_UpdateUser) => dispatch(params)
     };
   },
 )(ValidateMobile);

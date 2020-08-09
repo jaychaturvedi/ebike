@@ -6,16 +6,16 @@ import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import { RegistartionStackParamList } from '../../navigation/registration'
 
 type TurnOnBluetoothNavigationProp = StackNavigationProp<
-  OnboardingStackParamList,
+  RegistartionStackParamList,
   'TurnOnBluetooth'
 >;
 
 type Props = {
   navigation: TurnOnBluetoothNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'TurnOnBluetooth'>
+  route: RouteProp<RegistartionStackParamList, 'TurnOnBluetooth'>
 };
 
 const styles = StyleSheet.create({

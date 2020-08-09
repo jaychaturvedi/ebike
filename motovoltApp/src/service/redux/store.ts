@@ -38,7 +38,9 @@ type TUser = {
     phone: string,
     name: string,
     email: string,
+    isPhoneValidated: boolean | null,
     defaultBikeId: string,
+    isBikeRegistered: boolean | null,
 }
 
 type TNotification = {
@@ -110,6 +112,8 @@ const ZeroUser: TUser = {
     name: "",
     email: "",
     defaultBikeId: "",
+    isPhoneValidated: null,
+    isBikeRegistered: null
 }
 
 const ZeroRide: TRide = {
