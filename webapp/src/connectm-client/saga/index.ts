@@ -1,15 +1,29 @@
-import { all, call, takeLatest } from "redux-saga/effects"
+import { all, call, takeLatest, put } from "redux-saga/effects"
 import { getUser } from "./user"
 import { IUsersAction } from "../actions/user"
 import { IAlertActions } from "../actions/alerts";
-import { getAlerts, updateAlertTabChange, updateAlertFilterChange } from "./alert";
+import { getAlerts, updateAlertTabChange, updateAlertFilterChange, Store_AlertUpdate, TAlertsTableData } from "./alert";
 import { Store_AlertTabChange } from "./alert";
 function* getUsers(params: IUsersAction) {
     yield call(getUser, params)
 }
 
 function* getAlertData(params: IAlertActions) {
-    yield call(getAlerts, params)
+    try {
+        const data: TAlertsTableData = yield call(getAlerts, params) 
+        yield put({
+            type: "STORE_ALERT_UPDATE",
+            payload: {
+                alertType: params.payload.alertType,
+                alerts: data,
+                pagination: params.payload.pagination,
+                sort: params.payload.sort
+            }
+        } as Store_AlertUpdate)
+    } catch (error) {
+        console.log("get Alerts error", error)
+    }
+
 }
 
 function* updateAlertTabChanges(params: IAlertActions) {

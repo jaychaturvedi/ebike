@@ -8,7 +8,8 @@
     "dev": "nodemon src/server.ts",
     "build": "tsc -p .",
     "offline": "serverless offline start",
-    "deploy": "serverless deploy"
+    "deploy-app": "serverless deploy -c serverless.yml",
+    "deploy-webapp": "serverless deploy -c serverless-webapp.yml"
   },
   "dependencies": {
     "aws-lambda": "^1.0.6",

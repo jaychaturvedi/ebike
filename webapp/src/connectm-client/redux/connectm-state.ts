@@ -5,7 +5,7 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number,
 }
-export interface Alert {
+export interface AlertData {
     alertId: number,
     alertName: string,
     mfgDate: string,
@@ -19,17 +19,25 @@ export interface Alert {
     location: string,
 }
 
+export interface Alert {
+    dataCount : number,
+    data : AlertData[]
+}
+
 export interface State {
     alerts: {
         smart: {
-            [alertId: string]: Alert
+            [alertId: string]: AlertData
         },
         bms: {
-            [alertId: string]: Alert,
+            [alertId: string]: AlertData,
         },
         mc: {
-            [alertId: string]: Alert
+            [alertId: string]: AlertData
         },
+        smartCount: number,
+        bmsCount: number,
+        mcCount: number,
         sort: TSort,
         pagination: TPagination,
         filter: TFilter,
@@ -42,6 +50,9 @@ const connectmState: State = {
         smart: {},
         bms: {},
         mc: {},
+        smartCount: 0,
+        bmsCount: 0,
+        mcCount: 0,
         pagination: {
             pageNumber: 1,
             pageSize: 10,

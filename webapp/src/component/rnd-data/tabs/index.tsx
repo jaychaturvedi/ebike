@@ -4,22 +4,33 @@ import { Button, Typography } from 'antd';
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../../connectm-client/actions/alerts"
 import { connect } from 'react-redux'
 import { TAlertType } from '../../../connectm-client/redux/connectm-state';
-interface TabsProps extends ReduxAlertActions, ReduxAlertState { }
+interface TabsProps extends ReduxAlertActions, ReduxAlertState {
+
+ }
 
 interface TabsStates {
     activeTab: TAlertType
+    smartCount: number,
+    bmsCount: number,
+    mcCount: number
 }
 
 class Tabs extends PureComponent<TabsProps, TabsStates> {
     constructor(props: TabsProps) {
         super(props)
         this.state = {
-            activeTab: this.props.alerts.activeAlertTab
+            activeTab: this.props.alerts.activeAlertTab,
+            smartCount: 0,
+            bmsCount: 0,
+            mcCount: 0
         }
     }
 
     static getDerivedStateFromProps(props: TabsProps, state: TabsStates) {
         state.activeTab = props.alerts.activeAlertTab
+        state.smartCount = props.alerts.smartCount
+        state.bmsCount = props.alerts.bmsCount
+        state.mcCount = props.alerts.mcCount
         return state;
     }
 
@@ -43,13 +54,13 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
         return (
             <div className="connectm-Tabs">
                 <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "smart" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("smart")}>
-                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Smart Alerts <span style={{ paddingLeft: "5px" }}>(100)</span></Typography.Text>
+                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Smart Alerts <span style={{ paddingLeft: "5px" }}>({this.state.smartCount})</span></Typography.Text>
                 </Button>
                 <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "bms" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("bms")}>
-                    <Typography.Text style={{ whiteSpace: "nowrap" }}>BMS Alerts <span style={{ paddingLeft: "5px" }}>(100)</span></Typography.Text>
+                    <Typography.Text style={{ whiteSpace: "nowrap" }}>BMS Alerts <span style={{ paddingLeft: "5px" }}>({this.state.bmsCount})</span></Typography.Text>
                 </Button>
                 <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("mc")}>
-                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Motor Controller Alerts <span style={{ paddingLeft: "5px" }}>(4)</span></Typography.Text>
+                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Motor Controller Alerts <span style={{ paddingLeft: "5px" }}>({this.state.mcCount})</span></Typography.Text>
                 </Button>
             </div>
         )

@@ -10,7 +10,7 @@ import { Table, Select, Button, Pagination, Alert } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
-import { Alert as AlertModel, TAlertType, TSort, TFilter } from "../../connectm-client/redux/connectm-state"
+import { AlertData as AlertModel, TAlertType, TSort, TFilter } from "../../connectm-client/redux/connectm-state"
 import { connect } from 'react-redux'
 
 const paginationDate = ['10', '25', '50'];

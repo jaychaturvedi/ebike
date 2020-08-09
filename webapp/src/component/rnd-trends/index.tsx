@@ -50,6 +50,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             trendsPeriod: "Last 7 Days"
         }
     }
+    //
     handlePeriodChange = (e: any) => {
         this.setState({
             trendsPeriod: e.key

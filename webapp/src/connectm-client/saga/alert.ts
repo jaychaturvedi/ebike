@@ -1,7 +1,8 @@
 import { IAlertActions } from "../actions/alerts";
-import { Alert as AlertModel, TAlertType, TSort, TPagination, TFilter } from "../redux/connectm-state"
+import { AlertData, TAlertType, TSort, TPagination, TFilter,Alert } from "../redux/connectm-state"
 import { put } from "redux-saga/effects";
 import moment from "moment";
+import axios from "axios"
 
 type FilterAlertRequest = {
     vehicleID?: string,
@@ -24,7 +25,7 @@ export type Store_AlertUpdate = {
     type: "STORE_ALERT_UPDATE",
     payload: {
         alertType: TAlertType,
-        alerts: [AlertModel],
+        alerts: TAlertsTableData,
         pagination: TPagination,
         sort: TSort
     }
@@ -46,25 +47,28 @@ export type Store_AlertFilterChange = {
         filter: TFilter
     }
 }
+export type TAlertsTableData = {
+    smart : Alert,
+    bms : Alert,
+    mc  : Alert
+}
 
-export function* getAlerts(params: IAlertActions) {
+export async function getAlerts(params: IAlertActions) {
     console.log("called saga");
-    let response: AlertModel[] = []
+    let response = [];
     if (params.payload.filter.value != "") {
-        const request = getFilteredAlertDetailsRequest(params);
-        response = generateQueryAlertsData(params);
+        const request = await getFilteredAlertDetailsRequest(params);
+        response = await Promise.all([generateQueryAlertsData(params), generateQueryAlertsData(params), generateQueryAlertsData(params)])
+        await getSmartAlert()
     } else {
-        response = generateAlertsData(params)
+        response = await Promise.all([generateAlertsData(params), generateAlertsData(params), generateAlertsData(params)])
     }
-    yield put({
-        type: "STORE_ALERT_UPDATE",
-        payload: {
-            alertType: params.payload.alertType,
-            alerts: response,
-            pagination: params.payload.pagination,
-            sort: params.payload.sort
-        }
-    } as Store_AlertUpdate);
+    const data : TAlertsTableData = {
+        smart : response[0],
+        bms : response[1],
+        mc : response[2]
+    }
+    return data
 }
 
 export function* updateAlertTabChange(params: IAlertActions) {
@@ -83,7 +87,7 @@ export function* updateAlertFilterChange(params: IAlertActions) {
     )
 }
 
-function getFilteredAlertDetailsRequest(params: IAlertActions) {
+async function getFilteredAlertDetailsRequest(params: IAlertActions) {
     let request: FilterAlertRequest
     if (params.payload.filter.fieldName == "model") {
         const key = (params.payload.filter.value == "Classic" || params.payload.filter.value == "Cargo") ? "model" : "subModel"
@@ -133,8 +137,8 @@ function getFilteredAlertDetailsRequest(params: IAlertActions) {
 
 }
 
-function generateAlertsData(params: IAlertActions) {
-    let datas: AlertModel[] = []
+async function generateAlertsData(params: IAlertActions) {
+    let datas: AlertData[] = []
     for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
         datas.push({
             alertId: i,
@@ -150,11 +154,15 @@ function generateAlertsData(params: IAlertActions) {
             location: "Bangalore " + i
         })
     }
-    return datas;
+    const alert : Alert= {
+        data: datas,
+        dataCount : 100
+    };
+    return alert;
 }
 
 function generateQueryAlertsData(params: IAlertActions) {
-    let datas: AlertModel[] = []
+    let datas: AlertData[] = []
     for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
         datas.push({
             alertId: i,
@@ -170,5 +178,20 @@ function generateQueryAlertsData(params: IAlertActions) {
             location: "Bangalore " + i
         })
     }
-    return datas;
+    const alert: Alert = {
+        data: datas,
+        dataCount: 100
+    };
+    return alert;
+}
+
+async function getSmartAlert() {
+    const data = await axios.post('https://x3vxs4134h.execute-api.us-east-2.amazonaws.com/dev/mainAlerts',
+        {
+            alertType: "smart",
+            pageSize: 10,
+            pageNo: 1
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+    console.log(data);
 }

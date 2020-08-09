@@ -2,7 +2,7 @@ plugins: # List of plugins of use on application
   # - serverless-offline # Get your serverless configuration and run the server local
   - serverless-plugin-typescript-express # Help us with configuration typescript on serverless
 
-service: zelp-motovolt-app
+service: zelp-motovolt-open-api
 
 provider:
   name: aws
@@ -19,21 +19,17 @@ provider:
     PORT: 5432
     MOTOVOLTAPI: https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra
 functions:
-  app:
-    handler: src/server.handler
-    events: 
-      - http: 
-          path: /
-          method: ANY
-          cors: true
-      - http: 
-          path: /{proxy+}
-          method: ANY
-          cors: true
-  createUser:
-    handler: src/server.createUser
+  listUsers:
+    handler: src/server.listUsers
     events:
       - http:
-          path: /createUser
+          path: /listUsers
+          method: GET
+          cors: true
+  deleteUser:
+    handler: src/server.deleteUser
+    events:
+      - http:
+          path: /deleteUser
           method: POST
           cors: true

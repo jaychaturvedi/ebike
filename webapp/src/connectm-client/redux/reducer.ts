@@ -1,4 +1,4 @@
-import connectmState, { State, TSort, Alert } from "./connectm-state";
+import connectmState, { State, TSort, AlertData } from "./connectm-state";
 import { IUsersAction } from "../actions/user"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
 type ActionParams = IUsersAction | Store_AlertUpdate | Store_AlertTabChange | Store_AlertFilterChange
@@ -12,7 +12,20 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
             }
         };
         case "STORE_ALERT_UPDATE": {
-            const alertData = Object.assign({}, ...(actionParams as Store_AlertUpdate).payload.alerts.map(alert => {
+            const smartAlertData = Object.assign({}, ...(actionParams as Store_AlertUpdate)
+            .payload.alerts.smart.data.map(alert => {
+                return {
+                    [String(alert.alertId)]: alert
+                }
+            }))
+            const bmsAlertData = Object.assign({}, ...(actionParams as Store_AlertUpdate)
+            .payload.alerts.bms.data.map(alert => {
+                return {
+                    [String(alert.alertId)]: alert
+                }
+            }))
+            const mcAlertData = Object.assign({}, ...(actionParams as Store_AlertUpdate)
+            .payload.alerts.mc.data.map(alert => {
                 return {
                     [String(alert.alertId)]: alert
                 }
@@ -21,9 +34,14 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                 ...state,
                 alerts: {
                     ...state.alerts,
-                    [(actionParams as Store_AlertUpdate).payload.alertType]: alertData,
+                    smart: smartAlertData,
+                    bms: bmsAlertData,
+                    mc: mcAlertData,
                     pagination: (actionParams as Store_AlertUpdate).payload.pagination,
-                    sort: (actionParams as Store_AlertUpdate).payload.sort
+                    sort: (actionParams as Store_AlertUpdate).payload.sort,
+                    smartCount: (actionParams as Store_AlertUpdate).payload.alerts.smart.dataCount,
+                    bmsCount: (actionParams as Store_AlertUpdate).payload.alerts.bms.dataCount,
+                    mcCount: (actionParams as Store_AlertUpdate).payload.alerts.mc.dataCount,
                 }
             }
         };
