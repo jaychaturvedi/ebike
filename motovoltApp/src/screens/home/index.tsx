@@ -12,8 +12,7 @@ import {connect} from 'react-redux';
 import Background from '../../components/background';
 
 type ReduxState = {
-  bikeStat: TStore['bikeStat'];
-  bikeState: TStore['bikeState'];
+  bike: TStore['bike'];
   user: TStore['user'];
 };
 
@@ -39,9 +38,9 @@ class Home extends React.PureComponent<Props, State> {
         <ScrollView style={styles.body}>
           <View style={{marginVertical: verticalScale(20)}}>
             <Metrics
-              batteryCharge={this.props.bikeState.batteryChargePer.toString()}
-              rangeAvailable={this.props.bikeState.rangeAvailableKm.toString()}
-              rangeCovered={this.props.bikeState.rangeCoveredKm.toString()}
+              batteryCharge={this.props.bike.batteryChargePer.toString()}
+              rangeAvailable={this.props.bike.rangeAvailableKm.toString()}
+              rangeCovered={this.props.bike.rangeCoveredKm.toString()}
             />
           </View>
           <View
@@ -79,12 +78,12 @@ class Home extends React.PureComponent<Props, State> {
             </View>
           </View>
           <RideStatSection
-            co2Saving={this.props.bikeStat.co2SavingKg.toString()}
-            avgRidescore={this.props.bikeStat.avgRideScore.toString()}
-            costRecovered={this.props.bikeStat.costRecoveredPer.toString()}
-            greenMiles={this.props.bikeStat.greenMilesKm.toString()}
-            petrolSavings={this.props.bikeStat.petrolSavingsLtr.toString()}
-            totalDistance={this.props.bikeStat.totalDistanceKm.toString()}
+            co2Saving={this.props.bike.co2SavingKg.toString()}
+            avgRidescore={this.props.bike.avgRideScore.toString()}
+            costRecovered={this.props.bike.costRecoveredPer.toString()}
+            greenMiles={this.props.bike.greenMilesKm.toString()}
+            petrolSavings={this.props.bike.petrolSavingsLtr.toString()}
+            totalDistance={this.props.bike.totalDistanceKm.toString()}
           />
         </ScrollView>
       </View>
@@ -95,8 +94,7 @@ class Home extends React.PureComponent<Props, State> {
 export default connect(
   (store: TStore): ReduxState => {
     return {
-      bikeStat: store['bikeStat'],
-      bikeState: store['bikeState'],
+      bike: store['bike'],
       user: store['user'],
     };
   },

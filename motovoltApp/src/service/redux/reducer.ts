@@ -17,7 +17,8 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 user: {
                     ...store.user,
-                    ...params.payload
+                    ...params.payload,
+                    isStale: false,
                 }
             }
         case "Store_UpdateOnboarding":
@@ -25,7 +26,7 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 onboarding: {
                     ...store.onboarding,
-                    ...params.payload
+                    ...params.payload,
                 }
             }
         case "Store_ResetOnboarding":
@@ -38,7 +39,8 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 bike: {
                     ...store.bike,
-                    ...params.payload
+                    ...params.payload,
+                    isStale: false,
                 }
             }
         default: return store;

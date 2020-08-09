@@ -10,27 +10,6 @@ type TOnboarding = {
     errorMessage: string
 }
 
-type TBikeStat = {
-    isStale: boolean,
-    co2SavingKg: number,
-    totalDistanceKm: number,
-    avgRideScore: number,
-    greenMilesKm: number,
-    petrolSavingsLtr: number,
-    costRecoveredPer: number,
-}
-
-type TBikeState = {
-    isStale: boolean,
-    batteryChargePer: number,
-    rangeAvailableKm: number,
-    rangeCoveredKm: number,
-    isOn: boolean,
-    lastLocationKnownTime: string,
-    lat: number,
-    long: number,
-}
-
 type TRide = {
     isStale: boolean,
     isRiding: boolean,
@@ -81,6 +60,19 @@ type TBike = {
     motorPer: number,
     batteryPer: number,
     type: null | "GPS" | "BLE",
+    co2SavingKg: number,
+    totalDistanceKm: number,
+    avgRideScore: number,
+    greenMilesKm: number,
+    petrolSavingsLtr: number,
+    costRecoveredPer: number,
+    batteryChargePer: number,
+    rangeAvailableKm: number,
+    rangeCoveredKm: number,
+    isOn: boolean,
+    lastLocationKnownTime: string,
+    lat: number,
+    long: number,
     batteries: {
         [id: string]: {
             id: string
@@ -120,27 +112,6 @@ const ZeroUser: TUser = {
     defaultBikeId: "",
 }
 
-const ZeroBikeStat: TBikeStat = {
-    isStale: true,
-    co2SavingKg: 0,
-    totalDistanceKm: 0,
-    avgRideScore: 0,
-    greenMilesKm: 0,
-    petrolSavingsLtr: 0,
-    costRecoveredPer: 0,
-}
-
-const ZeroBikeState: TBikeState = {
-    isStale: true,
-    batteryChargePer: 0,
-    rangeAvailableKm: 0,
-    rangeCoveredKm: 0,
-    isOn: false,
-    lastLocationKnownTime: "",
-    lat: 0,
-    long: 0,
-}
-
 const ZeroRide: TRide = {
     isStale: true,
     isRiding: false,
@@ -171,7 +142,20 @@ const ZeroBike: TBike = {
     motorPer: 0,
     batteryPer: 0,
     batteries: {},
-    type: null
+    type: null,
+    batteryChargePer: 0,
+    rangeAvailableKm: 0,
+    rangeCoveredKm: 0,
+    isOn: false,
+    lastLocationKnownTime: "",
+    lat: 0,
+    long: 0,
+    co2SavingKg: 0,
+    totalDistanceKm: 0,
+    avgRideScore: 0,
+    greenMilesKm: 0,
+    petrolSavingsLtr: 0,
+    costRecoveredPer: 0,
 }
 
 const ZeroBLE: TBLE = {
@@ -180,15 +164,11 @@ const ZeroBLE: TBLE = {
     devices: [],
 }
 
-
-
 export type TStore = {
     onboarding: TOnboarding,
     user: TUser,
-    bikeStat: TBikeStat,
-    bikeState: TBikeState,
     ride: TRide,
-    notifications: { [id: string]: TNotification },
+    notifications: { isPresent: boolean, data: { [id: string]: TNotification } },
     bike: TBike,
     services: { [id: string]: TService },
     rides: { [id: string]: TRide },
@@ -198,11 +178,9 @@ export type TStore = {
 export default {
     onboarding: ZeroOnboarding,
     user: ZeroUser,
-    bikeStat: ZeroBikeStat,
-    bikeState: ZeroBikeState,
-    ride: ZeroRide,
     bike: ZeroBike,
-    notifications: {},
+    ride: ZeroRide,
+    notifications: { isPresent: false, data: {} },
     rides: {},
     services: {},
     ble: ZeroBLE

@@ -56,10 +56,43 @@ export type Store_UpdateBike = {
             [id: string]: {
                 id: string
             }
-        }
+        },
+        batteryChargePer?: number,
+        rangeAvailableKm?: number,
+        rangeCoveredKm?: number,
+        isOn?: boolean,
+        lastLocationKnownTime?: string,
+        lat?: number,
+        long?: number,
+        co2SavingKg?: number,
+        totalDistanceKm?: number,
+        avgRideScore?: number,
+        greenMilesKm?: number,
+        petrolSavingsLtr?: number,
+        costRecoveredPer?: number,
     }
 }
 
-type Action = Store_UpdateUser | Store_UpdateBle | Store_UpdateOnboarding | Store_ResetOnboarding | Store_UpdateBike;
+type TNotification = {
+    isStale: boolean,
+    time: string,
+    title: string,
+    body: string,
+}
+
+export type Store_Notification = {
+    type: "Store_Notification",
+    payload: {
+        isPresent?: boolean,
+        data?: { [id: string]: TNotification }
+    }
+}
+
+type Action = Store_UpdateUser
+    | Store_UpdateBle
+    | Store_UpdateOnboarding
+    | Store_ResetOnboarding
+    | Store_UpdateBike
+    | Store_Notification;
 
 export default Action;

@@ -56,10 +56,11 @@ export type ValidateFrame = {
     }
 }
 
-export type SetBikeName = {
-    type: "SetBikeName",
+export type UpdateBike = {
+    type: "UpdateBike",
     payload: {
-        bikeName: string
+        id: string,
+        name: string
     }
 }
 
