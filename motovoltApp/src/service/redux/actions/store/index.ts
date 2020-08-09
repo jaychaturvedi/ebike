@@ -9,6 +9,8 @@ export type Store_UpdateUser = {
         phone?: string,
         name?: string,
         email?: string,
+        isPhoneValidated?: boolean,
+        isBikeRegistered?: boolean,
         defaultBikeId?: string,
     }
 }

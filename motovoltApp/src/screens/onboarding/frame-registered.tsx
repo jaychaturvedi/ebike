@@ -8,16 +8,16 @@ import Input from './components/input';
 import input from './components/input';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import { RegistartionStackParamList } from '../../navigation/registration';
 
 type FrameRegisteredNavigationProp = StackNavigationProp<
-  OnboardingStackParamList,
+  RegistartionStackParamList,
   'FrameRegistered'
 >;
 
 type Props = {
   navigation: FrameRegisteredNavigationProp;
-  route: RouteProp<OnboardingStackParamList, 'FrameRegistered'>;
+  route: RouteProp<RegistartionStackParamList, 'FrameRegistered'>;
 };
 
 type State = {};

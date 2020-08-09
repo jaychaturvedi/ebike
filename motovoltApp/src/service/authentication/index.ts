@@ -128,7 +128,7 @@ export function forgotPassword(username: string, code: string, password: string)
 
 export function signIn(username: string, password: string) {
     return Auth.signIn({ username, password }).then(user => {
-        console.log(user)
+        console.log("Logged in :", user)
         return {
             user,
             success: true,

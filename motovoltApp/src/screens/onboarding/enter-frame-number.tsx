@@ -15,7 +15,7 @@ import Input from './components/input';
 import CTAHeader from './components/header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import { RegistartionStackParamList } from '../../navigation/registration';
 import { ValidateFrame } from '../../service/redux/actions/saga/bike-actions';
 import { Store_UpdateBike } from '../../service/redux/actions/store';
 import { TStore } from '../../service/redux/store';
@@ -28,13 +28,13 @@ interface ReduxState {
 };
 
 type EnterFrameNumberNavigationProp = StackNavigationProp<
-  OnboardingStackParamList,
+  RegistartionStackParamList,
   'EnterFrameNumber'
 >;
 
 interface Props extends ReduxState {
   navigation: EnterFrameNumberNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'EnterFrameNumber'>
+  route: RouteProp<RegistartionStackParamList, 'EnterFrameNumber'>
 };
 
 type State = {

@@ -9,8 +9,9 @@
  */
 
 import React from 'react';
-import Registration from './src/navigation/onboarding';
+import Onboarding from './src/navigation/onboarding';
 import FooterNavigation from './src/navigation/footer';
+import Registration from './src/navigation/registration';
 
 import { StyleSheet } from 'react-native';
 
@@ -41,10 +42,11 @@ class App extends React.PureComponent<Props, {}> {
       if (cred) {
         const response = await signIn(cred.username, cred.password);
         if (response.success) {
+          //Fetch user from backend and update isBikeRegistered , isPhoneValidated 
           this.props.updateUser({
             type: 'Store_UpdateUser',
             payload: {
-              isLoggedIn: false,
+              isLoggedIn: true,
             },
           });
         }
@@ -65,8 +67,10 @@ class App extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    // return this.props.user.isLoggedIn ? <FooterNavigation /> : <Registration />;
-    return <FooterNavigation />
+    return this.props.user.isBikeRegistered === false ? <Registration /> :
+      this.props.user.isLoggedIn ? <FooterNavigation /> : <Onboarding />;
+
+    // return <FooterNavigation />
   }
 }
 

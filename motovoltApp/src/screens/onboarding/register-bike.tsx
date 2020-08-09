@@ -1,21 +1,21 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { View, Image, StyleSheet, Text } from 'react-native';
+import { scale, verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { RegistartionStackParamList } from '../../navigation/registration';
 
 type RegisterBikeNavigationProp = StackNavigationProp<
-  OnboardingStackParamList,
+  RegistartionStackParamList,
   'ValidateFrame'
 >;
 
 type Props = {
   navigation: RegisterBikeNavigationProp;
-  route: RouteProp<OnboardingStackParamList, 'ValidateFrame'>;
+  route: RouteProp<RegistartionStackParamList, 'ValidateFrame'>;
 };
 
 type State = {};

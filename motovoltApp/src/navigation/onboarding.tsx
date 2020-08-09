@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import IntroSwipper from '../screens/onboarding/intro-swiper';
 import ValidateMobile from '../screens/onboarding/validate-mobile';
 import OTP from '../screens/onboarding/otp';
@@ -21,17 +21,17 @@ import CreateNewPassword from '../screens/onboarding/create-new-password';
 export type OnboardingStackParamList = {
   IntroSwiper: {};
   ValidateMobile: {};
-  ValidateFrame: {};
-  EnterFrameNumber: {};
-  Scanner: {};
-  FrameRegistered: {};
-  PersonalDetails: {};
-  TurnOnBluetooth: {};
-  Discovering: {};
-  BluetoothDevices: {};
+  // ValidateFrame: {};
+  // EnterFrameNumber: {};
+  // Scanner: {};
+  // FrameRegistered: {};
+  // PersonalDetails: {};
+  // TurnOnBluetooth: {};
+  // Discovering: {};
+  // BluetoothDevices: {};
   LoginPage: {};
   ForgotPassword: {};
-  CreateNewPassword: {code: string; mobileNumber: string};
+  CreateNewPassword: { code: string; mobileNumber: string };
 };
 
 const Onboarding = createStackNavigator<OnboardingStackParamList>();
@@ -44,7 +44,7 @@ export default function OnboardingStack(props: {}) {
         headerShown: false,
         animationEnabled: false,
       }}
-      // mode="modal"
+    // mode="modal"
     >
       <Onboarding.Screen
         name="IntroSwiper"
@@ -52,14 +52,14 @@ export default function OnboardingStack(props: {}) {
         initialParams={{}}
       />
       <Onboarding.Screen name="ValidateMobile" component={ValidateMobile} />
-      <Onboarding.Screen name="ValidateFrame" component={ValidateFrame} />
+      {/* <Onboarding.Screen name="ValidateFrame" component={ValidateFrame} />
       <Onboarding.Screen name="EnterFrameNumber" component={EnterFrameNumber} />
       <Onboarding.Screen name="Scanner" component={Scanner} />
       <Onboarding.Screen name="FrameRegistered" component={FrameRegistered} />
       <Onboarding.Screen name="PersonalDetails" component={PersonalDetails} />
       <Onboarding.Screen name="TurnOnBluetooth" component={TurnOnBluetooth} />
       <Onboarding.Screen name="Discovering" component={Discovering} />
-      <Onboarding.Screen name="BluetoothDevices" component={BluetoothDevices} />
+      <Onboarding.Screen name="BluetoothDevices" component={BluetoothDevices} /> */}
       <Onboarding.Screen name="LoginPage" component={LoginPage} />
       <Onboarding.Screen name="ForgotPassword" component={ForgotPassword} />
       <Onboarding.Screen

@@ -6,7 +6,7 @@ import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import { RegistartionStackParamList } from '../../navigation/registration';
 import { TStore } from '../../service/redux/store';
 import { ConnectBLE } from '../../service/redux/actions/saga/ble';
 import { connect } from 'react-redux';
@@ -18,13 +18,13 @@ type ReduxState = {
 };
 
 type BluetoothDeviceNavigationProp = StackNavigationProp<
-  OnboardingStackParamList,
+  RegistartionStackParamList,
   'BluetoothDevices'
 >;
 
 interface Props extends ReduxState {
   navigation: BluetoothDeviceNavigationProp;
-  route: RouteProp<OnboardingStackParamList, 'BluetoothDevices'>;
+  route: RouteProp<RegistartionStackParamList, 'BluetoothDevices'>;
 }
 
 export type Device = {
