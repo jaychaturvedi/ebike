@@ -186,7 +186,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         )
     }
     timeRangeApply = () => {
-        console.log("applying date", this.state.timeFrame, "moment",moment(new Date(), this.dateFormatList[0]))
+        console.log("applying date", this.state.timeFrame, "moment", moment(new Date(), this.dateFormatList[0]))
         const dateRange = `${this.state.timeFrame!.starTime || moment().format(this.dateFormatList[0])} to ${this.state.timeFrame!.endTime || moment().format(this.dateFormatList[0])}`
         this.setState({
             selectedCalender: dateRange,

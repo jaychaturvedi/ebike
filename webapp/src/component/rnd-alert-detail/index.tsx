@@ -28,9 +28,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 <div className={"connectm-alert-detail-container"}>
                     <div className={"alert-top-container"}>
                         <AlertDetailSingle />
-                        {/* <LineGraph /> */}
+                        <LineGraph graphType="double" />
                         {/* <CellBatteryGraph /> */}
-                        <StackedBarGraph />
+                        {/* <StackedBarGraph /> */}
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>

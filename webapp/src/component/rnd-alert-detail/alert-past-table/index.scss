@@ -42,19 +42,19 @@
         }
     }
 
-    .table-body {
-        // display: block !important;
-        // max-height: 350px;
+    // .table-body {
+    // display: block !important;
+    // max-height: 350px;
 
-        //use media screen size to set height
-        // height: 10vh !important; //change table height here
-        // for test scrren
-        // height: 100%;
+    //use media screen size to set height
+    // height: 10vh !important; //change table height here
+    // for test scrren
+    // height: 100%;
 
-        // overflow-y: hidden;
-        /* Trigger vertical scroll    */
-        // overflow-x: auto;
-    }
+    // overflow-y: hidden;
+    /* Trigger vertical scroll    */
+    // overflow-x: auto;
+    // }
 
     .ant-table table {
         // height: calc(100% - 25px);
@@ -152,17 +152,17 @@ th {
 .header-sorter {
     display: flex;
     justify-content: center;
-    float: left;
+    // float: left;
     cursor: pointer;
 }
 
 .alert-down-circle {
     transform: rotate(0deg);
     transition: transform 1ms linear;
-    // display: flex;// justify-content: center;
+    display: flex;
+    justify-content: center;
     // padding: 2px;
-    float: right;
-    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .alert-down-circle.open {
@@ -171,6 +171,35 @@ th {
     display: flex;
     justify-content: center;
     // padding: 2px;
-    float: right;
     margin-left: 10px;
 }
+
+// .ant-select.ant-select-arrow {
+//     transform: rotate(0deg);
+//     transition: transform 1ms linear;
+//     // display: flex;// justify-content: center;
+//     // padding: 2px;
+//     float: right;
+//     margin-left: 10px;
+// }
+
+// .ant-select.open.ant-select-arrow {
+//     transform: rotate(180deg);
+//     transition: transform 1ms linear;
+//     display: flex;
+//     justify-content: center;
+//     // padding: 2px;
+//     float: right;
+//     margin-left: 10px;
+// }
+
+
+
+
+// .alert-down-circle-static>g>circle {
+//     fill: '#3C4473';
+//     float: right;
+//     display: flex;
+//     justify-content: center;
+//     margin-left: 10px;
+// }

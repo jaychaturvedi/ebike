@@ -184,7 +184,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 dataIndex: 'alertTime', defaultSortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Time
                     {alertClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '4px', fontSize: '12px' }} className={this.state.classname} />}
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} className={this.state.classname} />}
                 </span>,
             },
             {
@@ -212,6 +212,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     <div className={"pagination-footer"}>
                         Showing &nbsp;&nbsp;&nbsp; <span >
                             <Select className={'select-button'}
+                                showArrow={true}
                                 defaultValue={this.state.pageSize} onChange={this.handleSelect}>
                                 {paginationDate.map(page => (
                                     <Option value={page} key={page}>{page}</Option>
