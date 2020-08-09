@@ -3,7 +3,7 @@ import { Menu, Dropdown, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import React, { PureComponent } from 'react';
 import Moment from 'react-moment';
-import moment from "moment/moment.js";
+import moment from "moment";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
@@ -69,8 +69,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     );
 
     formatDate = (label: any) => {
-        console.log(moment(`${label}`).format('MMMM'));
-        return moment(`${label}`).format('MMMM')
+        console.log(moment(`${label}`).format('yy'));
+        return moment(`${label}`).format('yy')
         // return <Moment format="DDDD">
         //     {`${labels}`}
         // </Moment>
@@ -136,8 +136,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 <ResponsiveContainer width="100%" height="28%">
                     <LineChart data={data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }} />
-                        {/* tickFormatter={(label) => this.formatDate(label)} */}
+                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
+                            tickFormatter={(label) => this.formatDate(label)} />
                         <Legend iconType="circle" iconSize={10} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
                         <Line name="line 1" type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />

@@ -1,9 +1,10 @@
 import { IAlertActions } from "../actions/alerts";
-import { AlertData, TAlertType, TSort, TPagination, TFilter,Alert } from "../redux/connectm-state"
+import { AlertData, TAlertType, TSort, TPagination, TFilter, Alert } from "../redux/connectm-state"
 import { put } from "redux-saga/effects";
 import moment from "moment";
 import axios from "axios"
-
+import * as dotenv from "dotenv"
+dotenv.config()
 type FilterAlertRequest = {
     vehicleID?: string,
     alertName?: string,
@@ -48,9 +49,9 @@ export type Store_AlertFilterChange = {
     }
 }
 export type TAlertsTableData = {
-    smart : Alert,
-    bms : Alert,
-    mc  : Alert
+    smart: Alert,
+    bms: Alert,
+    mc: Alert
 }
 
 export async function getAlerts(params: IAlertActions) {
@@ -63,10 +64,10 @@ export async function getAlerts(params: IAlertActions) {
     } else {
         response = await Promise.all([generateAlertsData(params), generateAlertsData(params), generateAlertsData(params)])
     }
-    const data : TAlertsTableData = {
-        smart : response[0],
-        bms : response[1],
-        mc : response[2]
+    const data: TAlertsTableData = {
+        smart: response[0],
+        bms: response[1],
+        mc: response[2]
     }
     return data
 }
@@ -154,9 +155,9 @@ async function generateAlertsData(params: IAlertActions) {
             location: "Bangalore " + i
         })
     }
-    const alert : Alert= {
+    const alert: Alert = {
         data: datas,
-        dataCount : 100
+        dataCount: 100
     };
     return alert;
 }
@@ -186,7 +187,9 @@ function generateQueryAlertsData(params: IAlertActions) {
 }
 
 async function getSmartAlert() {
-    const data = await axios.post('https://x3vxs4134h.execute-api.us-east-2.amazonaws.com/dev/mainAlerts',
+    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
+
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "smart",
             pageSize: 10,
@@ -194,4 +197,60 @@ async function getSmartAlert() {
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     console.log(data);
+}
+
+async function getBmsAlert() {
+    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
+
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+        {
+            alertType: "bms",
+            pageSize: 10,
+            pageNo: 1
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+    console.log(data);
+}
+
+async function getMcAlert() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+        {
+            alertType: "mc",
+            pageSize: 10,
+            pageNo: 1
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+    console.log(data);
+}
+
+async function totalAlerts() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/totalAlerts',
+        {
+            alertType: "smart",
+            startDate: "2020-07-07 10:49:38",
+            endDate: "2020-07-08 16:50:38"
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+    console.log(data);
+}
+
+async function top5Alerts() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/topFive',
+        {
+            alertType: "smart",
+            startDate: "2020-07-07 10:49:38",
+            endDate: "2020-07-08 16:50:38"
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
+    console.log(data);
+}
+
+async function locationWiseAlerts() {
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/locationWise',
+        {
+            alertType: "smart",
+            startDate: "2020-07-07 10:49:38",
+            endDate: "2020-07-08 16:50:38"
+        }, { headers: { 'Content-Type': 'application/json' } }
+    )
 }
