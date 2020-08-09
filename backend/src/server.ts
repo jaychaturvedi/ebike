@@ -52,8 +52,8 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) =
     return result;
 };
 
-//will be pushed other file
-//lambda function to be triggered to create new user
+// // will be pushed other file
+// // lambda function to be triggered to create new user
 module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context) => {
     const body = JSON.parse(event.body!)
     const uid = body.uid as string
