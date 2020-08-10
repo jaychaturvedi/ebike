@@ -138,56 +138,8 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
 
 }
 
-async function generateAlertsData(params: IAlertActions) {
-    let datas: AlertData[] = []
-    for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
-        datas.push({
-            alertId: i,
-            alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
-            model: "Classic" + i,
-            frameId: "BDS" + i,
-            alertTime: i + " May 2020 10:05AM",
-            openSince: "24 hrs " + i + "0 min",
-            Severity: i,
-            mfgDate: "",
-            customerId: params.payload.alertType,
-            batteryId: "",
-            location: "Bangalore " + i
-        })
-    }
-    const alert: Alert = {
-        data: datas,
-        dataCount: 100
-    };
-    return alert;
-}
-
-function generateQueryAlertsData(params: IAlertActions) {
-    let datas: AlertData[] = []
-    for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
-        datas.push({
-            alertId: i,
-            alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
-            model: "Classic" + i,
-            frameId: "BDS" + i,
-            alertTime: i + " May 2020 10:05AM",
-            openSince: "24 hrs " + i + "0 min",
-            Severity: i,
-            mfgDate: "",
-            customerId: params.payload.alertType + params.payload.filter.fieldName,
-            batteryId: "",
-            location: "Bangalore " + i
-        })
-    }
-    const alert: Alert = {
-        data: datas,
-        dataCount: 100
-    };
-    return alert;
-}
-
 async function getSmartAlert(params: IAlertActions) {
-    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
+    console.log('envvv', process.env.REACT_APP_WEBAPIURLC);
 
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
@@ -238,7 +190,6 @@ async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
 }
 
 async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
-    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
     const bmsFilter: FilterAlertRequest = {
         ...requestPayload,
         alertType: "smart"
@@ -262,7 +213,7 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
 
 
 async function totalAlerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/totalAlerts',
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL+'/totalAlerts',
         {
             alertType: "smart",
             startDate: "2020-07-07 10:49:38",
@@ -293,29 +244,7 @@ async function locationWiseAlerts() {
     )
 }
 
-async function getAdditionalInsights() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/additionalInsight',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-            alertName: "voltage deviation",
-            customerId: "CUS14567"
-        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
-    )
-}
 
-async function getPastAlerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/pastAlerts',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-            alertName: "voltage deviation",
-            customerId: "CUS14567",
-            pageSize: 10,
-            pageNo: 1
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
-}
 
 async function clearAlert() {
     const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/clearAlert',
@@ -355,3 +284,55 @@ async function vehicleUsageGraph() {
         }, { headers: { 'Content-Type': 'application/json' } }
     )
 }
+
+
+/**
+ * async function generateAlertsData(params: IAlertActions) {
+    let datas: AlertData[] = []
+    for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
+        datas.push({
+            alertId: i,
+            alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
+            model: "Classic" + i,
+            frameId: "BDS" + i,
+            alertTime: i + " May 2020 10:05AM",
+            openSince: "24 hrs " + i + "0 min",
+            Severity: i,
+            mfgDate: "",
+            customerId: params.payload.alertType,
+            batteryId: "",
+            location: "Bangalore " + i
+        })
+    }
+    const alert: Alert = {
+        data: datas,
+        dataCount: 100
+    };
+    return alert;
+}
+
+function generateQueryAlertsData(params: IAlertActions) {
+    let datas: AlertData[] = []
+    for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
+        datas.push({
+            alertId: i,
+            alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
+            model: "Classic" + i,
+            frameId: "BDS" + i,
+            alertTime: i + " May 2020 10:05AM",
+            openSince: "24 hrs " + i + "0 min",
+            Severity: i,
+            mfgDate: "",
+            customerId: params.payload.alertType + params.payload.filter.fieldName,
+            batteryId: "",
+            location: "Bangalore " + i
+        })
+    }
+    const alert: Alert = {
+        data: datas,
+        dataCount: 100
+    };
+    return alert;
+}
+
+ */

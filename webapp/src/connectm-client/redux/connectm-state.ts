@@ -57,6 +57,23 @@ export interface TtrendLocationWise {
     }[]
 }
 
+export interface TAlertInsights {
+    totalDistInKm: string,
+    utilization: string,
+    ridesPerMnthInKm: string,
+    avgRangeRideInKm: string,
+    avgMileageInKm: string
+}
+
+export interface TPastAlert {
+    vehicleId: string,
+    alertTime: string,
+    tat: string,
+    alertId: string,
+    location: string,
+    alertGraph: boolean
+}
+
 export interface State {
     alerts: {
         smart: {
@@ -78,7 +95,15 @@ export interface State {
     },
     trendTotalAlerts: TtrendTotalAlerts[],
     trendTop5Alert: TtrendTop5Alert,
-    trendLocationWise: TtrendLocationWise
+    trendLocationWise: TtrendLocationWise,
+    alertInsights: TAlertInsights
+    pastAlerts: {
+        data: {
+            [alertId: string]: TPastAlert
+        }
+        sort: TSort,
+        pagination: TPagination,
+    }
 }
 
 const connectmState: State = {
@@ -102,7 +127,25 @@ const connectmState: State = {
     },
     trendTotalAlerts: [],
     trendTop5Alert: { data: [], lines: {} },
-    trendLocationWise: { data: [], lines: {} }
+    trendLocationWise: { data: [], lines: {} },
+    alertInsights: {
+        avgMileageInKm: "N/A",
+        avgRangeRideInKm: "N/A",
+        ridesPerMnthInKm: "N/A",
+        totalDistInKm: "N/A",
+        utilization: "N/A"
+    },
+    pastAlerts: {
+        data: {},
+        sort: {
+            fieldName: "alertTime",
+            direction: 'descend'
+        },
+        pagination: {
+            pageNumber: 1,
+            pageSize: 10,
+        },
+    }
 }
 //filter - option, filter type,
 

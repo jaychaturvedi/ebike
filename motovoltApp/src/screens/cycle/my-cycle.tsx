@@ -53,7 +53,7 @@ class MyCycle extends React.PureComponent<Props, State> {
             />
           </View>
           <View style={styles.cycleName}>
-            <Text style={{ fontSize: scale(16), fontWeight: 'bold' }}>
+            <Text style={{ fontSize: scale(16), fontWeight: 'bold' }} numberOfLines={1}>
               {this.props.bike.name}
             </Text>
           </View>

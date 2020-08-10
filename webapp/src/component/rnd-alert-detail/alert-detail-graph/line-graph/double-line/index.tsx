@@ -7,19 +7,19 @@ import {
 
 
 const CustomizedDot = (props: any) => {
-    const {
-        cx, cy, stroke, payload, value, L1, L2
-    } = props;
+    // const {
+    //     cx, cy, stroke, payload, value, L1, L2
+    // } = props;
 
-    if (value == L2) {
-        return (
+    // if (value == L2) {
+    //     return (
 
-            <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
-                {/* <polygon points="0,0 10,0 5,10" /> */}
-                <polygon points="6 2, 12 12, 0 12" />
-            </svg>
-        );
-    }
+    //         <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
+    //             {/* <polygon points="0,0 10,0 5,10" /> */}
+    //             <polygon points="6 2, 12 12, 0 12" />
+    //         </svg>
+    //     );
+    // }
     return (
         <svg></svg>
     );

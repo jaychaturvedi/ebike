@@ -22,17 +22,17 @@ const styles = StyleSheet.create({
   },
   metric: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: scale(16),
   },
   unit: {
-    fontSize: 12,
+    fontSize: scale(12),
   },
   body: {
     padding: verticalScale(2),
     alignItems: 'center',
   },
   bodyText: {
-    fontSize: 12,
+    fontSize: scale(12),
   },
 });
 

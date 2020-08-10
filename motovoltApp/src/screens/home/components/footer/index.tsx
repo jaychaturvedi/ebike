@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
-import { Footer } from 'native-base';
-import { scale } from '../../../../styles/size-matters';
+import {StyleSheet, View, Text, Image} from 'react-native';
+import {Footer} from 'native-base';
+import {scale} from '../../../../styles/size-matters';
 import Colors from '../../../../styles/colors';
 import Tab from './tab';
-import RNSwipeVerify from 'react-native-swipe-verify';
+import RNSwipeVerify from './swipe';
 import LockButton from './lock-button';
 
 export type TFooterItem = 'home' | 'chart' | 'cycle' | 'menu';
@@ -22,7 +22,7 @@ type Props = {
   selectedItem: TFooterItem;
   onLockClick?: () => void;
   onItemSelect: (item: TFooterItem) => void;
-  onLockVerified: (verified: boolean) => void
+  onLockVerified: (verified: boolean) => void;
 };
 
 type State = {
@@ -45,11 +45,11 @@ export default class FooterNav extends React.PureComponent<Props, State> {
     this.setState({
       selectedItem: item,
     });
-    this.props.onItemSelect(item)
+    this.props.onItemSelect(item);
   };
 
   onLockClick = () => {
-    this.setState({ verifyMode: !this.state.verifyMode });
+    this.setState({verifyMode: !this.state.verifyMode});
   };
 
   onVerfied = () => {
@@ -57,12 +57,12 @@ export default class FooterNav extends React.PureComponent<Props, State> {
       lockedIcon: !this.state.lockedIcon,
       verifyMode: false,
     });
-    this.props.onLockVerified(!this.state.lockedIcon)
+    this.props.onLockVerified(!this.state.lockedIcon);
   };
 
   render() {
     return (
-      <Footer>
+      <Footer style={{height: 56}}>
         {!this.state.verifyMode && (
           <Tab
             lockOnlyVisible={this.state.lockedIcon}
@@ -73,29 +73,33 @@ export default class FooterNav extends React.PureComponent<Props, State> {
           />
         )}
         {this.state.verifyMode && (
-          <RNSwipeVerify
-            buttonSize={56}
-            onVerified={this.onVerfied}
-            okButton={{ visible: false, duration: 0 }}
-            icon={
-              <View style={{ height: '100%', width: 80 }}>
-                <LockButton
-                  disabled={true}
-                  locked={this.state.lockedIcon}
-                  onClick={() => { }}
+          <View style={{height: 56, width: '100%'}}>
+            <RNSwipeVerify
+              buttonSize={56}
+              onVerified={this.onVerfied}
+              okButton={{visible: false, duration: 0}}
+              icon={
+                <View style={{height: '100%', width: 80}}>
+                  <LockButton
+                    disabled={true}
+                    locked={this.state.lockedIcon}
+                    onClick={() => {}}
+                  />
+                </View>
+              }>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{fontSize: 18, color: Colors.BLACK}}>
+                  {this.state.lockedIcon
+                    ? 'Swipe to unlock '
+                    : 'Swipe to lock '}
+                </Text>
+                <Image
+                  source={require('../../../../assets/icons/swipe_right_arrow.png')}
+                  style={styles.icon}
                 />
               </View>
-            }>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 18, color: Colors.BLACK }}>
-                {this.state.lockedIcon ? 'Swipe to unlock ' : 'Swipe to lock '}
-              </Text>
-              <Image
-                source={require('../../../../assets/icons/swipe_right_arrow.png')}
-                style={styles.icon}
-              />
-            </View>
-          </RNSwipeVerify>
+            </RNSwipeVerify>
+          </View>
         )}
       </Footer>
     );
