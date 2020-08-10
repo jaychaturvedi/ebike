@@ -130,7 +130,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                         <XAxis dataKey="date" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
                             tickFormatter={(label) => this.formatDate(label)} />
                         <Legend iconType="circle" iconSize={5} align='right' margin={{ top: 0, bottom: 0 }}
-                            wrapperStyle={{ width: '80%', }} />
+                            wrapperStyle={{ width: '90%', paddingRight: '50px' }} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
                         <Line name={this.state.top5Alerts.lines.alert1} type="monotone" dataKey="alert1count"
                             stroke="orange" strokeWidth={2} dot={false} />
@@ -151,7 +151,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                         <XAxis dataKey="date" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
                             tickFormatter={(label) => this.formatDate(label)} />
                         <Legend iconType="circle" iconSize={5} align="right"
-                            wrapperStyle={{ width: '80%' }} />
+                            wrapperStyle={{ width: '80%', paddingRight: '50px' }} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
                         <Line name={this.state.locationwiseAlerts.lines.loc1} type="monotone" dataKey="loc1count" stroke="#8884d8" strokeWidth={2} />
                         <Line name={this.state.locationwiseAlerts.lines.loc2} type="monotone" dataKey="loc2count" stroke="red" strokeWidth={2} />
