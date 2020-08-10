@@ -42,19 +42,17 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     }
 
     static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
-        const data = props.getAlertTrends({
-            type: "GET_ALERT_TRENDS",
-            payload: {
-                alertType: 'smart',
-                startDate: "2020-07-07 10:49:38",
-                endDate: "2020-07-08 16:50:38"
-            }
-        })
+        // const data = props.getAlertTrends({
+        //     type: "GET_ALERT_TRENDS",
+        //     payload: {
+        //         alertType: 'smart',
+        //         startDate: "2020-07-07 10:49:38",
+        //         endDate: "2020-07-08 16:50:38"
+        //     }
+        // })
         state.totalAlerts = props.trendTotalAlert
         state.top5Alerts = props.trendTop5Alert
         state.locationwiseAlerts = props.trendLocationWise
-        console.log(state, "this is my state in derived", data);
-        console.log(props.trendLocationWise, props.trendTotalAlert)
         return state
     }
 
