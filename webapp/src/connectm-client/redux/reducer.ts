@@ -2,12 +2,14 @@ import connectmState, { State, TSort, AlertData } from "./connectm-state";
 import { IUsersAction } from "../actions/user"
 import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
+import { Store_GetAlertTrends } from "../saga/trends";
+import { Store_AlertInsights } from "../saga/alert-detail";
 type ActionParams = IUsersAction
     | Store_AlertUpdate
     | Store_AlertTabChange
     | Store_AlertFilterChange
-    | IAlertTrendActions
-
+    | Store_AlertInsights
+    | Store_GetAlertTrends
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
         case "RECEIVED_USER": {
@@ -70,12 +72,18 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                 }
             }
         }
-        case "STORE_GET_ALERT_TRENDS" : {
+        case "STORE_GET_ALERT_TRENDS": {
             return {
                 ...state,
-                // trendTotalAlerts
-                // trendTop5Alert
-                // trendLocationWise
+                trendTotalAlerts: (actionParams as Store_GetAlertTrends).payload.trendTotalAlert,
+                trendTop5Alert: (actionParams as Store_GetAlertTrends).payload.trendTop5Alert,
+                trendLocationWise: (actionParams as Store_GetAlertTrends).payload.trendLocationWise
+            }
+        }
+        case "STORE_ALERTS_INSIGHTS": {
+            return {
+                ...state,
+                alertInsights: (actionParams as Store_AlertInsights).payload.alertInsight
             }
         }
         default: {

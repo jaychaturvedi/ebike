@@ -4,21 +4,56 @@ import React, { PureComponent } from 'react';
 import { AnyCnameRecord } from 'dns';
 import { Input } from 'antd';
 import { Link } from 'react-router-dom';
-interface AlertDetailSingleProps { }
+import { connect } from 'react-redux';
+import {
+    ReduxAlertDetailActions, ReduxAlertDetailState,
+    mapDispatchToProps, mapStateToProps
+} from "../../../connectm-client/actions/alert-detail"
+import { AlertData, TAlertType } from '../../../connectm-client/redux/connectm-state';
+import { formatTime, formatHourMin, formatDate } from '../../../connectm-client/util/time-formater'
+interface AlertDetailSingleProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
+    alertId: string,
+}
 
 interface AlertDetailSingleStates {
     clearanceComment: string;
     clearBoxToggle: boolean;
+    alert: AlertData
+    alertType: string
 }
 
+const LimpData: AlertData = {
+    Severity: -1,
+    alertId: -1,
+    alertName: "N/A",
+    alertTime: "N/A",
+    batteryId: "N/A",
+    customerId: "N/A",
+    frameId: "N/A",
+    location: "N/A",
+    mfgDate: "N/A",
+    model: "N/A",
+    openSince: "N/A"
+}
 class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetailSingleStates> {
 
     constructor(props: AlertDetailSingleProps) {
         super(props);
         this.state = {
             clearanceComment: "",
-            clearBoxToggle: false
+            clearBoxToggle: false,
+            alert: LimpData,
+            alertType: ""
         }
+    }
+
+    static getDerivedStateFromProps(props: AlertDetailSingleProps, state: AlertDetailSingleStates) {
+        const alert = props.alerts[props.alerts.activeAlertTab][props.alertId]
+        if (alert) {
+            state.alert = alert
+            state.alertType = props.alerts.activeAlertTab
+        }
+        return state
     }
 
     onChange = (e: any) => {
@@ -26,6 +61,19 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
     };
 
     clearAlert = () => {
+        this.props.postAlertClearanceComment({
+            type: "POST_ALERT_CLEARANCE",
+            payload: {
+                alertId: Number(this.props.alertId),
+                alertName: this.state.alert.alertName,
+                alertType: this.state.alertType as TAlertType,
+                comment: this.state.clearanceComment,
+                customerId: this.state.alert.customerId,
+                pagination: { pageNumber: -1, pageSize: -1 },
+                sort: { fieldName: "", direction: 'ascend' },
+                vehicleID: this.state.alert.frameId
+            }
+        })
         this.setState({
             clearBoxToggle: false,
         })
@@ -54,15 +102,15 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
             <div className="connectm-AlertDetailSingle">
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Alert Name:</div>
-                    <div className={"single-cell-right"}>Capacity Deterioration</div>
+                    <div className={"single-cell-right"}>{this.state.alert.alertName}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Alert Time:</div>
-                    <div className={"single-cell-right"}>15-May-2020 10:05 AM</div>
+                    <div className={"single-cell-right"}>{formatTime(this.state.alert.alertTime)}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Open Since:</div>
-                    <div className={"single-cell-right toolate"}>48 hrs 10 mins</div>
+                    <div className={"single-cell-right toolate"}>{formatHourMin(this.state.alert.openSince)}</div>
                 </div>
                 <div className={"single-row"}>
                     <Dropdown overlay={clearAlert} trigger={['click']} visible={this.state.clearBoxToggle}>
@@ -73,27 +121,27 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Vehicle ID:</div>
-                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>BLR 327490</Link></div>
+                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>{this.state.alert.frameId}</Link></div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Model:</div>
-                    <div className={"single-cell-right"}>Kivo Easy</div>
+                    <div className={"single-cell-right"}>{this.state.alert.model}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Mfg Date:</div>
-                    <div className={"single-cell-right"}>15-Feb-2020</div>
+                    <div className={"single-cell-right"}>{formatDate(this.state.alert.mfgDate)}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Battery ID:</div>
-                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>BAT 123456</Link></div>
+                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>{this.state.alert.batteryId}</Link></div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Customer ID:</div>
-                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>CUS 123456</Link></div>
+                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>{this.state.alert.customerId}</Link></div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Location:</div>
-                    <div className={"single-cell-right"}>Kolkata</div>
+                    <div className={"single-cell-right"}>{this.state.alert.location}</div>
                 </div>
             </div>
         )
@@ -101,4 +149,4 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
 
 }
 
-export default AlertDetailSingle;
+export default connect(mapStateToProps, mapDispatchToProps)(AlertDetailSingle);

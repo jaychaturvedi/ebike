@@ -7,19 +7,19 @@ import {
 
 
 const CustomizedDot = (props: any) => {
-    const {
-        cx, cy, stroke, payload, value, L1, L2
-    } = props;
+    // const {
+    //     cx, cy, stroke, payload, value, L1, L2
+    // } = props;
 
-    if (value > L2) {
-        return (
+    // if (value == L2) {
+    //     return (
 
-            <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
-                {/* <polygon points="0,0 10,0 5,10" /> */}
-                <polygon points="6 2, 12 12, 0 12" />
-            </svg>
-        );
-    }
+    //         <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
+    //             {/* <polygon points="0,0 10,0 5,10" /> */}
+    //             <polygon points="6 2, 12 12, 0 12" />
+    //         </svg>
+    //     );
+    // }
     return (
         <svg></svg>
     );
@@ -59,7 +59,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                             }}>
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                            <ReferenceLine y={this.props.L1} stroke="green" strokeDasharray="3 3 5 2"
+                            {/* <ReferenceLine y={this.props.L1} stroke="green" strokeDasharray="3 3 5 2"
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
@@ -74,7 +74,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                         fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
                                     }} value="L2">
                                 </Label>
-                            </ReferenceLine>
+                            </ReferenceLine> */}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
                             <XAxis dataKey="nocycles" tick={{ fill: 'white' }} stroke='#ffffff'
                                 interval="preserveEnd" padding={{ left: 30, right: 20 }}>

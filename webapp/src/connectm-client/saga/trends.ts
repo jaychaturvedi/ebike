@@ -6,14 +6,14 @@ export type Store_GetAlertTrends = {
     payload: {
         trendTop5Alert: TtrendTop5Alert,
         trendLocationWise: TtrendLocationWise,
-        trendTotalAlert: TtrendTotalAlerts
+        trendTotalAlert: TtrendTotalAlerts[]
     }
 }
 
 export type TAlertsTrendData = {
     trendTop5Alert: TtrendTop5Alert,
     trendLocationWise: TtrendLocationWise,
-    trendTotalAlert: TtrendTotalAlerts
+    trendTotalAlert: TtrendTotalAlerts[]
 }
 
 export async function getAlertTrends(params: IAlertTrendActions) {
@@ -25,6 +25,8 @@ export async function getAlertTrends(params: IAlertTrendActions) {
         trendTop5Alert: response[1],
         trendLocationWise: response[2]
     }
+    console.log(params.payload, 'in getAlert')
+
     return data
 }
 
@@ -36,7 +38,7 @@ async function totalAlerts(params: IAlertTrendActions) {
             endDate: params.payload.startDate
         }, { headers: { 'Content-Type': 'application/json' } }
     )
-    return response.data.body as TtrendTotalAlerts
+    return response.data.body as TtrendTotalAlerts[]
 }
 
 async function top5Alerts(params: IAlertTrendActions) {
