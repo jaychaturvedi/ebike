@@ -32,13 +32,13 @@ export default class WebAPI {
     static async topFiveAlert(alertType: string, startDate: string, endDate: string) {
         const options = createOptions('/trndgphtopfivalrt', { alertType, startDate, endDate })
         const fetchedData = await post(options)
-        return fetchedData
+        return { lines: fetchedData[0], data: fetchedData.splice(1) }
     }
 
     static async locationWiseAlert(alertType: string, startDate: string, endDate: string) {
         const options = createOptions('/trndgphlocwise', { alertType, startDate, endDate })
         const fetchedData = await post(options)
-        return fetchedData
+        return { lines: fetchedData[0], data: fetchedData.splice(1) }
     }
 
     static async dashFilter(filter: TDashboardFilter) {//add filters

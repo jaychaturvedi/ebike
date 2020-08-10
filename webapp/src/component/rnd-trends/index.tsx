@@ -2,11 +2,12 @@ import './index.scss';
 import { Menu, Dropdown, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import React, { PureComponent } from 'react';
-import Moment from 'react-moment';
-import moment from "moment/moment.js";
+import moment from "moment";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
+import { ReduxAlertTrendActions, ReduxAlertTrendState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/trends"
+import { connect } from 'react-redux';
 const data = [
     { days: 'MON', uv: 4000, pv: 10, amt: 2400, tv: 3000, av: 1000, bv: 7500 },
     { days: 'TUE', uv: 3000, pv: 20, amt: 2210, tv: 2500, av: 2000, bv: 8500 },
@@ -37,10 +38,11 @@ const top5alerts = [
 ]
 
 
-interface RandDTrendsProps { }
+interface RandDTrendsProps extends ReduxAlertTrendActions, ReduxAlertTrendState{ }
 
 interface RandDTrendsStates {
     trendsPeriod: string
+
 }
 
 class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
@@ -50,7 +52,15 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             trendsPeriod: "Last 7 Days"
         }
     }
-    //
+
+    static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
+        // props.getAlertTrends({
+        //     type : "GET_ALERT_TRENDS"
+        // })
+                
+        return state
+    }
+
     handlePeriodChange = (e: any) => {
         this.setState({
             trendsPeriod: e.key
@@ -69,8 +79,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     );
 
     formatDate = (label: any) => {
-        console.log(moment(`${label}`).format('MMMM'));
-        return moment(`${label}`).format('MMMM')
+        // console.log("label", label)
+        // console.log(moment(`${label}`).format('dddd'));
+        return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
         // return <Moment format="DDDD">
         //     {`${labels}`}
         // </Moment>
@@ -113,8 +124,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 <ResponsiveContainer width="100%" height="28%">
                     <LineChart data={top5alerts.slice(1)} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }} />
-                        {/* tickFormatter={(label) => this.formatDate(label)} */}
+                        <XAxis dataKey="date" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
+                            tickFormatter={(label) => this.formatDate(label)} />
                         <Legend iconType="circle" iconSize={5} align="right"
                             wrapperStyle={{
                                 paddingRight: "10px"
@@ -136,8 +147,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 <ResponsiveContainer width="100%" height="28%">
                     <LineChart data={data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }} />
-                        {/* tickFormatter={(label) => this.formatDate(label)} */}
+                        <XAxis dataKey="days" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
+                            tickFormatter={(label) => this.formatDate(label)} />
                         <Legend iconType="circle" iconSize={10} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
                         <Line name="line 1" type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
@@ -149,4 +160,4 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
 
 }
 
-export default RandDTrends;
+export default connect(mapStateToProps, mapDispatchToProps)(RandDTrends);

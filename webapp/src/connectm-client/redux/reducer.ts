@@ -1,7 +1,12 @@
 import connectmState, { State, TSort, AlertData } from "./connectm-state";
 import { IUsersAction } from "../actions/user"
+import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
-type ActionParams = IUsersAction | Store_AlertUpdate | Store_AlertTabChange | Store_AlertFilterChange
+type ActionParams = IUsersAction
+    | Store_AlertUpdate
+    | Store_AlertTabChange
+    | Store_AlertFilterChange
+    | IAlertTrendActions
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -13,23 +18,23 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
         };
         case "STORE_ALERT_UPDATE": {
             const smartAlertData = Object.assign({}, ...(actionParams as Store_AlertUpdate)
-            .payload.alerts.smart.data.map(alert => {
-                return {
-                    [String(alert.alertId)]: alert
-                }
-            }))
+                .payload.alerts.smart.data.map(alert => {
+                    return {
+                        [String(alert.alertId)]: alert
+                    }
+                }))
             const bmsAlertData = Object.assign({}, ...(actionParams as Store_AlertUpdate)
-            .payload.alerts.bms.data.map(alert => {
-                return {
-                    [String(alert.alertId)]: alert
-                }
-            }))
+                .payload.alerts.bms.data.map(alert => {
+                    return {
+                        [String(alert.alertId)]: alert
+                    }
+                }))
             const mcAlertData = Object.assign({}, ...(actionParams as Store_AlertUpdate)
-            .payload.alerts.mc.data.map(alert => {
-                return {
-                    [String(alert.alertId)]: alert
-                }
-            }))
+                .payload.alerts.mc.data.map(alert => {
+                    return {
+                        [String(alert.alertId)]: alert
+                    }
+                }))
             return {
                 ...state,
                 alerts: {
@@ -63,6 +68,14 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                     filter: (actionParams as Store_AlertFilterChange).payload.filter,
                     pagination: (actionParams as Store_AlertFilterChange).payload.pagination
                 }
+            }
+        }
+        case "STORE_GET_ALERT_TRENDS" : {
+            return {
+                ...state,
+                // trendTotalAlerts
+                // trendTop5Alert
+                // trendLocationWise
             }
         }
         default: {

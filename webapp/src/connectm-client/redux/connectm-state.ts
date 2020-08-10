@@ -20,8 +20,41 @@ export interface AlertData {
 }
 
 export interface Alert {
-    dataCount : number,
-    data : AlertData[]
+    dataCount: number,
+    data: AlertData[]
+}
+
+export interface TtrendTotalAlerts {
+    date: string,
+    count: number
+}
+
+export interface TtrendTop5Alert {
+    lines: {
+        [lineName: string]: string,
+    }
+    data: {
+        date: string,
+        alert1count: string,
+        alert2count: string,
+        alert3count: string,
+        alert4count: string,
+        alert5count: string
+    }[]
+}
+
+export interface TtrendLocationWise {
+    lines: {
+        [lineName: string]: string,
+    }
+    data: {
+        date: string,
+        loc1count: string,
+        loc2count: string,
+        loc3count: string,
+        loc4count: string,
+        loc5count: string
+    }[]
 }
 
 export interface State {
@@ -42,7 +75,10 @@ export interface State {
         pagination: TPagination,
         filter: TFilter,
         activeAlertTab: TAlertType
-    }
+    },
+    trendTotalAlerts: TtrendTotalAlerts[],
+    trendTop5Alert: TtrendTop5Alert,
+    trendLocationWise: TtrendLocationWise
 }
 
 const connectmState: State = {
@@ -63,7 +99,10 @@ const connectmState: State = {
         },
         filter: { fieldName: "all", value: "" },
         activeAlertTab: "smart"
-    }
+    },
+    trendTotalAlerts: [],
+    trendTop5Alert: { data: [], lines: {} },
+    trendLocationWise: { data: [], lines: {} }
 }
 //filter - option, filter type,
 
