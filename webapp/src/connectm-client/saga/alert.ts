@@ -63,7 +63,7 @@ export async function getAlerts(params: IAlertActions) {
     } else {
         response = await Promise.all([getSmartAlert(params), getBmsAlert(params), getMcAlert(params)])
     }
-    console.log("response",response)
+    console.log("response", response)
     const data: TAlertsTableData = {
         smart: response[0],
         bms: response[1],
@@ -267,7 +267,7 @@ async function totalAlerts() {
             alertType: "smart",
             startDate: "2020-07-07 10:49:38",
             endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json' } }
+        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
     )
     console.log(data);
 }
@@ -278,7 +278,7 @@ async function top5Alerts() {
             alertType: "smart",
             startDate: "2020-07-07 10:49:38",
             endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json' } }
+        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
     )
     console.log(data);
 }
@@ -289,7 +289,7 @@ async function locationWiseAlerts() {
             alertType: "smart",
             startDate: "2020-07-07 10:49:38",
             endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json' } }
+        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
     )
 }
 
@@ -300,7 +300,7 @@ async function getAdditionalInsights() {
             alertId: 123,
             alertName: "voltage deviation",
             customerId: "CUS14567"
-        }, { headers: { 'Content-Type': 'application/json' } }
+        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
     )
 }
 

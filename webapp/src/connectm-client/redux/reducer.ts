@@ -2,11 +2,12 @@ import connectmState, { State, TSort, AlertData } from "./connectm-state";
 import { IUsersAction } from "../actions/user"
 import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
+import { Store_GetAlertTrends } from "../saga/trends";
 type ActionParams = IUsersAction
     | Store_AlertUpdate
     | Store_AlertTabChange
     | Store_AlertFilterChange
-    | IAlertTrendActions
+    | Store_GetAlertTrends
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -70,12 +71,12 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                 }
             }
         }
-        case "STORE_GET_ALERT_TRENDS" : {
+        case "STORE_GET_ALERT_TRENDS": {
             return {
                 ...state,
-                // trendTotalAlerts
-                // trendTop5Alert
-                // trendLocationWise
+                trendTotalAlerts: (actionParams).payload.trendTotalAlert,
+                trendTop5Alert: (actionParams).payload.trendTop5Alert,
+                trendLocationWise: (actionParams).payload.trendLocationWise
             }
         }
         default: {

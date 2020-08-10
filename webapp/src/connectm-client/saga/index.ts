@@ -47,6 +47,8 @@ function* getAlertTrend(params: IAlertTrendActions) {
                 trendLocationWise: data.trendLocationWise
             }
         } as Store_GetAlertTrends)
+        console.log(data, 'in index.ts')
+
     } catch (error) {
         console.log("get Alerts error", error)
     }
