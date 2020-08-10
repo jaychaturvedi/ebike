@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   },
   unit: {
     fontSize: 20,
-    fontWeight: '200',
   },
   body: {
     padding: scale(2),
