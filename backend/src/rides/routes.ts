@@ -8,8 +8,6 @@ import User from "../user/service";
 import { RideError } from "../error";
 const app = express.Router()
 
-
-
 app.get('/all', expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
     const issue = await Ride.findAll()
     const response = createResponse("OK", issue, undefined)
@@ -17,16 +15,16 @@ app.get('/all', expressQAsync(async (req: Request, res: Response, next: NextFunc
 })
 )
 //start a new ride with rideId
-app.post('/', expressQAsync(secure),
-    [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
-    body('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
+app.get('/:frameId', expressQAsync(secure),
+    [query('rideId', "rideId is empty").isString().isLength({ min: 1 }),
+    param('frameId', "frameId is empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId, frameId } = req.body
+        const { frameId } = req.params
         const { uid } = res.locals.user
-        const { ign: ignition, lc: locked } = await ConnectmApi.getBikeLiveData(frameId as string)
+        const { ign: ignition, lc: locked } = await ConnectmApi.getBikeLiveData(frameId)
         let newride = {}
         if (!locked && ignition) {//if bike is on then only start a ride
-            newride = await createNewRide(uid, frameId, rideId)
+            newride = await createNewRide(uid, frameId, req.query.rideId as string)
         }
         const response = createResponse("OK", newride, undefined)//send locked state and send starttime
         res.json(response)
@@ -34,26 +32,70 @@ app.post('/', expressQAsync(secure),
 )
 
 //speedometer and other details
-app.get('/:rideId', expressQAsync(secure),
-    [param('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
+app.get('/speedometer/:rideId', expressQAsync(secure),
+    [param('rideId', "rideId be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId } = req.params as any
-        const speedometer = rideId ? await getSpeedometer(rideId as string) : 'unable to get the ride'
+        const speedometer = await getSpeedometer(req.params.rideId)
         const response = createResponse("OK", speedometer, undefined)
         res.json(response)
     })
 )
 
 //ending a ride, update endtime in databasse
-app.put('/', expressQAsync(secure),
-    [body('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
+app.put('/:rideId', expressQAsync(secure),
+    [param('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId } = req.body
-        const ride = await endRide(rideId as string)
+        const ride = await endRide(req.params.rideId)
         const response = createResponse("OK", ride, undefined)
         res.json(response)
     })
 )
+
+//update rating and feedbacks of a ride
+app.put('/rating/:rideId', expressQAsync(secure),
+    [param('rideId', "can't be empty").isString().isLength({ min: 1 }),
+    body('rating', "can't be empty").isLength({ min: 1 }).toInt(),
+    body('option', "can't be empty").optional(),
+    body('comment', "can't be empty").optional(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { rating, option, comment } = req.body
+        const newride = await updateFeedback(req.params.rideId, rating as number, option as any, comment as string)
+        const response = createResponse("OK", newride, undefined)
+        res.json(response)
+    })
+)
+
+//get graph data points and other values
+app.get('/graphData/:frameId', expressQAsync(secure),
+    [param('frameId', "name can't be empty").isString().isLength({ min: 1 }),
+    query('startTime', "can't be empty").isString().isLength({ min: 1 }),
+    query('endTime', "can't be empty").isString().isLength({ min: 1 }),
+    query('pageNo', "can't be empty").optional().toInt(),
+    query('pageSize', "can't be empty").optional().toInt(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { startTime, endTime, pageNo, pageSize } = req.query as any
+        const history = await ConnectmApi.getRideHistoryStat(req.params.frameId, startTime as string,
+            endTime as string, pageNo as number, pageSize as number)
+        const response = createResponse("OK", history, undefined)
+        res.json(response)
+    })
+)
+//single ride history details
+app.get('/detail/:frameId', expressQAsync(secure),
+    [param('frameId', "name can't be empty").isString(),
+    query('startTime', "can't be empty").isString(),
+    query('endTime', "can't be empty").isString(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { startTime, endTime } = req.query as any
+        const newride = await rideDetail(req.params.frameId, startTime, endTime)
+        const response = createResponse("OK", newride, undefined)
+        res.json(response)
+    })
+)
+
+app.use(expressErrorHandler)
+export default app
+
 
 // app.get('/gpsPath/:rideId', expressQAsync(secure),
 //     [param('rideId', "rideId can't be empty").isString().isLength({ min: 1 }), validate],
@@ -65,65 +107,3 @@ app.put('/', expressQAsync(secure),
 //         res.json(response)
 //     })
 // )
-
-//update rating and feedbacks of a ride
-app.put('/rating', expressQAsync(secure),
-    [body('rideId', "can't be empty").isString().isLength({ min: 1 }),
-    body('rating', "can't be empty").isLength({ min: 1 }).toInt(),
-    body('option', "can't be empty").optional(),
-    body('comment', "can't be empty").optional(), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { rideId, rating, option, comment } = req.body
-        const newride = await updateFeedback(rideId as string, rating as number, option as any, comment as string)
-        const response = createResponse("OK", newride, undefined)
-        res.json(response)
-    })
-)
-
-app.post('/history', expressQAsync(secure),
-    [body('frameId', "frame can't be empty").isString().isLength({ min: 1 }),
-    body('startTime', "start can't be empty").isString().isLength({ min: 1 }),
-    body('endTime', "end can't be empty").isString().isLength({ min: 1 }),
-    body('pageNo', "page can't be empty").optional().toInt(),
-    body('pageSize', "sizee can't be empty").optional().toInt(), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime, pageNo, pageSize, frameId } = req.body as any
-        const history = await ConnectmApi.getRideHistory(frameId as string, startTime as string,
-            endTime as string, pageNo as number, pageSize as number)
-        if (!history[0].fid) throw new RideError("please check time and frameId");
-
-        const response = createResponse("OK", history, undefined)
-        res.json(response)
-    })
-)
-//get graph data points and other values
-app.post('/graphData', expressQAsync(secure),
-    [body('frameId', "name can't be empty").isString().isLength({ min: 1 }),
-    body('startTime', "can't be empty").isString().isLength({ min: 1 }),
-    body('endTime', "can't be empty").isString().isLength({ min: 1 }),
-    body('pageNo', "can't be empty").optional().toInt(),
-    body('pageSize', "can't be empty").optional().toInt(), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { startTime, endTime, pageNo, pageSize, frameId } = req.body
-        const history = await ConnectmApi.getRideHistoryStat(frameId as string, startTime as string,
-            endTime as string, pageNo as number, pageSize as number)
-        const response = createResponse("OK", history, undefined)
-        res.json(response)
-    })
-)
-//single ride history details
-app.post('/detail', expressQAsync(secure),
-    [body('frameId', "name can't be empty").isString(),
-    body('startTime', "can't be empty").isString(),
-    body('endTime', "can't be empty").isString(), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        console.log(req.body);
-        const { startTime, endTime, frameId } = req.body
-        const newride = await rideDetail(frameId, startTime, endTime)
-        const response = createResponse("OK", newride, undefined)
-        res.json(response)
-    })
-)
-
-app.use(expressErrorHandler)
-export default app

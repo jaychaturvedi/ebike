@@ -24,24 +24,24 @@ let Issues: TIssueModel<TIssue & Model> = <TIssueModel<TIssue & Model>>db.define
       autoIncrement: true,
       allowNull: false,
     },
-    uid: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      onDelete: 'CASCADE',
-      references: {
-        model: 'users',
-        key: 'uid',
-      }
-    },
-    frameId: {
-      type: Sequelize.STRING,
-      allowNull: true,
-      onDelete: 'CASCADE',
-      references: {
-        model: 'bikes',
-        key: 'frameId',
-      }
-    },
+    // uid: {
+    //   type: Sequelize.STRING,
+    //   allowNull: false,
+    //   onDelete: 'CASCADE',
+    //   references: {
+    //     model: 'users',
+    //     key: 'uid',
+    //   }
+    // },
+    // frameId: {
+    //   type: Sequelize.STRING,
+    //   allowNull: true,
+    //   onDelete: 'CASCADE',
+    //   references: {
+    //     model: 'bikes',
+    //     key: 'frameId',
+    //   }
+    // },
     status: {
       type: Sequelize.INTEGER,
       allowNull: false

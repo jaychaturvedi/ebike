@@ -5,6 +5,7 @@ import Bike from './service'
 import ConnectmApi from "../externalApi/motovolt";
 import { verifyFrame, getMyBike, homeScreen } from './controller';
 import User from '../user/service';
+import { BikeError } from '../error';
 
 const app = express.Router()
 //to be removed, just for testing
@@ -30,7 +31,7 @@ app.get('/:frameId', expressQAsync(secure),
 app.get('/myBike/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const bikedetails = await getMyBike(req.params.frameId as string)
+        const bikedetails = await getMyBike(req.params.frameId)
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
@@ -39,33 +40,48 @@ app.get('/myBike/:frameId', expressQAsync(secure),
 app.get('/verify/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId } = req.params as any
         const { uid } = res.locals.user as any
-        const bikedetails = await verifyFrame(uid as string, frameId as string);
+        const bikedetails = await verifyFrame(uid as string, req.params.frameId);
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
 app.get('/liveLocation/:frameId', expressQAsync(secure),
-    [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }), validate],
+    [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const frameId = req.params.frameId as string
         const { lat: latitude, long: longitude, addr: address, utc: lastused } =
-            await ConnectmApi.getLiveLocation(frameId as string)
+            await ConnectmApi.getLiveLocation(req.params.frameId)
         const response = createResponse("OK", {
             latitude, longitude, address, lastused
         }, undefined)
         res.json(response)
     })
 )
+
+app.get('/history/:frameId', expressQAsync(secure),
+    [param('frameId', "frame can't be empty").isString().isLength({ min: 1 }),
+    query('startTime', "start can't be empty").isString().isLength({ min: 1 }),
+    query('endTime', "end can't be empty").isString().isLength({ min: 1 }),
+    query('pageNo', "page can't be empty").optional().toInt(),
+    query('pageSize', "sizee can't be empty").optional().toInt(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { startTime, endTime, pageNo, pageSize } = req.query as any
+        const history = await ConnectmApi.getRideHistory(req.params.frameId, startTime as string,
+            endTime as string, pageNo as number, pageSize as number)
+        if (!history[0].fid) throw new BikeError("please check time and frameId");
+        const response = createResponse("OK", history, undefined)
+        res.json(response)
+    })
+)
+
 //whether to check if notificatin is true or false
-app.get('/notification', expressQAsync(secure),
-    [query('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
+app.get('/notification/:frameId', expressQAsync(secure),
+    [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
     query('pageNo', "can't be empty").optional().toInt(),
     query('pageSize', "can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { pageNo, pageSize, frameId } = req.params as any
-        const notification = await ConnectmApi.getNotification(frameId as string, pageNo as number, pageSize as number)
+        const { pageNo, pageSize } = req.query as any
+        const notification = await ConnectmApi.getNotification(req.params.frameId, pageNo as number, pageSize as number)
         const response = createResponse("OK", notification, undefined)
         res.json(response)
     })
