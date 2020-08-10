@@ -9,6 +9,8 @@ import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
 import { Table, Select, Button, Pagination, Alert } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
+import TimeRenderer from "./time-renderer"
+import OpenSinceRenderer from "./openSinceRenderer"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
 import { AlertData as AlertModel, TAlertType, TSort, TFilter } from "../../connectm-client/redux/connectm-state"
 import { connect } from 'react-redux'
@@ -285,6 +287,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         {timeClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                 </span>,
+                render: (text: any, record: any, index: any) => <TimeRenderer text={text} record={record} index={index} />,
             },
             {
                 dataIndex: 'openSince', key: 'openSince', width: 150,
@@ -292,6 +295,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         {openSinceClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                 </span>,
+                render: (text: any, record: any, index: any) => <OpenSinceRenderer text={text} record={record} index={index} />,
             },
             {
                 dataIndex: 'Severity', key: 'Severity', width: 100,

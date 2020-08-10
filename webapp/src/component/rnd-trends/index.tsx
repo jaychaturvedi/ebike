@@ -72,8 +72,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     );
 
     formatDate = (label: any) => {
-        console.log("label", label)
-        console.log(moment(`${label}`).format('dddd'));
+        // console.log("label", label)
+        // console.log(moment(`${label}`).format('dddd'));
         return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
         // return <Moment format="DDDD">
         //     {`${labels}`}

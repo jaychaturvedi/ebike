@@ -59,11 +59,11 @@ export async function getAlerts(params: IAlertActions) {
     let response = [];
     if (params.payload.filter.value != "") {
         const request = await getFilteredAlertDetailsRequest(params);
-        response = await Promise.all([generateQueryAlertsData(params), generateQueryAlertsData(params), generateQueryAlertsData(params)])
-        await getSmartAlert()
+        response = await Promise.all([getFilteredSmartAlert(request!), getFilteredBmsAlert(request!), getFilteredMcAlert(request!)])
     } else {
-        response = await Promise.all([generateAlertsData(params), generateAlertsData(params), generateAlertsData(params)])
+        response = await Promise.all([getSmartAlert(params), getBmsAlert(params), getMcAlert(params)])
     }
+    console.log("response",response)
     const data: TAlertsTableData = {
         smart: response[0],
         bms: response[1],
@@ -186,42 +186,80 @@ function generateQueryAlertsData(params: IAlertActions) {
     return alert;
 }
 
-async function getSmartAlert() {
+async function getSmartAlert(params: IAlertActions) {
     console.log('envvv', process.env.REACT_APP_WEBAPIURL);
 
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "smart",
-            pageSize: 10,
-            pageNo: 1
+            pageSize: params.payload.pagination.pageSize,
+            pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log(data);
+    console.log("datat", response)
+    return response.data.body as Alert
 }
 
-async function getBmsAlert() {
+async function getBmsAlert(params: IAlertActions) {
     console.log('envvv', process.env.REACT_APP_WEBAPIURL);
 
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
-            alertType: "bms",
-            pageSize: 10,
-            pageNo: 1
+            alertType: "smart",
+            pageSize: params.payload.pagination.pageSize,
+            pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log(data);
+    return response.data.body as Alert
 }
 
-async function getMcAlert() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+async function getMcAlert(params: IAlertActions) {
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
-            alertType: "mc",
-            pageSize: 10,
-            pageNo: 1
+            alertType: "smart",
+            pageSize: params.payload.pagination.pageSize,
+            pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log(data);
+    return response.data.body as Alert
 }
+
+async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
+    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
+    const smartFilter: FilterAlertRequest = {
+        ...requestPayload,
+        alertType: "smart"
+    }
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+        smartFilter
+        , { headers: { 'Content-Type': 'application/json' } }
+    )
+    return response.data.body
+}
+
+async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
+    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
+    const bmsFilter: FilterAlertRequest = {
+        ...requestPayload,
+        alertType: "smart"
+    }
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+        bmsFilter, { headers: { 'Content-Type': 'application/json' } }
+    )
+    return response.data.body
+}
+
+async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
+    const mcFilter: FilterAlertRequest = {
+        ...requestPayload,
+        alertType: "smart"
+    }
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+        mcFilter, { headers: { 'Content-Type': 'application/json' } }
+    )
+    return response.data.body
+}
+
 
 async function totalAlerts() {
     const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/totalAlerts',
