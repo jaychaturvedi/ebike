@@ -1,19 +1,21 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { RegistartionStackParamList } from '../../navigation/registration';
-import { TStore } from '../../service/redux/store';
-import { ConnectBLE } from '../../service/redux/actions/saga/ble';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {RegistartionStackParamList} from '../../navigation/registration';
+import {TStore} from '../../service/redux/store';
+import {ConnectBLE} from '../../service/redux/actions/saga/ble';
+import {Store_UpdateUser} from '../../service/redux/actions/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 
 type ReduxState = {
   connectBle: (id: ConnectBLE) => void;
+  updateUser: (params: Store_UpdateUser) => void;
   ble: TStore['ble'];
 };
 
@@ -141,7 +143,7 @@ class RegisterBike extends React.PureComponent<Props, State> {
                 }}
                 selected={this.state.selectedCycleId === device.id}
                 onSelect={() => {
-                  this.setState({ selectedCycleId: device.id });
+                  this.setState({selectedCycleId: device.id});
                 }}
               />
             ))}
@@ -158,6 +160,12 @@ class RegisterBike extends React.PureComponent<Props, State> {
                   type: 'ConnectBLE',
                   payload: {
                     id: device.id,
+                  },
+                });
+                this.props.updateUser({
+                  type: 'Store_UpdateUser',
+                  payload: {
+                    isBikeRegistered: true,
                   },
                 });
               }
@@ -182,6 +190,7 @@ export default connect(
   (dispatch: Dispatch) => {
     return {
       connectBle: (params: ConnectBLE) => dispatch(params),
+      updateUser: (params: Store_UpdateUser) => dispatch(params),
     };
   },
 )(RegisterBike);
