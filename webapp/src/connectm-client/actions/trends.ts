@@ -20,11 +20,11 @@ export function TrendAlerts(params: IAlertTrendActions): IAlertTrendActions {
         payload: params.payload
     }
 }
-export interface ReduxAlertActions {
+export interface ReduxAlertTrendActions {
     getAlertTrends: (params: IAlertTrendActions) => IAlertTrendActions,
 }
 
-export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertActions {
+export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertTrendActions {
     return {
         getAlertTrends: (params: IAlertTrendActions) => dispatch(TrendAlerts(params))
     }

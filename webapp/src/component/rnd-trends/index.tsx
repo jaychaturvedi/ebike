@@ -6,6 +6,8 @@ import moment from "moment";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
+import { ReduxAlertTrendActions, ReduxAlertTrendState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/trends"
+import { connect } from 'react-redux';
 const data = [
     { days: 'MON', uv: 4000, pv: 10, amt: 2400, tv: 3000, av: 1000, bv: 7500 },
     { days: 'TUE', uv: 3000, pv: 20, amt: 2210, tv: 2500, av: 2000, bv: 8500 },
@@ -36,10 +38,11 @@ const top5alerts = [
 ]
 
 
-interface RandDTrendsProps { }
+interface RandDTrendsProps extends ReduxAlertTrendActions, ReduxAlertTrendState{ }
 
 interface RandDTrendsStates {
     trendsPeriod: string
+
 }
 
 class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
@@ -51,6 +54,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     }
 
     static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
+        // props.getAlertTrends({
+        //     type : "GET_ALERT_TRENDS"
+        // })
+                
         return state
     }
 
@@ -153,4 +160,4 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
 
 }
 
-export default RandDTrends;
+export default connect(mapStateToProps, mapDispatchToProps)(RandDTrends);
