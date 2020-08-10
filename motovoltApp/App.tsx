@@ -51,7 +51,7 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     console.log('In component did mount');
     return fetchCredentials()
       .then(async (cred) => {
