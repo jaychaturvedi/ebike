@@ -48,7 +48,7 @@ function expressErrorHandler(
 
 //dashboard main alerts
 app.post('/mainAlerts', expressQAsync(secure),
-    [body('alertType', "name is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "name is too short").isString().isLength({ min: 1 }),
     body("pageNo", "Email is invalid").toInt(),
     body("pageSize", "Email is invalid").toInt(), validate],
     expressQAsync(async (req: Express.Request,
@@ -62,7 +62,7 @@ app.post('/mainAlerts', expressQAsync(secure),
 )
 //
 app.post('/totalAlerts', expressQAsync(secure),
-    [body('alertType', "name is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "name is too short").isString().isLength({ min: 1 }),
     body("startDate", "Email is invalid").isString(),
     body("endDate", "Email is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
@@ -76,7 +76,7 @@ app.post('/totalAlerts', expressQAsync(secure),
 )
 
 app.post('/topFive', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
@@ -90,7 +90,7 @@ app.post('/topFive', expressQAsync(secure),
 )
 
 app.post('/locationWise', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
@@ -104,7 +104,7 @@ app.post('/locationWise', expressQAsync(secure),
 )
 
 app.post('/dashFilter', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("alertName", "startDate is invalid").isString(),
     body("startDate", "startDate is invalid").optional().isString(),
     body("endDate", "endDate is invalid").optional().isString(),
@@ -134,7 +134,7 @@ app.post('/dashFilter', expressQAsync(secure),
 
 app.post('/additionalInsight', expressQAsync(secure),
     [body("vehicleId", "startDate is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 3 }),
+    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
     body("customerId", "startDate is invalid").optional().isString(),
     body("alertName", "alertName is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
@@ -149,7 +149,7 @@ app.post('/additionalInsight', expressQAsync(secure),
 
 app.post('/pastAlerts', expressQAsync(secure),
     [body("vehicleId", "startDate is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 3 }),
+    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
     body("customerId", "startDate is invalid").optional().isString(),
     body("alertName", "alertName is invalid").isString(),
     body("pageNo", "Email is invalid").toInt(),
