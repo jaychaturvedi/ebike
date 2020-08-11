@@ -4,6 +4,7 @@ import { put } from "redux-saga/effects";
 import moment from "moment";
 import axios from "axios"
 import * as dotenv from "dotenv"
+import { searchKeyField } from "../util/search";
 dotenv.config()
 type FilterAlertRequest = {
     vehicleID?: string,
@@ -135,8 +136,26 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         }
         return request;
     }
-
+    if (params.payload.filter.fieldName == "search") {
+        let key = "";
+        const searchString = params.payload.filter.value
+        const searchStringSub = searchString.slice(0,3)
+        console.log("search string",searchString,"Search sub",searchStringSub)
+        key = searchKeyField(searchStringSub)
+        if(key.length > 0){
+            request = {
+                [key] : params.payload.filter.value,
+                alertType: params.payload.alertType,
+                page: params.payload.pagination.pageNumber,
+                pageSize: params.payload.pagination.pageSize
+            }
+            console.log(request);
+            
+            return request
+        }
+    }
 }
+
 
 async function getSmartAlert(params: IAlertActions) {
     console.log('envvv', process.env.REACT_APP_WEBAPIURLC);
@@ -209,52 +228,6 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
         mcFilter, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body
-}
-
-
-async function totalAlerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL+'/totalAlerts',
-        {
-            alertType: "smart",
-            startDate: "2020-07-07 10:49:38",
-            endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
-    )
-    console.log(data);
-}
-
-async function top5Alerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/topFive',
-        {
-            alertType: "smart",
-            startDate: "2020-07-07 10:49:38",
-            endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
-    )
-    console.log(data);
-}
-
-async function locationWiseAlerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/locationWise',
-        {
-            alertType: "smart",
-            startDate: "2020-07-07 10:49:38",
-            endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
-    )
-}
-
-
-
-async function clearAlert() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/clearAlert',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-            alertName: "voltage deviation",
-            comment: "comment cleared",
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
 }
 
 async function lowMileageGraph() {

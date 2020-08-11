@@ -64,7 +64,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         this.state = {
             current: 1,
             pageSize: 10,
-            total: 100,
+            total: 0,
             data: [],
             isAsc: false,
             sortingKey: 'alertTime',
@@ -113,7 +113,13 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             state.alertType = props.alerts.activeAlertTab
             state.filterField = props.alerts.filter
         }
+        state.total = props.alerts.activeAlertTab == 'smart'
+            ? props.alerts.smartCount : props.alerts.activeAlertTab == 'bms'
+                ? props.alerts.bmsCount : props.alerts.mcCount
+        state.pageSize = props.alerts.pagination.pageSize
+        state.current = props.alerts.pagination.pageNumber
         state.data = state.handleSort(Object.values(props.alerts[state.alertType]), props.alerts.sort) as AlertModel[]
+        console.log("state", state)
         return state;
     }
     /**Sorting */
