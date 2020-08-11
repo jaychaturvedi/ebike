@@ -27,6 +27,9 @@ interface RandDTrendsStates {
     top5Alerts: TtrendTop5Alert,
     locationwiseAlerts: TtrendLocationWise,
     xAxis: number
+    reload: boolean,
+    startDate: string,
+    endDate: string
 }
 
 class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
@@ -37,19 +40,27 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             totalAlerts: [],
             locationwiseAlerts: { lines: {}, data: [] },
             top5Alerts: { lines: {}, data: [] },
-            xAxis: 7
+            xAxis: 7,
+            reload: true,
+            startDate: moment().subtract(7, 'd').format("YYYY-MM-DD HH:mm:ss"),
+            endDate: moment().format("YYYY-MM-DD HH:mm:ss")
+
         }
     }
 
     static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
-        // const data = props.getAlertTrends({
-        //     type: "GET_ALERT_TRENDS",
-        //     payload: {
-        //         alertType: 'smart',
-        //         startDate: "2020-07-07 10:49:38",
-        //         endDate: "2020-07-08 16:50:38"
-        //     }
-        // })
+
+        if (state.reload) {
+            const data = props.getAlertTrends({
+                type: "GET_ALERT_TRENDS",
+                payload: {
+                    alertType: 'smart',
+                    startDate : state.startDate,
+                    endDate: state.endDate
+                }
+            })
+            state.reload =false;
+        }
         state.totalAlerts = props.trendTotalAlert
         state.top5Alerts = props.trendTop5Alert
         state.locationwiseAlerts = props.trendLocationWise
@@ -57,10 +68,21 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     }
 
     handlePeriodChange = (e: any) => {
+        let dateTo
+        let dateFrom
+        if (e.key == "Last 30 Days"){
+            dateTo = moment().format("YYYY-MM-DD HH:mm:ss");
+            dateFrom = moment().subtract(30, 'd').format("YYYY-MM-DD HH:mm:ss");
+        }else{
+            dateTo = moment().format("YYYY-MM-DD HH:mm:ss");
+            dateFrom = moment().subtract(7, 'd').format("YYYY-MM-DD HH:mm:ss");
+        }
         this.setState({
-            trendsPeriod: e.key
+            trendsPeriod: e.key,
+            startDate:dateFrom,
+            endDate: dateTo,
+            reload: !this.state.reload
         })
-
     }
 
     trendPeriod = (
