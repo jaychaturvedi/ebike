@@ -4,7 +4,7 @@ import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
 import { Store_GetAlertTrends } from "../saga/trends";
 import { Store_GetLowMileage, Store_GetVehicleUsage } from "../saga/graph";
-import { Store_AlertInsights } from "../saga/alert-detail";
+import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert } from "../saga/alert-detail";
 type ActionParams = IUsersAction
     | Store_AlertUpdate
     | Store_AlertTabChange
@@ -13,6 +13,8 @@ type ActionParams = IUsersAction
     | Store_GetAlertTrends
     | Store_GetLowMileage
     | Store_GetVehicleUsage
+    | Store_PastAlert
+    | Store_UpdatePastAlert
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -104,6 +106,40 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
         //     }
         // }
 
+        case "STORE_PAST_ALERTS": {
+            const pastAlerts = Object.assign({}, ...(actionParams as Store_PastAlert)
+                .payload.data.map(alert => {
+                    return {
+                        [String(alert.alertId)]: alert
+                    }
+                }))
+            return {
+                ...state,
+                pastAlerts: {
+                    ...state.pastAlerts,
+                    pagination: (actionParams as Store_PastAlert).payload.pagination,
+                    sort: (actionParams as Store_PastAlert).payload.sort,
+                    data: pastAlerts
+                }
+            }
+        }
+        case "STORE_UPDATE_PAST_ALERTS": {
+            const pastAlerts = Object.assign({}, ...(actionParams as Store_UpdatePastAlert)
+                .payload.data.map(alert => {
+                    return {
+                        [String(alert.alertId)]: alert
+                    }
+                }))
+            return {
+                ...state,
+                pastAlerts: {
+                    ...state.pastAlerts,
+                    pagination: (actionParams as Store_UpdatePastAlert).payload.pagination,
+                    sort: (actionParams as Store_UpdatePastAlert).payload.sort,
+                    data: pastAlerts
+                }
+            }
+        }
         default: {
             return state
         }

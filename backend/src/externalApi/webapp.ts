@@ -5,6 +5,7 @@ import { TDashboardFilter, TDashboard, TTotalAlert } from './types';
 dotenv.config()
 function createOptions(url: string, body: any,) {
     const uri = process.env.WEBAPPAPI + url
+    console.log("WEBAPPAPI", uri)
     const options = {
         uri,
         body,
@@ -18,9 +19,12 @@ function createOptions(url: string, body: any,) {
 
 export default class WebAPI {
     static async mainAlerts(alertType: string, pageNo: number, pageSize: number) {
+        console.log("Start Yantrs Time",new Date())
         const options = createOptions('/allalerts', { alertType, pageNo, pageSize })
         const fetchedData: TDashboard = await post(options)
+        console.log("End Yantra time",new Date)
         return fetchedData
+
     }
 
     static async totalAlerts(alertType: string, startDate: string, endDate: string) {

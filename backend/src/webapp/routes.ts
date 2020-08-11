@@ -29,7 +29,7 @@ function secure(
     next: Express.NextFunction
 ) {
     // Authenticate requests
-    console.log("webapp req secure", req);
+    // console.log("webapp req secure", req);
     next();
 }
 
@@ -40,9 +40,7 @@ function expressErrorHandler(
     next: Express.NextFunction
 ) {
     res.status(500);
-    res.json({
-        status: "Error",
-    });
+    res.json(err);
     next();
 }
 
@@ -55,8 +53,10 @@ app.post('/mainAlerts', expressQAsync(secure),
         res: Express.Response,
         next: Express.NextFunction) => {
         const { alertType, pageNo, pageSize } = req.body
+        console.log("Start zelp API", new Date())
         const updated = await WebAPI.mainAlerts(alertType, pageNo, pageSize)
         const response = createResponse("OK", updated, undefined)
+        console.log("End zelp API", new Date())
         res.json(response)
     })
 )

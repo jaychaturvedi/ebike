@@ -9,9 +9,9 @@ import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
 
 import { TPastAlert, TAlertInsights, TlowMileageGraph } from "../redux/connectm-state"
-import { Store_AlertInsights, getAlertInsight, postAlertClearanceComment } from "./alert-detail"
-import { IAlertDetailActions } from "../actions/alert-detail";
 import { Store_GetLowMileage, getLowMileage, getVehicleUsage, Store_GetVehicleUsage } from "./graph";
+import { Store_AlertInsights, getAlertInsight, postAlertClearanceComment, getPastAlertData, Store_PastAlert, updatePastAlertData } from "./alert-detail"
+import { IAlertDetailActions, IPastAlertDetailActions } from "../actions/alert-detail";
 
 function* getUsers(params: IUsersAction) {
     yield call(getUser, params)
@@ -106,6 +106,26 @@ function* postAlertClearance(param: IAlertDetailActions) {
     yield call(postAlertClearanceComment, param)
 }
 
+function* getPastAlertDatas(param: IAlertDetailActions) {
+    try {
+        const data: TPastAlert[] = yield call(getPastAlertData, param)
+        yield put({
+            type: "STORE_PAST_ALERTS",
+            payload: {
+                data: data,
+                pagination: param.payload.pagination,
+                sort: param.payload.sort
+            }
+        } as Store_PastAlert)
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+function* updatePastAlertDatas(params: IPastAlertDetailActions) {
+    yield call(updatePastAlertData, params)//
+}
+
 function* actionWatcher() {
     yield takeLatest("GET_USER", getUsers);
     yield takeLatest("GET_ALERTS", getAlertData);
@@ -116,6 +136,8 @@ function* actionWatcher() {
     yield takeLatest("POST_ALERT_CLEARANCE", postAlertClearance)
     yield takeLatest("GET_LOW_MILEAGE", getLowMileageGraph);
     yield takeLatest("GET_VEHICLE_USAGE", getVehicleUsageGraph);
+    yield takeLatest("GET_PAST_ALERTS", getPastAlertDatas)
+    yield takeLatest("UPDATE_PAST_ALERTS", updatePastAlertDatas)
 }
 
 export default function* rootSaga() {
