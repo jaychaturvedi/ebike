@@ -34,8 +34,6 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return state
     }
     render() {
-        console.log("query", );
-        
         return (
             <div className="connectm-AlertDetail">
                 <Breadcrumb separator=">" className={"connectm-breadcrum"}>
@@ -47,8 +45,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                     <div className={"alert-top-container"}>
                         <AlertDetailSingle alertId={this.state.alertId}/>
                         {/* <LineGraph graphType="double" /> */}
-                        <CellBatteryGraph />
-                        {/* <StackedBarGraph /> */}
+                        {/* <CellBatteryGraph /> */}
+                        <StackedBarGraph />
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>
@@ -61,7 +59,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             {/* <div className={"connectm-header"}>
                                 <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
                             </div> */}
-                            <AlertPastTable />
+                            <AlertPastTable alertId={this.state.alertId}/>
                         </div>
                     </div>
                 </div>

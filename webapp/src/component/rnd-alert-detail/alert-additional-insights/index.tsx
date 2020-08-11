@@ -18,7 +18,8 @@ interface AlertInsightsProps extends ReduxAlertDetailActions, ReduxAlertDetailSt
 }
 
 interface AlertInsightsStates {
-    insights: TAlertInsights
+    insights: TAlertInsights;
+    reload : boolean
 }
 
 class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsStates> {
@@ -31,13 +32,14 @@ class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsState
                 ridesPerMnthInKm: "N/A",
                 totalDistInKm: "N/A",
                 utilization: "N/A"
-            }
+            },
+            reload : true
         }
     }
     static getDerivedStateFromProps(props: AlertInsightsProps, state: AlertInsightsStates) {
         if (props.alertId) {
             const alert = props.alerts[props.alerts.activeAlertTab][props.alertId]
-            if (alert) {
+            if (alert && state.reload == true) {
                 props.getAlertsInsights({
                     type: "GET_ALERTS_INSIGHTS",
                     payload: {
@@ -51,6 +53,7 @@ class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsState
                         vehicleID: alert.frameId
                     }
                 })
+                state.reload = false
             }
             state.insights = props.alertInsights !== undefined ? props.alertInsights : limpInsight
         } else {

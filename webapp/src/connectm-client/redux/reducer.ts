@@ -3,13 +3,16 @@ import { IUsersAction } from "../actions/user"
 import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
 import { Store_GetAlertTrends } from "../saga/trends";
-import { Store_AlertInsights } from "../saga/alert-detail";
+import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert } from "../saga/alert-detail";
 type ActionParams = IUsersAction
     | Store_AlertUpdate
     | Store_AlertTabChange
     | Store_AlertFilterChange
     | Store_AlertInsights
     | Store_GetAlertTrends
+    | Store_PastAlert
+    | Store_UpdatePastAlert
+
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
         case "RECEIVED_USER": {
@@ -84,6 +87,40 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
             return {
                 ...state,
                 alertInsights: (actionParams as Store_AlertInsights).payload.alertInsight
+            }
+        }
+        case "STORE_PAST_ALERTS": {
+            const pastAlerts = Object.assign({}, ...(actionParams as Store_PastAlert)
+                .payload.data.map(alert => {
+                    return {
+                        [String(alert.alertId)]: alert
+                    }
+                }))
+            return {
+                ...state,
+                pastAlerts: {
+                    ...state.pastAlerts,
+                    pagination: (actionParams as Store_PastAlert).payload.pagination,
+                    sort: (actionParams as Store_PastAlert).payload.sort,
+                    data: pastAlerts
+                }
+            }
+        }
+        case "STORE_UPDATE_PAST_ALERTS": {
+            const pastAlerts = Object.assign({}, ...(actionParams as Store_UpdatePastAlert)
+                .payload.data.map(alert => {
+                    return {
+                        [String(alert.alertId)]: alert
+                    }
+                }))
+            return {
+                ...state,
+                pastAlerts: {
+                    ...state.pastAlerts,
+                    pagination: (actionParams as Store_UpdatePastAlert).payload.pagination,
+                    sort: (actionParams as Store_UpdatePastAlert).payload.sort,
+                    data: pastAlerts
+                }
             }
         }
         default: {

@@ -7,8 +7,8 @@ import { Store_AlertTabChange } from "./alert";
 import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends } from "./trends"
 import { IAlertTrendActions } from "../actions/trends";
 import { TPastAlert, TAlertInsights } from "../redux/connectm-state"
-import {Store_AlertInsights,getAlertInsight, postAlertClearanceComment} from "./alert-detail"
-import { IAlertDetailActions } from "../actions/alert-detail";
+import { Store_AlertInsights, getAlertInsight, postAlertClearanceComment, getPastAlertData, Store_PastAlert, updatePastAlertData } from "./alert-detail"
+import { IAlertDetailActions, IPastAlertDetailActions } from "../actions/alert-detail";
 
 function* getUsers(params: IUsersAction) {
     yield call(getUser, params)
@@ -57,13 +57,13 @@ function* getAlertTrend(params: IAlertTrendActions) {
     }
 }
 
-function* getAlertInsights(params: IAlertDetailActions){
+function* getAlertInsights(params: IAlertDetailActions) {
     try {
         const data: TAlertInsights = yield call(getAlertInsight, params)
         yield put({
             type: "STORE_ALERTS_INSIGHTS",
             payload: {
-                alertInsight : data
+                alertInsight: data
             }
         } as Store_AlertInsights)
     } catch (error) {
@@ -71,8 +71,28 @@ function* getAlertInsights(params: IAlertDetailActions){
     }
 }
 
-function* postAlertClearance(param: IAlertDetailActions){
-    yield call(postAlertClearanceComment,param)
+function* postAlertClearance(param: IAlertDetailActions) {
+    yield call(postAlertClearanceComment, param)
+}
+
+function* getPastAlertDatas(param: IAlertDetailActions) {
+    try {
+        const data : TPastAlert[] = yield call(getPastAlertData, param)
+        yield put({
+            type: "STORE_PAST_ALERTS",
+            payload: {
+                data: data,
+                pagination: param.payload.pagination,
+                sort: param.payload.sort
+            }
+        } as Store_PastAlert)
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+function* updatePastAlertDatas(params: IPastAlertDetailActions){
+    yield call(updatePastAlertData,params)//
 }
 
 function* actionWatcher() {
@@ -81,8 +101,10 @@ function* actionWatcher() {
     yield takeLatest("UPDATE_ACTIVE_ALERT", updateAlertTabChanges);
     yield takeLatest("UPDATE_FILTER", updateAlertFilterChanges);
     yield takeLatest("GET_ALERT_TRENDS", getAlertTrend);
-    yield takeLatest("GET_ALERTS_INSIGHTS",getAlertInsights)
-    yield takeLatest("POST_ALERT_CLEARANCE",postAlertClearance)
+    yield takeLatest("GET_ALERTS_INSIGHTS", getAlertInsights)
+    yield takeLatest("POST_ALERT_CLEARANCE", postAlertClearance)
+    yield takeLatest("GET_PAST_ALERTS", getPastAlertDatas)
+    yield takeLatest("UPDATE_PAST_ALERTS",updatePastAlertDatas)
 }
 
 export default function* rootSaga() {

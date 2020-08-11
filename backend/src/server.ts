@@ -31,6 +31,7 @@ app.use(bodyparser.json());
 
 
 // const PORT = Number(process.env.SPORT) || 5000;
+// app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) })
 // db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
 // deploy express app to aws lambda
@@ -77,7 +78,7 @@ module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context
 };
 
 module.exports.webapp = async (event: APIGatewayProxyEvent, context: Context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+    // context.callbackWaitsForEmptyEventLoop = false;
     app.use("/webV1", webappRoutes)
     const webapp = serverless(app);
     console.log("connecting")
@@ -88,7 +89,9 @@ module.exports.webapp = async (event: APIGatewayProxyEvent, context: Context) =>
         console.log("connecting")
         await db.sync({ alter: true, force: false });
     }
+    console.log("Start Result",new Date())
     const result = await webapp(event, context);
+    console.log("Return Result ",new Date())
     return result;
 };
 
