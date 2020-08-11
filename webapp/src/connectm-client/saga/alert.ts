@@ -139,18 +139,18 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
     if (params.payload.filter.fieldName == "search") {
         let key = "";
         const searchString = params.payload.filter.value
-        const searchStringSub = searchString.slice(0,3)
-        console.log("search string",searchString,"Search sub",searchStringSub)
+        const searchStringSub = searchString.slice(0, 3)
+        console.log("search string", searchString, "Search sub", searchStringSub)
         key = searchKeyField(searchStringSub)
-        if(key.length > 0){
+        if (key.length > 0) {
             request = {
-                [key] : params.payload.filter.value,
+                [key]: params.payload.filter.value,
                 alertType: params.payload.alertType,
                 page: params.payload.pagination.pageNumber,
                 pageSize: params.payload.pagination.pageSize
             }
             console.log(request);
-            
+
             return request
         }
     }
@@ -241,7 +241,7 @@ async function lowMileageGraph() {
 }
 
 async function batteryCellGraph() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
+    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/batteryCell',
         {
             vehicleID: "069bcc081a68a0832f123",
             alertId: 123,

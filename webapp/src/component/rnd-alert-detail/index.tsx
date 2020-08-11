@@ -6,24 +6,26 @@ import AlertInsights from "./alert-additional-insights"
 import LineGraph from "./alert-detail-graph/line-graph"
 import CellBatteryGraph from "./alert-detail-graph/cell-battery-graph"
 import StackedBarGraph from "./alert-detail-graph/stacked-bar"
-import { ReduxAlertDetailActions, ReduxAlertDetailState, 
-    mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alert-detail"
+import {
+    ReduxAlertDetailActions, ReduxAlertDetailState,
+    mapDispatchToProps, mapStateToProps
+} from "../../connectm-client/actions/alert-detail"
 import AlertPastTable from "./alert-past-table"
 
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-interface AlertDetailProps extends ReduxAlertDetailActions, ReduxAlertDetailState, RouteComponentProps{ }
+interface AlertDetailProps extends ReduxAlertDetailActions, ReduxAlertDetailState, RouteComponentProps { }
 
 interface AlertDetailStates {
-    alertId :string
- }
+    alertId: string
+}
 
 class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
-    constructor(props :AlertDetailProps){
+    constructor(props: AlertDetailProps) {
         super(props)
         this.state = {
-            alertId : ""
+            alertId: ""
         }
     }
     static getDerivedStateFromProps(props: AlertDetailProps, state: AlertDetailStates) {
@@ -34,8 +36,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return state
     }
     render() {
-        console.log("query", );
-        
+        console.log("query",);
+
         return (
             <div className="connectm-AlertDetail">
                 <Breadcrumb separator=">" className={"connectm-breadcrum"}>
@@ -45,17 +47,17 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 </Breadcrumb>
                 <div className={"connectm-alert-detail-container"}>
                     <div className={"alert-top-container"}>
-                        <AlertDetailSingle alertId={this.state.alertId}/>
+                        <AlertDetailSingle alertId={this.state.alertId} />
                         {/* <LineGraph graphType="double" /> */}
-                        <CellBatteryGraph />
-                        {/* <StackedBarGraph /> */}
+                        {/* <CellBatteryGraph /> */}
+                        <StackedBarGraph />
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>
                             <div className={"connectm-header"}>
                                 <Typography.Text style={{ color: "#ffffff" }} strong>ADDITIONAL INSIGHTS</Typography.Text>
                             </div>
-                            <AlertInsights alertId={this.state.alertId}/>
+                            <AlertInsights alertId={this.state.alertId} />
                         </div>
                         <div className={"alert-bottom-content-right"}>
                             {/* <div className={"connectm-header"}>

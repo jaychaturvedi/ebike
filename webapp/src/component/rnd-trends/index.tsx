@@ -5,7 +5,7 @@ import { TtrendTotalAlerts, TtrendLocationWise, TtrendTop5Alert, Alert, State } 
 import React, { PureComponent } from 'react';
 import moment from "moment";
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Brush,
 } from 'recharts';
 import { ReduxAlertTrendActions, ReduxAlertTrendState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/trends"
 import { connect } from 'react-redux';
@@ -29,7 +29,8 @@ interface RandDTrendsStates {
     xAxis: number
     reload: boolean,
     startDate: string,
-    endDate: string
+    endDate: string,
+    zoom: number
 }
 
 class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
@@ -40,26 +41,25 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             totalAlerts: [],
             locationwiseAlerts: { lines: {}, data: [] },
             top5Alerts: { lines: {}, data: [] },
+            zoom: 4,
             xAxis: 7,
             reload: true,
             startDate: moment().subtract(7, 'd').format("YYYY-MM-DD HH:mm:ss"),
             endDate: moment().format("YYYY-MM-DD HH:mm:ss")
-
         }
     }
 
     static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
-
         if (state.reload) {
             const data = props.getAlertTrends({
                 type: "GET_ALERT_TRENDS",
                 payload: {
                     alertType: 'smart',
-                    startDate : state.startDate,
+                    startDate: state.startDate,
                     endDate: state.endDate
                 }
             })
-            state.reload =false;
+            state.reload = false;
         }
         state.totalAlerts = props.trendTotalAlert
         state.top5Alerts = props.trendTop5Alert
@@ -70,16 +70,16 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     handlePeriodChange = (e: any) => {
         let dateTo
         let dateFrom
-        if (e.key == "Last 30 Days"){
+        if (e.key == "Last 30 Days") {
             dateTo = moment().format("YYYY-MM-DD HH:mm:ss");
             dateFrom = moment().subtract(30, 'd').format("YYYY-MM-DD HH:mm:ss");
-        }else{
+        } else {
             dateTo = moment().format("YYYY-MM-DD HH:mm:ss");
             dateFrom = moment().subtract(7, 'd').format("YYYY-MM-DD HH:mm:ss");
         }
         this.setState({
             trendsPeriod: e.key,
-            startDate:dateFrom,
+            startDate: dateFrom,
             endDate: dateTo,
             reload: !this.state.reload
         })
@@ -129,7 +129,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </div>
 
                 <ResponsiveContainer width="100%" height="28%">
-                    <LineChart margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
+                    <LineChart margin={{ top: 10, right: 10, left: -30, bottom: 0 }} syncId="anyId"
                         data={this.state.totalAlerts}>
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                         <XAxis dataKey="date" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
@@ -145,7 +145,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </div>
 
                 <ResponsiveContainer width="100%" height="28%">
-                    <LineChart data={this.state.top5Alerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
+                    <LineChart data={this.state.top5Alerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }} syncId="anyId">
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                         <XAxis dataKey="date" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
                             tickFormatter={(label) => this.formatDate(label)} />
@@ -166,12 +166,20 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </div>
 
                 <ResponsiveContainer width="100%" height="28%">
-                    <LineChart data={this.state.locationwiseAlerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}>
+                    <LineChart data={this.state.locationwiseAlerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
+                        onClick={() => { return this.setState({ zoom: 0 }) }} syncId="anyId">
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                         <XAxis dataKey="date" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
                             tickFormatter={(label) => this.formatDate(label)} />
                         <Legend iconType="circle" iconSize={5} align="right"
                             wrapperStyle={{ width: '80%', paddingRight: '50px' }} />
+                        <Brush
+                            // dataKey='loc1count'
+                            fill="#131731"
+                            height={20}
+                            stroke="#3C4473"
+                            startIndex={0}
+                            endIndex={this.state.zoom} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
                         <Line name={this.state.locationwiseAlerts.lines.loc1} type="monotone" dataKey="loc1count" stroke="#8884d8" strokeWidth={2} />
                         <Line name={this.state.locationwiseAlerts.lines.loc2} type="monotone" dataKey="loc2count" stroke="red" strokeWidth={2} />

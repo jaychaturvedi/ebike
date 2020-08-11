@@ -6,9 +6,12 @@ import { getAlerts, updateAlertTabChange, updateAlertFilterChange, Store_AlertUp
 import { Store_AlertTabChange } from "./alert";
 import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends } from "./trends"
 import { IAlertTrendActions } from "../actions/trends";
-import { TPastAlert, TAlertInsights } from "../redux/connectm-state"
-import {Store_AlertInsights,getAlertInsight, postAlertClearanceComment} from "./alert-detail"
+import { IAlertGraphActions } from "../actions/graph";
+
+import { TPastAlert, TAlertInsights, TlowMileageGraph } from "../redux/connectm-state"
+import { Store_AlertInsights, getAlertInsight, postAlertClearanceComment } from "./alert-detail"
 import { IAlertDetailActions } from "../actions/alert-detail";
+import { Store_GetLowMileage, getLowMileage, getVehicleUsage, Store_GetVehicleUsage } from "./graph";
 
 function* getUsers(params: IUsersAction) {
     yield call(getUser, params)
@@ -57,22 +60,50 @@ function* getAlertTrend(params: IAlertTrendActions) {
     }
 }
 
-function* getAlertInsights(params: IAlertDetailActions){
+function* getAlertInsights(params: IAlertDetailActions) {
     try {
         const data: TAlertInsights = yield call(getAlertInsight, params)
         yield put({
             type: "STORE_ALERTS_INSIGHTS",
             payload: {
-                alertInsight : data
+                alertInsight: data
             }
         } as Store_AlertInsights)
     } catch (error) {
         console.log("get Alerts error", error)
     }
 }
+function* getLowMileageGraph(params: IAlertGraphActions) {
+    try {
+        const data: TlowMileageGraph = yield call(getLowMileage, params)
+        yield put({
+            type: "STORE_LOW_MILEAGE",
+            payload: {
+                lowMileage: data
+            }
+        } as Store_GetLowMileage)
+    } catch (error) {
+        console.log("get Alerts error", error)
+    }
+}
 
-function* postAlertClearance(param: IAlertDetailActions){
-    yield call(postAlertClearanceComment,param)
+function* getVehicleUsageGraph(params: IAlertGraphActions) {
+    try {
+        const data: TlowMileageGraph = yield call(getVehicleUsage, params)
+        yield put({
+            type: "STORE_VEHICLE_USAGE",
+            payload: {
+                vehicleUsage: data
+            }
+        } as Store_GetVehicleUsage)
+    } catch (error) {
+        console.log("get Alerts error", error)
+    }
+}
+
+
+function* postAlertClearance(param: IAlertDetailActions) {
+    yield call(postAlertClearanceComment, param)
 }
 
 function* actionWatcher() {
@@ -81,8 +112,10 @@ function* actionWatcher() {
     yield takeLatest("UPDATE_ACTIVE_ALERT", updateAlertTabChanges);
     yield takeLatest("UPDATE_FILTER", updateAlertFilterChanges);
     yield takeLatest("GET_ALERT_TRENDS", getAlertTrend);
-    yield takeLatest("GET_ALERTS_INSIGHTS",getAlertInsights)
-    yield takeLatest("POST_ALERT_CLEARANCE",postAlertClearance)
+    yield takeLatest("GET_ALERTS_INSIGHTS", getAlertInsights)
+    yield takeLatest("POST_ALERT_CLEARANCE", postAlertClearance)
+    yield takeLatest("GET_LOW_MILEAGE", getLowMileageGraph);
+    yield takeLatest("GET_VEHICLE_USAGE", getVehicleUsageGraph);
 }
 
 export default function* rootSaga() {

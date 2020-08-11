@@ -5,6 +5,10 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, BarChart, Bar, ReferenceLine, Cell, Brush
 } from 'recharts';
 import { FileExcelFilled } from '@ant-design/icons';
+import { mapDispatchToProps, mapStateToProps, ReduxAlertGraphActions, ReduxAlertGraphState } from "../../../../connectm-client/actions/graph"
+import { connect } from 'react-redux';
+import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
+
 const data1 = [
     {
         name: '29 June', uv: 4000, pv: 2400, amt: 2400,
@@ -59,10 +63,24 @@ const data1 = [
     },
 ];
 
-interface CellBatteryGraphProps { }
+interface CellBatteryGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState { }
 
-interface CellBatteryGraphStates { }
+interface CellBatteryGraphStates {
+    reload: boolean,
+    lowMileage: TlowMileageGraph,
+    vehicleUsage: TvehicleUsageGraph
+}
 class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryGraphStates> {
+
+    constructor(props: CellBatteryGraphProps) {
+        super(props);
+        this.state = {
+            reload: true,
+            lowMileage: { data: [] },
+            vehicleUsage: { data: [] }
+
+        }
+    }
     DynamicLabel = (props: any) => {
         return (
             <text
@@ -77,7 +95,23 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             </text>
         );
     }
+    static getDerivedStateFromProps(props: CellBatteryGraphProps, state: CellBatteryGraphStates) {
 
+        if (state.reload) {
+            const data = props.getLowMileage({
+                type: "GET_LOW_MILEAGE",
+                payload: {
+                    alertId: 123,
+                    alertName: "voltage deviation",
+                    vehicleId: "069bcc081a68a0832f123"
+                }
+            })
+            state.reload = false;
+        }
+        state.lowMileage = props.lowMileage
+        state.vehicleUsage = { data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        return state
+    }
     render() {
         return (
             <div className="connectm-AlertDetailGraph">
@@ -148,4 +182,4 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
 
 }
 
-export default CellBatteryGraph;
+export default connect(mapStateToProps, mapDispatchToProps)(CellBatteryGraph);

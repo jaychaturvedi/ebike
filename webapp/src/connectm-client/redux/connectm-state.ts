@@ -28,6 +28,12 @@ export interface TtrendTotalAlerts {
     date: string,
     count: number
 }
+export interface TlowMileageGraph {
+    data: any,
+}
+export interface TvehicleUsageGraph {
+    data: any,
+}
 
 export interface TtrendTop5Alert {
     lines: {
@@ -96,14 +102,16 @@ export interface State {
     trendTotalAlerts: TtrendTotalAlerts[],
     trendTop5Alert: TtrendTop5Alert,
     trendLocationWise: TtrendLocationWise,
-    alertInsights: TAlertInsights
+    alertInsights: TAlertInsights,
     pastAlerts: {
         data: {
             [alertId: string]: TPastAlert
         }
         sort: TSort,
         pagination: TPagination,
-    }
+    },
+    lowMileage: TlowMileageGraph,
+    vehicleUsage: TvehicleUsageGraph,
 }
 
 const connectmState: State = {
@@ -128,6 +136,8 @@ const connectmState: State = {
     trendTotalAlerts: [],
     trendTop5Alert: { data: [], lines: {} },
     trendLocationWise: { data: [], lines: {} },
+    lowMileage: { data: [] },
+    vehicleUsage: { data: [] },
     alertInsights: {
         avgMileageInKm: "N/A",
         avgRangeRideInKm: "N/A",
@@ -145,7 +155,7 @@ const connectmState: State = {
             pageNumber: 1,
             pageSize: 10,
         },
-    }
+    },
 }
 //filter - option, filter type,
 

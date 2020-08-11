@@ -3,6 +3,7 @@ import { IUsersAction } from "../actions/user"
 import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
 import { Store_GetAlertTrends } from "../saga/trends";
+import { Store_GetLowMileage, Store_GetVehicleUsage } from "../saga/graph";
 import { Store_AlertInsights } from "../saga/alert-detail";
 type ActionParams = IUsersAction
     | Store_AlertUpdate
@@ -10,6 +11,9 @@ type ActionParams = IUsersAction
     | Store_AlertFilterChange
     | Store_AlertInsights
     | Store_GetAlertTrends
+    | Store_GetLowMileage
+    | Store_GetVehicleUsage
+
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
         case "RECEIVED_USER": {
@@ -86,6 +90,20 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                 alertInsights: (actionParams as Store_AlertInsights).payload.alertInsight
             }
         }
+
+        case "STORE_LOW_MILEAGE": {
+            return {
+                ...state,
+                lowMileage: (actionParams as Store_GetLowMileage).payload.lowMileage,
+            }
+        }
+        // case "STORE_VEHICLE_USAGE": {
+        //     return {
+        //         ...state,
+        //         lowMileage: (actionParams as Store_GetVehicleUsage).payload.lowMileage,
+        //     }
+        // }
+
         default: {
             return state
         }
