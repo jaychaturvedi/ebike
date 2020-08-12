@@ -9,7 +9,7 @@ import {
     ReduxAlertDetailActions, ReduxAlertDetailState,
     mapDispatchToProps, mapStateToProps
 } from "../../../connectm-client/actions/alert-detail"
-import { AlertData, TAlertType } from '../../../connectm-client/redux/connectm-state';
+import { AlertData, TAlertType } from '../../../connectm-client/redux/models';
 import { formatTime, formatHourMin, formatDate } from '../../../connectm-client/util/time-formater'
 interface AlertDetailSingleProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,

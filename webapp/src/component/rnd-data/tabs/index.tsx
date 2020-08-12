@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Button, Typography } from 'antd';
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../../connectm-client/actions/alerts"
 import { connect } from 'react-redux'
-import { TAlertType } from '../../../connectm-client/redux/connectm-state';
+import { TAlertType } from '../../../connectm-client/redux/models';
 interface TabsProps extends ReduxAlertActions, ReduxAlertState {
 
  }

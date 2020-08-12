@@ -25,10 +25,10 @@ const CustomizedDot = (props: any) => {
     );
 
 };
-interface AlertDetailGraphProps { data: any; L1: number; L2: number; line1Stroke: string; }
+interface DoubleLineGraphProps { data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number }
 
-interface AlertDetailGraphStates { }
-class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailGraphStates> {
+interface DoubleLineGraphStates { }
+class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGraphStates> {
     DynamicLabel = (props: any) => {
         return (
             <text
@@ -45,7 +45,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
 
     render() {
         return (
-            <div className="connectm-AlertDetailGraph">
+            <div className="connectm-DoubleLineGraph">
                 <div className={"connectm-header"}>
                     <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>Low Mileage</Typography.Text>
                 </div>
@@ -94,7 +94,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 </Label>
                             </YAxis>
                             <Line name="Specified Mileage" type="monotone" dataKey="smilage"
-                                stroke={this.props.line1Stroke} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} L2={this.props.L2} />} />
+                                stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} L2={this.props.L2} />} />
                             <Line name="Actual Mileage" type="monotone" dataKey="amilage"
                                 stroke="#82ca9d" strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} L2={this.props.L2} />} />
                         </LineChart>
@@ -107,4 +107,4 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
 
 }
 
-export default AlertDetailGraph;
+export default DoubleLineGraph;

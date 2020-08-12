@@ -1,5 +1,5 @@
 import { IAlertTrendActions, AlertTrendsActions, IAlertUpdateActions } from "../actions/trends"
-import { TtrendTop5Alert, TtrendTotalAlerts, TtrendLocationWise } from "../redux/connectm-state"
+import { TtrendTop5Alert, TtrendTotalAlerts, TtrendLocationWise } from "../redux/models"
 import axios from "axios"
 import { put } from "redux-saga/effects"
 export type Store_GetAlertTrends = {

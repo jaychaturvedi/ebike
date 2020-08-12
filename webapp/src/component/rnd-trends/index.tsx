@@ -1,7 +1,8 @@
 import './index.scss';
 import { Menu, Dropdown, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import { TtrendTotalAlerts, TtrendLocationWise, TtrendTop5Alert, Alert, State } from "../../connectm-client/redux/connectm-state";
+import { TtrendTotalAlerts, TtrendLocationWise, TtrendTop5Alert, Alert } from "../../connectm-client/redux/models";
+import { State } from "../../connectm-client/redux/connectm-state";
 import React, { PureComponent } from 'react';
 import moment from "moment";
 import {

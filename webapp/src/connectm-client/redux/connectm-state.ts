@@ -1,88 +1,8 @@
-export type TAlertType = "smart" | "bms" | "mc"
-export type TSort = { fieldName: string, direction: 'descend' | 'ascend' }
-export type TFilter = { fieldName: string, value: string }
-export type TPagination = {
-    pageNumber: number,
-    pageSize: number,
-}
-export interface AlertData {
-    alertId: number,
-    alertName: string,
-    mfgDate: string,
-    batteryId: string,
-    customerId: string,
-    model: string,
-    frameId: string,
-    alertTime: string,
-    openSince: string,    // hh:mm
-    Severity: number // 1 means RED, 2 means Orange, 3 means Yellow
-    location: string,
-}
+import {
+    AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
+    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData
+} from "./models";
 
-export interface Alert {
-    dataCount: number,
-    data: AlertData[]
-}
-
-export interface TtrendTotalAlerts {
-    date: string,
-    count: number
-}
-export interface TlowMileageGraph {
-    data: any,
-}
-export interface TvehicleUsageGraph {
-    data: any,
-}
-
-export interface TtrendTop5Alert {
-    lines: {
-        [lineName: string]: string,
-    }
-    data: {
-        date: string,
-        alert1count: string,
-        alert2count: string,
-        alert3count: string,
-        alert4count: string,
-        alert5count: string
-    }[]
-}
-
-export interface TtrendLocationWise {
-    lines: {
-        [lineName: string]: string,
-    }
-    data: {
-        date: string,
-        loc1count: string,
-        loc2count: string,
-        loc3count: string,
-        loc4count: string,
-        loc5count: string
-    }[]
-}
-
-export interface TAlertInsights {
-    totalDistInKm: string,
-    utilization: string,
-    ridesPerMnthInKm: string,
-    avgRangeRideInKm: string,
-    avgMileageInKm: string
-}
-
-export interface TPastAlertData {
-    vehicleId: string,
-    alertTime: string,
-    tat: string,
-    alertId: string,
-    location: string,
-    alertGraph: boolean
-}
-export interface TPastAlert {
-    dataCount: number,
-    data: TPastAlertData[]
-}
 export interface State {
     alerts: {
         smart: {
@@ -110,13 +30,16 @@ export interface State {
         data: {
             [alertId: string]: TPastAlertData
         },
-        dataCount : number
+        dataCount: number
         sort: TSort,
         pagination: TPagination,
     },
-    lowMileage: TlowMileageGraph,
-    vehicleUsage: TvehicleUsageGraph,
+    // lowMileage: TlowMileageGraph,
+    // vehicleUsage: TvehicleUsageGraph,
     trendsZoom: number,
+    graphs: {
+        [alertTypeId: string]: any
+    }
 }
 
 const connectmState: State = {
@@ -141,18 +64,10 @@ const connectmState: State = {
     trendTotalAlerts: [],
     trendTop5Alert: { data: [], lines: {} },
     trendLocationWise: { data: [], lines: {} },
-    lowMileage: { data: [] },
-    vehicleUsage: { data: [] },
-    alertInsights: {
-        avgMileageInKm: "N/A",
-        avgRangeRideInKm: "N/A",
-        ridesPerMnthInKm: "N/A",
-        totalDistInKm: "N/A",
-        utilization: "N/A"
-    },
+    alertInsights: alertInsightsLimpData(),
     pastAlerts: {
         data: {},
-        dataCount : 0,
+        dataCount: 0,
         sort: {
             fieldName: "alertTime",
             direction: 'descend'
@@ -162,8 +77,20 @@ const connectmState: State = {
             pageSize: 10,
         },
     },
-    trendsZoom: 0
+    trendsZoom: 0,
+    graphs: {}
 }
-//filter - option, filter type,
 
 export default connectmState;
+
+
+export function alertInsightsLimpData() {
+    const alertInsights: TAlertInsights = {
+        avgMileageInKm: "N/A",
+        avgRangeRideInKm: "N/A",
+        ridesPerMnthInKm: "N/A",
+        totalDistInKm: "N/A",
+        utilization: "N/A"
+    }
+    return alertInsights
+} 

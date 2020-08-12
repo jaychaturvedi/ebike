@@ -68,7 +68,7 @@ class GraphSelector extends PureComponent<GraphSelectorProps, GraphSelectorState
     }
     render() {
         return <>
-            {this.props.graphType === GraphType.SINGLE ? <SingleLineGraph data={data} /> : <DoubleLineGraph data={data} L1={35} L2={25} line1Stroke="#8884d8" />}
+            {this.props.graphType === GraphType.SINGLE ? <SingleLineGraph data={data} /> : <DoubleLineGraph data={data} L1={35} L2={25} line1StrokeColor="#8884d8" />}
         </>
     }
 }

@@ -3,11 +3,11 @@ import { Layout, Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
     XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, BarChart, Bar, ReferenceLine, Cell, Brush
-} from 'recharts';
+} from 'recharts'
 import { FileExcelFilled } from '@ant-design/icons';
 import { mapDispatchToProps, mapStateToProps, ReduxAlertGraphActions, ReduxAlertGraphState } from "../../../../connectm-client/actions/graph"
 import { connect } from 'react-redux';
-import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
+// import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
 
 const data1 = [
     {
@@ -59,25 +59,25 @@ const data1 = [
         name: '14th', uv: 1890, pv: 4800, amt: 2181,
     },
     {
-        name: '15th', uv: 3490, pv: 4300, amt: 2100,
+        name: '15th', uv: 3490, pv: 4300, amt: 2110,
     },
 ];
 
-interface CellBatteryGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState { }
+interface StackedGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState { }
 
-interface CellBatteryGraphStates {
+interface StackedGraphStates {
     reload: boolean,
-    lowMileage: TlowMileageGraph,
-    vehicleUsage: TvehicleUsageGraph
+    // lowMileage: TlowMileageGraph,
+    // vehicleUsage: TvehicleUsageGraph
 }
-class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryGraphStates> {
+class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> {
 
-    constructor(props: CellBatteryGraphProps) {
+    constructor(props: StackedGraphProps) {
         super(props);
         this.state = {
             reload: true,
-            lowMileage: { data: [] },
-            vehicleUsage: { data: [] }
+            // lowMileage: { data: [] },
+            // vehicleUsage: { data: [] }
 
         }
     }
@@ -95,20 +95,20 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             </text>
         );
     }
-    static getDerivedStateFromProps(props: CellBatteryGraphProps, state: CellBatteryGraphStates) {
-        if (state.reload) {
-            const data = props.getLowMileage({
-                type: "GET_LOW_MILEAGE",
-                payload: {
-                    alertId: 123,
-                    alertName: "voltage deviation",
-                    vehicleId: "069bcc081a68a0832f123"
-                }
-            })
-            state.reload = false;
-        }
-        state.lowMileage = props.lowMileage
-        state.vehicleUsage = { data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+    static getDerivedStateFromProps(props: StackedGraphProps, state: StackedGraphStates) {
+        // if (state.reload) {
+        //     const data = props.getAlertGraph({
+        //         type: "GET_LOW_MILEAGE",
+        //         payload: {
+        //             alertId: 123,
+        //             alertName: "voltage deviation",
+        //             vehicleId: "069bcc081a68a0832f123"
+        //         }
+        //     })
+        //     state.reload = false;
+        // }
+        // state.lowMileage = props.lowMileage
+        // state.vehicleUsage = { data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
         return state
     }
     render() {
@@ -181,4 +181,4 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CellBatteryGraph);
+export default connect(mapStateToProps, mapDispatchToProps)(StackedGraph);

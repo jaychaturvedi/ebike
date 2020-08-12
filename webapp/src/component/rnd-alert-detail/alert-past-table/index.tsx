@@ -14,7 +14,7 @@ import {
     mapStateToProps, mapDispatchToProps, ReduxAlertDetailActions,
     ReduxAlertDetailState
 } from '../../../connectm-client/actions/alert-detail';
-import { TSort, TPastAlertData } from '../../../connectm-client/redux/connectm-state';
+import { TSort, TPastAlertData } from '../../../connectm-client/redux/models';
 
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
@@ -160,8 +160,8 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 //selected rowId
                 alertId: selectedRow,
                 pastAlerts: {
-                    data : newDatas,
-                    dataCount : this.state.total
+                    data: newDatas,
+                    dataCount: this.state.total
                 },
                 pagination: {
                     pageNumber: this.state.current,

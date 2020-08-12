@@ -10,7 +10,7 @@ import { ReactComponent as Search } from "../../assets/search_icon.svg"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
 import { connect } from 'react-redux'
 import moment from 'moment';
-import { TFilter } from '../../connectm-client/redux/connectm-state';
+import { TFilter } from '../../connectm-client/redux/models';
 
 interface SubHeaderProps extends ReduxAlertActions, ReduxAlertState { }
 

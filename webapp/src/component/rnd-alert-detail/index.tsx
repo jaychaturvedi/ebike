@@ -14,13 +14,13 @@ import AlertPastTable from "./alert-past-table"
 
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
+import AlertGraph from './alert-detail-graph'
 
 interface AlertDetailProps extends ReduxAlertDetailActions, ReduxAlertDetailState, RouteComponentProps { }
 
 interface AlertDetailStates {
     alertId: string
 }
-
 class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
     constructor(props: AlertDetailProps) {
         super(props)
@@ -33,8 +33,13 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         //     type : "GET_ALERT_TRENDS"
         // })
         state.alertId = props.location.pathname.split('/')[1]
+        //as soon as come here
+        //make api call get data
+        //also update active alertTab
+
         return state
     }
+
     render() {
         return (
             <div className="connectm-AlertDetail">
@@ -48,7 +53,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                         <AlertDetailSingle alertId={this.state.alertId} />
                         {/* <LineGraph graphType="double" /> */}
                         {/* <CellBatteryGraph /> */}
-                        <StackedBarGraph />
+                        {/* <StackedBarGraph /> */}
+                        <AlertGraph alertName={this.props.alerts[this.props.alerts.activeAlertTab][this.state.alertId].alertName}
+                        vehicleId={"12324"} alertCleared={false} alertId={Number(this.state.alertId)}  />
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>

@@ -1,15 +1,16 @@
 import { Dispatch } from "redux";
-import { State, TAlertType, TSort, TPagination, TFilter } from "../redux/connectm-state";
+import { State } from "../redux/connectm-state";
 
 
 export type AlertGraphActions = "GET_LOW_MILEAGE" | "STORE_LOW_MILEAGE" |
-    "GET_VEHICLE_USAGE" | "STORE_VEHICLE_USAGE"
+    "GET_VEHICLE_USAGE" | "STORE_VEHICLE_USAGE" | "GET_ALERT_GRAPH"
 
 
 export interface AlertGraphPayload {
     vehicleId: string,
     alertId: number,
-    alertName?: string,
+    alertName: string,
+    alertTypeId : number
 }
 
 export interface IAlertGraphActions {
@@ -24,25 +25,21 @@ export function GraphAlerts(params: IAlertGraphActions): IAlertGraphActions {
     }
 }
 export interface ReduxAlertGraphActions {
-    getLowMileage: (params: IAlertGraphActions) => IAlertGraphActions,
-    getVehicleUsage: (params: IAlertGraphActions) => IAlertGraphActions,
+    getAlertGraph: (params: IAlertGraphActions) => IAlertGraphActions,
 }
 
 export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertGraphActions {
     return {
-        getLowMileage: (params: IAlertGraphActions) => dispatch(GraphAlerts(params)),
-        getVehicleUsage: (params: IAlertGraphActions) => dispatch(GraphAlerts(params))
+        getAlertGraph: (params: IAlertGraphActions) => dispatch(GraphAlerts(params)),
     }
 }
 
 export interface ReduxAlertGraphState {
-    lowMileage: State["lowMileage"],
-    vehicleUsage: State["vehicleUsage"],
+    graphs: State["graphs"],
 }
 
 export function mapStateToProps(state: State): ReduxAlertGraphState {
     return {
-        vehicleUsage: state.vehicleUsage,
-        lowMileage: state.lowMileage
+        graphs : state.graphs
     }
 }

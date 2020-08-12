@@ -12,7 +12,7 @@ import SeverityRenderer from "./severity-rendere"
 import TimeRenderer from "./time-renderer"
 import OpenSinceRenderer from "./openSinceRenderer"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
-import { AlertData as AlertModel, TAlertType, TSort, TFilter } from "../../connectm-client/redux/connectm-state"
+import { AlertData as AlertModel, TAlertType, TSort, TFilter } from "../../connectm-client/redux/models"
 import { connect } from 'react-redux'
 
 const paginationDate = ['10', '25', '50'];

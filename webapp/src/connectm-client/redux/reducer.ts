@@ -1,9 +1,10 @@
-import connectmState, { State, TSort, AlertData } from "./connectm-state";
+import connectmState, { State} from "./connectm-state"
+import { TSort, AlertData } from "./models";
 import { IUsersAction } from "../actions/user"
 import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
 import { Store_GetAlertTrends, Store_UpdateALertTrends } from "../saga/trends";
-import { Store_GetLowMileage, Store_GetVehicleUsage } from "../saga/graph";
+import { Store_AlertGraph } from "../saga/graph";
 import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert } from "../saga/alert-detail";
 type ActionParams = IUsersAction
     | Store_AlertUpdate
@@ -11,11 +12,10 @@ type ActionParams = IUsersAction
     | Store_AlertFilterChange
     | Store_AlertInsights
     | Store_GetAlertTrends
-    | Store_GetLowMileage
-    | Store_GetVehicleUsage
     | Store_PastAlert
     | Store_UpdatePastAlert
     | Store_UpdateALertTrends
+    | Store_AlertGraph
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -94,19 +94,20 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
             }
         }
 
-        case "STORE_LOW_MILEAGE": {
-            return {
-                ...state,
-                lowMileage: (actionParams as Store_GetLowMileage).payload.lowMileage,
-            }
-        }
+        // case "STORE_LOW_MILEAGE": {
+        //     return {
+        //         ...state,
+        //         lowMileage: (actionParams as Store_GetLowMileage).payload.lowMileage,
+        //     }
+        // }
         // case "STORE_VEHICLE_USAGE": {
         //     return {
         //         ...state,
-        //         lowMileage: (actionParams as Store_GetVehicleUsage).payload.lowMileage,
+        //         vehicleUsage: {
+        //             data: (actionParams as Store_GetVehicleUsage).payload.vehicleUsage
+        //         }
         //     }
         // }
-
         case "STORE_PAST_ALERTS": {
             const pastAlerts = Object.assign({}, ...(actionParams as Store_PastAlert)
                 .payload.pastAlert.data.map(alert => {
@@ -152,7 +153,15 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                 trendsZoom: (actionParams as Store_UpdateALertTrends).payload.trendsZoom,
             }
         }
-
+        case "STORE_ALERT_GRAPH" :{
+            return {
+                ...state,
+                graph :{
+                    ...state.graphs,
+                    [String(actionParams.payload.alertTypeId)] : actionParams.payload.data
+                }
+            }
+        }
         default: {
             return state
         }

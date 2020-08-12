@@ -1,5 +1,5 @@
 import { IAlertDetailActions, AlertDetailActions, IPastAlertDetailActions } from "../actions/alert-detail";
-import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert } from "../redux/connectm-state"
+import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert } from "../redux/models"
 import axios from "axios"
 import { put } from "redux-saga/effects";
 
