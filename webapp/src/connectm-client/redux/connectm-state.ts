@@ -112,6 +112,7 @@ export interface State {
     },
     lowMileage: TlowMileageGraph,
     vehicleUsage: TvehicleUsageGraph,
+    trendsZoom: number,
 }
 
 const connectmState: State = {
@@ -156,6 +157,7 @@ const connectmState: State = {
             pageSize: 10,
         },
     },
+    trendsZoom: 0
 }
 //filter - option, filter type,
 

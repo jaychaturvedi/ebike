@@ -96,7 +96,6 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         );
     }
     static getDerivedStateFromProps(props: CellBatteryGraphProps, state: CellBatteryGraphStates) {
-
         if (state.reload) {
             const data = props.getLowMileage({
                 type: "GET_LOW_MILEAGE",

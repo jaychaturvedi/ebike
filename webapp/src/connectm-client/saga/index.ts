@@ -4,7 +4,7 @@ import { IUsersAction } from "../actions/user"
 import { IAlertActions } from "../actions/alerts";
 import { getAlerts, updateAlertTabChange, updateAlertFilterChange, Store_AlertUpdate, TAlertsTableData } from "./alert";
 import { Store_AlertTabChange } from "./alert";
-import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends } from "./trends"
+import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, Store_UpdateALertTrends, updateAlertTrend } from "./trends"
 import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
 
@@ -59,6 +59,7 @@ function* getAlertTrend(params: IAlertTrendActions) {
         console.log("get Alerts error", error)
     }
 }
+
 
 function* getAlertInsights(params: IAlertDetailActions) {
     try {
@@ -138,6 +139,8 @@ function* actionWatcher() {
     yield takeLatest("GET_VEHICLE_USAGE", getVehicleUsageGraph);
     yield takeLatest("GET_PAST_ALERTS", getPastAlertDatas)
     yield takeLatest("UPDATE_PAST_ALERTS", updatePastAlertDatas)
+    yield takeLatest("UPDATE_ALERT_TRENDS", updateAlertTrend)
+
 }
 
 export default function* rootSaga() {

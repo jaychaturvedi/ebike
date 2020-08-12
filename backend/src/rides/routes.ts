@@ -95,15 +95,3 @@ app.get('/detail/:frameId', expressQAsync(secure),
 
 app.use(expressErrorHandler)
 export default app
-
-
-// app.get('/gpsPath/:rideId', expressQAsync(secure),
-//     [param('rideId', "rideId can't be empty").isString().isLength({ min: 1 }), validate],
-//     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-//         const { rideId } = req.params as any
-//         const { frameId, startTime, endTime } = await Ride.findOneWhere({ rideId })
-//         const ridepath = await ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)
-//         const response = createResponse("OK", ridepath, undefined)
-//         res.json(response)
-//     })
-// )

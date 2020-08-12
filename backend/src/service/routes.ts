@@ -5,15 +5,15 @@ import { expressQAsync, expressErrorHandler, validate, createResponse, secure } 
 import { createIssues, closeIssues, paginate } from "./controller";
 const app = express.Router()
 
-app.get('/all/:status', expressQAsync(secure),
+app.get('/all/', expressQAsync(secure),
     [query('pageNo', "pageNo. be empty").optional().toInt().isLength({ min: 1 }),
-    query('pageSize', "pageSize is empty").optional().toInt().isLength({ min: 1 }),
-    param('status', "status is empty").toInt().isLength({ min: 1 }), validate],
+    query('pageSize', "pageSize is empty").optional().toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const status = req.params.status ? 1 : 0
         const { pageNo, pageSize } = req.query as any
-        const issue = await paginate(pageNo as number, pageSize as number, { status })
-        const response = createResponse("OK", issue, undefined)
+        const open = await paginate(pageNo as number, pageSize as number, { status: 0 })
+        const closed = await paginate(pageNo as number, pageSize as number, { status: 1 })
+        const response = createResponse("OK", { open, closed }, undefined)
         res.send(response)
     })
 )

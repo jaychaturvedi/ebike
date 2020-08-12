@@ -68,8 +68,10 @@ app.get('/history/:frameId', expressQAsync(secure),
         const { startTime, endTime, pageNo, pageSize } = req.query as any
         const history = await ConnectmApi.getRideHistory(req.params.frameId, startTime as string,
             endTime as string, pageNo as number, pageSize as number)
+        const graphData = await ConnectmApi.getRideHistoryStat(req.params.frameId, startTime as string,
+            endTime as string, pageNo as number, pageSize as number)
         if (!history[0].fid) throw new BikeError("please check time and frameId");
-        const response = createResponse("OK", history, undefined)
+        const response = createResponse("OK", { history, graphData }, undefined)
         res.json(response)
     })
 )
