@@ -8,7 +8,7 @@ import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, Store_UpdateALe
 import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
 
-import { TPastAlert, TAlertInsights, TlowMileageGraph } from "../redux/connectm-state"
+import { TPastAlertData, TAlertInsights, TlowMileageGraph, TPastAlert } from "../redux/connectm-state"
 import { Store_GetLowMileage, getLowMileage, getVehicleUsage, Store_GetVehicleUsage } from "./graph";
 import { Store_AlertInsights, getAlertInsight, postAlertClearanceComment, getPastAlertData, Store_PastAlert, updatePastAlertData } from "./alert-detail"
 import { IAlertDetailActions, IPastAlertDetailActions } from "../actions/alert-detail";
@@ -109,11 +109,11 @@ function* postAlertClearance(param: IAlertDetailActions) {
 
 function* getPastAlertDatas(param: IAlertDetailActions) {
     try {
-        const data: TPastAlert[] = yield call(getPastAlertData, param)
+        const data: TPastAlert = yield call(getPastAlertData, param)
         yield put({
             type: "STORE_PAST_ALERTS",
             payload: {
-                data: data,
+                pastAlert: data,
                 pagination: param.payload.pagination,
                 sort: param.payload.sort
             }

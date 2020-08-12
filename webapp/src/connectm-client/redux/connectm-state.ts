@@ -71,7 +71,7 @@ export interface TAlertInsights {
     avgMileageInKm: string
 }
 
-export interface TPastAlert {
+export interface TPastAlertData {
     vehicleId: string,
     alertTime: string,
     tat: string,
@@ -79,7 +79,10 @@ export interface TPastAlert {
     location: string,
     alertGraph: boolean
 }
-
+export interface TPastAlert {
+    dataCount: number,
+    data: TPastAlertData[]
+}
 export interface State {
     alerts: {
         smart: {
@@ -105,8 +108,9 @@ export interface State {
     alertInsights: TAlertInsights,
     pastAlerts: {
         data: {
-            [alertId: string]: TPastAlert
-        }
+            [alertId: string]: TPastAlertData
+        },
+        dataCount : number
         sort: TSort,
         pagination: TPagination,
     },
@@ -148,6 +152,7 @@ const connectmState: State = {
     },
     pastAlerts: {
         data: {},
+        dataCount : 0,
         sort: {
             fieldName: "alertTime",
             direction: 'descend'

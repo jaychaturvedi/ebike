@@ -109,7 +109,7 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
 
         case "STORE_PAST_ALERTS": {
             const pastAlerts = Object.assign({}, ...(actionParams as Store_PastAlert)
-                .payload.data.map(alert => {
+                .payload.pastAlert.data.map(alert => {
                     return {
                         [String(alert.alertId)]: alert
                     }
@@ -120,13 +120,14 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                     ...state.pastAlerts,
                     pagination: (actionParams as Store_PastAlert).payload.pagination,
                     sort: (actionParams as Store_PastAlert).payload.sort,
-                    data: pastAlerts
+                    data: pastAlerts,
+                    dataCount: (actionParams as Store_PastAlert).payload.pastAlert.dataCount
                 }
             }
         }
         case "STORE_UPDATE_PAST_ALERTS": {
             const pastAlerts = Object.assign({}, ...(actionParams as Store_UpdatePastAlert)
-                .payload.data.map(alert => {
+                .payload.pastAlert.data.map(alert => {
                     return {
                         [String(alert.alertId)]: alert
                     }
@@ -137,7 +138,8 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                     ...state.pastAlerts,
                     pagination: (actionParams as Store_UpdatePastAlert).payload.pagination,
                     sort: (actionParams as Store_UpdatePastAlert).payload.sort,
-                    data: pastAlerts
+                    data: pastAlerts,
+                    dataCount: (actionParams as Store_UpdatePastAlert).payload.pastAlert.dataCount
                 }
             }
         }
