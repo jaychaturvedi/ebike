@@ -10,27 +10,25 @@ import { ReactComponent as LastPage } from "../../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../../assets/first_page_icon.svg"
 import GraphSelector from "./graph-selector"
 import { connect, } from 'react-redux';
-import { mapStateToProps, mapDispatchToProps,ReduxAlertDetailActions,
-    ReduxAlertDetailState } from '../../../connectm-client/actions/alert-detail';
-import { TSort, TPastAlert } from '../../../connectm-client/redux/connectm-state';
+import {
+    mapStateToProps, mapDispatchToProps, ReduxAlertDetailActions,
+    ReduxAlertDetailState
+} from '../../../connectm-client/actions/alert-detail';
+import { TSort, TPastAlertData } from '../../../connectm-client/redux/connectm-state';
 
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
-interface AlertPastTableProps extends ReduxAlertDetailActions,ReduxAlertDetailState {
-    column?: any, data?: any,
-    alertId :string,
-    
+interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
+    alertId: string,
 }
-
 interface AlertPastTableStates {
-    id?: any, column?: any, isDesc: boolean, data : TPastAlert[],
+    id?: any, column?: any, isDesc: boolean, data: TPastAlertData[],
     current: number; isAsc: boolean; classname: string; pageSize: number;
-    sortDirections: string; alertClicked: boolean; total: number;
-    loading: boolean;
+    sortDirections: string; alertTimeClicked: boolean; total: number;
     sortingKey: any;
     selectedRowId: number;
-    dataLoaded : boolean;
+    dataLoaded: boolean;
     handleSort: (arr: any, sort: TSort) => any,
 }
 
@@ -40,17 +38,16 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         this.state = {
             current: 1,
             pageSize: 10,
-            total: 100,
+            total: 0,
             data: [],
             isAsc: false,
             sortingKey: 'alertTime',
             isDesc: true,
             classname: 'alert-down-circle',
             sortDirections: 'ascend',
-            loading: false,
-            alertClicked: false,
+            alertTimeClicked: false,
             selectedRowId: -1,
-            dataLoaded : false,
+            dataLoaded: false,
             handleSort: this.handleSort,
         }
     }
@@ -58,18 +55,18 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     static getDerivedStateFromProps(props: AlertPastTableProps, state: AlertPastTableStates) {
         if (props.alertId && (state.dataLoaded == false)) {
             props.getPastAlerts({
-                type : "GET_PAST_ALERTS",
-                payload : {
-                    alertId : Number(props.alertId),
-                    alertName : props.alerts[props.alerts.activeAlertTab][props.alertId].alertName,
+                type: "GET_PAST_ALERTS",
+                payload: {
+                    alertId: Number(props.alertId),
+                    alertName: props.alerts[props.alerts.activeAlertTab][props.alertId].alertName,
                     alertType: props.alerts.activeAlertTab,
                     customerId: props.alerts[props.alerts.activeAlertTab][props.alertId].customerId,
                     vehicleID: props.alerts[props.alerts.activeAlertTab][props.alertId].frameId,
-                    pagination : {
-                        pageNumber : state.current,
-                        pageSize :state.pageSize
+                    pagination: {
+                        pageNumber: state.current,
+                        pageSize: state.pageSize
                     },
-                    sort : {
+                    sort: {
                         fieldName: state.sortingKey,
                         direction: state.isAsc ? "ascend" : "descend"
                     },
@@ -78,8 +75,9 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             })
             state.dataLoaded = true
         }
-        state.data = state.handleSort(Object.values(props.pastAlerts.data), props.pastAlerts.sort) as TPastAlert[]
-        console.log("past alert table",state)
+        state.data = state.handleSort(Object.values(props.pastAlerts.data), props.pastAlerts.sort) as TPastAlertData[]
+        state.total = props.pastAlerts.dataCount
+        console.log("past alert table", state)
         return state
     }
     renderClass = () => {
@@ -101,9 +99,9 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
     handleClickAlert = (event: any) => {
         event?.stopPropagation()
-        const { alertClicked } = this.state
+        const { alertTimeClicked: alertClicked } = this.state
         if (!alertClicked) this.setState({
-            alertClicked: true
+            alertTimeClicked: true
         })
         this.setState({ sortingKey: "alertTime", dataLoaded: false })
         this.renderClass()
@@ -112,7 +110,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     handleSelect = (event: any) => {
         this.setState({ sortingKey: '' })
         const { pageSize, current } = this.state
-        this.setState({ pageSize: Number(event), current: 1, dataLoaded: false})
+        this.setState({ pageSize: Number(event), current: 1, dataLoaded: false })
         console.log(pageSize, current);
     }
 
@@ -121,7 +119,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         let { current, total, pageSize } = this.state
         const from = current * pageSize
         const last = Math.floor(total / pageSize)
-        if (name === "next" && from < total) { this.setState({ current: ++current,dataLoaded : false}) }
+        if (name === "next" && from < total) { this.setState({ current: ++current, dataLoaded: false }) }
         if (name === "prev" && current != 1) { this.setState({ current: --current, dataLoaded: false }) }
         if (name === "first") { this.setState({ current: 1, dataLoaded: false }) }
         if (name === "last") {
@@ -130,7 +128,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
 
     handleSort = (arr: any, sort: TSort) => {
-        console.log("arr",arr,"sort",sort)
+        console.log("arr", arr, "sort", sort)
         if (!sort.fieldName) { return arr }
         return arr.sort((a: any, b: any) => {
             return a[sort.fieldName].localeCompare(b[sort.fieldName])
@@ -157,20 +155,23 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             selectedRowId: selectedRow
         })
         this.props.updatePastAlerts({
-            type:"UPDATE_PAST_ALERTS",
-            payload : {
+            type: "UPDATE_PAST_ALERTS",
+            payload: {
                 //selected rowId
-                alertId  : selectedRow,
-                pastAlerts : newDatas,
-                pagination : {
-                    pageNumber : this.state.current,
-                    pageSize : this.state.pageSize
+                alertId: selectedRow,
+                pastAlerts: {
+                    data : newDatas,
+                    dataCount : this.state.total
                 },
-                sort : {
+                pagination: {
+                    pageNumber: this.state.current,
+                    pageSize: this.state.pageSize
+                },
+                sort: {
                     direction: this.state.isAsc ? "ascend" : "descend",
-                    fieldName : this.state.sortingKey
+                    fieldName: this.state.sortingKey
                 }
-            } 
+            }
         })
     }
 
@@ -189,7 +190,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
 
     render() {
-        let { isAsc, alertClicked } = this.state;
+        let { isAsc, alertTimeClicked: alertClicked } = this.state;
         const columns: any = [
             {
                 dataIndex: 'alertTime', defaultSortOrder: 'ascend',
@@ -277,4 +278,4 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
 
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(AlertPastTable);
+export default connect(mapStateToProps, mapDispatchToProps)(AlertPastTable);

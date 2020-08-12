@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { State, TAlertType, TSort, TPagination, TFilter, TPastAlert } from "../redux/connectm-state";
+import { State, TAlertType, TSort, TPagination, TFilter, TPastAlertData, TPastAlert } from "../redux/connectm-state";
 
 export type AlertDetailActions = "GET_ALERTS_INSIGHTS" | "STORE_ALERTS_INSIGHTS" |
     "GET_PAST_ALERTS" | "STORE_PAST_ALERTS" | "UPDATE_PAST_ALERTS" | "POST_ALERT_CLEARANCE"
@@ -19,18 +19,18 @@ export interface PastAlertDetailPayload {
     pagination: TPagination,
     sort: TSort,
     alertId: number,
-    pastAlerts: TPastAlert[]
+    pastAlerts: TPastAlert
 }
 export interface IAlertDetailActions {
     type: AlertDetailActions,
     payload: AlertDetailPayload
 }
-
 //update past alert update
 export interface IPastAlertDetailActions {
     type: AlertDetailActions,
     payload: PastAlertDetailPayload
 }
+
 export function PastAlerts(params: IPastAlertDetailActions): IPastAlertDetailActions {
     return {
         type: params.type,

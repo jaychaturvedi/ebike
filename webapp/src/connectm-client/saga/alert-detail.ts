@@ -1,5 +1,5 @@
 import { IAlertDetailActions, AlertDetailActions, IPastAlertDetailActions } from "../actions/alert-detail";
-import { TPastAlert, TAlertInsights, TSort, TPagination } from "../redux/connectm-state"
+import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert } from "../redux/connectm-state"
 import axios from "axios"
 import { put } from "redux-saga/effects";
 
@@ -13,7 +13,7 @@ export type Store_AlertInsights = {
 export type Store_PastAlert = {
     type: AlertDetailActions,
     payload: {
-        data: TPastAlert[],
+        pastAlert: TPastAlert,
         sort: TSort,
         pagination: TPagination,
     }
@@ -22,12 +22,13 @@ export type Store_PastAlert = {
 export type Store_UpdatePastAlert = {
     type: "STORE_UPDATE_PAST_ALERTS",
     payload: {
-        data: TPastAlert[],
+        pastAlert: TPastAlert,
         sort: TSort,
         pagination: TPagination,
         alertId: number,
     }
 }
+
 export async function getAlertInsight(params: IAlertDetailActions) {
     const alertInsight = await getAdditionalInsights(params);
     return alertInsight
@@ -52,7 +53,7 @@ export function* updatePastAlertData(params: IPastAlertDetailActions) {
     yield put({
         type: "STORE_UPDATE_PAST_ALERTS",
         payload: {
-            data: params.payload.pastAlerts,
+            pastAlert: params.payload.pastAlerts,
             pagination: params.payload.pagination,
             sort: params.payload.sort,
             alertId: params.payload.alertId
@@ -98,7 +99,7 @@ async function getPastAlerts() {
 }
 
 function pastAlertDataGenerator(params: IAlertDetailActions) {
-    let datas: TPastAlert[] = []
+    let datas: TPastAlertData[] = []
     for (var i = 110; i < 130; i++) {
         datas.push({
             alertId: String(i),
@@ -109,5 +110,10 @@ function pastAlertDataGenerator(params: IAlertDetailActions) {
             alertGraph: false
         })
     }
-    return datas
+    const pastAlert: TPastAlert = {
+        dataCount: 130 - 110,
+        data: datas
+
+    }
+    return pastAlert
 }
