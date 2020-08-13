@@ -18,8 +18,8 @@ dotenv.config()
 
 const app = express();
 app.use(cors());
-app.options('/*', cors())
-app.use(bodyparser.json());
+// app.options('/*', cors())
+// app.use(bodyparser.json());
 // app.use("/user", userRoutes)
 // app.use("/bike", bikeRoutes)
 // // app.use("./feature", featuresRoutes)
