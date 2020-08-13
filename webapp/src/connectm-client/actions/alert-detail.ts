@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { TAlertType, TSort, TPagination, TFilter, TPastAlertData, TPastAlert } from "../redux/models";
 import { State } from "../redux/connectm-state"
 export type AlertDetailActions = "GET_ALERTS_INSIGHTS" | "STORE_ALERTS_INSIGHTS" |
-    "GET_PAST_ALERTS" | "STORE_PAST_ALERTS" | "UPDATE_PAST_ALERTS" | "POST_ALERT_CLEARANCE"
+    "GET_PAST_ALERTS" | "STORE_PAST_ALERTS" | "UPDATE_PAST_ALERTS" | "POST_ALERT_CLEARANCE" | "GET_SINGLE_ALERT"
 
 export interface AlertDetailPayload {
     pagination: TPagination,
@@ -21,6 +21,12 @@ export interface PastAlertDetailPayload {
     alertId: number,
     pastAlerts: TPastAlert
 }
+
+export interface SingleAlertPayload {
+    alertId: string,
+    alertType: TAlertType
+}
+
 export interface IAlertDetailActions {
     type: AlertDetailActions,
     payload: AlertDetailPayload
@@ -38,6 +44,20 @@ export function PastAlerts(params: IPastAlertDetailActions): IPastAlertDetailAct
     }
 }
 
+//single alert detail
+export interface ISingleAlertDetailAction {
+    type : AlertDetailActions,
+    payload: SingleAlertPayload
+}
+
+export function SingleAlert(params: ISingleAlertDetailAction) : ISingleAlertDetailAction{
+    return {
+        type : params.type,
+        payload: params.payload
+    }
+}
+//single alert detail
+
 export function DetailAlerts(params: IAlertDetailActions): IAlertDetailActions {
     return {
         type: params.type,
@@ -49,6 +69,7 @@ export interface ReduxAlertDetailActions {
     getPastAlerts: (params: IAlertDetailActions) => IAlertDetailActions,
     updatePastAlerts: (params: IPastAlertDetailActions) => IPastAlertDetailActions,
     postAlertClearanceComment: (params: IAlertDetailActions) => IAlertDetailActions,
+    getSingleAlertDetail: (params: ISingleAlertDetailAction) => ISingleAlertDetailAction
 }
 
 export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertDetailActions {
@@ -56,7 +77,8 @@ export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertDetailActions 
         getAlertsInsights: (params: IAlertDetailActions) => dispatch(DetailAlerts(params)),
         getPastAlerts: (params: IAlertDetailActions) => dispatch(DetailAlerts(params)),
         updatePastAlerts: (params: IPastAlertDetailActions) => dispatch(PastAlerts(params)),
-        postAlertClearanceComment: (params: IAlertDetailActions) => dispatch(DetailAlerts(params))
+        postAlertClearanceComment: (params: IAlertDetailActions) => dispatch(DetailAlerts(params)),
+        getSingleAlertDetail: (params: ISingleAlertDetailAction) => dispatch(SingleAlert(params))
     }
 }
 

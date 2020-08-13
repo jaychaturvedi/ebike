@@ -8,8 +8,8 @@ import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, Store_UpdateALe
 import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
 import { getAlertGraphData, Store_AlertGraph } from "./graph";
-import { Store_AlertInsights, getAlertInsight, postAlertClearanceComment, getPastAlertData, Store_PastAlert, updatePastAlertData } from "./alert-detail"
-import { IAlertDetailActions, IPastAlertDetailActions } from "../actions/alert-detail";
+import { Store_AlertInsights, getAlertInsight, postAlertClearanceComment, getPastAlertData, Store_PastAlert, updatePastAlertData, getSingleAlertDetail, Store_UpdateSingleAlert } from "./alert-detail"
+import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction } from "../actions/alert-detail";
 import { TAlertInsights, TPastAlert } from "../redux/models";
 
 function* getUsers(params: IUsersAction) {
@@ -110,7 +110,22 @@ function* getAlertGraphDatas(params: IAlertGraphActions) {
     } catch (error) {
         console.log("error", error)
     }
+}
 
+function* getSingleAlertDetails(params: ISingleAlertDetailAction) {
+    try {
+        const data = yield call(getSingleAlertDetail, params)
+        yield put({
+            type: "STORE_UPDATE_SINGLE_ALERT",
+            payload: {
+                alertData: data,
+                alertId: params.payload.alertId,
+                alertType: params.payload.alertType
+            }
+        } as Store_UpdateSingleAlert)
+    } catch (error) {
+        console.log("error", error)
+    }
 }
 
 function* actionWatcher() {
@@ -127,6 +142,7 @@ function* actionWatcher() {
     yield takeLatest("UPDATE_PAST_ALERTS", updatePastAlertDatas)
     yield takeLatest("UPDATE_ALERT_TRENDS", updateAlertTrend)
     yield takeLatest("GET_ALERT_GRAPH", getAlertGraphDatas)
+    yield takeLatest("GET_SINGLE_ALERT", getSingleAlertDetails)
 }
 
 export default function* rootSaga() {
