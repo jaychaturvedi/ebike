@@ -266,14 +266,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
             {
-                dataIndex: 'alertName', defaultSortOrder: 'ascend',
+                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: 200,
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                 </span>,
             },
             {
-                dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend',
+                dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend', width: 80,
                 title:
                     <span className="header-sorter" onClick={this.handleClickModel}> Model
                         {modelClicked ? <ActiveSort height='20px' width='20px'
@@ -288,7 +288,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             },
             {
                 dataIndex: 'alertTime', key: 'alertTime', defaultSortOrder: 'ascend',
-                sortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
                         {timeClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
@@ -315,6 +314,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 dataIndex: 'location', key: 'location', title: "Location",
             },
         ];
+
 
         return <>
             <div className="container" >
@@ -371,4 +371,148 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 }
 
+
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AlertTable));
+
+var alertData = [
+    {
+        frameId: "BLR 327490",
+        alertName: "Voltages Deviation",
+        alertTime: "2020-08-08 11:11:00",
+        model: "Classic",
+        alertId: 101,
+        mfgDate: "2020-08-08",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Bangalore",
+        openSince: "00:41",
+        Severity: "0"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "Capacity Deterioration",
+        alertTime: "2020-08-09 11:11:00",
+        model: "Cargo",
+        alertId: 102,
+        mfgDate: "2020-08-09",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Kolkata",
+        openSince: "00:41",
+        Severity: "1"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "Vehicle Idle/Inactive",
+        alertTime: "2020-08-10 11:11:00",
+        model: "Cargo",
+        alertId: 103,
+        mfgDate: "2020-08-10",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Delhi",
+        openSince: "00:41",
+        Severity: "2"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "High Operating Temperature",
+        alertTime: "2020-08-11 11:11:00",
+        model: "Classic",
+        alertId: 104,
+        mfgDate: "2020-08-11",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Hyderabad",
+        openSince: "00:41",
+        Severity: "0"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "Unit Over Voltage",
+        alertTime: "2020-08-11 11:11:00",
+        model: "Classic",
+        alertId: 104,
+        mfgDate: "2020-08-11",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Hyderabad",
+        openSince: "00:41",
+        Severity: "1"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "High Charging Temperature",
+        alertTime: "2020-08-11 11:11:00",
+        model: "Classic",
+        alertId: 104,
+        mfgDate: "2020-08-11",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Hyderabad",
+        openSince: "00:41",
+        Severity: "2"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "Charge Over Current",
+        alertTime: "2020-08-11 11:11:00",
+        model: "Classic",
+        alertId: 104,
+        mfgDate: "2020-08-11",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Hyderabad",
+        openSince: "00:41",
+        Severity: "1"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "High SOC L1",
+        alertTime: "2020-08-11 11:11:00",
+        model: "Classic",
+        alertId: 104,
+        mfgDate: "2020-08-11",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Hyderabad",
+        openSince: "00:41",
+        Severity: "0"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "EXCESSIVE TEMPERATURE DIFFERENCE L1",
+        alertTime: "2020-08-11 11:11:00",
+        model: "Classic",
+        alertId: 104,
+        mfgDate: "2020-08-11",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Hyderabad",
+        openSince: "00:41",
+        Severity: "1"
+    },
+    {
+        frameId: "BLR 327490",
+        alertName: "HALL SENSOR FAULT",
+        alertTime: "2020-08-11 11:11:00",
+        model: "Classic",
+        alertId: 104,
+        mfgDate: "2020-08-11",
+        batteryId: "BAT123456",
+        alertType: "smart",
+        customerId: "CUS14567",
+        location: "Hyderabad",
+        openSince: "00:41",
+        Severity: "2"
+    },
+]

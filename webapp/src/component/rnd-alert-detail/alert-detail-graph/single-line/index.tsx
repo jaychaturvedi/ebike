@@ -11,7 +11,7 @@ const CustomizedDot = (props: any) => {
         cx, cy, stroke, payload, value, L1
     } = props;
 
-    if (value === L1) {
+    if (value == L1) {
         return (
 
             <svg xmlns="http://www.w3.org/2000/svg" x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
@@ -25,7 +25,11 @@ const CustomizedDot = (props: any) => {
     );
 
 };
-interface AlertDetailGraphProps { data: any }
+interface AlertDetailGraphProps {
+    data: any; line1StrokeColor?: string, L1?: number,
+    xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, refColor?: string,
+    dataKey?: string, line1Key?: string, title: string
+}
 
 interface AlertDetailGraphStates { }
 class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailGraphStates> {
@@ -48,7 +52,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>Low Mileage</Typography.Text>
+                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
@@ -61,18 +65,18 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                         >
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                            <ReferenceLine y={35} stroke="white" strokeDasharray="3 3 5 2"
+                            {this.props.L1 ? <ReferenceLine y={this.props.L1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
                                         fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
                                     }} value="L1">
                                 </Label>
-                            </ReferenceLine>
+                            </ReferenceLine> : ''}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
                             <XAxis dataKey="nocycles" tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" padding={{ left: 30, right: 20 }}>
                                 <Label
-                                    value="No. of Cycles"
+                                    value={this.props.xAxisLabel}
                                     position="bottom"
                                     offset={0}
                                     style={{ padding: 5 }}
@@ -83,10 +87,10 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value="Mileage (KM)">
+                                    }} value={this.props.yAxisLabel}>
                                 </Label>
                             </YAxis>
-                            <Line name="Specified Mileage" type="monotone" dataKey="smilage" stroke="#8884d8" strokeWidth={3} dot={<CustomizedDot L1={35} />} />
+                            <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string} stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

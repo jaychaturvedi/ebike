@@ -10,60 +10,28 @@ import { connect } from 'react-redux';
 // import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
 
 const data1 = [
-    {
-        name: '29 June', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: '30th', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: '1st July', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: '2nd', uv: 3000, pv: 1398, amt: 2210,
-    },
-    {
-        name: '3rd', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: '4th', uv: 2780, pv: 3908, amt: 2000,
-    },
-    {
-        name: '5th', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: '6th', uv: 2390, pv: 3800, amt: 2500,
-    },
-    {
-        name: '7th', uv: 3490, pv: 4300, amt: 2100,
-    },
-    {
-        name: '8th', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: '9th', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: '10th', uv: 2780, pv: 0, amt: 2000, color: 'red'
-    },
-    {
-        name: '11th', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: '12th', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: '13th', uv: 2780, pv: 3908, amt: 2000,
-    },
-    {
-        name: '14th', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: '15th', uv: 3490, pv: 4300, amt: 2110,
-    },
+    { name: '29 June', uv: 4000, pv: 2400, amt: 2400, },
+    { name: '30th', uv: 4000, pv: 2400, amt: 2400, },
+    { name: '1st July', uv: 4000, pv: 2400, amt: 2400, },
+    { name: '2nd', uv: 3000, pv: 1398, amt: 2210, },
+    { name: '3rd', uv: 2000, pv: 9800, amt: 2290, },
+    { name: '4th', uv: 2780, pv: 3908, amt: 2000, },
+    { name: '5th', uv: 1890, pv: 4800, amt: 2181, },
+    { name: '6th', uv: 2390, pv: 3800, amt: 2500, },
+    { name: '7th', uv: 3490, pv: 4300, amt: 2100, },
+    { name: '8th', uv: 1890, pv: 4800, amt: 2181, },
+    { name: '9th', uv: 2000, pv: 9800, amt: 2290, },
+    { name: '10th', uv: 2780, pv: 0, amt: 2000, color: 'red' },
+    { name: '11th', uv: 1890, pv: 4800, amt: 2181, },
+    { name: '12th', uv: 2000, pv: 9800, amt: 2290, },
+    { name: '13th', uv: 2780, pv: 3908, amt: 2000, },
+    { name: '14th', uv: 1890, pv: 4800, amt: 2181, },
+    { name: '15th', uv: 3490, pv: 4300, amt: 2110, },
 ];
 
-interface StackedGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState { }
+interface StackedGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState {
+    data: any
+}
 
 interface StackedGraphStates {
     reload: boolean,
@@ -128,17 +96,25 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                             style={{ fontSize: '8px' }}>
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
-                            <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} />
+                            <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} >
+                                <Label position='bottom' offset={-5} fill="#ffffff"
+                                    style={{
+                                        fontSize: '10px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                    }} value="Days">
+                                </Label>
+                            </XAxis>
                             <YAxis tick={{ fill: 'white' }} domain={[5, 'auto']} stroke='#ffffff' >
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value="Mileage (KM)">
+                                        fontSize: '10px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                    }} value="Usage (in Hrs)">
                                 </Label>
                             </YAxis>
+
                             <Brush
                                 dataKey='name'
                                 fill="#131731"
+                                y={255}
                                 height={20}
                                 stroke="#3C4473"
                                 startIndex={0}

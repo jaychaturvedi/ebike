@@ -4,7 +4,7 @@ export const alertNameToIdMapping = {
     highoperatingtemperature: 3,
     unitovervoltagel1: 4,
     highchargingtemperature: 5,
-    chargeovercurrent: 6,
+    chargeovercurrentl1: 6,
     highsocl1: 7,
     excessivetemperaturedifferencel1: 8,
     hallsensorfault: 9
@@ -24,10 +24,10 @@ export function getAlertTypeId(alertName: string) {
         case "unitovervoltagel1": {
             return 4
         }
-        case "highchargingtemperature": {
+        case "highchargingtemperaturel1": {
             return 5
         }
-        case "chargeovercurrent": {
+        case "chargeovercurrentl1": {
             return 6
         }
         case "highsocl1": {
@@ -39,7 +39,7 @@ export function getAlertTypeId(alertName: string) {
         case "hallsensorfault": {
             return 9
         }
-        case "capacitydeterioration" :{
+        case "capacitydeterioration": {
             return 10 //user defined
         }
         default: {

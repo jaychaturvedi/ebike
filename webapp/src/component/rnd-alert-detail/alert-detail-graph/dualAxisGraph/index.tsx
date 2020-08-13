@@ -28,7 +28,7 @@ const CustomizedDot = (props: any) => {
 interface DoubleLineGraphProps {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
-    dataKey?: string, line1Key?: string, line2Key?: string, title?: string
+    dataKey?: string, line1Key?: string, line2Key?: string, title?: string, rightYaxis?: boolean, rightYaxisLabel?: string,
 }
 
 interface DoubleLineGraphStates { data: any }
@@ -57,7 +57,15 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
     render() {
 
         console.log(this.props.data);
-
+        const testdata = [
+            { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
+            { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
+            { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
+            { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
+            { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
+            { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
+            { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
+        ];
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
@@ -67,7 +75,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
                     <ResponsiveContainer width="95%" height="95%">
                         <LineChart
-                            data={this.props.data}
+                            data={testdata}//{this.props.data}
                             margin={{
                                 top: 0, right: 0, left: 0, bottom: 0,
                             }}
@@ -104,7 +112,8 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     content={props => { return this.DynamicLabel(props) }}
                                 />
                             </XAxis>
-                            <YAxis tick={{ fill: 'white' }}
+                            <YAxis tick={{ fill: 'white' }} yAxisId="eft"
+                                orientation="left"
                                 ticks={[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]}
                                 padding={{ top: 20, bottom: 30 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
@@ -114,10 +123,19 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 </Label>
                             </YAxis>
 
-                            <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string}
+                            <YAxis tick={{ fill: 'white' }} orientation="right" yAxisId="right"
+                                ticks={[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]}
+                                padding={{ top: 20, bottom: 30 }} stroke='#ffffff'>
+                                <Label angle={270} position='left' offset={-20} fill="#ffffff"
+                                    style={{
+                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                    }} value={this.props.rightYaxisLabel}>
+                                </Label>
+                            </YAxis>
+                            <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string} yAxisId="left"
                                 stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
 
-                            <Line name={this.props.line2Name} type="monotone" dataKey={this.props.line2Key as string}
+                            <Line name={this.props.line2Name} type="monotone" dataKey={this.props.line2Key as string} yAxisId="right"
                                 stroke={this.props.line2StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L2} />} />
                         </LineChart>
                     </ResponsiveContainer>
