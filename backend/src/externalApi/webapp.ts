@@ -81,8 +81,8 @@ export default class WebAPI {
         return fetchedData
     }
 
-    static async getAlertDetails(vehicleId: string, alertId: number) {
-        const options = createOptions('/alertdetails', { frameId: vehicleId, alertId })
+    static async getAlertDetails(alertId: number) {
+        const options = createOptions('/alertdetails', { alertId })
         const fetchedData = await post(options)
         return fetchedData
     }

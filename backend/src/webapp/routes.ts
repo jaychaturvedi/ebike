@@ -1,5 +1,5 @@
 import * as Express from "express";
-import { validationResult, body, query } from "express-validator";
+import { validationResult, body, query, param } from "express-validator";
 import { createResponse } from "../helper";
 import WebAPI from "../externalApi/webapp";
 
@@ -207,14 +207,12 @@ app.get('/graphs', expressQAsync(secure),
     })
 )
 
-app.get('/alertDetails', expressQAsync(secure),
-    [query("vehicleId", "vehicleId is invalid").isString(),
-    query('alertId', "alertId is too short").toInt(), validate],
+app.get('/alertDetails/:alertId', expressQAsync(secure),
+    [param('alertId', "alertId is too short").toInt(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId } = req.query as any
-        const result = await WebAPI.getAlertDetails(vehicleId, alertId)
+        const result = await WebAPI.getAlertDetails(req.params.alertId as any as number)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
