@@ -19,10 +19,10 @@ function createOptions(url: string, body: any,) {
 
 export default class WebAPI {
     static async mainAlerts(alertType: string, pageNo: number, pageSize: number) {
-        console.log("Start Yantrs Time",new Date())
+        console.log("Start Yantrs Time", new Date())
         const options = createOptions('/allalerts', { alertType, pageNo, pageSize })
         const fetchedData: TDashboard = await post(options)
-        console.log("End Yantra time",new Date)
+        console.log("End Yantra time", new Date)
         return fetchedData
 
     }
@@ -70,11 +70,29 @@ export default class WebAPI {
         return fetchedData
     }
 
-    static async lowMileageGraph(vehicleId: string, alertId: number, alertName: string) {
-        const options = createOptions('/maingraph', { vehicleID: vehicleId, alertId, alertName: "voltage deviation" })
+    static async getDynamicSubGraph(vehicleId: string, alertId: number, alertTypeId: number, alertName: string) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleID: vehicleId,
+            alertId,
+            alertTypeId,
+            alertName
+        })
         const fetchedData = await post(options)
         return fetchedData
     }
+
+    static async getAlertDetails(vehicleId: string, alertId: number) {
+        const options = createOptions('/alertdetails', { frameId: vehicleId, alertId })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async lowMileageGraph(vehicleId: string, alertId: number, alertName: string) {
+        const options = createOptions('/maingraph', { vehicleID: vehicleId, alertId, alertName })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
 
     static async batteryCellGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {

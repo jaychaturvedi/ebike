@@ -1,5 +1,5 @@
 import * as Express from "express";
-import { validationResult, body } from "express-validator";
+import { validationResult, body, query } from "express-validator";
 import { createResponse } from "../helper";
 import WebAPI from "../externalApi/webapp";
 
@@ -179,19 +179,47 @@ app.post('/clearAlert', expressQAsync(secure),
     })
 )
 
-app.post('/lowMileage', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
-    body("alertName", "alertName is invalid").isString(), validate],
+app.get('/lowMileage', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
+    query("alertName", "alertName is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId, alertName } = req.body
+        const { vehicleId, alertId, alertName } = req.query as any
         const result = await WebAPI.lowMileageGraph(vehicleId, alertId, alertName)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
+app.get('/graphs', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
+    query('alertTypeId', "alertId is too short").toInt(),
+    query('alertId', "alertId is too short").toInt(),
+    query('alertName', "alertId is too short").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Express.Request,
+        res: Express.Response,
+        next: Express.NextFunction) => {
+        const { vehicleId, alertId, alertName, alertTypeId } = req.query as any
+        const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName)
+        const response = createResponse("OK", result, undefined)
+        res.json(response)
+    })
+)
+
+app.get('/alertDetails', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").isString(),
+    query('alertId', "alertId is too short").toInt(), validate],
+    expressQAsync(async (req: Express.Request,
+        res: Express.Response,
+        next: Express.NextFunction) => {
+        const { vehicleId, alertId } = req.query as any
+        const result = await WebAPI.getAlertDetails(vehicleId, alertId)
+        const response = createResponse("OK", result, undefined)
+        res.json(response)
+    })
+)
+
 
 app.post('/batteryCell', expressQAsync(secure),
     [body("vehicleId", "vehicleId is invalid").optional().isString(),
