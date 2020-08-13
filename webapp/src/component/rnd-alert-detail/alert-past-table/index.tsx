@@ -22,6 +22,7 @@ const { Option } = Select;
 interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
     alertType: TAlertType,
+    alertCleared : boolean
 }
 interface AlertPastTableStates {
     id?: any, column?: any, isDesc: boolean, data: TPastAlertData[],
@@ -75,7 +76,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     comment: "",
                 }
             })
-            state.dataLoaded = true
+            state.dataLoaded = true;
         }
         state.data = state.handleSort(Object.values(props.pastAlerts.data), props.pastAlerts.sort) as TPastAlertData[]
         state.total = props.pastAlerts.dataCount

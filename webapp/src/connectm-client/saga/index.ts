@@ -128,6 +128,22 @@ function* getSingleAlertDetails(params: ISingleAlertDetailAction) {
     }
 }
 
+function* resetAlertDataStore(params: IAlertDetailActions) {
+    yield put({
+        type: "STORE_ALERT_UPDATE",
+        payload: {
+            alertType: params.payload.alertType,
+            alerts: {
+                bms: {data : [],dataCount : 0},
+                mc: { data: [], dataCount: 0},
+                smart: { data: [], dataCount: 0}
+            },
+            pagination: params.payload.pagination,
+            sort: params.payload.sort
+        }
+    } as Store_AlertUpdate)
+}
+
 function* actionWatcher() {
     yield takeLatest("GET_USER", getUsers);
     yield takeLatest("GET_ALERTS", getAlertData);
@@ -143,6 +159,7 @@ function* actionWatcher() {
     yield takeLatest("UPDATE_ALERT_TRENDS", updateAlertTrend)
     yield takeLatest("GET_ALERT_GRAPH", getAlertGraphDatas)
     yield takeLatest("GET_SINGLE_ALERT", getSingleAlertDetails)
+    yield takeLatest("RESET_ALERT_MAIN_PAGE", resetAlertDataStore)
 }
 
 export default function* rootSaga() {

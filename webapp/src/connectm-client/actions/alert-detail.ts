@@ -2,7 +2,8 @@ import { Dispatch } from "redux";
 import { TAlertType, TSort, TPagination, TFilter, TPastAlertData, TPastAlert } from "../redux/models";
 import { State } from "../redux/connectm-state"
 export type AlertDetailActions = "GET_ALERTS_INSIGHTS" | "STORE_ALERTS_INSIGHTS" |
-    "GET_PAST_ALERTS" | "STORE_PAST_ALERTS" | "UPDATE_PAST_ALERTS" | "POST_ALERT_CLEARANCE" | "GET_SINGLE_ALERT"
+    "GET_PAST_ALERTS" | "STORE_PAST_ALERTS" | "UPDATE_PAST_ALERTS" 
+    | "POST_ALERT_CLEARANCE" | "GET_SINGLE_ALERT" | "RESET_ALERT_MAIN_PAGE"
 
 export interface AlertDetailPayload {
     pagination: TPagination,
@@ -69,7 +70,8 @@ export interface ReduxAlertDetailActions {
     getPastAlerts: (params: IAlertDetailActions) => IAlertDetailActions,
     updatePastAlerts: (params: IPastAlertDetailActions) => IPastAlertDetailActions,
     postAlertClearanceComment: (params: IAlertDetailActions) => IAlertDetailActions,
-    getSingleAlertDetail: (params: ISingleAlertDetailAction) => ISingleAlertDetailAction
+    getSingleAlertDetail: (params: ISingleAlertDetailAction) => ISingleAlertDetailAction,
+    navigation: (params: IAlertDetailActions) => IAlertDetailActions,
 }
 
 export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertDetailActions {
@@ -78,7 +80,8 @@ export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertDetailActions 
         getPastAlerts: (params: IAlertDetailActions) => dispatch(DetailAlerts(params)),
         updatePastAlerts: (params: IPastAlertDetailActions) => dispatch(PastAlerts(params)),
         postAlertClearanceComment: (params: IAlertDetailActions) => dispatch(DetailAlerts(params)),
-        getSingleAlertDetail: (params: ISingleAlertDetailAction) => dispatch(SingleAlert(params))
+        getSingleAlertDetail: (params: ISingleAlertDetailAction) => dispatch(SingleAlert(params)),
+        navigation: (params: IAlertDetailActions) => dispatch(DetailAlerts(params)),
     }
 }
 

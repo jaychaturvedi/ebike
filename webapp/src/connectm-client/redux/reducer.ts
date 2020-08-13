@@ -57,6 +57,7 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                     smartCount: (actionParams as Store_AlertUpdate).payload.alerts.smart.dataCount,
                     bmsCount: (actionParams as Store_AlertUpdate).payload.alerts.bms.dataCount,
                     mcCount: (actionParams as Store_AlertUpdate).payload.alerts.mc.dataCount,
+                    activeAlertTab: (actionParams as Store_AlertUpdate).payload.alertType,
                 }
             }
         };
