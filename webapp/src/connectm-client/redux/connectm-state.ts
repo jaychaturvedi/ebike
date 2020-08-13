@@ -1,6 +1,6 @@
 import {
     AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
-    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData
+    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, Alert
 } from "./models";
 
 export interface State {
@@ -93,4 +93,21 @@ export function alertInsightsLimpData() {
         utilization: "N/A"
     }
     return alertInsights
-} 
+}
+
+export function alertLimpData() {
+    const alert: AlertData = {
+        Severity: -1,
+        alertId: -1,
+        alertName: "N/A",
+        alertTime: "N/A",
+        batteryId: "N/A",
+        customerId: "N/A",
+        frameId: "N/A",
+        location: "N/A",
+        mfgDate: "N/A",
+        model: "N/A",
+        openSince: "N/A"
+    }
+    return alert;
+}

@@ -11,30 +11,18 @@ import {
 } from "../../../connectm-client/actions/alert-detail"
 import { AlertData, TAlertType } from '../../../connectm-client/redux/models';
 import { formatTime, formatHourMin, formatDate } from '../../../connectm-client/util/time-formater'
+import { alertLimpData } from '../../../connectm-client/redux/connectm-state';
 interface AlertDetailSingleProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
+    alertType: TAlertType
 }
 
 interface AlertDetailSingleStates {
     clearanceComment: string;
     clearBoxToggle: boolean;
     alert: AlertData
-    alertType: string
 }
 
-const LimpData: AlertData = {
-    Severity: -1,
-    alertId: -1,
-    alertName: "N/A",
-    alertTime: "N/A",
-    batteryId: "N/A",
-    customerId: "N/A",
-    frameId: "N/A",
-    location: "N/A",
-    mfgDate: "N/A",
-    model: "N/A",
-    openSince: "N/A"
-}
 class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetailSingleStates> {
 
     constructor(props: AlertDetailSingleProps) {
@@ -42,16 +30,14 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
         this.state = {
             clearanceComment: "",
             clearBoxToggle: false,
-            alert: LimpData,
-            alertType: ""
+            alert: alertLimpData()
         }
     }
 
     static getDerivedStateFromProps(props: AlertDetailSingleProps, state: AlertDetailSingleStates) {
-        const alert = props.alerts[props.alerts.activeAlertTab][props.alertId]
+        const alert = props.alerts[props.alertType][props.alertId]
         if (alert) {
             state.alert = alert
-            state.alertType = props.alerts.activeAlertTab
         }
         return state
     }
@@ -66,7 +52,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
             payload: {
                 alertId: Number(this.props.alertId),
                 alertName: this.state.alert.alertName,
-                alertType: this.state.alertType as TAlertType,
+                alertType: this.props.alertType ,
                 comment: this.state.clearanceComment,
                 customerId: this.state.alert.customerId,
                 pagination: { pageNumber: -1, pageSize: -1 },

@@ -14,13 +14,14 @@ import {
     mapStateToProps, mapDispatchToProps, ReduxAlertDetailActions,
     ReduxAlertDetailState
 } from '../../../connectm-client/actions/alert-detail';
-import { TSort, TPastAlertData } from '../../../connectm-client/redux/models';
+import { TSort, TPastAlertData, TAlertType } from '../../../connectm-client/redux/models';
 
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
 interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
+    alertType: TAlertType,
 }
 interface AlertPastTableStates {
     id?: any, column?: any, isDesc: boolean, data: TPastAlertData[],
@@ -53,15 +54,16 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
 
     static getDerivedStateFromProps(props: AlertPastTableProps, state: AlertPastTableStates) {
-        if (props.alertId && (state.dataLoaded == false)) {
+        const alert = props.alerts[props.alertType][props.alertId]
+        if (props.alertId && (state.dataLoaded == false) && alert != undefined) {
             props.getPastAlerts({
                 type: "GET_PAST_ALERTS",
                 payload: {
                     alertId: Number(props.alertId),
-                    alertName: props.alerts[props.alerts.activeAlertTab][props.alertId].alertName,
-                    alertType: props.alerts.activeAlertTab,
-                    customerId: props.alerts[props.alerts.activeAlertTab][props.alertId].customerId,
-                    vehicleID: props.alerts[props.alerts.activeAlertTab][props.alertId].frameId,
+                    alertName: alert.alertName,
+                    alertType: props.alertType,
+                    customerId: alert.customerId,
+                    vehicleID: alert.frameId,
                     pagination: {
                         pageNumber: state.current,
                         pageSize: state.pageSize
