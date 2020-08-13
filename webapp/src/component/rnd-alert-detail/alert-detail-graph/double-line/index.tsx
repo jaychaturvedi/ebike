@@ -2,7 +2,7 @@ import './index.scss';
 import { Layout, Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine, Brush
 } from 'recharts';
 
 
@@ -27,8 +27,15 @@ const CustomizedDot = (props: any) => {
 };
 interface DoubleLineGraphProps { data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number }
 
-interface DoubleLineGraphStates { }
+interface DoubleLineGraphStates { data: any }
 class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGraphStates> {
+    constructor(props: DoubleLineGraphStates) {
+        super(props);
+        this.state = {
+            data: props.data
+        }
+    }
+
     DynamicLabel = (props: any) => {
         return (
             <text
@@ -44,22 +51,26 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
     }
 
     render() {
+
+        console.log(this.props.data);
+
         return (
-            <div className="connectm-DoubleLineGraph">
+            <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
                     <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>Low Mileage</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
-                    <ResponsiveContainer width="95%" height="90%">
+                    <ResponsiveContainer width="95%" height="95%">
                         <LineChart
                             data={this.props.data}
                             margin={{
                                 top: 0, right: 0, left: 0, bottom: 0,
-                            }}>
+                            }}
+                        >
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                            {/* <ReferenceLine y={this.props.L1} stroke="green" strokeDasharray="3 3 5 2"
+                            <ReferenceLine y={35} stroke="white" strokeDasharray="3 3 5 2"
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
@@ -67,17 +78,12 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     }} value="L1">
                                 </Label>
                             </ReferenceLine>
-                            <ReferenceLine y={this.props.L2} stroke="green" strokeDasharray="3 3 5 2"
-                                isFront={true} >
-                                <Label position={'insideTopLeft'} fill="#ffffff"
-                                    style={{
-                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
-                                    }} value="L2">
-                                </Label>
-                            </ReferenceLine> */}
+                            {/* <Brush /> */}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            <XAxis dataKey="nocycles" tick={{ fill: 'white' }} stroke='#ffffff'
-                                interval="preserveEnd" padding={{ left: 30, right: 20 }}>
+                            <XAxis dataKey="nocycles" unit='cm'
+                                ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
+                                domain={[100, 1200]}
+                                tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" padding={{ left: 30, right: 20 }}>
                                 <Label
                                     value="No. of Cycles"
                                     position="bottom"
@@ -93,10 +99,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     }} value="Mileage (KM)">
                                 </Label>
                             </YAxis>
-                            <Line name="Specified Mileage" type="monotone" dataKey="smilage"
-                                stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} L2={this.props.L2} />} />
-                            <Line name="Actual Mileage" type="monotone" dataKey="amilage"
-                                stroke="#82ca9d" strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} L2={this.props.L2} />} />
+                            <Line name="Specified Mileage" type="monotone" dataKey="smilage" stroke="#8884d8" strokeWidth={3} dot={<CustomizedDot L1={35} />} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

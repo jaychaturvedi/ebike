@@ -78,7 +78,7 @@ const connectmState: State = {
         },
     },
     trendsZoom: 0,
-    graphs: {}
+    graphs: []
 }
 
 export default connectmState;

@@ -1,7 +1,7 @@
 import './index.scss';
 import { Layout } from "antd";
-import DoubleLineGraph from "./double-line";
-import SingleLineGraph from "./single-line";
+import DoubleLineGraph from "../double-line";
+import SingleLineGraph from "../single-line";
 import React, { PureComponent } from 'react';
 
 const data = [

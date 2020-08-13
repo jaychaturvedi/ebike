@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { getAlertTypeId } from '../../../connectm-client/util/alert-graph';
 //Store will register all graph type data
-import DoubleLineGraph from "./line-graph/double-line";
+import DoubleLineGraph from "./double-line";
 
 interface AlertGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState {
     alertName?: string,
@@ -53,12 +53,39 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
         return state
     }
     render() {
-        console.log("Low Milage alerts", this.state.data)
+        console.log("Low Milage alerts", this.state, this.props.alertId)
+        console.log("switch case ", this.state.alertTypeId, this.state.data);
+
         switch (this.state.alertTypeId) {
             case 1: {
                 return <CellBatteryGraph />
             }
+            case 2: {
+                return <CellBatteryGraph />
+            }
+            case 3: {
+                return <CellBatteryGraph />
+            }
+            case 4: {
+                return <CellBatteryGraph />
+            }
+            case 5: {
+                return <CellBatteryGraph />
+            }
+            case 6: {
+                return <CellBatteryGraph />
+            }
+            case 7: {
+                return <CellBatteryGraph />
+            }
+            case 8: {
+                return <CellBatteryGraph />
+            }
+            case 9: {
+                return <CellBatteryGraph />
+            }
             case 10: {
+                // return <GraphSelector graphType="double" />
                 return <DoubleLineGraph data={this.state.data} />
             }
             default: {

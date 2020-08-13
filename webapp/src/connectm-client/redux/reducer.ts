@@ -1,4 +1,4 @@
-import connectmState, { State} from "./connectm-state"
+import connectmState, { State } from "./connectm-state"
 import { TSort, AlertData } from "./models";
 import { IUsersAction } from "../actions/user"
 import { IAlertTrendActions } from "../actions/trends"
@@ -153,12 +153,12 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                 trendsZoom: (actionParams as Store_UpdateALertTrends).payload.trendsZoom,
             }
         }
-        case "STORE_ALERT_GRAPH" :{
+        case "STORE_ALERT_GRAPH": {
             return {
                 ...state,
-                graph :{
+                graphs: {
                     ...state.graphs,
-                    [String(actionParams.payload.alertTypeId)] : actionParams.payload.data
+                    [`${actionParams.payload.alertTypeId}`]: actionParams.payload.data
                 }
             }
         }

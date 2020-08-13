@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import { Breadcrumb, Typography } from 'antd';
 import AlertDetailSingle from "./alert-detail-single"
 import AlertInsights from "./alert-additional-insights"
-import LineGraph from "./alert-detail-graph/line-graph"
 import CellBatteryGraph from "./alert-detail-graph/cell-battery-graph"
 import StackedBarGraph from "./alert-detail-graph/stacked-bar"
 import {
@@ -11,7 +10,6 @@ import {
     mapDispatchToProps, mapStateToProps
 } from "../../connectm-client/actions/alert-detail"
 import AlertPastTable from "./alert-past-table"
-
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AlertGraph from './alert-detail-graph'
@@ -54,8 +52,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                         {/* <LineGraph graphType="double" /> */}
                         {/* <CellBatteryGraph /> */}
                         {/* <StackedBarGraph /> */}
-                        <AlertGraph alertName={this.props.alerts[this.props.alerts.activeAlertTab][this.state.alertId].alertName}
-                        vehicleId={"12324"} alertCleared={false} alertId={Number(this.state.alertId)}  />
+                        <AlertGraph alertName={this.props.alerts[this.props.alerts.activeAlertTab][this.state.alertId].alertName.toLowerCase()}
+                            vehicleId={"12324"} alertCleared={false} alertId={Number(this.state.alertId)} />
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>
