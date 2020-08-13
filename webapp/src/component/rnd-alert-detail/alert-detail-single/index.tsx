@@ -14,13 +14,15 @@ import { formatTime, formatHourMin, formatDate } from '../../../connectm-client/
 import { alertLimpData } from '../../../connectm-client/redux/connectm-state';
 interface AlertDetailSingleProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
-    alertType: TAlertType
+    alertType: TAlertType,
+    alertCleared: Function
 }
 
 interface AlertDetailSingleStates {
     clearanceComment: string;
     clearBoxToggle: boolean;
     alert: AlertData
+    alertCleared: boolean
 }
 
 class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetailSingleStates> {
@@ -30,7 +32,8 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
         this.state = {
             clearanceComment: "",
             clearBoxToggle: false,
-            alert: alertLimpData()
+            alert: alertLimpData(),
+            alertCleared: false
         }
     }
 
@@ -52,7 +55,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
             payload: {
                 alertId: Number(this.props.alertId),
                 alertName: this.state.alert.alertName,
-                alertType: this.props.alertType ,
+                alertType: this.props.alertType,
                 comment: this.state.clearanceComment,
                 customerId: this.state.alert.customerId,
                 pagination: { pageNumber: -1, pageSize: -1 },
@@ -62,6 +65,27 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
         })
         this.setState({
             clearBoxToggle: false,
+            alertCleared: true
+        })
+        this.props.alertCleared(true)
+        this.props.getPastAlerts({
+            type: "GET_PAST_ALERTS",
+            payload: {
+                alertId: Number(this.state.alert.alertId),
+                alertName: this.state.alert.alertName,
+                alertType: this.props.alertType,
+                customerId: this.state.alert.customerId,
+                vehicleID: this.state.alert.frameId,
+                pagination: {
+                    pageNumber: 1,
+                    pageSize: 10
+                },
+                sort: {
+                    fieldName: "alertTime",
+                    direction: "descend"
+                },
+                comment: "",
+            }
         })
     }
 
@@ -88,7 +112,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
             <div className="connectm-AlertDetailSingle">
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Alert Name:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.alertName}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A" : this.state.alert.alertName}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Alert Time:</div>
@@ -96,11 +120,11 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Open Since:</div>
-                    <div className={"single-cell-right toolate"}>{formatHourMin(this.state.alert.openSince)}</div>
+                    <div className={"single-cell-right toolate"}>{this.state.alertCleared ? "N/A" : formatHourMin(this.state.alert.openSince)}</div>
                 </div>
                 <div className={"single-row"}>
-                    <Dropdown overlay={clearAlert} trigger={['click']} visible={this.state.clearBoxToggle}>
-                        <Button className={"clear-alert-button"} onClick={this.initiateClearAlert} >
+                    <Dropdown overlay={clearAlert} trigger={['click']} visible={this.state.clearBoxToggle} disabled={this.state.alertCleared}>
+                        <Button className={"clear-alert-button"} onClick={this.initiateClearAlert} disabled={this.state.alertCleared}>
                             <Typography.Text style={{ color: "black" }} strong>CLEAR ALERT</Typography.Text>
                         </Button>
                     </Dropdown>

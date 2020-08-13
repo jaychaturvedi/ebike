@@ -5,7 +5,7 @@ import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
 import { Store_GetAlertTrends, Store_UpdateALertTrends } from "../saga/trends";
 import { Store_AlertGraph } from "../saga/graph";
-import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert } from "../saga/alert-detail";
+import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert, Store_UpdateSingleAlert } from "../saga/alert-detail";
 type ActionParams = IUsersAction
     | Store_AlertUpdate
     | Store_AlertTabChange
@@ -16,6 +16,7 @@ type ActionParams = IUsersAction
     | Store_UpdatePastAlert
     | Store_UpdateALertTrends
     | Store_AlertGraph
+    | Store_UpdateSingleAlert
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -56,6 +57,7 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                     smartCount: (actionParams as Store_AlertUpdate).payload.alerts.smart.dataCount,
                     bmsCount: (actionParams as Store_AlertUpdate).payload.alerts.bms.dataCount,
                     mcCount: (actionParams as Store_AlertUpdate).payload.alerts.mc.dataCount,
+                    activeAlertTab: (actionParams as Store_AlertUpdate).payload.alertType,
                 }
             }
         };
@@ -156,9 +158,20 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
         case "STORE_ALERT_GRAPH": {
             return {
                 ...state,
-                graphs: {
+                graph: {
                     ...state.graphs,
-                    [`${actionParams.payload.alertTypeId}`]: actionParams.payload.data
+                    [String(actionParams.payload.alertTypeId)]: actionParams.payload.data
+                }
+            }
+        }
+        case "STORE_UPDATE_SINGLE_ALERT": {
+            return {
+                ...state,
+                alerts: {
+                    ...state.alerts,
+                    [actionParams.payload.alertType]: {
+                        [actionParams.payload.alertId]: actionParams.payload.alertData
+                    }
                 }
             }
         }

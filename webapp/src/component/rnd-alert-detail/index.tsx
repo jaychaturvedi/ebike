@@ -24,6 +24,7 @@ interface AlertDetailStates {
     alert: AlertData
     alertType: TAlertType
     activeAlertType: string
+    alertCleared: boolean
 }
 //Smart Alerts
 //BMS Alerts
@@ -35,7 +36,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
             alertId: "",
             alertType: "smart",
             activeAlertType: "N/A",
-            alert: alertLimpData()
+            alert: alertLimpData(),
+            alertCleared: false
         }
     }
     static getDerivedStateFromProps(props: AlertDetailProps, state: AlertDetailStates) {
@@ -51,24 +53,78 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 "BMS Alerts" : "Motor Controller Alerts"
         if (state.alert == undefined || Object.keys(state.alert).length == 0) {
             //get single alert detail
-            state.alert = alertLimpData()
+            // state.alert = alertLimpData()
+            props.getSingleAlertDetail({
+                type: "GET_SINGLE_ALERT",
+                payload: {
+                    alertId: state.alertId,
+                    alertType: state.alertType
+                }
+            })
         }
+        state.alert = state.alert == undefined ? alertLimpData() : props.alerts[state.alertType][state.alertId]
         return state
     }
 
+    alertCleared = (alertCleared: boolean) => {
+        this.setState({ alertCleared: alertCleared })
+    }
+    goToHome = () => {
+        this.props.navigation({
+            type: "RESET_ALERT_MAIN_PAGE",
+            payload: {
+                alertId: Number(this.state.alertId),
+                alertName: "",
+                alertType: "smart",
+                pagination: {
+                    pageNumber: 1,
+                    pageSize: 10
+                },
+                sort: {
+                    direction: "descend",
+                    fieldName: "alertTime"
+                },
+                comment: "",
+                customerId: "",
+                vehicleID: ""
+            }
+        })
+    }
+
+    goToAlert = () =>{
+        this.props.navigation({
+            type: "RESET_ALERT_MAIN_PAGE",
+            payload: {
+                alertId: Number(this.state.alertId),
+                alertName: "",
+                alertType: this.state.alertType,
+                pagination: {
+                    pageNumber: 1,
+                    pageSize: 10
+                },
+                sort: {
+                    direction: "descend",
+                    fieldName: "alertTime"
+                },
+                comment: "",
+                customerId: "",
+                vehicleID: ""
+            }
+        })
+    }
     render() {
         return (
             <div className="connectm-AlertDetail">
                 <Breadcrumb separator=">" className={"connectm-breadcrum"}>
-                    <Breadcrumb.Item href=""><Link to={"/"} className="link">Home</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item href="" ><Link to={"/"} className="link"><span>{this.state.activeAlertType}</span></Link></Breadcrumb.Item>
+                    <Breadcrumb.Item href=""><Link to={"/"} className="link" onClick={this.goToHome}>Home</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item href="" ><Link to={"/"} className="link" onClick={this.goToAlert}><span>{this.state.activeAlertType}</span></Link></Breadcrumb.Item>
                     <Breadcrumb.Item href={""} ><span className={"breadcrum-active"}>Alert Details</span></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className={"connectm-alert-detail-container"}>
                     <div className={"alert-top-container"}>
-                        <AlertDetailSingle alertId={this.state.alertId} alertType={this.state.alertType} />
+                        <AlertDetailSingle alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.alertCleared} />
                         <AlertGraph alertName={this.state.alert.alertName}
-                            vehicleId={"12324"} alertCleared={false} alertId={Number(this.state.alertId)} />
+                            vehicleId={"12324"} alertCleared={this.state.alertCleared} alertId={Number(this.state.alertId)} />
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>
@@ -81,7 +137,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             {/* <div className={"connectm-header"}>
                                 <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
                             </div> */}
-                            <AlertPastTable alertId={this.state.alertId} alertType={this.state.alertType} />
+                            <AlertPastTable alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.state.alertCleared} />
                         </div>
                     </div>
                 </div>

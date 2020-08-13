@@ -38,23 +38,24 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
     }
 
     static getDerivedStateFromProps(props: AlertGraphProps, state: AlertGraphStates) {
-        console.log("action dispached", props.alertName);
-
-        const alertTypeId = getAlertTypeId(props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
-        if (state.dataLoaded == false) {
-            props.getAlertGraph({
-                type: "GET_ALERT_GRAPH",
-                payload: {
-                    alertId: props.alertId!,
-                    vehicleId: props.vehicleId!,
-                    alertName: props.alertName!,
-                    alertTypeId: alertTypeId
-                }
-            })
-            state.dataLoaded = true
+        let alertTypeId: number
+        if (props.alertName != undefined) {
+            alertTypeId = getAlertTypeId(props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
+            if (state.dataLoaded == false || alertTypeId != state.alertTypeId) {
+                props.getAlertGraph({
+                    type: "GET_ALERT_GRAPH",
+                    payload: {
+                        alertId: props.alertId!,
+                        vehicleId: props.vehicleId!,
+                        alertName: props.alertName!,
+                        alertTypeId: alertTypeId
+                    }
+                })
+                state.dataLoaded = true
+            }
+            state.alertTypeId = alertTypeId
         }
-        state.data = props.graphs[alertTypeId]
-        state.alertTypeId = alertTypeId
+        state.data = props.graphs[alertTypeId!]
         return state
     }
     render() {

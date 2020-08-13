@@ -1,5 +1,5 @@
-import { IAlertDetailActions, AlertDetailActions, IPastAlertDetailActions } from "../actions/alert-detail";
-import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert } from "../redux/models"
+import { IAlertDetailActions, AlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction } from "../actions/alert-detail";
+import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert, AlertData, TAlertType } from "../redux/models"
 import axios from "axios"
 import { put } from "redux-saga/effects";
 
@@ -26,6 +26,15 @@ export type Store_UpdatePastAlert = {
         sort: TSort,
         pagination: TPagination,
         alertId: number,
+    }
+}
+
+export type Store_UpdateSingleAlert = {
+    type: "STORE_UPDATE_SINGLE_ALERT",
+    payload: {
+        alertType: TAlertType
+        alertId: string,
+        alertData: AlertData
     }
 }
 
@@ -59,6 +68,11 @@ export function* updatePastAlertData(params: IPastAlertDetailActions) {
             alertId: params.payload.alertId
         }
     } as Store_UpdatePastAlert)
+}
+
+export async function getSingleAlertDetail(params: ISingleAlertDetailAction) {
+    const data = await getSingleAlert(params)
+    return data
 }
 
 async function getAdditionalInsights(params: IAlertDetailActions) {
@@ -98,6 +112,13 @@ async function getPastAlerts() {
     )
 }
 
+//need to change
+///alertDetails/
+async function getSingleAlert(params: ISingleAlertDetailAction) {
+    const response = await axios.get(process.env.REACT_APP_WEBAPIURL + '/alertDetails/' + params.payload.alertId)
+    return response.data.body as AlertData
+}
+
 function pastAlertDataGenerator(params: IAlertDetailActions) {
     let datas: TPastAlertData[] = []
     for (var i = 110; i < 130; i++) {
@@ -113,7 +134,6 @@ function pastAlertDataGenerator(params: IAlertDetailActions) {
     const pastAlert: TPastAlert = {
         dataCount: 130 - 110,
         data: datas
-
     }
     return pastAlert
 }
