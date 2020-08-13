@@ -250,7 +250,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     /**Navigation */
     onRowClick = (record: any) => {
         console.log(record)
-        this.props.history.push("/" + record.alertId);
+        this.props.history.push("/" + this.state.alertType + "/" + record.alertId);
     }
 
     onRow = (record: any, rowIndex: any) => {

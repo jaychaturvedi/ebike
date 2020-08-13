@@ -176,7 +176,7 @@ async function getBmsAlert(params: IAlertActions) {
 
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
-            alertType: "smart",
+            alertType: "bms",
             pageSize: params.payload.pagination.pageSize,
             pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
@@ -187,7 +187,7 @@ async function getBmsAlert(params: IAlertActions) {
 async function getMcAlert(params: IAlertActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
-            alertType: "smart",
+            alertType: "mc",
             pageSize: params.payload.pagination.pageSize,
             pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
@@ -211,7 +211,7 @@ async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
 async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
     const bmsFilter: FilterAlertRequest = {
         ...requestPayload,
-        alertType: "smart"
+        alertType: "bms"
     }
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         bmsFilter, { headers: { 'Content-Type': 'application/json' } }
@@ -222,7 +222,7 @@ async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
 async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
     const mcFilter: FilterAlertRequest = {
         ...requestPayload,
-        alertType: "smart"
+        alertType: "mc"
     }
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         mcFilter, { headers: { 'Content-Type': 'application/json' } }
@@ -230,33 +230,7 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
     return response.data.body
 }
 
-async function lowMileageGraph() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-            alertName: "voltage deviation",
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
-}
 
-async function batteryCellGraph() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/batteryCell',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
-}
-
-async function vehicleUsageGraph() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/vehicleUsage',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
-}
 
 
 /**

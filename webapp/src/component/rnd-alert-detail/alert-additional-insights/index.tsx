@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import { mapStateToProps, ReduxAlertDetailActions,
      ReduxAlertDetailState, mapDispatchToProps } from '../../../connectm-client/actions/alert-detail';
 import { alertInsightsLimpData } from '../../../connectm-client/redux/connectm-state';
-import { TAlertInsights } from '../../../connectm-client/redux/models';
+import { TAlertInsights, TAlertType } from '../../../connectm-client/redux/models';
 interface AlertInsightsProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string
+    alertType : TAlertType
 }
 interface AlertInsightsStates {
     insights: TAlertInsights;
@@ -24,7 +25,7 @@ class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsState
     }
     static getDerivedStateFromProps(props: AlertInsightsProps, state: AlertInsightsStates) {
         if (props.alertId) {
-            const alert = props.alerts[props.alerts.activeAlertTab][props.alertId]
+            const alert = props.alerts[props.alertType][props.alertId]
             if (alert && state.reload == true) {
                 props.getAlertsInsights({
                     type: "GET_ALERTS_INSIGHTS",
