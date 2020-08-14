@@ -1,27 +1,19 @@
 import express, { Application, Request, Response, NextFunction } from "express";
-import { validationResult, body, param } from "express-validator";
+import { validationResult, body, param, query } from "express-validator";
 import Issues from "./service"
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import { createIssues, closeIssues, paginate } from "./controller";
 const app = express.Router()
 
-app.get('/all', expressQAsync(secure),
+app.get('/all/', expressQAsync(secure),
+    [query('pageNo', "pageNo. be empty").optional().toInt().isLength({ min: 1 }),
+    query('pageSize', "pageSize is empty").optional().toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const issue = await Issues.findAllWhere({})
-        const response = createResponse("OK", issue, undefined)
-        res.send(response)
-    })
-)
-//get open or closed jobs
-app.post('/jobs/', expressQAsync(secure),
-    [body('pageNo', "can't be empty").toInt().isLength({ min: 1 }),
-    body('pageSize', "can't be empty").toInt().isLength({ min: 1 }),
-    body('status', "can't be empty").toInt().isLength({ min: 1 }), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const status = req.body.status ? 1 : 0
-        const { pageNo, pageSize } = req.body
-        const issue = await paginate(pageNo, pageSize, { status })
-        const response = createResponse("OK", issue, undefined)
+        const status = req.params.status ? 1 : 0
+        const { pageNo, pageSize } = req.query as any
+        const open = await paginate(pageNo as number, pageSize as number, { status: 0 })
+        const closed = await paginate(pageNo as number, pageSize as number, { status: 1 })
+        const response = createResponse("OK", { open, closed }, undefined)
         res.send(response)
     })
 )

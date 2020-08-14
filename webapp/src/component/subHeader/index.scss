@@ -114,24 +114,55 @@
         background-color: $APP_BACKGROUND !important;
         color: #ffffff !important;
     }
-    // border-bottom: 1px solid #ffffff !important;
+
+    .ant-input-affix-wrapper {
+        color: #ffffff !important;
+        border: none !important;
+        border-bottom: 1px solid #ffffff !important;
+    }
+    .ant-input-affix-wrapper-focused {
+        color: #ffffff !important;
+        border: none !important;
+        border-color: $APP_BACKGROUND !important;
+        outline: none !important;
+        border-bottom: 1px solid $ACTIVE !important;
+        box-shadow: none !important;
+        .ant-input-prefix {
+            color: $ACTIVE !important;
+        }
+    }
 }
-.ant-input-affix-wrapper {
+
+.search-background-color-active {
+    background-color: $APP_BACKGROUND !important;
     color: #ffffff !important;
-    border: none !important;
-    border-bottom: 1px solid #ffffff !important;
-}
-.ant-input-affix-wrapper-focused {
-    color: #ffffff !important;
-    border: none !important;
-    border-color: $APP_BACKGROUND !important;
-    outline: none !important;
-    border-bottom: 1px solid $ACTIVE !important;
-    box-shadow: none !important;
+    min-height: 32px;
+    margin-left: 0.2%;
+    input {
+        background-color: $APP_BACKGROUND !important;
+        color: $ACTIVE !important;
+    }
+    .ant-input-affix-wrapper {
+        color: #ffffff !important;
+        border: none !important;
+        border-bottom: 1px solid $ACTIVE !important;
+    }
+    .ant-input-affix-wrapper-focused {
+        color: #ffffff !important;
+        border: none !important;
+        border-color: $APP_BACKGROUND !important;
+        outline: none !important;
+        border-bottom: 1px solid $ACTIVE !important;
+        box-shadow: none !important;
+        .ant-input-prefix {
+            color: $ACTIVE !important;
+        }
+    }
     .ant-input-prefix {
         color: $ACTIVE !important;
     }
 }
+
 //search
 .apply-button {
     background-color: $APPLY_BUTTON !important;

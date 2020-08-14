@@ -1,5 +1,5 @@
 import * as Express from "express";
-import { validationResult, body } from "express-validator";
+import { validationResult, body, query, param } from "express-validator";
 import { createResponse } from "../helper";
 import WebAPI from "../externalApi/webapp";
 
@@ -29,7 +29,7 @@ function secure(
     next: Express.NextFunction
 ) {
     // Authenticate requests
-    console.log("webapp req secure", req);
+    // console.log("webapp req secure", req);
     next();
 }
 
@@ -40,29 +40,29 @@ function expressErrorHandler(
     next: Express.NextFunction
 ) {
     res.status(500);
-    res.json({
-        status: "Error",
-    });
+    res.json(err);
     next();
 }
 
 //dashboard main alerts
 app.post('/mainAlerts', expressQAsync(secure),
-    [body('alertType', "name is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "name is too short").isString().isLength({ min: 1 }),
     body("pageNo", "Email is invalid").toInt(),
     body("pageSize", "Email is invalid").toInt(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
         const { alertType, pageNo, pageSize } = req.body
+        console.log("Start zelp API", new Date())
         const updated = await WebAPI.mainAlerts(alertType, pageNo, pageSize)
         const response = createResponse("OK", updated, undefined)
+        console.log("End zelp API", new Date())
         res.json(response)
     })
 )
 //
 app.post('/totalAlerts', expressQAsync(secure),
-    [body('alertType', "name is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "name is too short").isString().isLength({ min: 1 }),
     body("startDate", "Email is invalid").isString(),
     body("endDate", "Email is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
@@ -76,7 +76,7 @@ app.post('/totalAlerts', expressQAsync(secure),
 )
 
 app.post('/topFive', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
@@ -90,7 +90,7 @@ app.post('/topFive', expressQAsync(secure),
 )
 
 app.post('/locationWise', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
@@ -104,7 +104,7 @@ app.post('/locationWise', expressQAsync(secure),
 )
 
 app.post('/dashFilter', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 3 }),
+    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("alertName", "startDate is invalid").isString(),
     body("startDate", "startDate is invalid").optional().isString(),
     body("endDate", "endDate is invalid").optional().isString(),
@@ -134,7 +134,7 @@ app.post('/dashFilter', expressQAsync(secure),
 
 app.post('/additionalInsight', expressQAsync(secure),
     [body("vehicleId", "startDate is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 3 }),
+    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
     body("customerId", "startDate is invalid").optional().isString(),
     body("alertName", "alertName is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
@@ -149,7 +149,7 @@ app.post('/additionalInsight', expressQAsync(secure),
 
 app.post('/pastAlerts', expressQAsync(secure),
     [body("vehicleId", "startDate is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 3 }),
+    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
     body("customerId", "startDate is invalid").optional().isString(),
     body("alertName", "alertName is invalid").isString(),
     body("pageNo", "Email is invalid").toInt(),
@@ -179,19 +179,45 @@ app.post('/clearAlert', expressQAsync(secure),
     })
 )
 
-app.post('/lowMileage', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
-    body("alertName", "alertName is invalid").isString(), validate],
+app.get('/lowMileage', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").optional().isString(),
+    query('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
+    query("alertName", "alertName is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        const { vehicleId, alertId, alertName } = req.body
+        const { vehicleId, alertId, alertName } = req.query as any
         const result = await WebAPI.lowMileageGraph(vehicleId, alertId, alertName)
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
+app.get('/graphs', expressQAsync(secure),
+    [query("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
+    query('alertTypeId', "alertId is too short").toInt(),
+    query('alertId', "alertId is too short").toInt(),
+    query('alertName', "alertId is too short").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Express.Request,
+        res: Express.Response,
+        next: Express.NextFunction) => {
+        const { vehicleId, alertId, alertName, alertTypeId } = req.query as any
+        const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName)
+        const response = createResponse("OK", result, undefined)
+        res.json(response)
+    })
+)
+
+app.get('/alertDetails/:alertId', expressQAsync(secure),
+    [param('alertId', "alertId is too short").toInt(), validate],
+    expressQAsync(async (req: Express.Request,
+        res: Express.Response,
+        next: Express.NextFunction) => {
+        const result = await WebAPI.getAlertDetails(req.params.alertId as any as number)
+        const response = createResponse("OK", result, undefined)
+        res.json(response)
+    })
+)
+
 
 app.post('/batteryCell', expressQAsync(secure),
     [body("vehicleId", "vehicleId is invalid").optional().isString(),

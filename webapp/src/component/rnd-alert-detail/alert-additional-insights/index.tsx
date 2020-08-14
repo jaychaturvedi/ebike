@@ -2,42 +2,31 @@ import './index.scss';
 import { Layout } from "antd";
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { mapStateToProps, ReduxAlertDetailActions, ReduxAlertDetailState, mapDispatchToProps } from '../../../connectm-client/actions/alert-detail';
-import { TAlertInsights } from '../../../connectm-client/redux/connectm-state';
-
-const limpInsight: TAlertInsights = {
-    avgMileageInKm: "N/A",
-    avgRangeRideInKm: "N/A",
-    ridesPerMnthInKm: "N/A",
-    totalDistInKm: "N/A",
-    utilization: "N/A"
-}
-
+import { mapStateToProps, ReduxAlertDetailActions,
+     ReduxAlertDetailState, mapDispatchToProps } from '../../../connectm-client/actions/alert-detail';
+import { alertInsightsLimpData } from '../../../connectm-client/redux/connectm-state';
+import { TAlertInsights, TAlertType } from '../../../connectm-client/redux/models';
 interface AlertInsightsProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string
+    alertType : TAlertType
 }
-
 interface AlertInsightsStates {
-    insights: TAlertInsights
+    insights: TAlertInsights;
+    reload: boolean
 }
 
 class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsStates> {
     constructor(props: AlertInsightsProps) {
         super(props)
         this.state = {
-            insights: {
-                avgMileageInKm: "N/A",
-                avgRangeRideInKm: "N/A",
-                ridesPerMnthInKm: "N/A",
-                totalDistInKm: "N/A",
-                utilization: "N/A"
-            }
+            insights: alertInsightsLimpData(),
+            reload: true
         }
     }
     static getDerivedStateFromProps(props: AlertInsightsProps, state: AlertInsightsStates) {
         if (props.alertId) {
-            const alert = props.alerts[props.alerts.activeAlertTab][props.alertId]
-            if (alert) {
+            const alert = props.alerts[props.alertType][props.alertId]
+            if (alert && state.reload == true) {
                 props.getAlertsInsights({
                     type: "GET_ALERTS_INSIGHTS",
                     payload: {
@@ -51,10 +40,11 @@ class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsState
                         vehicleID: alert.frameId
                     }
                 })
+                state.reload = false
             }
-            state.insights = props.alertInsights !== undefined ? props.alertInsights : limpInsight
+            state.insights = props.alertInsights !== undefined ? props.alertInsights : alertInsightsLimpData()
         } else {
-            state.insights = limpInsight
+            state.insights = alertInsightsLimpData()
         }
         return state
     }

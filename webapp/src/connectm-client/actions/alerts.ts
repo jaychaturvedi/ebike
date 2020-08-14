@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
-import { State, TAlertType, TSort, TPagination, TFilter } from "../redux/connectm-state";
-
+import {  TAlertType, TSort, TPagination, TFilter } from "../redux/models";
+import { State} from "../redux/connectm-state"
 export type AlertActions = "GET_ALERTS" | "UPDATE_ACTIVE_ALERT" | "UPDATE_FILTER"
 
 export interface AlertTypePayload {

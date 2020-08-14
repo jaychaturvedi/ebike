@@ -18,6 +18,9 @@
     display: flex;
     align-items: center;
   }
+  .recharts-layer.recharts-brush-traveller{
+    cursor: pointer !important;
+  }
 
 
   .recharts-responsive-container {
@@ -26,6 +29,7 @@
     // font-size: 12px;
     background-color: $GRAPH_BACKGROUND;
 
+ 
     .recharts-rectangle {
       height: 40px;
       box-sizing: border-box;

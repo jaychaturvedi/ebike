@@ -44,17 +44,17 @@ export async function endRide(rideId: string) {
 
 export async function rideDetail(frameId: string, startTime: string, endTime: string) {
   const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
-  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),
-  Ride.findOneWhere({ frameId, startTime, endTime })])
+  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),])
+  // Ride.findOneWhere({ frameId, startTime, endTime })])
   if (!ride[0].fid) throw new RideError("couldn't end ride");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = ride[0]
   const gpsPath = ride[1]
-  const { rating } = ride[2]
+  // const { rating } = ride[2]
   return {
     frameId, distance, duration, averageSpeed,
-    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime, gpsPath, rating
+    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime, gpsPath, rating: 3
   }
 }
 

@@ -18,17 +18,16 @@ dotenv.config()
 
 const app = express();
 app.use(cors());
-app.use(bodyparser.json());
+// app.options('/*', cors())
+// app.use(bodyparser.json());
 // app.use("/user", userRoutes)
 // app.use("/bike", bikeRoutes)
-// app.use("./feature", featuresRoutes)
+// // app.use("./feature", featuresRoutes)
 // app.use("/feedback", feedbackRoutes)
 // app.use("/ride", ridesRoutes)
 // app.use("/service", serviceRoutes)
 // app.use("/support", supportRoutes)
 // app.use("/webV1", webappRoutes)
-
-
 // const PORT = Number(process.env.SPORT) || 5000;
 // db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
@@ -76,7 +75,7 @@ module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context
 };
 
 module.exports.webapp = async (event: APIGatewayProxyEvent, context: Context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+    // context.callbackWaitsForEmptyEventLoop = false;
     app.use("/webV1", webappRoutes)
     const webapp = serverless(app);
     console.log("connecting")
@@ -87,7 +86,9 @@ module.exports.webapp = async (event: APIGatewayProxyEvent, context: Context) =>
         console.log("connecting")
         await db.sync({ alter: true, force: false });
     }
+    console.log("Start Result", new Date())
     const result = await webapp(event, context);
+    console.log("Return Result ", new Date())
     return result;
 };
 

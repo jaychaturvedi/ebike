@@ -23,7 +23,7 @@ export default class VehicleInfoTile extends React.PureComponent<Props, State>{
                                     <Text style={{
                                         color: '#000000', fontWeight: 'bold',
                                         fontSize: scale(16), textDecorationLine: 'underline',
-                                    }} key={index}>{value}
+                                    }} key={index} numberOfLines={1}>{value}
                                     </Text>
                                 )
                             })

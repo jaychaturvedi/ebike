@@ -10,7 +10,7 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: us-east-2
-  memorySize: 128
+  memorySize: 2048
   environment: 
     DB: postgres
     PG_USER: postgres

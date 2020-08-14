@@ -20,7 +20,7 @@ class Content extends PureComponent<ContentProp, ContentState>{
                 <LeftPanel />
                 <Switch>
                     <Route exact path="/" component={HomePage} />
-                    <Route exact path="/:id" component={AlertDetail} />
+                    <Route exact path="/:alertType/:id" component={AlertDetail} />
                 </Switch>
             </Layout.Content>
         </>

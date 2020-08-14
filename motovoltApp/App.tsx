@@ -40,41 +40,57 @@ interface ReduxState {
 
 interface Props extends ReduxState { }
 
-class App extends React.PureComponent<Props, {}> {
+interface State {
+  isInitialised: boolean;
+}
+
+class App extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      isInitialised: false,
+    };
+  }
+
   componentDidMount() {
-    console.log("In component did mount")
-    fetchCredentials().then(async (cred) => {
-      if (cred) {
-        const response = await signIn(cred.username, cred.password);
-        if (response.success) {
-          //Fetch user from backend and update isBikeRegistered , isPhoneValidated 
-          console.log("Response ", response);
-          const user = await getUser();
-          console.log("Initial User : ", user);
+    console.log('In component did mount');
+    return fetchCredentials()
+      .then(async (cred) => {
+        console.log('Cred', cred);
+        if (cred) {
+          const response = await signIn(cred.username, cred.password);
+          console.log(response);
+          if (response.success) {
+            //Fetch user from backend and update isBikeRegistered , isPhoneValidated
+            console.log('Response ', response);
+            const user = await getUser();
+            console.log('Initial User : ', user);
+            this.props.updateUser({
+              type: 'Store_UpdateUser',
+              payload: {
+                isLoggedIn: true,
+                isPhoneValidated:
+                  response.user.attributes.phone_number_verified,
+                id: user.uid,
+                email: user.email,
+                name: user.fullName,
+                phone: user.phone,
+                defaultBikeId: user.frameId,
+                isBikeRegistered: Boolean(user.frameId),
+              },
+            });
+          }
+        } else {
           this.props.updateUser({
             type: 'Store_UpdateUser',
             payload: {
-              isLoggedIn: true,
-              isPhoneValidated: response.user.attributes.phone_number_verified,
-              id: user.uid,
-              email: user.email,
-              name: user.fullName,
-              phone: user.phone,
-              defaultBikeId: user.frameId,
-              isBikeRegistered: Boolean(user.frameId),
+              isLoggedIn: false,
             },
           } as Store_UpdateUser);
         }
-      } else {
-        this.props.updateUser({
-          type: 'Store_UpdateUser',
-          payload: {
-            isLoggedIn: false,
-          },
-        });
-      }
-      SplashScreen.hide();
-    });
+        SplashScreen.hide();
+      })
+      .catch(console.log);
   }
 
   componentDidCatch() {
@@ -82,9 +98,12 @@ class App extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    return this.props.user.isBikeRegistered === false ? <Registration /> :
-      this.props.user.isLoggedIn ? <FooterNavigation /> : <Onboarding />;
-    // return <FooterNavigation />
+    if (!this.props.user.isLoggedIn) return <Onboarding />;
+    return this.props.user.isBikeRegistered === false ? (
+      <Registration />
+    ) : (
+        <FooterNavigation />
+      );
   }
 }
 
@@ -98,7 +117,7 @@ export default connect(
     return {
       updateUser: (params: Store_UpdateUser) => dispatch(params),
       signInUser: (params: SignIn) => dispatch(params),
-      getUser: (params: ReadUser) => dispatch(params)
+      getUser: (params: ReadUser) => dispatch(params),
     };
   },
 )(App);

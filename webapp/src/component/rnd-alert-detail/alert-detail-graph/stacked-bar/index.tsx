@@ -3,66 +3,52 @@ import { Layout, Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
     XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, BarChart, Bar, ReferenceLine, Cell, Brush
-} from 'recharts';
+} from 'recharts'
 import { FileExcelFilled } from '@ant-design/icons';
+import { mapDispatchToProps, mapStateToProps, ReduxAlertGraphActions, ReduxAlertGraphState } from "../../../../connectm-client/actions/graph"
+import { connect } from 'react-redux';
+// import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
+
 const data1 = [
-    {
-        name: '29 June', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: '30th', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: '1st July', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: '2nd', uv: 3000, pv: 1398, amt: 2210,
-    },
-    {
-        name: '3rd', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: '4th', uv: 2780, pv: 3908, amt: 2000,
-    },
-    {
-        name: '5th', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: '6th', uv: 2390, pv: 3800, amt: 2500,
-    },
-    {
-        name: '7th', uv: 3490, pv: 4300, amt: 2100,
-    },
-    {
-        name: '8th', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: '9th', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: '10th', uv: 2780, pv: 0, amt: 2000, color: 'red'
-    },
-    {
-        name: '11th', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: '12th', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: '13th', uv: 2780, pv: 3908, amt: 2000,
-    },
-    {
-        name: '14th', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: '15th', uv: 3490, pv: 4300, amt: 2100,
-    },
+    { name: '29 June', uv: 4000, pv: 2400, amt: 2400, },
+    { name: '30th', uv: 4000, pv: 2400, amt: 2400, },
+    { name: '1st July', uv: 4000, pv: 2400, amt: 2400, },
+    { name: '2nd', uv: 3000, pv: 1398, amt: 2210, },
+    { name: '3rd', uv: 2000, pv: 9800, amt: 2290, },
+    { name: '4th', uv: 2780, pv: 3908, amt: 2000, },
+    { name: '5th', uv: 1890, pv: 4800, amt: 2181, },
+    { name: '6th', uv: 2390, pv: 3800, amt: 2500, },
+    { name: '7th', uv: 3490, pv: 4300, amt: 2100, },
+    { name: '8th', uv: 1890, pv: 4800, amt: 2181, },
+    { name: '9th', uv: 2000, pv: 9800, amt: 2290, },
+    { name: '10th', uv: 2780, pv: 0, amt: 2000, color: 'red' },
+    { name: '11th', uv: 1890, pv: 4800, amt: 2181, },
+    { name: '12th', uv: 2000, pv: 9800, amt: 2290, },
+    { name: '13th', uv: 2780, pv: 3908, amt: 2000, },
+    { name: '14th', uv: 1890, pv: 4800, amt: 2181, },
+    { name: '15th', uv: 3490, pv: 4300, amt: 2110, },
 ];
 
-interface CellBatteryGraphProps { }
+interface StackedGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState {
+    data: any
+}
 
-interface CellBatteryGraphStates { }
-class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryGraphStates> {
+interface StackedGraphStates {
+    reload: boolean,
+    // lowMileage: TlowMileageGraph,
+    // vehicleUsage: TvehicleUsageGraph
+}
+class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> {
+
+    constructor(props: StackedGraphProps) {
+        super(props);
+        this.state = {
+            reload: true,
+            // lowMileage: { data: [] },
+            // vehicleUsage: { data: [] }
+
+        }
+    }
     DynamicLabel = (props: any) => {
         return (
             <text
@@ -77,7 +63,22 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             </text>
         );
     }
-
+    static getDerivedStateFromProps(props: StackedGraphProps, state: StackedGraphStates) {
+        // if (state.reload) {
+        //     const data = props.getAlertGraph({
+        //         type: "GET_LOW_MILEAGE",
+        //         payload: {
+        //             alertId: 123,
+        //             alertName: "voltage deviation",
+        //             vehicleId: "069bcc081a68a0832f123"
+        //         }
+        //     })
+        //     state.reload = false;
+        // }
+        // state.lowMileage = props.lowMileage
+        // state.vehicleUsage = { data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        return state
+    }
     render() {
         return (
             <div className="connectm-AlertDetailGraph">
@@ -95,17 +96,25 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                             style={{ fontSize: '8px' }}>
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
-                            <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} />
+                            <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} >
+                                <Label position='bottom' offset={-5} fill="#ffffff"
+                                    style={{
+                                        fontSize: '10px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                    }} value="Days">
+                                </Label>
+                            </XAxis>
                             <YAxis tick={{ fill: 'white' }} domain={[5, 'auto']} stroke='#ffffff' >
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value="Mileage (KM)">
+                                        fontSize: '10px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                    }} value="Usage (in Hrs)">
                                 </Label>
                             </YAxis>
+
                             <Brush
                                 dataKey='name'
                                 fill="#131731"
+                                y={255}
                                 height={20}
                                 stroke="#3C4473"
                                 startIndex={0}
@@ -148,4 +157,4 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
 
 }
 
-export default CellBatteryGraph;
+export default connect(mapStateToProps, mapDispatchToProps)(StackedGraph);

@@ -1,6 +1,7 @@
-import { IAlertTrendActions, AlertTrendsActions } from "../actions/trends"
-import { TtrendTop5Alert, TtrendTotalAlerts, TtrendLocationWise } from "../redux/connectm-state"
+import { IAlertTrendActions, AlertTrendsActions, IAlertUpdateActions } from "../actions/trends"
+import { TtrendTop5Alert, TtrendTotalAlerts, TtrendLocationWise } from "../redux/models"
 import axios from "axios"
+import { put } from "redux-saga/effects"
 export type Store_GetAlertTrends = {
     type: AlertTrendsActions,
     payload: {
@@ -10,10 +11,32 @@ export type Store_GetAlertTrends = {
     }
 }
 
+export type Store_UpdateALertTrends = {
+    type: "STORE_ALERT_UPDATE_TRENDS",
+    payload: {
+        trendTop5Alert: TtrendTop5Alert,
+        trendLocationWise: TtrendLocationWise,
+        trendTotalAlert: TtrendTotalAlerts[],
+        trendsZoom: number
+    }
+}
+
 export type TAlertsTrendData = {
     trendTop5Alert: TtrendTop5Alert,
     trendLocationWise: TtrendLocationWise,
     trendTotalAlert: TtrendTotalAlerts[]
+}
+
+export function* updateAlertTrend(params: IAlertUpdateActions) {
+    yield put({
+        type: "STORE_ALERT_UPDATE_TRENDS",
+        payload: {
+            trendsZoom: params.payload.trendsZoom,
+            trendTotalAlert: params.payload.trendTotalAlert,
+            trendTop5Alert: params.payload.trendTop5Alert,
+            trendLocationWise: params.payload.trendLocationWise
+        }
+    } as Store_UpdateALertTrends)
 }
 
 export async function getAlertTrends(params: IAlertTrendActions) {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import { Text } from 'native-base';
-import { scale, verticalScale } from '../../../styles/size-matters';
+import {View, StyleSheet, Dimensions} from 'react-native';
+import {Text} from 'native-base';
+import {scale, verticalScale} from '../../../styles/size-matters';
 import Colors from '../../../styles/colors';
 import FontWeight from '../../../styles/font-weight';
 
@@ -22,17 +22,17 @@ const styles = StyleSheet.create({
   },
   metric: {
     fontWeight: FontWeight.BOLD,
-    fontSize: 36,
+    fontSize: scale(36),
   },
   unit: {
-    fontSize: 20,
+    fontSize: scale(20),
   },
   body: {
     padding: scale(2),
     alignItems: 'center',
   },
   bodyText: {
-    fontSize: 12,
+    fontSize: scale(12),
     opacity: 0.75,
   },
 });
@@ -48,7 +48,7 @@ export default function MetricTile(props: MetricTypeProps) {
   return (
     <View style={styles.tile}>
       <View style={styles.heading}>
-        <Text>
+        <Text numberOfLines={1}>
           <Text style={styles.metric}>{props.value}</Text>
           <Text style={styles.unit}> {props.unit}</Text>
         </Text>

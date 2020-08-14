@@ -1,9 +1,10 @@
 import { IAlertActions } from "../actions/alerts";
-import { AlertData, TAlertType, TSort, TPagination, TFilter, Alert } from "../redux/connectm-state"
+import { AlertData, TAlertType, TSort, TPagination, TFilter, Alert } from "../redux/models"
 import { put } from "redux-saga/effects";
 import moment from "moment";
 import axios from "axios"
 import * as dotenv from "dotenv"
+import { searchKeyField } from "../util/search";
 dotenv.config()
 type FilterAlertRequest = {
     vehicleID?: string,
@@ -135,8 +136,26 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         }
         return request;
     }
+    if (params.payload.filter.fieldName == "search") {
+        let key = "";
+        const searchString = params.payload.filter.value
+        const searchStringSub = searchString.slice(0, 3)
+        console.log("search string", searchString, "Search sub", searchStringSub)
+        key = searchKeyField(searchStringSub)
+        if (key.length > 0) {
+            request = {
+                [key]: params.payload.filter.value,
+                alertType: params.payload.alertType,
+                page: params.payload.pagination.pageNumber,
+                pageSize: params.payload.pagination.pageSize
+            }
+            console.log(request);
 
+            return request
+        }
+    }
 }
+
 
 async function getSmartAlert(params: IAlertActions) {
     console.log('envvv', process.env.REACT_APP_WEBAPIURLC);
@@ -157,7 +176,7 @@ async function getBmsAlert(params: IAlertActions) {
 
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
-            alertType: "smart",
+            alertType: "bms",
             pageSize: params.payload.pagination.pageSize,
             pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
@@ -168,7 +187,7 @@ async function getBmsAlert(params: IAlertActions) {
 async function getMcAlert(params: IAlertActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
-            alertType: "smart",
+            alertType: "mc",
             pageSize: params.payload.pagination.pageSize,
             pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
@@ -192,7 +211,7 @@ async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
 async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
     const bmsFilter: FilterAlertRequest = {
         ...requestPayload,
-        alertType: "smart"
+        alertType: "bms"
     }
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         bmsFilter, { headers: { 'Content-Type': 'application/json' } }
@@ -203,7 +222,7 @@ async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
 async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
     const mcFilter: FilterAlertRequest = {
         ...requestPayload,
-        alertType: "smart"
+        alertType: "mc"
     }
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         mcFilter, { headers: { 'Content-Type': 'application/json' } }
@@ -212,78 +231,6 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
 }
 
 
-async function totalAlerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL+'/totalAlerts',
-        {
-            alertType: "smart",
-            startDate: "2020-07-07 10:49:38",
-            endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
-    )
-    console.log(data);
-}
-
-async function top5Alerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/topFive',
-        {
-            alertType: "smart",
-            startDate: "2020-07-07 10:49:38",
-            endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
-    )
-    console.log(data);
-}
-
-async function locationWiseAlerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/locationWise',
-        {
-            alertType: "smart",
-            startDate: "2020-07-07 10:49:38",
-            endDate: "2020-07-08 16:50:38"
-        }, { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
-    )
-}
-
-
-
-async function clearAlert() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/clearAlert',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-            alertName: "voltage deviation",
-            comment: "comment cleared",
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
-}
-
-async function lowMileageGraph() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-            alertName: "voltage deviation",
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
-}
-
-async function batteryCellGraph() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
-}
-
-async function vehicleUsageGraph() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/vehicleUsage',
-        {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-        }, { headers: { 'Content-Type': 'application/json' } }
-    )
-}
 
 
 /**

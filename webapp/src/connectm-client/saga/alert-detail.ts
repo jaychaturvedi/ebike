@@ -1,11 +1,40 @@
-import { IAlertDetailActions, AlertDetailActions } from "../actions/alert-detail";
-import { TPastAlert, TAlertInsights } from "../redux/connectm-state"
+import { IAlertDetailActions, AlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction } from "../actions/alert-detail";
+import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert, AlertData, TAlertType } from "../redux/models"
 import axios from "axios"
+import { put } from "redux-saga/effects";
 
 export type Store_AlertInsights = {
     type: AlertDetailActions,
     payload: {
         alertInsight: TAlertInsights
+    }
+}
+
+export type Store_PastAlert = {
+    type: AlertDetailActions,
+    payload: {
+        pastAlert: TPastAlert,
+        sort: TSort,
+        pagination: TPagination,
+    }
+}
+
+export type Store_UpdatePastAlert = {
+    type: "STORE_UPDATE_PAST_ALERTS",
+    payload: {
+        pastAlert: TPastAlert,
+        sort: TSort,
+        pagination: TPagination,
+        alertId: number,
+    }
+}
+
+export type Store_UpdateSingleAlert = {
+    type: "STORE_UPDATE_SINGLE_ALERT",
+    payload: {
+        alertType: TAlertType
+        alertId: string,
+        alertData: AlertData
     }
 }
 
@@ -22,6 +51,28 @@ export async function postAlertClearanceComment(params: IAlertDetailActions) {
     } catch (error) {
         console.log("post clearance alert error", error)
     }
+}
+
+export async function getPastAlertData(params: IAlertDetailActions) {
+    const pastAlertData = await pastAlertDataGenerator(params)
+    return pastAlertData
+}
+
+export function* updatePastAlertData(params: IPastAlertDetailActions) {
+    yield put({
+        type: "STORE_UPDATE_PAST_ALERTS",
+        payload: {
+            pastAlert: params.payload.pastAlerts,
+            pagination: params.payload.pagination,
+            sort: params.payload.sort,
+            alertId: params.payload.alertId
+        }
+    } as Store_UpdatePastAlert)
+}
+
+export async function getSingleAlertDetail(params: ISingleAlertDetailAction) {
+    const data = await getSingleAlert(params)
+    return data
 }
 
 async function getAdditionalInsights(params: IAlertDetailActions) {
@@ -59,4 +110,30 @@ async function getPastAlerts() {
             pageNo: 1
         }, { headers: { 'Content-Type': 'application/json' } }
     )
+}
+
+//need to change
+///alertDetails/
+async function getSingleAlert(params: ISingleAlertDetailAction) {
+    const response = await axios.get(process.env.REACT_APP_WEBAPIURL + '/alertDetails/' + params.payload.alertId)
+    return response.data.body as AlertData
+}
+
+function pastAlertDataGenerator(params: IAlertDetailActions) {
+    let datas: TPastAlertData[] = []
+    for (var i = 110; i < 130; i++) {
+        datas.push({
+            alertId: String(i),
+            alertTime: i + "-May-2020 10:05AM",
+            tat: "24 hrs " + i + "0 min",
+            vehicleId: "BDS" + i,
+            location: "Bangalore " + i,
+            alertGraph: false
+        })
+    }
+    const pastAlert: TPastAlert = {
+        dataCount: 130 - 110,
+        data: datas
+    }
+    return pastAlert
 }

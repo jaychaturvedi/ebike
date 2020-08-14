@@ -5,6 +5,7 @@ import { TDashboardFilter, TDashboard, TTotalAlert } from './types';
 dotenv.config()
 function createOptions(url: string, body: any,) {
     const uri = process.env.WEBAPPAPI + url
+    console.log("WEBAPPAPI", uri)
     const options = {
         uri,
         body,
@@ -18,9 +19,12 @@ function createOptions(url: string, body: any,) {
 
 export default class WebAPI {
     static async mainAlerts(alertType: string, pageNo: number, pageSize: number) {
+        console.log("Start Yantrs Time", new Date())
         const options = createOptions('/allalerts', { alertType, pageNo, pageSize })
         const fetchedData: TDashboard = await post(options)
+        console.log("End Yantra time", new Date)
         return fetchedData
+
     }
 
     static async totalAlerts(alertType: string, startDate: string, endDate: string) {
@@ -66,11 +70,29 @@ export default class WebAPI {
         return fetchedData
     }
 
-    static async lowMileageGraph(vehicleId: string, alertId: number, alertName: string) {
-        const options = createOptions('/maingraph', { vehicleID: vehicleId, alertId, alertName: "voltage deviation" })
+    static async getDynamicSubGraph(vehicleId: string, alertId: number, alertTypeId: number, alertName: string) {
+        const options = createOptions('/subgraph/dynamic', {
+            vehicleID: vehicleId,
+            alertId,
+            alertTypeId,
+            alertName
+        })
         const fetchedData = await post(options)
         return fetchedData
     }
+
+    static async getAlertDetails(alertId: number) {
+        const options = createOptions('/alertdetails', { alertId })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
+    static async lowMileageGraph(vehicleId: string, alertId: number, alertName: string) {
+        const options = createOptions('/maingraph', { vehicleID: vehicleId, alertId, alertName })
+        const fetchedData = await post(options)
+        return fetchedData
+    }
+
 
     static async batteryCellGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {

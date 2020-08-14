@@ -10,7 +10,7 @@ import { ReactComponent as Search } from "../../assets/search_icon.svg"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
 import { connect } from 'react-redux'
 import moment from 'moment';
-import { TFilter } from '../../connectm-client/redux/connectm-state';
+import { TFilter } from '../../connectm-client/redux/models';
 
 interface SubHeaderProps extends ReduxAlertActions, ReduxAlertState { }
 
@@ -68,6 +68,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: true,
             locationActive: false,
             calenderActive: false,
+            searchText:"",
             applyFilter: {
                 fieldName: "model",
                 value: e.key
@@ -86,6 +87,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: false,
             locationActive: true,
             calenderActive: false,
+            searchText:"",
             applyFilter: {
                 fieldName: "location",
                 value: String(e.key)
@@ -107,6 +109,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
+                    searchText:"",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "As of Now"
@@ -126,6 +129,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
+                    searchText:"",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Last Week"
@@ -145,6 +149,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
+                    searchText : "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Month Till Date"
@@ -198,6 +203,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             calenderActive: true,
             timeFrameVisible: false,
             dateRangeApplied: false,
+            searchText: "",
             applyFilter: {
                 fieldName: "DateRange",
                 value: dateRange
@@ -208,6 +214,18 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
 
     onApplyFilter = () => {
         console.log(moment("2020-07-24 10:13:00").toDate())
+        let filter: TFilter
+        if (this.state.searchText.length > 0) {
+            filter = {
+                fieldName: "search",
+                value: this.state.searchText
+            }
+            this.setState({
+                allSelected : !this.state.allSelected
+            })
+        } else {
+            filter = this.state.applyFilter
+        }
         this.props.alertFilterChanged({
             type: "UPDATE_FILTER",
             payload: {
@@ -217,7 +235,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     pageSize: 10
                 },
                 sort: this.props.alerts.sort,
-                filter: this.state.applyFilter
+                filter: filter
             }
         })
     }
@@ -398,7 +416,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                             <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                         </div>
                     </Dropdown>
-                    <div style={{ width: "27%" }} className={"search-background-color "}>
+                    <div style={{ width: "27%" }} className={`${this.state.searchText.length > 0 ? "search-background-color-active" : "search-background-color"}`}>
                         <Input
                             onChange={this.onSearch}
                             value={this.state.searchText}
