@@ -184,7 +184,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                             tickFormatter={(label) => this.formatDate(label)} />
                         {/* <Tooltip /> */}
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
-                        <Line name="line 1" type="monotone" dataKey="count" stroke="#8884d8" strokeWidth={2} />
+                        <Line name="line 1" type="monotone" dataKey="count" stroke="#8884d8" strokeWidth={2} dot={false} />
                         <Brush padding={{ bottom: 10 }}
                             // dataKey='loc1count'
                             fill="#131731"
@@ -211,10 +211,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                         <Line name={this.state.top5Alerts.lines.alert1} type="monotone" dataKey="alert1count"
                             stroke="orange" strokeWidth={2} dot={false} />
                         <Line name={this.state.top5Alerts.lines.alert2} type="monotone" dataKey="alert2count" stroke="green" strokeWidth={2}
-                            isAnimationActive={true} animationEasing={'ease-in-out'} animationDuration={100} />
-                        <Line name={this.state.top5Alerts.lines.alert3} type="monotone" dataKey="alert3count" stroke="red" strokeWidth={2} />
-                        <Line name={this.state.top5Alerts.lines.alert4} type="monotone" dataKey="alert4count" stroke="yellow" strokeWidth={2} />
-                        <Line name={this.state.top5Alerts.lines.alert5} type="monotone" dataKey="alert5count" stroke="blue" strokeWidth={2} />
+                            isAnimationActive={true} animationEasing={'ease-in-out'} animationDuration={100} dot={false} />
+                        <Line name={this.state.top5Alerts.lines.alert3} type="monotone" dataKey="alert3count" stroke="red" strokeWidth={2} dot={false} />
+                        <Line name={this.state.top5Alerts.lines.alert4} type="monotone" dataKey="alert4count" stroke="yellow" strokeWidth={2} dot={false} />
+                        <Line name={this.state.top5Alerts.lines.alert5} type="monotone" dataKey="alert5count" stroke="blue" strokeWidth={2} dot={false} />
                     </LineChart>
                 </ResponsiveContainer>
 
@@ -232,9 +232,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                             wrapperStyle={{ width: '80%', paddingRight: '50px' }} />
 
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
-                        <Line name={this.state.locationwiseAlerts.lines.loc1} type="monotone" dataKey="loc1count" stroke="#8884d8" strokeWidth={2} />
-                        <Line name={this.state.locationwiseAlerts.lines.loc2} type="monotone" dataKey="loc2count" stroke="red" strokeWidth={2} />
-                        <Line name={this.state.locationwiseAlerts.lines.loc3} type="monotone" dataKey="loc3count" stroke="yellow" strokeWidth={2} />
+                        <Line name={this.state.locationwiseAlerts.lines.loc1} type="monotone" dataKey="loc1count" stroke="#8884d8" strokeWidth={2} dot={false} />
+                        <Line name={this.state.locationwiseAlerts.lines.loc2} type="monotone" dataKey="loc2count" stroke="red" strokeWidth={2} dot={false} />
+                        <Line name={this.state.locationwiseAlerts.lines.loc3} type="monotone" dataKey="loc3count" stroke="yellow" strokeWidth={2} dot={false} />
                     </LineChart>
                 </ResponsiveContainer>
             </div>

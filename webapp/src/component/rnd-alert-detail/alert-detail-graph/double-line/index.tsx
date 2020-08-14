@@ -45,8 +45,8 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
             <text
                 style={{ fontSize: "12px" }}
                 x={props.viewBox.x + props.viewBox.width / 2}
-                y={props.viewBox.y + props.viewBox.height + 5}
-                text-anchor="middle"
+                y={props.viewBox.y + props.viewBox.height - 5}
+                textAnchor="middle"
                 fill="#ffffff"
                 fontFamily='Roboto'>
                 {props.value}
@@ -92,14 +92,14 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                             </ReferenceLine> : ''}
                             {/* <Brush /> */}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            <XAxis dataKey={this.props.dataKey}
+                            <XAxis dataKey={this.props.dataKey} height={35}
                                 ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
                                 domain={[100, 1200]}
                                 tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" padding={{ left: 30, right: 20 }}>
                                 <Label
                                     value={this.props.xAxisLabel}
                                     position="bottom"
-                                    offset={0}
+                                    offset={-18}
                                     style={{ padding: 5 }}
                                     content={props => { return this.DynamicLabel(props) }}
                                 />
@@ -113,7 +113,13 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     }} value={this.props.yAxisLabel}>
                                 </Label>
                             </YAxis>
-
+                            <Brush
+                                dataKey='nocycles'
+                                fill="#131731"
+                                height={12}
+                                stroke="#3C4473"
+                                startIndex={0}
+                                endIndex={10} />
                             <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string}
                                 stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
 

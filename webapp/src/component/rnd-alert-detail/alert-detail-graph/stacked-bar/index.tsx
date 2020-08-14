@@ -96,8 +96,8 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                             style={{ fontSize: '8px' }}>
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
-                            <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} >
-                                <Label position='bottom' offset={-5} fill="#ffffff"
+                            <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} height={35}>
+                                <Label position='bottom' offset={-18} fill="#ffffff"
                                     style={{
                                         fontSize: '10px', textAnchor: 'middle', fontFamily: 'Roboto'
                                     }} value="Days">
@@ -110,12 +110,10 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                     }} value="Usage (in Hrs)">
                                 </Label>
                             </YAxis>
-
                             <Brush
-                                dataKey='name'
+                                dataKey='nocycles'
                                 fill="#131731"
-                                y={255}
-                                height={20}
+                                height={12}
                                 stroke="#3C4473"
                                 startIndex={0}
                                 endIndex={10} />

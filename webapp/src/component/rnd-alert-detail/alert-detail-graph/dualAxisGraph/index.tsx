@@ -25,15 +25,15 @@ const CustomizedDot = (props: any) => {
     );
 
 };
-interface DoubleLineGraphProps {
+interface DualAxisGraphProps {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string, rightYaxis?: boolean, rightYaxisLabel?: string,
 }
 
-interface DoubleLineGraphStates { data: any }
-class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGraphStates> {
-    constructor(props: DoubleLineGraphStates) {
+interface DualAxisGraphStates { data: any }
+class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphStates> {
+    constructor(props: DualAxisGraphStates) {
         super(props);
         this.state = {
             data: props.data
@@ -45,8 +45,8 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
             <text
                 style={{ fontSize: "12px" }}
                 x={props.viewBox.x + props.viewBox.width / 2}
-                y={props.viewBox.y + props.viewBox.height + 5}
-                text-anchor="middle"
+                y={props.viewBox.y + props.viewBox.height - 5}
+                textAnchor="middle"
                 fill="#ffffff"
                 fontFamily='Roboto'>
                 {props.value}
@@ -66,6 +66,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
             { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
             { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
         ];
+
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
@@ -75,68 +76,56 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
                     <ResponsiveContainer width="95%" height="95%">
                         <LineChart
-                            data={testdata}//{this.props.data}
-                            margin={{
+                            data={this.props.data} margin={{
                                 top: 0, right: 0, left: 0, bottom: 0,
-                            }}
-                        >
+                            }}>
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                            {this.props.L1 ? <ReferenceLine y={this.props.L1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
-                                isFront={true} >
-                                <Label position={'insideBottomLeft'} fill="#ffffff"
-                                    style={{
-                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
-                                    }} value="L1">
-                                </Label>
-                            </ReferenceLine> : ''}
-                            {this.props.L2 ? <ReferenceLine y={this.props.L2} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
-                                isFront={true} >
-                                <Label position={'insideBottomLeft'} fill="#ffffff"
-                                    style={{
-                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
-                                    }} value="L2">
-                                </Label>
-                            </ReferenceLine> : ''}
-                            {/* <Brush /> */}
-                            {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            <XAxis dataKey={this.props.dataKey}
-                                ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
-                                domain={[100, 1200]}
+
+                            <XAxis dataKey={this.props.dataKey} height={35}
                                 tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" padding={{ left: 30, right: 20 }}>
                                 <Label
                                     value={this.props.xAxisLabel}
-                                    position="bottom"
-                                    offset={0}
+                                    position={"centerBottom"}
+                                    offset={-22}
                                     style={{ padding: 5 }}
                                     content={props => { return this.DynamicLabel(props) }}
                                 />
                             </XAxis>
-                            <YAxis tick={{ fill: 'white' }} yAxisId="eft"
-                                orientation="left"
-                                ticks={[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]}
-                                padding={{ top: 20, bottom: 30 }} stroke='#ffffff'>
+                            <YAxis tick={{ fill: 'white' }} yAxisId="left" stroke='#ffffff' dataKey={this.props.line1Key as string}>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
                                     }} value={this.props.yAxisLabel}>
                                 </Label>
                             </YAxis>
-
-                            <YAxis tick={{ fill: 'white' }} orientation="right" yAxisId="right"
-                                ticks={[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]}
-                                padding={{ top: 20, bottom: 30 }} stroke='#ffffff'>
-                                <Label angle={270} position='left' offset={-20} fill="#ffffff"
+                            {/* {this.props.L1 ? <ReferenceLine y={this.props.L1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                                isFront={true} >
+                                <Label position={'insideBottomLeft'} fill="#ffffff"
+                                    style={{
+                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                    }} value="L1">
+                                </Label>
+                            </ReferenceLine> : ''} */}
+                            <YAxis tick={{ fill: 'white' }} yAxisId="right" stroke='#ffffff' orientation="right" dataKey={this.props.line1Key as string} >
+                                <Label angle={270} position='right' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
                                     }} value={this.props.rightYaxisLabel}>
                                 </Label>
                             </YAxis>
-                            <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string} yAxisId="left"
+                            <Brush
+                                dataKey='nocycles'
+                                fill="#131731"
+                                height={12}
+                                stroke="#3C4473"
+                                startIndex={0}
+                                endIndex={10} />
+                            <Line yAxisId="left" name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string}
                                 stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
 
-                            <Line name={this.props.line2Name} type="monotone" dataKey={this.props.line2Key as string} yAxisId="right"
-                                stroke={this.props.line2StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L2} />} />
+                            <Line yAxisId="right" name={this.props.line2Name} type="monotone" dataKey={this.props.line2Key as string}
+                                stroke={this.props.line2StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

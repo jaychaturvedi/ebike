@@ -26,6 +26,21 @@ interface AlertGraphStates {
     alertTypeId: number,
     data: any,
 }
+const lowMileageData = [
+    { nocycles: 0, amilage: 30, smilage: 39, },
+    { nocycles: 100, amilage: 39, smilage: 30, },
+    { nocycles: 200, amilage: 15, smilage: 20, },
+    { nocycles: 300, amilage: 35, smilage: 15, },
+    { nocycles: 400, amilage: 13, smilage: 19, },
+    { nocycles: 500, amilage: 39, smilage: 29, },
+    { nocycles: 600, amilage: 14, smilage: 31, },
+    { nocycles: 700, amilage: 20, smilage: 15, },
+    { nocycles: 800, amilage: 26, smilage: 22, },
+    { nocycles: 900, amilage: 25, smilage: 35, },
+    { nocycles: 1000, amilage: 15, smilage: 40, },
+    { nocycles: 1100, amilage: 12, smilage: 12, },
+    { nocycles: 1200, amilage: 40, smilage: 20, },
+];
 
 class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
     constructor(props: AlertGraphProps) {
@@ -55,7 +70,8 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             state.alertTypeId = alertTypeId
         }
-        state.data = props.graphs[alertTypeId!]
+        // state.data = props.graphs[alertTypeId!]
+        state.data = lowMileageData
         return state
     }
     render() {
@@ -83,11 +99,12 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
                 />
             }
             case 5: {
-                return <DualAxisLineGraph dataKey="name" data={this.state.data} L1={25} title="Charging Temperature Trend"
-                    line1Key="uv" line2Key="pv"
+                return <DualAxisLineGraph title="Charging Temperature Trend"
+                    dataKey="nocycles" data={this.state.data} L1={25}
+                    line1Key="amilage" line2Key="smilage"
                     line1Name='Current' line2Name='Charging Temperature (T1 or T2)'
-                    line1StrokeColor="#D48D4F" line2StrokeColor="#79a45b"
-                    refColor="green" xAxisLabel="Time" yAxisLabel="Temperature 'C" rightYaxis={true} rightYaxisLabel="Current (A)" />
+                    line1StrokeColor="#D48D4F" line2StrokeColor="#4aa7cf"
+                    refColor="green" xAxisLabel="Time" yAxisLabel="Temperature 'C" rightYaxisLabel="Current (A)" />
             }
             case 6: {
                 return <SingleLineGraph data={this.state.data} dataKey="nocycles" L1={30} title="Charging Current Trend"

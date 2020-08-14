@@ -48,10 +48,10 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         state.alertType = pathNames[1] as TAlertType
         state.alertId = pathNames[2]
         state.alert = props.alerts[state.alertType][state.alertId]
-        state.activeAlertType = state.alertType == "smart" ?
-            "Smart Alerts" : state.alertType == "bms" ?
+        state.activeAlertType = state.alertType === "smart" ?
+            "Smart Alerts" : state.alertType === "bms" ?
                 "BMS Alerts" : "Motor Controller Alerts"
-        if (state.alert == undefined || Object.keys(state.alert).length == 0) {
+        if (state.alert == undefined || Object.keys(state.alert).length === 0) {
             //get single alert detail
             // state.alert = alertLimpData()
             props.getSingleAlertDetail({
@@ -62,7 +62,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 }
             })
         }
-        state.alert = state.alert == undefined ? alertLimpData() : props.alerts[state.alertType][state.alertId]
+        state.alert = state.alert === undefined ? alertLimpData() : props.alerts[state.alertType][state.alertId]
         return state
     }
 
@@ -91,7 +91,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         })
     }
 
-    goToAlert = () =>{
+    goToAlert = () => {
         this.props.navigation({
             type: "RESET_ALERT_MAIN_PAGE",
             payload: {
