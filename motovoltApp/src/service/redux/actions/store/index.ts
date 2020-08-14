@@ -73,6 +73,7 @@ export type Store_UpdateBike = {
         greenMilesKm?: number,
         petrolSavingsLtr?: number,
         costRecoveredPer?: number,
+        reportIssueSuccess?: boolean
     }
 }
 
@@ -136,6 +137,8 @@ export type Store_SetRideHistory = {
         score?: number,
         petrolSavingsLtr?: number,
         petrolSavingsInr?: number,
+        from?: string,
+        to?: string,
         comment?: string,
         path?: {
             lat: number,
@@ -147,6 +150,22 @@ export type Store_SetRideHistory = {
     }[]
 }
 
+export type Store_SetServices = {
+    type: 'Store_SetServices',
+    payload: {
+        services: {
+            isStale?: boolean,
+            id: string,
+            title?: string,
+            isOpen?: boolean,
+            openDate?: string,
+            closeDate?: string,
+        }[],
+        open: number,
+        closed: number
+    }
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -154,6 +173,7 @@ type Action = Store_UpdateUser
     | Store_UpdateBike
     | Store_UpdateNotification
     | Store_UpdateRide
-    | Store_SetRideHistory;
+    | Store_SetRideHistory
+    | Store_SetServices;
 
 export default Action;

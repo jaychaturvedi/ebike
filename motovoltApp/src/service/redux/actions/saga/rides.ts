@@ -3,6 +3,8 @@ export type ReadRideData = {
     payload: {
         bikeId: string,
         rideId: string,
+        startTime: string,
+        endTime: string
     }
 }
 

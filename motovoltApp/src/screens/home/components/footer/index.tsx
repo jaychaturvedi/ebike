@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
-import {Footer} from 'native-base';
-import {scale} from '../../../../styles/size-matters';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { Footer } from 'native-base';
+import { scale } from '../../../../styles/size-matters';
 import Colors from '../../../../styles/colors';
 import Tab from './tab';
 import RNSwipeVerify from './swipe';
@@ -29,6 +29,7 @@ type State = {
   selectedItem: TFooterItem;
   verifyMode: boolean;
   lockedIcon: boolean;
+  rideId: string,
 };
 
 export default class FooterNav extends React.PureComponent<Props, State> {
@@ -38,6 +39,7 @@ export default class FooterNav extends React.PureComponent<Props, State> {
       selectedItem: 'home',
       verifyMode: false,
       lockedIcon: false,
+      rideId: ''
     };
   }
 
@@ -49,7 +51,8 @@ export default class FooterNav extends React.PureComponent<Props, State> {
   };
 
   onLockClick = () => {
-    this.setState({verifyMode: !this.state.verifyMode});
+    console.log("Lock clicked")
+    this.setState({ verifyMode: !this.state.verifyMode });
   };
 
   onVerfied = () => {
@@ -57,12 +60,13 @@ export default class FooterNav extends React.PureComponent<Props, State> {
       lockedIcon: !this.state.lockedIcon,
       verifyMode: false,
     });
+    console.log("Verified : ", this.state.lockedIcon);
     this.props.onLockVerified(!this.state.lockedIcon);
   };
 
   render() {
     return (
-      <Footer style={{height: 56}}>
+      <Footer style={{ height: 56 }}>
         {!this.state.verifyMode && (
           <Tab
             lockOnlyVisible={this.state.lockedIcon}
@@ -73,22 +77,22 @@ export default class FooterNav extends React.PureComponent<Props, State> {
           />
         )}
         {this.state.verifyMode && (
-          <View style={{height: 56, width: '100%'}}>
+          <View style={{ height: 56, width: '100%' }}>
             <RNSwipeVerify
               buttonSize={56}
               onVerified={this.onVerfied}
-              okButton={{visible: false, duration: 0}}
+              okButton={{ visible: false, duration: 0 }}
               icon={
-                <View style={{height: '100%', width: 80}}>
+                <View style={{ height: '100%', width: 80 }}>
                   <LockButton
                     disabled={true}
                     locked={this.state.lockedIcon}
-                    onClick={() => {}}
+                    onClick={() => { }}
                   />
                 </View>
               }>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{fontSize: 18, color: Colors.BLACK}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ fontSize: 18, color: Colors.BLACK }}>
                   {this.state.lockedIcon
                     ? 'Swipe to unlock '
                     : 'Swipe to lock '}

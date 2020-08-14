@@ -13,13 +13,19 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import Feedback from './feedback';
 import ThumbsUp from '../../components/thumb-up';
+import { SubmitRide } from 'src/service/redux/actions/saga';
+import { Dispatch } from 'redux';
+
 
 type ReduxState = {
     ride: TStore['ride'];
+    user: TStore['user'];
 };
 
+
 interface Props extends ReduxState {
-    onComplete: () => void
+    onComplete: () => void,
+    submitRide: (params: SubmitRide) => void
 }
 
 type State = {
@@ -136,6 +142,16 @@ class RateRide extends React.PureComponent<Props, State> {
                                         console.log('Submit clicked');
                                         this.setState({ showFeedback: true });
                                     } else {
+                                        this.props.submitRide({
+                                            type: 'SubmitRide',
+                                            payload: {
+                                                bikeId: this.props.user.defaultBikeId,
+                                                rideId: this.props.ride.id,
+                                                comment: this.state.description,
+                                                rating: this.state.rating,
+                                                reason: [this.state.problem]
+                                            }
+                                        })
                                         setTimeout(() => {
                                             this.props.onComplete()
                                         }, 5000);
@@ -160,11 +176,17 @@ class RateRide extends React.PureComponent<Props, State> {
 }
 
 export default connect(
-    (store: TStore): ReduxState => {
+    (store: TStore) => {
         return {
             ride: store['ride'],
+            user: store['user']
+        };
+    }, (dispatch: Dispatch) => {
+        return {
+            submitRide: (params: SubmitRide) => dispatch(params),
         };
     },
+
 )(RateRide);
 
 const styles = StyleSheet.create({

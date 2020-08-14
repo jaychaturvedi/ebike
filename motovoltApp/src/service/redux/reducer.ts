@@ -63,7 +63,16 @@ export default (store: TStore = Store, params: Action): TStore => {
             return {
                 ...store,
                 ride: ZeroRide,
-                rides: Object.assign(params.payload.map(ride => ({ [ride.id]: ride })))
+                rides: Object.assign({}, ...params.payload.map(ride => ({ [ride.id]: ride })))
+            }
+        case 'Store_SetServices':
+            return {
+                ...store,
+                services: {
+                    services: Object.assign({}, ...params.payload.services.map(service => ({ [service.id]: service }))),
+                    open: params.payload.open,
+                    closed: params.payload.closed
+                }
             }
         default: return store;
     }

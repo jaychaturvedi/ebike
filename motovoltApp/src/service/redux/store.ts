@@ -24,6 +24,8 @@ type TRide = {
     mode: "POWER" | "PEDAL_ASSIST",
     score: number,
     petrolSavingsLtr: number,
+    from: string,
+    to: string,
     petrolSavingsInr: number,
     comment: string,
     path: {
@@ -79,6 +81,7 @@ type TBike = {
     lastLocationKnownTime: string,
     lat: number,
     long: number,
+    reportIssueSuccess: boolean | null,
     batteries: {
         [id: string]: {
             id: string
@@ -136,6 +139,8 @@ export const ZeroRide: TRide = {
     petrolSavingsLtr: 0,
     petrolSavingsInr: 0,
     comment: "",
+    from: '',
+    to: '',
     path: [],
     startTime: "",
     endTime: "",
@@ -167,6 +172,7 @@ const ZeroBike: TBike = {
     greenMilesKm: 0,
     petrolSavingsLtr: 0,
     costRecoveredPer: 0,
+    reportIssueSuccess: null
 }
 
 const ZeroBLE: TBLE = {
@@ -181,9 +187,14 @@ export type TStore = {
     ride: TRide,
     notifications: { isPresent: boolean, data: { [id: string]: TNotification } },
     bike: TBike,
-    services: { [id: string]: TService },
+    services: {
+        services: { [id: string]: TService },
+        open: number,
+        closed: number
+    },
     rides: { [id: string]: TRide },
     ble: TBLE,
+
 }
 
 export default {
@@ -193,6 +204,6 @@ export default {
     ride: ZeroRide,
     notifications: { isPresent: false, data: {} },
     rides: {},
-    services: {},
+    services: { services: {}, open: 0, closed: 0 },
     ble: ZeroBLE
 } as TStore

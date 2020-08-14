@@ -30,7 +30,7 @@ type MoreMenuNavigationProp = StackNavigationProp<
 >;
 
 interface ReduxState {
-  // user: TStore["user"]
+  user: TStore["user"]
 }
 
 interface Props extends ReduxState {
@@ -137,7 +137,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
               paddingTop: moderateScale(10),
               textAlign: 'center',
             }}>
-            {' Vikram'}&nbsp;
+            {this.props.user.name}&nbsp;
             <Text
               style={{
                 fontSize: moderateScale(24),
@@ -188,10 +188,14 @@ class MoreMenu extends React.PureComponent<Props, State> {
                       case 'Support':
                         this.props.navigation.navigate('Support', {});
                         break;
+                      case 'FAQs':
+                        this.props.navigation.navigate('Faq', {});
+                        break;
                       case 'Logout':
                         this.props.logout({ type: 'SignOut', payload: {} });
                         break;
                       default:
+                        this.props.navigation.navigate('ComingSoon', {});
                         break;
                     }
                   }}
@@ -210,7 +214,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
 export default connect(
   (store: TStore) => {
     return {
-      // user: store['user'],
+      user: store['user'],
     };
   },
   (dispatch: Dispatch) => {

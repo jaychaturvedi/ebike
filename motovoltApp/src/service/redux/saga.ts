@@ -13,6 +13,7 @@ import * as Onboarding from "./saga/onboarding";
 import * as Bike from './saga/bike';
 import * as Rides from './saga/rides';
 import * as User from './saga/user';
+import * as Service from './saga/service';
 
 function* actionWatcher() {
     // BLE
@@ -35,12 +36,18 @@ function* actionWatcher() {
     yield takeLatest("ReadBikeStat", Bike.getBikeStat);
     yield takeLatest("ReadBikeLocation", Bike.getLocation);
 
+    yield takeLatest("ReadRideHistory", Rides.getRideHistory);
     yield takeLatest("StartRide", Rides.startRide);
     yield takeLatest("EndRide", Rides.endRide);
+    yield takeLatest("SubmitRide", Rides.rateRide);
+    yield takeLatest("ReadRideData", Rides.getRide);
     yield takeLatest("SubmitRide", Rides.rateRide);
 
     yield takeLatest("ReadUser", User.readUser);
     yield takeLatest("UpdateUser", User.updateUser);
+
+    yield takeLatest("ReportIssue", Service.reportIssue);
+    yield takeLatest("ReadService", Service.getServices);
 }
 
 export default function* rootSaga() {

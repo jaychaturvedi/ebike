@@ -1,15 +1,28 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native';
+import { View, Image, Text } from 'react-native';
 import Header from '../home/components/header';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
-import {scale} from '../../styles/size-matters';
+import { scale } from '../../styles/size-matters';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MenuStackParamList } from '../../navigation/menu';
 
-export default class ComingSoon extends React.PureComponent<{}, {}> {
+type ComingSoonNavigationProp = StackNavigationProp<
+  MenuStackParamList,
+  'ComingSoon'
+>;
+
+type Props = {
+  navigation: ComingSoonNavigationProp,
+  route: RouteProp<MenuStackParamList, 'ComingSoon'>
+};
+
+export default class ComingSoon extends React.PureComponent<Props, {}> {
   render() {
     return (
-      <View style={{width: '100%', height: '100%'}}>
-        <Header backgroundColor={'white'} title={'Coming Soon'} hasBackButton />
+      <View style={{ width: '100%', height: '100%' }}>
+        <Header backgroundColor={Colors.HEADER_YELLOW} title={'Coming Soon'} hasBackButton onBackClick={() => this.props.navigation.goBack()} />
         <View
           style={{
             flex: 1,
@@ -19,11 +32,11 @@ export default class ComingSoon extends React.PureComponent<{}, {}> {
           }}>
           <Image
             source={require('../../assets/images/coming-soon.png')}
-            style={{width: '100%', height: '100%'}}
+            style={{ width: '100%', height: '100%' }}
             width={scale(200)}
             height={scale(200)}
           />
-          <View style={{width: '80%'}}>
+          <View style={{ width: '80%' }}>
             <Text
               style={{
                 textAlign: 'center',

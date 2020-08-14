@@ -9,13 +9,24 @@ import Colors from '../../styles/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { ReportIssue as Report } from '../../service/redux/actions/saga/service-actions';
+import ThumbsUp from '../../components/thumb-up';
 
 type ReportISsueNavigationProp = StackNavigationProp<
   MenuStackParamList,
   'ReportIssue'
 >;
 
-type Props = {
+interface ReduxState {
+  bike: TStore['bike'],
+  user: TStore['user'],
+  reportIssue: (params: Report) => void
+}
+
+interface Props extends ReduxState {
   navigation: ReportISsueNavigationProp,
   route: RouteProp<MenuStackParamList, 'ReportIssue'>
 };
@@ -24,7 +35,7 @@ type State = {
   description: string;
 };
 
-export default class ReportIssue extends React.PureComponent<Props, State> {
+class ReportIssue extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -33,76 +44,108 @@ export default class ReportIssue extends React.PureComponent<Props, State> {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Header
-          hasBackButton
-          title={'Report an issue'}
-          hasTabs
-          backgroundColor={Colors.HEADER_YELLOW}
-          onBackClick={() => this.props.navigation.goBack()}
-        />
-        <View style={{ flex: 1 }}>
-          <View style={{ padding: moderateScale(15) }}>
-            <View style={styles.header}>
-              <ProfileInfoCard
-                style={styles.profileInfo}
-                data={[{ key: 'Cycle A', value: '' }]}
-              />
-            </View>
-            <View style={styles.info}>
-              <View style={styles.tile}>
-                <Text style={{ fontSize: moderateScale(13) }}>Model</Text>
-                <Text
-                  style={{
-                    fontSize: moderateScale(16),
-                    fontWeight: 'bold',
-                    lineHeight: moderateScale(40),
-                  }}>
-                  {'Clasic A'}
-                </Text>
+    return this.props.bike.reportIssueSuccess === true ? (
+      <ThumbsUp
+        msg="Success"
+        buttonText="CONTINUE"
+        subMsg="We have received your feedback and will help you with it soon."
+        onButtonPress={() => {
+          this.props.navigation.navigate('ServiceDetails', {});
+
+        }}
+      />
+    ) : (
+        <View style={styles.container}>
+          <Header
+            hasBackButton
+            title={'Report an issue'}
+            hasTabs
+            backgroundColor={Colors.HEADER_YELLOW}
+            onBackClick={() => this.props.navigation.goBack()}
+          />
+          <View style={{ flex: 1 }}>
+            <View style={{ padding: moderateScale(15) }}>
+              <View style={styles.header}>
+                <ProfileInfoCard
+                  style={styles.profileInfo}
+                  data={[{ key: this.props.bike.name, value: '' }]}
+                />
               </View>
-              <View style={styles.tile}>
-                <Text style={{ fontSize: moderateScale(13) }}>Vehicle ID</Text>
-                <Text
-                  style={{
-                    fontSize: moderateScale(16),
-                    fontWeight: 'bold',
-                    lineHeight: moderateScale(40),
-                  }}>
-                  {'Blr124800'}
-                </Text>
+              <View style={styles.info}>
+                <View style={styles.tile}>
+                  <Text style={{ fontSize: moderateScale(13) }}>Model</Text>
+                  <Text
+                    style={{
+                      fontSize: moderateScale(16),
+                      fontWeight: 'bold',
+                      lineHeight: moderateScale(40),
+                    }}>
+                    {this.props.bike.modal}
+                  </Text>
+                </View>
+                <View style={styles.tile}>
+                  <Text style={{ fontSize: moderateScale(13) }}>Vehicle ID</Text>
+                  <Text
+                    style={{
+                      fontSize: moderateScale(16),
+                      fontWeight: 'bold',
+                      lineHeight: moderateScale(40),
+                    }}>
+                    {this.props.user.defaultBikeId}
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.textInput}>
-              <Text style={{ fontSize: moderateScale(14), fontWeight: 'bold' }}>
-                Comments
+              <View style={styles.textInput}>
+                <Text style={{ fontSize: moderateScale(14), fontWeight: 'bold' }}>
+                  Comments
             </Text>
-              <Textarea
-                underline
-                rowSpan={7}
-                bordered
-                placeholder="Please describe your concern ... "
-                style={styles.textArea}
-                onChangeText={(text: string) =>
-                  this.setState({ description: text })
-                }
+                <Textarea
+                  underline
+                  rowSpan={7}
+                  bordered
+                  placeholder="Please describe your concern ... "
+                  style={styles.textArea}
+                  onChangeText={(text: string) =>
+                    this.setState({ description: text })
+                  }
+                />
+              </View>
+            </View>
+            <View style={styles.button}>
+              <Button
+                text="SUBMIT"
+                onPress={() => this.props.reportIssue({
+                  type: 'ReportIssue',
+                  payload: {
+                    bikeId: this.props.user.defaultBikeId,
+                    bikeName: this.props.bike.name,
+                    comments: this.state.description,
+                    model: this.props.bike.modal
+                  }
+                })}
+                textColor="white"
+                backgroundColor="#142F6A"
               />
             </View>
-          </View>
-          <View style={styles.button}>
-            <Button
-              text="SUBMIT"
-              onPress={() => console.log('Submitted')}
-              textColor="white"
-              backgroundColor="#142F6A"
-            />
           </View>
         </View>
-      </View>
-    );
+      );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      bike: store['bike'],
+      user: store['user']
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      reportIssue: (params: Report) => dispatch(params)
+    };
+  },
+)(ReportIssue);
 
 const styles = StyleSheet.create({
   container: {

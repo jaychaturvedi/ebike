@@ -130,6 +130,7 @@ export function signIn(username: string, password: string) {
     return Auth.signIn({ username, password }).then(async user => {
         await storeCredentials(username, password)
         console.log("Logged in :", user)
+        console.log(await getToken())
         return {
             user,
             success: true,

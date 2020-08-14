@@ -10,7 +10,5 @@ export type ReportIssue = {
 
 export type ReadService = {
     type: "ReadService",
-    payload: {
-        bikeId: string,
-    }
+    payload: {}
 }

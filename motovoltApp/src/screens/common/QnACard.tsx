@@ -3,7 +3,7 @@ import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
 import { scale } from '../../styles/size-matters';
-import { verticalScale } from 'react-native-size-matters';
+import { verticalScale, moderateScale } from 'react-native-size-matters';
 
 type Props = {
   title: string;
@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE,
     borderRadius: scale(8),
     padding: scale(16),
+    marginHorizontal: moderateScale(15),
+    marginTop: moderateScale(15)
   },
   header: {
     flexDirection: 'row',

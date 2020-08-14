@@ -9,21 +9,27 @@ import {
 } from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {StatisticsStackParamList} from '../../navigation/statistics';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
-import {Icon} from 'native-base';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { StatisticsStackParamList } from '../../navigation/statistics';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Icon } from 'native-base';
 import Moment from 'moment';
+import { Dispatch } from 'redux';
+import { ReadRideHistory, ReadRideData } from '../../service/redux/actions/saga/rides';
 
 type ReduxState = {
   rides: TStore['rides'];
+  user: TStore['user'];
+  bike: TStore['bike'];
+  readRideHistory: (params: ReadRideHistory) => void;
+  getIndividualRide: (params: ReadRideData) => void;
 };
 
 type MyRidesNavigationProp = StackNavigationProp<
@@ -48,20 +54,43 @@ class MyRides extends React.PureComponent<Props, State> {
     };
   }
 
+  componentDidMount() {
+    this.props.readRideHistory({
+      type: 'ReadRideHistory',
+      payload: {
+        bikeId: this.props.user.defaultBikeId,
+        pageNumber: 1,
+        pageSize: 10,
+        startTime: Moment.utc().startOf('day').toString(),
+        endTime: Moment.utc().startOf('day').toString()
+      }
+    })
+  }
+
   setNewDate = (date: Date) => {
     if (date.getTime() <= new Date().getTime())
       this.setState({
         focusDate: date,
       });
+    this.props.readRideHistory({
+      type: 'ReadRideHistory',
+      payload: {
+        bikeId: this.props.user.defaultBikeId,
+        pageNumber: 1,
+        pageSize: 10,
+        startTime: Moment.utc(date).startOf('day').toString(),
+        endTime: Moment.utc(date).startOf('day').toString()
+      }
+    })
   };
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Header
           title={'My Rides'}
           backgroundColor={Colors.HEADER_YELLOW}
-          subtitle={'Cycle A'}
+          subtitle={this.props.bike.name}
           hasSubtitle
           hasTabs
         />
@@ -103,8 +132,8 @@ class MyRides extends React.PureComponent<Props, State> {
             unit2="Km"
             icon1={require('../../assets/icons/CO2e_savings.png')}
             icon2={require('../../assets/icons/green_miles_icon.png')}
-            value1={String(250)}
-            value2={String(5)}
+            value1={String(this.props.bike.co2SavingKg)}
+            value2={String(this.props.bike.greenMilesKm)}
           />
           <View style={styles.chart}></View>
           <View style={styles.ridesText}>
@@ -117,7 +146,7 @@ class MyRides extends React.PureComponent<Props, State> {
               YOUR RIDES
             </Text>
           </View>
-          <RideCard
+          {/* <RideCard
             key={'12'}
             fromAddress="HsR layout, Near yelahanka Bangalore 21"
             toAddress="HsR layout, Near yelahanka Bangalore 21"
@@ -130,23 +159,34 @@ class MyRides extends React.PureComponent<Props, State> {
             onItemSelect={() =>
               this.props.navigation.navigate('IndividualRide', {})
             }
-          />
-          {Object.keys(this.props.rides).map((key, index) => (
-            <RideCard
-              key={index}
-              fromAddress="HsR layout, Near yelahanka Bangalore 21"
-              toAddress="HsR layout, Near yelahanka Bangalore 21"
-              progress={30}
-              fromTime={new Date()}
-              toTime={new Date()}
-              distance={this.props.rides[key].totalDistanceKm.toString()}
-              rating={`${this.props.rides[key].score.toString()}/10`}
-              speed={this.props.rides[key].avgSpeedKmph.toString()}
-              onItemSelect={() =>
-                this.props.navigation.navigate('IndividualRide', {})
-              }
-            />
-          ))}
+          /> */}
+          {
+            Object.keys(this.props.rides).map((key, index) => (
+              <RideCard
+                key={index}
+                fromAddress={this.props.rides[key].from}
+                toAddress={this.props.rides[key].to}
+                progress={30}
+                fromTime={new Date()}
+                toTime={new Date()}
+                distance={this.props.rides[key].totalDistanceKm.toString()}
+                rating={`${this.props.rides[key].score.toString()}/10`}
+                speed={this.props.rides[key].avgSpeedKmph.toString()}
+                onItemSelect={() => {
+                  this.props.getIndividualRide({
+                    type: 'ReadRideData',
+                    payload: {
+                      bikeId: this.props.user.defaultBikeId,
+                      rideId: key,
+                      startTime: this.props.rides[key].startTime,
+                      endTime: this.props.rides[key].endTime
+                    }
+                  })
+                  this.props.navigation.navigate('IndividualRide', {})
+                }
+                }
+              />
+            ))}
         </ScrollView>
       </View>
     );
@@ -154,9 +194,17 @@ class MyRides extends React.PureComponent<Props, State> {
 }
 
 export default connect(
-  (store: TStore): ReduxState => {
+  (store: TStore) => {
     return {
       rides: store['rides'],
+      bike: store['bike'],
+      user: store['user'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      readRideHistory: (params: ReadRideHistory) => dispatch(params),
+      getIndividualRide: (params: ReadRideData) => dispatch(params)
     };
   },
 )(MyRides);
