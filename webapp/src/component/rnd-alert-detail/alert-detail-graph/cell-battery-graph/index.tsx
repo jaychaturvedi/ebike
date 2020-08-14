@@ -31,18 +31,6 @@ const data1 = [
     {
         name: 'Cell 8', uv: 3.200,
     },
-    {
-        name: '',
-    },
-    {
-        name: '',
-    },
-    {
-        name: '',
-    },
-    {
-        name: '',
-    },
 ];
 const data2 = [
 
@@ -57,18 +45,6 @@ const data2 = [
     },
     {
         name: 'Cell 12', uv: 3.400
-    },
-    {
-        name: '',
-    },
-    {
-        name: '',
-    },
-    {
-        name: '',
-    },
-    {
-        name: '',
     },
     {
         name: '',
@@ -143,9 +119,9 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                         }} value="3.730 Min">
                                     </Label>
                                 </ReferenceLine>
-                                <Bar dataKey="uv" radius={[10, 10, 0, 0]} fill='#86eb34' >
+                                <Bar dataKey="uv" radius={[10, 10, 0, 0]} >
                                     {data1.map((entry: any, index) => (
-                                        <Cell fill={entry.uv <= 2.500 ? 'red' : '#86eb34'} />
+                                        <Cell fill={entry.uv <= 2.500 ? 'red' : '#73A93C'} key={index} />
                                     ))}
                                 </Bar>
                             </BarChart>
@@ -189,7 +165,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                 </ReferenceLine>
                                 <Bar dataKey="uv" fill="#86eb34" radius={[10, 10, 0, 0]} >
                                     {data2.map((entry, index) => (
-                                        <Cell fill={entry.uv! <= 3.000 ? 'red' : '#86eb34'} />
+                                        <Cell fill={entry.uv! <= 3.000 ? 'red' : '#73A93C'} key={index} />
                                     ))}
                                 </Bar>
                             </BarChart>

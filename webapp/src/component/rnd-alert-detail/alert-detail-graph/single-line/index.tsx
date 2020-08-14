@@ -2,7 +2,7 @@ import './index.scss';
 import { Layout, Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine, Brush
 } from 'recharts';
 
 
@@ -38,8 +38,8 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
             <text
                 style={{ fontSize: "12px" }}
                 x={props.viewBox.x + props.viewBox.width / 2}
-                y={props.viewBox.y + props.viewBox.height + 5}
-                text-anchor="middle"
+                y={props.viewBox.y + props.viewBox.height - 5}
+                textAnchor="middle"
                 fill="#ffffff"
                 fontFamily='Roboto'
             >
@@ -74,15 +74,23 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 </Label>
                             </ReferenceLine> : ''}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            <XAxis dataKey="nocycles" tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" padding={{ left: 30, right: 20 }}>
+                            <XAxis dataKey="nocycles" tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" height={35}
+                                padding={{ left: 30, right: 20 }}>
                                 <Label
                                     value={this.props.xAxisLabel}
                                     position="bottom"
-                                    offset={0}
+                                    offset={-18}
                                     style={{ padding: 5 }}
                                     content={props => { return this.DynamicLabel(props) }}
                                 />
                             </XAxis>
+                            <Brush
+                                dataKey='nocycles'
+                                fill="#131731"
+                                height={12}
+                                stroke="#3C4473"
+                                startIndex={0}
+                                endIndex={10} />
                             <YAxis tick={{ fill: 'white' }} padding={{ top: 20, bottom: 30 }} domain={[5, 50]} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
