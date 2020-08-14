@@ -7,6 +7,7 @@ export const config = {
 export async function request(url: string, method: string, body?: any) {
     try {
         const tokenRes = await getToken();
+        console.log("Token  REceived");
         if (!tokenRes.success) return {
             success: false,
             response: null,
@@ -17,9 +18,11 @@ export async function request(url: string, method: string, body?: any) {
         const response = await fetch(url, {
             method, headers: {
                 'Authorization': tokenRes.token!,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json, text/plain, */*',
             },
-            body: body ?? JSON.stringify(body),
+
+            body: body === undefined ? undefined : JSON.stringify(body),
         }).then(res => {
             console.log("First res : ", res);
             return res.json()

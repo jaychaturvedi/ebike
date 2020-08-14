@@ -19,12 +19,13 @@ import SplashScreen from 'react-native-splash-screen';
 import { fetchCredentials } from './src/service/secure-storage';
 
 import { TStore } from './src/service/redux/store';
-import { signIn } from './src/service/authentication';
+import { signIn, getToken } from './src/service/authentication';
 import { getUser } from './src/service/redux/saga/user';
 import { SignIn } from './src/service/redux/actions/saga';
 import { connect } from 'react-redux';
 import { Store_UpdateUser } from 'src/service/redux/actions/store';
 import { ReadUser } from 'src/service/redux/actions/saga/user';
+import FAQPremium from 'src/screens/menu/faq-premium';
 
 declare const global: { HermesInternal: null | {} };
 
@@ -62,7 +63,7 @@ class App extends React.PureComponent<Props, {}> {
               defaultBikeId: user.frameId,
               isBikeRegistered: Boolean(user.frameId),
             },
-          });
+          } as Store_UpdateUser);
         }
       } else {
         this.props.updateUser({

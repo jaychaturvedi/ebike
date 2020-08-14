@@ -1,14 +1,14 @@
 import React from 'react';
-import {View, Image, Text, ScrollView} from 'react-native';
+import { View, Image, Text, ScrollView } from 'react-native';
 import Header from '../home/components/header';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
-import {scale} from '../../styles/size-matters';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {MenuStackParamList} from '../../navigation/menu';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
+import { scale } from '../../styles/size-matters';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MenuStackParamList } from '../../navigation/menu';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
 
 type ReduxState = {
   services: TStore['services'];
@@ -27,7 +27,7 @@ interface Props extends ReduxState {
 
 type CardProps = {
   title: string;
-  data: {key: string; value: string}[];
+  data: { key: string; value: string }[];
 };
 
 function Card(props: CardProps) {
@@ -48,7 +48,7 @@ function Card(props: CardProps) {
         {props.title}
       </Text>
       {props.data.map((item) => (
-        <Text style={{marginVertical: scale(8)}}>
+        <Text style={{ marginVertical: scale(8) }}>
           <Text
             style={{
               fontSize: 14,
@@ -71,10 +71,10 @@ function Card(props: CardProps) {
   );
 }
 
-class ComingSoon extends React.PureComponent<Props, {}> {
+class ServiceDetails extends React.PureComponent<Props, {}> {
   render() {
     return (
-      <View style={{width: '100%', height: '100%'}}>
+      <View style={{ width: '100%', height: '100%' }}>
         <Header
           backgroundColor={Colors.HEADER_YELLOW}
           title={'Service'}
@@ -87,14 +87,14 @@ class ComingSoon extends React.PureComponent<Props, {}> {
             backgroundColor: Colors.BG_GREY,
             width: '100%',
           }}>
-          {Object.keys(this.props.services).map((key, index) => (
+          {Object.keys(this.props.services.services).map((key, index) => this.props.route.params.serviceId == key ? (
             <View
               style={{
                 paddingHorizontal: scale(16),
                 paddingVertical: scale(8),
               }}>
               <Card
-                title={this.props.services[key].title}
+                title={this.props.services.services[key].title}
                 data={[
                   {
                     key: 'Cycle ID:',
@@ -102,20 +102,20 @@ class ComingSoon extends React.PureComponent<Props, {}> {
                   },
                   {
                     key: 'Service ID:',
-                    value: this.props.services[key].id,
+                    value: this.props.services.services[key].id,
                   },
                   {
                     key: 'Time:',
-                    value: this.props.services[key].openDate,
+                    value: this.props.services.services[key].openDate,
                   },
                   {
                     key: 'Status:',
-                    value: this.props.services[key].isOpen ? "Open" : "Closed",
+                    value: this.props.services.services[key].isOpen ? "Open" : "Closed",
                   },
                 ]}
               />
             </View>
-          ))}
+          ) : null)}
         </ScrollView>
       </View>
     );
@@ -129,4 +129,4 @@ export default connect(
       bike: store['bike'],
     };
   },
-)(ComingSoon);
+)(ServiceDetails);

@@ -101,9 +101,9 @@ class IndividualRide extends React.PureComponent<Props, State> {
               icon1={require('../../assets/icons/inr_icon.png')}
               icon2={require('../../assets/icons/star_icon_large.png')}
               value1={this.props.ride.petrolSavingsInr.toString()}
-              value2={this.props.ride.petrolSavingsLtr.toString()}
+              value2={this.props.ride.score.toString()}
               unit1="INR"
-              unit2="L"
+              unit2="/10"
             />
           </View>
         </ScrollView>

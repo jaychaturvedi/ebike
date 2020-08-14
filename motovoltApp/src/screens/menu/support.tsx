@@ -83,7 +83,7 @@ export default class Support extends React.PureComponent<Props, State> {
             <Tile
               feature="Video Call"
               icon={require('../../assets/icons/icons1.5x/video-call.png')}
-              onPress={() => console.log('Feature pressed')}
+              onPress={() => this.props.navigation.navigate('ComingSoon', {})}
               premium
               height={moderateScale(110)}
             />
@@ -103,7 +103,7 @@ export default class Support extends React.PureComponent<Props, State> {
             <Tile
               feature="Chat with us"
               icon={require('../../assets/icons/icons1.5x/chat.png')}
-              onPress={() => console.log('Feature pressed')}
+              onPress={() => this.props.navigation.navigate('ComingSoon', {})}
               height={moderateScale(110)}
               premium
             />

@@ -29,6 +29,7 @@ type State = {
   selectedItem: TFooterItem;
   verifyMode: boolean;
   lockedIcon: boolean;
+  rideId: string,
 };
 
 export default class FooterNav extends React.PureComponent<Props, State> {
@@ -38,6 +39,7 @@ export default class FooterNav extends React.PureComponent<Props, State> {
       selectedItem: 'home',
       verifyMode: false,
       lockedIcon: false,
+      rideId: ''
     };
   }
 
@@ -49,6 +51,7 @@ export default class FooterNav extends React.PureComponent<Props, State> {
   };
 
   onLockClick = () => {
+    console.log("Lock clicked")
     this.setState({ verifyMode: !this.state.verifyMode });
   };
 
@@ -57,7 +60,8 @@ export default class FooterNav extends React.PureComponent<Props, State> {
       lockedIcon: !this.state.lockedIcon,
       verifyMode: false,
     });
-    this.props.onLockVerified(!this.state.lockedIcon)
+    console.log("Verified : ", this.state.lockedIcon);
+    this.props.onLockVerified(!this.state.lockedIcon);
   };
 
   render() {
