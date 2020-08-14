@@ -1,12 +1,22 @@
 import React from 'react';
 import Badge from './badge';
-import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {Header, Left, Right, Button, Subtitle, Title} from 'native-base';
-import {scale} from '../../../../styles/size-matters';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Header, Left, Right, Button, Subtitle, Title } from 'native-base';
+import { scale } from '../../../../styles/size-matters';
 import Colors from '../../../../styles/colors';
-import {verticalScale} from 'react-native-size-matters';
+import { verticalScale } from 'react-native-size-matters';
+import { TStore } from '../../../../service/redux/store';
+import { connect } from 'react-redux';
+const objectid = require("react-native-bson/lib/bson/objectid");
+import { Dispatch } from 'redux';
+import { Store_UpdateNotification } from 'src/service/redux/actions/store';
 
-type Props = {
+interface ReduxState {
+  notifications: TStore['notifications']
+  showNotifications: (params: Store_UpdateNotification) => void
+}
+
+interface Props extends ReduxState {
   hasPromoNotification?: boolean;
   isBluetoothOn?: boolean;
   hasNotification?: boolean;
@@ -25,7 +35,7 @@ type Props = {
   onNotificationClick?: () => void;
 };
 
-export default class CHeader extends React.PureComponent<Props, {}> {
+class CHeader extends React.PureComponent<Props, {}> {
   render() {
     return (
       <Header
@@ -46,7 +56,7 @@ export default class CHeader extends React.PureComponent<Props, {}> {
                 />
               </TouchableOpacity>
             )}
-            <View style={{alignItems: 'flex-start'}}>
+            <View style={{ alignItems: 'flex-start' }}>
               <Title style={styles.title}>{this.props.title}</Title>
               {this.props.hasSubtitle && (
                 <Subtitle style={styles.subtitle}>
@@ -78,7 +88,15 @@ export default class CHeader extends React.PureComponent<Props, {}> {
               </Button>
             )}
             {!this.props.hideNotification && (
-              <Button transparent onPress={this.props.onNotificationClick}>
+              <Button transparent onPress={() =>
+                // this.props.onNotificationClick
+                this.props.showNotifications({
+                  type: 'Store_UpdateNotification',
+                  payload: {
+                    showNotifications: true,
+                  }
+                })
+              }>
                 {this.props.hasNotification && <Badge />}
                 <Image
                   source={require('../../../../assets/icons/notification.png')}
@@ -92,6 +110,20 @@ export default class CHeader extends React.PureComponent<Props, {}> {
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      notifications: store['notifications']
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      showNotifications: (params: Store_UpdateNotification) => dispatch(params)
+    };
+  },
+
+)(CHeader);
 
 const styles = StyleSheet.create({
   container: {
@@ -109,7 +141,7 @@ const styles = StyleSheet.create({
     height: scale(18),
     marginRight: scale(18),
   },
-  title: {fontSize: 20, fontWeight: 'bold', color: Colors.BLACK},
-  subtitle: {fontSize: 12, fontWeight: 'normal', color: Colors.BLACK},
-  rightIcon: {width: scale(26), height: scale(26)},
+  title: { fontSize: 20, fontWeight: 'bold', color: Colors.BLACK },
+  subtitle: { fontSize: 12, fontWeight: 'normal', color: Colors.BLACK },
+  rightIcon: { width: scale(26), height: scale(26) },
 });

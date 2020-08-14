@@ -13,6 +13,7 @@ import * as Onboarding from "./saga/onboarding";
 import * as Bike from './saga/bike';
 import * as Rides from './saga/rides';
 import * as User from './saga/user';
+import * as Notification from './saga/notifications';
 import * as Service from './saga/service';
 
 function* actionWatcher() {
@@ -42,12 +43,15 @@ function* actionWatcher() {
     yield takeLatest("SubmitRide", Rides.rateRide);
     yield takeLatest("ReadRideData", Rides.getRide);
     yield takeLatest("SubmitRide", Rides.rateRide);
+    yield takeLatest("Speedometer", Rides.getSpeedometerData);
 
     yield takeLatest("ReadUser", User.readUser);
     yield takeLatest("UpdateUser", User.updateUser);
 
     yield takeLatest("ReportIssue", Service.reportIssue);
     yield takeLatest("ReadService", Service.getServices);
+
+    yield takeLatest("ReadNotifications", Notification.getNotification)
 }
 
 export default function* rootSaga() {

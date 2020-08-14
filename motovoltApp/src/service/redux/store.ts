@@ -104,6 +104,24 @@ type TBLE = {
     devices: TPeripheral[],
 }
 
+type TSpeedometer = {
+    rideId: string,
+    batteryChargePer: number,
+    rangeCovered: number,
+    rangeAvailable: number,
+    distance: number,
+    averageSpeed: number,
+    speed: number,
+    maxSpeed: number,
+    pedalAssit: number,
+    powerMod: number
+}
+
+type TGraph = {
+    value: number,
+    date: string
+}
+
 export const ZeroOnboarding: TOnboarding = {
     confirmSignUpSuccess: null,
     signUpSuccess: null,
@@ -181,17 +199,37 @@ const ZeroBLE: TBLE = {
     devices: [],
 }
 
+const ZeroSpeedometer: TSpeedometer = {
+    rideId: '',
+    averageSpeed: 0,
+    batteryChargePer: 0,
+    distance: 0,
+    maxSpeed: 0,
+    pedalAssit: 0,
+    powerMod: 0,
+    rangeAvailable: 0,
+    rangeCovered: 0,
+    speed: 0
+}
+
 export type TStore = {
     onboarding: TOnboarding,
     user: TUser,
     ride: TRide,
-    notifications: { isPresent: boolean, data: { [id: string]: TNotification } },
+    notifications: { isPresent: boolean, showNotifications: boolean, data: { [id: string]: TNotification } },
     bike: TBike,
+    graph: {
+        distance: number,
+        avgSpeed: number,
+        avgKmph: number,
+        data: { [id: string]: TGraph }
+    },
     services: {
         services: { [id: string]: TService },
         open: number,
         closed: number
     },
+    speedometer: TSpeedometer,
     rides: { [id: string]: TRide },
     ble: TBLE,
 
@@ -202,8 +240,14 @@ export default {
     user: ZeroUser,
     bike: ZeroBike,
     ride: ZeroRide,
-    notifications: { isPresent: false, data: {} },
+    notifications: { isPresent: false, showNotifications: false, data: {} },
     rides: {},
+    graph: {
+        distance: 0,
+        avgSpeed: 0,
+        avgKmph: 0, data: {}
+    },
+    speedometer: ZeroSpeedometer,
     services: { services: {}, open: 0, closed: 0 },
     ble: ZeroBLE
 } as TStore

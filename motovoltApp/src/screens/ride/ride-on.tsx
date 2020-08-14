@@ -10,14 +10,16 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 const objectid = require("react-native-bson/lib/bson/objectid");
 import { Dispatch } from 'redux';
-import { StartRide, EndRide } from '../../service/redux/actions/saga';
+import { StartRide, EndRide, Speedometer } from '../../service/redux/actions/saga';
 
 
 type ReduxState = {
   bike: TStore['bike'];
   ride: TStore['ride'];
+  speedometer: TStore['speedometer'],
   startRide: (params: StartRide) => void,
-  endRide: (params: EndRide) => void
+  endRide: (params: EndRide) => void,
+  getSpeedometerData: (params: Speedometer) => void,
 };
 
 const styles = StyleSheet.create({
@@ -76,6 +78,14 @@ class RideOn extends React.PureComponent<Props, State> {
     this.setState({
       interval: setInterval(() => {
         if (this.state.seconds !== 59) {
+          if (this.state.seconds % 10 === 0 && this.state.seconds != 0) {
+            this.props.getSpeedometerData({
+              type: 'Speedometer',
+              payload: {
+                rideId: this.state.rideId
+              }
+            })
+          }
           this.setState({
             seconds: this.state.seconds + 1
           });
@@ -145,12 +155,12 @@ class RideOn extends React.PureComponent<Props, State> {
             />
           </View>
           <Guage
-            fillDeg={60}
-            speed={this.props.ride.speedKmph}
+            fillDeg={(this.props.speedometer.speed * 240) / 360}
+            speed={this.props.speedometer.speed}
             time={`${this.state.hour < 10 ? "0" + this.state.hour : this.state.hour}:` +
               `${this.state.minutes < 10 ? "0" + this.state.minutes : this.state.minutes}:` +
               `${this.state.seconds < 10 ? "0" + this.state.seconds : this.state.seconds}`}
-            totalDistanceKm={this.props.ride.totalDistanceKm}
+            totalDistanceKm={this.props.speedometer.distance}
           />
           <View
             style={{
@@ -160,12 +170,12 @@ class RideOn extends React.PureComponent<Props, State> {
             }}>
             <Card
               title={'Avg. Speed'}
-              value={this.props.ride.avgSpeedKmph.toString()}
+              value={this.props.speedometer.averageSpeed.toString()}
               unit={'Kmph'}
             />
             <Card
               title={'Max Speed'}
-              value={this.props.ride.maxSpeedKmph.toString()}
+              value={this.props.speedometer.maxSpeed.toString()}
               unit={'Kmph'}
             />
           </View>
@@ -190,12 +200,14 @@ export default connect(
     return {
       bike: store['bike'],
       ride: store['ride'],
+      speedometer: store['speedometer'],
     };
   },
   (dispatch: Dispatch) => {
     return {
       startRide: (params: StartRide) => dispatch(params),
-      endRide: (params: EndRide) => dispatch(params)
+      endRide: (params: EndRide) => dispatch(params),
+      getSpeedometerData: (params: Speedometer) => dispatch(params),
     };
   },
 

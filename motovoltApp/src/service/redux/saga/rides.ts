@@ -2,7 +2,7 @@ import {
     put,
 } from "redux-saga/effects";
 import * as RideActions from "../actions/saga/rides";
-import { Store_UpdateRide, Store_SetRideHistory, Store_UpdateBike } from "../actions/store";
+import { Store_UpdateRide, Store_SetRideHistory, Store_UpdateBike, Store_SetSpeedometer, Store_SetGraphdata } from "../actions/store";
 import { config, request } from "./utils";
 
 export function* startRide(params: RideActions.StartRide) {
@@ -93,18 +93,6 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
             `?pageSize=${encodeURIComponent(params.payload.pageSize)}&` +
             `pageNo=${encodeURIComponent(params.payload.pageNumber)}&startTime=2020-07-07 10:49:38&endTime=2020-07-08 16:50:38`,
             "GET", undefined)
-        //      {
-        //     "frameId": params.payload.bikeId,
-        //     // "frameId": "069bcc081a68a0832h123",
-        //     "pageSize": params.payload.pageSize,
-        //     "pageNo": params.payload.pageNumber,
-        //     // "pageSize": 1,
-        //     // "pageNo": 10,
-        //     // "startTime": params.payload.startTime,2020-07-07 10:49:38
-        //     // "endTime": params.payload.endTime
-        //     "startTime": "2020-07-07 10:49:38",
-        //     "endTime": "2020-07-08 16:50:38"
-        // 
         console.log("Data Response");
         console.log(dataResponse);
         if (dataResponse.success) {
@@ -128,10 +116,22 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
             yield put({
                 type: 'Store_UpdateBike',
                 payload: {
-                    co2SavingKg: data.graphData.length ? data.graphData.length[0].co2sav : 0,
-                    greenMilesKm: data.graphData.length ? data.graphData.length[0].grnmls : 0
+                    co2SavingKg: data.graphData.length ? data.graphData[0].co2sav : 0,
+                    greenMilesKm: data.graphData.length ? data.graphData[0].grnmls : 0
                 }
             } as Store_UpdateBike)
+            yield put({
+                type: 'Store_SetGraphdata',
+                payload: {
+                    data: data.graphData.map((gData: any) => ({
+                        value: gData.speed,
+                        date: new Date().toString()
+                    })),
+                    avgKmph: data.graphData.length ? data.graphData[0].avgkmph : 0,
+                    avgSpeed: data.graphData.length ? data.graphData[0].avgspd : 0,
+                    distance: data.graphData.length ? data.graphData[0].dist : 0
+                }
+            } as Store_SetGraphdata);
         }
         throw Error(dataResponse.message);
     } catch (error) {
@@ -202,3 +202,29 @@ export function* getRide(params: RideActions.ReadRideData) {
     }
 }
 
+
+export function* getSpeedometerData(params: RideActions.Speedometer) {
+    try {
+        const dataResponse = yield request(`${config.baseUrl}/ride/speedometer/${params.payload.rideId}`, "GET");
+        if (dataResponse.success) {
+            const data = dataResponse.response.body;
+            yield put({
+                type: 'Store_SetSpeedometer',
+                payload: {
+                    rideId: params.payload.rideId,
+                    averageSpeed: data.averageSpeed,
+                    batteryChargePer: data.batteryChargePer,
+                    distance: data.distance,
+                    maxSpeed: data.maxSpeed,
+                    pedalAssit: data.pedalAssit,
+                    powerMod: data.powerMode,
+                    rangeAvailable: data.rangeAvailable,
+                    rangeCovered: data.rangeCovered,
+                    speed: data.speed
+                }
+            } as Store_SetSpeedometer)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}

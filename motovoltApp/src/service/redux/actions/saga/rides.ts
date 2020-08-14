@@ -55,3 +55,10 @@ export type SubmitRide = {
         comment: string,
     }
 }
+
+export type Speedometer = {
+    type: "Speedometer",
+    payload: {
+        rideId: string,
+    }
+}

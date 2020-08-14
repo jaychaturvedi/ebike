@@ -74,6 +74,21 @@ export default (store: TStore = Store, params: Action): TStore => {
                     closed: params.payload.closed
                 }
             }
+        case 'Store_SetSpeedometer':
+            return {
+                ...store,
+                speedometer: { ...store.speedometer, ...params.payload }
+            }
+        case 'Store_SetGraphdata':
+            return {
+                ...store,
+                graph: {
+                    avgKmph: params.payload.avgKmph,
+                    avgSpeed: params.payload.avgSpeed,
+                    distance: params.payload.distance,
+                    data: Object.assign({}, ...params.payload.data.map(graph => ({ [Math.random().toString()]: graph })))
+                }
+            }
         default: return store;
     }
 }

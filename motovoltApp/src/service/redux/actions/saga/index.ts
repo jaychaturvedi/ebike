@@ -20,6 +20,7 @@ import {
     ReadRideData,
     StartRide,
     SubmitRide,
+    Speedometer
 } from './rides';
 import {
     ReadNotifications
@@ -81,4 +82,5 @@ export type {
     DisconnectBLE,
     ScanBLEDevices,
     TurnOnBLE,
+    Speedometer,
 } 

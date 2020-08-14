@@ -23,11 +23,13 @@ import { Icon } from 'native-base';
 import Moment from 'moment';
 import { Dispatch } from 'redux';
 import { ReadRideHistory, ReadRideData } from '../../service/redux/actions/saga/rides';
+import Graph from './graph';
 
 type ReduxState = {
   rides: TStore['rides'];
   user: TStore['user'];
   bike: TStore['bike'];
+  graph: TStore['graph'];
   readRideHistory: (params: ReadRideHistory) => void;
   getIndividualRide: (params: ReadRideData) => void;
 };
@@ -135,7 +137,18 @@ class MyRides extends React.PureComponent<Props, State> {
             value1={String(this.props.bike.co2SavingKg)}
             value2={String(this.props.bike.greenMilesKm)}
           />
-          <View style={styles.chart}></View>
+          <View style={styles.chart}>
+            <View style={{ height: '10%', justifyContent: 'flex-start', marginVertical: moderateScale(10) }}>
+              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: moderateScale(20) }}>{this.props.graph.distance} km</Text>
+            </View>
+            <View style={{ height: '10%', flexDirection: 'row', justifyContent: 'space-around', marginVertical: moderateScale(10) }}>
+              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>Avg. Distance&nbsp;{this.props.graph.avgKmph} km</Text>
+              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>Avg. Speed&nbsp;{this.props.graph.avgSpeed} kmph</Text>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+              <Graph data={Object.keys(this.props.graph.data).map(graph => this.props.graph.data[graph])} />
+            </View>
+          </View>
           <View style={styles.ridesText}>
             <Text
               style={{
@@ -199,6 +212,7 @@ export default connect(
       rides: store['rides'],
       bike: store['bike'],
       user: store['user'],
+      graph: store['graph']
     };
   },
   (dispatch: Dispatch) => {

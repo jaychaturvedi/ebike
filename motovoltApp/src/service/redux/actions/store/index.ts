@@ -81,6 +81,7 @@ type TNotification = {
     isStale: boolean,
     time: string,
     title: string,
+    type: number,
     body: string,
 }
 
@@ -88,6 +89,7 @@ export type Store_UpdateNotification = {
     type: "Store_UpdateNotification",
     payload: {
         isPresent?: boolean,
+        showNotifications?: boolean,
         data?: { [id: string]: TNotification }
     }
 }
@@ -165,6 +167,34 @@ export type Store_SetServices = {
         closed: number
     }
 }
+export type Store_SetGraphdata = {
+    type: 'Store_SetGraphdata',
+    payload: {
+        distance: number,
+        avgSpeed: number,
+        avgKmph: number,
+        data: {
+            value: number,
+            date: string
+        }[]
+    }
+}
+
+export type Store_SetSpeedometer = {
+    type: 'Store_SetSpeedometer',
+    payload: {
+        rideId: string,
+        batteryChargePer?: number,
+        rangeCovered?: number,
+        rangeAvailable?: number,
+        distance?: number,
+        averageSpeed?: number,
+        speed?: number,
+        maxSpeed?: number,
+        pedalAssit?: number,
+        powerMod?: number
+    }
+}
 
 type Action = Store_UpdateUser
     | Store_UpdateBle
@@ -174,6 +204,8 @@ type Action = Store_UpdateUser
     | Store_UpdateNotification
     | Store_UpdateRide
     | Store_SetRideHistory
+    | Store_SetSpeedometer
+    | Store_SetGraphdata
     | Store_SetServices;
 
 export default Action;

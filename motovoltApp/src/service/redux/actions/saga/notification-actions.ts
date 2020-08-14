@@ -1,4 +1,8 @@
 export type ReadNotifications = {
     type: "ReadNotifications",
-    payload: {}
+    payload: {
+        pageNumber: number,
+        pageSize: number,
+        bikeId: string
+    }
 }

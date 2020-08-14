@@ -7,21 +7,44 @@ import MyCycleStack from './cycle'
 import MenuStack from './menu'
 import RateRide from '../screens/ride/rate-ride'
 import RideOn from '../screens/ride/ride-on';
+import { TStore } from '../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import Notifications from '../screens/common/notifications';
+import { Store_UpdateNotification } from 'src/service/redux/actions/store'
 
-type Props = {}
+type ReduxState = {
+    notifications: TStore['notifications'];
+    updateNotifications: (params: Store_UpdateNotification) => void
+}
+
+interface Props extends ReduxState { }
+
 type State = {
     screen: TFooterItem,
     lockVerified?: boolean,
     hideFooter?: boolean
 }
 
-export default class FooterNavigation extends React.PureComponent<Props, State>{
+class FooterNavigation extends React.PureComponent<Props, State>{
     constructor(props: Props) {
         super(props)
         this.state = {
             screen: "home",
             lockVerified: undefined,
             hideFooter: undefined,
+        }
+    }
+
+    updateNotification() {
+        if (this.props.notifications.showNotifications) {
+            console.log("Show notifications")
+            this.props.updateNotifications({
+                type: 'Store_UpdateNotification',
+                payload: {
+                    showNotifications: false
+                }
+            })
         }
     }
 
@@ -46,17 +69,20 @@ export default class FooterNavigation extends React.PureComponent<Props, State>{
             <View style={styles.container} >
                 <View style={{ ...styles.screen }}>
                     {
-                        this.state.lockVerified === true ? <RideOn />
-                            : this.state.lockVerified === false ?
-                                <RateRide
-                                    onComplete={() => { this.setState({ screen: 'home', lockVerified: undefined, hideFooter: false }) }}
-                                /> : this.renderScreen(this.state.screen)
+                        this.props.notifications.showNotifications ?
+                            <Notifications />
+                            : this.state.lockVerified === true ? <RideOn />
+                                : this.state.lockVerified === false ?
+                                    <RateRide
+                                        onComplete={() => { this.setState({ screen: 'home', lockVerified: undefined, hideFooter: false }) }}
+                                    /> : this.renderScreen(this.state.screen)
                     }
                 </View>
                 {
                     !this.state.hideFooter && <FooterNav
                         locked
                         onItemSelect={(item) => {
+                            this.updateNotification()
                             this.setState({ screen: item, lockVerified: undefined })
                         }}
                         onLockClick={() => console.log("Lock clicked")}
@@ -70,6 +96,18 @@ export default class FooterNavigation extends React.PureComponent<Props, State>{
         )
     }
 }
+
+export default connect(
+    (store: TStore) => {
+        return {
+            notifications: store['notifications']
+        };
+    }, (dispatch: Dispatch) => {
+        return {
+            updateNotifications: (params: Store_UpdateNotification) => dispatch(params)
+        };
+    }
+)(FooterNavigation);
 
 const styles = StyleSheet.create({
     container: {
