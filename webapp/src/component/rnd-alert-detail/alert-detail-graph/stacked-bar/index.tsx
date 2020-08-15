@@ -7,6 +7,7 @@ import {
 import { FileExcelFilled } from '@ant-design/icons';
 import { mapDispatchToProps, mapStateToProps, ReduxAlertGraphActions, ReduxAlertGraphState } from "../../../../connectm-client/actions/graph"
 import { connect } from 'react-redux';
+import moment from 'moment';
 // import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
 
 const data1 = [
@@ -29,24 +30,22 @@ const data1 = [
     { name: '15th', uv: 3490, pv: 4300, amt: 2110, },
 ];
 
-interface StackedGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState {
-    data: any
+interface StackedGraphProps {
+    data: any; bar1StrokeColor: string; bar2StrokeColor: string, L1?: number, L2?: number,
+    xAxisLabel: string, yAxisLabel: string, bar1Name: string, bar2Name: string, refColor?: string,
+    dataKey: string, bar1Key: string, bar2Key: string, title: string
 }
 
 interface StackedGraphStates {
     reload: boolean,
-    // lowMileage: TlowMileageGraph,
-    // vehicleUsage: TvehicleUsageGraph
 }
+
 class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> {
 
     constructor(props: StackedGraphProps) {
         super(props);
         this.state = {
             reload: true,
-            // lowMileage: { data: [] },
-            // vehicleUsage: { data: [] }
-
         }
     }
     DynamicLabel = (props: any) => {
@@ -57,38 +56,30 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                 y={props.viewBox.y + props.viewBox.height + 5}
                 text-anchor="middle"
                 fill="#ffffff"
-                fontFamily='Roboto'
-            >
+                fontFamily='Roboto'>
                 {props.value}
             </text>
         );
     }
-    static getDerivedStateFromProps(props: StackedGraphProps, state: StackedGraphStates) {
-        // if (state.reload) {
-        //     const data = props.getAlertGraph({
-        //         type: "GET_LOW_MILEAGE",
-        //         payload: {
-        //             alertId: 123,
-        //             alertName: "voltage deviation",
-        //             vehicleId: "069bcc081a68a0832f123"
-        //         }
-        //     })
-        //     state.reload = false;
-        // }
-        // state.lowMileage = props.lowMileage
-        // state.vehicleUsage = { data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
-        return state
+
+    formatDate = (label: any) => {
+        console.log("label", label)
+        console.log(moment(`${label}`).format('hh:mm a'));
+        // if ("Last 7 Days" === this.state.trendsPeriod)
+        //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
+        return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
     }
+
     render() {
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>12 Cell Battery Pack Info</Typography.Text>
+                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>{this.props.title}</Typography.Text>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
                     <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
                         <BarChart
-                            data={data1}
+                            data={this.props.data}
                             margin={{
                                 top: 10, right: 0, left: 0, bottom: 0,
                             }}
@@ -96,53 +87,42 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                             style={{ fontSize: '8px' }}>
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
-                            <XAxis dataKey="name" padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} height={35}>
-                                <Label position='bottom' offset={-18} fill="#ffffff"
-                                    style={{
-                                        fontSize: '10px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value="Days">
-                                </Label>
+                            <XAxis dataKey={this.props.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
+                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20 }}>
+                                <Label
+                                    value={this.props.xAxisLabel}
+                                    position="bottom"
+                                    offset={-18}
+                                    style={{ padding: 5 }}
+                                    content={props => { return this.DynamicLabel(props) }} />
                             </XAxis>
-                            <YAxis tick={{ fill: 'white' }} domain={[5, 'auto']} stroke='#ffffff' >
+                            <YAxis tick={{ fill: 'white' }}
+                                ticks={[5, 10, 15, 20, 25,]} interval={0}
+                                padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
-                                        fontSize: '10px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value="Usage (in Hrs)">
+                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                    }} value={this.props.yAxisLabel}>
                                 </Label>
                             </YAxis>
                             <Brush
-                                dataKey='nocycles'
+                                dataKey={this.props.dataKey}
                                 fill="#131731"
                                 height={12}
                                 stroke="#3C4473"
                                 startIndex={0}
-                                endIndex={10} />
+                                endIndex={0} />
                             {/* <Tooltip /> */}
                             {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                            {/* <ReferenceLine y={3.880} stroke="#717171" strokeDasharray="3 3 5 2" dx={25}
-                                    isFront={true} >
-                                    <Label position={'right'} fill="#ffffff"
-                                        style={{
-                                            fontSize: '7px', fontFamily: 'Roboto', paddingRight: '-50px'
-                                        }} value="3.880 Max">
-                                    </Label>
-                                </ReferenceLine>
-                                <ReferenceLine y={3.500} stroke="#717171" strokeDasharray="3 3 5 2" dx={25}
-                                    isFront={true} >
-                                    <Label position={'right'} fill="#ffffff"
-                                        style={{
-                                            fontSize: '7px', fontFamily: 'Roboto', paddingRight: '-50px'
-                                        }} value="3.730 Min">
-                                    </Label>
-                                </ReferenceLine> */}
-                            <Bar name="active time" dataKey="pv" stackId="a" isAnimationActive={true}>
-                                {data1.map((entry: any, index) => (
-                                    <Cell fill={entry.color ? 'red' : '#3C4473'} />
+                            <Bar name={this.props.bar1Name} dataKey={this.props.bar1Key!}
+                                stackId="a" isAnimationActive={true}>
+                                {this.props.data.map((entry: any, index: number) => (
+                                    <Cell fill={this.props.data[index].activeTime == 0 ? 'red' : this.props.bar1StrokeColor} key={index} />
                                 ))}
                             </Bar>
-                            <Bar name="idle time" dataKey="uv" stackId="a" fill="#4888ff" isAnimationActive={true}>
-                                {data1.map((entry: any, index) => (
-                                    <Cell fill={(entry.pv == 0) ? 'red' : '#4888ff'} />
+                            <Bar name={this.props.bar2Name} dataKey={this.props.bar2Key!} stackId="a" fill="#4888ff" isAnimationActive={true}>
+                                {this.props.data.map((entry: any, index: number) => (
+                                    <Cell fill={(this.props.data[index].alert == 1) ? 'red' : this.props.bar2StrokeColor} key={index} />
                                 ))}
                             </Bar>
                         </BarChart>
@@ -155,4 +135,4 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StackedGraph);
+export default StackedGraph;

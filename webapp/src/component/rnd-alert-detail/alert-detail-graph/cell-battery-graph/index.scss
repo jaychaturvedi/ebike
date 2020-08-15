@@ -19,14 +19,14 @@
     align-items: center;
   }
 
-  .top-graph-container {
-    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+4) {
-      display: none;
-    }
-  }
+  // .top-graph-container {
+  //   .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+4) {
+  //     display: none;
+  //   }
+  // }
 
   .bottom-graph-container {
-    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+8) {
+    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+4) {
       display: none;
     }
   }

@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine, Brush
 } from 'recharts';
+import moment from 'moment';
 
 
 const CustomizedDot = (props: any) => {
@@ -11,10 +12,9 @@ const CustomizedDot = (props: any) => {
         cx, cy, stroke, payload, value, L1
     } = props;
 
-    if (value == L1) {
+    if (value >= L1) {
         return (
-
-            <svg xmlns="http://www.w3.org/2000/svg" x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
+            <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 {/* <polygon points="0,0 10,0 5,10" /> */}
                 <polygon points="6 2, 12 12, 0 12" />
             </svg>
@@ -41,14 +41,21 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
                 fill="#ffffff"
-                fontFamily='Roboto'
-            >
+                fontFamily='Roboto'>
                 {props.value}
             </text>
         );
     }
+    formatDate = (label: any) => {
+        console.log("label", label)
+        console.log(moment(`${label}`).format('hh:mm a'));
+        // if ("Last 7 Days" === this.state.trendsPeriod)
+        //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
+        return this.props.xAxisLabel == "Time" ? moment(`${label}`).format("hh:mm a") : label
+    }
 
     render() {
+        console.log(this.props.data, "graph data");
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
@@ -60,9 +67,8 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                         <LineChart
                             data={this.props.data}
                             margin={{
-                                top: 0, right: 0, left: 0, bottom: 0,
-                            }}
-                        >
+                                top: 10, right: 10, left: -10, bottom: 0,
+                            }}>
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             {this.props.L1 ? <ReferenceLine y={this.props.L1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
@@ -73,32 +79,37 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                     }} value="L1">
                                 </Label>
                             </ReferenceLine> : ''}
+                            {/* <Brush /> */}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            <XAxis dataKey="nocycles" tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" height={35}
-                                padding={{ left: 30, right: 20 }}>
+                            <XAxis dataKey={this.props.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
+                                // ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
+                                // domain={[100, 1200]}
+                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 30, right: 20 }}>
                                 <Label
                                     value={this.props.xAxisLabel}
                                     position="bottom"
                                     offset={-18}
                                     style={{ padding: 5 }}
-                                    content={props => { return this.DynamicLabel(props) }}
-                                />
+                                    content={props => { return this.DynamicLabel(props) }} />
                             </XAxis>
-                            <Brush
-                                dataKey='nocycles'
-                                fill="#131731"
-                                height={12}
-                                stroke="#3C4473"
-                                startIndex={0}
-                                endIndex={10} />
-                            <YAxis tick={{ fill: 'white' }} padding={{ top: 20, bottom: 30 }} domain={[5, 50]} stroke='#ffffff'>
+                            <YAxis tick={{ fill: 'white' }}
+                                ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]} interval={1}
+                                padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
                                     }} value={this.props.yAxisLabel}>
                                 </Label>
                             </YAxis>
-                            <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string} stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
+                            <Brush
+                                dataKey={this.props.dataKey}
+                                fill="#131731"
+                                height={12}
+                                stroke="#3C4473"
+                                startIndex={0}
+                                endIndex={this.props.data.length - 1} />
+                            <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string}
+                                stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

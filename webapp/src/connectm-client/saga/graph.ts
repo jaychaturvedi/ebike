@@ -16,10 +16,10 @@ export async function getAlertGraphData(params: IAlertGraphActions) {
 }
 
 async function getGraphData(params: IAlertGraphActions) {
-    let data: any = []
+    let response: any = []
     const alertName = params.payload.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase()
     if (alertName === "capacitydeterioration") {
-        data = await axios.get(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
+        response = await axios.get(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
             {
                 params: {
                     vehicleId: params.payload.vehicleId,
@@ -30,7 +30,7 @@ async function getGraphData(params: IAlertGraphActions) {
         )
     }
     else {
-        data = await axios.get(process.env.REACT_APP_WEBAPIURL + '/graphs',
+        response = await axios.get(process.env.REACT_APP_WEBAPIURL + '/graphs',
             {
                 params: {
                     vehicleID: params.payload.vehicleId,
@@ -42,7 +42,7 @@ async function getGraphData(params: IAlertGraphActions) {
         )
     }
 
-    console.log("graph data call", data);
+    console.log("graph data call", response.data.body);
     return lowMileageData
 }
 
