@@ -51,9 +51,9 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     DynamicLabel = (props: any) => {
         return (
             <text
-                style={{ fontSize: "7px" }}
+                style={{ fontSize: "12px" }}
                 x={props.viewBox.x + props.viewBox.width / 2}
-                y={props.viewBox.y + props.viewBox.height + 5}
+                y={props.viewBox.y + props.viewBox.height - 5}
                 text-anchor="middle"
                 fill="#ffffff"
                 fontFamily='Roboto'>
@@ -93,7 +93,6 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                     value={this.props.xAxisLabel}
                                     position="bottom"
                                     offset={-18}
-                                    style={{ padding: 5 }}
                                     content={props => { return this.DynamicLabel(props) }} />
                             </XAxis>
                             <YAxis tick={{ fill: 'white' }}
