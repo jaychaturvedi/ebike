@@ -23,6 +23,7 @@ interface AlertDetailSingleStates {
     clearBoxToggle: boolean;
     alert: AlertData
     alertCleared: boolean
+    toolLateTime : number 
 }
 
 class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetailSingleStates> {
@@ -33,7 +34,9 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
             clearanceComment: "",
             clearBoxToggle: false,
             alert: alertLimpData(),
-            alertCleared: false
+            alertCleared: false,
+            //assumed constant value must be changed
+            toolLateTime: 24
         }
     }
 
@@ -95,7 +98,13 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
             clearanceComment: ""
         })
     }
-
+    getOpenAlertHoursClass = () => {
+        const splitHours = this.state.alert.openSince.split(':')
+        if(splitHours.length  > 0) {
+            Number(splitHours[0]) > this.state.toolLateTime ? "toolate" : ""
+        }
+        return ""
+    } 
     render() {
         const clearAlert = (
             <Menu style={{ left: "-25%", backgroundColor: "#272B3C" }} className={"clear-alert-container"}>
@@ -120,7 +129,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Open Since:</div>
-                    <div className={"single-cell-right toolate"}>{this.state.alertCleared ? "N/A" : formatHourMin(this.state.alert.openSince)}</div>
+                    <div className={`single-cell-right ${this.getOpenAlertHoursClass}`}>{this.state.alertCleared ? "N/A" : formatHourMin(this.state.alert.openSince)}</div>
                 </div>
                 <div className={"single-row"}>
                     <Dropdown overlay={clearAlert} trigger={['click']} visible={this.state.clearBoxToggle} disabled={this.state.alertCleared}>

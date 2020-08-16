@@ -87,7 +87,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             })
         }
         state.zoom = props.trendsZoom
-        console.log(props.trendsZoom, "trends zoom");
+        // console.log(props.trendsZoom, "trends zoom");
         return state
     }
 
@@ -121,8 +121,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     );
 
     formatDate = (label: any) => {
-        console.log("label", label)
-        console.log(moment(`${label}`).format('dddd'));
+        // console.log("label", label)
+        // console.log(moment(`${label}`).format('dddd'));
         if ("Last 7 Days" === this.state.trendsPeriod)
             return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
         return label == this.state.endDate ?
@@ -132,7 +132,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     handleZoom = () => {
         const { clickCount, totalAlerts, top5Alerts, locationwiseAlerts } = this.state
         let trendsZoom = this.state.zoom
-        console.log("im clicked");
+        // console.log("im clicked");
         if (clickCount == 0) {
             // this.setState({ zoom: 4, clickCount: clickCount + 1 })
             trendsZoom = 4
@@ -239,7 +239,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </ResponsiveContainer>
             </div>
         </>
-        console.log(this.state.top5Alerts, 'top5')
+        // console.log(this.state.top5Alerts, 'top5')
 
     }
     scale(endIndex: any) {
