@@ -46,11 +46,16 @@ export function* endRide(params: RideActions.EndRide) {
                     petrolSavingsLtr: data.litreSaved,
                     startTime: data.startTime,
                     endTime: data.endTime,
-                    path: data.gpsPath.map((item: any) => ({
-                        lat: item.lat ?? '',
-                        long: item.lng ?? '',
-                        time: item.utc ?? ''
-                    }))
+                    // path: data.gpsPath.map((item: any) => ({
+                    //     lat: item.lat ?? '',
+                    //     long: item.lng ?? '',
+                    //     time: item.utc ?? ''
+                    // }))
+                    path: [{
+                        lat: 37.78825,
+                        long: -122.4324,
+                        time: ''
+                    }],
                 }
             } as Store_UpdateRide);
         }
@@ -109,6 +114,10 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                     from: ride.startloc,
                     to: ride.endloc,
                     score: ride.rating,
+                    path: [{
+                        lat: 37.78825,
+                        long: -122.4324
+                    }],
                     startTime: `${ride.date} ${ride.fromtime}`,
                     endTime: `${ride.date} ${ride.totime}`,
                 }))
@@ -187,11 +196,16 @@ export function* getRide(params: RideActions.ReadRideData) {
                     petrolSavingsLtr: data.litreSaved,
                     startTime: data.startTime,
                     endTime: data.endTime,
-                    path: data.gpsPath.map((item: any) => ({
-                        lat: item.lat ?? '',
-                        long: item.lng ?? '',
-                        time: item.utc ?? ''
-                    })),
+                    // path: data.gpsPath.map((item: any) => ({
+                    //     lat: 37.78825,
+                    //     long: -122.4324,
+                    //     time: item.utc ?? ''
+                    // })),
+                    path: [{
+                        lat: 37.78825,
+                        long: -122.4324,
+                        time: ''
+                    }],
                     durationSec: data.duration,
                     score: data.rating,
                 }

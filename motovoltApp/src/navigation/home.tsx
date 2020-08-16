@@ -3,13 +3,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 //Register
 import HomeScreen from '../screens/home/index';
+import GPS from '../screens/home/gps-lui'
 
 
 /**
  * All props definiton goes here
  */
 export type HomeStackParamList = {
-    Home: {}
+    Home: {},
+    Gps: {}
 }
 
 const Home = createStackNavigator<HomeStackParamList>();
@@ -24,6 +26,7 @@ export default function HomeStack() {
         // mode="modal"
         >
             <Home.Screen name="Home" component={HomeScreen} />
+            <Home.Screen name="Gps" component={GPS} />
         </Home.Navigator>
     );
 }  

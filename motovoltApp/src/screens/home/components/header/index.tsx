@@ -97,7 +97,7 @@ class CHeader extends React.PureComponent<Props, {}> {
                   }
                 })
               }>
-                {this.props.hasNotification && <Badge />}
+                {this.props.notifications.isPresent && <Badge />}
                 <Image
                   source={require('../../../../assets/icons/notification.png')}
                   style={styles.rightIcon}

@@ -35,6 +35,8 @@
     "react-native-gesture-handler": "^1.6.1",
     "react-native-keychain": "^6.1.1",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-maps": "https://github.com/xDemon200/react-native-maps",
+    "react-native-maps-directions": "^1.8.0",
     "react-native-modal-datetime-picker": "^8.7.1",
     "react-native-permissions": "^2.1.5",
     "react-native-qrcode-scanner": "^1.4.1",

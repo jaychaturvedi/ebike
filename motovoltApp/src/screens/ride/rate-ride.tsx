@@ -15,13 +15,13 @@ import Feedback from './feedback';
 import ThumbsUp from '../../components/thumb-up';
 import { SubmitRide } from 'src/service/redux/actions/saga';
 import { Dispatch } from 'redux';
+import Map from '../../components/map';
 
 
 type ReduxState = {
     ride: TStore['ride'];
     user: TStore['user'];
 };
-
 
 interface Props extends ReduxState {
     onComplete: () => void,
@@ -65,7 +65,22 @@ class RateRide extends React.PureComponent<Props, State> {
                     }
                 }}>
                 <View style={styles.container}>
-                    <View style={styles.map}></View>
+                    <View style={styles.map}>
+                        <Map location={[
+                            // {
+                            // latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
+                            // longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
+                            // }
+                            {
+                                latitude: 37.3317876,
+                                longitude: -122.0054812,
+                            },
+                            {
+                                latitude: 37.771707,
+                                longitude: -122.4053769,
+                            },
+                        ]} />
+                    </View>
                     <View style={styles.usageDetails}>
                         <RideMetric
                             header1="Distance"

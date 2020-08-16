@@ -67,6 +67,7 @@ export type Store_UpdateBike = {
         lastLocationKnownTime?: string,
         lat?: number,
         long?: number,
+        address?: string,
         co2SavingKg?: number,
         totalDistanceKm?: number,
         avgRideScore?: number,

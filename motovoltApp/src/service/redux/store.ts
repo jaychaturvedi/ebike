@@ -81,6 +81,8 @@ type TBike = {
     lastLocationKnownTime: string,
     lat: number,
     long: number,
+    address: string,
+    lastUsed: string,
     reportIssueSuccess: boolean | null,
     batteries: {
         [id: string]: {
@@ -184,6 +186,8 @@ const ZeroBike: TBike = {
     lastLocationKnownTime: "",
     lat: 0,
     long: 0,
+    address: '',
+    lastUsed: '',
     co2SavingKg: 0,
     totalDistanceKm: 0,
     avgRideScore: 0,

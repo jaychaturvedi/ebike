@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 import TipCard from '../../components/tip-card';
 import Swiper from 'react-native-swiper';
@@ -12,6 +12,7 @@ import { RouteProp } from '@react-navigation/native';
 import { StatisticsStackParamList } from '../../navigation/statistics';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
+import Map from '../../components/map';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -40,7 +41,22 @@ class IndividualRide extends React.PureComponent<Props, State> {
           onBackClick={() => this.props.navigation.goBack()}
         />
         <ScrollView>
-          <View style={styles.map}></View>
+          <View style={styles.map}>
+            <Map location={[
+              // {
+              //   latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
+              //   longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
+              // }
+              {
+                latitude: 37.3317876,
+                longitude: -122.0054812,
+              },
+              {
+                latitude: 37.771707,
+                longitude: -122.4053769,
+              },
+            ]} />
+          </View>
           <View style={styles.tip}>
             <Swiper
               loop={true}

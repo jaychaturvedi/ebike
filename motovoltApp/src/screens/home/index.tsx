@@ -5,13 +5,22 @@ import RideStatSection from './components/ridestats';
 import Header from './components/header';
 import Colors from '../../styles/colors';
 import { scale, verticalScale } from '../../styles/size-matters';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { moderateScale } from 'react-native-size-matters';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import Background from '../../components/background';
 import { ReadBikeStat } from '../../service/redux/actions/saga/bike-actions';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { HomeStackParamList } from '../../navigation/home';
+import Map from '../../components/map';
+
+type HomeNavigationProp = StackNavigationProp<
+  HomeStackParamList,
+  'Home'
+>;
 
 type ReduxState = {
   readBikeStat: (params: ReadBikeStat) => void
@@ -19,7 +28,10 @@ type ReduxState = {
   user: TStore['user'];
 };
 
-interface Props extends ReduxState { }
+interface Props extends ReduxState {
+  navigation: HomeNavigationProp;
+  route: RouteProp<HomeStackParamList, 'Home'>;
+}
 
 type State = {};
 
@@ -85,8 +97,10 @@ class Home extends React.PureComponent<Props, State> {
                 Cycle A
               </Text>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ON{'\n'}</Text>
-              <Image
-                source={require('../../assets/icons/GPS_tracker.png')}></Image>
+              {this.props.bike.type === 'GPS' ? <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Gps', {})}
+              ><Image
+                source={require('../../assets/icons/GPS_tracker.png')}></Image></TouchableOpacity> : null}
             </View>
           </View>
           <RideStatSection

@@ -103,15 +103,19 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
 
 export function* getLocation(params: BikeActions.ReadBikeLocation) {
     try {
-        const dataResponse = yield request(`${config.baseUrl}/bike/liveLocation/${params.payload.bikeId}`, "GET",);
+        // const dataResponse = yield request(`${config.baseUrl}/bike/livelocation/${params.payload.bikeId}`, "GET",);
+        const dataResponse = yield request(`${config.baseUrl}/bike/livelocation/${'069bcc081a68a0832f123'}`, "GET",);
         if (dataResponse.success) {
             const data = dataResponse.response.body;
             yield put({
                 type: "Store_UpdateBike",
                 payload: {
-                    lat: data.latitude,
-                    long: data.longitude,
-                    lastLocationKnownTime: data.lastused
+                    // lat: data.latitude,
+                    // long: data.longitude,
+                    lat: 37.78825,
+                    long: -122.4324,
+                    lastLocationKnownTime: data.lastused,
+                    address: data.address,
                 }
             } as Store_UpdateBike);
             // Update redux with ride details
