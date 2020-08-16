@@ -32,6 +32,13 @@ interface DoubleLineGraphProps {
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string
 }
 
+const limpData: any = {
+    data: [],
+    line1StrokeColor: "",
+    line2StrokeColor: ""
+}
+
+
 interface DoubleLineGraphStates {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
@@ -41,10 +48,15 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
     constructor(props: DoubleLineGraphStates) {
         super(props);
         this.state = {
-            data: props.data ? props.data : []
+            data: [],
         }
     }
 
+    static getDerivedStateFromProps(props: DoubleLineGraphProps, state: DoubleLineGraphStates) {
+        console.log(state.data, props.data, "graph mount");
+        state.data = props.data
+        return state
+    }
     DynamicLabel = (props: any) => {
         return (
             <text
@@ -66,9 +78,9 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         return this.props.xAxisLabel == "Time" ? moment(`${label}`).format("hh:mm a") : label
     }
 
-    componentDidMount() {
-        console.log(this.state.data, this.props.data, "graph mount");
-    }
+    // componentDidMount() {
+    //     console.log(this.state.data, this.props.data, "graph mount");
+    // }
     render() {
 
         console.log(this.props.data, "graph data");

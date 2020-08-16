@@ -268,7 +268,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
             {
-                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '25%',
+                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '20%',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
@@ -289,7 +289,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
             },
             {
-                dataIndex: 'alertTime', key: 'alertTime', defaultSortOrder: 'ascend', width: "15%",
+                dataIndex: 'alertTime', key: 'alertTime', defaultSortOrder: 'ascend', width: "20%",
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
                         {timeClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
@@ -297,7 +297,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 render: (text: any, record: any, index: any) => <TimeRenderer text={text} record={record} index={index} />,
             },
             {
-                dataIndex: 'openSince', key: 'openSince', width: "10%",
+                dataIndex: 'openSince', key: 'openSince', width: "15%",
                 title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
                         {openSinceClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}

@@ -131,7 +131,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
 
     handleSort = (arr: any, sort: TSort) => {
-        console.log("arr", arr, "sort", sort)
+        // console.log("arr", arr, "sort", sort)
         if (!sort.fieldName) { return arr }
         return arr.sort((a: any, b: any) => {
             return a[sort.fieldName].localeCompare(b[sort.fieldName])

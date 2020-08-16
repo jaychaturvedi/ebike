@@ -6,9 +6,26 @@ import {
 } from 'recharts';
 import { FileExcelFilled } from '@ant-design/icons';
 
+const volatgeDeviationData = {
+    "cell1": 0,
+    "cell2": 0,
+    "cell3": 0,
+    "cell4": 0,
+    "cell5": 0,
+    "cell6": 0,
+    "cell7": 0,
+    "cell8": 0,
+    "cell9": 0,
+    "cell10": 0,
+    "cell11": 0,
+    "cell12": 0,
+    "volatgeDiffer": 0
+}
+
 interface CellBatteryGraphProps { data: any, title?: string, dataKey: string, barDataKey: string, minL1: number, maxL2: number }
 
 interface CellBatteryGraphStates {
+    data: any
     data1?: any, data2?: any,
     voltageDelta: number,
     maxVolt: number,
@@ -21,6 +38,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
     constructor(props: CellBatteryGraphProps) {
         super(props)
         this.state = {
+            data: volatgeDeviationData,
             data1: [],
             data2: [],
             voltageDelta: 0,
@@ -30,13 +48,17 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             minCellPos: 0
         }
     }
-    formatData = (data: any) => {
-        if (data === undefined) return []
+    static getDerivedStateFromProps(props: CellBatteryGraphProps, state: CellBatteryGraphStates) {
+        let data = state.data
+        if (props.data != undefined){
+            data = props.data
+        }
         const keys = Object.keys(data)//["cell1","cell2","cell3","voltage difference"]
         const voltageDelta = keys.splice(-1)[0]
         let arr1: { name: string; value: any; }[] = [];
         let arr2: { name: string; value?: any; }[] = [];
         let max = 0; let min = 100; let maxPos = 0; let minPos = 0
+
         const datas1 = keys.map((i, j) => {
             if (data[i] >= max) {
                 max = data[i]
@@ -51,23 +73,56 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         arr2.push({ 'name': '', }, { 'name': '', }, { 'name': '', }, { 'name': 'cell16', })
 
         // for (let i = 0; i <= 8 - arr2.length; i++) arr2.push({ 'name': '', 'value': 0 })
-        this.setState({
-            data1: arr1, data2: arr2, maxVolt: max, minVolt: min, maxCellPos: maxPos, minCellPos: minPos,
-            voltageDelta: (max - min)
-        })
-        this.forceUpdate()
+
+        state.data1 = arr1;
+        state.data2 = arr2;
+        state.maxVolt = max;
+        state.minVolt = min;
+        state.maxCellPos = maxPos;
+        state.minCellPos = minPos;
+        state.voltageDelta = (max - min)
         // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
-        console.log(this.state, "graph cell in func");
+        console.log(state, "graph cell in func");
+
     }
-    componentWillMount() {
-        this.formatData(this.props.data)
-    }
+    // formatData = (data: any) => {
+    //     if (data === undefined) return []
+    //     const keys = Object.keys(data)//["cell1","cell2","cell3","voltage difference"]
+    //     const voltageDelta = keys.splice(-1)[0]
+    //     let arr1: { name: string; value: any; }[] = [];
+    //     let arr2: { name: string; value?: any; }[] = [];
+    //     let max = 0; let min = 100; let maxPos = 0; let minPos = 0
+    //     const datas1 = keys.map((i, j) => {
+    //         if (data[i] >= max) {
+    //             max = data[i]
+    //             maxPos = j
+    //         }
+    //         if (data[i] < min) {
+    //             min = data[i]
+    //             minPos = j
+    //         }
+    //         j < 8 ? arr1.push({ 'name': i, 'value': data[i] }) : arr2.push({ 'name': i, 'value': data[i] })
+    //     })
+    //     arr2.push({ 'name': '', }, { 'name': '', }, { 'name': '', }, { 'name': 'cell16', })
+
+    //     // for (let i = 0; i <= 8 - arr2.length; i++) arr2.push({ 'name': '', 'value': 0 })
+    //     this.setState({
+    //         data1: arr1, data2: arr2, maxVolt: max, minVolt: min, maxCellPos: maxPos, minCellPos: minPos,
+    //         voltageDelta: (max - min)
+    //     })
+    //     this.forceUpdate()
+    //     // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
+    //     console.log(this.state, "graph cell in func");
+    // }
+    // componentWillMount() {
+    //     this.formatData(this.props.data)
+    // }
 
     // componentDidMount() {
     //     console.log(this.state.data1, this.state.data2, this.props.data, "graph mount");
     // }
     render() {
-        console.log(this.state, "graph cell");
+        console.log(this.state, "rendered test graph cell");
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>

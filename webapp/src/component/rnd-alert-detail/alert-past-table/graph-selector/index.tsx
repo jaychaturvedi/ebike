@@ -25,7 +25,7 @@ class GraphSelector extends PureComponent<GraphSelectorProps, GraphSelectorState
         }
     }
     render() {
-        { console.log(this.props.text, this.props.record, this.props.index) }
+        // { console.log(this.props.text, this.props.record, this.props.index) }
         return (
             <span style={{ textAlign: 'center', paddingLeft: '30%' }} >
                 {this.props.text ? <ClosePastAlertGraph height="20" width="20" /> : <PastAlertGraph height="20" width="20"/>}

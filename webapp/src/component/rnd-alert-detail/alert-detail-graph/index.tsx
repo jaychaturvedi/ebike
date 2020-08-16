@@ -43,6 +43,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
 
     static getDerivedStateFromProps(props: AlertGraphProps, state: AlertGraphStates) {
         let alertTypeId: number
+        console.log("Got alert graph request")
         if (props.alertName != undefined) {
             alertTypeId = getAlertTypeId(props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
             if (state.dataLoaded == false || alertTypeId != state.alertTypeId) {
@@ -66,11 +67,12 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
         return state
     }
     render() {
-        console.log("Low Milage alerts", this.state, this.props.alertId)
+        // console.log("Low Milage alerts", this.state, this.props.alertId)
         console.log("graph in alert index  ", this.state.alertTypeId, this.state.data);
 
         switch (this.state.alertTypeId) {
             //voltage deviation graph
+
             case 1: {
                 return <CellBatteryGraph data={this.state.data} title="12 Cell BAttery Pack Info" dataKey="name"
                     barDataKey="value" minL1={3.731} maxL2={3.881} />
@@ -136,7 +138,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             case 10: {
                 // return <GraphSelector graphType="double" />
-                return <DoubleLineGraph data={this.state.data} dataKey="nocycles" line1Key="amilage" line2Key="smilage" title="Low Mileage"
+                return <DoubleLineGraph data={[]} dataKey="nocycles" line1Key="amilage" line2Key="smilage" title="Low Mileage"
                     line2Name='Actual Mileage' line1Name='Specified Mileage' line1StrokeColor="#79a45b" line2StrokeColor="#4aa7cf"
                     refColor="green" xAxisLabel="No. of cycle" yAxisLabel="Mileage in Km" />
             }
