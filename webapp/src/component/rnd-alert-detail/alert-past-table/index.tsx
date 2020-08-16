@@ -185,8 +185,9 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
     /**Row Selection*/
 
-    setRowClassName = (record: any, index: any) => {
-        if (record.id === this.state.selectedRowId) {
+    setRowClassName = (record: TPastAlertData, index: any) => {
+        if (record.alertGraph) {
+            console.log("Selected rowID", Number(record.alertId), this.state.selectedRowId )
             return 'past-alert-selected-row'
         }
         return index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
