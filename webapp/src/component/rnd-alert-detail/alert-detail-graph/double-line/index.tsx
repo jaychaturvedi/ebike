@@ -5,6 +5,7 @@ import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine, Brush
 } from 'recharts';
 import moment from 'moment';
+import { stat } from 'fs';
 
 
 const CustomizedDot = (props: any) => {
@@ -27,7 +28,7 @@ const CustomizedDot = (props: any) => {
 
 };
 interface DoubleLineGraphProps {
-    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number,
+    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: boolean, L2?: boolean,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string
 }
@@ -40,21 +41,47 @@ const limpData: any = {
 
 
 interface DoubleLineGraphStates {
-    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number,
+    data: any; line1StrokeColor?: string; line2StrokeColor?: string,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
-    dataKey?: string, line1Key?: string, line2Key?: string, title?: string
+    dataKey?: string, line1Key?: string, line2Key?: string, title?: string, L1Value: number, L2Value: number
 }
 class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGraphStates> {
     constructor(props: DoubleLineGraphStates) {
         super(props);
         this.state = {
-            data: [],
+            data: [{ a: 0, b: 0, c: 0, L1: 0, L2: 0 }],
+            dataKey: 'a',
+            xAxisLabel: "X Label",
+            yAxisLabel: "Y Label",
+            title: "Graph Name",
+            L1Value: 0,
+            L2Value: 0,
+            refColor: "white",
+            line1Name: 'legend 1',
+            line2Name: 'legend 2',
+            line1Key: "b",
+            line2Key: "c"
         }
     }
 
     static getDerivedStateFromProps(props: DoubleLineGraphProps, state: DoubleLineGraphStates) {
+        let data = state.data
+        if (props.data != undefined) {
+            data = props.data;
+            state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
+            state.L2Value = props.data.length > 0 && props.L1 ? data[0].L2 : 0;
+            state.xAxisLabel = props.xAxisLabel;
+            state.yAxisLabel = props.yAxisLabel;
+            state.refColor = props.refColor;
+            state.dataKey = props.dataKey;
+            state.line1Key = props.line1Key;
+            state.line2Key = props.line2Key;
+            state.line1Name = props.line1Name;
+            state.line2Name = props.line2Name;
+        }
+
+        state.data = data
         console.log(state.data, props.data, "graph mount");
-        state.data = props.data
         return state
     }
     DynamicLabel = (props: any) => {
@@ -100,30 +127,37 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                             }}>
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                            {this.props.L1 ? <ReferenceLine y={this.props.L1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                            {this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
                                         fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
                                     }} value="L1">
                                 </Label>
-                            </ReferenceLine> : ''}
-                            {this.props.L2 ? <ReferenceLine y={this.props.L2} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                            </ReferenceLine> : <ReferenceLine />}
+                            {this.state.L2Value ? <ReferenceLine y={this.state.L2Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
                                         fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
                                     }} value="L2">
                                 </Label>
-                            </ReferenceLine> : ''}
-                            {/* <Brush /> */}
+                            </ReferenceLine> : <ReferenceLine />}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            <XAxis dataKey={this.props.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
+                            {this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                                isFront={true} >
+                                <Label position={'insideBottomLeft'} fill="#ffffff"
+                                    style={{
+                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                    }} value="L1">
+                                </Label>
+                            </ReferenceLine> : <ReferenceLine />}
+                            <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 // ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
                                 // domain={[100, 1200]}
                                 tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 30, right: 20 }}>
                                 <Label
-                                    value={this.props.xAxisLabel}
+                                    value={this.state.xAxisLabel}
                                     position="bottom"
                                     offset={-18}
                                     style={{ padding: 5 }}
@@ -135,21 +169,21 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value={this.props.yAxisLabel}>
+                                    }} value={this.state.yAxisLabel}>
                                 </Label>
                             </YAxis>
                             <Brush
-                                dataKey={this.props.dataKey}
+                                dataKey={this.state.dataKey}
                                 fill="#131731"
                                 height={12}
                                 stroke="#3C4473"
                                 startIndex={0}
                                 endIndex={0} />
-                            <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string}
-                                stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
+                            <Line name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
+                                stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.state.L1Value} />} />
 
-                            <Line name={this.props.line2Name} type="monotone" dataKey={this.props.line2Key as string}
-                                stroke={this.props.line2StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L2} />} />
+                            <Line name={this.state.line2Name} type="monotone" dataKey={this.state.line2Key as string}
+                                stroke={this.props.line2StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.state.L2Value} />} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

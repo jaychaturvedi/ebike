@@ -26,18 +26,46 @@ const CustomizedDot = (props: any) => {
 
 };
 interface AlertDetailGraphProps {
-    data: any; line1StrokeColor?: string, L1?: number,
+    data: any; line1StrokeColor?: string, L1: boolean,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, title: string
 }
 
-interface AlertDetailGraphStates { data: any }
+interface AlertDetailGraphStates {
+    data: any; line1StrokeColor?: string,
+    xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, refColor?: string,
+    dataKey?: string, line1Key?: string, title: string, L1Value: number
+}
 class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailGraphStates> {
     constructor(props: AlertDetailGraphProps) {
         super(props);
         this.state = {
-            data: props.data,
+            data: [{ a: 0, b: 0, c: 0 }],
+            dataKey: 'a',
+            xAxisLabel: "X Label",
+            yAxisLabel: "Y Label",
+            title: "Graph Name",
+            L1Value: 0,
+            refColor: "white",
+            line1Name: 'legend 1',
+            line1Key: "b",
         }
+    }
+    static getDerivedStateFromProps(props: AlertDetailGraphProps, state: AlertDetailGraphStates) {
+        let data = state.data
+        if (props.data != undefined) {
+            data = props.data;
+            state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
+            state.xAxisLabel = props.xAxisLabel;
+            state.yAxisLabel = props.yAxisLabel;
+            state.refColor = props.refColor;
+            state.dataKey = props.dataKey;
+            state.line1Key = props.line1Key;
+            state.line1Name = props.line1Name;
+        }
+        state.data = data
+        console.log(state.data, props.data, "graph mount");
+        return state
     }
 
     DynamicLabel = (props: any) => {
@@ -84,22 +112,22 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                             }}>
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                            {this.props.L1 ? <ReferenceLine y={this.props.L1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                            {this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
                                         fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
                                     }} value="L1">
                                 </Label>
-                            </ReferenceLine> : ''}
+                            </ReferenceLine> : <ReferenceLine />}
                             {/* <Brush /> */}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            <XAxis dataKey={this.props.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
+                            <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 // ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
                                 // domain={[100, 1200]}
                                 tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 30, right: 20 }}>
                                 <Label
-                                    value={this.props.xAxisLabel}
+                                    value={this.state.xAxisLabel}
                                     position="bottom"
                                     offset={-18}
                                     style={{ padding: 5 }}
@@ -111,19 +139,18 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value={this.props.yAxisLabel}>
+                                    }} value={this.state.yAxisLabel}>
                                 </Label>
                             </YAxis>
                             <Brush
-                                dataKey={this.props.dataKey}
+                                dataKey={this.state.dataKey}
                                 fill="#131731"
                                 height={12}
                                 stroke="#3C4473"
                                 startIndex={0}
-                                endIndex={this.props.data.length - 1} />
-                            <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string}
-                                stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
-
+                                endIndex={0} />
+                            <Line name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
+                                stroke={this.props.line1StrokeColor} strokeWidth={3} dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} /> : false} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

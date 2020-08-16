@@ -79,15 +79,15 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             //vehicle idle active
             case 2: {
-                return <StackedGraph data={vehicleUsageData} dataKey="timeDate" title="12 Cell Battery Pack Info"
+                return <StackedGraph data={this.state.data} dataKey="timeDate" title="12 Cell Battery Pack Info"
                     xAxisLabel="Days" yAxisLabel="Usage (in Hrs)"
                     bar1Key="activeTime" bar2Key="idleTime"
                     bar1Name="Active Time" bar2Name="Idle Time"
-                    bar1StrokeColor="#3C4473" bar2StrokeColor="#4888ff" />
+                    bar1StrokeColor="#3C4473" bar2StrokeColor="#4888ff" L1={false} />
             }
             case 3: {
-                return <DoubleLineGraph dataKey="timeDate" data={batteryTempData}
-                    L1={batteryTempData[0].L1} L2={batteryTempData[0].L2}
+                return <DoubleLineGraph dataKey="timeDate" data={this.state.data}
+                    L1={true} L2={true}
                     title="Battery Temperature"
                     line1Key="chrgTemp" line2Key="abintTemp"
                     line1Name='Charging Temp' line2Name='Ambient Temp'
@@ -95,52 +95,51 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
                     refColor="green" xAxisLabel="Time" yAxisLabel="Temperature (C)" />
             }
             case 4: {
-                return <SingleLineGraph data={voltageTrendData} dataKey="timeDate"
-                    L1={voltageTrendData[0].L1} title="Battery Voltage Trend"
-                    line1Key="batteryPackVoltage " line1Name='Battery Pack Voltage' refColor="green"
+                return <SingleLineGraph data={this.state.data} dataKey="timeDate"
+                    L1={true} title="Battery Voltage Trend"
+                    line1Key="batteryPackVoltage" line1Name='Battery Pack Voltage' refColor="green"
                     line1StrokeColor="#4aa7cf" xAxisLabel="Time" yAxisLabel="Voltage"
                 />
             }
             //High charging temperature l1
             case 5: {
                 return <DualAxisLineGraph title="Charging Temperature Trend"
-                    dataKey="timeDate" data={chargingTrendData} L1={chargingTrendData[0].L1}
+                    dataKey="timeDate" data={this.state.data} L1={true}
                     line1Key="current" line2Key="chargingTemp"
                     line1Name='Current' line2Name='Charging Temperature (T1 or T2)'
                     line1StrokeColor="#D48D4F" line2StrokeColor="#4aa7cf"
-                    refColor="green" xAxisLabel="Time" yAxisLabel="Temperature 'C" rightYaxisLabel="Current (A)" />
+                    refColor="4bfc38" xAxisLabel="Time" yAxisLabel="Temperature 'C" rightYaxisLabel="Current (A)" />
             }
             case 6: {
-                return <SingleLineGraph data={chargeOverTrendData} dataKey="timeDate" L1={chargeOverTrendData[0].L1}
+                return <SingleLineGraph data={this.state.data} dataKey="timeDate" L1={true}
                     title="Charging Current Trend"
                     line1Key="chargOverCurnt" line1Name='Charge Over Current' refColor="#e3e6e8"
                     line1StrokeColor="#4aa7cf" xAxisLabel="Time" yAxisLabel="Current (A)"
                 />
             }
             case 7: {
-                return <SingleLineGraph data={socData} dataKey="timeDate" L1={socData[0].L1} title="Soc Trend"
+                return <SingleLineGraph data={this.state.data} dataKey="timeDate" L1={true} title="Soc Trend"
                     line1Key="soc" line1Name="Soc" refColor="#e3e6e8"
                     line1StrokeColor="#4aa7cf" xAxisLabel="Time" yAxisLabel="SOC"
                 />
             }
             case 8: {
-                return <SingleLineGraph data={batteryDiffData} dataKey="timeDate" L1={batteryDiffData[0].L1}
+                return <SingleLineGraph data={this.state.data} dataKey="timeDate" L1={true}
                     title="Battery Temperature Difference Trend"
                     line1Key="deltaTemp" line1Name="Delta Temperature (T1-T2)" refColor="#e3e6e8"
                     line1StrokeColor="#4aa7cf" xAxisLabel="Time" yAxisLabel="Temperature (C)"
                 />
             }
             case 9: {
-                return <SingleLineGraph data={speedData} dataKey="timeDate" title="Speed Trend"
-                    line1Key="speed" line1Name="Average Speed" refColor="#e3e6e8"
+                return <SingleLineGraph data={this.state.data} dataKey="timeDate" title="Speed Trend"
+                    line1Key="speed" line1Name="Average Speed" refColor="#e3e6e8" L1={false}
                     line1StrokeColor="#4aa7cf" xAxisLabel="Time" yAxisLabel="Speed (Km)"
                 />
             }
             case 10: {
-                // return <GraphSelector graphType="double" />
-                return <DoubleLineGraph data={[]} dataKey="nocycles" line1Key="amilage" line2Key="smilage" title="Low Mileage"
+                return <DoubleLineGraph data={this.state.data} dataKey="nocycles" line1Key="amilage" line2Key="smilage" title="Low Mileage"
                     line2Name='Actual Mileage' line1Name='Specified Mileage' line1StrokeColor="#79a45b" line2StrokeColor="#4aa7cf"
-                    refColor="green" xAxisLabel="No. of cycle" yAxisLabel="Mileage in Km" />
+                    refColor="green" xAxisLabel="No. of cycle" yAxisLabel="Mileage in Km" L1={false} L2={false} />
             }
             default: {
                 return <div>Nothing</div>

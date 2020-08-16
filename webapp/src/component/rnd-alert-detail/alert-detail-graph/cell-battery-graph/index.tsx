@@ -7,18 +7,18 @@ import {
 import { FileExcelFilled } from '@ant-design/icons';
 
 const volatgeDeviationData = {
-    "cell1": 0,
-    "cell2": 0,
-    "cell3": 0,
-    "cell4": 0,
-    "cell5": 0,
-    "cell6": 0,
-    "cell7": 0,
-    "cell8": 0,
-    "cell9": 0,
-    "cell10": 0,
-    "cell11": 0,
-    "cell12": 0,
+    "cell1": 3.0001,
+    "cell2": 3.001,
+    "cell3": 3.001,
+    "cell4": 3.001,
+    "cell5": 3.001,
+    "cell6": 3.001,
+    "cell7": 3.001,
+    "cell8": 3.001,
+    "cell9": 3.001,
+    "cell10": 3.001,
+    "cell11": 3.001,
+    "cell12": 3.001,
     "volatgeDiffer": 0
 }
 
@@ -50,7 +50,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
     }
     static getDerivedStateFromProps(props: CellBatteryGraphProps, state: CellBatteryGraphStates) {
         let data = state.data
-        if (props.data != undefined){
+        if (props.data != undefined) {
             data = props.data
         }
         const keys = Object.keys(data)//["cell1","cell2","cell3","voltage difference"]
@@ -83,44 +83,10 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         state.voltageDelta = (max - min)
         // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
         console.log(state, "graph cell in func");
+        return state
 
     }
-    // formatData = (data: any) => {
-    //     if (data === undefined) return []
-    //     const keys = Object.keys(data)//["cell1","cell2","cell3","voltage difference"]
-    //     const voltageDelta = keys.splice(-1)[0]
-    //     let arr1: { name: string; value: any; }[] = [];
-    //     let arr2: { name: string; value?: any; }[] = [];
-    //     let max = 0; let min = 100; let maxPos = 0; let minPos = 0
-    //     const datas1 = keys.map((i, j) => {
-    //         if (data[i] >= max) {
-    //             max = data[i]
-    //             maxPos = j
-    //         }
-    //         if (data[i] < min) {
-    //             min = data[i]
-    //             minPos = j
-    //         }
-    //         j < 8 ? arr1.push({ 'name': i, 'value': data[i] }) : arr2.push({ 'name': i, 'value': data[i] })
-    //     })
-    //     arr2.push({ 'name': '', }, { 'name': '', }, { 'name': '', }, { 'name': 'cell16', })
 
-    //     // for (let i = 0; i <= 8 - arr2.length; i++) arr2.push({ 'name': '', 'value': 0 })
-    //     this.setState({
-    //         data1: arr1, data2: arr2, maxVolt: max, minVolt: min, maxCellPos: maxPos, minCellPos: minPos,
-    //         voltageDelta: (max - min)
-    //     })
-    //     this.forceUpdate()
-    //     // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
-    //     console.log(this.state, "graph cell in func");
-    // }
-    // componentWillMount() {
-    //     this.formatData(this.props.data)
-    // }
-
-    // componentDidMount() {
-    //     console.log(this.state.data1, this.state.data2, this.props.data, "graph mount");
-    // }
     render() {
         console.log(this.state, "rendered test graph cell");
         return (
@@ -139,8 +105,8 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     top: 10, right: 0, left: 0, bottom: 0,
                                 }} maxBarSize={25} style={{ fontSize: '7px' }}>
                                 <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} allowDecimals={true} />
-                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }}
-                                    ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
+                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} unit="volt"
+                                    ticks={[3.000, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
                                     orientation="right"
                                     domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
                                 {/* <Tooltip /> */}

@@ -10,34 +10,16 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 // import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
 
-const data1 = [
-    { name: '29 June', uv: 4000, pv: 2400, amt: 2400, },
-    { name: '30th', uv: 4000, pv: 2400, amt: 2400, },
-    { name: '1st July', uv: 4000, pv: 2400, amt: 2400, },
-    { name: '2nd', uv: 3000, pv: 1398, amt: 2210, },
-    { name: '3rd', uv: 2000, pv: 9800, amt: 2290, },
-    { name: '4th', uv: 2780, pv: 3908, amt: 2000, },
-    { name: '5th', uv: 1890, pv: 4800, amt: 2181, },
-    { name: '6th', uv: 2390, pv: 3800, amt: 2500, },
-    { name: '7th', uv: 3490, pv: 4300, amt: 2100, },
-    { name: '8th', uv: 1890, pv: 4800, amt: 2181, },
-    { name: '9th', uv: 2000, pv: 9800, amt: 2290, },
-    { name: '10th', uv: 2780, pv: 0, amt: 2000, color: 'red' },
-    { name: '11th', uv: 1890, pv: 4800, amt: 2181, },
-    { name: '12th', uv: 2000, pv: 9800, amt: 2290, },
-    { name: '13th', uv: 2780, pv: 3908, amt: 2000, },
-    { name: '14th', uv: 1890, pv: 4800, amt: 2181, },
-    { name: '15th', uv: 3490, pv: 4300, amt: 2110, },
-];
-
 interface StackedGraphProps {
-    data: any; bar1StrokeColor: string; bar2StrokeColor: string, L1?: number, L2?: number,
+    data: any; bar1StrokeColor: string; bar2StrokeColor: string, L1?: boolean,
     xAxisLabel: string, yAxisLabel: string, bar1Name: string, bar2Name: string, refColor?: string,
     dataKey: string, bar1Key: string, bar2Key: string, title: string
 }
 
 interface StackedGraphStates {
-    reload: boolean, data: string
+    data: any, L1Value: number,
+    xAxisLabel: string, yAxisLabel: string, bar1Name: string, bar2Name: string, refColor?: string,
+    dataKey: string, bar1Key: string, bar2Key: string, title: string
 }
 
 class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> {
@@ -45,10 +27,39 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     constructor(props: StackedGraphProps) {
         super(props);
         this.state = {
-            reload: true,
-            data: props.data
+            data: [{ a: 0, b: 0, c: 0 }],
+            dataKey: 'a',
+            xAxisLabel: "X Label",
+            yAxisLabel: "Y Label",
+            title: "Graph Name",
+            L1Value: 0,
+            refColor: "white",
+            bar1Name: 'legend 1',
+            bar2Name: 'legend 2',
+            bar1Key: "b",
+            bar2Key: "c"
         }
     }
+
+    static getDerivedStateFromProps(props: StackedGraphProps, state: StackedGraphStates) {
+        let data = state.data
+        if (props.data != undefined) {
+            data = props.data;
+            state.L1Value = props.L1 ? props.data[0].L1 : 0;
+            state.xAxisLabel = props.xAxisLabel;
+            state.yAxisLabel = props.yAxisLabel;
+            state.refColor = props.refColor;
+            state.dataKey = props.dataKey;
+            state.bar1Key = props.bar1Key;
+            state.bar2Key = props.bar2Key;
+            state.bar1Name = props.bar1Name;
+            state.bar2Name = props.bar2Name;
+        }
+        state.data = data
+        console.log(state.data, props.data, "graph mount");
+        return state
+    }
+
     DynamicLabel = (props: any) => {
         return (
             <text
@@ -70,11 +81,6 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
         //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
         return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
     }
-    componentWillMount() {
-        setTimeout(() => {
-            console.log("component will mount");
-        }, 5000)
-    }
 
     render() {
         return (
@@ -85,7 +91,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
                     <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
                         <BarChart
-                            data={this.props.data}
+                            data={this.state.data}
                             margin={{
                                 top: 10, right: 0, left: 0, bottom: 0,
                             }}
@@ -93,10 +99,10 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                             style={{ fontSize: '8px' }}>
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
-                            <XAxis dataKey={this.props.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
+                            <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20 }}>
                                 <Label
-                                    value={this.props.xAxisLabel}
+                                    value={this.state.xAxisLabel}
                                     position="bottom"
                                     offset={-18}
                                     content={props => { return this.DynamicLabel(props) }} />
@@ -107,27 +113,25 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value={this.props.yAxisLabel}>
+                                    }} value={this.state.yAxisLabel}>
                                 </Label>
                             </YAxis>
                             <Brush
-                                dataKey={this.props.dataKey}
+                                dataKey={this.state.dataKey}
                                 fill="#131731"
                                 height={12}
                                 stroke="#3C4473"
                                 startIndex={0}
                                 endIndex={0} />
-                            {/* <Tooltip /> */}
-                            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                            <Bar name={this.props.bar1Name} dataKey={this.props.bar1Key!}
+                            <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key}
                                 stackId="a" isAnimationActive={true}>
-                                {this.props.data.map((entry: any, index: number) => (
-                                    <Cell fill={this.props.data[index].activeTime == 0 ? 'red' : this.props.bar1StrokeColor} key={index} />
+                                {this.state.data.map((entry: any, index: number) => (
+                                    <Cell fill={this.state.data[index][this.state.bar1Key] == 0 ? 'red' : this.props.bar1StrokeColor} key={index} />
                                 ))}
                             </Bar>
-                            <Bar name={this.props.bar2Name} dataKey={this.props.bar2Key!} stackId="a" fill="#4888ff" isAnimationActive={true}>
-                                {this.props.data.map((entry: any, index: number) => (
-                                    <Cell fill={(this.props.data[index].alert == 1) ? 'red' : this.props.bar2StrokeColor} key={index} />
+                            <Bar name={this.state.bar2Name} dataKey={this.state.bar2Key} stackId="a" fill="#4888ff" isAnimationActive={true}>
+                                {this.state.data.map((entry: any, index: number) => (
+                                    <Cell fill={(this.state.data[index][this.state.bar1Key] == 0) ? 'red' : this.props.bar2StrokeColor} key={index} />
                                 ))}
                             </Bar>
                         </BarChart>
