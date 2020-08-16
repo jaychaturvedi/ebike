@@ -12,6 +12,7 @@ import {
 import { AlertData, TAlertType } from '../../../connectm-client/redux/models';
 import { formatTime, formatHourMin, formatDate } from '../../../connectm-client/util/time-formater'
 import { alertLimpData } from '../../../connectm-client/redux/connectm-state';
+import { ReduxAlertGraphActions } from '../../../connectm-client/actions/graph';
 interface AlertDetailSingleProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
     alertType: TAlertType,
@@ -66,6 +67,12 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
         this.setState({
             clearBoxToggle: false,
             alertCleared: true
+        })
+        this.props.clearAlertGraph({
+            type: "CLEAR_ALERT_GRAPH",
+            payload: {
+                alertName: this.state.alert.alertName
+            }
         })
         this.props.alertCleared(true)
         this.props.getPastAlerts({

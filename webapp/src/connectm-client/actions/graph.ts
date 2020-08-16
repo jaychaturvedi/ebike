@@ -2,17 +2,15 @@ import { Dispatch } from "redux";
 import { State } from "../redux/connectm-state";
 
 
-export type AlertGraphActions = "GET_LOW_MILEAGE" | "STORE_LOW_MILEAGE" |
-    "GET_VEHICLE_USAGE" | "STORE_VEHICLE_USAGE" | "GET_ALERT_GRAPH"
+export type AlertGraphActions = "GET_ALERT_GRAPH" | "CLEAR_ALERT_GRAPH"
 
-
+//////////////////////////////Get alert graph
 export interface AlertGraphPayload {
     vehicleId: string,
     alertId: number,
     alertName: string,
-    alertTypeId : number
+    alertTypeId: number
 }
-
 export interface IAlertGraphActions {
     type: AlertGraphActions,
     payload: AlertGraphPayload
@@ -24,6 +22,25 @@ export function GraphAlerts(params: IAlertGraphActions): IAlertGraphActions {
         payload: params.payload
     }
 }
+
+/////////////////////////////////Clear alert graph/////////////
+// export interface ClearAlertGraphPayload {
+//     alertName: string,
+// }
+
+// export interface IClearGraphActions {
+//     type: AlertGraphActions,
+//     payload: ClearAlertGraphPayload
+// }
+
+// export function ClearGraphAlerts(params: IClearGraphActions): IClearGraphActions {
+//     return {
+//         type: params.type,
+//         payload: params.payload
+//     }
+// }
+//////////////////////////////////////////////////////////////
+
 export interface ReduxAlertGraphActions {
     getAlertGraph: (params: IAlertGraphActions) => IAlertGraphActions,
 }
@@ -40,6 +57,6 @@ export interface ReduxAlertGraphState {
 
 export function mapStateToProps(state: State): ReduxAlertGraphState {
     return {
-        graphs : state.graphs
+        graphs: state.graphs
     }
 }

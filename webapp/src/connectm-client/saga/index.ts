@@ -8,8 +8,11 @@ import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, Store_UpdateALe
 import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
 import { getAlertGraphData, Store_AlertGraph } from "./graph";
-import { Store_AlertInsights, getAlertInsight, postAlertClearanceComment, getPastAlertData, Store_PastAlert, updatePastAlertData, getSingleAlertDetail, Store_UpdateSingleAlert } from "./alert-detail"
-import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction } from "../actions/alert-detail";
+import {
+    Store_AlertInsights, getAlertInsight, postAlertClearanceComment,
+    getPastAlertData, Store_PastAlert, updatePastAlertData, getSingleAlertDetail, Store_UpdateSingleAlert, postClearAlertGraph
+} from "./alert-detail"
+import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction, IClearGraphActions } from "../actions/alert-detail";
 import { TAlertInsights, TPastAlert } from "../redux/models";
 
 function* getUsers(params: IUsersAction) {
@@ -77,6 +80,22 @@ function* postAlertClearance(param: IAlertDetailActions) {
     yield call(postAlertClearanceComment, param)
 }
 
+function* clearAlertGraph(params: IClearGraphActions) {
+    try {
+        const alertTypeId = yield call(postClearAlertGraph, params)
+        yield put({
+            type: "STORE_ALERT_GRAPH",
+            payload: {
+                alertTypeId: alertTypeId,
+                data: []
+            }
+        })
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+
 function* getPastAlertDatas(param: IAlertDetailActions) {
     try {
         const data: TPastAlert = yield call(getPastAlertData, param)
@@ -134,9 +153,9 @@ function* resetAlertDataStore(params: IAlertDetailActions) {
         payload: {
             alertType: params.payload.alertType,
             alerts: {
-                bms: {data : [],dataCount : 0},
-                mc: { data: [], dataCount: 0},
-                smart: { data: [], dataCount: 0}
+                bms: { data: [], dataCount: 0 },
+                mc: { data: [], dataCount: 0 },
+                smart: { data: [], dataCount: 0 }
             },
             pagination: params.payload.pagination,
             sort: params.payload.sort
@@ -160,41 +179,10 @@ function* actionWatcher() {
     yield takeLatest("GET_ALERT_GRAPH", getAlertGraphDatas)
     yield takeLatest("GET_SINGLE_ALERT", getSingleAlertDetails)
     yield takeLatest("RESET_ALERT_MAIN_PAGE", resetAlertDataStore)
+    yield takeLatest("CLEAR_ALERT_GRAPH", clearAlertGraph)
+
 }
 
 export default function* rootSaga() {
     yield all([actionWatcher()]);
 }
-
-
-
-
-// function* getLowMileageGraph(params: IAlertGraphActions) {
-//     try {
-//         const data: TlowMileageGraph = yield call(getLowMileage, params)
-//         yield put({
-//             type: "STORE_LOW_MILEAGE",
-//             payload: {
-//                 lowMileage: data
-//             }
-//         } as Store_GetLowMileage)
-//     } catch (error) {
-//         console.log("get Alerts error", error)
-//     }
-// }
-
-// function* getVehicleUsageGraph(params: IAlertGraphActions) {
-//     try {
-//         const data = yield call(getVehicleUsage, params)
-//         yield put({
-//             type: "STORE_VEHICLE_USAGE",
-//             payload: {
-//                 vehicleUsage: {
-//                     data: data
-//                 }
-//             }
-//         } as Store_GetVehicleUsage)
-//     } catch (error) {
-//         console.log("get Alerts error", error)
-//     }
-// }

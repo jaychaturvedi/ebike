@@ -62,6 +62,12 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         return this.props.xAxisLabel == "Time" ? moment(`${label}`).format("hh:mm a") : label
     }
 
+    // componentWillMount() {
+    //     setTimeout(() => {
+    //         console.log("component will mount");
+    //     }, 5000)
+    // }
+
     render() {
         console.log(this.props.data);
         return (

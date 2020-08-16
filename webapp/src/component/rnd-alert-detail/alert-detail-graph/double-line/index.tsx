@@ -32,12 +32,16 @@ interface DoubleLineGraphProps {
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string
 }
 
-interface DoubleLineGraphStates { data: any }
+interface DoubleLineGraphStates {
+    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number,
+    xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
+    dataKey?: string, line1Key?: string, line2Key?: string, title?: string
+}
 class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGraphStates> {
     constructor(props: DoubleLineGraphStates) {
         super(props);
         this.state = {
-            data: props.data
+            data: props.data ? props.data : []
         }
     }
 
@@ -61,6 +65,10 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
         return this.props.xAxisLabel == "Time" ? moment(`${label}`).format("hh:mm a") : label
     }
+
+    componentDidMount() {
+        console.log(this.state.data, this.props.data, "graph mount");
+    }
     render() {
 
         console.log(this.props.data, "graph data");
@@ -74,7 +82,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
                     <ResponsiveContainer width="95%" height="95%">
                         <LineChart
-                            data={this.props.data}
+                            data={this.state.data}
                             margin={{
                                 top: 10, right: 10, left: -10, bottom: 0,
                             }}>
@@ -124,7 +132,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 height={12}
                                 stroke="#3C4473"
                                 startIndex={0}
-                                endIndex={this.props.data.length - 1} />
+                                endIndex={0} />
                             <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string}
                                 stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
 

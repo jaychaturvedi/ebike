@@ -18,13 +18,16 @@ interface AlertGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState {
     alertType?: string,
     alertId?: number,
     vehicleId?: string,
-    alertCleared?: boolean
+    alertCleared?: boolean,
+    clearAlertState: Function
 }
 
 interface AlertGraphStates {
     dataLoaded: boolean
     alertTypeId: number,
     data: any,
+    clearAlertState: boolean
+
 }
 
 class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
@@ -34,6 +37,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             dataLoaded: false,
             alertTypeId: 0,
             data: {},
+            clearAlertState: props.clearAlertState()
         }
     }
 
@@ -55,19 +59,23 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             state.alertTypeId = alertTypeId
         }
+        console.log("graph in deri", props.graphs);
+
         state.data = props.graphs[alertTypeId!]
         // state.data = lowMileageData
         return state
     }
     render() {
         console.log("Low Milage alerts", this.state, this.props.alertId)
-        console.log("switch case ", this.state.alertTypeId, this.state.data);
+        console.log("graph in alert index  ", this.state.alertTypeId, this.state.data);
 
         switch (this.state.alertTypeId) {
+            //voltage deviation graph
             case 1: {
-                return <CellBatteryGraph data={volatgeDeviationData} title="12 Cell BAttery Pack Info" dataKey="name"
+                return <CellBatteryGraph data={this.state.data} title="12 Cell BAttery Pack Info" dataKey="name"
                     barDataKey="value" minL1={3.731} maxL2={3.881} />
             }
+            //vehicle idle active
             case 2: {
                 return <StackedGraph data={vehicleUsageData} dataKey="timeDate" title="12 Cell Battery Pack Info"
                     xAxisLabel="Days" yAxisLabel="Usage (in Hrs)"
@@ -87,10 +95,11 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             case 4: {
                 return <SingleLineGraph data={voltageTrendData} dataKey="timeDate"
                     L1={voltageTrendData[0].L1} title="Battery Voltage Trend"
-                    line1Key="batteryPackVoltage" line1Name='Battery Pack Voltage' refColor="green"
+                    line1Key="batteryPackVoltage " line1Name='Battery Pack Voltage' refColor="green"
                     line1StrokeColor="#4aa7cf" xAxisLabel="Time" yAxisLabel="Voltage"
                 />
             }
+            //High charging temperature l1
             case 5: {
                 return <DualAxisLineGraph title="Charging Temperature Trend"
                     dataKey="timeDate" data={chargingTrendData} L1={chargingTrendData[0].L1}
@@ -127,7 +136,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             case 10: {
                 // return <GraphSelector graphType="double" />
-                return <DoubleLineGraph data={lowMileageData} dataKey="nocycles" line1Key="amilage" line2Key="smilage" title="Low Mileage"
+                return <DoubleLineGraph data={this.state.data} dataKey="nocycles" line1Key="amilage" line2Key="smilage" title="Low Mileage"
                     line2Name='Actual Mileage' line1Name='Specified Mileage' line1StrokeColor="#79a45b" line2StrokeColor="#4aa7cf"
                     refColor="green" xAxisLabel="No. of cycle" yAxisLabel="Mileage in Km" />
             }

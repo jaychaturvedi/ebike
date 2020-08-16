@@ -31,8 +31,15 @@ interface AlertDetailGraphProps {
     dataKey?: string, line1Key?: string, title: string
 }
 
-interface AlertDetailGraphStates { }
+interface AlertDetailGraphStates { data: any }
 class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailGraphStates> {
+    constructor(props: AlertDetailGraphProps) {
+        super(props);
+        this.state = {
+            data: props.data,
+        }
+    }
+
     DynamicLabel = (props: any) => {
         return (
             <text
@@ -53,6 +60,12 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
         //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
         return this.props.xAxisLabel == "Time" ? moment(`${label}`).format("hh:mm a") : label
     }
+
+    // componentWillMount() {
+    //     setTimeout(() => {
+    //         console.log("component will mount");
+    //     }, 5000)
+    // }
 
     render() {
         console.log(this.props.data, "graph data");
@@ -110,6 +123,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 endIndex={this.props.data.length - 1} />
                             <Line name={this.props.line1Name} type="monotone" dataKey={this.props.line1Key as string}
                                 stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.props.L1} />} />
+
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

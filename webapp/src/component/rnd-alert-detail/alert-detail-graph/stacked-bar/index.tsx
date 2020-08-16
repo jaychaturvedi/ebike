@@ -37,7 +37,7 @@ interface StackedGraphProps {
 }
 
 interface StackedGraphStates {
-    reload: boolean,
+    reload: boolean, data: string
 }
 
 class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> {
@@ -46,6 +46,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
         super(props);
         this.state = {
             reload: true,
+            data: props.data
         }
     }
     DynamicLabel = (props: any) => {
@@ -68,6 +69,11 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
         // if ("Last 7 Days" === this.state.trendsPeriod)
         //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
         return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
+    }
+    componentWillMount() {
+        setTimeout(() => {
+            console.log("component will mount");
+        }, 5000)
     }
 
     render() {
@@ -125,7 +131,6 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 ))}
                             </Bar>
                         </BarChart>
-
                     </ResponsiveContainer>
                 </div>
             </div>

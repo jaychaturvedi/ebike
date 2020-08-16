@@ -31,6 +31,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         }
     }
     formatData = (data: any) => {
+        if (data === undefined) return []
         const keys = Object.keys(data)//["cell1","cell2","cell3","voltage difference"]
         const voltageDelta = keys.splice(-1)[0]
         let arr1: { name: string; value: any; }[] = [];
@@ -54,12 +55,17 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             data1: arr1, data2: arr2, maxVolt: max, minVolt: min, maxCellPos: maxPos, minCellPos: minPos,
             voltageDelta: (max - min)
         })
+        this.forceUpdate()
         // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
         console.log(this.state, "graph cell in func");
     }
     componentWillMount() {
         this.formatData(this.props.data)
     }
+
+    // componentDidMount() {
+    //     console.log(this.state.data1, this.state.data2, this.props.data, "graph mount");
+    // }
     render() {
         console.log(this.state, "graph cell");
         return (

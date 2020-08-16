@@ -2,13 +2,16 @@ import './index.scss';
 import { Layout } from "antd";
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { mapStateToProps, ReduxAlertDetailActions,
-     ReduxAlertDetailState, mapDispatchToProps } from '../../../connectm-client/actions/alert-detail';
+import {
+    mapStateToProps, ReduxAlertDetailActions,
+    ReduxAlertDetailState, mapDispatchToProps
+} from '../../../connectm-client/actions/alert-detail';
 import { alertInsightsLimpData } from '../../../connectm-client/redux/connectm-state';
 import { TAlertInsights, TAlertType } from '../../../connectm-client/redux/models';
+
 interface AlertInsightsProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string
-    alertType : TAlertType
+    alertType: TAlertType
 }
 interface AlertInsightsStates {
     insights: TAlertInsights;
