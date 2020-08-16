@@ -52,20 +52,20 @@ export default class WebAPI {
     }
 
     static async additionalInsight(vehicleId: string, alertId: number, alertName: string, customerId: string) {
-        const options = createOptions('/additinsts', { vehicleId, alertId, alertName, customerId })
+        const options = createOptions('/additinsts', { vehicleID: vehicleId, alertId, alertName, customerId })
         const fetchedData = await post(options)
         return fetchedData
     }
 
     static async pastAlerts(vehicleId: string, alertId: number, alertName: string, customerId: string, pageNo: number, pageSize: number) {
-        const options = createOptions('/pastalerts', { vehicleId, alertId, alertName, customerId, pageNo, pageSize })
+        const options = createOptions('/pastalerts', { vehicleID: vehicleId, alertId, alertName, customerId, pageNo, pageSize })
         const fetchedData = await post(options)
         return fetchedData
     }
 
 
     static async clearAlert(vehicleId: string, alertId: number, alertName: string, comment: string) {
-        const options = createOptions('/clearalerts', { vehicleId, alertId, alertName, comment })
+        const options = createOptions('/clearalerts', { vehicleID: vehicleId, alertId, alertName, comment })
         const fetchedData = await post(options)
         return fetchedData
     }
@@ -86,6 +86,9 @@ export default class WebAPI {
         const fetchedData = await post(options)
         return fetchedData
     }
+
+
+    ///////////////////////////////////////not using below routes//////////////////////////////
 
     static async lowMileageGraph(vehicleId: string, alertId: number, alertName: string) {
         const options = createOptions('/maingraph', { vehicleID: vehicleId, alertId, alertName })
@@ -119,7 +122,7 @@ export default class WebAPI {
 
     static async batteryTempGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
             alertTypeId: 3,
             alertName: "high operating temperature "
@@ -130,7 +133,7 @@ export default class WebAPI {
 
     static async unitVoltageGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
             alertTypeId: 4,
             alertName: "unit over voltage"
@@ -142,7 +145,7 @@ export default class WebAPI {
 
     static async chargingTempGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
             alertTypeId: 5,
             alertName: "high charging temperature "
@@ -153,7 +156,7 @@ export default class WebAPI {
 
     static async chargingCurrentGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
             alertTypeId: 6,
             alertName: "charging over current"
@@ -165,7 +168,7 @@ export default class WebAPI {
 
     static async highSocGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
             alertTypeId: 7,
             alertName: "high soc"
@@ -176,7 +179,7 @@ export default class WebAPI {
 
     static async batteryTempDiffGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
             alertTypeId: 8,
             alertName: "excessive temperature difference"
@@ -187,7 +190,7 @@ export default class WebAPI {
 
     static async speedGraph(vehicleId: string, alertId: number) {
         const options = createOptions('/subgraph/dynamic', {
-            vehicleId,
+            vehicleID: vehicleId,
             alertId,
             alertTypeId: 9,
             alertName: "hall sensor fault"
@@ -196,4 +199,3 @@ export default class WebAPI {
         return fetchedData
     }
 }
-
