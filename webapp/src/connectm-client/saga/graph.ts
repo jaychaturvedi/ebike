@@ -1,5 +1,4 @@
 import { IAlertGraphActions, AlertGraphActions } from "../actions/graph"
-
 import axios from "axios"
 
 export type Store_AlertGraph = {
@@ -15,11 +14,12 @@ export async function getAlertGraphData(params: IAlertGraphActions) {
     return data
 }
 
+
 async function getGraphData(params: IAlertGraphActions) {
-    let data: any = []
+    let response: any = []
     const alertName = params.payload.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase()
     if (alertName === "capacitydeterioration") {
-        data = await axios.get(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
+        response = await axios.get(process.env.REACT_APP_WEBAPIURL + '/lowMileage',
             {
                 params: {
                     vehicleId: params.payload.vehicleId,
@@ -30,10 +30,10 @@ async function getGraphData(params: IAlertGraphActions) {
         )
     }
     else {
-        data = await axios.get(process.env.REACT_APP_WEBAPIURL + '/graphs',
+        response = await axios.get(process.env.REACT_APP_WEBAPIURL + '/graphs',
             {
                 params: {
-                    vehicleID: params.payload.vehicleId,
+                    vehicleId: params.payload.vehicleId,
                     alertId: params.payload.alertId,
                     alertName: params.payload.alertName,
                     alertTypeId: params.payload.alertTypeId
@@ -42,22 +42,7 @@ async function getGraphData(params: IAlertGraphActions) {
         )
     }
 
-    console.log("graph data call", data);
-    return lowMileageData
+    console.log("graph data call", response.data.body);
+    return response.data.body
 }
 
-const lowMileageData = [
-    { nocycles: 0, amilage: 30, smilage: 39, },
-    { nocycles: 100, amilage: 39, smilage: 30, },
-    { nocycles: 200, amilage: 15, smilage: 20, },
-    { nocycles: 300, amilage: 35, smilage: 15, },
-    { nocycles: 400, amilage: 13, smilage: 19, },
-    { nocycles: 500, amilage: 39, smilage: 29, },
-    { nocycles: 600, amilage: 14, smilage: 31, },
-    { nocycles: 700, amilage: 20, smilage: 15, },
-    { nocycles: 800, amilage: 26, smilage: 22, },
-    { nocycles: 900, amilage: 25, smilage: 35, },
-    { nocycles: 1000, amilage: 15, smilage: 40, },
-    { nocycles: 1100, amilage: 12, smilage: 12, },
-    { nocycles: 1200, amilage: 40, smilage: 20, },
-];

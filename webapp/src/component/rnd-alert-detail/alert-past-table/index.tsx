@@ -22,7 +22,7 @@ const { Option } = Select;
 interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
     alertType: TAlertType,
-    alertCleared : boolean
+    alertCleared: boolean
 }
 interface AlertPastTableStates {
     id?: any, column?: any, isDesc: boolean, data: TPastAlertData[],
@@ -80,7 +80,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         }
         state.data = state.handleSort(Object.values(props.pastAlerts.data), props.pastAlerts.sort) as TPastAlertData[]
         state.total = props.pastAlerts.dataCount
-        console.log("past alert table", state)
+        // console.log("past alert table", state)
         return state
     }
     renderClass = () => {
@@ -131,7 +131,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
 
     handleSort = (arr: any, sort: TSort) => {
-        console.log("arr", arr, "sort", sort)
+        // console.log("arr", arr, "sort", sort)
         if (!sort.fieldName) { return arr }
         return arr.sort((a: any, b: any) => {
             return a[sort.fieldName].localeCompare(b[sort.fieldName])

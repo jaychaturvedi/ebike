@@ -59,6 +59,8 @@ td.ant-table-column-sort {
 
 .container {
     height: 100%;
+    width: 100%;
+    padding-right: 20px;
     // height: calc(100% - 250px);
 
     // border: 1px solid red;
@@ -68,6 +70,11 @@ td.ant-table-column-sort {
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
+//     .ant-table-body .ant-table-fixed .ant-table-thead tr th:last-child,
+// .ant-table-body .ant-table-fixed .ant-table-tbody tr td:last-child {
+//     padding-right: 20px;
+//   visibility: hidden;
+// }
 
     .ant-table {
         overflow: hidden !important;
