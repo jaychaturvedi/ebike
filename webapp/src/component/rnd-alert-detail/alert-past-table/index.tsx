@@ -15,14 +15,16 @@ import {
     ReduxAlertDetailState
 } from '../../../connectm-client/actions/alert-detail';
 import { TSort, TPastAlertData, TAlertType } from '../../../connectm-client/redux/models';
-
+import TimeRenderer from "./time-renderer"
+import OpenSinceRenderer from "./openSinceRenderer"
+import Location from "./location"
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
 interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
     alertType: TAlertType,
-    alertCleared : boolean
+    alertCleared: boolean
 }
 interface AlertPastTableStates {
     id?: any, column?: any, isDesc: boolean, data: TPastAlertData[],
@@ -80,7 +82,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         }
         state.data = state.handleSort(Object.values(props.pastAlerts.data), props.pastAlerts.sort) as TPastAlertData[]
         state.total = props.pastAlerts.dataCount
-        console.log("past alert table", state)
+        // console.log("past alert table", state)
         return state
     }
     renderClass = () => {
@@ -131,7 +133,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
 
     handleSort = (arr: any, sort: TSort) => {
-        console.log("arr", arr, "sort", sort)
+        // console.log("arr", arr, "sort", sort)
         if (!sort.fieldName) { return arr }
         return arr.sort((a: any, b: any) => {
             return a[sort.fieldName].localeCompare(b[sort.fieldName])
@@ -185,8 +187,9 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
     /**Row Selection*/
 
-    setRowClassName = (record: any, index: any) => {
-        if (record.id === this.state.selectedRowId) {
+    setRowClassName = (record: TPastAlertData, index: any) => {
+        if (record.alertGraph) {
+            console.log("Selected rowID", Number(record.alertId), this.state.selectedRowId )
             return 'past-alert-selected-row'
         }
         return index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
@@ -201,14 +204,17 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} className={this.state.classname} />}
                 </span>,
+                render: (text: any, record: any, index: any) => <TimeRenderer text={text} record={record} index={index} />
             },
             {
                 dataIndex: 'tat', key: 'tat', defaultSortOrder: 'ascend',
-                title: 'TAT'
+                title: 'TAT',
+                render: (text: any, record: any, index: any) => <OpenSinceRenderer text={text} record={record} index={index} />
             },
 
             {
                 dataIndex: 'location', key: 'location', title: "Location",
+                render: (text: any, record: any, index: any) => <Location text={text} record={record} index={index} />
             },
             {
                 dataIndex: 'alertGraph', key: 'alertGraph',
@@ -221,7 +227,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         // const data = this.getData()
 
         return <>
-            <div className="connectm-AlertPastTable">
+            
                 <div className={"connectm-AlertPastTable-header"}>
                     <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
                     <div className={"pagination-footer"}>
@@ -256,11 +262,12 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                         </span>
                     </div>
                 </div>
-
+            <div className="connectm-AlertPastTable">
                 <div className={'table-body'}>
                     <Table
                         tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
+                        // scroll={{ y: this.state.data.length > 3 ? '28.5vh' : undefined}}
                         scroll={{ y: '28.5vh' }} //not able to make dynamic
                         // size={"middle"}
                         bordered={false}

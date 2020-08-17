@@ -126,8 +126,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     handleSort = (arr: any, sort: TSort) => {
         if (!sort.fieldName) { return arr }
         let sortedData = arr.sort((a: any, b: any) => {
-            if (typeof (a[sort.fieldName]) == "number") {
-                return a[sort.fieldName] > b[sort.fieldName]
+            console.log(sort.fieldName === "Severity");
+
+            if (sort.fieldName === "Severity") {
+                return Number(a[sort.fieldName]) > Number(b[sort.fieldName])
             }
             return a[sort.fieldName].localeCompare(b[sort.fieldName])
         });
@@ -217,12 +219,12 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
         console.log(this.state.classname);
     }
-    handleColumnSort = (arr: any, key: string) => {
-        if (!key) { return arr }
-        return arr.sort((a: any, b: any) => {
-            return a[key].localeCompare(b[key])
-        });
-    };
+    // handleColumnSort = (arr: any, key: string) => {
+    //     if (!key) { return arr }
+    //     return arr.sort((a: any, b: any) => {
+    //         return a[key].localeCompare(b[key])
+    //     });
+    // };
     /**Sorting */
 
     /**Pagination */
@@ -266,14 +268,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
             {
-                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: 200,
+                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '20%',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
                 </span>,
             },
             {
-                dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend', width: 80,
+                dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend', width: '10%',
                 title:
                     <span className="header-sorter" onClick={this.handleClickModel}> Model
                         {modelClicked ? <ActiveSort height='20px' width='20px'
@@ -281,13 +283,13 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span>,
             },
             {
-                dataIndex: 'frameId', key: 'frameId', width: 100,
+                dataIndex: 'frameId', key: 'frameId',
                 // sortDirections: ['descend', 'ascend'], headerSort: false,                
                 title: <span > Vehicle Id </span>
 
             },
             {
-                dataIndex: 'alertTime', key: 'alertTime', defaultSortOrder: 'ascend',
+                dataIndex: 'alertTime', key: 'alertTime', defaultSortOrder: 'ascend', width: "20%",
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
                         {timeClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
@@ -295,7 +297,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 render: (text: any, record: any, index: any) => <TimeRenderer text={text} record={record} index={index} />,
             },
             {
-                dataIndex: 'openSince', key: 'openSince', width: 150,
+                dataIndex: 'openSince', key: 'openSince', width: "15%",
                 title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
                         {openSinceClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
@@ -303,7 +305,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 render: (text: any, record: any, index: any) => <OpenSinceRenderer text={text} record={record} index={index} />,
             },
             {
-                dataIndex: 'Severity', key: 'Severity', width: 100,
+                dataIndex: 'Severity', key: 'Severity',
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
                         {severityClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
@@ -311,16 +313,16 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 render: (text: any, record: any, index: any) => <SeverityRenderer text={text} record={record} index={index} />,
             },
             {
-                dataIndex: 'location', key: 'location', title: "Location",
+                dataIndex: 'location', key: 'location', title: "Location", width: "10%"
             },
         ];
 
 
         return <>
             <div className="container" >
-                <div className={'table-body'}>
+                <div className={'table-body'} style={{ maxHeight: "80%", width: '100%' }}>
                     <Table
-                        tableLayout={"auto"}
+                        tableLayout={"fixed"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
                         // size={"middle"}
                         scroll={{ y: this.state.pageSize > 10 ? '54vh' : undefined }}

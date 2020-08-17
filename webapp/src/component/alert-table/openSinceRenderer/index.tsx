@@ -1,6 +1,6 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import moment from 'moment'
+import { formatHourMin } from "../../../connectm-client/util/time-formater"
 
 interface OpenSinceRendererProps {
     text: any,
@@ -12,15 +12,9 @@ interface OpenSinceRendererStates { }
 
 class OpenSinceRenderer extends PureComponent<OpenSinceRendererProps, OpenSinceRendererStates> {
     render() {
-        const formatOpenSinceRenderer = (time: string) => {
-            console.log(time.split(':'))
-            const splitTime = time.split(':')
-            return `${splitTime[0]} hr ${splitTime[1]} min`
-        }
-        // { console.log(this.props.text, this.props.record, this.props.index) }
         return (
             <span >
-                {formatOpenSinceRenderer(this.props.text)}
+                {formatHourMin(this.props.text)}
             </span>
         )
     }

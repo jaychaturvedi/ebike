@@ -39,9 +39,8 @@ function expressErrorHandler(
     res: Express.Response,
     next: Express.NextFunction
 ) {
-    res.status(500);
-    res.json(err);
-    next();
+    res.status(500).json(err);
+    return
 }
 
 //dashboard main alerts

@@ -1,7 +1,8 @@
-import { IAlertDetailActions, AlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction } from "../actions/alert-detail";
+import { IAlertDetailActions, AlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction, IClearGraphActions } from "../actions/alert-detail";
 import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert, AlertData, TAlertType } from "../redux/models"
 import axios from "axios"
 import { put } from "redux-saga/effects";
+import { getAlertTypeId } from "../util/alert-graph";
 
 export type Store_AlertInsights = {
     type: AlertDetailActions,
@@ -53,8 +54,14 @@ export async function postAlertClearanceComment(params: IAlertDetailActions) {
     }
 }
 
+export async function postClearAlertGraph(params: IClearGraphActions) {
+    const alertName = params.payload.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase()
+    const clearGraphAlertTypeId = await getAlertTypeId(alertName);
+    return clearGraphAlertTypeId
+}
+
 export async function getPastAlertData(params: IAlertDetailActions) {
-    const pastAlertData = await pastAlertDataGenerator(params)
+    const pastAlertData = await getPastAlerts(params)
     return pastAlertData
 }
 
@@ -90,7 +97,7 @@ async function getAdditionalInsights(params: IAlertDetailActions) {
 async function alertClearanceComment(params: IAlertDetailActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/clearAlert',
         {
-            vehicleID: params.payload.vehicleID,
+            vehicleId: params.payload.vehicleID,
             alertId: params.payload.alertId,
             alertName: params.payload.alertName,
             comment: params.payload.comment
@@ -99,17 +106,18 @@ async function alertClearanceComment(params: IAlertDetailActions) {
     return response.data.body
 }
 
-async function getPastAlerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/pastAlerts',
+async function getPastAlerts(params: IAlertDetailActions) {
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/pastAlerts',
         {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-            alertName: "voltage deviation",
-            customerId: "CUS14567",
-            pageSize: 10,
-            pageNo: 1
+            vehicleID:params.payload.vehicleID ,
+            alertId: params.payload.alertId,
+            alertName: params.payload.alertName,
+            customerId: params.payload.customerId,
+            pageSize: params.payload.pagination.pageSize,
+            pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
     )
+    return response.data.body
 }
 
 //need to change

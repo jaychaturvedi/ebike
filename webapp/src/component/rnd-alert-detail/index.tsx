@@ -69,6 +69,11 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
     alertCleared = (alertCleared: boolean) => {
         this.setState({ alertCleared: alertCleared })
     }
+
+    getAlertClearedState = (alertCleared: boolean): boolean => {
+        return this.state.alertCleared
+    }
+
     goToHome = () => {
         this.props.navigation({
             type: "RESET_ALERT_MAIN_PAGE",
@@ -123,8 +128,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 <div className={"connectm-alert-detail-container"}>
                     <div className={"alert-top-container"}>
                         <AlertDetailSingle alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.alertCleared} />
-                        <AlertGraph alertName={this.state.alert.alertName}
-                            vehicleId={"12324"} alertCleared={this.state.alertCleared} alertId={Number(this.state.alertId)} />
+                        <AlertGraph alertName={this.state.alert.alertName} clearAlertState={this.getAlertClearedState}
+                            vehicleId={"12324"} alertCleared={this.state.alertCleared} alertId={Number(this.state.alertId)} alertDate={this.state.alert.alertTime} />
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>

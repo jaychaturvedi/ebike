@@ -96,20 +96,6 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
             }
         }
 
-        // case "STORE_LOW_MILEAGE": {
-        //     return {
-        //         ...state,
-        //         lowMileage: (actionParams as Store_GetLowMileage).payload.lowMileage,
-        //     }
-        // }
-        // case "STORE_VEHICLE_USAGE": {
-        //     return {
-        //         ...state,
-        //         vehicleUsage: {
-        //             data: (actionParams as Store_GetVehicleUsage).payload.vehicleUsage
-        //         }
-        //     }
-        // }
         case "STORE_PAST_ALERTS": {
             const pastAlerts = Object.assign({}, ...(actionParams as Store_PastAlert)
                 .payload.pastAlert.data.map(alert => {
@@ -156,9 +142,10 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
             }
         }
         case "STORE_ALERT_GRAPH": {
+            console.log("in store alert", actionParams.payload.data);
             return {
                 ...state,
-                graph: {
+                graphs: {
                     ...state.graphs,
                     [String(actionParams.payload.alertTypeId)]: actionParams.payload.data
                 }

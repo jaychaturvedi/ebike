@@ -1,7 +1,7 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
 import moment from 'moment'
-
+import {formatTime} from "../../../connectm-client/util/time-formater"
 interface TimeRendererProps {
     text: any,
     record: any,
@@ -12,12 +12,6 @@ interface TimeRendererStates { }
 
 class TimeRenderer extends PureComponent<TimeRendererProps, TimeRendererStates> {
     render() {
-        const formatTime = (time: string) => {
-            const newDate = new Date(time)
-            console.log(newDate)
-            return moment(newDate).format("DD-MMMM-YYYY HH:mm A")
-        }
-        // { console.log(this.props.text, this.props.record, this.props.index) }
         return (
             <span >
                 {formatTime(this.props.text)}
