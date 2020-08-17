@@ -3,13 +3,13 @@ import moment from "moment"
 export const formatTime = (time: string) => {
     const newDate = new Date(time)
     console.log(newDate)
-    return moment(newDate).format("DD-MMMM-YYYY HH:mm A")
+    return moment(newDate).format("DD-MMM-YYYY HH:mm A")
 }
 
 export const formatDate = (time: string) => {
     const newDate = new Date(time)
     console.log(newDate)
-    return moment(newDate).format("DD-MMMM-YYYY")
+    return moment(newDate).format("DD/MM/YYYY")
 }
 
 export const formatHourMin = (time : string) => {

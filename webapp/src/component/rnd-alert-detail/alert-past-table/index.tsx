@@ -15,7 +15,9 @@ import {
     ReduxAlertDetailState
 } from '../../../connectm-client/actions/alert-detail';
 import { TSort, TPastAlertData, TAlertType } from '../../../connectm-client/redux/models';
-
+import TimeRenderer from "./time-renderer"
+import OpenSinceRenderer from "./openSinceRenderer"
+import Location from "./location"
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
@@ -202,14 +204,17 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} className={this.state.classname} />}
                 </span>,
+                render: (text: any, record: any, index: any) => <TimeRenderer text={text} record={record} index={index} />
             },
             {
                 dataIndex: 'tat', key: 'tat', defaultSortOrder: 'ascend',
-                title: 'TAT'
+                title: 'TAT',
+                render: (text: any, record: any, index: any) => <OpenSinceRenderer text={text} record={record} index={index} />
             },
 
             {
                 dataIndex: 'location', key: 'location', title: "Location",
+                render: (text: any, record: any, index: any) => <Location text={text} record={record} index={index} />
             },
             {
                 dataIndex: 'alertGraph', key: 'alertGraph',
@@ -222,7 +227,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         // const data = this.getData()
 
         return <>
-            <div className="connectm-AlertPastTable">
+            
                 <div className={"connectm-AlertPastTable-header"}>
                     <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
                     <div className={"pagination-footer"}>
@@ -257,11 +262,12 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                         </span>
                     </div>
                 </div>
-
+            <div className="connectm-AlertPastTable">
                 <div className={'table-body'}>
                     <Table
                         tableLayout={"auto"}
                         // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
+                        // scroll={{ y: this.state.data.length > 3 ? '28.5vh' : undefined}}
                         scroll={{ y: '28.5vh' }} //not able to make dynamic
                         // size={"middle"}
                         bordered={false}
