@@ -13,7 +13,7 @@ import moment from 'moment';
 interface StackedGraphProps {
     data: any; bar1StrokeColor: string; bar2StrokeColor: string, L1?: boolean,
     xAxisLabel: string, yAxisLabel: string, bar1Name: string, bar2Name: string, refColor?: string,
-    dataKey: string, bar1Key: string, bar2Key: string, title: string
+    dataKey: string, bar1Key: string, bar2Key: string, title: string, alertCleared?: boolean,
 }
 
 interface StackedGraphStates {
@@ -93,7 +93,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                         <BarChart
                             data={this.state.data}
                             margin={{
-                                top: 10, right: 0, left: 0, bottom: 0,
+                                top: 10, right: 10, left: -10, bottom: 0,
                             }}
                             maxBarSize={25}
                             style={{ fontSize: '8px' }}>
@@ -123,17 +123,21 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 stroke="#3C4473"
                                 startIndex={0}
                                 endIndex={0} />
-                            <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key}
-                                stackId="a" isAnimationActive={true}>
-                                {this.state.data.map((entry: any, index: number) => (
-                                    <Cell fill={this.state.data[index][this.state.bar1Key] == 0 ? 'red' : this.props.bar1StrokeColor} key={index} />
-                                ))}
-                            </Bar>
-                            <Bar name={this.state.bar2Name} dataKey={this.state.bar2Key} stackId="a" fill="#4888ff" isAnimationActive={true}>
-                                {this.state.data.map((entry: any, index: number) => (
-                                    <Cell fill={(this.state.data[index][this.state.bar1Key] == 0) ? 'red' : this.props.bar2StrokeColor} key={index} />
-                                ))}
-                            </Bar>
+                            {!this.props.alertCleared ?
+                                <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key}
+                                    stackId="a" isAnimationActive={true}>
+                                    {this.state.data.map((entry: any, index: number) => (
+                                        <Cell fill={this.state.data[index][this.state.bar1Key] == 0 ? 'red' : this.props.bar1StrokeColor} key={index} />
+                                    ))}
+                                </Bar>
+                                : ''}
+                            {!this.props.alertCleared ?
+                                <Bar name={this.state.bar2Name} dataKey={this.state.bar2Key} stackId="a" fill="#4888ff" isAnimationActive={true}>
+                                    {this.state.data.map((entry: any, index: number) => (
+                                        <Cell fill={(this.state.data[index][this.state.bar1Key] == 0) ? 'red' : this.props.bar2StrokeColor} key={index} />
+                                    ))}
+                                </Bar>
+                                : ''}
                         </BarChart>
                     </ResponsiveContainer>
                 </div>

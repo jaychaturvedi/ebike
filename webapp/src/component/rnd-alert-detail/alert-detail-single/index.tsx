@@ -71,12 +71,12 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
             clearBoxToggle: false,
             alertCleared: true
         })
-        this.props.clearAlertGraph({
-            type: "CLEAR_ALERT_GRAPH",
-            payload: {
-                alertName: this.state.alert.alertName
-            }
-        })
+        // this.props.clearAlertGraph({
+        //     type: "CLEAR_ALERT_GRAPH",
+        //     payload: {
+        //         alertName: this.state.alert.alertName
+        //     }
+        // })
         this.props.alertCleared(true)
         this.props.getPastAlerts({
             type: "GET_PAST_ALERTS",

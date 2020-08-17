@@ -81,7 +81,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         }
 
         state.data = data
-        console.log(state.data, props.data, "graph mount");
+        console.log(state.data, props.data, props.alertCleared, "graph mount");
         return state
     }
     DynamicLabel = (props: any) => {
@@ -144,14 +144,16 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 </Label>
                             </ReferenceLine> : <ReferenceLine />}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            {this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
-                                isFront={true} >
-                                <Label position={'insideBottomLeft'} fill="#ffffff"
-                                    style={{
-                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
-                                    }} value="L1">
-                                </Label>
-                            </ReferenceLine> : <ReferenceLine />}
+                            {!this.props.alertCleared ?
+                                this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                                    isFront={true} >
+                                    <Label position={'insideBottomLeft'} fill="#ffffff"
+                                        style={{
+                                            fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                        }} value="L1">
+                                    </Label>
+                                </ReferenceLine> : <ReferenceLine />
+                                : ''}
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 // ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
                                 // domain={[100, 1200]}
@@ -179,11 +181,15 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 stroke="#3C4473"
                                 startIndex={0}
                                 endIndex={0} />
-                            <Line name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
-                                stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.state.L1Value} />} />
+                            {!this.props.alertCleared ?
+                                <Line name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
+                                    stroke={this.props.line1StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.state.L1Value} />} />
+                                : ''}
+                            {!this.props.alertCleared ?
+                                <Line name={this.state.line2Name} type="monotone" dataKey={this.state.line2Key as string}
+                                    stroke={this.props.line2StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.state.L2Value} />} />
+                                : ''}
 
-                            <Line name={this.state.line2Name} type="monotone" dataKey={this.state.line2Key as string}
-                                stroke={this.props.line2StrokeColor} strokeWidth={3} dot={<CustomizedDot L1={this.state.L2Value} />} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
