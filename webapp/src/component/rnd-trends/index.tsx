@@ -205,8 +205,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                         <XAxis dataKey="date" tick={{ fill: 'white' }} interval="preserveEnd" padding={{ left: 20, right: 20 }}
                             tickFormatter={(label) => this.formatDate(label)} />
-                        <Legend iconType="circle" iconSize={5} align='right' margin={{ top: 0, bottom: 0 }}
-                            wrapperStyle={{ width: '90%', paddingRight: '50px' }} />
+                        <Legend iconType="circle" iconSize={5}
+                            wrapperStyle={{ width: '90%', marginLeft : "20%"}} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
                         <Line name={this.state.top5Alerts.lines.alert1} type="monotone" dataKey="alert1count"
                             stroke="orange" strokeWidth={2} dot={false} />
