@@ -79,7 +79,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             //vehicle idle active
             case 2: {
-                return <StackedGraph data={this.state.data} dataKey="timeDate" title="12 Cell Battery Pack Info"
+                return <StackedGraph data={this.state.data} dataKey="timeDate" title="Vehicle Usage Graph (Active vs Idle)"
                     xAxisLabel="Days" yAxisLabel="Usage (in Hrs)"
                     bar1Key="activeTime" bar2Key="idleTime"
                     bar1Name="Active Time" bar2Name="Idle Time"
@@ -139,7 +139,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             case 10: {
                 return <DoubleLineGraph data={this.state.data} dataKey="nocycles" line1Key="amilage" line2Key="smilage" title="Low Mileage"
                     line2Name='Actual Mileage' line1Name='Specified Mileage' line1StrokeColor="#79a45b" line2StrokeColor="#4aa7cf"
-                    refColor="green" xAxisLabel="No. of cycle" yAxisLabel="Mileage in Km" L1={false} L2={false} />
+                    refColor="green" xAxisLabel="No. of cycle" yAxisLabel="Mileage in Km" L1={false} L2={false} alertCleared={this.props.alertCleared} />
             }
             default: {
                 return <div>Nothing</div>

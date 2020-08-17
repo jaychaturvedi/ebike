@@ -24,7 +24,7 @@ interface AlertDetailSingleStates {
     clearBoxToggle: boolean;
     alert: AlertData
     alertCleared: boolean
-    toolLateTime : number 
+    toolLateTime: number
 }
 
 class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetailSingleStates> {
@@ -107,11 +107,11 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
     }
     getOpenAlertHoursClass = () => {
         const splitHours = this.state.alert.openSince.split(':')
-        if(splitHours.length  > 0) {
-            Number(splitHours[0]) > this.state.toolLateTime ? "toolate" : ""
+        if (splitHours.length > 0) {
+            return Number(splitHours[0]) > this.state.toolLateTime ? "toolate" : ""
         }
         return ""
-    } 
+    }
     render() {
         const clearAlert = (
             <Menu style={{ left: "-25%", backgroundColor: "#272B3C" }} className={"clear-alert-container"}>

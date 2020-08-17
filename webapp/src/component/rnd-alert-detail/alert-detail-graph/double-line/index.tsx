@@ -30,7 +30,7 @@ const CustomizedDot = (props: any) => {
 interface DoubleLineGraphProps {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: boolean, L2?: boolean,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
-    dataKey?: string, line1Key?: string, line2Key?: string, title?: string
+    dataKey?: string, line1Key?: string, line2Key?: string, title?: string, alertCleared?: boolean,
 }
 
 const limpData: any = {
@@ -98,7 +98,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         );
     }
     formatDate = (label: any) => {
-        console.log("label", label)
+        console.log("label", this.props.alertCleared)
         console.log(moment(`${label}`).format('hh:mm a'));
         // if ("Last 7 Days" === this.state.trendsPeriod)
         //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
