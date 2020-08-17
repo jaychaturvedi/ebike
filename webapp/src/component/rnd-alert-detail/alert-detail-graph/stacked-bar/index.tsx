@@ -13,7 +13,7 @@ import moment from 'moment';
 interface StackedGraphProps {
     data: any; bar1StrokeColor: string; bar2StrokeColor: string, L1?: boolean,
     xAxisLabel: string, yAxisLabel: string, bar1Name: string, bar2Name: string, refColor?: string,
-    dataKey: string, bar1Key: string, bar2Key: string, title: string, alertCleared?: boolean,
+    dataKey: string, bar1Key: string, bar2Key: string, title: string, alertCleared?: boolean, alertDate: string
 }
 
 interface StackedGraphStates {
@@ -23,7 +23,6 @@ interface StackedGraphStates {
 }
 
 class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> {
-
     constructor(props: StackedGraphProps) {
         super(props);
         this.state = {
@@ -56,7 +55,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
             state.bar2Name = props.bar2Name;
         }
         state.data = data
-        console.log(state.data, props.data, "graph mount");
+        console.log(state.data, props.alertDate, "graph mount");
         return state
     }
 
@@ -97,10 +96,10 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                             }}
                             maxBarSize={25}
                             style={{ fontSize: '8px' }}>
-                            <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
+                            <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" vertical={false} />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
-                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20 }}>
+                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20, }}>
                                 <Label
                                     value={this.state.xAxisLabel}
                                     position="bottom"
@@ -109,7 +108,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                             </XAxis>
                             <YAxis tick={{ fill: 'white' }}
                                 ticks={[5, 10, 15, 20, 25,]} interval={0}
-                                padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
+                                padding={{ top: 10, bottom: 1 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
@@ -124,17 +123,18 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 startIndex={0}
                                 endIndex={0} />
                             {!this.props.alertCleared ?
-                                <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key}
-                                    stackId="a" isAnimationActive={true}>
+                                <Bar name={this.state.bar2Name} dataKey={this.state.bar2Key}
+                                    stackId="a" fill={this.props.bar2StrokeColor} isAnimationActive={true}>
                                     {this.state.data.map((entry: any, index: number) => (
-                                        <Cell fill={this.state.data[index][this.state.bar1Key] == 0 ? 'red' : this.props.bar1StrokeColor} key={index} />
+                                        <Cell fill={(entry.timeDate === this.props.alertDate) ? 'red' : this.props.bar2StrokeColor} key={index} />
                                     ))}
                                 </Bar>
                                 : ''}
                             {!this.props.alertCleared ?
-                                <Bar name={this.state.bar2Name} dataKey={this.state.bar2Key} stackId="a" fill="#4888ff" isAnimationActive={true}>
+                                <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key} fill={this.props.bar1StrokeColor} radius={[5, 5, 0, 0]}
+                                    stackId="a" isAnimationActive={true}>
                                     {this.state.data.map((entry: any, index: number) => (
-                                        <Cell fill={(this.state.data[index][this.state.bar1Key] == 0) ? 'red' : this.props.bar2StrokeColor} key={index} />
+                                        <Cell fill={this.state.data[index][this.state.dataKey] === this.props.alertDate ? 'red' : this.props.bar1StrokeColor} key={index} />
                                     ))}
                                 </Bar>
                                 : ''}

@@ -129,7 +129,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                     <div className={"alert-top-container"}>
                         <AlertDetailSingle alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.alertCleared} />
                         <AlertGraph alertName={this.state.alert.alertName} clearAlertState={this.getAlertClearedState}
-                            vehicleId={"12324"} alertCleared={this.state.alertCleared} alertId={Number(this.state.alertId)} />
+                            vehicleId={"12324"} alertCleared={this.state.alertCleared} alertId={Number(this.state.alertId)} alertDate={this.state.alert.alertTime} />
                     </div>
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>

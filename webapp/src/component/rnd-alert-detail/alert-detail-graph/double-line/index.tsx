@@ -127,15 +127,17 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                             }}>
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                            {this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
-                                isFront={true} >
-                                <Label position={'insideBottomLeft'} fill="#ffffff"
-                                    style={{
-                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
-                                    }} value="L1">
-                                </Label>
-                            </ReferenceLine> : <ReferenceLine />}
-                            {this.state.L2Value ? <ReferenceLine y={this.state.L2Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                            {!this.props.alertCleared &&
+                                this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                                    isFront={true} >
+                                    <Label position={'insideBottomLeft'} fill="#ffffff"
+                                        style={{
+                                            fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                        }} value="L1">
+                                    </Label>
+                                </ReferenceLine>
+                                : ''}
+                            {!this.props.alertCleared && this.state.L2Value ? <ReferenceLine y={this.state.L2Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
@@ -144,16 +146,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 </Label>
                             </ReferenceLine> : <ReferenceLine />}
                             {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-                            {!this.props.alertCleared ?
-                                this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
-                                    isFront={true} >
-                                    <Label position={'insideBottomLeft'} fill="#ffffff"
-                                        style={{
-                                            fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
-                                        }} value="L1">
-                                    </Label>
-                                </ReferenceLine> : <ReferenceLine />
-                                : ''}
+
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 // ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
                                 // domain={[100, 1200]}

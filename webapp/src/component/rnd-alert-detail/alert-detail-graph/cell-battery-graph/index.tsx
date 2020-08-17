@@ -89,6 +89,31 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         return state
 
     }
+    tooltipContent(tooltipProps: any) {
+        return <div>items: {tooltipProps.payload.length}</div>
+    }
+    CustomTooltip = (obj: any) => {
+        console.log("viewBox", obj.viewBox);
+        const style = {
+            top: obj.viewBox.y / 2,
+            left: obj.viewBox.x
+        };
+        return <div style={style}>some</div>;
+    };
+
+    // CustomTooltip = ({ active, payload, label }: any) => {
+    //     if (active) {
+    //         return (
+    //             <div className="subscribers-by-channel-tooltip">
+    //                 <p className="subscribers-by-channel-tooltip-label">{label}</p>
+    //                 <p className="subscribers-by-channel-tooltip-value">
+    //                     Hits : {` ${payload[0].value} V`}
+    //                 </p>
+    //             </div>
+    //         );
+    //     }
+    //     return null;
+    // };
 
     render() {
         console.log(this.state, "rendered test graph cell");
@@ -108,12 +133,14 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     top: 10, right: 0, left: 0, bottom: 0,
                                 }} maxBarSize={25} style={{ fontSize: '7px' }}>
                                 <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} allowDecimals={true} />
-                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} unit="volt"
-                                    ticks={[3.000, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
+                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} unit=" volt"
+                                    ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
                                     orientation="right"
                                     domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
-                                {/* <Tooltip /> */}
-                                {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                                <Tooltip
+                                    content={<this.CustomTooltip />}
+                                    cursor={{ stroke: '#5FBDE0', strokeWidth: 2, fill: "transparent", }}
+                                />                                  {/* <CartesianGrid strokeDasharray="3 3" /> */}
                                 <ReferenceLine y={this.props.maxL2} stroke="#717171" strokeDasharray="3 3 5 2"
                                     isFront={true} >
                                     <Label position={'right'} fill="#ffffff"
@@ -154,11 +181,14 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                 maxBarSize={25}
                                 style={{ fontSize: '7px' }}>
                                 <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} allowDecimals={true} />
-                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }}
+                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} unit=" volt"
                                     ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
                                     orientation="right"
                                     domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
-                                {/* <Tooltip /> */}
+                                <Tooltip
+                                    content={<this.CustomTooltip />}
+                                    cursor={{ stroke: '#5FBDE0', strokeWidth: 2, fill: "transparent", }}
+                                />
                                 {/* <CartesianGrid strokeDasharray="3 3" /> */}
                                 <ReferenceLine y={this.props.maxL2} stroke="#717171" strokeDasharray="3 3 5 2"
                                     isFront={true} >

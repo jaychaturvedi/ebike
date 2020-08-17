@@ -18,6 +18,7 @@ interface AlertGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState {
     alertType?: string,
     alertId?: number,
     vehicleId?: string,
+    alertDate: string,
     alertCleared?: boolean,
     clearAlertState: Function
 }
@@ -74,16 +75,17 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             //voltage deviation graph
 
             case 1: {
-                return <CellBatteryGraph data={this.state.data} title="12 Cell BAttery Pack Info" dataKey="name"
+                return <CellBatteryGraph data={this.state.data} title="12 Cell Battery Pack Info:" dataKey="name"
                     barDataKey="value" minL1={3.731} maxL2={3.881} alertCleared={this.props.alertCleared} />
             }
             //vehicle idle active
             case 2: {
-                return <StackedGraph data={this.state.data} dataKey="timeDate" title="Vehicle Usage Graph (Active vs Idle)"
-                    xAxisLabel="Days" yAxisLabel="Usage (in Hrs)" alertCleared={this.props.alertCleared}
+                return <StackedGraph data={this.state.data} dataKey="timeDate"
+                    title="Vehicle Usage Graph (Active Vs Idle):" xAxisLabel="Days" yAxisLabel="Usage (in Hrs)"
+                    alertCleared={this.props.alertCleared} alertDate="2020-07-26"
                     bar1Key="activeTime" bar2Key="idleTime"
                     bar1Name="Active Time" bar2Name="Idle Time"
-                    bar1StrokeColor="#3C4473" bar2StrokeColor="#4888ff" L1={false} />
+                    bar1StrokeColor="#4888ff" bar2StrokeColor="#5A5BA0" L1={false} />
             }
             case 3: {
                 return <DoubleLineGraph dataKey="timeDate" data={this.state.data}
