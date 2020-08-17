@@ -81,8 +81,8 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         state.data2 = arr2;
         state.maxVolt = max;
         state.minVolt = min;
-        state.maxCellPos = maxPos;
-        state.minCellPos = minPos;
+        state.maxCellPos = maxPos + 1;
+        state.minCellPos = minPos + 1;
         state.voltageDelta = (max - min)
         // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
         console.log(state, "graph cell in func");
@@ -137,10 +137,11 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
                                     orientation="right"
                                     domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
-                                <Tooltip
+                                {/* <Tooltip
                                     content={<this.CustomTooltip />}
                                     cursor={{ stroke: '#5FBDE0', strokeWidth: 2, fill: "transparent", }}
-                                />                                  {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                                />                                   */}
+                                {/* <CartesianGrid strokeDasharray="3 3" /> */}
                                 <ReferenceLine y={this.props.maxL2} stroke="#717171" strokeDasharray="3 3 5 2"
                                     isFront={true} >
                                     <Label position={'right'} fill="#ffffff"
@@ -185,10 +186,10 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
                                     orientation="right"
                                     domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
-                                <Tooltip
+                                {/* <Tooltip
                                     content={<this.CustomTooltip />}
                                     cursor={{ stroke: '#5FBDE0', strokeWidth: 2, fill: "transparent", }}
-                                />
+                                /> */}
                                 {/* <CartesianGrid strokeDasharray="3 3" /> */}
                                 <ReferenceLine y={this.props.maxL2} stroke="#717171" strokeDasharray="3 3 5 2"
                                     isFront={true} >

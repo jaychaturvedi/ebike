@@ -90,11 +90,11 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             case 3: {
                 return <DoubleLineGraph dataKey="timeDate" data={this.state.data}
                     L1={true} L2={true}
-                    title="Battery Temperature" alertCleared={this.props.alertCleared}
+                    title="Battery Temperature:" alertCleared={this.props.alertCleared}
                     line1Key="chrgTemp" line2Key="abintTemp"
                     line1Name='Charging Temp' line2Name='Ambient Temp'
                     line1StrokeColor="#4aa7cf" line2StrokeColor="#f3cd58"
-                    refColor="green" xAxisLabel="Time" yAxisLabel="Temperature (C)" />
+                    refColor="green" xAxisLabel="Time" yAxisLabel="Temperature (`C)" />
             }
             case 4: {
                 return <SingleLineGraph data={this.state.data} dataKey="timeDate"
@@ -110,7 +110,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
                     line1Key="current" line2Key="chargingTemp"
                     line1Name='Current' line2Name='Charging Temperature (T1 or T2)'
                     line1StrokeColor="#D48D4F" line2StrokeColor="#4aa7cf" alertCleared={this.props.alertCleared}
-                    refColor="4bfc38" xAxisLabel="Time" yAxisLabel="Temperature 'C" rightYaxisLabel="Current (A)" />
+                    refColor="4bfc38" xAxisLabel="Time" yAxisLabel="Temperature `C" rightYaxisLabel="Current (A)" />
             }
             case 6: {
                 return <SingleLineGraph data={this.state.data} dataKey="timeDate" L1={true}
@@ -129,7 +129,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
                 return <SingleLineGraph data={this.state.data} dataKey="timeDate" L1={true}
                     title="Battery Temperature Difference Trend"
                     line1Key="deltaTemp" line1Name="Delta Temperature (T1-T2)" refColor="#e3e6e8"
-                    line1StrokeColor="#4aa7cf" xAxisLabel="Time" yAxisLabel="Temperature (C)" alertCleared={this.props.alertCleared}
+                    line1StrokeColor="#4aa7cf" xAxisLabel="Time" yAxisLabel="Temperature (`C)" alertCleared={this.props.alertCleared}
                 />
             }
             case 9: {
@@ -141,7 +141,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             case 10: {
                 return <DoubleLineGraph data={this.state.data} dataKey="nocycles" line1Key="amilage" line2Key="smilage" title="Low Mileage"
                     line2Name='Actual Mileage' line1Name='Specified Mileage' line1StrokeColor="#79a45b" line2StrokeColor="#4aa7cf"
-                    refColor="green" xAxisLabel="No. of cycle" yAxisLabel="Mileage in Km" L1={false} L2={false} alertCleared={this.props.alertCleared} />
+                    refColor="green" xAxisLabel="No of Cycles" yAxisLabel="Mileage (Km)" L1={false} L2={false} alertCleared={this.props.alertCleared} />
             }
             default: {
                 return <div>Nothing</div>
