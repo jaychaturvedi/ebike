@@ -1,90 +1,11 @@
 @import "../../../global.scss";
 @import "~antd/dist/antd.css";
 
-.connectm-AlertPastTable {
-    // height: 40%;
-    background-color: #272b3c;
-    border-radius: 2%;
-    // padding: 10px;
-    color: white;
+.connectm-AlertPastTable-header {
+    display: flex;
     justify-content: space-between;
-
-    .connectm-AlertPastTable-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 16%;
-    }
-
-    .table-row-light {
-        background: $TABLE_ROW_DARK;
-    }
-
-    .table-row-dark {
-        background: $TABLE_ROW_LIGHT;
-    }
-
-    .past-alert-selected-row {
-        background-color: $ROW_HOVER !important;
-    }
-
-    .ant-table-thead {
-        tr {
-            th {
-                border: 1px solid yellow;
-                position: sticky;
-                top: 0;
-                z-index: 1;
-                background: $TABLE_ROW_LIGHT !important;
-                text-align: left;
-                font-size: 14px;
-            }
-        }
-    }
-
-    // .table-body {
-    // display: block !important;
-    // max-height: 350px;
-
-    //use media screen size to set height
-    // height: 10vh !important; //change table height here
-    // for test scrren
-    // height: 100%;
-
-    // overflow-y: hidden;
-    /* Trigger vertical scroll    */
-    // overflow-x: auto;
-    // }
-
-    .ant-table table {
-        // height: calc(100% - 25px);
-
-        overflow: hidden !important;
-        text-indent: 15px;
-        // border-bottom-left-radius: 10px;
-        // border-bottom-right-radius: 10px;
-        // height: 450px;
-    }
-
-    .ant-table-header {
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-    }
-
-    .ant-table-body {
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-    }
-
-    //curve edges bg
-    .ant-table {
-        background-color: transparent;
-    }
-
-    .tableSelectCheckboxOverride .ant-checkbox-inner {
-        background: transparent;
-        display: none;
-    }
+    align-items: center;
+    height: 16%;
 
     .pagination-footer {
         // border: 1px solid yellow;
@@ -129,6 +50,93 @@
         }
     }
 }
+.connectm-AlertPastTable {
+    // height: 40%;
+    background-color: #272b3c;
+    border-radius: 2%;
+    // padding: 10px;
+    color: white;
+    justify-content: space-between;
+
+    .table-row-light {
+        background: $TABLE_ROW_LIGHT;
+    }
+
+    .table-row-dark {
+        background: $TABLE_ROW_DARK;
+        
+    }
+
+    .past-alert-selected-row {
+        background-color: $ROW_HOVER !important;
+    }
+
+    .ant-table-thead {
+        tr {
+            th {
+                border: 1px solid yellow;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+                background: $TABLE_ROW_DARK !important;
+                text-align: left;
+                font-size: 14px;
+            }
+        }
+    }
+
+    // .table-body {
+    // display: block !important;
+    // max-height: 350px;
+
+    //use media screen size to set height
+    // height: 10vh !important; //change table height here
+    // for test scrren
+    // height: 100%;
+
+    // overflow-y: hidden;
+    /* Trigger vertical scroll    */
+    // overflow-x: auto;
+    // }
+
+    .ant-table table {
+        // height: calc(100% - 25px);
+
+        // overflow: hidden !important;
+        text-indent: 15px;
+        // border-bottom-left-radius: 10px;
+        // border-bottom-right-radius: 10px;
+        // height: 450px;
+    }
+
+    .ant-table-header {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .ant-table-body {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        background: $TABLE_ROW_DARK !important;
+        overflow-y: scroll;
+        min-height: 28.5vh;
+    }
+
+    //curve edges bg
+    .ant-table {
+        background-color: transparent;
+    }
+
+    .tableSelectCheckboxOverride .ant-checkbox-inner {
+        background: transparent;
+        display: none;
+    }
+
+    .ant-table-cell-scrollbar {
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+    }
+}
 
 table,
 tr,
@@ -145,7 +153,7 @@ th {
     }
 }
 
-.ant-table-tbody>tr.ant-table-row:hover>td {
+.ant-table-tbody > tr.ant-table-row:hover > td {
     background: none !important;
 }
 
@@ -192,9 +200,6 @@ th {
 //     float: right;
 //     margin-left: 10px;
 // }
-
-
-
 
 // .alert-down-circle-static>g>circle {
 //     fill: '#3C4473';
