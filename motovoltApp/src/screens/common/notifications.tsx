@@ -15,6 +15,7 @@ interface ReduxState {
   getNotifications: (params: ReadNotifications) => void
   notifications: TStore['notifications']
   user: TStore['user']
+  bike: TStore['bike']
 }
 
 interface Props extends ReduxState { }
@@ -54,7 +55,7 @@ class Notifications extends React.PureComponent<Props, {}> {
           hasBackButton
           hasSubtitle
           title={'Notifications'}
-          subtitle={this.props.user.defaultBikeId}
+          subtitle={this.props.bike.name}
           onBackClick={() => {
             this.props.updateNotifications({
               type: 'Store_UpdateNotification',
@@ -134,7 +135,8 @@ export default connect(
   (store: TStore) => {
     return {
       notifications: store['notifications'],
-      user: store['user']
+      user: store['user'],
+      bike: store['bike']
     };
   }, (dispatch: Dispatch) => {
     return {
