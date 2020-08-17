@@ -8,7 +8,7 @@ globalAny.navigator = () => null
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 const poolData = {
     UserPoolId: "us-east-2_3ErdY8hH0",
-    ClientId: "201rvp9cga1v0foim2aab6g3of"
+    ClientId: ""
 };
 const pool_region = "us-east-2";
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
@@ -17,12 +17,12 @@ const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
 function logIn() {
     var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails({
-        Username: "+918880591514",
-        Password: "1234@123asdQWERTY"
+        Username: "",
+        Password: ""
     });
 
     var userData = {
-        Username: "+918880591514",
+        Username: "",
         Pool: userPool
     }
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
