@@ -61,7 +61,7 @@ export async function postClearAlertGraph(params: IClearGraphActions) {
 }
 
 export async function getPastAlertData(params: IAlertDetailActions) {
-    const pastAlertData = await pastAlertDataGenerator(params)
+    const pastAlertData = await getPastAlerts(params)
     return pastAlertData
 }
 
@@ -106,17 +106,18 @@ async function alertClearanceComment(params: IAlertDetailActions) {
     return response.data.body
 }
 
-async function getPastAlerts() {
-    const data = await axios.post(process.env.REACT_APP_WEBAPIURL + '/pastAlerts',
+async function getPastAlerts(params: IAlertDetailActions) {
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/pastAlerts',
         {
-            vehicleID: "069bcc081a68a0832f123",
-            alertId: 123,
-            alertName: "voltage deviation",
-            customerId: "CUS14567",
-            pageSize: 10,
-            pageNo: 1
+            vehicleID:params.payload.vehicleID ,
+            alertId: params.payload.alertId,
+            alertName: params.payload.alertName,
+            customerId: params.payload.customerId,
+            pageSize: params.payload.pagination.pageSize,
+            pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
     )
+    return response.data.body
 }
 
 //need to change

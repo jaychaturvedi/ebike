@@ -1,0 +1,28 @@
+plugins: # List of plugins of use on application
+  # - serverless-offline # Get your serverless configuration and run the server local
+  - serverless-plugin-typescript-express # Help us with configuration typescript on serverless
+
+service: zelp-motovolt-app-user
+
+provider:
+  name: aws
+  endpointType: REGIONAL
+  runtime: nodejs10.x
+  stage: dev
+  region: us-east-2
+  memorySize: 2048
+  environment: 
+    DB: postgres
+    PG_USER: postgres
+    PASSWORD: postgres
+    HOST: localhost
+    PORT: 5432
+    MOTOVOLTAPI: https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra
+functions:
+  createUser:
+    handler: src/server.createUser
+    events:
+      - http:
+          path: /createUser
+          method: POST
+          cors: true
