@@ -107,8 +107,8 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                     content={props => { return this.DynamicLabel(props) }} />
                             </XAxis>
                             <YAxis tick={{ fill: 'white' }}
-                                ticks={[5, 10, 15, 20, 25,]} interval={0}
-                                padding={{ top: 10, bottom: 1 }} stroke='#ffffff'>
+                                ticks={[2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]} interval={0}
+                                padding={{ top: 0, bottom: 1 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'

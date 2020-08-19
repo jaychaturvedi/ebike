@@ -192,10 +192,10 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 this.props.getPastAlertGraph({
                     type: "GET_ALERT_GRAPH",
                     payload: {
-                        alertId: this.state.selectedRowId!,
+                        alertId: this.state.graphDataLoaded ? this.state.selectedRowId : this.props.alertId as any as number,
                         vehicleId: this.props.vehicleId,
                         alertName: this.props.alertName,
-                        alertTypeId: alertTypeId
+                        alertTypeId: 5
                     }
                 })
             }

@@ -73,7 +73,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             }
             j < 8 ? arr1.push({ 'name': i, 'value': data[i] }) : arr2.push({ 'name': i, 'value': data[i] })
         })
-        arr2.push({ 'name': '', }, { 'name': '', }, { 'name': '', }, { 'name': 'cell16', })
+        arr2.push({ 'name': 'empty', }, { 'name': 'empty' }, { 'name': 'empty' }, { 'name': 'empty' })
 
         // for (let i = 0; i <= 8 - arr2.length; i++) arr2.push({ 'name': '', 'value': 0 })
 
@@ -87,33 +87,40 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
         console.log(state, "graph cell in func");
         return state
-
     }
     tooltipContent(tooltipProps: any) {
         return <div>items: {tooltipProps.payload.length}</div>
     }
     CustomTooltip = (obj: any) => {
-        console.log("viewBox", obj.viewBox);
+        // console.log("viewBox", obj, label);
         const style = {
-            top: obj.viewBox.y / 2,
-            left: obj.viewBox.x
+            top: obj.viewBox.y
         };
-        return <div style={style}>some</div>;
-    };
 
-    // CustomTooltip = ({ active, payload, label }: any) => {
-    //     if (active) {
-    //         return (
-    //             <div className="subscribers-by-channel-tooltip">
-    //                 <p className="subscribers-by-channel-tooltip-label">{label}</p>
-    //                 <p className="subscribers-by-channel-tooltip-value">
-    //                     Hits : {` ${payload[0].value} V`}
-    //                 </p>
-    //             </div>
-    //         );
-    //     }
-    //     return null;
-    // };
+        // return <div style={style}>label</div>;
+        const { active } = obj;
+
+        if (active) {
+            const { payload, label } = obj;
+            if (label === "empty") {
+                return (<div><p></p></div>)
+            }
+            else
+                return (
+                    <div className="custom-tooltip" style={style}>
+                        <p className="label">{`${label} : ${payload[0].value ? payload[0].value.toFixed(3) : ''}`}</p>
+                        <span className="intro">&nbsp;</span>
+                        <span className="desc">&nbsp;</span>
+                        <span className="intro">&nbsp;</span>
+                        <span className="desc">&nbsp;</span>
+                        <span className="desc">&nbsp;</span>
+                    </div>
+                );
+        }
+
+        return null;
+
+    };
 
     render() {
         console.log(this.state, "rendered test graph cell");
@@ -131,16 +138,25 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                 data={this.state.data1}
                                 margin={{
                                     top: 10, right: 0, left: 0, bottom: 0,
-                                }} maxBarSize={25} style={{ fontSize: '7px' }}>
-                                <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} allowDecimals={true} />
-                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} unit=" volt"
+                                }} maxBarSize={25} style={{ fontSize: '7px' }} barGap={50}>
+                                <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }}
+                                    axisLine={false} tickLine={false}
+                                    tick={{ fill: 'white' }} allowDecimals={true} />
+                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }}
+                                    tickLine={false}
                                     ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
                                     orientation="right"
+                                    tickFormatter={(label) => {
+                                        if (label === 3.001) return label + " volt"
+                                        else return label
+                                    }}
                                     domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
-                                {/* <Tooltip
-                                    content={<this.CustomTooltip />}
-                                    cursor={{ stroke: '#5FBDE0', strokeWidth: 2, fill: "transparent", }}
-                                />                                   */}
+                                <Tooltip
+                                    content={this.CustomTooltip}
+                                    // position={{ y: 0, x: 0 }}
+                                    viewBox={{ x: 5, y: 5, height: 50, width: 20 }}
+                                    cursor={{ fill: "transparent", top: 0 }}
+                                />
                                 {/* <CartesianGrid strokeDasharray="3 3" /> */}
                                 <ReferenceLine y={this.props.maxL2} stroke="#717171" strokeDasharray="3 3 5 2"
                                     isFront={true} >
@@ -181,11 +197,25 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                 }}
                                 maxBarSize={25}
                                 style={{ fontSize: '7px' }}>
-                                <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }} tick={{ fill: 'white' }} allowDecimals={true} />
-                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} unit=" volt"
+                                <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }}
+                                    axisLine={false} tickLine={false}
+                                    tick={{ fill: 'white' }} allowDecimals={true} />
+                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} tickLine={false}
                                     ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
                                     orientation="right"
-                                    domain={['dataMin-1.501', 'dataMax+1.501']} interval={8} scale="sqrt" />
+                                    tickFormatter={(label) => {
+                                        if (label === 3.001) return label + " volt"
+                                        else return label
+                                    }}
+                                    domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
+                                <Tooltip
+                                    content={this.CustomTooltip}
+                                    // position={{ y: 0, x: 0 }}
+                                    viewBox={{ x: 5, y: 5, height: 10, width: 5 }}
+
+                                    // viewBox={10} strokeWidth: 2, stroke: '#5FBDE0', 
+                                    cursor={{ fill: "transparent", top: 0 }}
+                                />
                                 {/* <Tooltip
                                     content={<this.CustomTooltip />}
                                     cursor={{ stroke: '#5FBDE0', strokeWidth: 2, fill: "transparent", }}

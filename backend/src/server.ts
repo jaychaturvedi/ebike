@@ -33,46 +33,46 @@ app.use(bodyparser.json());
 
 // deploy express app to aws lambda
 
-// module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
-//     console.log("context", context, "event", event);
-//     context.callbackWaitsForEmptyEventLoop = false;
-//     app.use("/user", userRoutes)
-//     app.use("/bike", bikeRoutes)
-//     app.use("/feedback", feedbackRoutes)
-//     app.use("/ride", ridesRoutes)
-//     app.use("/service", serviceRoutes)
-//     const handler = serverless(app);
-//     try {
-//         await db.authenticate();
-//     } catch (error) {
-//         await db.sync({ alter: true, force: false });
-//     }
-//     const result = await handler(event, context);
-//     return result;
-// };
+module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
+    console.log("context", context, "event", event);
+    context.callbackWaitsForEmptyEventLoop = false;
+    app.use("/user", userRoutes)
+    app.use("/bike", bikeRoutes)
+    app.use("/feedback", feedbackRoutes)
+    app.use("/ride", ridesRoutes)
+    app.use("/service", serviceRoutes)
+    const handler = serverless(app);
+    try {
+        await db.authenticate();
+    } catch (error) {
+        await db.sync({ alter: true, force: false });
+    }
+    const result = await handler(event, context);
+    return result;
+};
 
-// // will be pushed other file
-// // lambda function to be triggered to create new user
-// module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context) => {
-//     const body = JSON.parse(event.body!)
-//     const uid = body.uid as string
-//     const phone = body.phoneNumber as string
-//     console.log("new user", { uid: uid, phone: phone })
-//     context.callbackWaitsForEmptyEventLoop = false;
-//     console.log("connecting for CreateUser")
-//     await db.sync({ alter: true, force: false });
-//     const newUser = await User.createNew({ uid: uid, phone: phone })
-//     console.log(newUser);
-//     const response = {
-//         statusCode: 200,
-//         headers: {
-//             "x-custom-header": "user_creation"
-//         },
-//         body: JSON.stringify({ uid: uid, phone: phone }),
-//         isBase64Encoded: false
-//     };
-//     context.succeed(response)
-// };
+// will be pushed other file
+// lambda function to be triggered to create new user
+module.exports.createUser = async (event: APIGatewayProxyEvent, context: Context) => {
+    const body = JSON.parse(event.body!)
+    const uid = body.uid as string
+    const phone = body.phoneNumber as string
+    console.log("new user", { uid: uid, phone: phone })
+    context.callbackWaitsForEmptyEventLoop = false;
+    console.log("connecting for CreateUser")
+    await db.sync({ alter: true, force: false });
+    const newUser = await User.createNew({ uid: uid, phone: phone })
+    console.log(newUser);
+    const response = {
+        statusCode: 200,
+        headers: {
+            "x-custom-header": "user_creation"
+        },
+        body: JSON.stringify({ uid: uid, phone: phone }),
+        isBase64Encoded: false
+    };
+    context.succeed(response)
+};
 
 module.exports.webapp = async (event: APIGatewayProxyEvent, context: Context) => {
     // context.callbackWaitsForEmptyEventLoop = false;

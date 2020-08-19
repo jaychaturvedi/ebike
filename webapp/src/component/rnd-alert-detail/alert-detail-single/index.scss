@@ -38,8 +38,10 @@
         .clear-alert-button {
             background-color: $APPLY_BUTTON !important;
             border: none !important;
-            overflow: hidden;
-            margin-left: 2.5%;
+            height: 25px;
+            padding: 2px;
+            // overflow: hidden;
+            // margin-left: 5%;
             border-radius: 10px;
         }
     }
