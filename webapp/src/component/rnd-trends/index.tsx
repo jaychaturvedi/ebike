@@ -17,7 +17,7 @@ interface RandDTrendsStates {
     trendsPeriod: string,
     totalAlerts: TtrendTotalAlerts[],
     top5Alerts: TtrendTop5Alert,
-    locationwiseAlerts: TtrendLocationWise,
+    locationWiseAlerts: TtrendLocationWise,
     xAxis: number
     reload: boolean,
     startDate: string,
@@ -41,7 +41,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             clickCount: 0,
             trendsPeriod: "Last 7 Days",
             totalAlerts: [],
-            locationwiseAlerts: { lines: {}, data: [] },
+            locationWiseAlerts: { lines: {}, data: [] },
             top5Alerts: { lines: {}, data: [] },
             zoom: 0,
             xAxis: 7,
@@ -76,7 +76,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 return a["date"] > b["date"] ? b["date"] : a["date"]
             })
         }
-        state.locationwiseAlerts = {
+        state.locationWiseAlerts = {
             lines: props.trendLocationWise.lines, data: props.trendLocationWise.data.sort((a: any, b: any): any => {
                 return a["date"] - b["date"] ? b["date"] : a["date"]
             })
@@ -126,7 +126,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         else return moment(`${label}`).format('DD')
     }
     handleZoom = () => {
-        const { clickCount, totalAlerts, top5Alerts, locationwiseAlerts } = this.state
+        const { clickCount, totalAlerts, top5Alerts, locationWiseAlerts } = this.state
         let trendsZoom = this.state.zoom
         // console.log("im clicked");
         if (clickCount == 0) {
@@ -145,7 +145,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         this.props.updateAlertTrends({
             type: "UPDATE_ALERT_TRENDS",
             payload: {
-                trendLocationWise: this.state.locationwiseAlerts,
+                trendLocationWise: this.state.locationWiseAlerts,
                 trendTop5Alert: this.state.top5Alerts,
                 trendTotalAlert: this.state.totalAlerts,
                 trendsZoom: trendsZoom
@@ -204,8 +204,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                         <Legend iconType="circle" iconSize={5}
                             wrapperStyle={{ width: '90%', marginLeft: "20%" }} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
-                        <Line name={this.state.top5Alerts.lines.alert1} type="monotone" dataKey="alert1count"
-                            stroke="#EB8E27" strokeWidth={2} dot={false} />
+                        <Line name={this.state.top5Alerts.lines.alert1}
+                            type="monotone" dataKey="alert1count" stroke="#EB8E27" strokeWidth={2} dot={false} />
                         <Line name={this.state.top5Alerts.lines.alert2} type="monotone" dataKey="alert2count" stroke="#80F0FA" strokeWidth={2}
                             isAnimationActive={true} animationEasing={'ease-in-out'} animationDuration={100} dot={false} />
                         <Line name={this.state.top5Alerts.lines.alert3} type="monotone" dataKey="alert3count" stroke="#5280EF" strokeWidth={2} dot={false} />
@@ -219,7 +219,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </div>
 
                 <ResponsiveContainer width="100%" height="28%">
-                    <LineChart data={this.state.locationwiseAlerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
+                    <LineChart data={this.state.locationWiseAlerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
                         syncId="anyId">
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                         <XAxis dataKey="date" tick={{ fill: 'white' }} interval={this.state.interval} padding={{ left: 20, right: 20 }}
@@ -227,9 +227,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                         <Legend iconType="circle" iconSize={5} align="right"
                             wrapperStyle={{ width: '80%', paddingRight: '50px' }} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
-                        <Line name={this.state.locationwiseAlerts.lines.loc1} type="monotone" dataKey="loc1count" stroke="#EB8E27" strokeWidth={2} dot={false} />
-                        <Line name={this.state.locationwiseAlerts.lines.loc2} type="monotone" dataKey="loc2count" stroke="#80F0FA" strokeWidth={2} dot={false} />
-                        <Line name={this.state.locationwiseAlerts.lines.loc3} type="monotone" dataKey="loc3count" stroke="#89ED6F" strokeWidth={2} dot={false} />
+                        <Line name={this.state.locationWiseAlerts.lines.alert1} type="monotone" dataKey="alert1count" stroke="#EB8E27" strokeWidth={2} dot={false} />
+                        <Line name={this.state.locationWiseAlerts.lines.alert2} type="monotone" dataKey="alert2count" stroke="#80F0FA" strokeWidth={2} dot={false} />
+                        <Line name={this.state.locationWiseAlerts.lines.alert3} type="monotone" dataKey="alert3count" stroke="#89ED6F" strokeWidth={2} dot={false} />
                     </LineChart>
                 </ResponsiveContainer>
             </div>
