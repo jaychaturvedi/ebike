@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { TAlertType, TSort, TPagination, TFilter, TPastAlertData, TPastAlert } from "../redux/models";
 import { State } from "../redux/connectm-state"
+import { IAlertGraphActions, GraphAlerts } from "./graph";
 export type AlertDetailActions = "GET_ALERTS_INSIGHTS" | "STORE_ALERTS_INSIGHTS" |
     "GET_PAST_ALERTS" | "STORE_PAST_ALERTS" | "UPDATE_PAST_ALERTS"
     | "POST_ALERT_CLEARANCE" | "GET_SINGLE_ALERT" | "RESET_ALERT_MAIN_PAGE" | "CLEAR_ALERT_GRAPH"
@@ -72,7 +73,7 @@ export function SingleAlert(params: ISingleAlertDetailAction): ISingleAlertDetai
         payload: params.payload
     }
 }
-//single alert detail
+//single alert detail graph
 
 export function DetailAlerts(params: IAlertDetailActions): IAlertDetailActions {
     return {
@@ -88,6 +89,7 @@ export interface ReduxAlertDetailActions {
     getSingleAlertDetail: (params: ISingleAlertDetailAction) => ISingleAlertDetailAction,
     navigation: (params: IAlertDetailActions) => IAlertDetailActions,
     clearAlertGraph: (params: IClearGraphActions) => IClearGraphActions,
+    getPastAlertGraph: (params: IAlertGraphActions) => IAlertGraphActions,
 }
 
 export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertDetailActions {
@@ -99,6 +101,7 @@ export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertDetailActions 
         getSingleAlertDetail: (params: ISingleAlertDetailAction) => dispatch(SingleAlert(params)),
         navigation: (params: IAlertDetailActions) => dispatch(DetailAlerts(params)),
         clearAlertGraph: (params: IClearGraphActions) => dispatch(ClearGraphAlerts(params)),
+        getPastAlertGraph: (params: IAlertGraphActions) => dispatch(GraphAlerts(params)),
     }
 }
 

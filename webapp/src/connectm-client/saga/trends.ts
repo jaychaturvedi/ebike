@@ -56,7 +56,7 @@ export async function getAlertTrends(params: IAlertTrendActions) {
 async function totalAlerts(params: IAlertTrendActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/totalAlerts',
         {
-            alertType: "smart",
+            alertType: params.payload.alertType,
             startDate: params.payload.startDate,
             endDate: params.payload.startDate
         }, { headers: { 'Content-Type': 'application/json' } }
@@ -67,7 +67,7 @@ async function totalAlerts(params: IAlertTrendActions) {
 async function top5Alerts(params: IAlertTrendActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/topFive',
         {
-            alertType: "smart",
+            alertType: params.payload.alertType,
             startDate: params.payload.startDate,
             endDate: params.payload.startDate
         }, { headers: { 'Content-Type': 'application/json' } }
@@ -78,7 +78,7 @@ async function top5Alerts(params: IAlertTrendActions) {
 async function locationWiseAlerts(params: IAlertTrendActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/locationWise',
         {
-            alertType: "smart",
+            alertType: params.payload.alertType,
             startDate: params.payload.startDate,
             endDate: params.payload.startDate
         }, { headers: { 'Content-Type': 'application/json' } }

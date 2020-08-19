@@ -34,8 +34,6 @@ export interface State {
         sort: TSort,
         pagination: TPagination,
     },
-    // lowMileage: TlowMileageGraph,
-    // vehicleUsage: TvehicleUsageGraph,
     trendsZoom: number,
     graphs: {
         [alertTypeId: string]: any

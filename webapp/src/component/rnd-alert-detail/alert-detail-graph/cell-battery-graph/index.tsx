@@ -185,7 +185,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                 <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} unit=" volt"
                                     ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
                                     orientation="right"
-                                    domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
+                                    domain={['dataMin-1.501', 'dataMax+1.501']} interval={8} scale="sqrt" />
                                 {/* <Tooltip
                                     content={<this.CustomTooltip />}
                                     cursor={{ stroke: '#5FBDE0', strokeWidth: 2, fill: "transparent", }}
