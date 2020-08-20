@@ -39,9 +39,11 @@
             background-color: $APPLY_BUTTON !important;
             border: none !important;
             height: 25px;
-            padding: 2px;
+            padding: 5px;
+            font-size: 12px;
+            // margin-left: 2.5%;
             // overflow: hidden;
-            // margin-left: 5%;
+            margin-left: 5%;
             border-radius: 10px;
         }
     }

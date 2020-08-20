@@ -94,13 +94,11 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
     CustomTooltip = (obj: any) => {
         // console.log("viewBox", obj, label);
         const style = {
-            top: obj.viewBox.y,
+            top: obj.viewBox.y - 20,
             color: "#5FBDE0",
             zIndex: 10
         };
-        // return <div style={style}>label</div>;
         const { active } = obj;
-
         if (active) {
             const { payload, label } = obj;
             if (label === "empty") {
@@ -109,18 +107,16 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             else
                 return (
                     <div className="custom-tooltip" style={style}>
-                        <p className="label">{`${payload[0].value ? payload[0].value.toFixed(3) + " v" : ''}`}</p>
+                        <p className="label">{`${payload[0].value ? payload[0].value.toFixed(3) + " V" : ''}`}</p>
                         <span className="intro">&nbsp;</span>
                         <span className="desc">&nbsp;</span>
                         <span className="intro">&nbsp;</span>
                         <span className="desc">&nbsp;</span>
-                        <span className="desc">&nbsp;</span>
+                        <span className="intro">&nbsp;</span>
                     </div>
                 );
         }
-
         return null;
-
     };
 
     render() {
@@ -153,9 +149,8 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     }}
                                     domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
                                 <Tooltip
-
                                     content={this.CustomTooltip}
-                                    offset={-45}
+                                    offset={-17}
                                     // position={{ y: 0, x: 0 }} stroke: "#5FBDE0"
                                     viewBox={{ x: 5, y: 5, height: 50, width: 20 }}
                                     cursor={{ fill: "transparent", top: 0, }}
@@ -214,16 +209,10 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                 <Tooltip
                                     content={this.CustomTooltip}
                                     // position={{ y: 0, x: 0 }}
-                                    offset={-45}
-                                    viewBox={{ x: 5, y: 5, height: 10, width: 5 }}
+                                    offset={-17} viewBox={{ x: 5, y: 5, height: 10, width: 5 }}
                                     // viewBox={10} strokeWidth: 2, stroke: '#5FBDE0', 
                                     cursor={{ fill: "transparent", top: 0 }}
                                 />
-                                {/* <Tooltip
-                                    content={<this.CustomTooltip />}
-                                    cursor={{ stroke: '#5FBDE0', strokeWidth: 2, fill: "transparent", }}
-                                /> */}
-                                {/* <CartesianGrid strokeDasharray="3 3" /> */}
                                 <ReferenceLine y={this.props.maxL2} stroke="#717171" strokeDasharray="3 3 5 2"
                                     isFront={true} >
                                     <Label position={'right'} fill="#ffffff"
