@@ -7,6 +7,7 @@ import serviceRoutes from './service/routes'
 import supportRoutes from "./support/routes";
 import feedbackRoutes from "./feedback/routes";
 import ridesRoutes from "./rides/routes";
+import upgradeRoutes from "./upgrades/routes";
 import featuresRoutes from "./features/routes";
 import cors from 'cors';
 import * as dotenv from "dotenv"
@@ -18,7 +19,7 @@ dotenv.config()
 
 const app = express();
 app.use(cors());
-// app.options('/*', cors())
+app.options('/*', cors())
 app.use(bodyparser.json());
 // app.use("/user", userRoutes)
 // app.use("/bike", bikeRoutes)
@@ -27,6 +28,7 @@ app.use(bodyparser.json());
 // app.use("/ride", ridesRoutes)
 // app.use("/service", serviceRoutes)
 // app.use("/support", supportRoutes)
+// app.use("/feature", upgradeRoutes)
 // app.use("/webV1", webappRoutes)
 // const PORT = Number(process.env.SPORT) || 5000;
 // db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
@@ -41,6 +43,7 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) =
     app.use("/feedback", feedbackRoutes)
     app.use("/ride", ridesRoutes)
     app.use("/service", serviceRoutes)
+    app.use("/feature", upgradeRoutes)
     const handler = serverless(app);
     try {
         await db.authenticate();
