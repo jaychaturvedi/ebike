@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Animated, Easing } from 'react-native';
 import { Left, Text, FooterTab, Button, Icon } from 'native-base';
 import { scale, moderateScale } from 'react-native-size-matters';
 import Header from '../home/components/header';
@@ -29,9 +29,18 @@ interface Props extends ReduxState {
   navigation: HomeNavigationProp;
   route: RouteProp<HomeStackParamList, 'Gps'>;
 };
-type State = {};
+
+type State = {
+  spinAnim: any
+};
 
 class GPSLui extends React.PureComponent<Props, State> {
+
+  constructor(props: Props) {
+    super(props)
+    this.state = { spinAnim: new Animated.Value(0) }
+  }
+
   componentDidMount() {
     this.props.readBikeLocation({
       type: 'ReadBikeLocation',
@@ -42,6 +51,10 @@ class GPSLui extends React.PureComponent<Props, State> {
   }
 
   render() {
+    const spin = this.state.spinAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg']
+    });
     return (
       <View style={styles.container}>
         <Header title={'GPS'} hasBackButton backgroundColor={Colors.HEADER_YELLOW}
@@ -76,13 +89,29 @@ class GPSLui extends React.PureComponent<Props, State> {
             </View>
             <View style={{ width: '20%', alignItems: 'center' }}>
               {/* Refresh */}
-              <TouchableOpacity onPress={() => this.props.readBikeLocation({
-                type: 'ReadBikeLocation',
-                payload: {
-                  bikeId: this.props.bike.id
-                }
-              })}>
-                <Image
+              <TouchableOpacity onPress={() => {
+                Animated.timing(
+                  this.state.spinAnim,
+                  {
+                    toValue: 1,
+                    duration: 500,
+                    easing: Easing.circle,
+                    useNativeDriver: true
+                  }
+                ).start();
+                this.props.readBikeLocation({
+                  type: 'ReadBikeLocation',
+                  payload: {
+                    bikeId: this.props.bike.id
+                  }
+                })
+                setTimeout(() =>
+                  this.setState({ spinAnim: new Animated.Value(0) })
+                  , 1000);
+              }
+              }>
+                <Animated.Image
+                  style={{ transform: [{ rotate: spin }] }}
                   source={require('../../assets/icons/refresh_icon.png')}
                 />
               </TouchableOpacity>
@@ -100,13 +129,6 @@ class GPSLui extends React.PureComponent<Props, State> {
             </View>
           </View>
         </View>
-        {/* <Footer
-          lockOnlyVisible={false}
-          locked
-          onItemSelect={() => {}}
-          onLockClick={() => {}}
-          selectedItem={'home'}
-        /> */}
       </View>
     );
   }

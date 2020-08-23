@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ReportIssue as Report } from '../../service/redux/actions/saga/service-actions';
 import ThumbsUp from '../../components/thumb-up';
+import { Store_ResetReportIssue } from 'src/service/redux/actions/store';
 
 type ReportISsueNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -23,7 +24,8 @@ type ReportISsueNavigationProp = StackNavigationProp<
 interface ReduxState {
   bike: TStore['bike'],
   user: TStore['user'],
-  reportIssue: (params: Report) => void
+  reportIssue: (params: Report) => void,
+  resetReportIssue: (params: Store_ResetReportIssue) => void
 }
 
 interface Props extends ReduxState {
@@ -50,8 +52,8 @@ class ReportIssue extends React.PureComponent<Props, State> {
         buttonText="CONTINUE"
         subMsg="We have received your feedback and will help you with it soon."
         onButtonPress={() => {
-          this.props.navigation.navigate('ServiceDetails', {});
-
+          this.props.resetReportIssue({ type: 'Store_ResetReportIssue', payload: {} })
+          this.props.navigation.navigate('SupportService', {});
         }}
       />
     ) : (
@@ -142,7 +144,8 @@ export default connect(
   },
   (dispatch: Dispatch) => {
     return {
-      reportIssue: (params: Report) => dispatch(params)
+      reportIssue: (params: Report) => dispatch(params),
+      resetReportIssue: (params: Store_ResetReportIssue) => dispatch(params)
     };
   },
 )(ReportIssue);

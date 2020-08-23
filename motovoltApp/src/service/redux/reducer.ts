@@ -34,6 +34,14 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 onboarding: ZeroOnboarding
             }
+        case 'Store_ResetReportIssue':
+            return {
+                ...store,
+                bike: {
+                    ...store.bike,
+                    reportIssueSuccess: null
+                }
+            }
         case "Store_UpdateBike":
             return {
                 ...store,
@@ -88,6 +96,17 @@ export default (store: TStore = Store, params: Action): TStore => {
                     distance: params.payload.distance,
                     data: Object.assign({}, ...params.payload.data.map(graph => ({ [Math.random().toString()]: graph })))
                 }
+            }
+        case 'Store_SetFAQ':
+            return {
+                ...store,
+                faq: params.payload
+            }
+        case 'Store_SetUpgrades':
+            console.log("In reducer");
+            return {
+                ...store,
+                upgrades: params.payload
             }
         default: return store;
     }

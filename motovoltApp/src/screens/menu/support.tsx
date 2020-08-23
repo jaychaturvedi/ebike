@@ -7,21 +7,30 @@ import Colors from '../../styles/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
 
 type SupportNavigationProp = StackNavigationProp<
   MenuStackParamList,
   'Support'
 >;
 
-type Props = {
+interface ReduxState {
+  bike: TStore['bike']
+}
+
+interface Props extends ReduxState {
   navigation: SupportNavigationProp,
   route: RouteProp<MenuStackParamList, 'Support'>
 };
 
 type State = {};
 
+class Support extends React.PureComponent<Props, State> {
 
-export default class Support extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+  }
 
   dialCall = () => {
     let phoneNumber = '';
@@ -51,7 +60,9 @@ export default class Support extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <Header
           hasBackButton
-          title={'My Rides'}
+          title={'Support'}
+          hasSubtitle
+          subtitle={this.props.bike.name}
           backgroundColor={Colors.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
@@ -113,6 +124,14 @@ export default class Support extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      bike: store['bike']
+    };
+  },
+)(Support);
 
 const styles = StyleSheet.create({
   container: {

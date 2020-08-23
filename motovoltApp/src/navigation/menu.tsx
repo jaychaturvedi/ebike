@@ -26,7 +26,13 @@ export type MenuStackParamList = {
         serviceId: string
     },
     Faq: {},
-    FaqPremium: {},
+    FaqPremium: {
+        header: string,
+        faq: {
+            Question: string,
+            Answer: string
+        }[]
+    },
     ComingSoon: {}
 }
 

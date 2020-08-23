@@ -14,33 +14,6 @@ type FAQPremiumNavigationProp = StackNavigationProp<
     'FaqPremium'
 >;
 
-const faqs = [
-    {
-        title: "What are the premium features?",
-        description: "There are many premium features to slelect from"
-    },
-    {
-        title: "How do premium features work?",
-        description: "There are many premium features to slelect from"
-    },
-    {
-        title: "How can I upgrade to premium?",
-        description: "There are many premium features to slelect from"
-    },
-    {
-        title: "What is the cost of premium features?",
-        description: "There are many premium features to slelect from"
-    },
-    {
-        title: "What are the premium features?",
-        description: "There are many premium features to slelect from"
-    },
-    {
-        title: "Premium feature is not reflecting on my account after payment",
-        description: "There are many premium features to slelect from"
-    }
-]
-
 interface Props {
     navigation: FAQPremiumNavigationProp;
     route: RouteProp<MenuStackParamList, 'FaqPremium'>;
@@ -48,24 +21,23 @@ interface Props {
 
 interface State { }
 
-
 export default class FAQPremium extends React.PureComponent<Props, State>{
     render() {
         return (
             <View style={styles.container}>
                 <Header
                     hasBackButton
-                    title={'Premium'}
+                    title={this.props.route.params.header}
                     backgroundColor={Colors.HEADER_YELLOW}
                     onBackClick={() => this.props.navigation.goBack()}
                 />
                 <ScrollView style={styles.body}>
                     {
-                        faqs.map((faq, index: number) => (
+                        this.props.route.params.faq.map((faq, index: number) => (
                             <QnaCard
                                 key={index}
-                                description={faq.description}
-                                title={faq.title}
+                                description={faq.Answer}
+                                title={faq.Question}
                             />
                         ))
                     }

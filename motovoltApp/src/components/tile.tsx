@@ -6,6 +6,7 @@ import { Icon } from 'native-base'
 
 type Props = {
     icon: any,
+    iconStyle?: any,
     feature: string,
     height: number,
     premium?: boolean,
@@ -26,7 +27,7 @@ export default class Upgrade extends React.PureComponent<Props, State>{
                     }
                 </View>
                 <View style={styles.icon}>
-                    <Image source={this.props.icon} />
+                    <Image source={this.props.icon} style={this.props.iconStyle} />
                 </View>
                 <View style={styles.helpText}>
                     <Text numberOfLines={1} style={{ fontSize: moderateScale(16) }}>{this.props.feature}</Text>

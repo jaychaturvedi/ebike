@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 10,
     },
     tabStyle: { backgroundColor: "white" },
-    tabBody: { flex: 1, backgroundColor: '#F0F0F0', paddingTop: moderateScale(15) }
+    tabBody: { flex: 1, backgroundColor: '#F0F0F0', paddingBottom: moderateScale(15) }
 });
 
 type Props = {
