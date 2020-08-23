@@ -18,14 +18,18 @@ import { TSort, TPastAlertData, TAlertType } from '../../../connectm-client/redu
 import TimeRenderer from "./time-renderer"
 import OpenSinceRenderer from "./openSinceRenderer"
 import Location from "./location"
+import { getAlertTypeId } from '../../../connectm-client/util/alert-graph';
 const paginationDate = ['10', '25', '50'];
 const { Option } = Select;
 
 interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
     alertType: TAlertType,
-    alertCleared: boolean
+    alertCleared: boolean,
+    alertName: string,
+    vehicleId: string,
 }
+
 interface AlertPastTableStates {
     id?: any, column?: any, isDesc: boolean, data: TPastAlertData[],
     current: number; isAsc: boolean; classname: string; pageSize: number;
@@ -33,6 +37,7 @@ interface AlertPastTableStates {
     sortingKey: any;
     selectedRowId: number;
     dataLoaded: boolean;
+    graphDataLoaded: boolean
     handleSort: (arr: any, sort: TSort) => any,
 }
 
@@ -52,6 +57,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             alertTimeClicked: false,
             selectedRowId: -1,
             dataLoaded: false,
+            graphDataLoaded: false,
             handleSort: this.handleSort,
         }
     }
@@ -178,6 +184,23 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 }
             }
         })
+        let alertTypeId: number
+        console.log("Got alert graph request")
+        if (this.props.alertName != undefined) {
+            alertTypeId = getAlertTypeId(this.props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
+            if (this.state.graphDataLoaded == false || alertTypeId != this.state.selectedRowId) {
+                this.props.getPastAlertGraph({
+                    type: "GET_ALERT_GRAPH",
+                    payload: {
+                        alertId: this.state.graphDataLoaded ? this.state.selectedRowId : this.props.alertId as any as number,
+                        vehicleId: this.props.vehicleId,
+                        alertName: this.props.alertName,
+                        alertTypeId: 5
+                    }
+                })
+            }
+            this.setState({ graphDataLoaded: !this.state.graphDataLoaded })
+        }
     }
 
     onRow = (record: any, rowIndex: any) => {
@@ -189,7 +212,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
 
     setRowClassName = (record: TPastAlertData, index: any) => {
         if (record.alertGraph) {
-            console.log("Selected rowID", Number(record.alertId), this.state.selectedRowId )
+            console.log("Selected rowID", Number(record.alertId), this.state.selectedRowId)
             return 'past-alert-selected-row'
         }
         return index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
@@ -227,41 +250,41 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         // const data = this.getData()
 
         return <>
-            
-                <div className={"connectm-AlertPastTable-header"}>
-                    <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
-                    <div className={"pagination-footer"}>
-                        Showing &nbsp;&nbsp;&nbsp; <span >
-                            <Select className={'select-button'}
-                                showArrow={true}
-                                defaultValue={this.state.pageSize} onChange={this.handleSelect}>
-                                {paginationDate.map(page => (
-                                    <Option value={page} key={page}>{page}</Option>
-                                ))}
-                            </Select>
-                        </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <div className={"connectm-AlertPastTable-header"}>
+                <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
+                <div className={"pagination-footer"}>
+                    Showing &nbsp;&nbsp;&nbsp; <span >
+                        <Select className={'select-button'}
+                            showArrow={true}
+                            defaultValue={this.state.pageSize} onChange={this.handleSelect}>
+                            {paginationDate.map(page => (
+                                <Option value={page} key={page}>{page}</Option>
+                            ))}
+                        </Select>
+                    </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div className={'spacer'}></div>
-                        <span className={'nav-button'}>
-                            <pre> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+                    <span className={'nav-button'}>
+                        <pre> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
                         {this.state.pageSize * this.state.current > this.state.total
-                                    ? this.state.total : this.state.pageSize * this.state.current}
+                                ? this.state.total : this.state.pageSize * this.state.current}
                           &nbsp;of {this.state.total}</pre>
-                        </span>
-                        <div className={'spacer'}></div>
-                        <span onClick={(e) => { this.handleNav("first", e) }} className={'nav-button'} >
-                            <FirstPage style={{ border: '1px solid #818181' }} className='icon' />
-                        </span>
-                        <span onClick={(e) => { this.handleNav("prev", e) }} className={'nav-button'}>
-                            <PrevPage style={{ border: '1px solid #818181' }} className='icon' />
-                        </span>
-                        <span onClick={(e) => { this.handleNav("next", e) }} className={'nav-button'}>
-                            <NextPage style={{ border: '1px solid #ffffff' }} className='icon' />
-                        </span>
-                        <span onClick={(e) => { this.handleNav("last", e) }} className={'nav-button'}>
-                            <LastPage style={{ border: '1px solid #ffffff' }} className='icon' />
-                        </span>
-                    </div>
+                    </span>
+                    <div className={'spacer'}></div>
+                    <span onClick={(e) => { this.handleNav("first", e) }} className={'nav-button'} >
+                        <FirstPage style={{ border: '1px solid #818181' }} className='icon' />
+                    </span>
+                    <span onClick={(e) => { this.handleNav("prev", e) }} className={'nav-button'}>
+                        <PrevPage style={{ border: '1px solid #818181' }} className='icon' />
+                    </span>
+                    <span onClick={(e) => { this.handleNav("next", e) }} className={'nav-button'}>
+                        <NextPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                    </span>
+                    <span onClick={(e) => { this.handleNav("last", e) }} className={'nav-button'}>
+                        <LastPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                    </span>
                 </div>
+            </div>
             <div className="connectm-AlertPastTable">
                 <div className={'table-body'}>
                     <Table

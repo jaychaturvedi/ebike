@@ -9,7 +9,7 @@ import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
 import { getAlertGraphData, Store_AlertGraph } from "./graph";
 import {
-    Store_AlertInsights, getAlertInsight, postAlertClearanceComment,
+    Store_AlertInsights, getAlertInsight, postAlertClearanceComment, getPastAlertGraphData,
     getPastAlertData, Store_PastAlert, updatePastAlertData, getSingleAlertDetail, Store_UpdateSingleAlert, postClearAlertGraph
 } from "./alert-detail"
 import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction, IClearGraphActions } from "../actions/alert-detail";
@@ -96,6 +96,7 @@ function* clearAlertGraph(params: IClearGraphActions) {
 }
 
 
+
 function* getPastAlertDatas(param: IAlertDetailActions) {
     try {
         const data: TPastAlert = yield call(getPastAlertData, param)
@@ -119,6 +120,22 @@ function* updatePastAlertDatas(params: IPastAlertDetailActions) {
 function* getAlertGraphDatas(params: IAlertGraphActions) {
     try {
         const data = yield call(getAlertGraphData, params)
+        yield put({
+            type: "STORE_ALERT_GRAPH",
+            payload: {
+                alertTypeId: params.payload.alertTypeId,
+                data: data
+            }
+        } as Store_AlertGraph)
+    } catch (error) {
+        console.log("error", error)
+    }
+}
+
+
+function* getPastAlertGraphDatas(params: IAlertGraphActions) {
+    try {
+        const data = yield call(getPastAlertGraphData, params)
         yield put({
             type: "STORE_ALERT_GRAPH",
             payload: {
@@ -177,6 +194,7 @@ function* actionWatcher() {
     yield takeLatest("UPDATE_PAST_ALERTS", updatePastAlertDatas)
     yield takeLatest("UPDATE_ALERT_TRENDS", updateAlertTrend)
     yield takeLatest("GET_ALERT_GRAPH", getAlertGraphDatas)
+    yield takeLatest("GET_PAST_ALERT_GRAPH", getPastAlertGraphDatas)
     yield takeLatest("GET_SINGLE_ALERT", getSingleAlertDetails)
     yield takeLatest("RESET_ALERT_MAIN_PAGE", resetAlertDataStore)
     yield takeLatest("CLEAR_ALERT_GRAPH", clearAlertGraph)

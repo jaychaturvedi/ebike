@@ -3,6 +3,8 @@ import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert, AlertDa
 import axios from "axios"
 import { put } from "redux-saga/effects";
 import { getAlertTypeId } from "../util/alert-graph";
+import { IAlertGraphActions } from "../actions/graph";
+import { getAlertGraphData } from "./graph";
 
 export type Store_AlertInsights = {
     type: AlertDetailActions,
@@ -82,6 +84,12 @@ export async function getSingleAlertDetail(params: ISingleAlertDetailAction) {
     return data
 }
 
+//get graph data on past alert row click
+export async function getPastAlertGraphData(params: IAlertGraphActions) {
+    const data = await getAlertGraphData(params)
+    return data
+}
+
 async function getAdditionalInsights(params: IAlertDetailActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/additionalInsight',
         {
@@ -107,9 +115,11 @@ async function alertClearanceComment(params: IAlertDetailActions) {
 }
 
 async function getPastAlerts(params: IAlertDetailActions) {
+    console.log("in getPastAlerts", params.payload);
+
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/pastAlerts',
         {
-            vehicleID:params.payload.vehicleID ,
+            vehicleId: params.payload.vehicleID,
             alertId: params.payload.alertId,
             alertName: params.payload.alertName,
             customerId: params.payload.customerId,

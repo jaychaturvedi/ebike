@@ -93,13 +93,35 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         );
     }
     formatDate = (label: any) => {
-        console.log("label", label)
-        console.log(moment(`${label}`).format('hh:mm a'));
-        // if ("Last 7 Days" === this.state.trendsPeriod)
-        //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
-        return this.props.xAxisLabel == "Time" ? moment(`${label}`).format("hh:mm a") : label
+        return this.props.xAxisLabel == "Time"
+            ? this.state.data[0].timeDate === label
+                ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
+                : moment(`${label}`).format("hh:mm a")
+            : label
     }
+    CustomTooltip = (obj: any) => {
+        console.log("viewBox", obj.payload,);
+        const { payload, label } = obj;
+        const value1 = obj && obj.payload[0] ? payload[0].value : 0
+        const value2 = obj && obj.payload[1] ? payload[1].value : 0
+        const style = {
+            top: obj.viewBox.y - 5,
+            color: "#5FBDE0",
+            zIndex: 10
+        };
+        const { active } = obj;
+        if (active) {
+            return (
+                <div className="custom-tooltip" style={style}>
+                    <p className="label">{`${payload[0].name}: ${value1}`}</p>
+                    <p className="label">{`Temperature: ${value2}`}</p>
 
+                </div>
+            );
+        }
+        return null;
+
+    };
     render() {
         console.log(this.props.data);
         return (
@@ -110,14 +132,12 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                 {/* <LineGraph/> */}
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
                     <ResponsiveContainer width="95%" height="95%">
-                        <LineChart
-                            data={this.state.data} margin={{
-                                top: 10, right: -10, left: -15, bottom: 0,
-                            }}>
+                        <LineChart data={this.state.data} margin={{ top: 10, right: -10, left: -15, bottom: 0, }}>
+                            <Tooltip content={this.CustomTooltip} cursor={{ fill: "transparent", top: 0, }} />
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
-                                tick={{ fill: 'white' }} stroke='#ffffff' interval="preserveEnd" padding={{ left: 30, right: 20 }}>
+                                tick={{ fill: 'white' }} stroke='#ffffff' interval={"preserveStartEnd"} padding={{ left: 30, right: 20 }}>
                                 <Label
                                     value={this.state.xAxisLabel}
                                     position={"centerBottom"}
@@ -141,13 +161,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                                     }} value={this.state.rightYaxisLabel}>
                                 </Label>
                             </YAxis>
-                            <Brush
-                                dataKey={this.state.dataKey}
-                                fill="#131731"
-                                height={12}
-                                stroke="#3C4473"
-                                startIndex={0}
-                                endIndex={0} />
+                            <Brush dataKey={this.state.dataKey} fill="#131731" height={12} stroke="#3C4473" startIndex={0} endIndex={0} />
                             {!this.props.alertCleared ?
                                 this.state.L1Value ? <ReferenceLine y={this.state.L1Value} yAxisId="right" strokeWidth={1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
                                     isFront={true} >
