@@ -98,11 +98,13 @@ class ValidateMobile extends React.PureComponent<Props, State> {
   };
 
   onChange = (text: string) => {
-    const matches = text.match(/^[+]\d/g);
+    const matches = text.match(
+      /^([+][9][1]){1}([7-9]{1})([0-9]{9})/g,
+    );
+    console.log("Text", matches);
     this.setState({
       mobile: text,
-      // isValid: matches && matches.length === 13 ? true : false,
-      isValid: true,
+      isValid: matches && matches.length && matches[0].length === 13 ? true : false,
     });
   };
 
