@@ -8,7 +8,6 @@ import ThumbsUp from '../../components/thumb-up';
 interface Props {
   onFilled: (code: string) => void;
   onResend: () => void;
-  onSuccess: () => void;
   success: boolean;
   successMessage: string;
 }
@@ -22,11 +21,6 @@ export default class OTPInput extends React.PureComponent<Props, State> {
   }
 
   render() {
-    if (this.props.success) {
-      setTimeout(() => {
-        this.props.onSuccess();
-      }, 1000);
-    }
     return this.props.success ? (
       <ThumbsUp msg={this.props.successMessage} />
     ) : (
