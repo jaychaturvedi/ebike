@@ -13,21 +13,21 @@ import Onboarding from './src/navigation/onboarding';
 import FooterNavigation from './src/navigation/footer';
 import Registration from './src/navigation/registration';
 
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
-import { fetchCredentials } from './src/service/secure-storage';
+import {fetchCredentials} from './src/service/secure-storage';
 
-import { TStore } from './src/service/redux/store';
-import { signIn, getToken } from './src/service/authentication';
-import { getUser } from './src/service/redux/saga/user';
-import { SignIn } from './src/service/redux/actions/saga';
-import { connect } from 'react-redux';
-import { Store_UpdateUser } from 'src/service/redux/actions/store';
-import { ReadUser } from 'src/service/redux/actions/saga/user';
+import {TStore} from './src/service/redux/store';
+import {signIn, getToken} from './src/service/authentication';
+import {getUser} from './src/service/redux/saga/user';
+import {SignIn} from './src/service/redux/actions/saga';
+import {connect} from 'react-redux';
+import {Store_UpdateUser} from 'src/service/redux/actions/store';
+import {ReadUser} from 'src/service/redux/actions/saga/user';
 import FAQPremium from 'src/screens/menu/faq-premium';
 
-declare const global: { HermesInternal: null | {} };
+declare const global: {HermesInternal: null | {}};
 
 const styles = StyleSheet.create({});
 
@@ -38,7 +38,7 @@ interface ReduxState {
   getUser: (params: ReadUser) => void;
 }
 
-interface Props extends ReduxState { }
+interface Props extends ReduxState {}
 
 interface State {
   isInitialised: boolean;
@@ -61,6 +61,12 @@ class App extends React.PureComponent<Props, State> {
           const response = await signIn(cred.username, cred.password);
           console.log(response);
           if (response.success) {
+            this.props.updateUser({
+              type: 'Store_UpdateUser',
+              payload: {
+                isLoggedIn: true,
+              },
+            });
             //Fetch user from backend and update isBikeRegistered , isPhoneValidated
             console.log('Response ', response);
             const user = await getUser();
@@ -68,7 +74,6 @@ class App extends React.PureComponent<Props, State> {
             this.props.updateUser({
               type: 'Store_UpdateUser',
               payload: {
-                isLoggedIn: true,
                 isPhoneValidated:
                   response.user.attributes.phone_number_verified,
                 id: user.uid,
@@ -98,12 +103,11 @@ class App extends React.PureComponent<Props, State> {
   }
 
   render() {
-    if (!this.props.user.isLoggedIn) return <Onboarding />;
-    return this.props.user.isBikeRegistered === false ? (
-      <Registration />
-    ) : (
-        <FooterNavigation />
-      );
+    console.log('In app', this.props);
+    if (this.props.user.isBikeRegistered && this.props.user.isLoggedIn)
+      return <FooterNavigation />;
+    if (this.props.user.isLoggedIn !== true) return <Onboarding />;
+    else return <Registration />;
   }
 }
 

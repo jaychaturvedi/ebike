@@ -1,6 +1,6 @@
 import Amplify, { Auth, } from "aws-amplify";
 import ObjectId from "../object-id";
-import { storeCredentials, fetchCredentials } from '../secure-storage'
+import { storeCredentials, fetchCredentials, resetCredentials } from '../secure-storage'
 
 Amplify.configure({
     Auth: {
@@ -58,10 +58,6 @@ export async function resendSignUp(phoneNumber: string) {
 
 export async function confirmSignUp(mobileNumber: string, code: string) {
     return Auth.confirmSignUp(mobileNumber, code).then(async (data) => {
-        const cred = await fetchCredentials();
-        if (!cred)
-            throw new Error("Somethign went wrong");
-        await signIn(cred.username, cred.password);
         return {
             success: true,
             message: "Success"
@@ -75,7 +71,9 @@ export async function confirmSignUp(mobileNumber: string, code: string) {
 }
 
 export async function signout() {
-    await Auth.signOut();
+    await Auth.signOut().then(async () => {
+        await resetCredentials();
+    });
 }
 
 export function getUser() {
@@ -96,12 +94,14 @@ export function getUser() {
 
 export function initiateForgotPassword(username: string) {
     return Auth.forgotPassword(username)
-        .then(() => {
+        .then((data) => {
+            console.log(data);
             return {
                 success: true,
                 message: "Forgot password initiated successfully"
             }
         }).catch(err => {
+            console.log(err);
             return {
                 success: false,
                 message: err.message
@@ -137,6 +137,7 @@ export function signIn(username: string, password: string) {
             message: "User signed in"
         };
     }).catch(err => {
+        console.log("Error", err);
         return {
             message: err.message,
             success: false,
@@ -167,10 +168,10 @@ export async function getToken() {
 export function changePassword(mobileNumber: string, oldpassword: string, newpassword: string,) {
     return getUser().then(async response => {
         if (response.success) {
-            await storeCredentials(mobileNumber, newpassword);
-            console.log(await fetchCredentials())
             return Auth.changePassword(response.user, oldpassword, newpassword)
-                .then(res => {
+                .then(async res => {
+                    await storeCredentials(mobileNumber, newpassword);
+                    console.log(await fetchCredentials())
                     return {
                         success: true
                     }
