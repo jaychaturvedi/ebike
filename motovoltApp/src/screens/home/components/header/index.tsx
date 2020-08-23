@@ -13,6 +13,7 @@ import { Store_UpdateNotification } from 'src/service/redux/actions/store';
 
 interface ReduxState {
   notifications: TStore['notifications']
+  bike: TStore['bike']
   showNotifications: (params: Store_UpdateNotification) => void
 }
 
@@ -75,7 +76,7 @@ class CHeader extends React.PureComponent<Props, {}> {
                 />
               </Button>
             )}
-            {!this.props.hideBluetooth && (
+            {this.props.bike.type === "BLE" && (
               <Button transparent onPress={this.props.onBluetoothClick}>
                 <Image
                   source={require('../../../../assets/icons/bluetooth.png')}
@@ -114,7 +115,8 @@ class CHeader extends React.PureComponent<Props, {}> {
 export default connect(
   (store: TStore) => {
     return {
-      notifications: store['notifications']
+      notifications: store['notifications'],
+      bike: store['bike']
     };
   },
   (dispatch: Dispatch) => {
