@@ -40,6 +40,11 @@ export type Store_ResetOnboarding = {
     payload: {}
 }
 
+export type Store_ResetReportIssue = {
+    type: 'Store_ResetReportIssue',
+    payload: {}
+}
+
 export type Store_UpdateBike = {
     type: "Store_UpdateBike",
     payload: {
@@ -234,6 +239,7 @@ type Action = Store_UpdateUser
     | Store_SetGraphdata
     | Store_SetFAQ
     | Store_SetUpgrades
+    | Store_ResetReportIssue
     | Store_SetServices;
 
 export default Action;
