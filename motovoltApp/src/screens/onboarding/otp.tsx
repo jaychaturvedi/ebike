@@ -13,24 +13,19 @@ interface Props {
   successMessage: string;
 }
 
-type State = {
-  success: boolean;
-};
+type State = {};
 
 export default class OTPInput extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      success: false,
-    };
+    this.state = {};
   }
 
   render() {
-    if (this.props.success && !this.state.success) {
+    if (this.props.success) {
       setTimeout(() => {
-        this.setState({success: false});
         this.props.onSuccess();
-      }, 5000);
+      }, 1000);
     }
     return this.props.success ? (
       <ThumbsUp msg={this.props.successMessage} />

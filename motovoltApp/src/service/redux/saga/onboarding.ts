@@ -56,7 +56,7 @@ export function* confirmSignUp(params: AuthenticationActions.ConfirmSignUp) {
             confirmSignUpSuccess: response.success,
             errorMessage: response.success ? "" : response.message,
         }
-    } as Store_UpdateOnboarding)
+    } as Store_UpdateOnboarding);
 }
 
 export function* signOut(params: AuthenticationActions.SignOut) {
