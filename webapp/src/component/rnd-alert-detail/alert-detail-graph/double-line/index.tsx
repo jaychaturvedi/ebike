@@ -107,7 +107,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
 
     CustomTooltip = (obj: any) => {
         const { label, payload, active } = obj;
-        if (!active || !label || payload.length === 0) return null;
+        if (!active || !label || payload.length === 0 || this.props.data === undefined) return label;
         const style = { top: obj.viewBox.y - 30, color: "#5FBDE0", zIndex: 10 };
         if (active) {
             return (
