@@ -142,7 +142,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             {/* <div className={"connectm-header"}>
                                 <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
                             </div> */}
-                            <AlertPastTable alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.state.alertCleared} />
+                            <AlertPastTable alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.state.alertCleared}
+                                alertName={this.state.alert.alertName}
+                                vehicleId={this.state.alert.frameId} />
                         </div>
                     </div>
                 </div>

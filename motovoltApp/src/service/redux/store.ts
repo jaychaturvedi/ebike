@@ -124,6 +124,25 @@ type TGraph = {
     date: string
 }
 
+type TFAQ = {
+    [name: string]: {
+        name: string,
+        icon: string,
+        faq: {
+            Question: string,
+            Answer: string
+        }[]
+    }
+}
+
+type TUpgrades = {
+    upgrades: {
+        name: string,
+        icon: string,
+        price: number
+    }[]
+}
+
 export const ZeroOnboarding: TOnboarding = {
     confirmSignUpSuccess: null,
     signUpSuccess: null,
@@ -142,6 +161,7 @@ const ZeroUser: TUser = {
     isPhoneValidated: null,
     isBikeRegistered: null
 }
+
 
 export const ZeroRide: TRide = {
     id: "",
@@ -236,7 +256,8 @@ export type TStore = {
     speedometer: TSpeedometer,
     rides: { [id: string]: TRide },
     ble: TBLE,
-
+    faq: TFAQ,
+    upgrades: TUpgrades
 }
 
 export default {
@@ -253,5 +274,7 @@ export default {
     },
     speedometer: ZeroSpeedometer,
     services: { services: {}, open: 0, closed: 0 },
-    ble: ZeroBLE
+    ble: ZeroBLE,
+    faq: {},
+    upgrades: { upgrades: [] }
 } as TStore

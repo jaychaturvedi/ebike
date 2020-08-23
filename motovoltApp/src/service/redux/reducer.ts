@@ -89,6 +89,17 @@ export default (store: TStore = Store, params: Action): TStore => {
                     data: Object.assign({}, ...params.payload.data.map(graph => ({ [Math.random().toString()]: graph })))
                 }
             }
+        case 'Store_SetFAQ':
+            return {
+                ...store,
+                faq: params.payload
+            }
+        case 'Store_SetUpgrades':
+            console.log("In reducer");
+            return {
+                ...store,
+                upgrades: params.payload
+            }
         default: return store;
     }
 }

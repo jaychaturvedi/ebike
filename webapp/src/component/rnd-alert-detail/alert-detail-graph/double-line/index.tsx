@@ -98,16 +98,29 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         );
     }
     formatDate = (label: any) => {
-        console.log("label", this.props.alertCleared)
-        console.log(moment(`${label}`).format('hh:mm a'));
-        // if ("Last 7 Days" === this.state.trendsPeriod)
-        //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
-        return this.props.xAxisLabel == "Time" ? moment(`${label}`).format("hh:mm a") : label
+        return this.props.xAxisLabel == "Time"
+            ? this.state.data[0].timeDate === label
+                ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
+                : moment(`${label}`).format("hh:mm a")
+            : label
     }
 
-    // componentDidMount() {
-    //     console.log(this.state.data, this.props.data, "graph mount");
-    // }
+    CustomTooltip = (obj: any) => {
+        const { label, payload, active } = obj;
+        if (!active || !label || payload.length === 0) return null;
+        const style = { top: obj.viewBox.y - 30, color: "#5FBDE0", zIndex: 10 };
+        if (active) {
+            return (
+                <div className="custom-tooltip" style={style}>
+                    <p className="label">{`${payload[0].name}: ${payload[0].value}`}</p>
+                    <p className="label">{`${payload[1].name}: ${payload[1].value}`}</p>
+                </div>
+            );
+        }
+        return null;
+    };
+
+
     render() {
 
         console.log(this.props.data, "graph data");
@@ -120,11 +133,8 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                 {/* <LineGraph/> */}
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
                     <ResponsiveContainer width="95%" height="95%">
-                        <LineChart
-                            data={this.state.data}
-                            margin={{
-                                top: 10, right: 10, left: -10, bottom: 0,
-                            }}>
+                        <LineChart data={this.state.data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                            <Tooltip content={this.CustomTooltip} cursor={{ fill: "transparent", top: 0, }} />
                             <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             {!this.props.alertCleared &&
@@ -145,11 +155,10 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     }} value="L2">
                                 </Label>
                             </ReferenceLine> : <ReferenceLine />}
-                            {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
-
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 // ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
                                 // domain={[100, 1200]}
+                                interval={"preserveStartEnd"}
                                 tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 30, right: 20 }}>
                                 <Label
                                     value={this.state.xAxisLabel}

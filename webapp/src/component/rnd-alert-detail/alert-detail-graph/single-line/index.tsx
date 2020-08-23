@@ -82,18 +82,27 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
         );
     }
     formatDate = (label: any) => {
-        console.log("label", label)
-        console.log(moment(`${label}`).format('hh:mm a'));
-        // if ("Last 7 Days" === this.state.trendsPeriod)
-        //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
-        return this.props.xAxisLabel == "Time" ? moment(`${label}`).format("hh:mm a") : label
+        return this.props.xAxisLabel == "Time"
+            ? this.state.data[0].timeDate === label
+                ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
+                : moment(`${label}`).format("hh:mm a")
+            : label
     }
 
-    // componentWillMount() {
-    //     setTimeout(() => {
-    //         console.log("component will mount");
-    //     }, 5000)
-    // }
+    CustomTooltip = (obj: any) => {
+        const { label, payload, active } = obj;
+        if (!active || !label || payload.length === 0 || this.props.data != undefined) return null;
+        const style = { top: obj.viewBox.y - 5, color: "#5FBDE0", zIndex: 10 };
+        if (active) {
+            return (
+                <div className="custom-tooltip" style={style}>
+                    <p className="label">{`${payload[0].value}`}</p>
+                </div>
+            );
+        }
+        return null;
+
+    };
 
     render() {
         console.log(this.props.data, "graph data");
@@ -122,12 +131,9 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                     </Label>
                                 </ReferenceLine> : <ReferenceLine />
                                 : ''}
-                            {/* <Brush /> */}
-                            {/* <XAxis orientation='top' stroke='#ffffff' tick={false} /> */}
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 // ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
-                                // domain={[100, 1200]}
-                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 30, right: 20 }}>
+                                interval={"preserveStartEnd"} tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 30, right: 20 }}>
                                 <Label
                                     value={this.state.xAxisLabel}
                                     position="bottom"
@@ -144,6 +150,10 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                     }} value={this.state.yAxisLabel}>
                                 </Label>
                             </YAxis>
+                            <Tooltip offset={-17}
+                                content={this.CustomTooltip}
+                                cursor={{ fill: "transparent", top: 0, }}
+                            />
                             <Brush
                                 dataKey={this.state.dataKey}
                                 fill="#131731"

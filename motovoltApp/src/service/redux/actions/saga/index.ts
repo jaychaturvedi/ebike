@@ -35,6 +35,10 @@ import {
     ScanBLEDevices,
     TurnOnBLE,
 } from "./ble";
+import {
+    ReadFAQ,
+    ReadUpgrades
+} from './menu';
 
 type Action = InitiateForgotPassword
     | InitiateMobileValidation
@@ -56,7 +60,10 @@ type Action = InitiateForgotPassword
     | ConnectBLE
     | DisconnectBLE
     | ScanBLEDevices
+    | ReadFAQ
+    | ReadUpgrades
     | TurnOnBLE;
+
 
 export default Action;
 
@@ -82,5 +89,7 @@ export type {
     DisconnectBLE,
     ScanBLEDevices,
     TurnOnBLE,
+    ReadFAQ,
+    ReadUpgrades,
     Speedometer,
 } 

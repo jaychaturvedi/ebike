@@ -50,29 +50,47 @@
       }
 
     }
-
-    .recharts-tooltip-wrapper {
-      width: 0;
-
-      // .recharts-default-tooltip {
-
-      //   //
-      //   .recharts-tooltip-label {}
-
-      //   .recharts-tooltip-item-list {
-      //     .recharts-tooltip-item {
-      //       .recharts-tooltip-item-name {}
-
-      //       .recharts-tooltip-item-separator {}
-
-      //       .recharts-tooltip-item-value {}
-
-      //       .recharts-tooltip-item-unit {}
-      //     }
-      //   }
-      // }
+    .connectm-AlertDetailGraph .recharts-responsive-container .recharts-tooltip-wrapper{
+    
+top:0;
+      // width: 0;
     }
+
+    // .recharts-tooltip-wrapper {
+    //   width: 0;
+
+    //   .recharts-default-tooltip {
+
+    //     //
+    //     .recharts-tooltip-label {}
+
+    //     .recharts-tooltip-item-list {
+    //       .recharts-tooltip-item {
+    //         .recharts-tooltip-item-name {}
+
+    //         .recharts-tooltip-item-separator {}
+
+    //         .recharts-tooltip-item-value {}
+
+    //         .recharts-tooltip-item-unit {}
+    //       }
+    //     }
+    //   }
+    // }
 
 
   }
+}
+
+.custom-tooltip{
+  display: flex;
+  font-size: 10px;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  position: relative;
+  top: 0;
+  // left: 10;
+  float: left;
+  z-index: 10;
 }
