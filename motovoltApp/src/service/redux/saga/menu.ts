@@ -2,7 +2,7 @@ import {
     put,
 } from "redux-saga/effects";
 import * as MenuActions from "../actions/saga/menu";
-import { Store_SetFAQ } from "../actions/store";
+import { Store_SetFAQ, Store_SetUpgrades } from "../actions/store";
 import { config, request } from "./utils";
 
 export function* readFAQ(params: MenuActions.ReadFAQ) {
@@ -23,6 +23,24 @@ export function* readFAQ(params: MenuActions.ReadFAQ) {
                     }
                 }))
             } as Store_SetFAQ)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export function* readUpgrades(params: MenuActions.ReadUpgrades) {
+    try {
+        const dataResponse = yield request(`${config.baseUrl}/feature`,
+            "GET", undefined);
+        if (dataResponse.success) {
+            const data = dataResponse.response.body;
+            yield put({
+                type: 'Store_SetUpgrades',
+                payload: {
+                    upgrades: data
+                }
+            } as Store_SetUpgrades)
         }
     } catch (error) {
         console.log(error)

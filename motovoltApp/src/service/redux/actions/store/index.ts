@@ -211,6 +211,17 @@ export type Store_SetFAQ = {
     }
 }
 
+export type Store_SetUpgrades = {
+    type: 'Store_SetUpgrades',
+    payload: {
+        upgrades: {
+            name: string,
+            icon: string,
+            price: number
+        }[]
+    }
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -222,6 +233,7 @@ type Action = Store_UpdateUser
     | Store_SetSpeedometer
     | Store_SetGraphdata
     | Store_SetFAQ
+    | Store_SetUpgrades
     | Store_SetServices;
 
 export default Action;

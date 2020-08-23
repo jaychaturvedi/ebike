@@ -8,20 +8,37 @@ import Colors from '../../styles/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { ReadUpgrades } from 'src/service/redux/actions/saga';
 
 type UpdgradeNavigationProp = StackNavigationProp<
   MenuStackParamList,
   'Upgrade'
 >;
 
-type Props = {
+interface ReduxState {
+  upgrades: TStore['upgrades'],
+  readUpgrades: (params: ReadUpgrades) => void
+}
+
+interface Props extends ReduxState {
   navigation: UpdgradeNavigationProp,
   route: RouteProp<MenuStackParamList, 'Upgrade'>
 };
 
 type State = {};
 
-export default class Upgrade extends React.PureComponent<Props, State> {
+class Upgrade extends React.PureComponent<Props, State> {
+
+  componentDidMount() {
+    this.props.readUpgrades({
+      type: 'ReadUpgrades',
+      payload: {}
+    })
+  }
+
   render() {
     return (
       <View style={{ height: '100%' }}>
@@ -38,66 +55,36 @@ export default class Upgrade extends React.PureComponent<Props, State> {
             flexWrap: 'wrap',
             justifyContent: 'space-between',
           }}>
-          <Tile
-            feature="Find My Bike"
-            icon={require('../../assets/icons/icons2x/cycle.png')}
-            onPress={() => this.props.navigation.navigate('ComingSoon', {})}
-            height={moderateScale(157)}
-            unit={'25'}
-          />
-          <Tile
-            feature="Theft Detection"
-            icon={require('../../assets/icons/icons2x/theft.png')}
-            onPress={() => this.props.navigation.navigate('ComingSoon', {})}
-            unit={'75'}
-            height={moderateScale(157)}
-          />
-          <Tile
-            feature="Geo Fencing"
-            icon={require('../../assets/icons/icons2x/geo-fencing.png')}
-            onPress={() => this.props.navigation.navigate('ComingSoon', {})}
-            height={moderateScale(157)}
-            unit={'50'}
-          />
-          <Tile
-            feature="Ride Statistics"
-            icon={require('../../assets/icons/icons2x/ride-statistics.png')}
-            onPress={() => this.props.navigation.navigate('ComingSoon', {})}
-            height={moderateScale(157)}
-            unit={'50'}
-          />
-          <Tile
-            feature="Smart Inspection"
-            icon={require('../../assets/icons/icons2x/smart-inspection.png')}
-            onPress={() => this.props.navigation.navigate('ComingSoon', {})}
-            height={moderateScale(157)}
-            unit={'35'}
-          />
-          <Tile
-            feature="Remote Lock"
-            icon={require('../../assets/icons/icons2x/lock.png')}
-            onPress={() => this.props.navigation.navigate('ComingSoon', {})}
-            height={moderateScale(157)}
-            unit={'40'}
-          />
-          <Tile
-            feature="Battery Analytics"
-            icon={require('../../assets/icons/icons2x/battery-analytics.png')}
-            onPress={() => this.props.navigation.navigate('ComingSoon', {})}
-            height={moderateScale(157)}
-            unit={'20'}
-          />
-          <Tile
-            feature="Online Store"
-            icon={require('../../assets/icons/icons2x/online-store.png')}
-            onPress={() => this.props.navigation.navigate('ComingSoon', {})}
-            height={moderateScale(157)}
-          />
+          {
+            this.props.upgrades.upgrades.map(upgrade => {
+              return <Tile
+                feature={upgrade.name}
+                icon={{ uri: upgrade.icon }}
+                iconStyle={{ height: moderateScale(80), width: moderateScale(80) }}
+                onPress={() => this.props.navigation.navigate('ComingSoon', {})}
+                height={moderateScale(157)}
+                unit={upgrade.price.toString()}
+              />
+            })
+          }
         </ScrollView>
       </View>
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      upgrades: store['upgrades'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      readUpgrades: (params: ReadUpgrades) => dispatch(params)
+    };
+  },
+)(Upgrade);
 
 const styles = StyleSheet.create({
   container: {

@@ -55,6 +55,7 @@ function* actionWatcher() {
     yield takeLatest("ReadNotifications", Notification.getNotification);
 
     yield takeLatest("ReadFAQ", Menu.readFAQ);
+    yield takeLatest("ReadUpgrades", Menu.readUpgrades);
 }
 
 export default function* rootSaga() {

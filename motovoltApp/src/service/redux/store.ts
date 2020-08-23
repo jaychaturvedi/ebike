@@ -135,6 +135,14 @@ type TFAQ = {
     }
 }
 
+type TUpgrades = {
+    upgrades: {
+        name: string,
+        icon: string,
+        price: number
+    }[]
+}
+
 export const ZeroOnboarding: TOnboarding = {
     confirmSignUpSuccess: null,
     signUpSuccess: null,
@@ -249,6 +257,7 @@ export type TStore = {
     rides: { [id: string]: TRide },
     ble: TBLE,
     faq: TFAQ,
+    upgrades: TUpgrades
 }
 
 export default {
@@ -267,4 +276,5 @@ export default {
     services: { services: {}, open: 0, closed: 0 },
     ble: ZeroBLE,
     faq: {},
+    upgrades: { upgrades: [] }
 } as TStore

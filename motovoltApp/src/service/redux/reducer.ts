@@ -94,6 +94,12 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 faq: params.payload
             }
+        case 'Store_SetUpgrades':
+            console.log("In reducer");
+            return {
+                ...store,
+                upgrades: params.payload
+            }
         default: return store;
     }
 }
