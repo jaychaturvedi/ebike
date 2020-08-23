@@ -56,8 +56,9 @@ class Upgrade extends React.PureComponent<Props, State> {
             justifyContent: 'space-between',
           }}>
           {
-            this.props.upgrades.upgrades.map(upgrade => {
+            this.props.upgrades.upgrades.map((upgrade, index: number) => {
               return <Tile
+                key={index}
                 feature={upgrade.name}
                 icon={{ uri: upgrade.icon }}
                 iconStyle={{ height: moderateScale(80), width: moderateScale(80) }}

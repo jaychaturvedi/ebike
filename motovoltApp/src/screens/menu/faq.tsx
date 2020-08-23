@@ -61,6 +61,7 @@ class FAQ extends React.PureComponent<Props, State> {
                         {
                             Object.keys(this.props.faq).map((faq: any, index: number) => {
                                 return <Tile
+                                    key={index}
                                     feature={this.props.faq[faq].name}
                                     icon={{ uri: this.props.faq[faq].icon }}
                                     onPress={() => {
