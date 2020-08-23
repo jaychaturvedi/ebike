@@ -59,23 +59,20 @@ class SupportService extends React.PureComponent<Props, State> {
               header: 'Open Service',
               count: this.props.services.open,
               body: (
-                <View style={{ height: moderateScale(97) }}>
-                  {/* <ServiceTile
-                    title="Title Of the Service"
-                    serviceId="943530"
-                    time="04:21pm 20-04-20"
-                    onView={() => this.props.navigation.navigate('ServiceDetails', {})}
-                  /> */}
+                <View>
                   {
                     Object.keys(this.props.services.services).map((service, index: number) => {
                       return (
-                        this.props.services.services[service].isOpen ? <ServiceTile
-                          key={index}
-                          title={this.props.services.services[service].title}
-                          serviceId={this.props.services.services[service].id}
-                          time={this.props.services.services[service].openDate}
-                          onView={() => this.props.navigation.navigate('ServiceDetails', { serviceId: this.props.services.services[service].id })}
-                        /> : null
+                        this.props.services.services[service].isOpen ?
+                          <View style={{ height: moderateScale(97), marginTop: moderateScale(15) }}>
+                            <ServiceTile
+                              key={index}
+                              title={this.props.services.services[service].title}
+                              serviceId={this.props.services.services[service].id}
+                              time={this.props.services.services[service].openDate}
+                              onView={() => this.props.navigation.navigate('ServiceDetails', { serviceId: this.props.services.services[service].id })}
+                            />
+                          </View> : null
                       )
                     })
                   }
@@ -86,23 +83,21 @@ class SupportService extends React.PureComponent<Props, State> {
               header: 'Closed Service',
               count: this.props.services.closed,
               body: (
-                <View style={{ height: moderateScale(97) }}>
-                  {/* <ServiceTile
-                    title="Title Of the Service"
-                    serviceId="943530"
-                    time="04:21pm 20-04-20"
-                    onView={() => this.props.navigation.navigate('ServiceDetails', {})}
-                  /> */}
+                <View >
                   {
                     Object.keys(this.props.services.services).map((service, index: number) => {
                       return (
-                        !this.props.services.services[service].isOpen ? <ServiceTile
-                          key={index}
-                          title={this.props.services.services[service].title}
-                          serviceId={this.props.services.services[service].id}
-                          time={this.props.services.services[service].openDate}
-                          onView={() => this.props.navigation.navigate('ServiceDetails', { serviceId: this.props.services.services[service].id })}
-                        /> : null
+                        !this.props.services.services[service].isOpen ?
+                          <View style={{ height: moderateScale(97), marginTop: moderateScale(15) }}>
+                            <ServiceTile
+                              key={index}
+                              title={this.props.services.services[service].title}
+                              serviceId={this.props.services.services[service].id}
+                              time={this.props.services.services[service].openDate}
+                              onView={() => this.props.navigation.navigate('ServiceDetails', { serviceId: this.props.services.services[service].id })}
+                            />
+                          </View>
+                          : null
                       )
                     })
                   }

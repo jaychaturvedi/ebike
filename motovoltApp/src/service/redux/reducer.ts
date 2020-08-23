@@ -34,6 +34,14 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 onboarding: ZeroOnboarding
             }
+        case 'Store_ResetReportIssue':
+            return {
+                ...store,
+                bike: {
+                    ...store.bike,
+                    reportIssueSuccess: null
+                }
+            }
         case "Store_UpdateBike":
             return {
                 ...store,
