@@ -21,17 +21,17 @@ const app = express();
 app.use(cors());
 app.options('/*', cors())
 app.use(bodyparser.json());
-// app.use("/user", userRoutes)
-// app.use("/bike", bikeRoutes)
-// // app.use("./feature", featuresRoutes)
-// app.use("/feedback", feedbackRoutes)
-// app.use("/ride", ridesRoutes)
-// app.use("/service", serviceRoutes)
-// app.use("/support", supportRoutes)
-// app.use("/feature", upgradeRoutes)
-// app.use("/webV1", webappRoutes)
-// const PORT = Number(process.env.SPORT) || 5000;
-// db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
+app.use("/user", userRoutes)
+app.use("/bike", bikeRoutes)
+// app.use("./feature", featuresRoutes)
+app.use("/feedback", feedbackRoutes)
+app.use("/ride", ridesRoutes)
+app.use("/service", serviceRoutes)
+app.use("/support", supportRoutes)
+app.use("/feature", upgradeRoutes)
+app.use("/webV1", webappRoutes)
+const PORT = Number(process.env.SPORT) || 5000;
+db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
 // deploy express app to aws lambda
 
