@@ -197,6 +197,20 @@ export type Store_SetSpeedometer = {
     }
 }
 
+export type Store_SetFAQ = {
+    type: 'Store_SetFAQ',
+    payload: {
+        [name: string]: {
+            name: string,
+            icon: string,
+            faq: {
+                Question: string,
+                Answer: string
+            }[]
+        }
+    }
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -207,6 +221,7 @@ type Action = Store_UpdateUser
     | Store_SetRideHistory
     | Store_SetSpeedometer
     | Store_SetGraphdata
+    | Store_SetFAQ
     | Store_SetServices;
 
 export default Action;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, Linking, Platform } from 'react-native';
+import { View, StyleSheet, Text, Linking, Platform, Image } from 'react-native';
 import Tile from '../../components/tile';
 import { moderateScale } from 'react-native-size-matters';
 import Header from '../home/components/header';
@@ -7,22 +7,39 @@ import Colors from '../../styles/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { ReadFAQ } from 'src/service/redux/actions/saga';
 
 type FaqNavigationProp = StackNavigationProp<
     MenuStackParamList,
     'Faq'
 >;
 
-type Props = {
+interface ReduxState {
+    faq: TStore['faq'],
+    readFAQ: (params: ReadFAQ) => void
+}
+
+interface Props extends ReduxState {
     navigation: FaqNavigationProp,
     route: RouteProp<MenuStackParamList, 'Faq'>
 };
 
-type State = {};
 
+type State = {
 
-export default class FAQ extends React.PureComponent<Props, State> {
+};
 
+class FAQ extends React.PureComponent<Props, State> {
+
+    componentDidMount() {
+        this.props.readFAQ({
+            type: 'ReadFAQ',
+            payload: {}
+        })
+    }
 
     render() {
         return (
@@ -41,48 +58,41 @@ export default class FAQ extends React.PureComponent<Props, State> {
                     }}>
 
                     <View style={styles.support}>
-                        <Tile
-                            feature="Service"
-                            icon={require('../../assets/icons/icons1.5x/book-service.png')}
-                            onPress={() => console.log}
-                            height={moderateScale(110)}
-                        />
-                        <Tile
-                            feature="Green Mile"
-                            icon={require('../../assets/icons/icons1.5x/green-miles.png')}
-                            onPress={() => console.log('Feature pressed')}
-                            height={moderateScale(110)}
-                        />
-                        <Tile
-                            feature="Battery"
-                            icon={require('../../assets/icons/icons1.5x/battery.png')}
-                            onPress={() => console.log("Feature pressed")}
-                            height={moderateScale(110)}
-                        />
-                        <Tile
-                            feature="Motor"
-                            icon={require('../../assets/icons/icons1.5x/motor.png')}
-                            onPress={() => console.log("Feature pressed")}
-                            height={moderateScale(110)}
-                        />
-                        <Tile
-                            feature="Premium"
-                            icon={require('../../assets/icons/icons1.5x/arrow-up.png')}
-                            onPress={() => this.props.navigation.navigate('FaqPremium', {})}
-                            height={moderateScale(110)}
-                        />
-                        <Tile
-                            feature="Payment"
-                            icon={require('../../assets/icons/icons1.5x/inr.png')}
-                            onPress={() => console.log('Feature pressed')}
-                            height={moderateScale(110)}
-                        />
+                        {
+                            Object.keys(this.props.faq).map((faq: any, index: number) => {
+                                return <Tile
+                                    feature={this.props.faq[faq].name}
+                                    icon={{ uri: this.props.faq[faq].icon }}
+                                    onPress={() => {
+                                        this.props.navigation.navigate('FaqPremium', {
+                                            faq: this.props.faq[faq].faq,
+                                            header: this.props.faq[faq].name
+                                        })
+                                    }}
+                                    iconStyle={{ height: 40, width: 40 }}
+                                    height={moderateScale(110)}
+                                />
+                            })
+                        }
                     </View>
                 </View>
             </View>
         );
     }
 }
+
+export default connect(
+    (store: TStore) => {
+        return {
+            faq: store['faq'],
+        };
+    },
+    (dispatch: Dispatch) => {
+        return {
+            readFAQ: (params: ReadFAQ) => dispatch(params)
+        };
+    },
+)(FAQ);
 
 const styles = StyleSheet.create({
     container: {

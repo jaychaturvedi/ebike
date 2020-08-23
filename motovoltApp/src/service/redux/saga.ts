@@ -15,6 +15,7 @@ import * as Rides from './saga/rides';
 import * as User from './saga/user';
 import * as Notification from './saga/notifications';
 import * as Service from './saga/service';
+import * as Menu from './saga/menu';
 
 function* actionWatcher() {
     // BLE
@@ -51,7 +52,9 @@ function* actionWatcher() {
     yield takeLatest("ReportIssue", Service.reportIssue);
     yield takeLatest("ReadService", Service.getServices);
 
-    yield takeLatest("ReadNotifications", Notification.getNotification)
+    yield takeLatest("ReadNotifications", Notification.getNotification);
+
+    yield takeLatest("ReadFAQ", Menu.readFAQ);
 }
 
 export default function* rootSaga() {
