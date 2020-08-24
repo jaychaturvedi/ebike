@@ -39,7 +39,7 @@ function logIn() {
 }
 
 function callApi() {
-    const value = myCache.get("myTokens");
+    const token = myCache.has("myTokens") ? myCache.get("myTokens") : '';
     console.log(myCache.has("myTokens"));
     myCache.has("myTokens") ?
         axios.get(process.env.WEBURL!, {
@@ -47,7 +47,29 @@ function callApi() {
                 vehicleId: "069bcc081a68a0832f123",
                 alertId: 123,
                 alertName: "vehicle active or idle",
-                alertTypeId: 7
+                alertTypeId: 1
+            },
+            headers: {
+                'Authorization': `${myCache.get("myTokens")}`
+            }
+        }).then((res) => {
+            console.log(res.data);
+        }).catch((e) => {
+            console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+            if (e.response.data.message === "The incoming token has expired" || e.response.data.message === "Endpoint request timed out") {
+                console.log("calling new token");
+                logIn()
+            }
+        })
+        : logIn()
+
+    myCache.has("myTokens") ?
+        axios.get(process.env.WEBURL!, {
+            params: {
+                vehicleId: "069bcc081a68a0832f123",
+                alertId: 123,
+                alertName: "vehicle active or idle",
+                alertTypeId: 2
             },
             headers: {
                 'Authorization': `${myCache.get("myTokens")}`
