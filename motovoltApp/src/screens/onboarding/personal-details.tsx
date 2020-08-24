@@ -1,19 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, Text, TextInput, Image } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {View, StyleSheet, Text, TextInput, Image} from 'react-native';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { RegistartionStackParamList } from '../../navigation/registration';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {RegistartionStackParamList} from '../../navigation/registration';
 import ThumbsUp from '../../components/thumb-up';
-import { ChangePassword } from '../../service/redux/actions/saga/authentication-actions';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { fetchCredentials } from '../../service/secure-storage';
+import {ChangePassword} from '../../service/redux/actions/saga/authentication-actions';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import {fetchCredentials} from '../../service/secure-storage';
 import Toast from 'react-native-simple-toast';
 
 type ReduxState = {
@@ -88,13 +88,16 @@ class PersonalDetails extends React.PureComponent<Props, State> {
   componentDidMount() {
     fetchCredentials().then((cred) => {
       if (cred) {
-        this.setState({ oldPassword: cred.password, mobileNumber: cred.username });
+        this.setState({
+          oldPassword: cred.password,
+          mobileNumber: cred.username,
+        });
       }
     });
   }
 
   renderSuccess() {
-    this.setState({ success: true });
+    this.setState({success: true});
     setTimeout(() => {
       this.props.navigation.navigate('TurnOnBluetooth', {});
     }, 5000);
@@ -103,8 +106,9 @@ class PersonalDetails extends React.PureComponent<Props, State> {
   render() {
     const formDataValid =
       this.state.email &&
+      this.validateEmail(this.state.email) &&
       this.state.name &&
-      this.state.password &&
+      this.state.password && this.state.password.length >=8 &&
       this.state.password === this.state.confirmPassword;
     if (!this.state.success && this.props.onboarding.passwordResetSuccess) {
       this.renderSuccess();
@@ -112,75 +116,75 @@ class PersonalDetails extends React.PureComponent<Props, State> {
     return this.props.onboarding.passwordResetSuccess ? (
       <ThumbsUp msg="Account Created" />
     ) : (
+      <View
+        style={{
+          height: '100%',
+          alignItems: 'center',
+        }}>
+        <CTAHeader
+          hasBackButton
+          onBackClick={() => this.props.navigation.goBack()}
+        />
+        <Text style={styles.title}>Please enter your details</Text>
+        <Input
+          onChange={(text: string) => this.setState({name: text})}
+          placeHolder="Full Name*"
+          marginVeritical={verticalScale(InputMarginVeritical)}
+        />
+        <Input
+          onChange={(text: string) => this.setState({email: text})}
+          placeHolder="Email*"
+          marginVeritical={verticalScale(InputMarginVeritical)}
+        />
+        <Input
+          onChange={(text: string) => this.setState({password: text})}
+          placeHolder="Create a password*"
+          marginVeritical={verticalScale(InputMarginVeritical)}
+          secure
+        />
+        <Input
+          onChange={(text: string) => this.setState({confirmPassword: text})}
+          placeHolder="Re-enter your password*"
+          marginVeritical={verticalScale(InputMarginVeritical)}
+          secure
+        />
         <View
           style={{
-            height: '100%',
-            alignItems: 'center',
+            width: '100%',
+            flex: 1,
+            justifyContent: 'center',
           }}>
-          <CTAHeader
-            hasBackButton
-            onBackClick={() => this.props.navigation.goBack()}
+          <Image
+            source={require('../../assets/images/cycle_with_headlight.png')}
+            style={styles.image}
           />
-          <Text style={styles.title}>Please enter your details</Text>
-          <Input
-            onChange={(text: string) => this.setState({ name: text })}
-            placeHolder="Full Name*"
-            marginVeritical={verticalScale(InputMarginVeritical)}
-          />
-          <Input
-            onChange={(text: string) => this.setState({ email: text })}
-            placeHolder="Email*"
-            marginVeritical={verticalScale(InputMarginVeritical)}
-          />
-          <Input
-            onChange={(text: string) => this.setState({ password: text })}
-            placeHolder="Create a password*"
-            marginVeritical={verticalScale(InputMarginVeritical)}
-            secure
-          />
-          <Input
-            onChange={(text: string) => this.setState({ confirmPassword: text })}
-            placeHolder="Re-enter your password*"
-            marginVeritical={verticalScale(InputMarginVeritical)}
-            secure
-          />
-          <View
-            style={{
-              width: '100%',
-              flex: 1,
-              justifyContent: 'center',
-            }}>
-            <Image
-              source={require('../../assets/images/cycle_with_headlight.png')}
-              style={styles.image}
-            />
-          </View>
-          <View style={styles.bottom}>
-            <CTAButton
-              disabled={!formDataValid}
-              onPress={() => {
-                if (this.validateEmail(this.state.email)) {
-                  this.props.changePassword({
-                    type: 'ChangePassword',
-                    payload: {
-                      mobileNumber: this.state.mobileNumber,
-                      oldPassword: this.state.oldPassword,
-                      newPassword: this.state.password,
-                    },
-                  });
-                } else {
-                  Toast.show("Enter a valid email");
-                }
-                // this.props.navigation.navigate('TurnOnBluetooth', {});
-                // this.renderSuccess();
-              }}
-              text={'Create my account'}
-              textColor={Colors.WHITE}
-              backgroundColor={Colors.NAVY_BLUE}
-            />
-          </View>
         </View>
-      );
+        <View style={styles.bottom}>
+          <CTAButton
+            disabled={!formDataValid}
+            onPress={() => {
+              if (this.validateEmail(this.state.email)) {
+                this.props.changePassword({
+                  type: 'ChangePassword',
+                  payload: {
+                    mobileNumber: this.state.mobileNumber,
+                    oldPassword: this.state.oldPassword,
+                    newPassword: this.state.password,
+                  },
+                });
+              } else {
+                Toast.show('Enter a valid email');
+              }
+              // this.props.navigation.navigate('TurnOnBluetooth', {});
+              // this.renderSuccess();
+            }}
+            text={'Create my account'}
+            textColor={Colors.WHITE}
+            backgroundColor={Colors.NAVY_BLUE}
+          />
+        </View>
+      </View>
+    );
   }
 }
 

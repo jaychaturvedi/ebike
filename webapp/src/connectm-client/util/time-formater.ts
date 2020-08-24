@@ -9,7 +9,7 @@ export const formatTime = (time: string) => {
 export const formatDate = (time: string) => {
     const newDate = new Date(time)
     console.log(newDate)
-    return moment(newDate).format("DD/MM/YYYY")
+    return moment(newDate).format("DD-MMM-YYYY")
 }
 
 export const formatHourMin = (time : string) => {

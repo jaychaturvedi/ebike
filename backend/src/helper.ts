@@ -75,6 +75,7 @@ export async function secure(
     console.log(res.locals.user);
     next()
   } else
+  //status ok ?
     return res.status(401).json(createResponse("OK", null, { message: decodedToken.message, code: 401, name: "Token Error" }))
 }
 
