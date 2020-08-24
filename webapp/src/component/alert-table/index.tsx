@@ -6,7 +6,7 @@ import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
-import { Table, Select, Button, Pagination, Alert } from 'antd';
+import { Table, Select, Button, Pagination, Alert, ConfigProvider, Empty } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
 import TimeRenderer from "./time-renderer"
@@ -126,10 +126,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     handleSort = (arr: any, sort: TSort) => {
         if (!sort.fieldName) { return arr }
         let sortedData = arr.sort((a: any, b: any) => {
-            console.log(sort.fieldName === "Severity");
+            console.log(sort.fieldName, arr, a[sort.fieldName], "Severity");
 
             if (sort.fieldName === "Severity") {
-                return Number(a[sort.fieldName]) > Number(b[sort.fieldName])
+                return a[sort.fieldName].localeCompare(b[sort.fieldName])
             }
             return a[sort.fieldName].localeCompare(b[sort.fieldName])
         });
@@ -204,7 +204,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         })
         this.renderClass()
         this.setState({ sortingKey: "openSince", dataLoaded: false })
-
         console.log(this.state.classname);
     }
 
@@ -216,7 +215,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         })
         this.renderClass()
         this.setState({ sortingKey: "Severity", dataLoaded: false })
-
         console.log(this.state.classname);
     }
     // handleColumnSort = (arr: any, key: string) => {
@@ -321,22 +319,25 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         return <>
             <div className="container" >
                 <div className={'table-body'} style={{ maxHeight: "80%", width: '100%' }}>
-                    <Table
-                        tableLayout={"fixed"}
-                        // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        // size={"middle"}
-                        scroll={{ y: this.state.pageSize > 10 ? '54vh' : undefined }}
-                        bordered={false}
-                        className="ant-table-thead"
-                        showSorterTooltip={false}
-                        rowKey={record => record.alertId}
-                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                        columns={columns}
-                        dataSource={this.state.data}
-                        pagination={false}
-                        loading={false}
-                        onRow={this.onRow}
-                    />
+                    <ConfigProvider renderEmpty={() => <Empty description="No Data"
+                        image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
+                        <Table
+                            tableLayout={"fixed"}
+                            // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
+                            // size={"middle"}
+                            scroll={{ y: this.state.pageSize > 10 ? '54vh' : undefined }}
+                            bordered={false}
+                            className="ant-table-thead"
+                            showSorterTooltip={false}
+                            rowKey={record => record.alertId}
+                            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
+                            columns={columns}
+                            dataSource={this.state.data}
+                            pagination={false}
+                            loading={false}
+                            onRow={this.onRow}
+                        />
+                    </ConfigProvider>
                 </div>
                 <div className={"pagination-footer"}>
                     Showing &nbsp;&nbsp;&nbsp; <span >

@@ -74,11 +74,12 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     }
 
     formatDate = (label: any) => {
-        console.log("label", label)
-        console.log(moment(`${label}`).format('hh:mm a'));
-        // if ("Last 7 Days" === this.state.trendsPeriod)
-        //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
-        return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
+        return this.props.xAxisLabel == "Days"
+            ? this.state.data[0].timeDate === label
+                ? moment(`${label}`).format("DD MMM YYYY")
+                : moment(`${label}`).format("DD")
+            : label
+        // return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
     }
     CustomTooltip = (obj: any) => {
         const { label, payload, active } = obj;
@@ -122,7 +123,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" vertical={false} />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
-                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20, }}>
+                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20, }} interval={0}>
                                 <Label
                                     value={this.state.xAxisLabel}
                                     position="bottom"
