@@ -110,11 +110,13 @@ class ForgotPassword extends React.PureComponent<Props, State> {
             keyboardNumericType
             placeHolder="Enter Registered Mobile No"
             onChange={(text: string) => {
+              const matches = text.match(
+                /^([+][9][1]){1}([7-9]{1})([0-9]{9})/g,
+              );
               // const matches = text.match(/\d/g);
               this.setState({
                 mobile: text,
-                isValid: true,
-                // isValid: matches && matches.length === 10 ? true : false,
+                isValid: matches && matches.length === 13 ? true : false,
               });
             }}
           />
