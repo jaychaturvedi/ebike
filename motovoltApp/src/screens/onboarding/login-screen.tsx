@@ -1,5 +1,5 @@
 import React from 'react';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { scale, verticalScale } from '../../styles/size-matters';
 import {
   View,
   StyleSheet,
@@ -11,14 +11,14 @@ import Colors from '../../styles/colors';
 import Input from './components/input';
 import CTAHeader from './components/header';
 import NextButton from './components/next-page-button';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {OnboardingStackParamList} from '../../navigation/onboarding';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
-import {SignIn} from '../../service/redux/actions/saga/authentication-actions';
-import {Store_UpdateOnboarding, Store_ResetOnboarding} from '../../service/redux/actions/store';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { OnboardingStackParamList } from '../../navigation/onboarding';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { SignIn } from '../../service/redux/actions/saga/authentication-actions';
+import { Store_UpdateOnboarding, Store_ResetOnboarding } from '../../service/redux/actions/store';
 import Toast from 'react-native-simple-toast';
 
 type ReduxState = {
@@ -74,7 +74,7 @@ class Login extends React.PureComponent<Props, State> {
   }
 
   render() {
-    if(this.props.onboarding.errorMessage){
+    if (this.props.onboarding.errorMessage) {
       Toast.show(this.props.onboarding.errorMessage);
       this.props.resetOnboarding({
         type: "Store_ResetOnboarding",
@@ -108,21 +108,21 @@ class Login extends React.PureComponent<Props, State> {
           keyboardNumericType
           marginVeritical={verticalScale(InputMarginVeritical)}
           onChange={(value: string) => {
-            // const matches = value.match(/\d/g);
+            const matches = value.match(/\d/g);
             this.setState({
               userName: value,
-              isValid: true,
-              // isValid: matches && matches.length === 10 ? true : false,
+              // isValid: true,
+              isValid: matches && matches.length === 12 && value.length === 13 && value[0] === '+' ? true : false,
             });
           }}
         />
         <Input
-          onChange={(value: string) => this.setState({password: value})}
+          onChange={(value: string) => this.setState({ password: value })}
           placeHolder="Password"
           secure
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
-        <View style={{height: '5%', justifyContent: 'flex-end'}}>
+        <View style={{ height: '5%', justifyContent: 'flex-end' }}>
           <Text
             onPress={() => this.props.navigation.replace('ForgotPassword', {})}
             style={{

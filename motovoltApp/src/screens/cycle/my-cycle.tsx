@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, Image, ScrollView, RefreshControl } from 'react-native';
 import { moderateScale, scale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import VehicleInfo from '../../components/vehicle-info-battery';
@@ -13,9 +13,12 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import Background from '../../components/background'
 import moment from 'moment';
+import { Dispatch } from 'redux';
+import { ReadBikeStat } from '../../service/redux/actions/saga/bike-actions';
 
 type ReduxState = {
   bike: TStore['bike'];
+  readBikeStat: (params: ReadBikeStat) => void
 };
 
 type MyCycleNavigationProp = StackNavigationProp<
@@ -28,9 +31,31 @@ interface Props extends ReduxState {
   route: RouteProp<MyCycleStackParamList, 'MyCycleScreen'>;
 }
 
-type State = {};
+type State = {
+  refreshing: boolean
+};
 
 class MyCycle extends React.PureComponent<Props, State> {
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      refreshing: false
+    };
+  }
+
+
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.props.readBikeStat({
+      type: 'ReadBikeStat',
+      payload: {
+        bikeId: this.props.bike.id
+      }
+    })
+    this.setState({ refreshing: false });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -43,7 +68,15 @@ class MyCycle extends React.PureComponent<Props, State> {
           backgroundColor={Colors.HEADER_YELLOW}
           onBackClick={() => console.log('To be handled')}
         />
-        <ScrollView style={{ paddingHorizontal: moderateScale(15), flex: 1 }}>
+        <ScrollView style={{ paddingHorizontal: moderateScale(15), flex: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh.bind(this)}
+              title="Loading..."
+            />
+          }
+        >
           <View style={styles.cycle}>
             <Image
               source={require('../../assets/images/cycle.png')}
@@ -95,7 +128,12 @@ export default connect((store: TStore) => {
   return {
     bike: store['bike'],
   };
-})(MyCycle);
+},
+  (dispatch: Dispatch) => {
+    return {
+      readBikeStat: (params: ReadBikeStat) => dispatch(params)
+    };
+  })(MyCycle);
 
 const styles = StyleSheet.create({
   container: {

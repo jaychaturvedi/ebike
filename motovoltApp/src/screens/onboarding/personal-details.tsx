@@ -34,6 +34,7 @@ interface Props extends ReduxState {
 type State = {
   name: string;
   email: string;
+  isValidEmail: boolean,
   password: string;
   confirmPassword: string;
   success: boolean;
@@ -72,6 +73,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
     this.state = {
       confirmPassword: '',
       email: '',
+      isValidEmail: false,
       name: '',
       password: '',
       success: false,
@@ -102,6 +104,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
 
   render() {
     const formDataValid =
+      this.state.isValidEmail &&
       this.state.email &&
       this.state.name &&
       this.state.password &&
@@ -128,7 +131,13 @@ class PersonalDetails extends React.PureComponent<Props, State> {
             marginVeritical={verticalScale(InputMarginVeritical)}
           />
           <Input
-            onChange={(text: string) => this.setState({ email: text })}
+            onChange={(text: string) => {
+              const matches = text.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+              this.setState({
+                email: text,
+                isValidEmail: matches && matches.length ? true : false
+              });
+            }}
             placeHolder="Email*"
             marginVeritical={verticalScale(InputMarginVeritical)}
           />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { StyleSheet, View, Image, Text, RefreshControl } from 'react-native';
 import Metrics from './components/metrics';
 import RideStatSection from './components/ridestats';
 import Header from './components/header';
@@ -33,12 +33,16 @@ interface Props extends ReduxState {
   route: RouteProp<HomeStackParamList, 'Home'>;
 }
 
-type State = {};
+type State = {
+  refreshing: boolean
+};
 
 class Home extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      refreshing: false
+    };
   }
 
   componentDidMount() {
@@ -50,6 +54,18 @@ class Home extends React.PureComponent<Props, State> {
     })
   }
 
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.props.readBikeStat({
+      type: 'ReadBikeStat',
+      payload: {
+        bikeId: this.props.user.defaultBikeId
+      }
+    })
+    this.setState({ refreshing: false });
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -59,7 +75,15 @@ class Home extends React.PureComponent<Props, State> {
           backgroundColor={Colors.HEADER_YELLOW}
           hasTabs
         />
-        <ScrollView style={styles.body}>
+        <ScrollView style={styles.body}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh.bind(this)}
+              title="Loading..."
+            />
+          }
+        >
           <View style={{ marginVertical: verticalScale(20) }}>
             <Metrics
               batteryCharge={this.props.bike.batteryChargePer.toString()}

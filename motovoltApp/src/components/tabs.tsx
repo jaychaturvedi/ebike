@@ -46,9 +46,9 @@ export default class MotovoltTabs extends React.PureComponent<Props, State> {
                                     }}
                                     tabStyle={styles.tabStyle}
                                     key={index} >
-                                    <ScrollView style={styles.tabBody}>
+                                    <View style={styles.tabBody}>
                                         {tab.body}
-                                    </ScrollView>
+                                    </View>
                                 </Tab>
                             )
 
