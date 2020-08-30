@@ -95,7 +95,10 @@ class App extends React.PureComponent<Props, State> {
         }
         SplashScreen.hide();
       })
-      .catch(console.log);
+      .catch((err) => {
+        console.log(err);
+        SplashScreen.hide();
+      });
   }
 
   componentDidCatch() {

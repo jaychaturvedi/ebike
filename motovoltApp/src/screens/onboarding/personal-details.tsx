@@ -90,7 +90,10 @@ class PersonalDetails extends React.PureComponent<Props, State> {
   componentDidMount() {
     fetchCredentials().then((cred) => {
       if (cred) {
-        this.setState({ oldPassword: cred.password, mobileNumber: cred.username });
+        this.setState({
+          oldPassword: cred.password,
+          mobileNumber: cred.username,
+        });
       }
     });
   }
@@ -106,8 +109,9 @@ class PersonalDetails extends React.PureComponent<Props, State> {
     const formDataValid =
       this.state.isValidEmail &&
       this.state.email &&
+      this.validateEmail(this.state.email) &&
       this.state.name &&
-      this.state.password &&
+      this.state.password && this.state.password.length >= 8 &&
       this.state.password === this.state.confirmPassword;
     if (!this.state.success && this.props.onboarding.passwordResetSuccess) {
       this.renderSuccess();
@@ -131,13 +135,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
             marginVeritical={verticalScale(InputMarginVeritical)}
           />
           <Input
-            onChange={(text: string) => {
-              const matches = text.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
-              this.setState({
-                email: text,
-                isValidEmail: matches && matches.length ? true : false
-              });
-            }}
+            onChange={(text: string) => this.setState({ email: text })}
             placeHolder="Email*"
             marginVeritical={verticalScale(InputMarginVeritical)}
           />
@@ -163,6 +161,34 @@ class PersonalDetails extends React.PureComponent<Props, State> {
               source={require('../../assets/images/cycle_with_headlight.png')}
               style={styles.image}
             />
+            <Text style={styles.title}>Please enter your details</Text>
+            <Input
+              onChange={(text: string) => this.setState({ name: text })}
+              placeHolder="Full Name*"
+              marginVeritical={verticalScale(InputMarginVeritical)}
+            />
+            <Input
+              onChange={(text: string) => {
+                const matches = text.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+                this.setState({
+                  email: text,
+                  isValidEmail: matches && matches.length ? true : false
+                });
+              }}
+              placeHolder="Email*"
+              marginVeritical={verticalScale(InputMarginVeritical)}
+            />
+            <Input
+              onChange={(text: string) => this.setState({ password: text })}
+              placeHolder="Create a password*"
+              marginVeritical={verticalScale(InputMarginVeritical)}
+              secure
+            />
+            <Input
+              onChange={(text: string) => this.setState({ confirmPassword: text })}
+              placeHolder="Re-enter your password*"
+              marginVeritical={verticalScale(InputMarginVeritical)}
+              secure />
           </View>
           <View style={styles.bottom}>
             <CTAButton
@@ -178,7 +204,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                     },
                   });
                 } else {
-                  Toast.show("Enter a valid email");
+                  Toast.show('Enter a valid email');
                 }
                 // this.props.navigation.navigate('TurnOnBluetooth', {});
                 // this.renderSuccess();

@@ -76,7 +76,14 @@ class ValidateMobile extends React.PureComponent<Props, State> {
     });
   }
 
-  signin = () => {
+  onSuccess = () => {
+    this.props.updateUser({
+      type: 'Store_UpdateUser',
+      payload: {
+        isPhoneValidated: true,
+        isBikeRegistered: false,
+      },
+    });
     fetchCredentials().then((cred) => {
       if (cred) {
         this.props.signIn({
@@ -118,16 +125,6 @@ class ValidateMobile extends React.PureComponent<Props, State> {
     });
   };
 
-  onOtpSuccessComplete = () => {
-    this.props.updateUser({
-      type: 'Store_UpdateUser',
-      payload: {
-        isPhoneValidated: true,
-        isBikeRegistered: false,
-      },
-    });
-  };
-
   render() {
     if (this.props.onboarding.errorMessage) {
       Toast.show(this.props.onboarding.errorMessage);
@@ -142,13 +139,12 @@ class ValidateMobile extends React.PureComponent<Props, State> {
       this.props.onboarding.confirmSignUpSuccess &&
       !this.state.signupSuccess
     ) {
-      setTimeout(this.signin, 1000);
+      setTimeout(this.onSuccess, 1000);
     }
     return this.props.onboarding.signUpSuccess ? (
       <OTP
         onFilled={this.onOtpFilled}
         onResend={this.onOtpResend}
-        onSuccess={this.onOtpSuccessComplete}
         success={Boolean(this.props.onboarding.confirmSignUpSuccess)}
         successMessage={'Mobile Verified'}
       />

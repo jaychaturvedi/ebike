@@ -1,8 +1,12 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import { validationResult, body, param } from "express-validator";
+import middleware from "./authentication"
 import Sequelize from 'sequelize';
 import JwtDecode from "jwt-decode";
-import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError, MotoVoltError, UserError, FeedbackError, IssuesError, FeaturesError, RideError, SupportError, AlertError } from "./error";
+import {
+  BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError,
+  MotoVoltError, UserError, FeedbackError, IssuesError, FeaturesError, RideError, SupportError, AlertError
+} from "./error";
 const Op = Sequelize.Op
 
 type TResponseStatus = "ERROR" | "OK" | "NOT_FOUND" | "INVALID_REQUEST" | "UNKNOWN_ERROR"
@@ -11,7 +15,7 @@ type TResponseStatus = "ERROR" | "OK" | "NOT_FOUND" | "INVALID_REQUEST" | "UNKNO
 export function createResponse(status: TResponseStatus, body: any,
   error: { code: number, message: string, name: string } | undefined) {
   return {
-    status: status,
+    status: body != undefined ? status : "ERROR",
     body: body,
     error: error !== undefined ? {
       code: error.code,
@@ -40,8 +44,7 @@ export function expressErrorHandler(err: Error, req: Request, res: Response,
     statusCode = 200
   }
   console.log(err.name);
-
-  const response = createResponse(status, null, {
+  const response = createResponse(status, undefined, {
     code: (err as MotoVoltError).errorCode,
     name: err.name,
     message: err.message
@@ -57,20 +60,23 @@ export function expressQAsync(fn: Function) {
   }
 }
 
-export function secure(
+export async function secure(
   req: Request,
   res: Response,
   next: any
 ) {
   const token = req.headers.authorization as string
   if (!token) return res.status(401).send("pass json token in headers")
-  const { sub: uid, phone_number: phone, phone_number_verified } = JwtDecode(token)
-  console.log("decoded", JwtDecode(token));
-
-  if (!uid) return res.status(401).send("invalid token")
-  res.locals.user = { uid, phone }
-  console.log(res.locals);
-  next()
+  const decodedToken: any = await middleware(token)
+  console.log(decodedToken, "decodedToken");
+  if (decodedToken.valid) {
+    const { sub: uid, phone_number: phone, phone_number_verified } = JwtDecode(token)
+    res.locals.user = { uid, phone }
+    console.log(res.locals.user);
+    next()
+  } else
+  //status ok ?
+    return res.status(401).json(createResponse("OK", null, { message: decodedToken.message, code: 401, name: "Token Error" }))
 }
 
 export function pagination(pageNumber: number, pageSize: number) {

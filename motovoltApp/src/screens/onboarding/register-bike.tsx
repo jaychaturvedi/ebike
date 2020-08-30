@@ -57,11 +57,7 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
     return (
       <View style={styles.container}>
         <CTAHeader
-          hasBackButton
           title="Register your bike"
-          onBackClick={() => {
-            this.props.navigation.goBack();
-          }}
         />
         <Image
           source={require('../../assets/images/cycle.png')}

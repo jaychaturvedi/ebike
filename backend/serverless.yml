@@ -30,10 +30,3 @@ functions:
           path: /{proxy+}
           method: ANY
           cors: true
-  createUser:
-    handler: src/server.createUser
-    events:
-      - http:
-          path: /createUser
-          method: POST
-          cors: true

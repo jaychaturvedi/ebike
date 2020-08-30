@@ -91,7 +91,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
 
     CustomTooltip = (obj: any) => {
         const { label, payload, active } = obj;
-        if (!active || !label || payload.length === 0 || this.props.data != undefined) return null;
+        if (!active || !label || payload.length === 0 || this.props.data === undefined) return label;
         const style = { top: obj.viewBox.y - 5, color: "#5FBDE0", zIndex: 10 };
         if (active) {
             return (

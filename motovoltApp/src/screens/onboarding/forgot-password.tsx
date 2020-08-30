@@ -3,11 +3,10 @@ import {
   View,
   StyleSheet,
   Text,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import { verticalScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import Input from './components/input';
@@ -97,7 +96,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
       <OTP
         onFilled={this.onOtpFilled}
         onResend={this.onOtpResend}
-        onSuccess={() => { }}
+        // onSuccess={() => { }}
         success={false}
         successMessage={''}
       />

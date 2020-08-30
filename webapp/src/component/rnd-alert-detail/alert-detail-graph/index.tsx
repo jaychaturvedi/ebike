@@ -80,7 +80,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             //vehicle idle active
             case 2: {
-                return <StackedGraph data={vehicleUsageData} dataKey="timeDate"
+                return <StackedGraph data={this.state.data} dataKey="timeDate"
                     title="Vehicle Usage Graph (Active Vs Idle):" xAxisLabel="Days" yAxisLabel="Usage (in Hrs)"
                     alertCleared={this.props.alertCleared} alertDate={this.props.alertDate}
                     bar1Key="activeTime" bar2Key="idleTime"
@@ -193,7 +193,7 @@ const vehicleUsageData = [
     {
         "timeDate": "2020-07-22",
         "activeTime": 24,
-        "idleTime": 4,
+        "idleTime": 0,
     },
 ]
 

@@ -1,6 +1,6 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Menu, Dropdown, message, DatePicker, Button, Input, Select, Typography } from 'antd';
+import { Menu, Dropdown, DatePicker, Button, Input, Select, Typography } from 'antd';
 import { DownOutlined, UserOutlined, SearchOutlined } from '@ant-design/icons';
 import { ReactComponent as Vehicle } from "../../assets/vehicle_icon.svg"
 import { ReactComponent as CargoVehicle } from "../../assets/cargo_vehicle_icon.svg"
@@ -58,7 +58,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     handleVehicleClick = (e: any) => {
-        message.info('Click on menu item.');
         console.log('click', e);
         this.setState({
             selectedVehicle: e.key,
@@ -77,7 +76,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     handleLocationClick = (e: any) => {
-        message.info('Click on menu item.');
         console.log('click', e);
         this.setState({
             selectedLocation: e.key,
@@ -96,7 +94,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     handleDateClick = (e: any) => {
-        message.info('Click on menu item.');
         console.log('click', e);
         switch (e.key) {
             case "1": {

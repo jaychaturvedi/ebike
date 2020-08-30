@@ -1,5 +1,5 @@
 import './index.scss';
-import { Layout, Table, Select, Typography } from "antd";
+import { Layout, Table, Select, Typography, ConfigProvider, Empty } from "antd";
 import React, { PureComponent } from 'react';
 import { ReactComponent as Severity } from "../../../assets/severity_icon.svg"
 import { DownOutlined } from '@ant-design/icons';
@@ -141,9 +141,13 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     handleSort = (arr: any, sort: TSort) => {
         // console.log("arr", arr, "sort", sort)
         if (!sort.fieldName) { return arr }
-        return arr.sort((a: any, b: any) => {
-            return a[sort.fieldName].localeCompare(b[sort.fieldName])
+        let sortedData = arr.sort((a: any, b: any) => {
+            return a['alertTime'].localeCompare(b['alertTime'])
         });
+        if (sort.direction == "descend") {
+            return sortedData.reverse()
+        }
+        return sortedData
     };
 
     /**Row Selection*/
@@ -287,23 +291,27 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             </div>
             <div className="connectm-AlertPastTable">
                 <div className={'table-body'}>
-                    <Table
-                        tableLayout={"auto"}
-                        // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
-                        // scroll={{ y: this.state.data.length > 3 ? '28.5vh' : undefined}}
-                        scroll={{ y: '28.5vh' }} //not able to make dynamic
-                        // size={"middle"}
-                        bordered={false}
-                        className="ant-table-thead"
-                        showSorterTooltip={false}
-                        rowKey={record => record.alertId}
-                        rowClassName={this.setRowClassName}
-                        columns={columns}
-                        dataSource={this.state.data}//{this.state.data}
-                        pagination={false}
-                        loading={false}
-                        onRow={this.onRow}
-                    />
+                    <ConfigProvider renderEmpty={() => <Empty description="No Data"
+                        image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
+                        <Table
+                            tableLayout={"auto"}
+                            // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
+                            // scroll={{ y: this.state.data.length > 3 ? '28.5vh' : undefined}}
+                            scroll={{ y: '28.5vh' }} //not able to make dynamic
+                            // size={"middle"}
+                            bordered={false}
+                            className="ant-table-thead"
+                            showSorterTooltip={false}
+                            rowKey={record => record.alertId}
+                            rowClassName={this.setRowClassName}
+                            columns={columns}
+                            dataSource={this.state.data}//{this.state.data}
+                            pagination={false}
+                            loading={false}
+                            onRow={this.onRow}
+                        />
+
+                    </ConfigProvider>
                 </div>
             </div>
         </>

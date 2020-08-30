@@ -74,12 +74,30 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     }
 
     formatDate = (label: any) => {
-        console.log("label", label)
-        console.log(moment(`${label}`).format('hh:mm a'));
-        // if ("Last 7 Days" === this.state.trendsPeriod)
-        //     return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
-        return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
+        return this.props.xAxisLabel == "Days"
+            ? this.state.data[0].timeDate === label
+                ? moment(`${label}`).format("DD MMM YYYY")
+                : moment(`${label}`).format("DD")
+            : label
+        // return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
     }
+    CustomTooltip = (obj: any) => {
+        const { label, payload, active } = obj;
+        if (!active || !label || payload.length === 0 || this.props.data === undefined) return label;
+        const style = { top: obj.viewBox.y - 20, color: "#ffffff", zIndex: 10, padding: '0px' };
+        if (active) {
+            return (
+                <div className="custom-tooltip" style={style}>
+                    <p className="label">{`${payload[1].name}: ${payload[1].value}`}</p>
+                    <p className="label">{`${payload[0].name}: ${payload[0].value}`}</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+
+                </div>
+            );
+        }
+        return null;
+    };
 
     render() {
         return (
@@ -96,10 +114,16 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                             }}
                             maxBarSize={25}
                             style={{ fontSize: '8px' }}>
+                            <Tooltip
+                                content={this.CustomTooltip}
+                                offset={-20}
+                                // position={{ y: 0, x: 0 }} stroke: "#5FBDE0"
+                                cursor={{ fill: "transparent", top: 0, }}
+                            />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" vertical={false} />
                             <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
-                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20, }}>
+                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20, }} interval={0}>
                                 <Label
                                     value={this.state.xAxisLabel}
                                     position="bottom"
