@@ -121,7 +121,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 cursor={{ fill: "transparent", top: 0, }}
                             />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" vertical={false} />
-                            <Legend wrapperStyle={{ top: -18, left: 30, }} iconType="circle" iconSize={10} />
+                            <Legend wrapperStyle={{ top: 0, left: 30 }} verticalAlign="top" layout="horizontal" iconType="circle" iconSize={10} />
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 20, right: 20, }} interval={0}>
                                 <Label

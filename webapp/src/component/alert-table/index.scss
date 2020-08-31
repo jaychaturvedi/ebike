@@ -63,6 +63,7 @@ td.ant-table-column-sort {
     }
     .table-body {
         zoom: 0.9;
+        overflow: hidden !important;
     }
     .ant-table-cell-scrollbar {
         -webkit-box-shadow: none !important;

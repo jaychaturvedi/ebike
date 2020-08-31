@@ -253,7 +253,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
             {
-                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '25%',
+                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '27%',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
@@ -311,7 +311,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         <Table
                             tableLayout={"fixed"}
                             // size={"middle"}
-                            scroll={{ y: '55vh' }}
+                            scroll={{ y: this.state.pageSize > 10 ? '56vh' : undefined }}
+                            // scroll={{ y: '55vh' }}
                             bordered={false}
                             className="ant-table-thead"
                             showSorterTooltip={false}

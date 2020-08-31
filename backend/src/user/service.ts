@@ -33,7 +33,7 @@ export default class User {
   static async createNew(user: TUser) {
     const phone = user.phone;
     const existingUser = await UserModel.findOne({ where: { phone } })
-    if (existingUser) { return existingUser }
+    if (existingUser) { throw new UserError("User already exists") }
     const newuser = await UserModel.create(user)
     if (!newuser) throw new UserError("Unable to create new ")
     return newuser;
@@ -64,6 +64,14 @@ export default class User {
       where: { uid }
     });
     if (!deleted) throw new UserError("Unable to delete user with id " + uid);
+    return deleted
+  }
+
+  static async deleteByPhone(phone: string) {
+    const deleted = await UserModel.destroy({
+      where: { phone }
+    });
+    if (!deleted) throw new UserError("Unable to delete user with " + phone);
     return deleted
   }
 

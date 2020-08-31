@@ -95,7 +95,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         const { label, payload, active } = obj;
         if (!active || !label || !payload) return label;
         const style = {
-            top: obj.viewBox.y - 20,
+            top: obj?.viewBox.y - 20,
             color: "#5FBDE0",
             zIndex: 10
         };
