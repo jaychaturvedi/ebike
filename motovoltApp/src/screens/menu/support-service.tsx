@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, RefreshControl } from 'react-native';
 import Tabs from '../../components/tabs';
 import ServiceTile from '../../components/service-tile';
 import { moderateScale } from 'react-native-size-matters';
@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 import { Dispatch } from 'redux';
 import { ReadService } from '../../service/redux/actions/saga/service-actions'
+import { ScrollView } from 'react-native-gesture-handler';
 
 type SupportServiceNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -31,15 +32,33 @@ interface Props extends ReduxState {
 };
 
 
-type State = {};
+type State = {
+  refreshing: boolean
+};
 
 class SupportService extends React.PureComponent<Props, State> {
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      refreshing: false
+    }
+  }
 
   componentDidMount() {
     this.props.getServices({
       type: 'ReadService',
       payload: {}
     })
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.props.getServices({
+      type: 'ReadService',
+      payload: {}
+    })
+    this.setState({ refreshing: false });
   }
 
   render() {
@@ -59,7 +78,15 @@ class SupportService extends React.PureComponent<Props, State> {
               header: 'Open Service',
               count: this.props.services.open,
               body: (
-                <View>
+                <ScrollView
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.refreshing}
+                      onRefresh={this.onRefresh.bind(this)}
+                      title="Loading..."
+                    />
+                  }
+                >
                   {
                     Object.keys(this.props.services.services).map((service, index: number) => {
                       return (
@@ -76,14 +103,22 @@ class SupportService extends React.PureComponent<Props, State> {
                       )
                     })
                   }
-                </View>
+                </ScrollView>
               ),
             },
             {
               header: 'Closed Service',
               count: this.props.services.closed,
               body: (
-                <View >
+                <ScrollView
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.refreshing}
+                      onRefresh={this.onRefresh.bind(this)}
+                      title="Loading..."
+                    />
+                  }
+                >
                   {
                     Object.keys(this.props.services.services).map((service, index: number) => {
                       return (
@@ -101,7 +136,7 @@ class SupportService extends React.PureComponent<Props, State> {
                       )
                     })
                   }
-                </View>
+                </ScrollView>
               ),
             },
           ]}

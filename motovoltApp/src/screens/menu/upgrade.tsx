@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import Tile from '../../components/tile';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import Header from '../home/components/header';
@@ -28,9 +28,18 @@ interface Props extends ReduxState {
   route: RouteProp<MenuStackParamList, 'Upgrade'>
 };
 
-type State = {};
+type State = {
+  refreshing: boolean
+};
 
 class Upgrade extends React.PureComponent<Props, State> {
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      refreshing: false
+    }
+  }
 
   componentDidMount() {
     this.props.readUpgrades({
@@ -39,12 +48,21 @@ class Upgrade extends React.PureComponent<Props, State> {
     })
   }
 
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.props.readUpgrades({
+      type: 'ReadUpgrades',
+      payload: {}
+    })
+    this.setState({ refreshing: false });
+  }
+
   render() {
     return (
       <View style={{ height: '100%' }}>
         <Header
           hasBackButton
-          title={'My Rides'}
+          title={'Upgrades'}
           backgroundColor={Colors.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
@@ -54,7 +72,15 @@ class Upgrade extends React.PureComponent<Props, State> {
             flexDirection: 'row',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
-          }}>
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh.bind(this)}
+              title="Loading..."
+            />
+          }
+        >
           {
             this.props.upgrades.upgrades.map((upgrade, index: number) => {
               return <Tile

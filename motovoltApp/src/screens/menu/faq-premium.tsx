@@ -6,7 +6,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
 import QnaCard from '../common/QnACard';
-import { moderateScale } from 'react-native-size-matters';
 import { ScrollView } from 'react-native-gesture-handler';
 
 type FAQPremiumNavigationProp = StackNavigationProp<

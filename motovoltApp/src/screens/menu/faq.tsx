@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, Linking, Platform, Image } from 'react-native';
+import { View, StyleSheet, RefreshControl } from 'react-native';
 import Tile from '../../components/tile';
 import { moderateScale } from 'react-native-size-matters';
 import Header from '../home/components/header';
@@ -11,6 +11,7 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ReadFAQ } from 'src/service/redux/actions/saga';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type FaqNavigationProp = StackNavigationProp<
     MenuStackParamList,
@@ -29,16 +30,30 @@ interface Props extends ReduxState {
 
 
 type State = {
-
+    refreshing: boolean
 };
 
 class FAQ extends React.PureComponent<Props, State> {
+
+    constructor(props: Props) {
+        super(props);
+        this.state = { refreshing: false };
+    }
 
     componentDidMount() {
         this.props.readFAQ({
             type: 'ReadFAQ',
             payload: {}
         })
+    }
+
+    onRefresh() {
+        this.setState({ refreshing: true });
+        this.props.readFAQ({
+            type: 'ReadFAQ',
+            payload: {}
+        })
+        this.setState({ refreshing: false });
     }
 
     render() {
@@ -50,7 +65,14 @@ class FAQ extends React.PureComponent<Props, State> {
                     backgroundColor={Colors.HEADER_YELLOW}
                     onBackClick={() => this.props.navigation.goBack()}
                 />
-                <View
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh.bind(this)}
+                            title="Loading..."
+                        />
+                    }
                     style={{
                         flex: 1,
                         paddingHorizontal: moderateScale(20),
@@ -76,7 +98,7 @@ class FAQ extends React.PureComponent<Props, State> {
                             })
                         }
                     </View>
-                </View>
+                </ScrollView>
             </View>
         );
     }

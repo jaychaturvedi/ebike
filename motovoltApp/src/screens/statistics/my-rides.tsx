@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  RefreshControl
 } from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
@@ -46,6 +47,7 @@ interface Props extends ReduxState {
 
 type State = {
   focusDate: Date;
+  refreshing: boolean
 };
 
 class MyRides extends React.PureComponent<Props, State> {
@@ -53,6 +55,7 @@ class MyRides extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       focusDate: new Date(),
+      refreshing: false
     };
   }
 
@@ -64,10 +67,26 @@ class MyRides extends React.PureComponent<Props, State> {
         pageNumber: 1,
         pageSize: 10,
         startTime: Moment.utc().startOf('day').toString(),
-        endTime: Moment.utc().startOf('day').toString()
+        endTime: Moment.utc().endOf('day').toString()
       }
     })
   }
+
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.props.readRideHistory({
+      type: 'ReadRideHistory',
+      payload: {
+        bikeId: this.props.user.defaultBikeId,
+        pageNumber: 1,
+        pageSize: 10,
+        startTime: Moment.utc(this.state.focusDate).startOf('day').toString(),
+        endTime: Moment.utc(this.state.focusDate).endOf('day').toString()
+      }
+    })
+    this.setState({ refreshing: true });
+  }
+
 
   setNewDate = (date: Date) => {
     if (date.getTime() <= new Date().getTime())
@@ -96,7 +115,15 @@ class MyRides extends React.PureComponent<Props, State> {
           hasSubtitle
           hasTabs
         />
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh.bind(this)}
+              title="Loading..."
+            />
+          }
+        >
           <View style={styles.date}>
             <TouchableOpacity
               onPress={() =>
