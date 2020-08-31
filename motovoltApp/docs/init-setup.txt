@@ -96,3 +96,9 @@ npm install -g @aws-amplify/cli
 npm install aws-amplify @aws-amplify/core aws-amplify-react-native amazon-cognito-identity-js @react-native-community/netinfo --save-prod
 cd ios && pod install
 amplify init
+
+
+
+Debug build
+
+https://dev.to/nitish173/how-to-generate-a-debug-apk-in-react-native-1gdg
