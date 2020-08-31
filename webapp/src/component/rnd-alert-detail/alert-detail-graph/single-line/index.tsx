@@ -8,27 +8,22 @@ import moment from 'moment';
 
 
 const CustomizedDot = (props: any) => {
-    const {
-        cx, cy, stroke, payload, value, L1
-    } = props;
-
-    if (value >= L1) {
+    const { cx, cy, stroke, payload, value, L1, alertDate } = props;
+    console.log(payload?.timeDate, "payyload", props.alertDate);
+    if (payload?.timeDate === alertDate) {
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
-                {/* <polygon points="0,0 10,0 5,10" /> */}
                 <polygon points="6 2, 12 12, 0 12" />
             </svg>
         );
     }
-    return (
-        <svg></svg>
-    );
-
+    return (<svg></svg>);
 };
+
 interface AlertDetailGraphProps {
     data: any; line1StrokeColor?: string, L1: boolean,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, refColor?: string,
-    dataKey?: string, line1Key?: string, title: string, alertCleared?: boolean,
+    dataKey?: string, line1Key?: string, title: string, alertCleared?: boolean, alertDate?: string
 }
 
 interface AlertDetailGraphStates {
@@ -83,7 +78,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
     }
     formatDate = (label: any) => {
         return this.props.xAxisLabel == "Time"
-            ? this.state.data[0].timeDate === label
+            ? this.state.data[0]?.timeDate === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")
             : label
@@ -91,12 +86,12 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
 
     CustomTooltip = (obj: any) => {
         const { label, payload, active } = obj;
-        if (!active || !label || payload.length === 0 || this.props.data === undefined) return label;
-        const style = { top: obj.viewBox.y - 5, color: "#5FBDE0", zIndex: 10 };
+        if (!active || !label || !payload) return label;
+        const style = { top: obj?.viewBox.y - 5, color: "#5FBDE0", zIndex: 10 };
         if (active) {
             return (
                 <div className="custom-tooltip" style={style}>
-                    <p className="label">{`${payload[0].value}`}</p>
+                    <p className="label">{`${payload[0]?.value}`}</p>
                 </div>
             );
         }
@@ -119,7 +114,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                             margin={{
                                 top: 10, right: 10, left: -10, bottom: 0,
                             }}>
-                            <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
+                            <Legend wrapperStyle={{ top: 0, left: 30 }} verticalAlign="top" layout="horizontal" iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             {!this.props.alertCleared ?
                                 this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
@@ -142,8 +137,9 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                     content={props => { return this.DynamicLabel(props) }} />
                             </XAxis>
                             <YAxis tick={{ fill: 'white' }}
-                                ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]} interval={1}
-                                padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
+                                // ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]}
+                                // interval={1}
+                                padding={{ top: 20, bottom: 20 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
@@ -163,7 +159,8 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 endIndex={0} />
                             {!this.props.alertCleared ?
                                 <Line name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
-                                    stroke={this.props.line1StrokeColor} strokeWidth={3} dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} /> : false} />
+                                    stroke={this.props.line1StrokeColor} strokeWidth={3}
+                                    dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} />
                                 : ''}
                         </LineChart>
                     </ResponsiveContainer>

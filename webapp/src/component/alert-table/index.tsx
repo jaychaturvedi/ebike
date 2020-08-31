@@ -30,20 +30,7 @@ type TData = {
     location: string
 }
 
-// let datas: Array<TData> = []
-// for (var i = 1; i < 101; i++) {
-//     datas.push({
-//         id: i,
-//         alertName: i % 2 ? "Capacity Deteroriation " : "Voltage Deviation",
-//         model: "Classic" + i,
-//         vehicleId: "BDS" + i,
-//         time: i + " May 2020 10:05AM",
-//         openSince: "24 hrs " + i + "0 min",
-//         severity: <span style={{ textAlign: 'center', paddingLeft: '10px' }}>
-//             <Severity height="15" width="15" className={`${i == 1 ? "" : i % 2 ? "severity-color-major" : "severity-color-minor"}`} /></span>,
-//         location: "Bangalore " + i
-//     })
-// }
+
 
 interface AlertProps extends RouteComponentProps, ReduxAlertActions, ReduxAlertState {
     column?: any, data?: any,
@@ -266,7 +253,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
             {
-                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '20%',
+                dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '27%',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
                     {alertClicked ? <ActiveSort height='20px' width='20px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
@@ -323,9 +310,9 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                         image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
                         <Table
                             tableLayout={"fixed"}
-                            // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
                             // size={"middle"}
-                            scroll={{ y: this.state.pageSize > 10 ? '54vh' : undefined }}
+                            scroll={{ y: this.state.pageSize > 10 ? '56vh' : undefined }}
+                            // scroll={{ y: '55vh' }}
                             bordered={false}
                             className="ant-table-thead"
                             showSorterTooltip={false}

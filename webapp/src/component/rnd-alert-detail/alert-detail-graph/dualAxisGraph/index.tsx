@@ -8,26 +8,20 @@ import moment from 'moment';
 
 
 const CustomizedDot = (props: any) => {
-    // const {
-    //     cx, cy, stroke, payload, value, L1, L2
-    // } = props;
-
-    // if (value == L2) {
-    //     return (
-
-    //         <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
-    //             {/* <polygon points="0,0 10,0 5,10" /> */}
-    //             <polygon points="6 2, 12 12, 0 12" />
-    //         </svg>
-    //     );
-    // }
-    return (
-        <svg></svg>
-    );
-
+    const { cx, cy, stroke, payload, value, L1, alertDate } = props;
+    console.log(payload?.timeDate, "payyload", props.alertDate);
+    if (payload?.timeDate === alertDate) {
+        return (
+            <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
+                <polygon points="6 2, 12 12, 0 12" />
+            </svg>
+        );
+    }
+    return (<svg></svg>);
 };
+
 interface DualAxisGraphProps {
-    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: boolean
+    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: boolean, alertDate?: string,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string, rightYaxis?: boolean, rightYaxisLabel?: string,
     alertCleared?: boolean
@@ -42,7 +36,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
     constructor(props: DualAxisGraphStates) {
         super(props);
         this.state = {
-            data: [{ a: 0, b: 0, c: 0 }],
+            data: [{ a: 0, b: 0, c: 0, L1: 0 }],
             dataKey: 'a',
             xAxisLabel: "X Label",
             yAxisLabel: "Y Label",
@@ -94,16 +88,13 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
     }
     formatDate = (label: any) => {
         return this.props.xAxisLabel == "Time"
-            ? this.state.data[0].timeDate === label
+            ? this.state.data[0]?.timeDate === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")
             : label
     }
     CustomTooltip = (obj: any) => {
-        console.log("viewBox", obj.payload,);
         const { payload, label } = obj;
-        const value1 = obj && obj.payload[0] ? payload[0].value : 0
-        const value2 = obj && obj.payload[1] ? payload[1].value : 0
         const style = {
             top: obj.viewBox.y - 5,
             color: "#5FBDE0",
@@ -113,8 +104,8 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         if (active) {
             return (
                 <div className="custom-tooltip" style={style}>
-                    <p className="label">{`${payload[0].name}: ${value1}`}</p>
-                    <p className="label">{`Temperature: ${value2}`}</p>
+                    <p className="label">{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
+                    <p className="label">{`Temperature: ${payload[1]?.value}`}</p>
 
                 </div>
             );
@@ -134,7 +125,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                     <ResponsiveContainer width="95%" height="95%">
                         <LineChart data={this.state.data} margin={{ top: 10, right: -10, left: -15, bottom: 0, }}>
                             <Tooltip content={this.CustomTooltip} cursor={{ fill: "transparent", top: 0, }} />
-                            <Legend wrapperStyle={{ top: -18, left: 30 }} iconType="circle" iconSize={10} />
+                            <Legend wrapperStyle={{ top: 0, left: 30 }} verticalAlign="top" layout="horizontal" iconType="circle" iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
                                 tick={{ fill: 'white' }} stroke='#ffffff' interval={"preserveStartEnd"} padding={{ left: 30, right: 20 }}>
@@ -174,11 +165,15 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                                 : ''}
                             {!this.props.alertCleared ?
                                 <Line yAxisId="left" name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
-                                    stroke={this.props.line1StrokeColor} strokeWidth={3} dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} /> : false} />
+                                    stroke={this.props.line1StrokeColor} strokeWidth={3}
+                                    dot={false}
+                                // dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} 
+                                />
                                 : ''}
                             {!this.props.alertCleared ?
                                 <Line yAxisId="right" name={this.state.line2Name} type="monotone" dataKey={this.state.line2Key as string}
-                                    stroke={this.props.line2StrokeColor} strokeWidth={3} dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} /> : false} />
+                                    stroke={this.props.line2StrokeColor} strokeWidth={3}
+                                    dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} />
                                 : ''}
                         </LineChart>
                     </ResponsiveContainer>

@@ -92,22 +92,21 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         return <div>items: {tooltipProps.payload.length}</div>
     }
     CustomTooltip = (obj: any) => {
-        // console.log("viewBox", obj, label);
+        const { label, payload, active } = obj;
+        if (!active || !label || !payload) return label;
         const style = {
-            top: obj.viewBox.y - 20,
+            top: obj?.viewBox.y - 20,
             color: "#5FBDE0",
             zIndex: 10
         };
-        const { active } = obj;
         if (active) {
-            const { payload, label } = obj;
             if (label === "empty") {
                 return (<div><p></p></div>)
             }
             else
                 return (
                     <div className="custom-tooltip" style={style}>
-                        <p className="label">{`${payload[0].value ? payload[0].value.toFixed(3) + " V" : ''}`}</p>
+                        <p className="label">{`${payload[0]?.value ? payload[0]?.value.toFixed(3) + " V" : ''}`}</p>
                         <span className="intro">&nbsp;</span>
                         <span className="desc">&nbsp;</span>
                         <span className="intro">&nbsp;</span>
