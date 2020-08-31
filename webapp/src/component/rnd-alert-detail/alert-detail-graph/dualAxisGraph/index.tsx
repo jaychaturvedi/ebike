@@ -100,10 +100,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
             : label
     }
     CustomTooltip = (obj: any) => {
-        console.log("viewBox", obj.payload,);
         const { payload, label } = obj;
-        const value1 = obj && obj.payload[0] ? payload[0].value : 0
-        const value2 = obj && obj.payload[1] ? payload[1].value : 0
         const style = {
             top: obj.viewBox.y - 5,
             color: "#5FBDE0",
@@ -113,8 +110,8 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         if (active) {
             return (
                 <div className="custom-tooltip" style={style}>
-                    <p className="label">{`${payload[0].name}: ${value1}`}</p>
-                    <p className="label">{`Temperature: ${value2}`}</p>
+                    <p className="label">{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
+                    <p className="label">{`Temperature: ${payload[1]?.value}`}</p>
 
                 </div>
             );

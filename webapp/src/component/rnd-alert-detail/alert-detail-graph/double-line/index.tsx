@@ -107,13 +107,13 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
 
     CustomTooltip = (obj: any) => {
         const { label, payload, active } = obj;
-        if (!active || !label || payload.length === 0 || this.props.data === undefined) return label;
+        if (!active || !label || !payload || this.props.data === undefined) return label;
         const style = { top: obj.viewBox.y - 30, color: "#5FBDE0", zIndex: 10 };
         if (active) {
             return (
                 <div className="custom-tooltip" style={style}>
-                    <p className="label">{`${payload[0].name}: ${payload[0].value}`}</p>
-                    <p className="label">{`${payload[1].name}: ${payload[1].value}`}</p>
+                    <p className="label">{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
+                    <p className="label">{`${payload[1]?.name}: ${payload[1]?.value}`}</p>
                 </div>
             );
         }
@@ -168,7 +168,8 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     content={props => { return this.DynamicLabel(props) }} />
                             </XAxis>
                             <YAxis tick={{ fill: 'white' }}
-                                ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]} interval={1}
+                                ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]}
+                                interval={"preserveStartEnd"}
                                 padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{

@@ -88,8 +88,8 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
         if (active) {
             return (
                 <div className="custom-tooltip" style={style}>
-                    <p className="label">{`${payload[1].name}: ${payload[1].value}`}</p>
-                    <p className="label">{`${payload[0].name}: ${payload[0].value}`}</p>
+                    <p className="label">{`${payload[1]?.name}: ${payload[1]?.value}`}</p>
+                    <p className="label">{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
                     <p>&nbsp;</p>
                     <p>&nbsp;</p>
 

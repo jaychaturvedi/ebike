@@ -12,23 +12,10 @@
 }
 
 .ant-table-thead > tr > th {
-    // border: 1px solid yellow;
-    // position: sticky !important;
-    // top: 0;
-    // z-index: 2;
+
     background: $TABLE_ROW_LIGHT !important;
     text-align: left;
-    // font-size: 14px;
 }
-
-// table,
-// tr,
-// td,
-// th {
-//     border: none !important;
-//     // font-size: 12px;
-//     color: #ffffff !important;
-// }
 
 .ant-table-row {
     &:hover {
@@ -62,31 +49,21 @@ td.ant-table-column-sort {
     width: 100%;
     padding-right: 20px;
     // height: calc(100% - 250px);
-
     // border: 1px solid red;
     .ant-table table {
         overflow: hidden !important;
         text-indent: 10px;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
     }
-    //     .ant-table-body .ant-table-fixed .ant-table-thead tr th:last-child,
-    // .ant-table-body .ant-table-fixed .ant-table-tbody tr td:last-child {
-    //     padding-right: 20px;
-    //   visibility: hidden;
-    // }
 
     .ant-table {
         overflow: hidden !important;
         background-color: transparent;
-        // border-bottom-left-radius: 10px;
-        // border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
-
-    // .table-body {
-    //     overflow-y: scroll;
-    //     overflow-x: auto;
-    // }
+    .table-body {
+        zoom: 0.9;
+    }
     .ant-table-cell-scrollbar {
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
@@ -94,7 +71,8 @@ td.ant-table-column-sort {
 
     .pagination-footer {
         // border: 1px solid yellow;
-        padding-top: 2%;
+        position: relative;
+        margin-top: 25px;
         display: flex;
         justify-content: flex-end;
 
@@ -128,8 +106,6 @@ td.ant-table-column-sort {
             color: black;
         }
 
-        // .select-button>div>span {
-        //     }
 
         .spacer {
             width: 30px;

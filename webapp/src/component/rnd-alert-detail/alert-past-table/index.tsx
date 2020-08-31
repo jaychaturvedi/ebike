@@ -190,7 +190,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         })
         let alertTypeId: number
         console.log("Got alert graph request")
-        if (this.props.alertName != undefined) {
+        if (this.props.alertName != undefined && this.state.selectedRowId === -1) {
             alertTypeId = getAlertTypeId(this.props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
             if (this.state.graphDataLoaded == false || alertTypeId != this.state.selectedRowId) {
                 this.props.getPastAlertGraph({
@@ -199,7 +199,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                         alertId: this.state.graphDataLoaded ? this.state.selectedRowId : this.props.alertId as any as number,
                         vehicleId: this.props.vehicleId,
                         alertName: this.props.alertName,
-                        alertTypeId: 5
+                        alertTypeId: alertTypeId
                     }
                 })
             }

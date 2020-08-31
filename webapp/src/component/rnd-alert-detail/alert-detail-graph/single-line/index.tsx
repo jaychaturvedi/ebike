@@ -12,7 +12,7 @@ const CustomizedDot = (props: any) => {
         cx, cy, stroke, payload, value, L1
     } = props;
 
-    if (value >= L1) {
+    if (value === L1) {
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 {/* <polygon points="0,0 10,0 5,10" /> */}
@@ -91,12 +91,12 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
 
     CustomTooltip = (obj: any) => {
         const { label, payload, active } = obj;
-        if (!active || !label || payload.length === 0 || this.props.data === undefined) return label;
+        if (!active || !label || payload.length === 0) return label;
         const style = { top: obj.viewBox.y - 5, color: "#5FBDE0", zIndex: 10 };
         if (active) {
             return (
                 <div className="custom-tooltip" style={style}>
-                    <p className="label">{`${payload[0].value}`}</p>
+                    <p className="label">{`${payload[0]?.value}`}</p>
                 </div>
             );
         }
@@ -142,8 +142,9 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                     content={props => { return this.DynamicLabel(props) }} />
                             </XAxis>
                             <YAxis tick={{ fill: 'white' }}
-                                ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]} interval={1}
-                                padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
+                                // ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]}
+                                // interval={1}
+                                padding={{ top: 20, bottom: 20 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
