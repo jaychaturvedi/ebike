@@ -6,24 +6,27 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  RefreshControl
+  RefreshControl,
 } from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { StatisticsStackParamList } from '../../navigation/statistics';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import { Icon } from 'native-base';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {StatisticsStackParamList} from '../../navigation/statistics';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Icon} from 'native-base';
 import Moment from 'moment';
-import { Dispatch } from 'redux';
-import { ReadRideHistory, ReadRideData } from '../../service/redux/actions/saga/rides';
+import {Dispatch} from 'redux';
+import {
+  ReadRideHistory,
+  ReadRideData,
+} from '../../service/redux/actions/saga/rides';
 import Graph from './graph';
 
 type ReduxState = {
@@ -47,7 +50,7 @@ interface Props extends ReduxState {
 
 type State = {
   focusDate: Date;
-  refreshing: boolean
+  refreshing: boolean;
 };
 
 class MyRides extends React.PureComponent<Props, State> {
@@ -55,7 +58,7 @@ class MyRides extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       focusDate: new Date(),
-      refreshing: false
+      refreshing: false,
     };
   }
 
@@ -67,13 +70,13 @@ class MyRides extends React.PureComponent<Props, State> {
         pageNumber: 1,
         pageSize: 10,
         startTime: Moment.utc().startOf('day').toString(),
-        endTime: Moment.utc().endOf('day').toString()
-      }
-    })
+        endTime: Moment.utc().endOf('day').toString(),
+      },
+    });
   }
 
   onRefresh() {
-    this.setState({ refreshing: true });
+    this.setState({refreshing: true});
     this.props.readRideHistory({
       type: 'ReadRideHistory',
       payload: {
@@ -81,12 +84,11 @@ class MyRides extends React.PureComponent<Props, State> {
         pageNumber: 1,
         pageSize: 10,
         startTime: Moment.utc(this.state.focusDate).startOf('day').toString(),
-        endTime: Moment.utc(this.state.focusDate).endOf('day').toString()
-      }
-    })
-    this.setState({ refreshing: true });
+        endTime: Moment.utc(this.state.focusDate).endOf('day').toString(),
+      },
+    });
+    this.setState({refreshing: false});
   }
-
 
   setNewDate = (date: Date) => {
     if (date.getTime() <= new Date().getTime())
@@ -100,14 +102,14 @@ class MyRides extends React.PureComponent<Props, State> {
         pageNumber: 1,
         pageSize: 10,
         startTime: Moment.utc(date).startOf('day').toString(),
-        endTime: Moment.utc(date).startOf('day').toString()
-      }
-    })
+        endTime: Moment.utc(date).startOf('day').toString(),
+      },
+    });
   };
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Header
           title={'My Rides'}
           backgroundColor={Colors.HEADER_YELLOW}
@@ -115,15 +117,15 @@ class MyRides extends React.PureComponent<Props, State> {
           hasSubtitle
           hasTabs
         />
-        <ScrollView style={styles.container}
+        <ScrollView
+          style={styles.container}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
               onRefresh={this.onRefresh.bind(this)}
               title="Loading..."
             />
-          }
-        >
+          }>
           <View style={styles.date}>
             <TouchableOpacity
               onPress={() =>
@@ -165,15 +167,41 @@ class MyRides extends React.PureComponent<Props, State> {
             value2={String(this.props.bike.greenMilesKm)}
           />
           <View style={styles.chart}>
-            <View style={{ height: '10%', justifyContent: 'flex-start', marginVertical: moderateScale(10) }}>
-              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: moderateScale(20) }}>{this.props.graph.distance} km</Text>
+            <View
+              style={{
+                height: '10%',
+                justifyContent: 'flex-start',
+                marginVertical: moderateScale(10),
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  fontSize: moderateScale(20),
+                }}>
+                {this.props.graph.distance} km
+              </Text>
             </View>
-            <View style={{ height: '10%', flexDirection: 'row', justifyContent: 'space-around', marginVertical: moderateScale(10) }}>
-              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>Avg. Distance&nbsp;{this.props.graph.avgKmph} km</Text>
-              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>Avg. Speed&nbsp;{this.props.graph.avgSpeed} kmph</Text>
+            <View
+              style={{
+                height: '10%',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                marginVertical: moderateScale(10),
+              }}>
+              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
+                Avg. Distance&nbsp;{this.props.graph.avgKmph} km
+              </Text>
+              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
+                Avg. Speed&nbsp;{this.props.graph.avgSpeed} kmph
+              </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-              <Graph data={Object.keys(this.props.graph.data).map(graph => this.props.graph.data[graph])} />
+            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+              <Graph
+                data={Object.keys(this.props.graph.data).map(
+                  (graph) => this.props.graph.data[graph],
+                )}
+              />
             </View>
           </View>
           <View style={styles.ridesText}>
@@ -200,33 +228,31 @@ class MyRides extends React.PureComponent<Props, State> {
               this.props.navigation.navigate('IndividualRide', {})
             }
           /> */}
-          {
-            Object.keys(this.props.rides).map((key, index) => (
-              <RideCard
-                key={index}
-                fromAddress={this.props.rides[key].from}
-                toAddress={this.props.rides[key].to}
-                progress={30}
-                fromTime={new Date()}
-                toTime={new Date()}
-                distance={this.props.rides[key].totalDistanceKm.toString()}
-                rating={`${this.props.rides[key].score.toString()}/10`}
-                speed={this.props.rides[key].avgSpeedKmph.toString()}
-                onItemSelect={() => {
-                  this.props.getIndividualRide({
-                    type: 'ReadRideData',
-                    payload: {
-                      bikeId: this.props.user.defaultBikeId,
-                      rideId: key,
-                      startTime: this.props.rides[key].startTime,
-                      endTime: this.props.rides[key].endTime
-                    }
-                  })
-                  this.props.navigation.navigate('IndividualRide', {})
-                }
-                }
-              />
-            ))}
+          {Object.keys(this.props.rides).map((key, index) => (
+            <RideCard
+              key={index}
+              fromAddress={this.props.rides[key].from}
+              toAddress={this.props.rides[key].to}
+              progress={30}
+              fromTime={new Date()}
+              toTime={new Date()}
+              distance={this.props.rides[key].totalDistanceKm.toString()}
+              rating={`${this.props.rides[key].score.toString()}/10`}
+              speed={this.props.rides[key].avgSpeedKmph.toString()}
+              onItemSelect={() => {
+                this.props.getIndividualRide({
+                  type: 'ReadRideData',
+                  payload: {
+                    bikeId: this.props.user.defaultBikeId,
+                    rideId: key,
+                    startTime: this.props.rides[key].startTime,
+                    endTime: this.props.rides[key].endTime,
+                  },
+                });
+                this.props.navigation.navigate('IndividualRide', {});
+              }}
+            />
+          ))}
         </ScrollView>
       </View>
     );
@@ -239,13 +265,13 @@ export default connect(
       rides: store['rides'],
       bike: store['bike'],
       user: store['user'],
-      graph: store['graph']
+      graph: store['graph'],
     };
   },
   (dispatch: Dispatch) => {
     return {
       readRideHistory: (params: ReadRideHistory) => dispatch(params),
-      getIndividualRide: (params: ReadRideData) => dispatch(params)
+      getIndividualRide: (params: ReadRideData) => dispatch(params),
     };
   },
 )(MyRides);

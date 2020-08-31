@@ -49,7 +49,7 @@ export default function MetricTile(props: MetricTypeProps) {
     <View style={styles.tile}>
       <View style={styles.heading}>
         <Text numberOfLines={1}>
-          <Text style={styles.metric}>{props.value}</Text>
+          <Text style={styles.metric}>{Math.floor(Number(props.value))}</Text>
           <Text style={styles.unit}> {props.unit}</Text>
         </Text>
       </View>
