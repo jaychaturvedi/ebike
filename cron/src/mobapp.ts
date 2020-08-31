@@ -43,11 +43,29 @@ function callApi() {
     const token = myCache.has("myTokens") ? myCache.get("myTokens") : '';
     console.log(myCache.has("myTokens"));
     if (token) {
-        axios.get(process.env.APPURL!, {
+        axios.get(process.env.APPURL! + '/user', {
             headers: {
                 'Authorization': `${myCache.get("myTokens")}`
             }
         }).then((res) => {
+            console.log(res.data);
+        }).catch((e) => {
+            console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+            if (e.response.data.message === "The incoming token has expired") {
+                console.log("calling new token");
+                logIn()
+            }
+        })
+        axios.get(process.env.APPURL! + '/feature').then((res) => {
+            console.log(res.data);
+        }).catch((e) => {
+            console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+            if (e.response.data.message === "The incoming token has expired") {
+                console.log("calling new token");
+                logIn()
+            }
+        })
+        axios.get(process.env.APPURL! + '/feature/faq').then((res) => {
             console.log(res.data);
         }).catch((e) => {
             console.log('errrr', e.response.status, e.response.statusText, e.response.data);
