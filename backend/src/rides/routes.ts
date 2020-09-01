@@ -4,8 +4,7 @@ import Ride from './service'
 import { expressErrorHandler, expressQAsync, validate, createResponse, secure } from '../helper'
 import ConnectmApi from "../externalApi/motovolt";
 import { createNewRide, endRide, updateFeedback, getSpeedometer, rideDetail, } from "./controller";
-import User from "../user/service";
-import { RideError } from "../error";
+import { RideError, BadRequestError } from "../error";
 const app = express.Router()
 
 app.get('/all', expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -14,22 +13,6 @@ app.get('/all', expressQAsync(async (req: Request, res: Response, next: NextFunc
     res.send(response)
 })
 )
-//start a new ride with rideId
-app.get('/:frameId', expressQAsync(secure),
-    [query('rideId', "rideId is empty").isString().isLength({ min: 1 }),
-    param('frameId', "frameId is empty").isString().isLength({ min: 1 }), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { frameId } = req.params
-        const { uid } = res.locals.user
-        const { ign: ignition, lc: locked } = await ConnectmApi.getBikeLiveData(frameId)
-        let newride = {}
-        if (!locked && ignition) {//if bike is on then only start a ride
-            newride = await createNewRide(uid, frameId, req.query.rideId as string)
-        }
-        const response = createResponse("OK", newride, undefined)//send locked state and send starttime
-        res.json(response)
-    })
-)
 
 //speedometer and other details
 app.get('/speedometer/:rideId', expressQAsync(secure),
@@ -37,16 +20,6 @@ app.get('/speedometer/:rideId', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const speedometer = await getSpeedometer(req.params.rideId)
         const response = createResponse("OK", speedometer, undefined)
-        res.json(response)
-    })
-)
-
-//ending a ride, update endtime in databasse
-app.put('/:rideId', expressQAsync(secure),
-    [param('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const ride = await endRide(req.params.rideId)
-        const response = createResponse("OK", ride, undefined)
         res.json(response)
     })
 )
@@ -65,7 +38,7 @@ app.put('/rating/:rideId', expressQAsync(secure),
     })
 )
 
-//get graph data points and other values
+//get graph data points and other values, this route is not used
 app.get('/graphData/:frameId', expressQAsync(secure),
     [param('frameId', "name can't be empty").isString().isLength({ min: 1 }),
     query('startTime', "can't be empty").isString().isLength({ min: 1 }),
@@ -76,6 +49,7 @@ app.get('/graphData/:frameId', expressQAsync(secure),
         const { startTime, endTime, pageNo, pageSize } = req.query as any
         const history = await ConnectmApi.getRideHistoryStat(req.params.frameId, startTime as string,
             endTime as string, pageNo as number, pageSize as number)
+        if (history[0].st) throw new BadRequestError("No data available for the device")
         const response = createResponse("OK", history, undefined)
         res.json(response)
     })
@@ -92,6 +66,36 @@ app.get('/detail/:frameId', expressQAsync(secure),
         res.json(response)
     })
 )
+
+//start a new ride with rideId
+app.get('/:frameId', expressQAsync(secure),
+    [query('rideId', "rideId is empty").isString().isLength({ min: 1 }),
+    param('frameId', "frameId is empty").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log(req.params);
+        const { frameId } = req.params
+        const { uid } = res.locals.user
+        const { ign: ignition, lc: locked, st, fid } = await ConnectmApi.getBikeLiveData(frameId)
+        if (st) throw new BadRequestError("No data available for frameId")
+        let newride = {}
+        if (!locked && ignition) {//if bike is on then only start a ride
+            newride = await createNewRide(uid, frameId, req.query.rideId as string)
+        }
+        const response = createResponse("OK", newride, undefined)//send locked state and send starttime
+        res.json(response)
+    })
+)
+
+//ending a ride, update endtime in databasse
+app.put('/:rideId', expressQAsync(secure),
+    [param('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const ride = await endRide(req.params.rideId)
+        const response = createResponse("OK", ride, undefined)
+        res.json(response)
+    })
+)
+
 
 app.use(expressErrorHandler)
 export default app

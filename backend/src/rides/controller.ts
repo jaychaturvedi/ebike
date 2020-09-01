@@ -7,14 +7,16 @@ export async function getSpeedometer(rideId: string) {
   const { frameId } = await Ride.findOneWhere({ rideId })
   const { batchrgper: batteryChargePer, rngcrv: rangeCovered, rngavail: rangeAvailable,
     dist: distance, kmph: speed, avgspd: averageSpeed, timeelp: timeElapsed,
-    maxspd: maxSpeed, pa: pedalAssit, pm: powerMode } =
+    maxspd: maxSpeed, pa: pedalAssit, pm: powerMode, st } =
     await ConnectmApi.getCurrentRide(frameId as string)
+  if (st) throw new RideError("No data available for the rideId or device")
   const body = {
     frameId, batteryChargePer, rangeCovered, rangeAvailable, distance, averageSpeed,
     speed, maxSpeed, timeElapsed, pedalAssit, powerMode,
   }
   return body
 }
+
 export async function createNewRide(uid: string, frameId: string, rideId: string) {
   const startTime = "2020-06-30 11:08:38"//Date.now() as any
   const { startTime: time } = await Ride.createNew({ uid, frameId, rideId, startTime })
@@ -46,7 +48,7 @@ export async function rideDetail(frameId: string, startTime: string, endTime: st
   const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
   ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),])
   // Ride.findOneWhere({ frameId, startTime, endTime })])
-  if (!ride[0].fid) throw new RideError("couldn't end ride");
+  if (!ride[0].fid) throw new RideError("No data available for the device");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = ride[0]

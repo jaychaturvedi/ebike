@@ -8,7 +8,7 @@ export default class Ride {
 
     static async findOneWhere(condition: any) {
         const ride = await RideModel.findOne({ where: { ...condition } })
-        if (!ride) throw new RideError('Unable to find by id ');
+        if (!ride) throw new RideError('Unable to find the ride ');
         return ride
     }
 

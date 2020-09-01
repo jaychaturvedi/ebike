@@ -6,7 +6,7 @@ import { profile } from "./controller";
 const app = express.Router()
 
 
-app.get('/all',
+app.get('/all', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const users = await User.findAll()
         const response = createResponse("OK", users, undefined)
@@ -44,12 +44,23 @@ app.post('/', expressQAsync(secure),
     })
 )
 
-app.delete('/', expressQAsync(secure),
+app.delete('/phone/:phone', expressQAsync(secure),
+    [param('phone', "phone can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response) => {
-        const { phone, uid } = res.locals.user as any
+        const { phone } = req.params
+        const deleted = await User.deleteByPhone(phone);
+        const response = createResponse("OK", "User deleted with phone " + phone, undefined)
+        res.json(response);
+    })
+)
+
+app.delete('/:uid', expressQAsync(secure),
+    [param('uid', "uid can't be empty").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const uid = req.params.uid as string
         const deleted = await User.deleteById(uid);
         const response = createResponse("OK", "User deleted with id " + uid, undefined)
-        res.json(response);
+        res.json(response)
     })
 )
 

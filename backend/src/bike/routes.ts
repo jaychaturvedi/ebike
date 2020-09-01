@@ -3,9 +3,9 @@ import { validationResult, body, param, query } from "express-validator";
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import Bike from './service'
 import ConnectmApi from "../externalApi/motovolt";
-import { verifyFrame, getMyBike, homeScreen } from './controller';
+import { verifyFrame, getMyBike, homeScreen, getRideHistory } from './controller';
 import User from '../user/service';
-import { BikeError } from '../error';
+import { BikeError, BadRequestError } from '../error';
 
 const app = express.Router()
 //to be removed, just for testing
@@ -16,26 +16,18 @@ app.get('/all',
         res.json(response)
     })
 )
-//home screen
-app.get('/:frameId', expressQAsync(secure),
-    [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
-    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const frameId = req.params.frameId as string
-        const body = await homeScreen(frameId)
-        const response = createResponse("OK", body, undefined)
-        res.json(response)
-    })
-)
 
 //get bike details
 app.get('/myBike/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("req params in mybike", req.params);
         const bikedetails = await getMyBike(req.params.frameId)
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
 )
+
 //register frameid to user
 app.get('/verify/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
@@ -65,13 +57,11 @@ app.get('/history/:frameId', expressQAsync(secure),
     query('pageNo', "page can't be empty").optional().toInt(),
     query('pageSize', "sizee can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("req in history", req.query, req.params);
         const { startTime, endTime, pageNo, pageSize } = req.query as any
-        const history = await ConnectmApi.getRideHistory(req.params.frameId, startTime as string,
+        const history = await getRideHistory(req.params.frameId, startTime as string,
             endTime as string, pageNo as number, pageSize as number)
-        const graphData = await ConnectmApi.getRideHistoryStat(req.params.frameId, startTime as string,
-            endTime as string, pageNo as number, pageSize as number)
-        if (!history[0].fid) throw new BikeError("please check time and frameId");
-        const response = createResponse("OK", { history, graphData }, undefined)
+        const response = createResponse("OK", history, undefined)
         res.json(response)
     })
 )
@@ -84,10 +74,23 @@ app.get('/notification/:frameId', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { pageNo, pageSize } = req.query as any
         const notification = await ConnectmApi.getNotification(req.params.frameId, pageNo as number, pageSize as number)
+        if (notification[0].st) throw new BadRequestError("Please check frameId");
         const response = createResponse("OK", notification, undefined)
         res.json(response)
     })
 )
+//home screen
+app.get('/:frameId', expressQAsync(secure),
+    [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("req params in home", req.params);
+        const frameId = req.params.frameId as string
+        const body = await homeScreen(frameId)
+        const response = createResponse("OK", body, undefined)
+        res.json(response)
+    })
+)
+
 //update bikeName during registration
 app.put('/', expressQAsync(secure),
     [body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
