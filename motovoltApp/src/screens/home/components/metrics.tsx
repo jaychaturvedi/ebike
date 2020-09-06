@@ -1,7 +1,8 @@
 import React from 'react';
-import {View} from 'native-base';
-import {StyleSheet} from 'react-native';
+import { View } from 'native-base';
+import { StyleSheet } from 'react-native';
 import MetricTile from './metric-tile';
+import LanguageSelector from '../../../translations';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,18 +25,18 @@ export default function Metrics(props: Props) {
       <MetricTile
         value={props.batteryCharge}
         unit={'%'}
-        descriptionLine1="Battery"
-        descriptionLine2="Charge"></MetricTile>
+        descriptionLine1={LanguageSelector.t("home.battery")}
+        descriptionLine2={LanguageSelector.t("home.charge")}></MetricTile>
       <MetricTile
         value={props.rangeAvailable}
         unit={'Km'}
-        descriptionLine1="Range"
-        descriptionLine2="Available"></MetricTile>
+        descriptionLine1={LanguageSelector.t("home.range")}
+        descriptionLine2={LanguageSelector.t("home.available")}></MetricTile>
       <MetricTile
         value={props.rangeCovered}
         unit={'Km'}
-        descriptionLine1="Range"
-        descriptionLine2="Covered"></MetricTile>
+        descriptionLine1={LanguageSelector.t("home.range")}
+        descriptionLine2={LanguageSelector.t("home.covered")}></MetricTile>
     </View>
   );
 }

@@ -5,6 +5,7 @@ import { Svg } from 'react-native-svg';
 import { scale } from '../../../styles/size-matters';
 import Marking from './markings';
 import Colors from '../../../styles/colors';
+import LanguageSelector from '../../../translations';
 
 const Width = scale(300);
 
@@ -78,7 +79,7 @@ export default class Guage extends React.PureComponent<Props, {}> {
             return (
               <View style={guageStyle.guageContainer}>
                 <View style={guageStyle.centre}>
-                  <Text style={guageStyle.key}>Time Elapsed</Text>
+                  <Text style={guageStyle.key}>{LanguageSelector.t("speedometer.timeElapsed")}</Text>
                   <Text style={guageStyle.value}>{this.props.time}</Text>
                 </View>
                 <View style={guageStyle.centre}>
@@ -86,7 +87,7 @@ export default class Guage extends React.PureComponent<Props, {}> {
                   <Text style={guageStyle.speedUnit}>Km/h</Text>
                 </View>
                 <View style={guageStyle.centre}>
-                  <Text style={guageStyle.key}>Total Distance</Text>
+                  <Text style={guageStyle.key}>{LanguageSelector.t("speedometer.totalDistance")}</Text>
                   <Text style={guageStyle.value}>
                     {this.props.totalDistanceKm} Km
                   </Text>

@@ -11,15 +11,16 @@ import Footer from '../home/components/footer';
 import Header from '../home/components/header';
 import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
-import {scale, verticalScale} from '../../styles/size-matters';
+import { scale, verticalScale } from '../../styles/size-matters';
 import DottedButton from '../home/components/add-new-dotted-button';
 import ProfileInfoCard from '../home/components/profile-info-card';
 import ProfileImage from '../../components/profile';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {MenuStackParamList} from '../../navigation/menu';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MenuStackParamList } from '../../navigation/menu';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import LanguageSelector from '../../translations';
 
 type ReduxState = {
   user: TStore['user'];
@@ -45,7 +46,7 @@ class Profile extends React.PureComponent<Props, State> {
     return (
       <View style={styles.container}>
         <Header
-          title="Profile"
+          title={LanguageSelector.t("profile.profile")}
           hasBackButton
           backgroundColor={Colors.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
@@ -54,19 +55,19 @@ class Profile extends React.PureComponent<Props, State> {
           <View style={styles.avatar}>
             <ProfileImage />
           </View>
-          <Text style={styles.title}>Personal Details</Text>
+          <Text style={styles.title}>{LanguageSelector.t("profile.personalDetails")}</Text>
           <ProfileInfoCard
             style={styles.profileInfo}
-            data={[{key: 'Name', value: this.props.user.name}]}
+            data={[{ key: LanguageSelector.t("profile.name"), value: this.props.user.name }]}
           />
 
           <ProfileInfoCard
             style={styles.profileInfo}
-            data={[{key: 'Email', value: this.props.user.email}]}
+            data={[{ key: LanguageSelector.t("profile.email"), value: this.props.user.email }]}
           />
 
-          <View style={{...familyUserStyle.container, ...styles.profileInfo}}>
-            <Text style={familyUserStyle.title}>Family Users</Text>
+          <View style={{ ...familyUserStyle.container, ...styles.profileInfo }}>
+            <Text style={familyUserStyle.title}>{LanguageSelector.t("profile.family")}</Text>
             <View style={familyUserStyle.singleInfo}>
               <View style={familyUserStyle.singleInfoLeft}>
                 <Image
@@ -85,11 +86,11 @@ class Profile extends React.PureComponent<Props, State> {
                 source={require('../../assets/icons/add_new.png')}
                 style={familyUserStyle.addNewIcon}
               />
-              <Text style={familyUserStyle.addNewText}>{'      '}Add User</Text>
+              <Text style={familyUserStyle.addNewText}>{'      '}{LanguageSelector.t("profile.addUser")}</Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.title}>Vehicle Details</Text>
+          <Text style={styles.title}>{LanguageSelector.t("profile.vehicleDetails")}</Text>
 
           <ProfileInfoCard
             style={styles.profileInfo}
@@ -98,30 +99,30 @@ class Profile extends React.PureComponent<Props, State> {
             hasHeader
             title={this.props.bike.name}
             data={[
-              {key: 'Vehicle ID', value: this.props.bike.id},
-              {key: 'Purchase Date', value: this.props.bike.purchaseDate},
-              {key: 'Warranty Valid till', value: this.props.bike.warrantyTill},
+              { key: LanguageSelector.t("profile.vehicleId"), value: this.props.bike.id },
+              { key: LanguageSelector.t("profile.purchaseDate"), value: this.props.bike.purchaseDate },
+              { key: LanguageSelector.t("profile.warrantyValidTill"), value: this.props.bike.warrantyTill },
             ]}
           />
-          <DottedButton text={'Add New Cycle'} onPress={() => {}} />
+          <DottedButton text={LanguageSelector.t("profile.addNewCycle")} onPress={() => { }} />
 
-          <Text style={styles.title}>Battery Details</Text>
+          <Text style={styles.title}>{LanguageSelector.t("profile.batteryDetails")}</Text>
 
           <ProfileInfoCard
             style={styles.profileInfo}
             data={[
               {
-                key: 'Batteries Owned',
+                key: LanguageSelector.t("profile.batteriesOwned"),
                 value: Object.keys(this.props.bike.batteries).length.toString(),
               },
               {
-                key: 'Battery ID',
+                key: LanguageSelector.t("profile.batteryId"),
                 value: Object.keys(this.props.bike.batteries).join(','),
               },
             ]}
           />
 
-          <DottedButton text={'Add New Battery'} onPress={() => {}} />
+          <DottedButton text={LanguageSelector.t("profile.addNewBattery")} onPress={() => { }} />
         </ScrollView>
       </View>
     );

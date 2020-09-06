@@ -15,6 +15,7 @@ import { Dispatch } from 'redux';
 import { ReportIssue as Report } from '../../service/redux/actions/saga/service-actions';
 import ThumbsUp from '../../components/thumb-up';
 import { Store_ResetReportIssue } from 'src/service/redux/actions/store';
+import LanguageSelector from '../../translations';
 
 type ReportISsueNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -60,7 +61,7 @@ class ReportIssue extends React.PureComponent<Props, State> {
         <View style={styles.container}>
           <Header
             hasBackButton
-            title={'Report an issue'}
+            title={LanguageSelector.t("support.reportAnIssue")}
             hasTabs
             backgroundColor={Colors.HEADER_YELLOW}
             onBackClick={() => this.props.navigation.goBack()}
@@ -75,7 +76,7 @@ class ReportIssue extends React.PureComponent<Props, State> {
               </View>
               <View style={styles.info}>
                 <View style={styles.tile}>
-                  <Text style={{ fontSize: moderateScale(13) }}>Model</Text>
+                  <Text style={{ fontSize: moderateScale(13) }}>{LanguageSelector.t("support.model")}</Text>
                   <Text
                     style={{
                       fontSize: moderateScale(16),
@@ -86,7 +87,7 @@ class ReportIssue extends React.PureComponent<Props, State> {
                   </Text>
                 </View>
                 <View style={styles.tile}>
-                  <Text style={{ fontSize: moderateScale(13) }}>Vehicle ID</Text>
+                  <Text style={{ fontSize: moderateScale(13) }}>{LanguageSelector.t("support.vehicleId")}</Text>
                   <Text
                     style={{
                       fontSize: moderateScale(16),
@@ -99,8 +100,8 @@ class ReportIssue extends React.PureComponent<Props, State> {
               </View>
               <View style={styles.textInput}>
                 <Text style={{ fontSize: moderateScale(14), fontWeight: 'bold' }}>
-                  Comments
-            </Text>
+                  {LanguageSelector.t("support.comments")}
+                </Text>
                 <Textarea
                   underline
                   rowSpan={7}
@@ -115,7 +116,7 @@ class ReportIssue extends React.PureComponent<Props, State> {
             </View>
             <View style={styles.button}>
               <Button
-                text="SUBMIT"
+                text={LanguageSelector.t("support.submit")}
                 onPress={() => this.props.reportIssue({
                   type: 'ReportIssue',
                   payload: {

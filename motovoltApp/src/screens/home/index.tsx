@@ -16,6 +16,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { HomeStackParamList } from '../../navigation/home';
 import Map from '../../components/map';
+import LanguageSelector from '../../translations';
 
 type HomeNavigationProp = StackNavigationProp<
   HomeStackParamList,
@@ -71,7 +72,7 @@ class Home extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <Background />
         <Header
-          title={`Hello ${this.props.user.name}`}
+          title={`${LanguageSelector.t("home.hello")} ${this.props.user.name}`}
           backgroundColor={Colors.HEADER_YELLOW}
           hasTabs
         />
@@ -120,7 +121,7 @@ class Home extends React.PureComponent<Props, State> {
                 numberOfLines={1}>
                 Cycle A
               </Text>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ON{'\n'}</Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{LanguageSelector.t("home.on")}{'\n'}</Text>
               {this.props.bike.type === 'GPS' ? <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('Gps', {})}
               ><Image

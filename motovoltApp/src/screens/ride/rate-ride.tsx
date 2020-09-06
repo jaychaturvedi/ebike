@@ -16,6 +16,7 @@ import ThumbsUp from '../../components/thumb-up';
 import { SubmitRide } from 'src/service/redux/actions/saga';
 import { Dispatch } from 'redux';
 import Map from '../../components/map';
+import LanguageSelector from '../../translations';
 
 
 type ReduxState = {
@@ -83,8 +84,8 @@ class RateRide extends React.PureComponent<Props, State> {
                     </View>
                     <View style={styles.usageDetails}>
                         <RideMetric
-                            header1="Distance"
-                            header2="Duration"
+                            header1={LanguageSelector.t("rateYourRide.distance")}
+                            header2={LanguageSelector.t("rateYourRide.duration")}
                             icon1={require('../../assets/icons/total_distance_icon.png')}
                             icon2={require('../../assets/icons/charge_time_remaining.png')}
                             value1={this.props.ride.totalDistanceKm.toString()}
@@ -93,8 +94,8 @@ class RateRide extends React.PureComponent<Props, State> {
                             unit2=""
                         />
                         <RideMetric
-                            header1="Avg. speed"
-                            header2="Max. speed"
+                            header1={LanguageSelector.t("rateYourRide.avgSpeed")}
+                            header2={LanguageSelector.t("rateYourRide.maxSpeed")}
                             icon1={require('../../assets/icons/average_speed_icon.png')}
                             icon2={require('../../assets/icons/max_speed_icon.png')}
                             value1={this.props.ride.avgSpeedKmph.toString()}
@@ -103,8 +104,8 @@ class RateRide extends React.PureComponent<Props, State> {
                             unit2="Kmph"
                         />
                         <RideMetric
-                            header1="Green Miles"
-                            header2="Calories Burnt"
+                            header1={LanguageSelector.t("rateYourRide.greenMiles")}
+                            header2={LanguageSelector.t("rateYourRide.caloriesBurnt")}
                             icon1={require('../../assets/icons/green_miles_icon.png')}
                             icon2={require('../../assets/icons/calories_icon_blue.png')}
                             value1={this.props.ride.greenMilesKm.toString()}
@@ -113,8 +114,8 @@ class RateRide extends React.PureComponent<Props, State> {
                             unit2=""
                         />
                         <RideMetric
-                            header1="Petrol Savings"
-                            header2="Petrol Savings"
+                            header1={LanguageSelector.t("rateYourRide.petrolSavings")}
+                            header2={LanguageSelector.t("rateYourRide.petrolSavings")}
                             icon1={require('../../assets/icons/inr_icon.png')}
                             icon2={require('../../assets/icons/petrol_savings_icon.png')}
                             value1={this.props.ride.petrolSavingsInr.toString()}
@@ -126,8 +127,8 @@ class RateRide extends React.PureComponent<Props, State> {
                     <View style={styles.rating}>
                         <View>
                             <Text style={{ textAlign: 'center', fontSize: moderateScale(16) }}>
-                                Rate your ride
-              </Text>
+                                {LanguageSelector.t("rateYourRide.rateYourRide")}
+                            </Text>
                         </View>
                         <View style={{ padding: moderateScale(20) }}>
                             <Rating

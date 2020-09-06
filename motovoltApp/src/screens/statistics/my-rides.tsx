@@ -10,24 +10,25 @@ import {
 } from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {StatisticsStackParamList} from '../../navigation/statistics';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
-import {Icon} from 'native-base';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { StatisticsStackParamList } from '../../navigation/statistics';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Icon } from 'native-base';
 import Moment from 'moment';
-import {Dispatch} from 'redux';
+import { Dispatch } from 'redux';
 import {
   ReadRideHistory,
   ReadRideData,
 } from '../../service/redux/actions/saga/rides';
 import Graph from './graph';
+import LanguageSelector from '../../translations';
 
 type ReduxState = {
   rides: TStore['rides'];
@@ -76,7 +77,7 @@ class MyRides extends React.PureComponent<Props, State> {
   }
 
   onRefresh() {
-    this.setState({refreshing: true});
+    this.setState({ refreshing: true });
     this.props.readRideHistory({
       type: 'ReadRideHistory',
       payload: {
@@ -87,7 +88,7 @@ class MyRides extends React.PureComponent<Props, State> {
         endTime: Moment.utc(this.state.focusDate).endOf('day').toString(),
       },
     });
-    this.setState({refreshing: false});
+    this.setState({ refreshing: false });
   }
 
   setNewDate = (date: Date) => {
@@ -109,9 +110,9 @@ class MyRides extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Header
-          title={'My Rides'}
+          title={LanguageSelector.t("myRides.myRides")}
           backgroundColor={Colors.HEADER_YELLOW}
           subtitle={this.props.bike.name}
           hasSubtitle
@@ -157,8 +158,8 @@ class MyRides extends React.PureComponent<Props, State> {
             </TouchableOpacity>
           </View>
           <RideMetric
-            header1="CO2e Savings"
-            header2="Green miles"
+            header1={LanguageSelector.t("myRides.co2eSavings")}
+            header2={LanguageSelector.t("myRides.greenMiles")}
             unit1="Kg"
             unit2="Km"
             icon1={require('../../assets/icons/CO2e_savings.png')}
@@ -189,14 +190,14 @@ class MyRides extends React.PureComponent<Props, State> {
                 justifyContent: 'space-around',
                 marginVertical: moderateScale(10),
               }}>
-              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
-                Avg. Distance&nbsp;{this.props.graph.avgKmph} km
+              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
+                {LanguageSelector.t("myRides.avgDistance")}&nbsp;{this.props.graph.avgKmph} km
               </Text>
-              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
-                Avg. Speed&nbsp;{this.props.graph.avgSpeed} kmph
+              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
+                {LanguageSelector.t("myRides.avgSpeed")}&nbsp;{this.props.graph.avgSpeed} kmph
               </Text>
             </View>
-            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
               <Graph
                 data={Object.keys(this.props.graph.data).map(
                   (graph) => this.props.graph.data[graph],
@@ -211,7 +212,7 @@ class MyRides extends React.PureComponent<Props, State> {
                 fontWeight: 'bold',
                 color: '#212121',
               }}>
-              YOUR RIDES
+              {LanguageSelector.t("myRides.yourRides")}
             </Text>
           </View>
           {/* <RideCard
