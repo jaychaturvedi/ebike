@@ -7,6 +7,7 @@ import { scale } from '../../styles/size-matters';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
+import LanguageSelector from '../../translations';
 
 type ComingSoonNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -22,7 +23,7 @@ export default class ComingSoon extends React.PureComponent<Props, {}> {
   render() {
     return (
       <View style={{ width: '100%', height: '100%' }}>
-        <Header backgroundColor={Colors.HEADER_YELLOW} title={'Coming Soon'} hasBackButton onBackClick={() => this.props.navigation.goBack()} />
+        <Header backgroundColor={Colors.HEADER_YELLOW} title={LanguageSelector.t("comingSoonTitle")} hasBackButton onBackClick={() => this.props.navigation.goBack()} />
         <View
           style={{
             flex: 1,
@@ -44,7 +45,7 @@ export default class ComingSoon extends React.PureComponent<Props, {}> {
                 fontSize: 28,
                 fontWeight: FontWeight.BOLD,
               }}>
-              COMING SOON
+              {LanguageSelector.t("comingSoonTitle")}
             </Text>
             <Text>{'\n\n'}</Text>
             <Text
@@ -53,8 +54,7 @@ export default class ComingSoon extends React.PureComponent<Props, {}> {
                 color: Colors.BLACK,
                 fontSize: 16,
               }}>
-              We are working on this feature at the moment. We will notify you
-              once its out!
+              {LanguageSelector.t("comingSoonSubTitle")}
             </Text>
           </View>
         </View>

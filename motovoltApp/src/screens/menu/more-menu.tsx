@@ -23,6 +23,7 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { SignOut } from '../../service/redux/actions/saga/authentication-actions';
+import LanguageSelector from '../../translations';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -55,67 +56,67 @@ class MoreMenu extends React.PureComponent<Props, State> {
     this.state = {
       feature: [
         {
-          feature: 'Battery Analytics',
+          feature: LanguageSelector.t("morePremium.batteryAnalytics"),
           icon: require('../../assets/icons/battery_analytics.png'),
           onPress: () => console.log('Feature pressed'),
           premium: true,
         },
         {
-          feature: 'Geo fencing',
+          feature: LanguageSelector.t("morePremium.geoFencing"),
           icon: require('../../assets/icons/geo_fencing_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: true,
         },
         {
-          feature: 'Nearby',
+          feature: LanguageSelector.t("morePremium.nearby"),
           icon: require('../../assets/icons/nearby_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
-          feature: 'FAQs',
+          feature: LanguageSelector.t("morePremium.faqs"),
           icon: require('../../assets/icons/faq_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
-          feature: 'Community',
+          feature: LanguageSelector.t("morePremium.community"),
           icon: require('../../assets/icons/comunity_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
-          feature: 'Support',
+          feature: LanguageSelector.t("morePremium.support"),
           icon: require('../../assets/icons/support_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
-          feature: 'Languages',
+          feature: LanguageSelector.t("morePremium.language"),
           icon: require('../../assets/icons/languages_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
-          feature: 'Promotions',
+          feature: LanguageSelector.t("morePremium.promotions"),
           icon: require('../../assets/icons/promotions_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
-          feature: 'Send Invite',
+          feature: LanguageSelector.t("morePremium.sendInvite"),
           icon: require('../../assets/icons/send_invite_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
-          feature: 'Insurance',
+          feature: LanguageSelector.t("morePremium.insurance"),
           icon: require('../../assets/icons/insurance_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
-          feature: 'Logout',
+          feature: LanguageSelector.t("morePremium.logOut"),
           icon: require('../../assets/icons/logout_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
@@ -124,10 +125,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
     }
   }
 
+
+
   render() {
     return (
       <View style={styles.container}>
-        <Header title="More" backgroundColor={Colors.HEADER_YELLOW} />
+        <Header title={LanguageSelector.t("morePremium.more")} backgroundColor={Colors.HEADER_YELLOW} />
         <View style={styles.profile}>
           <ProfileImage />
           <Text
@@ -155,8 +158,8 @@ class MoreMenu extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.metric}>
           <RideMetric
-            header1="Green miles"
-            header2="Calories"
+            header1={LanguageSelector.t("morePremium.greenMiles")}
+            header2={LanguageSelector.t("morePremium.calories")}
             unit1="Km"
             unit2=""
             icon1={require('../../assets/icons/green_miles_green_icon.png')}
@@ -185,14 +188,17 @@ class MoreMenu extends React.PureComponent<Props, State> {
                   icon={feature.icon}
                   onPress={() => {
                     switch (feature.feature) {
-                      case 'Support':
+                      case LanguageSelector.t("morePremium.support"):
                         this.props.navigation.navigate('Support', {});
                         break;
-                      case 'FAQs':
+                      case LanguageSelector.t("morePremium.faqs"):
                         this.props.navigation.navigate('Faq', {});
                         break;
-                      case 'Logout':
+                      case LanguageSelector.t("morePremium.logout"):
                         this.props.logout({ type: 'SignOut', payload: {} });
+                        break;
+                      case LanguageSelector.t("morePremium.language"):
+                        this.props.navigation.navigate('Language', {});
                         break;
                       default:
                         this.props.navigation.navigate('ComingSoon', {});

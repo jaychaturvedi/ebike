@@ -11,6 +11,7 @@ import ServiceDetails from '../screens/menu/serviceDetails'
 import FAQPremium from '../screens/menu/faq-premium';
 import FAQ from '../screens/menu/faq';
 import ComingSoon from '../screens/common/coming-soon';
+import Language from '../screens/menu/language';
 
 /**
  * All props definiton goes here
@@ -33,7 +34,8 @@ export type MenuStackParamList = {
             Answer: string
         }[]
     },
-    ComingSoon: {}
+    ComingSoon: {},
+    Language: {}
 }
 
 const Menu = createStackNavigator<MenuStackParamList>();
@@ -56,6 +58,7 @@ export default function MenuStack() {
             <Menu.Screen name="ReportIssue" component={ReportIssue} />
             <Menu.Screen name="Faq" component={FAQ} />
             <Menu.Screen name="FaqPremium" component={FAQPremium} />
+            <Menu.Screen name="Language" component={Language} />
             <Menu.Screen name="ComingSoon" component={ComingSoon} />
         </Menu.Navigator>
     );

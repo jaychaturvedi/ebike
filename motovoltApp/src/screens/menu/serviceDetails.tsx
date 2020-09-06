@@ -9,6 +9,7 @@ import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
+import LanguageSelector from '../../translations';
 
 type ReduxState = {
   services: TStore['services'];
@@ -77,7 +78,7 @@ class ServiceDetails extends React.PureComponent<Props, {}> {
       <View style={{ width: '100%', height: '100%' }}>
         <Header
           backgroundColor={Colors.HEADER_YELLOW}
-          title={'Service'}
+          title={LanguageSelector.t("support.service")}
           hasBackButton
           onBackClick={() => this.props.navigation.goBack()}
         />
@@ -97,19 +98,19 @@ class ServiceDetails extends React.PureComponent<Props, {}> {
                 title={this.props.services.services[key].title}
                 data={[
                   {
-                    key: 'Cycle ID:',
+                    key: `${LanguageSelector.t("support.cycleId")}:`,
                     value: this.props.bike.id,
                   },
                   {
-                    key: 'Service ID:',
+                    key: `${LanguageSelector.t("support.serviceId")}:`,
                     value: this.props.services.services[key].id,
                   },
                   {
-                    key: 'Time:',
+                    key: `${LanguageSelector.t("support.time")}:`,
                     value: this.props.services.services[key].openDate,
                   },
                   {
-                    key: 'Status:',
+                    key: `${LanguageSelector.t("support.status")}:`,
                     value: this.props.services.services[key].isOpen ? "Open" : "Closed",
                   },
                 ]}

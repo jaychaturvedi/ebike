@@ -1,9 +1,11 @@
-import Store, { TStore, ZeroOnboarding, ZeroRide } from "./store";
+import Store, { TStore, ZeroOnboarding, ZeroRide, getZeroState } from "./store";
 import Action from "./actions/store";
 
 export default (store: TStore = Store, params: Action): TStore => {
     console.log("Received", JSON.stringify(params), store)
     switch (params.type) {
+        case "Store_Reset":
+            return getZeroState();
         case "Store_UpdateBle":
             return {
                 ...store,

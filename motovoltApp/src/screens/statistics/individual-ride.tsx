@@ -13,6 +13,7 @@ import { StatisticsStackParamList } from '../../navigation/statistics';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import Map from '../../components/map';
+import LanguageSelector from '../../translations';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -36,7 +37,7 @@ class IndividualRide extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <Header
           hasBackButton
-          title={'My Rides'}
+          title={LanguageSelector.t("myRides.myRides")}
           backgroundColor={Colors.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
@@ -68,13 +69,13 @@ class IndividualRide extends React.PureComponent<Props, State> {
               ref="mySwiper">
               <View style={styles.slide}>
                 <TipCard
-                  header="Tip to improve ride"
+                  header={LanguageSelector.t("myRides.tipToImproveRide")}
                   tip="Lorem ipsum dolor sit amet, consetetur sadip scing elitr, sed diam nonumy eirmod tempor invidunt ut"
                 />
               </View>
               <View style={styles.slide}>
                 <TipCard
-                  header="Tip to improve ride"
+                  header={LanguageSelector.t("myRides.tipToImproveRide")}
                   tip="Lorem ipsum dolor sit amet, consetetur sadip scing elitr, sed diam nonumy eirmod tempor invidunt ut"
                 />
               </View>
@@ -82,8 +83,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
           </View>
           <View style={styles.metrics}>
             <RideMetric
-              header1="Distance"
-              header2="Duration"
+              header1={LanguageSelector.t("myRides.distance")}
+              header2={LanguageSelector.t("myRides.duration")}
               icon1={require('../../assets/icons/total_distance_icon.png')}
               icon2={require('../../assets/icons/charge_time_remaining.png')}
               value1={this.props.ride.totalDistanceKm.toString()}
@@ -92,8 +93,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               unit2=""
             />
             <RideMetric
-              header1="Avg. speed"
-              header2="Max. speed"
+              header1={LanguageSelector.t("myRides.avgSpeed")}
+              header2={LanguageSelector.t("myRides.maxSpeed")}
               icon1={require('../../assets/icons/average_speed_icon.png')}
               icon2={require('../../assets/icons/max_speed_icon.png')}
               value1={this.props.ride.avgSpeedKmph.toString()}
@@ -102,8 +103,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               unit2="Kmph"
             />
             <RideMetric
-              header1="Green Miles"
-              header2="Calories Burnt"
+              header1={LanguageSelector.t("myRides.greenMiles")}
+              header2={LanguageSelector.t("myRides.caloriesBurnt")}
               icon1={require('../../assets/icons/green_miles_icon.png')}
               icon2={require('../../assets/icons/calories_icon_blue.png')}
               value1={this.props.ride.greenMilesKm.toString()}
@@ -112,8 +113,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               unit2=""
             />
             <RideMetric
-              header1="Petrol Savings"
-              header2="Ride Score"
+              header1={LanguageSelector.t("myRides.petrolSavings")}
+              header2={LanguageSelector.t("myRides.rideScore")}
               icon1={require('../../assets/icons/inr_icon.png')}
               icon2={require('../../assets/icons/star_icon_large.png')}
               value1={this.props.ride.petrolSavingsInr.toString()}

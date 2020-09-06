@@ -6,16 +6,19 @@ import {AppRegistry} from 'react-native';
 import App from './App';
 import React from 'react';
 import {Provider} from 'react-redux';
-import {store} from './src/service';
+import {store, persistor} from './src/service';
 import {NavigationContainer} from '@react-navigation/native';
 import {name as appName} from './app.json';
+import {PersistGate} from 'redux-persist/integration/react';
 
 function MotovoltApp() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <App />
-      </NavigationContainer>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <App />
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 }

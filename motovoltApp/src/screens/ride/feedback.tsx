@@ -4,6 +4,7 @@ import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import Button from '../../components/cta-button';
 import CheckBox from '../../components/checkbox';
 import { Textarea } from 'native-base';
+import LanguageSelector from '../../translations';
 
 type Props = {
   showFeedback: boolean;
@@ -38,7 +39,7 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
                   fontSize: moderateScale(16),
                   paddingBottom: moderateScale(10),
                 }}>
-                What went wrong?
+                {LanguageSelector.t("feedback.whatWentWrong")}
               </Text>
               <CheckBox
                 option1="Battery Issue"
@@ -55,7 +56,7 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
                   underline
                   rowSpan={4}
                   bordered
-                  placeholder="Please describe your concern ..."
+                  placeholder={LanguageSelector.t("feedback.placeholder")}
                   style={{
                     borderRadius: moderateScale(10),
                     backgroundColor: '#F8F8FC',
@@ -74,7 +75,7 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
           <Button
             fullWidth
             textColor={!this.props.submitDisabled ? 'white' : '#333333'}
-            text="SUBMIT"
+            text={LanguageSelector.t("rateYourRide.submit")}
             backgroundColor={!this.props.submitDisabled ? '#142F6A' : '#B7B7B7'}
             onPress={() => {
               if (!this.props.submitDisabled) {

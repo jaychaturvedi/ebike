@@ -5,7 +5,7 @@ import {
 } from "redux-saga/effects";
 import * as Authentication from "../../authentication";
 import * as AuthenticationActions from "../actions/saga/authentication-actions";
-import { Store_UpdateOnboarding, Store_UpdateUser } from "../actions/store";
+import { Store_UpdateOnboarding, Store_UpdateUser, Store_Reset } from "../actions/store";
 
 
 //Onboarding
@@ -62,11 +62,9 @@ export function* confirmSignUp(params: AuthenticationActions.ConfirmSignUp) {
 export function* signOut(params: AuthenticationActions.SignOut) {
     yield call(Authentication.signout)
     yield put({
-        type: 'Store_UpdateUser',
-        payload: {
-            isLoggedIn: false
-        }
-    } as Store_UpdateUser)
+        type: 'Store_Reset',
+        payload: {}
+    } as Store_Reset)
 }
 
 export function* initForgotPassword(params: AuthenticationActions.InitiateForgotPassword) {
