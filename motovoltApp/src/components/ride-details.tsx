@@ -49,14 +49,21 @@ export default class RideCard extends React.PureComponent<Props, State> {
                         } style={{ height: 16, aspectRatio: 1 }} /></View>
                         <Text style={styles.headerText}> {Moment(this.props.fromTime).format('HH:MM A')} - {Moment(this.props.toTime).format('HH:MM A')}</Text>
                     </View>
-                    <Text style={styles.destinationText} numberOfLines={1}>
-                        <Icon type="FontAwesome" name="circle" style={{ color: 'green', fontSize: 10 }}></Icon>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ paddingTop: moderateScale(2) }}>
+                            <Image source={require("../assets/icons/arrow.png")} />
+                        </View>
+                        <View>
+                            <Text style={styles.destinationText} numberOfLines={1}>
+                                {/* <Icon type="FontAwesome" name="circle" style={{ color: 'green', fontSize: 10 }}></Icon> */}
                     &nbsp;&nbsp;{this.props.fromAddress}
-                    </Text>
-                    <Text style={styles.destinationText} numberOfLines={1}>
-                        <Icon type="FontAwesome" name="circle" style={{ color: 'orange', fontSize: 10 }}></Icon>
+                            </Text>
+                            <Text style={styles.destinationText} numberOfLines={1}>
+                                {/* <Icon type="FontAwesome" name="circle" style={{ color: 'orange', fontSize: 10 }}></Icon> */}
                     &nbsp;&nbsp;{this.props.toAddress}
-                    </Text>
+                            </Text>
+                        </View>
+                    </View>
                     <View style={styles.footer}>
                         <Text style={styles.modeText}>{LanguageSelector.t("myRides.mode")} </Text>
                         <ProgressBar progress={this.props.progress} />

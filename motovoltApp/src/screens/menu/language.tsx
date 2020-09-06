@@ -2,12 +2,10 @@ import React from 'react';
 import { View, StyleSheet, Button, Text } from 'react-native';
 import Header from '../home/components/header/index';
 import Colors from '../../styles/colors';
-import { Picker } from 'native-base';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
 import LanguageSelector from '../../translations';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type MoreMenuNavigationProp = StackNavigationProp<
     MenuStackParamList,
