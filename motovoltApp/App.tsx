@@ -13,8 +13,6 @@ import Onboarding from './src/navigation/onboarding';
 import FooterNavigation from './src/navigation/footer';
 import Registration from './src/navigation/registration';
 
-import { StyleSheet } from 'react-native';
-
 import SplashScreen from 'react-native-splash-screen';
 import { fetchCredentials } from './src/service/secure-storage';
 
@@ -25,11 +23,10 @@ import { SignIn } from './src/service/redux/actions/saga';
 import { connect } from 'react-redux';
 import { Store_UpdateUser } from 'src/service/redux/actions/store';
 import { ReadUser } from 'src/service/redux/actions/saga/user';
-import FAQPremium from 'src/screens/menu/faq-premium';
+
 
 declare const global: { HermesInternal: null | {} };
 
-const styles = StyleSheet.create({});
 
 interface ReduxState {
   user: TStore['user'];
@@ -109,7 +106,8 @@ class App extends React.PureComponent<Props, State> {
     console.log('In app', this.props);
     if (this.props.user.isBikeRegistered && this.props.user.isLoggedIn)
       return <FooterNavigation />;
-    if (this.props.user.isLoggedIn !== true) return <Onboarding />;
+    if (this.props.user.isLoggedIn === true &&
+      !this.props.user.isBikeRegistered) return <Onboarding />;
     else return <Registration />;
   }
 }

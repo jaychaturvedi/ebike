@@ -15,6 +15,7 @@ import Background from '../../components/background'
 import moment from 'moment';
 import { Dispatch } from 'redux';
 import { ReadBikeStat } from '../../service/redux/actions/saga/bike-actions';
+import LanguageSelector from '../../translations'
 
 type ReduxState = {
   bike: TStore['bike'];
@@ -61,12 +62,11 @@ class MyCycle extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <Background />
         <Header
-          title={'My Cycle'}
+          title={LanguageSelector.t("myBike.myCycle")}
           hasSubtitle
           subtitle={this.props.bike.name}
           hasTabs
           backgroundColor={Colors.HEADER_YELLOW}
-          onBackClick={() => console.log('To be handled')}
         />
         <ScrollView style={{ paddingHorizontal: moderateScale(15), flex: 1 }}
           refreshControl={
@@ -92,8 +92,8 @@ class MyCycle extends React.PureComponent<Props, State> {
           </View>
           <View style={styles.metrics}>
             <RideMetric
-              header1="Health"
-              header2="Service Date"
+              header1={LanguageSelector.t("myBike.health")}
+              header2={LanguageSelector.t("myBike.serviceDate")}
               icon1={require('../../assets/icons/health_green.png')}
               icon2={require('../../assets/icons/calendar_green.png')}
               value1={`${this.props.bike.healthPer} %`}
@@ -102,8 +102,8 @@ class MyCycle extends React.PureComponent<Props, State> {
               unit2=""
             />
             <RideMetric
-              header1="Motor"
-              header2="Battery"
+              header1={LanguageSelector.t("myBike.motor")}
+              header2={LanguageSelector.t("myBike.battery")}
               icon1={require('../../assets/icons/motor_icon.png')}
               icon2={require('../../assets/icons/battery_green_icon.png')}
               value1={`${this.props.bike.motorPer} %`}
@@ -112,8 +112,8 @@ class MyCycle extends React.PureComponent<Props, State> {
               unit2=""
             />
             <VehicleInfo
-              header1="Vehicle ID"
-              header2="Battery ID"
+              header1={LanguageSelector.t("myBike.vechileId")}
+              header2={LanguageSelector.t("myBike.batteryId")}
               value1={[this.props.bike.id]}
               value2={Object.keys(this.props.bike.batteries)}
             />

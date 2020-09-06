@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ReadBikeLocation } from 'src/service/redux/actions/saga';
 import Moment from 'moment';
+import LanguageSelector from '../../translations';
 
 type HomeNavigationProp = StackNavigationProp<
   HomeStackParamList,
@@ -57,7 +58,7 @@ class GPSLui extends React.PureComponent<Props, State> {
     });
     return (
       <View style={styles.container}>
-        <Header title={'GPS'} hasBackButton backgroundColor={Colors.HEADER_YELLOW}
+        <Header title={LanguageSelector.t("gps.gps")} hasBackButton backgroundColor={Colors.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
         <View style={styles.mapView}>
@@ -77,7 +78,7 @@ class GPSLui extends React.PureComponent<Props, State> {
             </View>
             <View style={{ width: '60%' }}>
               {/* description */}
-              <Text style={{ fontSize: moderateScale(16) }}>Final Position</Text>
+              <Text style={{ fontSize: moderateScale(16) }}>{LanguageSelector.t("gps.finalPosition")}</Text>
               <Text
                 style={{
                   fontSize: moderateScale(12),
@@ -115,7 +116,7 @@ class GPSLui extends React.PureComponent<Props, State> {
                   source={require('../../assets/icons/refresh_icon.png')}
                 />
               </TouchableOpacity>
-              <Text style={{ fontSize: moderateScale(12) }}>Refresh</Text>
+              <Text style={{ fontSize: moderateScale(12) }}>{LanguageSelector.t("gps.refresh")}</Text>
             </View>
           </View>
           <View style={styles.footerAddress}>

@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 const objectid = require("react-native-bson/lib/bson/objectid");
 import { Dispatch } from 'redux';
 import { StartRide, EndRide, Speedometer } from '../../service/redux/actions/saga';
+import LanguageSelector from '../../translations';
 
 
 type ReduxState = {
@@ -169,12 +170,12 @@ class RideOn extends React.PureComponent<Props, State> {
               width: '100%',
             }}>
             <Card
-              title={'Avg. Speed'}
+              title={LanguageSelector.t("speedometer.avgSpeed")}
               value={this.props.speedometer.averageSpeed.toString()}
               unit={'Kmph'}
             />
             <Card
-              title={'Max Speed'}
+              title={LanguageSelector.t("speedometer.maxSpeed")}
               value={this.props.speedometer.maxSpeed.toString()}
               unit={'Kmph'}
             />
@@ -185,8 +186,8 @@ class RideOn extends React.PureComponent<Props, State> {
                 ...styles.flexAlignHorizontalCentre,
                 justifyContent: 'space-evenly',
               }}>
-              <Text style={{ ...styles.modeText, color: Colors.WARNING_RED }}>Power Mode</Text>
-              <Text style={styles.modeText}>Pedal Assist</Text>
+              <Text style={{ ...styles.modeText, color: Colors.WARNING_RED }}>{LanguageSelector.t("speedometer.powerMode")}</Text>
+              <Text style={styles.modeText}>{LanguageSelector.t("speedometer.pedalAssist")}</Text>
             </View>
           </View>
         </View>

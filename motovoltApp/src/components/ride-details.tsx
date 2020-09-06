@@ -6,6 +6,7 @@ import ProgressBar from './progress-bar'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import Moment from 'moment'
 import { TouchableOpacity } from "react-native-gesture-handler";
+import LanguageSelector from '../translations';
 
 type Props = {
     fromTime: Date,
@@ -57,7 +58,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
                     &nbsp;&nbsp;{this.props.toAddress}
                     </Text>
                     <View style={styles.footer}>
-                        <Text style={styles.modeText}> Mode </Text>
+                        <Text style={styles.modeText}>{LanguageSelector.t("myRides.mode")} </Text>
                         <ProgressBar progress={this.props.progress} />
                         <View style={styles.footerGroup}>
                             <Text style={{ fontSize: scale(12) }}>

@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ReadFAQ } from 'src/service/redux/actions/saga';
 import { ScrollView } from 'react-native-gesture-handler';
+import LanguageSelector from '../../translations';
 
 type FaqNavigationProp = StackNavigationProp<
     MenuStackParamList,
@@ -61,7 +62,7 @@ class FAQ extends React.PureComponent<Props, State> {
             <View style={styles.container}>
                 <Header
                     hasBackButton
-                    title={'FAQ'}
+                    title={LanguageSelector.t("morePremium.faqs")}
                     backgroundColor={Colors.HEADER_YELLOW}
                     onBackClick={() => this.props.navigation.goBack()}
                 />

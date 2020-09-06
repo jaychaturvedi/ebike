@@ -6,6 +6,7 @@ import Colors from '../../../../styles/colors';
 import Tab from './tab';
 import RNSwipeVerify from './swipe';
 import LockButton from './lock-button';
+import LanguageSelector from '../../../../translations';
 
 export type TFooterItem = 'home' | 'chart' | 'cycle' | 'menu';
 
@@ -94,8 +95,8 @@ export default class FooterNav extends React.PureComponent<Props, State> {
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ fontSize: 18, color: Colors.BLACK }}>
                   {this.state.lockedIcon
-                    ? 'Swipe to unlock '
-                    : 'Swipe to lock '}
+                    ? LanguageSelector.t("home.swipeToUnlock")
+                    : LanguageSelector.t("home.swipeToLock")}
                 </Text>
                 <Image
                   source={require('../../../../assets/icons/swipe_right_arrow.png')}

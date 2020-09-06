@@ -107,7 +107,6 @@ class PersonalDetails extends React.PureComponent<Props, State> {
 
   render() {
     const formDataValid =
-      this.state.isValidEmail &&
       this.state.email &&
       this.validateEmail(this.state.email) &&
       this.state.name &&
@@ -161,7 +160,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
               source={require('../../assets/images/cycle_with_headlight.png')}
               style={styles.image}
             />
-            <Text style={styles.title}>Please enter your details</Text>
+            {/* <Text style={styles.title}>Please enter your details</Text>
             <Input
               onChange={(text: string) => this.setState({ name: text })}
               placeHolder="Full Name*"
@@ -188,7 +187,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
               onChange={(text: string) => this.setState({ confirmPassword: text })}
               placeHolder="Re-enter your password*"
               marginVeritical={verticalScale(InputMarginVeritical)}
-              secure />
+              secure /> */}
           </View>
           <View style={styles.bottom}>
             <CTAButton

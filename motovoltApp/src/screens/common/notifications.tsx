@@ -9,6 +9,7 @@ import { Dispatch } from 'redux';
 import { StartRide, EndRide, Speedometer, ReadNotifications } from '../../service/redux/actions/saga';
 import { TStore } from 'src/service/redux/store';
 import { Store_UpdateNotification } from 'src/service/redux/actions/store';
+import LanguageSelector from '../../translations';
 
 interface ReduxState {
   updateNotifications: (params: Store_UpdateNotification) => void,
@@ -54,7 +55,7 @@ class Notifications extends React.PureComponent<Props, {}> {
           backgroundColor={Colors.HEADER_YELLOW}
           hasBackButton
           hasSubtitle
-          title={'Notifications'}
+          title={LanguageSelector.t("notifications")}
           subtitle={this.props.bike.name}
           onBackClick={() => {
             this.props.updateNotifications({
