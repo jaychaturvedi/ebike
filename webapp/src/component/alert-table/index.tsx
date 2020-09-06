@@ -113,11 +113,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     handleSort = (arr: any, sort: TSort) => {
         if (!sort.fieldName) { return arr }
         let sortedData = arr.sort((a: any, b: any) => {
-            console.log(sort.fieldName, arr, a[sort.fieldName], "Severity");
-
-            if (sort.fieldName === "Severity") {
-                return a[sort.fieldName].localeCompare(b[sort.fieldName])
-            }
+            console.log(sort.fieldName, arr, a[sort.fieldName], "Severity", b[sort.fieldName]);
             return a[sort.fieldName].localeCompare(b[sort.fieldName])
         });
         if (sort.direction == "descend") {
@@ -128,7 +124,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
     renderClass = () => {
         const { isAsc, isDesc } = this.state
-
         if (isAsc) {
             this.setState({
                 isAsc: !this.state.isAsc,
@@ -167,7 +162,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         })
         this.renderClass()
         this.setState({ sortingKey: "model", dataLoaded: false })
-
         console.log(this.state.classname);
     }
 
@@ -268,9 +262,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span>,
             },
             {
-                dataIndex: 'frameId', key: 'frameId',
-                // sortDirections: ['descend', 'ascend'], headerSort: false,                
-                title: <span > Vehicle Id </span>
+                dataIndex: 'frameId', key: 'frameId', title: <span > Vehicle Id </span>
 
             },
             {

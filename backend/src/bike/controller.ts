@@ -23,9 +23,9 @@ export async function homeScreen(frameId: string,) {
   const { type } = myBike
   const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
     grnmls: greenMiles, costrcv: costRecovered } = bikeStat
-
   const { batchrgper: batteryCharge, rngcvr: rangeCovered,
     rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } = bikeLiveData
+  if (bikeLiveData.st || bikeStat.st || myBike.st) throw new BikeError("Please check valid frameId")
   return {
     co2sav, totalDistance, ratings, petrolSaved, type, greenMiles, costRecovered,
     batteryCharge, rangeCovered, rangeAvailable, ignition, locked, promotion, notification
@@ -41,6 +41,15 @@ export async function verifyFrame(uid: string, frameId: string) {
   return {
     uid, frameId, model, type, serviceDate, batteryChargePer, batteries: [{ id: batteryId }]
   };
+}
+
+export async function getRideHistory(frameId: string, startTime: string, endTime: string, pageNo: number, pageSize: number) {
+  const history = await ConnectmApi.getRideHistory(frameId, startTime as string,
+    endTime as string, pageNo as number, pageSize as number)
+  const graphData = await ConnectmApi.getRideHistoryStat(frameId, startTime as string,
+    endTime as string, pageNo as number, pageSize as number)
+  if (!history[0].fid || !graphData[0].fid) throw new BikeError("please check time and frameId");
+  return { history, graphData }
 }
 
 export async function paginate(pageNumber: number, pageSize: number, condition: any) {

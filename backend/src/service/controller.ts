@@ -22,5 +22,6 @@ export async function paginate(pageNumber: number, pageSize: number, condition: 
         paginate = pagination(pageNumber, pageSize);
     }
     const issues = await Issues.paginate(paginate, condition)
+    if (!issues) throw new IssuesError("Unable to find data")
     return issues
 }

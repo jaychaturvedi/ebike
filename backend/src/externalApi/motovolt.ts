@@ -118,7 +118,7 @@ export default class ConnectmApi {
             pageSize,
             pageNo,
         })
-        const fetchedData: TNotification = await post(options)
+        const fetchedData: TNotification[] = await post(options)
         return fetchedData
     }
 
