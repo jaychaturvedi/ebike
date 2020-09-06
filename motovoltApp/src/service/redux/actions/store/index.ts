@@ -227,6 +227,11 @@ export type Store_SetUpgrades = {
     }
 }
 
+export type Store_Reset = {
+    type: "Store_Reset",
+    payload: {}
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -240,6 +245,7 @@ type Action = Store_UpdateUser
     | Store_SetFAQ
     | Store_SetUpgrades
     | Store_ResetReportIssue
-    | Store_SetServices;
+    | Store_SetServices
+    | Store_Reset;
 
 export default Action;

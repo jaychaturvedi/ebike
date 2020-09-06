@@ -260,7 +260,7 @@ export type TStore = {
     upgrades: TUpgrades
 }
 
-export default {
+const ZeroState = {
     onboarding: ZeroOnboarding,
     user: ZeroUser,
     bike: ZeroBike,
@@ -277,4 +277,10 @@ export default {
     ble: ZeroBLE,
     faq: {},
     upgrades: { upgrades: [] }
-} as TStore
+};
+
+export function getZeroState() {
+    return JSON.parse(JSON.stringify(ZeroState))
+}
+
+export default getZeroState() as TStore
