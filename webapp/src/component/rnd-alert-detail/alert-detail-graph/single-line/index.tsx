@@ -159,8 +159,8 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 endIndex={0} />
                             {!this.props.alertCleared ?
                                 <Line name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
-                                    stroke={this.props.line1StrokeColor} strokeWidth={3}
-                                    dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} />
+                                    stroke={this.props.line1StrokeColor} strokeWidth={3} isAnimationActive={true}
+                                    dot={<CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} />} />
                                 : ''}
                         </LineChart>
                     </ResponsiveContainer>
