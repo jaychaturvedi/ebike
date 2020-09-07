@@ -85,7 +85,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
                     alertCleared={this.props.alertCleared} alertDate={this.props.alertDate}
                     bar1Key="activeTime" bar2Key="idleTime"
                     bar1Name="Active Time" bar2Name="Idle Time"
-                    bar1StrokeColor="#4888ff" bar2StrokeColor="#5A5BA0" L1={false} />
+                    bar1StrokeColor="#8599FE" bar2StrokeColor="#5A5BA0" L1={false} />
             }
             case 3: {
                 return <DoubleLineGraph dataKey="timeDate" data={this.state.data}
