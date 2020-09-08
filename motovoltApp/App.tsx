@@ -98,14 +98,9 @@ class App extends React.PureComponent<Props, State> {
 
   render() {
     console.log('In app', this.props);
-    if (this.props.user.isBikeRegistered && this.props.user.isLoggedIn)
-      return <FooterNavigation />;
-    if (
-      this.props.user.isLoggedIn === true &&
-      !this.props.user.isBikeRegistered
-    )
-      return <Onboarding />;
-    else return <Registration />;
+    if (!this.props.user.isLoggedIn) return <Onboarding />;
+    if (this.props.user.isBikeRegistered) return <FooterNavigation />;
+    return <Registration />;
   }
 }
 

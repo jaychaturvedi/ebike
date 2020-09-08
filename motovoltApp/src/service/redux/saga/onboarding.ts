@@ -6,6 +6,7 @@ import {
 import * as Authentication from "../../authentication";
 import * as AuthenticationActions from "../actions/saga/authentication-actions";
 import { Store_UpdateOnboarding, Store_UpdateUser, Store_Reset } from "../actions/store";
+import { ReadUser } from "../actions/saga/user";
 
 
 //Onboarding
@@ -25,6 +26,10 @@ export function* signIn(params: AuthenticationActions.SignIn) {
             errorMessage: response.success ? "" : response.message,
         }
     } as Store_UpdateOnboarding);
+    yield put({
+        type: "ReadUser",
+        payload: {}
+    } as ReadUser)
 }
 
 export function* signUp(params: AuthenticationActions.SignUp) {

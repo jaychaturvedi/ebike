@@ -194,7 +194,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
                       case LanguageSelector.t("morePremium.faqs"):
                         this.props.navigation.navigate('Faq', {});
                         break;
-                      case LanguageSelector.t("morePremium.logout"):
+                      case LanguageSelector.t("morePremium.logOut"):
                         this.props.logout({ type: 'SignOut', payload: {} });
                         break;
                       case LanguageSelector.t("morePremium.language"):
