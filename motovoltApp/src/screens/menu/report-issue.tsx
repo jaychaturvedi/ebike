@@ -16,6 +16,7 @@ import { ReportIssue as Report } from '../../service/redux/actions/saga/service-
 import ThumbsUp from '../../components/thumb-up';
 import { Store_ResetReportIssue } from 'src/service/redux/actions/store';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type ReportISsueNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -47,6 +48,7 @@ class ReportIssue extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme //load theme context
     return this.props.bike.reportIssueSuccess === true ? (
       <ThumbsUp
         msg="Success"
@@ -58,48 +60,50 @@ class ReportIssue extends React.PureComponent<Props, State> {
         }}
       />
     ) : (
-        <View style={styles.container}>
+        <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
           <Header
             hasBackButton
             title={LanguageSelector.t("support.reportAnIssue")}
             hasTabs
-            backgroundColor={Colors.HEADER_YELLOW}
+            backgroundColor={Theme.HEADER_YELLOW}
             onBackClick={() => this.props.navigation.goBack()}
           />
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: Theme.BACKGROUND }}>
             <View style={{ padding: moderateScale(15) }}>
-              <View style={styles.header}>
+              <View style={{ ...styles.header }}>
                 <ProfileInfoCard
                   style={styles.profileInfo}
                   data={[{ key: this.props.bike.name, value: '' }]}
                 />
               </View>
-              <View style={styles.info}>
-                <View style={styles.tile}>
-                  <Text style={{ fontSize: moderateScale(13) }}>{LanguageSelector.t("support.model")}</Text>
+              <View style={{ ...styles.info }}>
+                <View style={{ ...styles.tile, backgroundColor: Theme.BACKGROUND_LIGHT }}>
+                  <Text style={{ fontSize: moderateScale(13), color: Theme.TEXT_WHITE }}>{LanguageSelector.t("support.model")}</Text>
                   <Text
                     style={{
                       fontSize: moderateScale(16),
                       fontWeight: 'bold',
                       lineHeight: moderateScale(40),
+                      color: Theme.TEXT_WHITE
                     }}>
                     {this.props.bike.modal}
                   </Text>
                 </View>
-                <View style={styles.tile}>
-                  <Text style={{ fontSize: moderateScale(13) }}>{LanguageSelector.t("support.vehicleId")}</Text>
+                <View style={{ ...styles.tile, backgroundColor: Theme.BACKGROUND_LIGHT }}>
+                  <Text style={{ fontSize: moderateScale(13), color: Theme.TEXT_WHITE }}>{LanguageSelector.t("support.vehicleId")}</Text>
                   <Text
                     style={{
-                      fontSize: moderateScale(16),
+                      fontSize: moderateScale(12),
                       fontWeight: 'bold',
                       lineHeight: moderateScale(40),
+                      color: Theme.TEXT_WHITE
                     }}>
                     {this.props.user.defaultBikeId}
                   </Text>
                 </View>
               </View>
               <View style={styles.textInput}>
-                <Text style={{ fontSize: moderateScale(14), fontWeight: 'bold' }}>
+                <Text style={{ fontSize: moderateScale(14), fontWeight: 'bold', color: Theme.TEXT_WHITE }}>
                   {LanguageSelector.t("support.comments")}
                 </Text>
                 <Textarea
@@ -135,6 +139,8 @@ class ReportIssue extends React.PureComponent<Props, State> {
       );
   }
 }
+
+ReportIssue.contextType = ThemeContext
 
 export default connect(
   (store: TStore) => {

@@ -16,7 +16,7 @@ import moment from 'moment';
 import { Dispatch } from 'redux';
 import { ReadBikeStat } from '../../service/redux/actions/saga/bike-actions';
 import LanguageSelector from '../../translations'
-
+import { ThemeContext } from '../../styles/theme/theme-context'
 type ReduxState = {
   bike: TStore['bike'];
   readBikeStat: (params: ReadBikeStat) => void
@@ -58,6 +58,7 @@ class MyCycle extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme //load theme context
     return (
       <View style={styles.container}>
         <Background />
@@ -85,8 +86,11 @@ class MyCycle extends React.PureComponent<Props, State> {
               width={scale(300)}
             />
           </View>
-          <View style={styles.cycleName}>
-            <Text style={{ fontSize: scale(16), fontWeight: 'bold' }} numberOfLines={1}>
+          <View style={{
+            ...styles.cycleName, backgroundColor: Theme.BACKGROUND_LIGHT,//change dark theme
+
+          }}>
+            <Text style={{ fontSize: scale(16), fontWeight: 'bold', color: Theme.TEXT_WHITE }} numberOfLines={1}>
               {this.props.bike.name}
             </Text>
           </View>
@@ -123,6 +127,8 @@ class MyCycle extends React.PureComponent<Props, State> {
     );
   }
 }
+
+MyCycle.contextType = ThemeContext
 
 export default connect((store: TStore) => {
   return {

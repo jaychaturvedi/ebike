@@ -75,8 +75,8 @@ export default function ProfileInfo(props: Props) {
         ...(props.style || {}),
       }}>
       {props.hasTitle && (
-        <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-          <View style={{flexDirection: 'row'}}>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row' }}>
             <Text style={styles.title}>{props.title}</Text>
             <TouchableOpacity onPress={() => console.log('Pencil pressed')}>
               <Image

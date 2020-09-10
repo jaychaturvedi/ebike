@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native'
 import { moderateScale, scale } from 'react-native-size-matters'
+import { ThemeContext } from '../styles/theme/theme-context';
 
 type Props = {
     icon: any,
@@ -14,8 +15,11 @@ type State = {}
 
 export default class Feature extends React.PureComponent<Props, State>{
     render() {
+        let Theme = this.context.theme; //load theme 
         return (
-            <TouchableOpacity style={{ ...styles.container }}
+            <TouchableOpacity style={{
+                ...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT //change dark theme
+            }}
                 onPress={this.props.onPress}
             >
                 <View style={styles.premium}>
@@ -27,12 +31,14 @@ export default class Feature extends React.PureComponent<Props, State>{
                     <Image source={this.props.icon} />
                 </View>
                 <View style={styles.name}>
-                    <Text numberOfLines={1}>{this.props.feature}</Text>
+                    <Text numberOfLines={1} style={{ color: Theme.TEXT_WHITE }}>{this.props.feature}</Text>
                 </View>
             </TouchableOpacity>
         )
     }
 }
+
+Feature.contextType = ThemeContext //load theme context
 
 const styles = StyleSheet.create({
     container: {

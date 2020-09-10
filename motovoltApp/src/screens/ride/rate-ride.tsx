@@ -17,6 +17,7 @@ import { SubmitRide } from 'src/service/redux/actions/saga';
 import { Dispatch } from 'redux';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context'
 
 
 type ReduxState = {
@@ -50,6 +51,7 @@ class RateRide extends React.PureComponent<Props, State> {
     }
 
     render() {
+        let Theme = this.context.theme; //load theme in class
         if (this.state.showThumpUp) {
             return (
                 <ThumbsUp
@@ -65,7 +67,9 @@ class RateRide extends React.PureComponent<Props, State> {
                         this.setState({ showFeedback: false, problem: '', description: '' });
                     }
                 }}>
-                <View style={styles.container}>
+                <View style={{
+                    ...styles.container, backgroundColor: Theme.BACKGROUND,//change dark theme
+                }}>
                     <View style={styles.map}>
                         <Map location={[
                             // {
@@ -126,7 +130,7 @@ class RateRide extends React.PureComponent<Props, State> {
                     </View>
                     <View style={styles.rating}>
                         <View>
-                            <Text style={{ textAlign: 'center', fontSize: moderateScale(16) }}>
+                            <Text style={{ textAlign: 'center', fontSize: moderateScale(16), color: Theme.TEXT_WHITE }}>
                                 {LanguageSelector.t("rateYourRide.rateYourRide")}
                             </Text>
                         </View>
@@ -190,6 +194,7 @@ class RateRide extends React.PureComponent<Props, State> {
         );
     }
 }
+RateRide.contextType = ThemeContext
 
 export default connect(
     (store: TStore) => {

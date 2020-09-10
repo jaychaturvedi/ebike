@@ -35,7 +35,7 @@ function Card(props: CardProps) {
   return (
     <View
       style={{
-        backgroundColor: Colors.WHITE,
+        backgroundColor: "white",
         padding: scale(16),
         borderRadius: scale(8),
       }}>

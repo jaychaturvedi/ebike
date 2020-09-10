@@ -1,16 +1,24 @@
 import React from 'react'
 import { View, Text, Button, StyleSheet, Dimensions } from 'react-native'
+import { ThemeContext } from '../styles/theme/theme-context';
 
-export default () => {
-    return (
-        <View style={{ height: '100%', width: '100%', backgroundColor: '#F0F0F0', position: 'absolute' }}>
-            <View style={{ height: '45%', backgroundColor: '#FFC40F', justifyContent: 'center', alignItems: 'center' }}>
-                <View style={styles.triangle}>
-                </View>
-            </View >
-        </View>
-    )
+export default class Background extends React.Component {
+    render() {
+        let Theme = this.context.theme;
+        return (
+            <View style={{
+                height: '100%', width: '100%', backgroundColor: Theme.BACKGROUND, //change dark theme
+                position: 'absolute'
+            }}>
+                <View style={{ height: '45%', backgroundColor: '#FFC40F', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ ...styles.triangle, borderBottomColor: Theme.BACKGROUND }}>
+                    </View>
+                </View >
+            </View>
+        )
+    }
 }
+Background.contextType = ThemeContext//attach theme context in class as this.context
 
 const styles = StyleSheet.create({
     triangle: {

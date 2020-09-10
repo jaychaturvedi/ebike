@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import CheckBox from 'react-native-check-box'
 import { moderateScale } from 'react-native-size-matters'
+import { ThemeContext } from '../styles/theme/theme-context';
 
 type Props = {
     option1: string,
@@ -29,6 +30,7 @@ export default class Select extends React.PureComponent<Props, State>{
     }
 
     render() {
+        let Theme = this.context.theme; //load theme 
         return (
             <>
                 <CheckBox
@@ -44,6 +46,9 @@ export default class Select extends React.PureComponent<Props, State>{
                     }}
                     isChecked={this.state.option1}
                     rightText={this.props.option1}
+                    rightTextStyle={{ color: Theme.TEXT_WHITE }}
+                    checkBoxColor={Theme.TEXT_WHITE}
+
                 />
                 <CheckBox
                     style={styles.checkbox}
@@ -58,6 +63,8 @@ export default class Select extends React.PureComponent<Props, State>{
                     }}
                     isChecked={this.state.option2}
                     rightText={this.props.option2}
+                    rightTextStyle={{ color: Theme.TEXT_WHITE }}
+                    checkBoxColor={Theme.TEXT_WHITE}
                 />
                 <CheckBox
                     style={styles.checkbox}
@@ -72,6 +79,8 @@ export default class Select extends React.PureComponent<Props, State>{
                     }}
                     isChecked={this.state.option3}
                     rightText={this.props.option3}
+                    rightTextStyle={{ color: Theme.TEXT_WHITE }}
+                    checkBoxColor={Theme.TEXT_WHITE}
                 />
                 <CheckBox
                     style={styles.checkbox}
@@ -86,11 +95,15 @@ export default class Select extends React.PureComponent<Props, State>{
                     }}
                     isChecked={this.state.option4}
                     rightText={this.props.option4}
+                    rightTextStyle={{ color: Theme.TEXT_WHITE }}
+                    checkBoxColor={Theme.TEXT_WHITE}
                 />
             </>
         )
     }
 }
+
+Select.contextType = ThemeContext
 
 const styles = StyleSheet.create({
     checkbox: {

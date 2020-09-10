@@ -7,6 +7,7 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import Moment from 'moment'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LanguageSelector from '../translations';
+import { ThemeContext } from '../styles/theme/theme-context';
 
 type Props = {
     fromTime: Date,
@@ -36,9 +37,10 @@ export default class RideCard extends React.PureComponent<Props, State> {
     }
 
     render() {
+        let Theme = this.context.theme //load theme context
         return (
             //Make the below view as touchable opacity if the whole card is touchable
-            <TouchableOpacity style={styles.container}
+            <TouchableOpacity style={{ ...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT }}
                 onPress={() => this.props.onItemSelect()}
             >
                 <View style={styles.leftContainer}>
@@ -47,36 +49,36 @@ export default class RideCard extends React.PureComponent<Props, State> {
                             this.state.isMorning ? require('../assets/icons/sun_icon.png') :
                                 require('../assets/icons/moon_icon.png')
                         } style={{ height: 16, aspectRatio: 1 }} /></View>
-                        <Text style={styles.headerText}> {Moment(this.props.fromTime).format('HH:MM A')} - {Moment(this.props.toTime).format('HH:MM A')}</Text>
+                        <Text style={{ ...styles.headerText, color: Theme.TEXT_WHITE }}> {Moment(this.props.fromTime).format('HH:MM A')} - {Moment(this.props.toTime).format('HH:MM A')}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ paddingTop: moderateScale(2) }}>
                             <Image source={require("../assets/icons/arrow.png")} />
                         </View>
                         <View>
-                            <Text style={styles.destinationText} numberOfLines={1}>
+                            <Text style={{ ...styles.destinationText, color: Theme.TEXT_WHITE }} numberOfLines={1}>
                                 {/* <Icon type="FontAwesome" name="circle" style={{ color: 'green', fontSize: 10 }}></Icon> */}
                     &nbsp;&nbsp;{this.props.fromAddress}
                             </Text>
-                            <Text style={styles.destinationText} numberOfLines={1}>
+                            <Text style={{ ...styles.destinationText, color: Theme.TEXT_WHITE }} numberOfLines={1}>
                                 {/* <Icon type="FontAwesome" name="circle" style={{ color: 'orange', fontSize: 10 }}></Icon> */}
                     &nbsp;&nbsp;{this.props.toAddress}
                             </Text>
                         </View>
                     </View>
                     <View style={styles.footer}>
-                        <Text style={styles.modeText}>{LanguageSelector.t("myRides.mode")} </Text>
+                        <Text style={{ ...styles.modeText, color: Theme.TEXT_WHITE }}>{LanguageSelector.t("myRides.mode")} </Text>
                         <ProgressBar progress={this.props.progress} />
                         <View style={styles.footerGroup}>
-                            <Text style={{ fontSize: scale(12) }}>
+                            <Text style={{ fontSize: scale(12), color: Theme.TEXT_WHITE }}>
                                 <Image source={require('../assets/icons/total_distance_icon_small.png')} />
                                 &nbsp;{this.props.distance} KM
                             </Text>
-                            <Text style={{ fontSize: scale(12) }}>
+                            <Text style={{ fontSize: scale(12), color: Theme.TEXT_WHITE }}>
                                 <Image source={require('../assets/icons/total_distance_icon_small.png')} />
                                 &nbsp;{this.props.speed} Kmph
                             </Text>
-                            <Text style={{ fontSize: scale(12) }}>
+                            <Text style={{ fontSize: scale(12), color: Theme.TEXT_WHITE }}>
                                 <Image source={require('../assets/icons/star_icon.png')} />
                                  &nbsp;{this.props.rating}
                             </Text>
@@ -92,6 +94,8 @@ export default class RideCard extends React.PureComponent<Props, State> {
         );
     }
 }
+
+RideCard.contextType = ThemeContext
 
 const styles = StyleSheet.create({
     container: {

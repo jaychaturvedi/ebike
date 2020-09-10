@@ -29,6 +29,7 @@ import {
 } from '../../service/redux/actions/saga/rides';
 import Graph from './graph';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context'
 
 type ReduxState = {
   rides: TStore['rides'];
@@ -109,17 +110,18 @@ class MyRides extends React.PureComponent<Props, State> {
   };
 
   render() {
+    let Theme = this.context.theme //load theme context
     return (
       <View style={{ flex: 1 }}>
         <Header
           title={LanguageSelector.t("myRides.myRides")}
-          backgroundColor={Colors.HEADER_YELLOW}
+          backgroundColor={Theme.HEADER_YELLOW}
           subtitle={this.props.bike.name}
           hasSubtitle
           hasTabs
         />
         <ScrollView
-          style={styles.container}
+          style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -167,7 +169,7 @@ class MyRides extends React.PureComponent<Props, State> {
             value1={String(this.props.bike.co2SavingKg)}
             value2={String(this.props.bike.greenMilesKm)}
           />
-          <View style={styles.chart}>
+          <View style={{ ...styles.chart, backgroundColor: Theme.BACKGROUND_LIGHT }}>
             <View
               style={{
                 height: '10%',
@@ -179,6 +181,7 @@ class MyRides extends React.PureComponent<Props, State> {
                   textAlign: 'center',
                   fontWeight: 'bold',
                   fontSize: moderateScale(20),
+                  color: Theme.TEXT_WHITE
                 }}>
                 {this.props.graph.distance} km
               </Text>
@@ -190,10 +193,14 @@ class MyRides extends React.PureComponent<Props, State> {
                 justifyContent: 'space-around',
                 marginVertical: moderateScale(10),
               }}>
-              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
+              <Text style={{
+                textAlign: 'center', fontSize: moderateScale(12), color: Theme.TEXT_WHITE
+              }}>
                 {LanguageSelector.t("myRides.avgDistance")}&nbsp;{this.props.graph.avgKmph} km
               </Text>
-              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
+              <Text style={{
+                textAlign: 'center', fontSize: moderateScale(12), color: Theme.TEXT_WHITE
+              }}>
                 {LanguageSelector.t("myRides.avgSpeed")}&nbsp;{this.props.graph.avgSpeed} kmph
               </Text>
             </View>
@@ -210,7 +217,7 @@ class MyRides extends React.PureComponent<Props, State> {
               style={{
                 fontSize: scale(16),
                 fontWeight: 'bold',
-                color: '#212121',
+                color: Theme.TEXT_WHITE,
               }}>
               {LanguageSelector.t("myRides.yourRides")}
             </Text>
@@ -259,6 +266,7 @@ class MyRides extends React.PureComponent<Props, State> {
     );
   }
 }
+MyRides.contextType = ThemeContext
 
 export default connect(
   (store: TStore) => {

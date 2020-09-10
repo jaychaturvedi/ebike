@@ -10,6 +10,7 @@ import { MenuStackParamList } from '../../navigation/menu';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type SupportNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -57,14 +58,15 @@ class Support extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme //load theme context
     return (
-      <View style={styles.container}>
+      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
           hasBackButton
           title={LanguageSelector.t("morePremium.support")}
           hasSubtitle
           subtitle={this.props.bike.name}
-          backgroundColor={Colors.HEADER_YELLOW}
+          backgroundColor={Theme.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
         <View
@@ -74,7 +76,7 @@ class Support extends React.PureComponent<Props, State> {
             paddingVertical: moderateScale(20),
           }}>
           <View style={styles.header}>
-            <Text style={{ fontSize: moderateScale(16) }}>{LanguageSelector.t("morePremium.helpWithIssues")}</Text>
+            <Text style={{ fontSize: moderateScale(16), color: Theme.TEXT_WHITE }}>{LanguageSelector.t("morePremium.helpWithIssues")}</Text>
             <Text
               style={{
                 fontSize: moderateScale(13),
@@ -85,7 +87,7 @@ class Support extends React.PureComponent<Props, State> {
               View service
             </Text>
           </View>
-          <View style={styles.support}>
+          <View style={{ ...styles.support, backgroundColor: Theme.BACKGROUND }}>
             <Tile
               feature={LanguageSelector.t("morePremium.callUs")}
               icon={require('../../assets/icons/icons1.5x/call.png')}
@@ -125,6 +127,9 @@ class Support extends React.PureComponent<Props, State> {
     );
   }
 }
+
+Support.contextType = ThemeContext
+
 
 export default connect(
   (store: TStore) => {

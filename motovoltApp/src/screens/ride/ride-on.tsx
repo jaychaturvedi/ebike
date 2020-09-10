@@ -12,7 +12,7 @@ const objectid = require("react-native-bson/lib/bson/objectid");
 import { Dispatch } from 'redux';
 import { StartRide, EndRide, Speedometer } from '../../service/redux/actions/saga';
 import LanguageSelector from '../../translations';
-
+import { ThemeContext } from '../../styles/theme/theme-context'
 
 type ReduxState = {
   bike: TStore['bike'];
@@ -140,10 +140,11 @@ class RideOn extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme; //load theme in class
     return (
-      <View style={styles.container}>
+      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
-          backgroundColor={Colors.WHITE}
+          backgroundColor={Theme.HEADER_YELLOW} //change dark theme
           title={`Bike ${this.props.bike.isOn ? 'ON' : 'OFF'}`}
           hasTabs
         />
@@ -187,7 +188,9 @@ class RideOn extends React.PureComponent<Props, State> {
                 justifyContent: 'space-evenly',
               }}>
               <Text style={{ ...styles.modeText, color: Colors.WARNING_RED }}>{LanguageSelector.t("speedometer.powerMode")}</Text>
-              <Text style={styles.modeText}>{LanguageSelector.t("speedometer.pedalAssist")}</Text>
+              <Text style={{
+                ...styles.modeText, color: Theme.BORDER_GREY,
+              }}>{LanguageSelector.t("speedometer.pedalAssist")}</Text>
             </View>
           </View>
         </View>
@@ -195,6 +198,8 @@ class RideOn extends React.PureComponent<Props, State> {
     );
   }
 }
+
+RideOn.contextType = ThemeContext //load theme from theme context
 
 export default connect(
   (store: TStore) => {
