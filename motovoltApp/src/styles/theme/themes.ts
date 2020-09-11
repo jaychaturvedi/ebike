@@ -4,8 +4,8 @@ const themes = {
         WHITE: "#373D6D", //dark theme for ride,home screen tile
         BACKGROUND: "#292D53",
         BACKGROUND_LIGHT: "#373D6D",
-        BLACK: "rgba(51, 51, 51, 1)",
-        DARK_BLACK: "rgba(0, 0, 0, 1)",
+        BLACK: "lightgrey",//changes cycleId... label in serviceDetails card
+        DARK_BLACK: "white",
         BORDER_GREY: "grey",//changes ride on timeElasped, totalDistance, avgspeed,maxspeed, pedalAssisst, and ticks
         BG_GREY: "rgba(240, 240, 240, 1)",
         DISABLED_GREY: "rgba(183, 183, 183, 1)",
@@ -19,7 +19,8 @@ const themes = {
         LOCK_PINK: "rgba(188, 32, 116, 1)",
         HEADER_YELLOW: "#292D53",
         TEXT_WHITE: "white",
-        TEXT_BLACK: "black"
+        TEXT_BLACK: "black",
+        TEXT_GREY: "lightgrey"
     },
     light: {
         NAVY_BLUE: "rgba(20, 47, 106, 1)",
@@ -41,6 +42,9 @@ const themes = {
         LOCK_PINK: "rgba(188, 32, 116, 1)",
         HEADER_YELLOW: "rgba(255, 196, 15, 1)",
         TEXT_WHITE: "black",
+        TEXT_BLACK: "white",
+        TEXT_GREY: "rgba(51, 51, 51, 1)"
+
     }
 
 };

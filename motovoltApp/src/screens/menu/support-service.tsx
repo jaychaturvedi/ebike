@@ -15,6 +15,7 @@ import { Dispatch } from 'redux';
 import { ReadService } from '../../service/redux/actions/saga/service-actions'
 import { ScrollView } from 'react-native-gesture-handler';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type SupportServiceNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -63,6 +64,7 @@ class SupportService extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme //load theme context
     return (
       <View style={styles.container}>
         <Header
@@ -71,7 +73,7 @@ class SupportService extends React.PureComponent<Props, State> {
           subtitle={this.props.bike.name}
           hasTabs
           onBackClick={() => this.props.navigation.goBack()}
-          backgroundColor={Colors.HEADER_YELLOW}
+          backgroundColor={Theme.HEADER_YELLOW}
         />
         <Tabs
           data={[
@@ -146,6 +148,8 @@ class SupportService extends React.PureComponent<Props, State> {
     );
   }
 }
+
+SupportService.contextType = ThemeContext
 
 export default connect(
   (store: TStore) => {
