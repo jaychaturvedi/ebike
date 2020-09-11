@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 const objectid = require("react-native-bson/lib/bson/objectid");
 import { Dispatch } from 'redux';
 import { Store_UpdateNotification } from 'src/service/redux/actions/store';
-
+import { ThemeContext } from '../../../../styles/theme/theme-context'
 interface ReduxState {
   notifications: TStore['notifications']
   bike: TStore['bike']
@@ -38,6 +38,7 @@ interface Props extends ReduxState {
 
 class CHeader extends React.PureComponent<Props, {}> {
   render() {
+    let Theme = this.context.theme //load theme context
     return (
       <Header
         style={{
@@ -58,9 +59,13 @@ class CHeader extends React.PureComponent<Props, {}> {
               </TouchableOpacity>
             )}
             <View style={{ alignItems: 'flex-start' }}>
-              <Title style={styles.title}>{this.props.title}</Title>
+              <Title style={{
+                ...styles.title, color: Theme.TEXT_WHITE //change theme
+              }}>{this.props.title}</Title>
               {this.props.hasSubtitle && (
-                <Subtitle style={styles.subtitle}>
+                <Subtitle style={{
+                  ...styles.subtitle, color: Theme.TEXT_WHITE //change theme
+                }}>
                   {this.props.subtitle}
                 </Subtitle>
               )}
@@ -111,6 +116,7 @@ class CHeader extends React.PureComponent<Props, {}> {
     );
   }
 }
+CHeader.contextType = ThemeContext
 
 export default connect(
   (store: TStore) => {

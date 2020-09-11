@@ -1,6 +1,7 @@
 import React from 'react';
-import {Button, Icon, View} from 'native-base';
-import {StyleSheet} from 'react-native';
+import { Button, Icon, View } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { ThemeContext } from '../../../../styles/theme/theme-context';
 
 type Props = {
   visible: boolean;
@@ -21,26 +22,31 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 });
-
-export default function FooterItem(props: Props) {
-  return (
-    <View style={styles.container}>
-      {props.visible && (
-        <View
+export default class FooterItem extends React.Component<Props, {}> {
+  render() {
+    let props = this.props
+    let Theme = this.context.theme //load 
+    return (
+      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
+        {props.visible && (
+          <View
+            style={{
+              ...styles.topBorder,
+              backgroundColor: props.selected ? Theme.TEXT_WHITE : Theme.TEXT_BLACK,
+            }}
+          />
+        )}
+        <Button
           style={{
-            ...styles.topBorder,
-            backgroundColor: props.selected ? '#000' : '#fff',
+            backgroundColor: Theme.BACKGROUND,
+            elevation: 0,
           }}
-        />
-      )}
-      <Button
-        style={{
-          backgroundColor: '#fff',
-          elevation: 0,
-        }}
-        onPress={props.onPress}>
-        {props.visible && props.icon}
-      </Button>
-    </View>
-  );
+          onPress={props.onPress}>
+          {props.visible && props.icon}
+        </Button>
+      </View>
+    );
+  }
 }
+
+FooterItem.contextType = ThemeContext

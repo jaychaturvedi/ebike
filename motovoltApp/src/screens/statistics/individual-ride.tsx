@@ -14,6 +14,7 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context'
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -33,8 +34,9 @@ type State = {};
 
 class IndividualRide extends React.PureComponent<Props, State> {
   render() {
+    let Theme = this.context.theme as any
     return (
-      <View style={styles.container}>
+      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
           hasBackButton
           title={LanguageSelector.t("myRides.myRides")}
@@ -128,6 +130,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
     );
   }
 }
+
+IndividualRide.contextType = ThemeContext
 
 export default connect(
   (store: TStore): ReduxState => {

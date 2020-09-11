@@ -14,7 +14,6 @@ import upgrade from '../../components/upgrade-premium';
 import Upgrade from '../../components/upgrade-premium';
 import Feature from '../../components/feature';
 import Header from '../home/components/header/index';
-import Colors from '../../styles/colors';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
@@ -24,6 +23,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { SignOut } from '../../service/redux/actions/saga/authentication-actions';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -121,6 +121,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
+        {
+          feature: "Theme",
+          icon: require('../../assets/icons/promotions_icon.png'),
+          onPress: () => console.log('Theme pressed'),
+          premium: false,
+        },
       ]
     }
   }
@@ -128,9 +134,11 @@ class MoreMenu extends React.PureComponent<Props, State> {
 
 
   render() {
+    let Theme = this.context.theme; //load theme context
     return (
-      <View style={styles.container}>
-        <Header title={LanguageSelector.t("morePremium.more")} backgroundColor={Colors.HEADER_YELLOW} />
+      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
+        <Header title={LanguageSelector.t("morePremium.more")} backgroundColor={Theme.HEADER_YELLOW} //change dark Theme
+        />
         <View style={styles.profile}>
           <ProfileImage />
           <Text
@@ -139,6 +147,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
               fontWeight: 'bold',
               paddingTop: moderateScale(10),
               textAlign: 'center',
+              color: Theme.TEXT_WHITE
             }}>
             {this.props.user.name}&nbsp;
             <Text
@@ -154,9 +163,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
               />
             </Text>
           </Text>
-          <Text style={{ textAlign: 'center' }}>Classic Model-A</Text>
+          <Text style={{ textAlign: 'center', color: Theme.TEXT_WHITE }}>Classic Model-A</Text>
         </View>
-        <View style={styles.metric}>
+        <View style={{
+          ...styles.metric,
+          backgroundColor: Theme.BACKGROUND //change dark theme
+        }}>
           <RideMetric
             header1={LanguageSelector.t("morePremium.greenMiles")}
             header2={LanguageSelector.t("morePremium.calories")}
@@ -200,6 +212,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                       case LanguageSelector.t("morePremium.language"):
                         this.props.navigation.navigate('Language', {});
                         break;
+                      case "Theme":
+                        this.props.navigation.navigate('Theme', {});
+                        break;
                       default:
                         this.props.navigation.navigate('ComingSoon', {});
                         break;
@@ -215,7 +230,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
     );
   }
 }
-
+MoreMenu.contextType = ThemeContext //import theme in class as this.context
 
 export default connect(
   (store: TStore) => {

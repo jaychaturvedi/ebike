@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Colors from '../../../styles/colors';
+import { ThemeContext } from '../../../styles/theme/theme-context';
 
 const cardStyles = StyleSheet.create({
   title: {
@@ -23,15 +24,27 @@ type CardProps = {
   value: string;
   unit: string;
 };
+export default class Card extends React.Component<CardProps, {}> {
 
-export default function Card(props: CardProps) {
-  return (
-    <View style={{alignItems: 'flex-start'}}>
-      <Text style={cardStyles.title}>{props.title}</Text>
-      <Text>
-        <Text style={cardStyles.value}>{props.value}</Text>
-        <Text style={cardStyles.unit}>{` ${props.unit}`}</Text>
-      </Text>
-    </View>
-  );
+  render() {
+    let props = this.props
+    let Theme = this.context.theme; //load theme from context
+    return (
+      <View style={{ alignItems: 'flex-start' }}>
+        <Text style={{
+          ...cardStyles.title, color: Theme.BORDER_GREY,
+        }}>{props.title}</Text>
+        <Text>
+          <Text style={{
+            ...cardStyles.value, color: Theme.TEXT_WHITE, //change dark theme
+          }}>{props.value}</Text>
+          <Text style={{
+            ...cardStyles.unit, color: Theme.TEXT_WHITE //change dark theme
+          }}>{` ${props.unit}`}</Text>
+        </Text>
+      </View>
+    );
+  }
 }
+
+Card.contextType = ThemeContext

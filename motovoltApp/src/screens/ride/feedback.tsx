@@ -5,6 +5,7 @@ import Button from '../../components/cta-button';
 import CheckBox from '../../components/checkbox';
 import { Textarea } from 'native-base';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context'
 
 type Props = {
   showFeedback: boolean;
@@ -28,16 +29,18 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme; //load theme in class
     return (
       <View style={styles.container}>
         {this.props.showFeedback && (
           <View style={styles.reviews}>
-            <View style={styles.model}>
+            <View style={{...styles.model, backgroundColor:Theme.BACKGROUND}}>
               <Text
                 style={{
                   fontWeight: 'bold',
                   fontSize: moderateScale(16),
                   paddingBottom: moderateScale(10),
+                  color: Theme.TEXT_WHITE //change dark theme
                 }}>
                 {LanguageSelector.t("feedback.whatWentWrong")}
               </Text>
@@ -89,6 +92,8 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
     );
   }
 }
+
+RideFeedback.contextType=ThemeContext
 
 const styles = StyleSheet.create({
   container: {
