@@ -5,6 +5,7 @@ import WebHeader from "../header"
 import LeftPanel from "../left-panel"
 import { Route, withRouter, RouteComponentProps, Switch } from "react-router";
 import HomePage from "../rnd-home-page"
+import MisPage from "../rnd-mis-page"
 import User from "../user"
 import AlertDetail from "../rnd-alert-detail"
 import Battery from "../rnd-alert-detail/alert-detail-graph/cell-battery-graph"
@@ -19,8 +20,9 @@ class Content extends PureComponent<ContentProp, ContentState>{
                 <WebHeader />
                 <LeftPanel />
                 <Switch>
-                    <Route exact path="/" component={HomePage} />
-                    <Route exact path="/:alertType/:id" component={AlertDetail} />
+                    {/* <Route exact path="/" component={HomePage} />
+                    <Route exact path="/:alertType/:id" component={AlertDetail} /> */}
+                    <Route exact path="/" component={MisPage} />
                 </Switch>
             </Layout.Content>
         </>
