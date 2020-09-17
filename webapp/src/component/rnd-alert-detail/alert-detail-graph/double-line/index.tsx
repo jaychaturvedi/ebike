@@ -60,7 +60,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
 
     static getDerivedStateFromProps(props: DoubleLineGraphProps, state: DoubleLineGraphStates) {
         let data = state.data
-        if (props.data != undefined) {
+        if (props.data !== undefined) {
             data = props.data;
             state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
             state.L2Value = props.data.length > 0 && props.L1 ? data[0].L2 : 0;
@@ -92,7 +92,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         );
     }
     formatDate = (label: any) => {
-        return this.props.xAxisLabel == "Time"
+        return this.props.xAxisLabel === "Time"
             ? this.state.data[0]?.timeDate === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")

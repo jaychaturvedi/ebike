@@ -76,9 +76,9 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
     static getDerivedStateFromProps(props: AlertProps, state: AlertStates) {
         console.log(props.alerts.activeAlertTab, state.isAsc, state.isDesc)
-        if ((state.alertType != props.alerts.activeAlertTab)
-            || state.dataLoaded == false
-            || (state.filterField.value != props.alerts.filter.value)) {
+        if ((state.alertType !== props.alerts.activeAlertTab)
+            || state.dataLoaded === false
+            || (state.filterField.value !== props.alerts.filter.value)) {
             props.getAlerts(
                 {
                     type: "GET_ALERTS",
@@ -100,8 +100,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             state.alertType = props.alerts.activeAlertTab
             state.filterField = props.alerts.filter
         }
-        state.total = props.alerts.activeAlertTab == 'smart'
-            ? props.alerts.smartCount : props.alerts.activeAlertTab == 'bms'
+        state.total = props.alerts.activeAlertTab === 'smart'
+            ? props.alerts.smartCount : props.alerts.activeAlertTab === 'bms'
                 ? props.alerts.bmsCount : props.alerts.mcCount
         state.pageSize = props.alerts.pagination.pageSize
         state.current = props.alerts.pagination.pageNumber
@@ -116,7 +116,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             console.log(sort.fieldName, arr, a[sort.fieldName], "Severity", b[sort.fieldName]);
             return a[sort.fieldName].localeCompare(b[sort.fieldName])
         });
-        if (sort.direction == "descend") {
+        if (sort.direction === "descend") {
             return sortedData.reverse()
         }
         return sortedData
@@ -220,7 +220,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         const from = current * pageSize
         const last = Math.floor(total / pageSize)
         if (name === "next" && from < total) { this.setState({ current: ++current, dataLoaded: false }) }
-        if (name === "prev" && current != 1) { this.setState({ current: --current, dataLoaded: false }) }
+        if (name === "prev" && current !== 1) { this.setState({ current: --current, dataLoaded: false }) }
         if (name === "first") { this.setState({ current: 1, dataLoaded: false }) }
         if (name === "last") {
             (total % pageSize > 0) ? this.setState({ current: last + 1, dataLoaded: false }) : this.setState({ current: last, dataLoaded: false })

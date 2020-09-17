@@ -42,7 +42,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
 
     static getDerivedStateFromProps(props: StackedGraphProps, state: StackedGraphStates) {
         let data = state.data
-        if (props.data != undefined) {
+        if (props.data !== undefined) {
             data = props.data;
             state.L1Value = props.L1 ? props.data[0].L1 : 0;
             state.xAxisLabel = props.xAxisLabel;
@@ -74,7 +74,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     }
 
     formatDate = (label: any) => {
-        return this.props.xAxisLabel == "Days"
+        return this.props.xAxisLabel === "Days"
             ? this.state.data[0].timeDate === label
                 ? moment(`${label}`).format("DD MMM YYYY")
                 : moment(`${label}`).format("DD")

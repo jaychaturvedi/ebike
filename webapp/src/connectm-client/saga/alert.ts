@@ -58,13 +58,13 @@ export type TAlertsTableData = {
 export async function getAlerts(params: IAlertActions) {
     console.log("called saga");
     let response = [];
-    if (params.payload.filter.value != "") {
+    if (params.payload.filter.value !== "") {
         const request = await getFilteredAlertDetailsRequest(params);
         response = await Promise.all([getFilteredSmartAlert(request!), getFilteredBmsAlert(request!), getFilteredMcAlert(request!)])
     } else {
         response = await Promise.all([getSmartAlert(params), getBmsAlert(params), getMcAlert(params)])
     }
-    console.log("response", response)
+    console.log("response in get alerts", response)
     const data: TAlertsTableData = {
         smart: response[0],
         bms: response[1],
@@ -91,8 +91,8 @@ export function* updateAlertFilterChange(params: IAlertActions) {
 
 async function getFilteredAlertDetailsRequest(params: IAlertActions) {
     let request: FilterAlertRequest
-    if (params.payload.filter.fieldName == "model") {
-        const key = (params.payload.filter.value == "Classic" || params.payload.filter.value == "Cargo") ? "model" : "subModel"
+    if (params.payload.filter.fieldName === "model") {
+        const key = (params.payload.filter.value === "Classic" || params.payload.filter.value === "Cargo") ? "model" : "subModel"
         request = {
             [key]: params.payload.filter.value,
             alertType: params.payload.alertType,
@@ -101,11 +101,11 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         }
         return request;
     }
-    if (params.payload.filter.fieldName == "location") {
-        const key = (params.payload.filter.value == "North"
-            || params.payload.filter.value == "South"
-            || params.payload.filter.value == "East"
-            || params.payload.filter.value == "West") ? "location" : "subLocation"
+    if (params.payload.filter.fieldName === "location") {
+        const key = (params.payload.filter.value === "North"
+            || params.payload.filter.value === "South"
+            || params.payload.filter.value === "East"
+            || params.payload.filter.value === "West") ? "location" : "subLocation"
         request = {
             [key]: params.payload.filter.value,
             alertType: params.payload.alertType,
@@ -114,7 +114,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         }
         return request;
     }
-    if (params.payload.filter.fieldName == "timeFrame") {
+    if (params.payload.filter.fieldName === "timeFrame") {
         request = {
             timeFrame: params.payload.filter.value,
             alertType: params.payload.alertType,
@@ -123,7 +123,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         }
         return request;
     }
-    if (params.payload.filter.fieldName == "DateRange") {
+    if (params.payload.filter.fieldName === "DateRange") {
         const splitDate = params.payload.filter.value.split(" to ")
         const startDate = moment(splitDate[0].trim(), "DD/MM/YYYY").format("YYYY-MM-DD")
         const endDate = moment(splitDate[1].trim(), "DD/MM/YYYY").format("YYYY-MM-DD")
@@ -136,7 +136,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         }
         return request;
     }
-    if (params.payload.filter.fieldName == "search") {
+    if (params.payload.filter.fieldName === "search") {
         let key = "";
         const searchString = params.payload.filter.value
         const searchStringSub = searchString.slice(0, 3)

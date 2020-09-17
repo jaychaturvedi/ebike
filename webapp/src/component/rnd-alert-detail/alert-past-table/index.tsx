@@ -64,7 +64,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
 
     static getDerivedStateFromProps(props: AlertPastTableProps, state: AlertPastTableStates) {
         const alert = props.alerts[props.alertType][props.alertId]
-        if (props.alertId && (state.dataLoaded == false) && alert != undefined) {
+        if (props.alertId && (state.dataLoaded === false) && alert !== undefined) {
             props.getPastAlerts({
                 type: "GET_PAST_ALERTS",
                 payload: {
@@ -131,7 +131,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         const from = current * pageSize
         const last = Math.floor(total / pageSize)
         if (name === "next" && from < total) { this.setState({ current: ++current, dataLoaded: false }) }
-        if (name === "prev" && current != 1) { this.setState({ current: --current, dataLoaded: false }) }
+        if (name === "prev" && current !== 1) { this.setState({ current: --current, dataLoaded: false }) }
         if (name === "first") { this.setState({ current: 1, dataLoaded: false }) }
         if (name === "last") {
             (total % pageSize > 0) ? this.setState({ current: last + 1, dataLoaded: false }) : this.setState({ current: last, dataLoaded: false })
@@ -144,7 +144,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         let sortedData = arr.sort((a: any, b: any) => {
             return a['alertTime'].localeCompare(b['alertTime'])
         });
-        if (sort.direction == "descend") {
+        if (sort.direction === "descend") {
             return sortedData.reverse()
         }
         return sortedData
@@ -153,7 +153,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     /**Row Selection*/
     onRowClick = (record: any) => {
         let newDatas = this.state.data!.map(data => {
-            if (record.alertId == data.alertId) {
+            if (record.alertId === data.alertId) {
                 return {
                     ...data,
                     alertGraph: !data.alertGraph
@@ -164,7 +164,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                 alertGraph: false
             }
         })
-        const selectedRow = this.state.selectedRowId == record.alertId ? -1 : record.alertId
+        const selectedRow = this.state.selectedRowId === record.alertId ? -1 : record.alertId
         this.setState({
             data: newDatas,
             selectedRowId: selectedRow
@@ -190,9 +190,9 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         })
         let alertTypeId: number
         console.log("Got alert graph request")
-        if (this.props.alertName != undefined && this.state.selectedRowId === -1) {
+        if (this.props.alertName !== undefined && this.state.selectedRowId === -1) {
             alertTypeId = getAlertTypeId(this.props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
-            if (this.state.graphDataLoaded == false || alertTypeId != this.state.selectedRowId) {
+            if (this.state.graphDataLoaded === false || alertTypeId !== this.state.selectedRowId) {
                 this.props.getPastAlertGraph({
                     type: "GET_ALERT_GRAPH",
                     payload: {

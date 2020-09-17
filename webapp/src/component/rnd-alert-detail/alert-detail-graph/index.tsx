@@ -44,9 +44,9 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
     static getDerivedStateFromProps(props: AlertGraphProps, state: AlertGraphStates) {
         let alertTypeId: number
         console.log("Got alert graph request")
-        if (props.alertName != undefined) {
+        if (props.alertName !== undefined) {
             alertTypeId = getAlertTypeId(props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
-            if (state.dataLoaded == false || alertTypeId != state.alertTypeId) {
+            if (state.dataLoaded === false || alertTypeId !== state.alertTypeId) {
                 props.getAlertGraph({
                     type: "GET_ALERT_GRAPH",
                     payload: {
