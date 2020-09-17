@@ -122,7 +122,7 @@ class Home extends React.PureComponent<Props, State> {
                 Cycle A
               </Text>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{LanguageSelector.t("home.on")}{'\n'}</Text>
-              {this.props.bike.type === 'GPS' ? <TouchableOpacity
+              {this.props.bike.type === 'CELLULAR' ? <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('Gps', {})}
               ><Image
                 source={require('../../assets/icons/GPS_tracker.png')}></Image></TouchableOpacity> : null}

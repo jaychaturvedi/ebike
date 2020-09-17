@@ -19,6 +19,7 @@ import Toast from 'react-native-simple-toast';
 type ReduxState = {
   changePassword: (params: ChangePassword) => void;
   onboarding: TStore['onboarding'];
+  bike: TStore["bike"];
 };
 
 type PersonalDetailsNavigationProp = StackNavigationProp<
@@ -102,7 +103,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
     this.setState({ success: true });
     setTimeout(() => {
       this.props.navigation.navigate('TurnOnBluetooth', {});
-    }, 5000);
+    }, 1000);
   }
 
   render() {
@@ -222,6 +223,7 @@ export default connect(
   (store: TStore) => {
     return {
       onboarding: store['onboarding'],
+      bike: store["bike"],
     };
   },
   (dispatch: Dispatch) => {

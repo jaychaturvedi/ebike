@@ -170,7 +170,7 @@ class RateRide extends React.PureComponent<Props, State> {
                                         })
                                         setTimeout(() => {
                                             this.props.onComplete()
-                                        }, 2000);
+                                        }, 1000);
                                         this.setState({ showThumpUp: true });
                                     }
                                 }}

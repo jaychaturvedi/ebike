@@ -56,7 +56,7 @@ type TNotification = {
     body: string,
 }
 
-type TBike = {
+export type TBike = {
     isStale: boolean,
     id: string,
     modal: string,
@@ -67,7 +67,7 @@ type TBike = {
     serviceDate: string,
     motorPer: number,
     batteryPer: number,
-    type: null | "GPS" | "BLE",
+    type: null | "CELLULAR" | "BLE",
     co2SavingKg: number,
     totalDistanceKm: number,
     avgRideScore: number,
@@ -150,7 +150,7 @@ export const ZeroOnboarding: TOnboarding = {
     errorMessage: ""
 }
 
-const ZeroUser: TUser = {
+export const ZeroUser: TUser = {
     isStale: true,
     isLoggedIn: null,
     id: "",
@@ -186,7 +186,7 @@ export const ZeroRide: TRide = {
     endTime: "",
 }
 
-const ZeroBike: TBike = {
+export const ZeroBike: TBike = {
     isStale: true,
     id: "",
     modal: "",
@@ -217,13 +217,13 @@ const ZeroBike: TBike = {
     reportIssueSuccess: null
 }
 
-const ZeroBLE: TBLE = {
+export const ZeroBLE: TBLE = {
     scanning: false,
     state: "off",
     devices: [],
 }
 
-const ZeroSpeedometer: TSpeedometer = {
+export const ZeroSpeedometer: TSpeedometer = {
     rideId: '',
     averageSpeed: 0,
     batteryChargePer: 0,

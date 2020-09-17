@@ -59,7 +59,7 @@ export type Store_UpdateBike = {
         serviceDate?: string,
         motorPer?: number,
         batteryPer?: number,
-        type?: "GPS" | "BLE" | null,
+        type?: "CELLULAR" | "BLE" | null,
         batteries?: {
             [id: string]: {
                 id: string
@@ -232,6 +232,11 @@ export type Store_Reset = {
     payload: {}
 }
 
+export type Store_Init = {
+    type: "Store_Init",
+    payload: {}
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -246,6 +251,7 @@ type Action = Store_UpdateUser
     | Store_SetUpgrades
     | Store_ResetReportIssue
     | Store_SetServices
-    | Store_Reset;
+    | Store_Reset
+    | Store_Init;
 
 export default Action;
