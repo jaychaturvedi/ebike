@@ -1,42 +1,43 @@
-import FeedbackModel, { TFeedback} from "./model"
+import FeedbackModel, { TFeedback } from "./model"
 import { FeedbackError } from "../error"
 
 export default class Feedback {
 
-    static async findById(id: number) {
-        const feature = await FeedbackModel.findByPk(id)
-        if (!feature) throw new FeedbackError('Error while finding id'+id);
+    static async findById(rideId: string) {
+        const feature = await FeedbackModel.findOne({ where: { rideId } })
+        if (!feature) throw new FeedbackError('No data available');
         return feature
     }
 
     static async createNew(feature: TFeedback) {
         const newfeature = await FeedbackModel.create(feature)
-        if (!newfeature) throw new FeedbackError("Error while creating")
+        if (!newfeature) throw new FeedbackError("Feedback was not created")
         return newfeature;
     }
 
-    static async updateById(id :number,feature: TFeedback){
-        await Feedback.findById(id)
-        const [isUpdated, [result]] = await FeedbackModel.update(feature, 
-            { where: { id },             
-            returning : true
-        })
-        if (!isUpdated) throw new FeedbackError("Error while updating " + id)
+    static async updateById(rideId: string, feature: TFeedback) {
+        await Feedback.findById(rideId)
+        const [isUpdated, [result]] = await FeedbackModel.update(feature,
+            {
+                where: { rideId },
+                returning: true
+            })
+        if (!isUpdated) throw new FeedbackError("No data to update")
         return result;
 
     }
 
-    static async deleteById(id: number) {
+    static async deleteById(rideId: string) {
         const deleted = await FeedbackModel.destroy({
-            where: { id }
+            where: { rideId }
         });
-        if (!deleted) throw new FeedbackError("Error while deleting id "+id);
+        if (!deleted) throw new FeedbackError("Error while deleting data");
         return deleted
     }
 
     static async findAll() { // page limit skip
         const features = await FeedbackModel.findAll()
-        if (!features) throw new FeedbackError("Could not receive any data")
+        if (!features) throw new FeedbackError("Could not find any data")
         return features
     }
 

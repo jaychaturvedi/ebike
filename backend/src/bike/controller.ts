@@ -35,7 +35,7 @@ export async function homeScreen(frameId: string,) {
 export async function verifyFrame(uid: string, frameId: string) {
   const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
-    servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string)
+    servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string)//cross verify with mobile number
   if (!fid) throw new BikeError("frameId is not registered");
   const result = await Promise.all([Bike.createNew({ frameId, model, uid }), User.updateByUid(uid, { frameId })])
   return {

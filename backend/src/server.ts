@@ -9,6 +9,7 @@ import feedbackRoutes from "./feedback/routes";
 import ridesRoutes from "./rides/routes";
 import upgradeRoutes from "./upgrades/routes";
 import featuresRoutes from "./features/routes";
+import faqRoutes from './faq/routes'
 import cors from 'cors';
 import * as dotenv from "dotenv"
 import * as bodyparser from 'body-parser';
@@ -29,6 +30,7 @@ app.use("/ride", ridesRoutes)
 app.use("/service", serviceRoutes)
 app.use("/support", supportRoutes)
 app.use("/feature", upgradeRoutes)
+app.use("/faq", faqRoutes)
 app.use("/webV1", webappRoutes)
 const PORT = Number(process.env.SPORT) || 5000;
 db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
@@ -44,6 +46,8 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) =
     app.use("/ride", ridesRoutes)
     app.use("/service", serviceRoutes)
     app.use("/feature", upgradeRoutes)
+    app.use("/faq", faqRoutes)
+    app.use("/webV1", webappRoutes)
     const handler = serverless(app);
     try {
         await db.authenticate();

@@ -6,7 +6,7 @@ import { profile } from "./controller";
 const app = express.Router()
 
 
-app.get('/all', expressQAsync(secure),
+app.get('/all',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const users = await User.findAll()
         const response = createResponse("OK", users, undefined)
@@ -23,8 +23,8 @@ app.get('/', expressQAsync(secure),
 )
 //updates name and email during registration
 app.put('/', expressQAsync(secure),
-    [body('fullName', "name is too short").isString().isLength({ min: 3 }),
-    body("email", "Email is invalid").isEmail(), validate],
+    [body('fullName', "fullName is too short").isString().isLength({ min: 3 }),
+    body("email", "email is invalid").isEmail(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const uid = res.locals.user.uid
         const { fullName, email } = req.body
@@ -35,16 +35,18 @@ app.put('/', expressQAsync(secure),
 )
 
 //post routes just for testing purpose, in prod user created by cognito
-app.post('/', expressQAsync(secure),
+app.post('/',
+    [body('uid', "uid is too short").isString(),
+    body("phone", "phone is invalid").isString(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { phone, uid } = res.locals.user as any
+        const { phone, uid } = req.body as any
         const newUser = await User.createNew({ phone, uid })
         const response = createResponse("OK", newUser, undefined)
         res.json(response)
     })
 )
 
-app.delete('/phone/:phone', expressQAsync(secure),
+app.delete('/phone/:phone',
     [param('phone', "phone can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response) => {
         const { phone } = req.params
@@ -54,7 +56,7 @@ app.delete('/phone/:phone', expressQAsync(secure),
     })
 )
 
-app.delete('/:uid', expressQAsync(secure),
+app.delete('/:uid',
     [param('uid', "uid can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const uid = req.params.uid as string
@@ -67,6 +69,4 @@ app.delete('/:uid', expressQAsync(secure),
 app.use(expressErrorHandler);
 
 export default app
-
-
 

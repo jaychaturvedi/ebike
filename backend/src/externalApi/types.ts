@@ -191,7 +191,7 @@ export type TDashboardFilter = {
     customerId?: string;
     alertType?: string;
     timeFrame?: string;
-    page?: number;
+    pageNo?: number;
     pageSize?: number;
 
 }

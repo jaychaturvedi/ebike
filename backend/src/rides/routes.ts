@@ -26,10 +26,10 @@ app.get('/speedometer/:rideId', expressQAsync(secure),
 
 //update rating and feedbacks of a ride
 app.put('/rating/:rideId', expressQAsync(secure),
-    [param('rideId', "can't be empty").isString().isLength({ min: 1 }),
-    body('rating', "can't be empty").isLength({ min: 1 }).toInt(),
-    body('option', "can't be empty").optional(),
-    body('comment', "can't be empty").optional(), validate],
+    [param('rideId', "rideId can't be empty").isString().isLength({ min: 1 }),
+    body('rating', "rating can't be empty").toInt().isLength({ min: 1 }),
+    body('option', "option can't be empty").optional(),
+    body('comment', "comment can't be empty").optional(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { rating, option, comment } = req.body
         const newride = await updateFeedback(req.params.rideId, rating as number, option as any, comment as string)
@@ -40,11 +40,11 @@ app.put('/rating/:rideId', expressQAsync(secure),
 
 //get graph data points and other values, this route is not used
 app.get('/graphData/:frameId', expressQAsync(secure),
-    [param('frameId', "name can't be empty").isString().isLength({ min: 1 }),
-    query('startTime', "can't be empty").isString().isLength({ min: 1 }),
-    query('endTime', "can't be empty").isString().isLength({ min: 1 }),
-    query('pageNo', "can't be empty").optional().toInt(),
-    query('pageSize', "can't be empty").optional().toInt(), validate],
+    [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
+    query('startTime', "startTime can't be empty").isString().isLength({ min: 1 }),
+    query('endTime', "endTime can't be empty").isString().isLength({ min: 1 }),
+    query('pageNo', "pageNo can't be empty").optional().toInt(),
+    query('pageSize', "pageSize can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { startTime, endTime, pageNo, pageSize } = req.query as any
         const history = await ConnectmApi.getRideHistoryStat(req.params.frameId, startTime as string,
@@ -56,9 +56,9 @@ app.get('/graphData/:frameId', expressQAsync(secure),
 )
 //single ride history details
 app.get('/detail/:frameId', expressQAsync(secure),
-    [param('frameId', "name can't be empty").isString(),
-    query('startTime', "can't be empty").isString(),
-    query('endTime', "can't be empty").isString(), validate],
+    [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
+    query('startTime', "startTime can't be empty").isString().isLength({ min: 1 }),
+    query('endTime', "endTime can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { startTime, endTime } = req.query as any
         const newride = await rideDetail(req.params.frameId, startTime, endTime)
@@ -88,7 +88,7 @@ app.get('/:frameId', expressQAsync(secure),
 
 //ending a ride, update endtime in databasse
 app.put('/:rideId', expressQAsync(secure),
-    [param('rideId', "can't be empty").isString().isLength({ min: 1 }), validate],
+    [param('rideId', "rideId can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const ride = await endRide(req.params.rideId)
         const response = createResponse("OK", ride, undefined)
