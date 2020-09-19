@@ -15,11 +15,13 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { fetchCredentials } from '../../service/secure-storage';
 import Toast from 'react-native-simple-toast';
+import { Store_UpdateUser } from 'src/service/redux/actions/store';
 
 type ReduxState = {
   changePassword: (params: ChangePassword) => void;
   onboarding: TStore['onboarding'];
   bike: TStore["bike"];
+  updateUser: (params: Store_UpdateUser) => void;
 };
 
 type PersonalDetailsNavigationProp = StackNavigationProp<
@@ -102,7 +104,15 @@ class PersonalDetails extends React.PureComponent<Props, State> {
   renderSuccess() {
     this.setState({ success: true });
     setTimeout(() => {
-      this.props.navigation.navigate('TurnOnBluetooth', {});
+      if (this.props.bike.type === 'BLE')
+        this.props.navigation.navigate('TurnOnBluetooth', {});
+      else
+        this.props.updateUser({
+          type: 'Store_UpdateUser',
+          payload: {
+            isBikeRegistered: true
+          }
+        })
     }, 1000);
   }
 
@@ -229,6 +239,7 @@ export default connect(
   (dispatch: Dispatch) => {
     return {
       changePassword: (params: ChangePassword) => dispatch(params),
+      updateUser: (params: Store_UpdateUser) => dispatch(params),
     };
   },
 )(PersonalDetails);

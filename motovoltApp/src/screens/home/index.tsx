@@ -133,7 +133,7 @@ class Home extends React.PureComponent<Props, State> {
             avgRidescore={this.props.bike.avgRideScore.toString()}
             costRecovered={this.props.bike.costRecoveredPer.toString()}
             greenMiles={this.props.bike.greenMilesKm.toString()}
-            petrolSavings={this.props.bike.petrolSavingsLtr.toString()}
+            petrolSavings={Math.floor(this.props.bike.petrolSavingsLtr).toString()}
             totalDistance={this.props.bike.totalDistanceKm.toString()}
           />
         </ScrollView>

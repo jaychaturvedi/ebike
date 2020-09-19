@@ -1,4 +1,7 @@
-import Store, { TStore, ZeroOnboarding, ZeroRide, getZeroState, ZeroBLE, ZeroSpeedometer } from "./store";
+import Store, {
+    TStore, ZeroOnboarding, ZeroRide, getZeroState,
+    ZeroUser, ZeroBLE, ZeroSpeedometer
+} from "./store";
 import Action from "./actions/store";
 
 export default (store: TStore = Store, params: Action): TStore => {
@@ -11,7 +14,8 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 ble: ZeroBLE,
                 onboarding: ZeroOnboarding,
-                speedometer: ZeroSpeedometer
+                speedometer: ZeroSpeedometer,
+                user: ZeroUser
             }
         case "Store_UpdateBle":
             return {
