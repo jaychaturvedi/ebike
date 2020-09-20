@@ -11,7 +11,7 @@ interface MisContentStates { }
 class MisContent extends PureComponent<MisContentProps, MisContentStates> {
     render() {
         return (
-            <Layout.Content className="home-content">
+            <Layout.Content className="connectm-MisContent">
                 <NavigationTabs />
                 <MisBattery />
             </Layout.Content>
