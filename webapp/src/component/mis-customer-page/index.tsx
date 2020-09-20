@@ -1,8 +1,5 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { AlertData, TAlertType } from '../../connectm-client/redux/models';
-import { alertLimpData } from '../../connectm-client/redux/connectm-state';
 import { Row, Col, Typography } from 'antd';
 import Card from '../../subComponents/card'
 import Tabs from '../../subComponents/tabs'
@@ -12,33 +9,19 @@ import AlertHeader from '../../subComponents/alertHeader'
 import BottomAlert from '../../subComponents/rightBottomAlert'
 import { Meta } from 'antd/lib/list/Item';
 
-interface AlertDetailProps extends RouteComponentProps { }
+interface AlertDetailProps { }
 
 interface AlertDetailStates {
-    alertId: string
-    alert: AlertData
-    alertType: TAlertType
-    activeAlertType: string
-    alertCleared: boolean
 }
-//Smart Alerts
-//BMS Alerts
-//Motor Controller Alerts
+
 class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
     constructor(props: AlertDetailProps) {
         super(props)
-        this.state = {
-            alertId: "",
-            alertType: "smart",
-            activeAlertType: "N/A",
-            alert: alertLimpData(),
-            alertCleared: false
-        }
     }
     render() {
         return (
             <>
-                <div className="container-fluid">
+                <div className="container-customer">
                     <div className="header-tabs">
                         <Row className="col" >
                             <Col span={2} style={{ background: "#272B3C" }} className="col" >back</Col>
@@ -50,7 +33,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                     </div>
                     <div className="content">
                         {/* left bar */}
-                        <Row className="col" >
+                        <Row className="customer" >
                             <Col span={8} style={{ background: "#2D3456" }}>
                                 <div className="profile-text">
                                     <Typography.Text style={{ whiteSpace: "nowrap", paddingLeft: '24px' }} strong>Profile</Typography.Text>
@@ -107,7 +90,6 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
             </>
         )
     }
-
 }
 
 export default AlertDetail

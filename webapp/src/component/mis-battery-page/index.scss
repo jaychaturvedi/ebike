@@ -2,6 +2,7 @@
 @import "~antd/dist/antd.css";
 
 .connectm-Tabs {
+    padding-top: 24px;
     .tab-buttons {
         background-color: $TABLE_ROW_DARK;
         margin-right: 2px;
@@ -14,22 +15,32 @@
     }
 }
 
-.site-card-wrapper {
-    padding: 8px;
-    background: #3C4473;
-  }
 
-.ant-row.col {
-    background-color: $TABLE_ROW_DARK;
-    color: white;
-    // padding-left: 24px;
-    // padding-top: 16px;
-}
-
-
-.container-fluid {
+.container-battery {
     padding-right: 24px;
-    padding-top: 24px;
-    min-height: calc(100vh - (60px+60px));
+    max-height: 100vh;
     background-color: $APP_BACKGROUND;
+    border: 1px solid red;
+    .content-battery{
+        min-height: calc(100vh-60px);
+
+        padding-left: 24px;
+        .battery-top {
+            border: 1px solid green;
+            background-color: $TABLE_ROW_DARK;
+            color: white;
+            // padding: 24px;
+            .site-card-wrapper {
+                padding: 8px;
+                background: #3C4473;
+              }            
+        }
+        .battery-bottom {
+            border: 1px solid blueviolet;
+            background-color: $TABLE_ROW_DARK;
+            color: white;
+            height: 150px;
+            // padding: 24px;
+        }
+    }
 }

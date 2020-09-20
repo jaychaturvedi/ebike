@@ -31,10 +31,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         const style = { background: '#3C4473', padding: '8px' };
         return (
             <>
-                <div className="container-fluid">
-
-                    <div className="content" style={{ paddingLeft: '24px' }}>
-                        <Row gutter={[16, 0]} className="col">
+                <div className="container-battery">
+                    <div className="content-battery">
+                        <Row gutter={[16, 0]} className="battery-top">
                             <Col className="gutter-row" span={8}>
                                 <div style={style}>
                                     <HalfPie />
@@ -45,7 +44,6 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                                             height: 80, background: '#2D3456'//dark
                                         }}>
                                             <Typography.Text style={{ whiteSpace: "nowrap" }}>Soc</Typography.Text>
-
                                             <Col span={24} >
                                                 <Row gutter={[0, 24]} >
                                                     <Col className="gutter-row" span={8} style={{ display: 'flex', flexDirection: 'column' }} >
@@ -69,10 +67,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
 
                             <Col className="gutter-row" span={16} >
                                 <div style={style}>
-
                                     <div style={{ display: 'flex', flexDirection: 'row' }} >
                                         <div style={{ width: '60%', zIndex: 1 }}>
-
                                             <CustomizedTables />
                                         </div>
                                         <div style={{ width: '40%' }}>
@@ -101,13 +97,13 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             </Col>
 
                             {/* /////// */}
-
+                        </Row>
+                        <Row gutter={[16, 0]} className="battery-bottom">
                             <Col className="gutter-row" span={8}>
                                 <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Cell Voltage</Typography.Text>
 
                                 <div style={style}>col-6</div>
                             </Col>
-
                             <Col className="gutter-row" span={8}>
                                 <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Last Charging Trend</Typography.Text>
 
@@ -115,8 +111,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             </Col>
                             <Col className="gutter-row" span={8}>
                                 <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Last Discharging Trend</Typography.Text>
-
-                                <div style={{ ...style, width: '100%' }}><DischargingTrend /></div>
+                                <div style={{ ...style, width: '100%', height: '150px' }}><DischargingTrend /></div>
                             </Col>
                         </Row>
                     </div>

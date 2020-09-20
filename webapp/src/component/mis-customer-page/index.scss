@@ -2,7 +2,7 @@
 @import "~antd/dist/antd.css";
 
 
-.ant-row.col {
+.ant-row.customer {
     background-color: $TABLE_ROW_DARK;
     color: white;
     padding-left: 24px;
@@ -10,7 +10,7 @@
 }
 
 
-.container-fluid {
+.container-customer {
     padding-left: 80px;
     padding-right: 24px;
     padding-top: 24px;

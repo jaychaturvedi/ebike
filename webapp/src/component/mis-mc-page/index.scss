@@ -2,6 +2,7 @@
 @import "~antd/dist/antd.css";
 
 .connectm-Tabs {
+    padding-top: 24px;
     .tab-buttons {
         background-color: $TABLE_ROW_DARK;
         margin-right: 2px;
@@ -28,10 +29,8 @@
 }
 
 
-.container-fluid {
-    padding-left: 80px;
+.container-mc {
     padding-right: 24px;
-    padding-top: 24px;
     min-height: calc(100vh - (60px+60px));
     background-color: $APP_BACKGROUND;
 }

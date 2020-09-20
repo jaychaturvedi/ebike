@@ -27,8 +27,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         const style = { background: '#3C4473', padding: '8px' };
         return (
             <>
-                <div className="container-fluid">
-
+                <div className="container-mc">
                     <div className="content" style={{ paddingLeft: '24px' }}>
                         <Row gutter={[16, 0]} className="col">
                             <Col className="gutter-row" span={8}>
