@@ -42,7 +42,7 @@ const rows = [
     createData('Ice cream sandwich', 237),
     createData('Eclair', 262),
     createData('Cupcake', 305),
-    createData('Gingerbread', 356),
+    // createData('Gingerbread', 356),
 ];
 
 const useStyles = makeStyles({

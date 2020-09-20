@@ -15,7 +15,7 @@ import BottomAlert from '../../../subComponents/rightBottomAlert'
 import { Meta } from 'antd/lib/list/Item';
 import HalfPie from '../../../subComponents/halfPie';
 import LineGraph from '../../../subComponents/graph/lineGraph';
-import RideGraph from '../../../subComponents/graph/ridesGraph';
+import RideGraph from '../../../subComponents/graph/chargingTrend';
 import Battery from '../../../assets/battery_health__g_icon.png'
 import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
 import { ArrowLeftOutlined, LeftCircleFilled } from '@ant-design/icons';

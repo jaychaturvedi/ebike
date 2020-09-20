@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
 import HalfPie from '../../subComponents/halfPie';
 import DischargingTrend from '../../subComponents/graph/dischargingTrend';
-import ChargingTrend from '../../subComponents/graph/ridesGraph';
+import ChargingTrend from '../../subComponents/graph/chargingTrend';
 import Battery from '../../assets/battery_health__g_icon.png'
 import CustomizedTables from '../../subComponents/table/batteryStatusTable';
 import { ArrowLeftOutlined } from '@ant-design/icons';
@@ -32,89 +32,83 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return (
             <>
                 <div className="container-battery">
-                    <div className="content-battery">
-                        <Row gutter={[16, 0]} className="battery-top">
-                            <Col className="gutter-row" span={8}>
-                                <div style={style}>
-                                    <HalfPie />
-                                    <HalfPie />
-                                    <div className="site-card-wrapper" >
-                                        <Row style={{
-                                            paddingLeft: '24px',
-                                            height: 80, background: '#2D3456'//dark
-                                        }}>
-                                            <Typography.Text style={{ whiteSpace: "nowrap" }}>Soc</Typography.Text>
-                                            <Col span={24} >
-                                                <Row gutter={[0, 24]} >
-                                                    <Col className="gutter-row" span={8} style={{ display: 'flex', flexDirection: 'column' }} >
-                                                        <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Charge</Typography.Text>
-                                                        <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '24px' }} strong>84%</Typography.Text>
-                                                    </Col>
-                                                    <Col className="gutter-row" span={8} style={{ display: 'flex', flexDirection: 'column' }} >
-                                                        <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Pressure</Typography.Text>
-                                                        <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '24px' }} strong>2.3V</Typography.Text>
-                                                    </Col>
-                                                    <Col className="gutter-row" span={8} style={{ display: 'flex', flexDirection: 'column' }} >
-                                                        <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Acquisition</Typography.Text>
-                                                        <Typography.Text style={{ whiteSpace: "nowrap", color: 'red', fontSize: '24px' }} strong>2.2V</Typography.Text>
-                                                    </Col>
-                                                </Row>
+                    <Row gutter={[16, 0]} className="battery-top">
+                        <Col span={8}>
+                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>STATUS</Typography.Text>
+                            {/* left tile */}
+                            <div className="left-body">
+                                <HalfPie />
+                                <HalfPie />
+                                <Row className="card-wrapper">
+                                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Soc</Typography.Text>
+                                    <Col span={24} >
+                                        <Row>
+                                            <Col className="gutter-row" span={8} style={{ display: 'flex', flexDirection: 'column' }} >
+                                                <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Charge</Typography.Text>
+                                                <Typography.Text style={{ whiteSpace: "nowrap" }} strong>84%</Typography.Text>
+                                            </Col>
+                                            <Col className="gutter-row" span={8} style={{ display: 'flex', flexDirection: 'column' }} >
+                                                <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Pressure</Typography.Text>
+                                                <Typography.Text style={{ whiteSpace: "nowrap" }} strong>2.3V</Typography.Text>
+                                            </Col>
+                                            <Col className="gutter-row" span={8} style={{ display: 'flex', flexDirection: 'column' }} >
+                                                <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Acquisition</Typography.Text>
+                                                <Typography.Text style={{ whiteSpace: "nowrap", color: 'red' }} strong>2.2V</Typography.Text>
                                             </Col>
                                         </Row>
-                                    </div>
-                                </div>
-                            </Col>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </Col>
+                        {/* right tile  */}
+                        <Col span={16} >
+                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>BATTERY STATUS</Typography.Text>
 
-                            <Col className="gutter-row" span={16} >
-                                <div style={style}>
-                                    <div style={{ display: 'flex', flexDirection: 'row' }} >
-                                        <div style={{ width: '60%', zIndex: 1 }}>
-                                            <CustomizedTables />
-                                        </div>
-                                        <div style={{ width: '40%' }}>
-                                            <Row gutter={[3, 0]} style={{ background: '#3C4473', padding: '8px' }} justify="space-between">
-                                                <Col span={11} style={{ background: '#2D3456', display: 'flex', flexDirection: 'column' }} >
-                                                    <Typography.Text style={{ whiteSpace: "normal" }}>Ambient Temperature</Typography.Text>
-                                                    <Typography.Text style={{ whiteSpace: "nowrap" }}>24' C</Typography.Text>
-                                                </Col>
-                                                <Col span={11} style={{ background: '#2D3456', display: 'flex', flexDirection: 'column' }} >
-                                                    <Typography.Text style={{ whiteSpace: "normal" }}>Ambient Temperature</Typography.Text>
-                                                    <Typography.Text style={{ whiteSpace: "nowrap" }}>24' C</Typography.Text>
-                                                </Col>
-                                                <div style={{ display: 'flex', justifyContent: 'center', marginLeft: '35%', marginTop: '10%' }}>
-                                                    <div style={{ width: '150px', height: '150px', background: '#2D3456', borderRadius: '75px', display: 'flex', justifyContent: 'center' }}>
-                                                        <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} />
-                                                        <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center' }} >
-                                                            <Typography.Text style={{ whiteSpace: "normal", }} strong>Health</Typography.Text>
-                                                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '24px' }} strong>82%</Typography.Text>
-                                                        </div>
-                                                    </div>
+                            <div className="right-body" >
+                                <div className="table">
+                                    <CustomizedTables />
+                                </div>
+                                <div className="health">
+                                    <Row gutter={[3, 0]} style={{ background: '#3C4473', padding: '8px' }} justify="space-between">
+                                        <Col span={11} className="health-card" >
+                                            <Typography.Text style={{ whiteSpace: "normal" }}>Ambient Temperature</Typography.Text>
+                                            <Typography.Text style={{ whiteSpace: "nowrap" }}>24' C</Typography.Text>
+                                        </Col>
+                                        <Col span={11} className="health-card" >
+                                            <Typography.Text style={{ whiteSpace: "normal" }}>Ambient Temperature</Typography.Text>
+                                            <Typography.Text style={{ whiteSpace: "nowrap" }}>24' C</Typography.Text>
+                                        </Col>
+                                        <div style={{ marginLeft: '35%', marginTop: '10%' }}>
+                                            <div className="battery-health-circle">
+                                                <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} />
+                                                <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center' }} >
+                                                    <Typography.Text style={{ whiteSpace: "normal", }} strong>Health</Typography.Text>
+                                                    <Typography.Text style={{ whiteSpace: "nowrap" }} strong>82%</Typography.Text>
                                                 </div>
-                                            </Row>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Row>
                                 </div>
-                            </Col>
+                            </div>
+                        </Col>
 
-                            {/* /////// */}
-                        </Row>
-                        <Row gutter={[16, 0]} className="battery-bottom">
-                            <Col className="gutter-row" span={8}>
-                                <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Cell Voltage</Typography.Text>
+                        {/* /////// */}
+                    </Row>
+                    <Row gutter={[16, 0]} className="battery-bottom">
+                        <Col className="gutter-row" span={8}>
+                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Cell Voltage</Typography.Text>
+                            <div style={style} className="body">col-6</div>
+                        </Col>
+                        <Col className="gutter-row" span={8}>
+                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Last Charging Trend</Typography.Text>
 
-                                <div style={style}>col-6</div>
-                            </Col>
-                            <Col className="gutter-row" span={8}>
-                                <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Last Charging Trend</Typography.Text>
-
-                                <div style={style}><ChargingTrend /></div>
-                            </Col>
-                            <Col className="gutter-row" span={8}>
-                                <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Last Discharging Trend</Typography.Text>
-                                <div style={{ ...style, width: '100%', height: '150px' }}><DischargingTrend /></div>
-                            </Col>
-                        </Row>
-                    </div>
+                            <div style={style} className="body"><ChargingTrend /></div>
+                        </Col>
+                        <Col className="gutter-row" span={8}>
+                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Last Discharging Trend</Typography.Text>
+                            <div style={{ ...style }} className="body"><DischargingTrend /></div>
+                        </Col>
+                    </Row>
                 </div>
             </>
         )

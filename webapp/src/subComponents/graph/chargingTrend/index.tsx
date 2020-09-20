@@ -32,19 +32,10 @@ const data = [
 export default class LineGraph extends PureComponent {
     render() {
         return (
-            <div className="connectm-AlertDetailGraph">
-
-                {/* <div style={{ display: 'flex', justifyContent: 'center', height: '200px', width: '100%' }} > */}
-
+            <div className="charging-trend">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
-                        // width={1000}
-                        // height={400}
-                        data={data}
-                    // margin={{
-                    //     top: 5, right: 30, left: 20, bottom: 5,
-                    // }}
-                    >
+                        data={data}                    >
                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
                         <XAxis dataKey="name" tick={{ fill: 'white' }} stroke='#ffffff' />
                         <YAxis tick={{ fill: 'white' }} stroke='#ffffff' />

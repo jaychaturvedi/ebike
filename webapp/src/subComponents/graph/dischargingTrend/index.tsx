@@ -32,7 +32,7 @@ const data = [
 export default class LineGraph extends PureComponent {
     render() {
         return (
-            <div className="connectm-AlertDetailGraph">
+            <div className="discharging-trend">
 
                 {/* <div style={{ display: 'flex', justifyContent: 'center', height: '200px', width: '100%' }} > */}
 
