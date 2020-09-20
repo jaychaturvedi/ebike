@@ -38,7 +38,7 @@ export function* validateFrame(params: BikeActions.ValidateFrame) {
                     id: data.frameId,
                     name: data.bikeName,
                     modal: data.model,
-                    type: data.type === "Internet" ? "GPS" : "BLE",
+                    type: data.type === "Internet" ? "CELLULAR" : "BLE",
                     serviceDate: data.serviceDate,
                     batteryChargePer: data.batteryChargePer,
                     batteries: data.batteries
@@ -59,7 +59,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                 type: "Store_UpdateBike",
                 payload: {
                     id: params.payload.bikeId,
-                    type: data.type === "Internet" ? "GPS" : "BLE",
+                    type: data.type === "Internet" ? "CELLULAR" : "BLE",
                     batteryPer: data.batteryCharge,
                     co2SavingKg: data.co2sav,
                     totalDistanceKm: data.totalDistance,

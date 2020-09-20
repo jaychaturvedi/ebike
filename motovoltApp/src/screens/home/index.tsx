@@ -122,7 +122,7 @@ class Home extends React.PureComponent<Props, State> {
                 Cycle A
               </Text>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{LanguageSelector.t("home.on")}{'\n'}</Text>
-              {this.props.bike.type === 'GPS' ? <TouchableOpacity
+              {this.props.bike.type === 'CELLULAR' ? <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('Gps', {})}
               ><Image
                 source={require('../../assets/icons/GPS_tracker.png')}></Image></TouchableOpacity> : null}
@@ -133,7 +133,7 @@ class Home extends React.PureComponent<Props, State> {
             avgRidescore={this.props.bike.avgRideScore.toString()}
             costRecovered={this.props.bike.costRecoveredPer.toString()}
             greenMiles={this.props.bike.greenMilesKm.toString()}
-            petrolSavings={this.props.bike.petrolSavingsLtr.toString()}
+            petrolSavings={Math.floor(this.props.bike.petrolSavingsLtr).toString()}
             totalDistance={this.props.bike.totalDistanceKm.toString()}
           />
         </ScrollView>

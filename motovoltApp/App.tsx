@@ -21,7 +21,7 @@ import {signIn} from './src/service/authentication';
 import {getUser} from './src/service/redux/saga/user';
 import {SignIn} from './src/service/redux/actions/saga';
 import {connect} from 'react-redux';
-import {Store_UpdateUser} from 'src/service/redux/actions/store';
+import {Store_Init, Store_UpdateUser} from 'src/service/redux/actions/store';
 import {ReadUser} from 'src/service/redux/actions/saga/user';
 
 declare const global: {HermesInternal: null | {}};
@@ -31,6 +31,7 @@ interface ReduxState {
   signInUser: (params: SignIn) => void;
   updateUser: (params: Store_UpdateUser) => void;
   getUser: (params: ReadUser) => void;
+  initStore: (params: Store_Init) => void;
 }
 
 interface Props extends ReduxState {}
@@ -45,6 +46,10 @@ class App extends React.PureComponent<Props, State> {
 
   componentDidMount() {
     console.log('In component did mount');
+    this.props.initStore({
+      type: 'Store_Init',
+      payload: {},
+    });
     return fetchCredentials()
       .then(async (cred) => {
         console.log('Cred', cred);
@@ -115,6 +120,7 @@ export default connect(
       updateUser: (params: Store_UpdateUser) => dispatch(params),
       signInUser: (params: SignIn) => dispatch(params),
       getUser: (params: ReadUser) => dispatch(params),
+      initStore: (params: Store_Init) => dispatch(params),
     };
   },
 )(App);
