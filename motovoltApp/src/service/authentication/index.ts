@@ -30,6 +30,31 @@ export async function signup(phoneNumber: string) {
     }).catch(err => {
         console.log("************LOOK HERE ***********")
         console.log(err)
+        if (err.code === 'UsernameExistsException') {
+            return Auth.signIn({ username: phoneNumber, password }).then(user => {
+                throw err;
+            }).catch(signInErr => {
+                console.log("************LOOK HERE 2***********")
+                if (signInErr.code === "UserNotConfirmedException") {
+                    return {
+                        success: true,
+                        user: null,
+                        username: '',
+                        userConfirmed: false,
+                        userSub: '',
+                        message: "User Not confirmed"
+                    }
+                }
+                return {
+                    success: false,
+                    user: null,
+                    message: err.message || "Unknown Error",
+                    username: '',
+                    userConfirmed: false,
+                    userSub: '',
+                }
+            })
+        }
         return {
             success: false,
             user: null,
