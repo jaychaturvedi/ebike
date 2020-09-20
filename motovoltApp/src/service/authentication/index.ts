@@ -28,6 +28,7 @@ export async function signup(phoneNumber: string) {
             message: "User created"
         }
     }).catch(err => {
+        console.log("************LOOK HERE ***********")
         console.log(err)
         return {
             success: false,

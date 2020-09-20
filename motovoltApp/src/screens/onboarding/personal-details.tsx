@@ -16,12 +16,14 @@ import { Dispatch } from 'redux';
 import { fetchCredentials } from '../../service/secure-storage';
 import Toast from 'react-native-simple-toast';
 import { Store_UpdateUser } from 'src/service/redux/actions/store';
+import { UpdateUser } from 'src/service/redux/actions/saga/user';
 
 type ReduxState = {
   changePassword: (params: ChangePassword) => void;
   onboarding: TStore['onboarding'];
   bike: TStore["bike"];
   updateUser: (params: Store_UpdateUser) => void;
+  updatePersonalDetails: (params: UpdateUser) => void
 };
 
 type PersonalDetailsNavigationProp = StackNavigationProp<
@@ -171,34 +173,6 @@ class PersonalDetails extends React.PureComponent<Props, State> {
               source={require('../../assets/images/cycle_with_headlight.png')}
               style={styles.image}
             />
-            {/* <Text style={styles.title}>Please enter your details</Text>
-            <Input
-              onChange={(text: string) => this.setState({ name: text })}
-              placeHolder="Full Name*"
-              marginVeritical={verticalScale(InputMarginVeritical)}
-            />
-            <Input
-              onChange={(text: string) => {
-                const matches = text.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
-                this.setState({
-                  email: text,
-                  isValidEmail: matches && matches.length ? true : false
-                });
-              }}
-              placeHolder="Email*"
-              marginVeritical={verticalScale(InputMarginVeritical)}
-            />
-            <Input
-              onChange={(text: string) => this.setState({ password: text })}
-              placeHolder="Create a password*"
-              marginVeritical={verticalScale(InputMarginVeritical)}
-              secure
-            />
-            <Input
-              onChange={(text: string) => this.setState({ confirmPassword: text })}
-              placeHolder="Re-enter your password*"
-              marginVeritical={verticalScale(InputMarginVeritical)}
-              secure /> */}
           </View>
           <View style={styles.bottom}>
             <CTAButton
@@ -213,6 +187,13 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                       newPassword: this.state.password,
                     },
                   });
+                  this.props.updatePersonalDetails({
+                    type: "UpdateUser",
+                    payload: {
+                      email: this.state.email,
+                      name: this.state.name
+                    }
+                  })
                 } else {
                   Toast.show('Enter a valid email');
                 }
@@ -240,6 +221,7 @@ export default connect(
     return {
       changePassword: (params: ChangePassword) => dispatch(params),
       updateUser: (params: Store_UpdateUser) => dispatch(params),
+      updatePersonalDetails: (params: UpdateUser) => dispatch(params)
     };
   },
 )(PersonalDetails);
