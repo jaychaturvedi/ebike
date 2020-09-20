@@ -1,12 +1,9 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-// import { Breadcrumb, Typography } from 'antd';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { TAlertsTableData } from '../../connectm-client/saga/alert';
 import { AlertData, TAlertType } from '../../connectm-client/redux/models';
 import { alertLimpData } from '../../connectm-client/redux/connectm-state';
-import { Row, Col, Typography, Avatar, Card as AntdCard } from 'antd';
+import { Row, Col, Typography } from 'antd';
 import Card from '../../subComponents/card'
 import Tabs from '../../subComponents/tabs'
 import UserCard from '../../subComponents/userCard'
