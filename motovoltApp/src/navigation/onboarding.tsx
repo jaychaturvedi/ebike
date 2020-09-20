@@ -51,7 +51,7 @@ export default function OnboardingStack(props: {}) {
         component={IntroSwipper}
         initialParams={{}}
       />
-      {/* <Onboarding.Screen name="ValidateMobile" component={ValidateMobile} /> */}
+      <Onboarding.Screen name="ValidateMobile" component={ValidateMobile} />
       {/* <Onboarding.Screen name="ValidateFrame" component={ValidateFrame} />
       <Onboarding.Screen name="EnterFrameNumber" component={EnterFrameNumber} />
       <Onboarding.Screen name="Scanner" component={Scanner} />

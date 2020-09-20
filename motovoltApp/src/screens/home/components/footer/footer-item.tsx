@@ -32,7 +32,7 @@ export default class FooterItem extends React.Component<Props, {}> {
           <View
             style={{
               ...styles.topBorder,
-              backgroundColor: props.selected ? Theme.TEXT_WHITE : Theme.TEXT_BLACK,
+              backgroundColor: props.selected ? Theme.TEXT_WHITE : 'transparent',
             }}
           />
         )}

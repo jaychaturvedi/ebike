@@ -8,6 +8,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
+
 
 type ComingSoonNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -21,9 +23,10 @@ type Props = {
 
 export default class ComingSoon extends React.PureComponent<Props, {}> {
   render() {
+    let Theme = this.context.theme;
     return (
       <View style={{ width: '100%', height: '100%' }}>
-        <Header backgroundColor={Colors.HEADER_YELLOW} title={LanguageSelector.t("comingSoonTitle")} hasBackButton onBackClick={() => this.props.navigation.goBack()} />
+        <Header backgroundColor={Theme.HEADER_YELLOW} title={LanguageSelector.t("comingSoonTitle")} hasBackButton onBackClick={() => this.props.navigation.goBack()} />
         <View
           style={{
             flex: 1,
@@ -33,7 +36,7 @@ export default class ComingSoon extends React.PureComponent<Props, {}> {
           }}>
           <Image
             source={require('../../assets/images/coming-soon.png')}
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', }}
             width={scale(200)}
             height={scale(200)}
           />
@@ -62,3 +65,5 @@ export default class ComingSoon extends React.PureComponent<Props, {}> {
     );
   }
 }
+
+ComingSoon.contextType = ThemeContext
