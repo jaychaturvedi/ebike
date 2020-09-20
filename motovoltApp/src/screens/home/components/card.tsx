@@ -33,7 +33,9 @@ export default class Card extends React.Component<CardProps, {}> {
     let Theme = this.context.theme; //load theme from context
     return (
       <View style={{ alignItems: 'flex-start' }}>
-        <Text style={cardStyles.title}>{props.title}</Text>
+        <Text style={{
+          ...cardStyles.title, color: Theme.BORDER_GREY,
+        }}>{props.title}</Text>
         <Text>
           <Text style={{
             ...cardStyles.value, color: Theme.TEXT_WHITE, //change dark theme
