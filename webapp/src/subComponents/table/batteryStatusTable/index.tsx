@@ -12,12 +12,13 @@ const StyledTableCell = withStyles((theme) => ({
     head: {
         backgroundColor: "#707dc2",
         color: "#ffffff",
-        height: '8px',
+        padding: '4px',
         border: 'none'
     },
     body: {
         fontSize: 14,
         color: 'white',
+        padding: '4px',
         border: 'none'
     },
 }))(TableCell);
@@ -25,7 +26,7 @@ const StyledTableCell = withStyles((theme) => ({
 const StyledTableRow = withStyles((theme) => ({
     root: {
         '&:nth-of-type(odd)': {
-            backgroundColor: "#3C4473",
+            backgroundColor: "#343c63",
         },
         '&:nth-of-type(even)': {
             backgroundColor: "#2D3456",

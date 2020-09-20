@@ -8,59 +8,60 @@
     border: 1px solid red;
     padding-left: 24px;
     //     min-height: calc(100vh-60px);
-        .battery-top {
-            border: 1px solid green;
-            background-color: $TABLE_ROW_DARK;
-            color: white;
-            // padding: 24px;
-            max-height: 100%;
-            .left-body{
-                height: 100%;
-                background: #3C4473;
-                padding:    8px ;
-                .card-wrapper{
-                    padding-left: 24px;
-                    height: 64;
-                    background: #2D3456;
-                }
-            }
-            .right-body{
-                height: 100%;
-                background: #3C4473;
-                display: flex;
-                 flex-direction: row;
-                 .table{
-                     width: 60%;
-                 }
-                 .health{
-                    width: 40%;
-.health-card{
-    background: #2D3456; display: flex; flex-direction: column;
-}
-
-
-.battery-health-circle{
-    width: 150px; 
-    height: 150px; 
-    background: #2D3456; 
-    border-radius: 75px; 
-    display: flex; 
-    justify-content: center;
-}
-                 }
-                // padding:    8px ;
+    .battery-top {
+        border: 1px solid green;
+        background-color: $TABLE_ROW_DARK;
+        color: white;
+        // padding: 24px;
+        max-height: 100%;
+        .left-body {
+            height: 100%;
+            background: #3c4473;
+            padding: 8px;
+            .card-wrapper {
+                padding-left: 24px;
+                height: 64;
+                background: #2d3456;
             }
         }
-        .battery-bottom {
-            border: 1px solid blueviolet;
-            background-color: $TABLE_ROW_DARK;
-            color: white;
-            // padding: 24px;
-                .body{
-                    background: #3C4473;
-                    padding: 8px;
-                    height: 30vh;
-                 
+        .right-body {
+            height: 100%;
+            background: #3c4473;
+            display: flex;
+            flex-direction: row;
+            padding: 16px;
+            .table {
+                width: 60%;
+            }
+            .health {
+                width: 40%;
+                .health-card {
+                    background: #2d3456;
+                    display: flex;
+                    flex-direction: column;
                 }
+
+                .battery-health-circle {
+                    width: 150px;
+                    height: 150px;
+                    background: #2d3456;
+                    border-radius: 75px;
+                    display: flex;
+                    justify-content: center;
+                }
+            }
         }
     }
+    .battery-bottom {
+        padding-top: 25px;
+        border: 1px solid blueviolet;
+        background-color: $TABLE_ROW_DARK;
+        color: white;
+        // padding: 24px;
+        .body {
+            background: #3c4473;
+            padding: 8px;
+            height: 30vh;
+        }
+    }
+}

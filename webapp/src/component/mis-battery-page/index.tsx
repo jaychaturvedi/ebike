@@ -94,7 +94,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
 
                         {/* /////// */}
                     </Row>
-                    <Row gutter={[16, 0]} className="battery-bottom">
+                    <Row gutter={[16, 16]} className="battery-bottom">
                         <Col className="gutter-row" span={8}>
                             <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Cell Voltage</Typography.Text>
                             <div style={style} className="body">col-6</div>
