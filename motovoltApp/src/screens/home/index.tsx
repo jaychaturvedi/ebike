@@ -17,6 +17,7 @@ import { RouteProp } from '@react-navigation/native';
 import { HomeStackParamList } from '../../navigation/home';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
+import { downloadFirmware } from '../../service/firmware/update';
 
 type HomeNavigationProp = StackNavigationProp<
   HomeStackParamList,
@@ -75,6 +76,7 @@ class Home extends React.PureComponent<Props, State> {
           title={`${LanguageSelector.t("home.hello")} ${this.props.user.name}`}
           backgroundColor={Colors.HEADER_YELLOW}
           hasTabs
+          onPromotionClick={() => downloadFirmware()}
         />
         <ScrollView style={styles.body}
           refreshControl={
