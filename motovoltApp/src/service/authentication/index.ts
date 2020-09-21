@@ -17,8 +17,6 @@ export async function signup(phoneNumber: string) {
         password: password,
     }).then(async (res) => {
         console.log(JSON.stringify(res));
-        await storeCredentials(phoneNumber, password)
-        console.log(await fetchCredentials())
         return {
             success: true,
             user: res.user,
@@ -30,12 +28,25 @@ export async function signup(phoneNumber: string) {
     }).catch(err => {
         console.log("************LOOK HERE ***********")
         console.log(err)
-        if (err.code === 'UsernameExistsException') {
-            return Auth.signIn({ username: phoneNumber, password }).then(user => {
+        if (err.code !== 'UsernameExistsException') {
+            return {
+                success: false,
+                user: null,
+                message: err.message || "Unknown Error",
+                username: '',
+                userConfirmed: false,
+                userSub: '',
+            }
+        }
+        return Auth.signIn({ username: phoneNumber, password })
+            .then(async user => {
+                console.log("Signup", await getToken())
                 throw err;
-            }).catch(signInErr => {
+            })
+            .catch(async signInErr => {
                 console.log("************LOOK HERE 2***********")
                 if (signInErr.code === "UserNotConfirmedException") {
+                    await Auth.resendSignUp(phoneNumber);
                     return {
                         success: true,
                         user: null,
@@ -54,15 +65,6 @@ export async function signup(phoneNumber: string) {
                     userSub: '',
                 }
             })
-        }
-        return {
-            success: false,
-            user: null,
-            message: err.message || "Unknown Error",
-            username: '',
-            userConfirmed: false,
-            userSub: '',
-        }
     });
 }
 
@@ -138,8 +140,7 @@ export function initiateForgotPassword(username: string) {
 export function forgotPassword(username: string, code: string, password: string) {
     return Auth.forgotPasswordSubmit(username, code, password)
         .then(async () => {
-            await storeCredentials(username, password)
-            console.log(await fetchCredentials())
+            await resetCredentials();
             return {
                 success: true,
                 message: "Password Reset Successfull"
@@ -207,7 +208,8 @@ export function changePassword(mobileNumber: string, oldpassword: string, newpas
     }).catch(err => {
         console.log(err)
         return {
-            success: false
+            success: false,
+            message: err.message
         }
     })
 }
