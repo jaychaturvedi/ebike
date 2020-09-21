@@ -65,7 +65,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             </div>
                         </Col>
                         {/* right tile  */}
-                        <Col span={16} >
+                        <Col className="jay" style={{position:"inherit"}} span={16} >
                             <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>BATTERY STATUS</Typography.Text>
 
                             <div className="right-body" >
