@@ -3,6 +3,7 @@
 
 .container-battery {
     padding-right: 24px;
+    height : 1px;
     min-height: calc(100vh - (60px + 32px));
     max-height: calc(100vh - (60px + 32px));
     background-color: $APP_BACKGROUND;
@@ -19,23 +20,24 @@
         background-color: $TABLE_ROW_DARK;
         color: white;
         // padding: 24px;
-        min-height: 80%;
+        min-height: 60%;
         .left-body {
-            height: 80%;
             background: #3c4473;
             padding: 8px;
+            height: 1px;
+            min-height: 90%;
             .card-wrapper {
                 padding-left: 24px;
-                height: 64;
+                min-height: 10%;
                 background: #2d3456;
             }
         }
         .right-body {
-            height: 80%;
             background: #3c4473;
             display: flex;
             flex-direction: row;
-            padding: 16px;
+            padding: 16px 16px 0px 16px;
+            min-height: 90%;
             .table {
                 width: 60%;
             }
