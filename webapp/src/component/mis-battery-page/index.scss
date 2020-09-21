@@ -39,6 +39,9 @@
             }
             .health {
                 width: 40%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
                 .health-card {
                     background: #2d3456;
                     display: flex;

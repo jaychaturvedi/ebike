@@ -78,15 +78,17 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                                             <Typography.Text style={{ whiteSpace: "normal" }}>Ambient Temperature</Typography.Text>
                                             <Typography.Text style={{ whiteSpace: "nowrap" }}>24' C</Typography.Text>
                                         </Col>
-                                        <div style={{ marginLeft: '35%', marginTop: '10%' }}>
-                                            <div className="battery-health-circle">
-                                                <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} />
-                                                <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center' }} >
-                                                    <Typography.Text style={{ whiteSpace: "normal", }} strong>Health</Typography.Text>
-                                                    <Typography.Text style={{ whiteSpace: "nowrap" }} strong>82%</Typography.Text>
-                                                </div>
+                                    </Row>
+                                    <Row>
+
+                                        <div className="battery-health-circle">
+                                            <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} />
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center' }} >
+                                                <Typography.Text style={{ whiteSpace: "normal", }} strong>Health</Typography.Text>
+                                                <Typography.Text style={{ whiteSpace: "nowrap" }} strong>82%</Typography.Text>
                                             </div>
                                         </div>
+
                                     </Row>
                                 </div>
                             </div>
