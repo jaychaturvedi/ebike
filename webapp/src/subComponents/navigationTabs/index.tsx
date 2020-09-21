@@ -26,7 +26,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
     render() {
         return (
             <>
-                <div className="connectm-Tabs" style={{ paddingLeft: '24px' }}>
+                <div className="connectm-Tabs">
                     <LeftCircleFilled style={{ padding: '5px', fontSize: '20px' }} />
                     <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "customer" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("customer")}>
                         <Typography.Text style={{ whiteSpace: "nowrap" }}>Customer</Typography.Text>
