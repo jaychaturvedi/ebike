@@ -1,7 +1,7 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import MisBattery from "../mis-battery-page"
-import Mis from '../mis-mc-page'
+import MisBattery from "./mis-battery-page"
+import Mis from './mis-mc-page'
 import NavigationTabs from '../../subComponents/navigationTabs'
 import { Layout } from "antd";
 interface MisContentProps { }

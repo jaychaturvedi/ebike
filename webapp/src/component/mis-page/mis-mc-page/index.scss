@@ -1,4 +1,4 @@
-@import "../../global.scss";
+@import "../../../global.scss";
 @import "~antd/dist/antd.css";
 
 .connectm-Tabs {
@@ -17,8 +17,8 @@
 
 .site-card-wrapper {
     // padding: 8px;
-    background: #3C4473;
-  }
+    background: #3c4473;
+}
 
 .ant-row.col {
     background-color: $TABLE_ROW_DARK;
@@ -27,7 +27,6 @@
     // padding-left: 24px;
     // padding-top: 16px;
 }
-
 
 .container-mc {
     padding-right: 24px;

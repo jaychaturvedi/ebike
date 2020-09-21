@@ -1,6 +1,5 @@
-@import "../../global.scss";
+@import "../../../global.scss";
 @import "~antd/dist/antd.css";
-
 
 .ant-row.customer {
     background-color: $TABLE_ROW_DARK;
@@ -9,7 +8,6 @@
     // padding-top: 16px;
 }
 
-
 .container-customer {
     padding-left: 80px;
     padding-right: 24px;
@@ -17,5 +15,4 @@
     min-height: calc(100vh - (60px + 60px));
     // height: 100%;
     background-color: $TABLE_ROW_DARK;
-
 }

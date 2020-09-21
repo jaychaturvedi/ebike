@@ -1,8 +1,9 @@
-@import "../../global.scss";
+@import "../../../global.scss";
 @import "~antd/dist/antd.css";
 
 .container-battery {
     padding-right: 24px;
+    padding-bottom: 70px;
     height: 1px;
     min-height: calc(100vh - (60px + 32px));
     max-height: calc(100vh - (60px + 32px));
@@ -15,10 +16,10 @@
         .recharts-responsive-container {
             background-color: #3c4473;
         }
-
+        margin: 0 !important;
         padding-top: 8px; //class header-title padding
         // height: 1px;
-        border: 1px solid green;
+        // border: 1px solid green;
         background-color: $TABLE_ROW_DARK;
         color: white;
         // padding: 24px;
@@ -70,8 +71,9 @@
             background-color: #3c4473;
         }
         padding-top: 8px; //class header-title padding
+        margin: 0 !important;
         // padding-top: 25px;
-        border: 1px solid blueviolet;
+        // border: 1px solid blueviolet;
         background-color: $TABLE_ROW_DARK;
         color: white;
         // padding: 24px;

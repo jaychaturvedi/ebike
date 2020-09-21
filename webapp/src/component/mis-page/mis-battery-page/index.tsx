@@ -1,11 +1,11 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
 import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
-import HalfPie from '../../subComponents/halfPie';
-import DischargingTrend from '../../subComponents/graph/dischargingTrend';
-import ChargingTrend from '../../subComponents/graph/chargingTrend';
-import Battery from '../../assets/battery_health__g_icon.png'
-import CustomizedTables from '../../subComponents/table/batteryStatusTable';
+import HalfPie from '../../../subComponents/halfPie';
+import DischargingTrend from '../../../subComponents/graph/dischargingTrend';
+import ChargingTrend from '../../../subComponents/graph/chargingTrend';
+import Battery from '../../../assets/battery_health__g_icon.png'
+import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
 interface AlertDetailProps { }
@@ -37,9 +37,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>STATUS</Typography.Text>
                             {/* left tile */}
                             <div className="left-body">
-                                <div style={{ height: '40%' }}>
+                                {/* <div style={{ height: '40%' }}>
                                     <HalfPie />
-                                </div>
+                                </div> */}
                                 <div style={{ height: '40%' }}>
                                     <HalfPie />
                                 </div>
@@ -103,8 +103,11 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                     </Row>
                     <Row gutter={[16, 0]} className="battery-bottom">
                         <Col className="gutter-row" span={8}>
-                            <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>CELL VOLTAGE</Typography.Text>
-                            <div style={style} className="body">col-6</div>
+                            <div>
+
+                                <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>CELL VOLTAGE</Typography.Text>
+                                <div style={style} className="body">col-6</div>
+                            </div>
                         </Col>
                         <Col className="gutter-row" span={8}>
                             <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>LAST CHARGING TREND</Typography.Text>

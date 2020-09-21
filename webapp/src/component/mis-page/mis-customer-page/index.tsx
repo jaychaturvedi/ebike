@@ -1,12 +1,12 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
 import { Row, Col, Typography } from 'antd';
-import Card from '../../subComponents/card'
-import Tabs from '../../subComponents/tabs'
-import UserCard from '../../subComponents/userCard'
-import VehicleAlert from '../../subComponents/vehicleAlerts'
-import AlertHeader from '../../subComponents/alertHeader'
-import BottomAlert from '../../subComponents/rightBottomAlert'
+import Card from '../../../subComponents/card'
+import Tabs from '../../../subComponents/tabs'
+import UserCard from '../../../subComponents/userCard'
+import VehicleAlert from '../../../subComponents/vehicleAlerts'
+import AlertHeader from '../../../subComponents/alertHeader'
+import BottomAlert from '../../../subComponents/rightBottomAlert'
 import { Meta } from 'antd/lib/list/Item';
 
 interface AlertDetailProps { }
