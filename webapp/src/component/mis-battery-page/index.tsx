@@ -34,7 +34,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 <div className="container-battery">
                     <Row gutter={[16, 0]} className="battery-top">
                         <Col span={8}>
-                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>STATUS</Typography.Text>
+                            <Typography.Text style={{ whiteSpace: "nowrap" }} strong>STATUS</Typography.Text>
                             {/* left tile */}
                             <div className="left-body">
                                 <div style={{ height: '40%' }}>
@@ -66,14 +66,14 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                         </Col>
                         {/* right tile  */}
                         <Col span={16} >
-                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>BATTERY STATUS</Typography.Text>
+                            <Typography.Text style={{ whiteSpace: "nowrap" }} strong>BATTERY STATUS</Typography.Text>
 
                             <div className="right-body" >
                                 <div className="table">
                                     <CustomizedTables />
                                 </div>
                                 <div className="health">
-                                    <Row gutter={[3, 0]} style={{ background: '#3C4473', padding: '8px' }} justify="space-between">
+                                    <Row gutter={[3, 0]} style={{ background: '#3C4473' }} justify="space-between">
                                         <Col span={11} className="health-card" >
                                             <Typography.Text style={{ whiteSpace: "normal" }}>Ambient Temperature</Typography.Text>
                                             <Typography.Text style={{ whiteSpace: "nowrap" }}>24' C</Typography.Text>
@@ -84,7 +84,6 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                                         </Col>
                                     </Row>
                                     <Row>
-
                                         <div className="battery-health-circle">
                                             <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} />
                                             <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center' }} >
@@ -102,16 +101,16 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                     </Row>
                     <Row gutter={[16, 16]} className="battery-bottom">
                         <Col className="gutter-row" span={8}>
-                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Cell Voltage</Typography.Text>
+                            <Typography.Text style={{ whiteSpace: "nowrap" }} strong>CELL VOLTAGE</Typography.Text>
                             <div style={style} className="body">col-6</div>
                         </Col>
                         <Col className="gutter-row" span={8}>
-                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Last Charging Trend</Typography.Text>
+                            <Typography.Text style={{ whiteSpace: "nowrap" }} strong>LAST CHARGING TREND</Typography.Text>
 
                             <div style={style} className="body"><ChargingTrend /></div>
                         </Col>
                         <Col className="gutter-row" span={8}>
-                            <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>Last Discharging Trend</Typography.Text>
+                            <Typography.Text style={{ whiteSpace: "nowrap" }} strong>LAST DISCHARGING TREND</Typography.Text>
                             <div style={{ ...style }} className="body"><DischargingTrend /></div>
                         </Col>
                     </Row>

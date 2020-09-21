@@ -46,7 +46,7 @@ export default class LineGraph extends PureComponent {
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                        <XAxis dataKey="name" tick={{ fill: 'white' }} stroke='#ffffff' />
+                        <XAxis dataKey="name" tick={{ fill: 'white' }} stroke='#ffffff' interval={0} />
                         <YAxis tick={{ fill: 'white' }} stroke='#ffffff' />
                         <Line type="monotone" dataKey="uv" stroke="yellow" dot={{ r: 0 }} strokeWidth={4} />
                         {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}

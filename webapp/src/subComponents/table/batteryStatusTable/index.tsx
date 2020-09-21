@@ -19,7 +19,7 @@ const StyledTableCell = withStyles((theme) => ({
         fontSize: 14,
         color: 'white',
         padding: '4px',
-        border: 'none'
+        border: 'none',
     },
 }))(TableCell);
 
@@ -43,7 +43,8 @@ const rows = [
     createData('Ice cream sandwich', 237),
     createData('Eclair', 262),
     createData('Cupcake', 305),
-    // createData('Gingerbread', 356),
+    createData('Gingerbread', 356),
+    createData('Eclair', 262),
 ];
 
 const useStyles = makeStyles({
@@ -57,7 +58,7 @@ export default function CustomizedTables() {
 
     return (
         <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
+            <Table className={classes.table} aria-label="customized table" stickyHeader>
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Parameters</StyledTableCell>
