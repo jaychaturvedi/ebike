@@ -5,6 +5,8 @@ import HalfPie from '../../../subComponents/halfPie';
 import DischargingTrend from '../../../subComponents/graph/dischargingTrend';
 import ChargingTrend from '../../../subComponents/graph/chargingTrend';
 import Battery from '../../../assets/battery_health__g_icon.png'
+import MeterBG from '../../../assets/batch2/meter_bg.png'
+import MeterBG2 from '../../../assets/batch2/map_bg@2x.png'
 import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
@@ -40,8 +42,12 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                                 {/* <div style={{ height: '40%' }}>
                                     <HalfPie />
                                 </div> */}
-                                <div style={{ height: '40%' }}>
-                                    <HalfPie />
+                                <div style={{ height: '40%',textAlign:'center' }}>
+                                   <img src={MeterBG}></img>
+                                </div>
+
+                                <div style={{height:'40%', textAlign:'center'}}>
+                                    <img src={MeterBG}></img>
                                 </div>
                                 <Row className="card-wrapper">
                                     <Typography.Text style={{ whiteSpace: "nowrap" }}>Soc</Typography.Text>
