@@ -13,10 +13,10 @@ export default class Bike {
     }
 
     static async createNew(bike: TBike) { //change types of userId
-        console.log('in service create new bike');
-
         const exists = await BikeModel.findOne({ where: { frameId: bike.frameId } })
-        const newBike = exists ? exists : await BikeModel.create(bike)
+        console.log('in service create new bike', exists);
+        if (exists) throw new BikeError("frameId already verified")
+        const newBike = exists ? "verified" : await BikeModel.create(bike)
         if (!newBike) throw new BikeError("Unable to create new")
         return newBike;
     }
