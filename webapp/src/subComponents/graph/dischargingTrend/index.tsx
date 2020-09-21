@@ -41,9 +41,9 @@ export default class LineGraph extends PureComponent {
                         // width={1000}
                         // height={400}
                         data={data}
-                    // margin={{
-                    //     top: 5, right: 30, left: 20, bottom: 5,
-                    // }}
+                        margin={{
+                            top: 5, right: 5, left: -20, bottom: 5,
+                        }}
                     >
                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
                         <XAxis dataKey="name" tick={{ fill: 'white' }} stroke='#ffffff' />

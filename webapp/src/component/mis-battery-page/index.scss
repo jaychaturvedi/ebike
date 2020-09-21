@@ -11,6 +11,9 @@
     display: flex;
     flex-direction: column;
     .battery-top {
+        .recharts-responsive-container {
+            background-color: #3c4473;
+        }
         // height: 1px;
         border: 1px solid green;
         background-color: $TABLE_ROW_DARK;
@@ -59,6 +62,9 @@
         }
     }
     .battery-bottom {
+        .recharts-responsive-container {
+            background-color: #3c4473;
+        }
         // padding-top: 25px;
         border: 1px solid blueviolet;
         background-color: $TABLE_ROW_DARK;

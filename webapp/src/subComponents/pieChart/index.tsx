@@ -27,25 +27,28 @@ const renderCustomizedLabel = ({
     );
 };
 
-export default class Example extends PureComponent {
+export default class PieGraph extends PureComponent {
     render() {
         return (
-            <PieChart width={250} height={200}>
-                <Pie
-                    data={data}
-                    cx={150}
-                    cy={100}
-                    labelLine={false}
-                    label={renderCustomizedLabel}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                >
-                    {
-                        data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-                    }
-                </Pie>
-            </PieChart>
+            <ResponsiveContainer width="100%" height="100%">
+                <PieChart width={250} height={200}>
+                    <Pie
+                        data={data}
+                        cx={150}
+                        cy={100}
+                        labelLine={false}
+                        label={renderCustomizedLabel}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                    >
+                        {
+                            data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+                        }
+                    </Pie>
+                </PieChart>
+            </ResponsiveContainer>
+
         );
     }
 }

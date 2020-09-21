@@ -37,12 +37,16 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             <Typography.Text style={{ whiteSpace: "nowrap", fontSize: '16px' }} strong>STATUS</Typography.Text>
                             {/* left tile */}
                             <div className="left-body">
-                                <HalfPie />
-                                <HalfPie />
+                                <div style={{ height: '40%' }}>
+                                    <HalfPie />
+                                </div>
+                                <div style={{ height: '40%' }}>
+                                    <HalfPie />
+                                </div>
                                 <Row className="card-wrapper">
                                     <Typography.Text style={{ whiteSpace: "nowrap" }}>Soc</Typography.Text>
                                     <Col span={24} >
-                                        <Row>
+                                        <Row align="top">
                                             <Col className="gutter-row" span={8} style={{ display: 'flex', flexDirection: 'column' }} >
                                                 <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Charge</Typography.Text>
                                                 <Typography.Text style={{ whiteSpace: "nowrap" }} strong>84%</Typography.Text>

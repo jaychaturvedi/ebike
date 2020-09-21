@@ -35,7 +35,10 @@ export default class LineGraph extends PureComponent {
             <div className="charging-trend">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
-                        data={data}                    >
+                        data={data}
+                        margin={{
+                            top: 5, right: 5, left: -20, bottom: 5,
+                        }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
                         <XAxis dataKey="name" tick={{ fill: 'white' }} stroke='#ffffff' />
                         <YAxis tick={{ fill: 'white' }} stroke='#ffffff' />
