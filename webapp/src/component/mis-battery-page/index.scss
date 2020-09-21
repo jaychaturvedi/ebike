@@ -3,14 +3,13 @@
 
 .container-battery {
     padding-right: 24px;
-    // max-height: 100vh;
-    // min-height: 90%;
     min-height: calc(100vh - (60px + 32px));
     max-height: calc(100vh - (60px + 32px));
     background-color: $APP_BACKGROUND;
     border: 1px solid red;
     padding-left: 24px;
-    //     min-height: calc(100vh-60px);
+    display: flex;
+    flex-direction: column;
     .battery-top {
         // height: 1px;
         border: 1px solid green;
