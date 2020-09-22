@@ -178,7 +178,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
             <View style={styles.register}>
               <View style={{ height: '50%', justifyContent: 'flex-start' }}>
                 <Text style={{ textAlign: 'center', fontSize: scale(12) }}>
-                  <Text>Already have an account,</Text>
+                  <Text>Already have an account ?</Text>
                   <Text
                     style={{ color: 'black', fontWeight: 'bold' }}
                     onPress={() => this.props.navigation.navigate('LoginPage', {})}>

@@ -11,11 +11,13 @@ Amplify.configure({
 })
 
 export async function signup(phoneNumber: string) {
+    await signout();
     const password = `${phoneNumber}motovOlt@`
     return Auth.signUp({
         username: phoneNumber,
         password: password,
     }).then(async (res) => {
+        await storeCredentials(phoneNumber, "");
         console.log(JSON.stringify(res));
         return {
             success: true,
@@ -86,6 +88,7 @@ export async function resendSignUp(phoneNumber: string) {
 
 export async function confirmSignUp(mobileNumber: string, code: string) {
     return Auth.confirmSignUp(mobileNumber, code).then(async (data) => {
+        await Auth.signIn({ username: mobileNumber, password: `${mobileNumber}motovOlt@` });
         return {
             success: true,
             message: "Success"
@@ -195,7 +198,8 @@ export async function getToken() {
 export function changePassword(mobileNumber: string, oldpassword: string, newpassword: string,) {
     return getUser().then(async response => {
         if (response.success) {
-            return Auth.changePassword(response.user, oldpassword, newpassword)
+            return Auth.changePassword(response.user, 
+                oldpassword === "" ? `${mobileNumber}motovOlt@` : oldpassword, newpassword)
                 .then(async res => {
                     await storeCredentials(mobileNumber, newpassword);
                     console.log(await fetchCredentials())

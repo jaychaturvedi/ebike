@@ -92,11 +92,10 @@ export function* rateRide(params: RideActions.SubmitRide) {
 
 export function* getRideHistory(params: RideActions.ReadRideHistory) {
     try {
-        console.log("Hellloo here ");
         const dataResponse = yield request(
             `${config.baseUrl}/bike/history/${params.payload.bikeId}` +
             `?pageSize=${encodeURIComponent(params.payload.pageSize)}&` +
-            `pageNo=${encodeURIComponent(params.payload.pageNumber)}&startTime=2020-07-07 10:49:38&endTime=2020-07-08 16:50:38`,
+            `pageNo=${encodeURIComponent(params.payload.pageNumber)}&startTime=${params.payload.startTime}&endTime=${params.payload.endTime}`,
             "GET", undefined)
         console.log("Data Response");
         console.log(dataResponse);

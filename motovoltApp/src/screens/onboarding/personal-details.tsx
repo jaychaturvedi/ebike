@@ -96,6 +96,12 @@ class PersonalDetails extends React.PureComponent<Props, State> {
     return re.test(email);
   };
 
+  validatePassword = (password: string) => {
+    return RegExp(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    ).test(password);
+  };
+
   componentDidMount() {
     fetchCredentials().then((cred) => {
       if (cred) {
@@ -128,7 +134,6 @@ class PersonalDetails extends React.PureComponent<Props, State> {
       this.validateEmail(this.state.email) &&
       this.state.name &&
       this.state.password &&
-      this.state.password.length >= 8 &&
       this.state.password === this.state.confirmPassword;
     if (!this.state.success && this.props.onboarding.passwordResetSuccess) {
       this.renderSuccess();
@@ -192,6 +197,13 @@ class PersonalDetails extends React.PureComponent<Props, State> {
           <CTAButton
             disabled={!formDataValid}
             onPress={() => {
+              console.log(this.validatePassword(this.state.password));
+              if (!this.validatePassword(this.state.password)) {
+                Toast.show(
+                  'Password should be 8 characters containing atleast 1 uppercase, 1 lowercase, 1 digit and a special character',
+                );
+                return;
+              }
               if (this.validateEmail(this.state.email)) {
                 this.props.changePassword({
                   type: 'ChangePassword',

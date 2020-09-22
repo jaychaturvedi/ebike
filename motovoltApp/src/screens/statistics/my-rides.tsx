@@ -71,8 +71,8 @@ class MyRides extends React.PureComponent<Props, State> {
         bikeId: this.props.user.defaultBikeId,
         pageNumber: 1,
         pageSize: 10,
-        startTime: Moment.utc().startOf('day').toString(),
-        endTime: Moment.utc().endOf('day').toString(),
+        startTime: Moment().startOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
+        endTime: Moment().endOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
       },
     });
   }
@@ -85,8 +85,12 @@ class MyRides extends React.PureComponent<Props, State> {
         bikeId: this.props.user.defaultBikeId,
         pageNumber: 1,
         pageSize: 10,
-        startTime: Moment.utc(this.state.focusDate).startOf('day').toString(),
-        endTime: Moment.utc(this.state.focusDate).endOf('day').toString(),
+        startTime: Moment(this.state.focusDate)
+          .startOf('day')
+          .format('YYYY-MM-DD HH:mm:ss'),
+        endTime: Moment(this.state.focusDate)
+          .endOf('day')
+          .format('YYYY-MM-DD HH:mm:ss'),
       },
     });
     this.setState({ refreshing: false });
@@ -103,8 +107,8 @@ class MyRides extends React.PureComponent<Props, State> {
         bikeId: this.props.user.defaultBikeId,
         pageNumber: 1,
         pageSize: 10,
-        startTime: Moment.utc(date).startOf('day').toString(),
-        endTime: Moment.utc(date).startOf('day').toString(),
+        startTime: Moment(date).startOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
+        endTime: Moment(date).startOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
       },
     });
   };
@@ -114,8 +118,8 @@ class MyRides extends React.PureComponent<Props, State> {
     return (
       <View style={{ flex: 1 }}>
         <Header
-          title={LanguageSelector.t("myRides.myRides")}
-          backgroundColor={Theme.HEADER_YELLOW}
+          title={LanguageSelector.t('myRides.myRides')}
+          backgroundColor={Colors.HEADER_YELLOW}
           subtitle={this.props.bike.name}
           hasSubtitle
           hasTabs
@@ -160,8 +164,8 @@ class MyRides extends React.PureComponent<Props, State> {
             </TouchableOpacity>
           </View>
           <RideMetric
-            header1={LanguageSelector.t("myRides.co2eSavings")}
-            header2={LanguageSelector.t("myRides.greenMiles")}
+            header1={LanguageSelector.t('myRides.co2eSavings')}
+            header2={LanguageSelector.t('myRides.greenMiles')}
             unit1="Kg"
             unit2="Km"
             icon1={require('../../assets/icons/CO2e_savings.png')}
@@ -193,15 +197,13 @@ class MyRides extends React.PureComponent<Props, State> {
                 justifyContent: 'space-around',
                 marginVertical: moderateScale(10),
               }}>
-              <Text style={{
-                textAlign: 'center', fontSize: moderateScale(12), color: Theme.TEXT_WHITE
-              }}>
-                {LanguageSelector.t("myRides.avgDistance")}&nbsp;{this.props.graph.avgKmph} km
+              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
+                {LanguageSelector.t('myRides.avgDistance')}&nbsp;
+                {this.props.graph.avgKmph} km
               </Text>
-              <Text style={{
-                textAlign: 'center', fontSize: moderateScale(12), color: Theme.TEXT_WHITE
-              }}>
-                {LanguageSelector.t("myRides.avgSpeed")}&nbsp;{this.props.graph.avgSpeed} kmph
+              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
+                {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
+                {this.props.graph.avgSpeed} kmph
               </Text>
             </View>
             <View style={{ flex: 1, justifyContent: 'flex-end' }}>
@@ -219,7 +221,7 @@ class MyRides extends React.PureComponent<Props, State> {
                 fontWeight: 'bold',
                 color: Theme.TEXT_WHITE,
               }}>
-              {LanguageSelector.t("myRides.yourRides")}
+              {LanguageSelector.t('myRides.yourRides')}
             </Text>
           </View>
           {/* <RideCard
