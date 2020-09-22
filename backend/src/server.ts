@@ -24,31 +24,19 @@ app.options('/*', cors())
 app.use(bodyparser.json());
 app.use("/user", userRoutes)
 app.use("/bike", bikeRoutes)
-// app.use("./feature", featuresRoutes)
 app.use("/feedback", feedbackRoutes)
 app.use("/ride", ridesRoutes)
 app.use("/service", serviceRoutes)
-app.use("/support", supportRoutes)
 app.use("/feature", upgradeRoutes)
 app.use("/faq", faqRoutes)
 app.use("/webV1", webappRoutes)
-const PORT = Number(process.env.SPORT) || 5000;
-db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
-
-// deploy express app to aws lambda
+const handler = serverless(app);
+// const PORT = Number(process.env.SPORT) || 5000;
+// db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
 module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
     console.log("context", context, "event", event);
     context.callbackWaitsForEmptyEventLoop = false;
-    app.use("/user", userRoutes)
-    app.use("/bike", bikeRoutes)
-    app.use("/feedback", feedbackRoutes)
-    app.use("/ride", ridesRoutes)
-    app.use("/service", serviceRoutes)
-    app.use("/feature", upgradeRoutes)
-    app.use("/faq", faqRoutes)
-    app.use("/webV1", webappRoutes)
-    const handler = serverless(app);
     try {
         await db.authenticate();
     } catch (error) {
@@ -98,53 +86,3 @@ module.exports.webapp = async (event: APIGatewayProxyEvent, context: Context) =>
     console.log("Return Result ", new Date())
     return result;
 };
-
-// /**Testing open api*/
-// module.exports.listUsers = async (event: APIGatewayProxyEvent, context: Context) => {
-//     context.callbackWaitsForEmptyEventLoop = false;
-//     console.log("connecting for CreateUser")
-//     await db.sync({ alter: true, force: false });
-//     const allUsers = await User.findAll()
-//     console.log(allUsers);
-//     const response = {
-//         statusCode: 200,
-//         headers: {
-//             "x-custom-header": "user_creation"
-//         },
-//         body: JSON.stringify(allUsers),
-//         isBase64Encoded: false
-//     };
-//     context.succeed(response)
-// };
-
-// module.exports.deleteUser = async (event: APIGatewayProxyEvent, context: Context) => {
-//     const body = JSON.parse(event.body!)
-//     const uid = body.uid as string
-//     context.callbackWaitsForEmptyEventLoop = false;
-//     console.log("connecting for CreateUser")
-//     await db.sync({ alter: true, force: false });
-//     let sendResponse = {
-//         status : "ok",
-//         deleteUserId : uid,
-//         error : null
-//     }
-//     try{
-//         const deleted = await User.deleteById(uid)
-//     }catch(error){
-//         sendResponse = {
-//             status : "Error",
-//             deleteUserId: uid,
-//             error : error
-//         }
-//     }
-//     const response = {
-//         statusCode: 200,
-//         headers: {
-//             "x-custom-header": "user_creation"
-//         },
-//         body: JSON.stringify(sendResponse),
-//         isBase64Encoded: false
-//     };
-//     context.succeed(response)
-// };
-// /**Testing */

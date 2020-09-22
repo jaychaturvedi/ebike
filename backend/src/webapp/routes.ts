@@ -44,7 +44,7 @@ function expressErrorHandler(
 }
 
 //dashboard main alerts
-app.post('/mainAlerts', expressQAsync(secure),
+app.post('/mainAlerts',
     [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("pageNo", "pageNo is invalid").toInt(),
     body("pageSize", "pageSize is invalid").toInt(), validate],
@@ -60,7 +60,7 @@ app.post('/mainAlerts', expressQAsync(secure),
     })
 )
 //
-app.post('/totalAlerts', expressQAsync(secure),
+app.post('/totalAlerts',
     [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
@@ -74,7 +74,7 @@ app.post('/totalAlerts', expressQAsync(secure),
     })
 )
 
-app.post('/topFive', expressQAsync(secure),
+app.post('/topFive',
     [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
@@ -88,7 +88,7 @@ app.post('/topFive', expressQAsync(secure),
     })
 )
 
-app.post('/locationWise', expressQAsync(secure),
+app.post('/locationWise',
     [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
@@ -102,7 +102,7 @@ app.post('/locationWise', expressQAsync(secure),
     })
 )
 
-app.post('/dashFilter', expressQAsync(secure),
+app.post('/dashFilter',
     [body('alertType', "alertType is too short").optional().isString().isLength({ min: 1 }),
     body("alertName", "alertName is invalid").optional().isString(),
     body("startDate", "startDate is invalid").optional().isString(),
@@ -131,10 +131,10 @@ app.post('/dashFilter', expressQAsync(secure),
     })
 )
 
-app.post('/additionalInsight', expressQAsync(secure),
+app.post('/additionalInsight',
     [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
     body("customerId", "customerId is invalid").optional().isString(),
+    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
     body("alertName", "alertName is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
@@ -146,11 +146,11 @@ app.post('/additionalInsight', expressQAsync(secure),
     })
 )
 
-app.post('/pastAlerts', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
+app.post('/pastAlerts',
+    [body("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
     body("customerId", "customerId is invalid").optional().isString(),
-    body("alertName", "alertName is invalid").isString(),
+    body('alertId', "alertId is too short").optional().toInt(),
+    body("alertName", "alertName is invalid").isString().isLength({ min: 1 }),
     body("pageNo", "pageNo is invalid").toInt(),
     body("pageSize", "pageSize is invalid").toInt(), validate],
     expressQAsync(async (req: Express.Request,
@@ -163,10 +163,10 @@ app.post('/pastAlerts', expressQAsync(secure),
     })
 )
 
-app.post('/clearAlert', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
+app.post('/clearAlert',
+    [body("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
     body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
-    body("alertName", "alertName is invalid").isString(),
+    body("alertName", "alertName is invalid").isString().isLength({ min: 1 }),
     body("comment", "comment is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
@@ -178,7 +178,7 @@ app.post('/clearAlert', expressQAsync(secure),
     })
 )
 
-app.get('/lowMileage', expressQAsync(secure),
+app.get('/lowMileage',
     [query("vehicleId", "vehicleId is invalid").optional().isString(),
     query('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
     query("alertName", "alertName is invalid").isString(), validate],
@@ -191,7 +191,7 @@ app.get('/lowMileage', expressQAsync(secure),
         res.json(response)
     })
 )
-app.get('/graphs', expressQAsync(secure),
+app.get('/graphs',
     [query("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
     query('alertTypeId', "alertTypeId is too short").toInt(),
     query('alertId', "alertId is too short").toInt(),
@@ -206,7 +206,7 @@ app.get('/graphs', expressQAsync(secure),
     })
 )
 
-app.get('/alertDetails/:alertId', expressQAsync(secure),
+app.get('/alertDetails/:alertId',
     [param('alertId', "alertId is too short").toInt(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
