@@ -10,19 +10,19 @@ import {
 } from 'react-native';
 import RideCard from '../../components/ride-details';
 import RideDatePicker from '../../components/date-picker';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { StatisticsStackParamList } from '../../navigation/statistics';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import { Icon } from 'native-base';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {StatisticsStackParamList} from '../../navigation/statistics';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Icon} from 'native-base';
 import Moment from 'moment';
-import { Dispatch } from 'redux';
+import {Dispatch} from 'redux';
 import {
   ReadRideHistory,
   ReadRideData,
@@ -70,25 +70,29 @@ class MyRides extends React.PureComponent<Props, State> {
         bikeId: this.props.user.defaultBikeId,
         pageNumber: 1,
         pageSize: 10,
-        startTime: Moment.utc().startOf('day').toString(),
-        endTime: Moment.utc().endOf('day').toString(),
+        startTime: Moment().startOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
+        endTime: Moment().endOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
       },
     });
   }
 
   onRefresh() {
-    this.setState({ refreshing: true });
+    this.setState({refreshing: true});
     this.props.readRideHistory({
       type: 'ReadRideHistory',
       payload: {
         bikeId: this.props.user.defaultBikeId,
         pageNumber: 1,
         pageSize: 10,
-        startTime: Moment.utc(this.state.focusDate).startOf('day').toString(),
-        endTime: Moment.utc(this.state.focusDate).endOf('day').toString(),
+        startTime: Moment(this.state.focusDate)
+          .startOf('day')
+          .format('YYYY-MM-DD HH:mm:ss'),
+        endTime: Moment(this.state.focusDate)
+          .endOf('day')
+          .format('YYYY-MM-DD HH:mm:ss'),
       },
     });
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
 
   setNewDate = (date: Date) => {
@@ -102,17 +106,17 @@ class MyRides extends React.PureComponent<Props, State> {
         bikeId: this.props.user.defaultBikeId,
         pageNumber: 1,
         pageSize: 10,
-        startTime: Moment.utc(date).startOf('day').toString(),
-        endTime: Moment.utc(date).startOf('day').toString(),
+        startTime: Moment(date).startOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
+        endTime: Moment(date).startOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
       },
     });
   };
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Header
-          title={LanguageSelector.t("myRides.myRides")}
+          title={LanguageSelector.t('myRides.myRides')}
           backgroundColor={Colors.HEADER_YELLOW}
           subtitle={this.props.bike.name}
           hasSubtitle
@@ -158,8 +162,8 @@ class MyRides extends React.PureComponent<Props, State> {
             </TouchableOpacity>
           </View>
           <RideMetric
-            header1={LanguageSelector.t("myRides.co2eSavings")}
-            header2={LanguageSelector.t("myRides.greenMiles")}
+            header1={LanguageSelector.t('myRides.co2eSavings')}
+            header2={LanguageSelector.t('myRides.greenMiles')}
             unit1="Kg"
             unit2="Km"
             icon1={require('../../assets/icons/CO2e_savings.png')}
@@ -190,14 +194,16 @@ class MyRides extends React.PureComponent<Props, State> {
                 justifyContent: 'space-around',
                 marginVertical: moderateScale(10),
               }}>
-              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
-                {LanguageSelector.t("myRides.avgDistance")}&nbsp;{this.props.graph.avgKmph} km
+              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
+                {LanguageSelector.t('myRides.avgDistance')}&nbsp;
+                {this.props.graph.avgKmph} km
               </Text>
-              <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
-                {LanguageSelector.t("myRides.avgSpeed")}&nbsp;{this.props.graph.avgSpeed} kmph
+              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
+                {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
+                {this.props.graph.avgSpeed} kmph
               </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+            <View style={{flex: 1, justifyContent: 'flex-end'}}>
               <Graph
                 data={Object.keys(this.props.graph.data).map(
                   (graph) => this.props.graph.data[graph],
@@ -212,7 +218,7 @@ class MyRides extends React.PureComponent<Props, State> {
                 fontWeight: 'bold',
                 color: '#212121',
               }}>
-              {LanguageSelector.t("myRides.yourRides")}
+              {LanguageSelector.t('myRides.yourRides')}
             </Text>
           </View>
           {/* <RideCard
