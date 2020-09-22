@@ -62,89 +62,89 @@ type TFaq = {
 export const Faq: TFaq = {
     sections: [
         {
-            id: 1,
-            name: 'Service',
-            icon: "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/service.png",
-            faq: [
+            "id": 1,
+            "name": "Service",
+            "icon": "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/service.png",
+            "faq": [
                 {
-                    Question: "string",
-                    Answer: "string"
+                    "Question": "string",
+                    "Answer": "string"
                 }
 
             ]
         },
         {
-            id: 2,
-            name: 'Green Mile',
-            icon: "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/greenMile.png",
-            faq: [
+            "id": 2,
+            "name": "Green Mile",
+            "icon": "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/greenMile.png",
+            "faq": [
                 {
-                    Question: "string",
-                    Answer: "string"
+                    "Question": "string",
+                    "Answer": "string"
                 }
 
             ]
         },
         {
-            id: 3,
-            name: 'Battery',
-            icon: "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/battery.png",
-            faq: [
+            "id": 3,
+            "name": "Battery",
+            "icon": "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/battery.png",
+            "faq": [
                 {
-                    Question: "string",
-                    Answer: "string"
+                    "Question": "string",
+                    "Answer": "string"
                 }
 
             ]
         },
         {
-            id: 4,
-            name: 'Motor',
-            icon: "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/motor.png",
-            faq: [
+            "id": 4,
+            "name": "Motor",
+            "icon": "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/motor.png",
+            "faq": [
                 {
-                    Question: "string",
-                    Answer: "string"
+                    "Question": "string",
+                    "Answer": "string"
                 }
 
             ]
         },
         {
-            id: 5,
-            name: 'Premium',
-            icon: "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/premium.png",
-            faq: [
+            "id": 5,
+            "name": "Premium",
+            "icon": "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/premium.png",
+            "faq": [
                 {
-                    Question: "What are the premium features?",
-                    Answer: "string"
+                    "Question": "What are the premium features?",
+                    "Answer": "string"
                 },
                 {
-                    Question: "How do premium features work?",
-                    Answer: "string"
+                    "Question": "How do premium features work?",
+                    "Answer": "string"
                 },
                 {
-                    Question: "How can I upgrade to premium?",
-                    Answer: "You can upgrade to premium by making the payment for the required features in the upgrades page. Steps: More>Upgrades>Feature>Payment"
+                    "Question": "How can I upgrade to premium?",
+                    "Answer": "You can upgrade to premium by making the payment for the required features in the upgrades page. Steps: More>Upgrades>Feature>Payment"
                 },
                 {
-                    Question: "What is the cost of premium features?",
-                    Answer: "string"
+                    "Question": "What is the cost of premium features?",
+                    "Answer": "string"
                 },
                 {
-                    Question: "Premium upgrade is not reflecting on my account after payment",
-                    Answer: "string"
+                    "Question": "Premium upgrade is not reflecting on my account after payment",
+                    "Answer": "string"
                 }
 
             ]
         },
         {
-            id: 6,
-            name: 'Payment',
-            icon: "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/payment.png",
-            faq: [
+            "id": 6,
+            "name": "Payment",
+            "icon": "https://zelp-motovolt-app-faq-images.s3.us-east-2.amazonaws.com/faq/payment.png",
+            "faq": [
                 {
-                    Question: "string",
-                    Answer: "string"
+                    "Question": "string",
+                    "Answer": "string"
                 }
 
             ]
