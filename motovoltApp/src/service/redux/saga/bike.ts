@@ -38,7 +38,7 @@ export function* validateFrame(params: BikeActions.ValidateFrame) {
                     id: data.frameId,
                     name: data.bikeName,
                     modal: data.model,
-                    type: data.type === "Internet" ? "CELLULAR" : "BLE",
+                    type: data.type === "Cellular" ? "CELLULAR" : "BLE",
                     serviceDate: data.serviceDate,
                     batteryChargePer: data.batteryChargePer,
                     batteries: data.batteries
@@ -59,8 +59,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                 type: "Store_UpdateBike",
                 payload: {
                     id: params.payload.bikeId,
-                    type: data.type === "Internet" ? "CELLULAR" : "BLE",
-                    batteryPer: data.batteryCharge,
+                    type: data.type === "Cellular" ? "CELLULAR" : "BLE",
                     co2SavingKg: data.co2sav,
                     totalDistanceKm: data.totalDistance,
                     avgRideScore: data.ratings,
@@ -103,17 +102,14 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
 
 export function* getLocation(params: BikeActions.ReadBikeLocation) {
     try {
-        // const dataResponse = yield request(`${config.baseUrl}/bike/livelocation/${params.payload.bikeId}`, "GET",);
-        const dataResponse = yield request(`${config.baseUrl}/bike/livelocation/${'069bcc081a68a0832f123'}`, "GET",);
+        const dataResponse = yield request(`${config.baseUrl}/bike/livelocation/${params.payload.bikeId}`, "GET",);
         if (dataResponse.success) {
             const data = dataResponse.response.body;
             yield put({
                 type: "Store_UpdateBike",
                 payload: {
-                    // lat: data.latitude,
-                    // long: data.longitude,
-                    lat: 37.78825,
-                    long: -122.4324,
+                    lat: data.latitude,
+                    long: data.longitude,
                     lastLocationKnownTime: data.lastused,
                     address: data.address,
                 }
