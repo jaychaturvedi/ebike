@@ -113,7 +113,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     handleSort = (arr: any, sort: TSort) => {
         if (!sort.fieldName) { return arr }
         let sortedData = arr.sort((a: any, b: any) => {
-            console.log(sort.fieldName, arr, a[sort.fieldName], "Severity", b[sort.fieldName]);
+            // console.log(sort.fieldName, arr, a[sorst.fieldName], "Severity", b[sort.fieldName]);
             return a[sort.fieldName].localeCompare(b[sort.fieldName])
         });
         if (sort.direction === "descend") {

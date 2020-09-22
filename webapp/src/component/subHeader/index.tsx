@@ -67,7 +67,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: true,
             locationActive: false,
             calenderActive: false,
-            searchText:"",
+            searchText: "",
             applyFilter: {
                 fieldName: "model",
                 value: e.key
@@ -76,7 +76,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     handleLocationClick = (e: any) => {
-        console.log('click', e);
         this.setState({
             selectedLocation: e.key,
             selectedVehicle: "Vehicle",
@@ -85,12 +84,13 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: false,
             locationActive: true,
             calenderActive: false,
-            searchText:"",
+            searchText: "",
             applyFilter: {
                 fieldName: "location",
                 value: String(e.key)
             }
         })
+        console.log('click', this.state.applyFilter);
     }
 
     handleDateClick = (e: any) => {
@@ -106,7 +106,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
-                    searchText:"",
+                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "As of Now"
@@ -126,7 +126,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
-                    searchText:"",
+                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Last Week"
@@ -146,7 +146,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
-                    searchText : "",
+                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Month Till Date"
@@ -218,10 +218,12 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 value: this.state.searchText
             }
             this.setState({
-                allSelected : !this.state.allSelected
+                allSelected: !this.state.allSelected
             })
         } else {
             filter = this.state.applyFilter
+            console.log(filter, "my filter");
+
         }
         this.props.alertFilterChanged({
             type: "UPDATE_FILTER",

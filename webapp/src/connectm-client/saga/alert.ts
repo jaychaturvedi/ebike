@@ -19,7 +19,7 @@ type FilterAlertRequest = {
     customerId?: string,
     timeFrame?: string,
     alertType: TAlertType,
-    page: number,
+    pageNo: number,
     pageSize: number
 }
 
@@ -56,10 +56,11 @@ export type TAlertsTableData = {
 }
 
 export async function getAlerts(params: IAlertActions) {
-    console.log("called saga");
+    console.log("called saga", params);
     let response = [];
     if (params.payload.filter.value !== "") {
         const request = await getFilteredAlertDetailsRequest(params);
+        console.log(request, "my request");
         response = await Promise.all([getFilteredSmartAlert(request!), getFilteredBmsAlert(request!), getFilteredMcAlert(request!)])
     } else {
         response = await Promise.all([getSmartAlert(params), getBmsAlert(params), getMcAlert(params)])
@@ -96,7 +97,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         request = {
             [key]: params.payload.filter.value,
             alertType: params.payload.alertType,
-            page: params.payload.pagination.pageNumber,
+            pageNo: params.payload.pagination.pageNumber,
             pageSize: params.payload.pagination.pageSize
         }
         return request;
@@ -109,7 +110,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         request = {
             [key]: params.payload.filter.value,
             alertType: params.payload.alertType,
-            page: params.payload.pagination.pageNumber,
+            pageNo: params.payload.pagination.pageNumber,
             pageSize: params.payload.pagination.pageSize
         }
         return request;
@@ -118,7 +119,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         request = {
             timeFrame: params.payload.filter.value,
             alertType: params.payload.alertType,
-            page: params.payload.pagination.pageNumber,
+            pageNo: params.payload.pagination.pageNumber,
             pageSize: params.payload.pagination.pageSize
         }
         return request;
@@ -131,7 +132,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
             startDate: startDate,
             endDate: endDate,
             alertType: params.payload.alertType,
-            page: params.payload.pagination.pageNumber,
+            pageNo: params.payload.pagination.pageNumber,
             pageSize: params.payload.pagination.pageSize
         }
         return request;
@@ -146,7 +147,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
             request = {
                 [key]: params.payload.filter.value,
                 alertType: params.payload.alertType,
-                page: params.payload.pagination.pageNumber,
+                pageNo: params.payload.pagination.pageNumber,
                 pageSize: params.payload.pagination.pageSize
             }
             console.log(request);
@@ -201,10 +202,11 @@ async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
         ...requestPayload,
         alertType: "smart"
     }
-    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         smartFilter
         , { headers: { 'Content-Type': 'application/json' } }
     )
+    console.log("my filtered data", response.data.body);
     return response.data.body
 }
 
@@ -213,9 +215,10 @@ async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
         ...requestPayload,
         alertType: "bms"
     }
-    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         bmsFilter, { headers: { 'Content-Type': 'application/json' } }
     )
+    console.log("my filtered data", response.data.body);
     return response.data.body
 }
 
@@ -224,62 +227,9 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
         ...requestPayload,
         alertType: "mc"
     }
-    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         mcFilter, { headers: { 'Content-Type': 'application/json' } }
     )
+    console.log("my filtered data", response.data.body);
     return response.data.body
 }
-
-
-
-
-/**
- * async function generateAlertsData(params: IAlertActions) {
-    let datas: AlertData[] = []
-    for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
-        datas.push({
-            alertId: i,
-            alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
-            model: "Classic" + i,
-            frameId: "BDS" + i,
-            alertTime: i + " May 2020 10:05AM",
-            openSince: "24 hrs " + i + "0 min",
-            Severity: i,
-            mfgDate: "",
-            customerId: params.payload.alertType,
-            batteryId: "",
-            location: "Bangalore " + i
-        })
-    }
-    const alert: Alert = {
-        data: datas,
-        dataCount: 100
-    };
-    return alert;
-}
-
-function generateQueryAlertsData(params: IAlertActions) {
-    let datas: AlertData[] = []
-    for (var i = 1; i < params.payload.pagination.pageSize + 1; i++) {
-        datas.push({
-            alertId: i,
-            alertName: i % 2 ? "Capacity Deterioration " : "Voltage Deviation",
-            model: "Classic" + i,
-            frameId: "BDS" + i,
-            alertTime: i + " May 2020 10:05AM",
-            openSince: "24 hrs " + i + "0 min",
-            Severity: i,
-            mfgDate: "",
-            customerId: params.payload.alertType + params.payload.filter.fieldName,
-            batteryId: "",
-            location: "Bangalore " + i
-        })
-    }
-    const alert: Alert = {
-        data: datas,
-        dataCount: 100
-    };
-    return alert;
-}
-
- */
