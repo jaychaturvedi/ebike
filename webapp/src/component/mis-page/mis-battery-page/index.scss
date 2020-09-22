@@ -8,7 +8,6 @@
     min-height: calc(100vh - (60px + 32px));
     max-height: calc(100vh - (60px + 32px));
     background-color: $APP_BACKGROUND;
-    border: 1px solid red;
     padding-left: 24px;
     display: flex;
     flex-direction: column;
@@ -76,11 +75,8 @@
         }
         padding-top: 8px; //class header-title padding
         margin: 0 !important;
-        // padding-top: 25px;
-        // border: 1px solid blueviolet;
         background-color: $TABLE_ROW_DARK;
         color: white;
-        // padding: 24px;
         .body {
             background: #3c4473;
             padding: 8px;

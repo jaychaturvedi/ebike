@@ -42,11 +42,11 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                                 {/* <div style={{ height: '40%' }}>
                                     <HalfPie />
                                 </div> */}
-                                <div style={{ height: '40%',textAlign:'center' }}>
-                                   <img src={MeterBG}></img>
+                                <div style={{ height: '40%', textAlign: 'center' }}>
+                                    <img src={MeterBG}></img>
                                 </div>
 
-                                <div style={{height:'40%', textAlign:'center'}}>
+                                <div style={{ height: '40%', textAlign: 'center' }}>
                                     <img src={MeterBG}></img>
                                 </div>
                                 <Row className="card-wrapper">
@@ -71,7 +71,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             </div>
                         </Col>
                         {/* right tile  */}
-                        <Col className="jay" style={{position:"inherit"}} span={16} >
+                        <Col className="jay" style={{ position: "inherit" }} span={16} >
                             <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>BATTERY STATUS</Typography.Text>
 
                             <div className="right-body" >
@@ -112,7 +112,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             <div>
 
                                 <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>CELL VOLTAGE</Typography.Text>
-                                <div style={style} className="body">col-6</div>
+                                <div style={style} className="body"></div>
                             </div>
                         </Col>
                         <Col className="gutter-row" span={8}>
