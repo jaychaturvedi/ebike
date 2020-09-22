@@ -75,12 +75,12 @@ app.get('/:frameId', expressQAsync(secure),
         console.log(req.params);
         const { frameId } = req.params
         const { uid } = res.locals.user
-        const { ign: ignition, lc: locked, st, fid } = await ConnectmApi.getBikeLiveData(frameId)
-        if (st) throw new BadRequestError("No data available for frameId")
-        let newride = {}
-        if (!locked && ignition) {//if bike is on then only start a ride
-            newride = await createNewRide(uid, frameId, req.query.rideId as string)
-        }
+        // const { ign: ignition, lc: locked, st, fid } = await ConnectmApi.getBikeLiveData(frameId)
+        // if (st) throw new BadRequestError("No data available for frameId")
+        // let newride = {}
+        // if (!locked && ignition) {//if bike is on then only start a ride
+        // }
+        const newride = await createNewRide(uid, frameId, req.query.rideId as string)
         const response = createResponse("OK", newride, undefined)//send locked state and send starttime
         res.json(response)
     })
