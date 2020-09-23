@@ -27,44 +27,22 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         const style = { background: '#3C4473', padding: '8px' };
         return (
             <>
-                <div className="container-mc">
-                    <div className="content" style={{ paddingLeft: '24px' }}>
-                        <Row gutter={[16, 0]} className="col">
-                            <Col className="gutter-row" span={8}>
-                                <div style={style}>
-                                    <HalfPie />
-                                    <HalfPie />
-                                </div>
-                            </Col>
 
-                            <Col className="gutter-row" span={16} >
-                                <div style={style}>
-                                    <Col span={20}>
-                                        <Row gutter={[3, 0]} style={{ background: '#3C4473', padding: '8px' }} justify="space-between">
-                                            <Col span={4} style={{ background: '#2D3456', display: 'flex', flexDirection: 'column' }} >
-                                                <Typography.Text style={{ whiteSpace: "normal" }}>RUNNING CURRENT</Typography.Text>
-                                                <Typography.Text style={{ whiteSpace: "nowrap" }}>2.345 A</Typography.Text>
-                                            </Col>
-                                            <Col span={4} style={{ background: '#2D3456', display: 'flex', flexDirection: 'column' }} >
-                                                <Typography.Text style={{ whiteSpace: "normal" }}>CURRENT PROPORTIONAL VALUE</Typography.Text>
-
-                                                <Typography.Text style={{ whiteSpace: "normal" }}>2.344 A</Typography.Text>
-                                            </Col>
-                                            <Col span={4} style={{ background: '#2D3456', display: 'flex', flexDirection: 'column' }} >
-                                                <Typography.Text style={{ whiteSpace: "normal" }}>AVERAGE RANGE</Typography.Text>
-                                                <Typography.Text style={{ whiteSpace: "nowrap" }}>20.3 KM</Typography.Text>
-                                            </Col>
-                                            <Col span={4} style={{ background: '#2D3456', display: 'flex', flexDirection: 'column' }} >
-                                                <Typography.Text style={{ whiteSpace: "normal" }}>BATTERY CAPACITY</Typography.Text>
-                                                <Typography.Text style={{ whiteSpace: "nowrap" }}>24.36 mAH</Typography.Text>
-                                            </Col>
-                                        </Row>
-                                    </Col>
+                <div className='container-fluid mc'>
+                    <Row>
+                        <Col className="gutter-row">
+                            <div className='heading-div' style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+                                <div>
+                                    <Typography.Text style={{ whiteSpace: "nowrap", width:'40%' }} className="header-title" strong>BATTERY STATUS</Typography.Text>
                                 </div>
-                            </Col>
-                        </Row>
-                    </div>
+                                <div>
+                                    <Typography.Text style={{ whiteSpace: "nowrap",width:'60%'  }} className="header-title" strong>BATTERY STATUS</Typography.Text>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
                 </div>
+
             </>
         )
     }

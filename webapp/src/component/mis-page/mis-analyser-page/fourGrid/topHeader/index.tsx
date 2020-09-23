@@ -5,9 +5,9 @@ import { LeftCircleFilled } from '@ant-design/icons';
 
 interface Props { }
 
-interface State { }
+interface State {}
 
-class Grid extends PureComponent<Props, State> {
+class Header extends PureComponent<Props, State> {
     render() {
         return (
             <>
@@ -37,4 +37,4 @@ class Grid extends PureComponent<Props, State> {
     }
 }
 
-export default Grid
+export default Header

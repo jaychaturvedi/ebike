@@ -1,9 +1,12 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
 import MisBattery from "./mis-battery-page"
-import Mis from './mis-mc-page'
+import MisCustomer from './mis-customer-page'
 import NavigationTabs from '../../subComponents/navigationTabs'
 import { Layout } from "antd";
+import MisMc from './mis-mc-page';
+import Analyser from './mis-analyser-page/fourGrid'
+
 interface MisContentProps { }
 
 interface MisContentStates { }
@@ -13,7 +16,7 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
         return (
             <Layout.Content className="connectm-MisContent">
                 <NavigationTabs />
-                <MisBattery />
+                <Analyser/>
             </Layout.Content>
         )
     }
