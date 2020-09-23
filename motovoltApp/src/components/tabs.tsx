@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, ScrollView } from "react-native";
 import { Container, Tabs, Tab } from "native-base";
 import { moderateScale } from "react-native-size-matters";
 import Colors from "../styles/colors";
+import { ThemeContext } from '../styles/theme/theme-context'
 
 const styles = StyleSheet.create({
     activeTabStyle: {
@@ -27,13 +28,14 @@ type State = {}
 export default class MotovoltTabs extends React.PureComponent<Props, State> {
 
     render() {
+        let Theme = this.context.theme //load theme context
         return (
             <View style={{ backgroundColor: "red", flex: 1 }}>
                 <Tabs
                     tabBarUnderlineStyle={{ backgroundColor: "transparent" }}
-                    tabBarActiveTextColor={"black"}
-                    tabBarInactiveTextColor={"black"}
-                    tabContainerStyle={{ backgroundColor: "white" }}
+                    tabBarActiveTextColor={Theme.TEXT_WHITE}
+                    tabBarInactiveTextColor={Theme.TEXT_GREY}
+                    tabContainerStyle={{ backgroundColor: Theme.BACKGROUND_LIGHT }}
                 >
                     {
                         this.props.data.map((tab, index: number) => {
@@ -42,11 +44,13 @@ export default class MotovoltTabs extends React.PureComponent<Props, State> {
                                     heading={tab.count ? `${tab.header} (${tab.count})` : tab.header}
                                     activeTabStyle={{
                                         ...styles.activeTabStyle,
+                                        backgroundColor: Theme.HEADER_YELLOW,
+
                                         // borderBottomLeftRadius: 0,
                                     }}
-                                    tabStyle={styles.tabStyle}
+                                    tabStyle={{ ...styles.tabStyle, backgroundColor: Theme.BACKGROUND_LIGHT }}
                                     key={index} >
-                                    <View style={styles.tabBody}>
+                                    <View style={{ ...styles.tabBody, backgroundColor: Theme.BACKGROUND }}>
                                         {tab.body}
                                     </View>
                                 </Tab>
@@ -59,3 +63,5 @@ export default class MotovoltTabs extends React.PureComponent<Props, State> {
         );
     }
 };
+
+MotovoltTabs.contextType = ThemeContext

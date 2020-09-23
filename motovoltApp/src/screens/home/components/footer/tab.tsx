@@ -1,10 +1,11 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { FooterTab } from 'native-base';
+import { FooterTab, Icon } from 'native-base';
 import FooterItem from './footer-item';
 import LockButton from './lock-button';
 import Colors from '../../../../styles/colors';
 import { scale } from '../../../../styles/size-matters';
+import { ThemeContext } from '../../../../styles/theme/theme-context';
 
 export type TFooterItem = 'home' | 'chart' | 'cycle' | 'menu';
 
@@ -24,8 +25,9 @@ type Props = {
 
 export default class Tab extends React.PureComponent<Props, {}> {
   render() {
+    let Theme = this.context.theme; //load theme 
     return (
-      <FooterTab style={styles.footerTab}>
+      <FooterTab style={{ ...styles.footerTab, backgroundColor: Theme.BACKGROUND }}>
         <FooterItem
           visible={!this.props.lockOnlyVisible}
           icon={
@@ -79,6 +81,9 @@ export default class Tab extends React.PureComponent<Props, {}> {
               }
             />
           }
+          // icon={
+          //   <Icon type="MaterialIcons" name="motorcycle" />
+          // }
           onPress={() => this.props.onItemSelect('cycle')}
           selected={this.props.selectedItem === 'cycle'}
         />
@@ -101,3 +106,5 @@ export default class Tab extends React.PureComponent<Props, {}> {
     );
   }
 }
+
+Tab.contextType = ThemeContext;

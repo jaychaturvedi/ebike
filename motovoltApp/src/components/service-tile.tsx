@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import { moderateScale } from 'react-native-size-matters'
 import Colors from '../styles/colors'
 import LanguageSelector from '../translations';
+import { ThemeContext } from '../styles/theme/theme-context'
 
 type Props = {
     title: string,
@@ -14,26 +15,29 @@ type State = {}
 
 export default class ServiceTile extends React.PureComponent<Props, State>{
     render() {
+        let Theme = this.context.theme //load theme context
         return (
-            <View style={styles.container}>
+            <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT }}>
                 <View style={styles.title}>
-                    <Text style={{ fontSize: moderateScale(16), fontWeight: '600' }}>{this.props.title}</Text>
+                    <Text style={{ fontSize: moderateScale(16), fontWeight: '600', color: Theme.TEXT_WHITE }}>{this.props.title}</Text>
                     <Text style={{ fontSize: moderateScale(14), color: Colors.LINK_BLUE, textDecorationLine: 'underline' }}
                         onPress={() => this.props.onView()}
                     >{LanguageSelector.t("support.view")}</Text>
                 </View>
                 <View style={{ flex: 1, paddingTop: moderateScale(10) }}>
                     <Text style={{
-                        color: '#333333', fontSize: moderateScale(14)
+                        color: Theme.TEXT_GREY, fontSize: moderateScale(14)
                     }}>{LanguageSelector.t("support.serviceId")}: <Text style={{
-                        color: '#000000', fontSize: moderateScale(14), fontWeight: '600'
+                        color: Theme.TEXT_WHITE, fontSize: moderateScale(14), fontWeight: '600'
                     }} >{this.props.serviceId}</Text></Text>
-                    <Text style={{ color: '#333333', fontSize: moderateScale(12) }}>{this.props.time}</Text>
+                    <Text style={{ color: Theme.TEXT_GREY, fontSize: moderateScale(12) }}>{this.props.time}</Text>
                 </View>
             </View>
         )
     }
 }
+
+ServiceTile.contextType = ThemeContext
 
 const styles = StyleSheet.create({
     container: {

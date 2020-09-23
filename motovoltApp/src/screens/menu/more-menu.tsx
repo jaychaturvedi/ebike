@@ -134,9 +134,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
 
 
   render() {
-    let Theme = this.context.theme; //change theme from context
-    console.log("i'm in more menu", Theme);
-
+    let Theme = this.context.theme; //load theme context
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header title={LanguageSelector.t("morePremium.more")} backgroundColor={Theme.HEADER_YELLOW} //change dark Theme

@@ -1,9 +1,10 @@
-import React from 'react';
-import {StyleSheet, Image, Text} from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, Image, Text } from 'react-native';
 import Colors from '../../../styles/colors';
 import FontWeight from '../../../styles/font-weight';
-import {scale, verticalScale} from '../../../styles/size-matters';
-import {Button} from 'native-base';
+import { scale, verticalScale } from '../../../styles/size-matters';
+import { Button, Icon } from 'native-base';
+import { ThemeContext } from '../../../styles/theme/theme-context';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,13 +35,15 @@ type Props = {
 };
 
 export default function AddNewDottedButton(props: Props) {
+  const Theme = useContext(ThemeContext).theme;
   return (
     <Button style={styles.container} onPress={props.onPress}>
-      <Image
+      {/* <Image
         source={require('../../../assets/icons/plus.png')}
         style={styles.plus}
-      />
-      <Text style={styles.title}>
+      /> */}
+      <Icon type="FontAwesome5" name="plus" style={{ fontSize: 15 }} />
+      <Text style={{ ...styles.title, color: Theme.TEXT_WHITE }}>
         {'      '}
         {props.text}
       </Text>
