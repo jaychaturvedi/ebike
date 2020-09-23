@@ -1,42 +1,55 @@
-.container-fluid.analyser {
+.main-wrapper {
       background: #2B3254 0% 0% no-repeat padding-box;
-      padding: 16px;
       border-radius: 2px;
       opacity: 1;
-      // padding: 0%;
-      width: 95%;
-      display: flex;
-      justify-content: space-between;
+      margin: 24px;
+      padding-left: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      // padding-top: 45px;
 
-      .grid-one {
-            width: 49%;
-            height: 292px;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
-            border-radius: 0px 0px 2px 2px;
-            opacity: 1;
-      }
 
-      .grid-two {
-            width: 49%;
-            height: 292px;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
-            border-radius: 0px 0px 2px 2px;
+      .container-fluid.four-analyser {
+            background: #363E69 0% 0% no-repeat padding-box;
+            border: 1px solid #FFFFFF0D;
+            border-radius: 2px;
             opacity: 1;
-      }
+            padding: 16px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
 
-      .grid-three {
-            width: 49%;
-            height: 292px;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
-            border-radius: 0px 0px 2px 2px;
-            opacity: 1;
-      }
+            .grid-one {
+                  width: 49%;
+                  height: 292px;
+                  background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
+                  border-radius: 0px 0px 2px 2px;
+                  opacity: 1;
+            }
 
-      .grid-four {
-            width: 49%;
-            height: 292px;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
-            border-radius: 0px 0px 2px 2px;
-            opacity: 1;
+            .grid-two {
+                  width: 49%;
+                  height: 292px;
+                  background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
+                  border-radius: 0px 0px 2px 2px;
+                  opacity: 1;
+            }
+
+            .grid-three {
+                  width: 49%;
+                  height: 292px;
+                  background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
+                  border-radius: 0px 0px 2px 2px;
+                  opacity: 1;
+            }
+
+            .grid-four {
+                  width: 49%;
+                  height: 292px;
+                  background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
+                  border-radius: 0px 0px 2px 2px;
+                  opacity: 1;
+            }
       }
 }

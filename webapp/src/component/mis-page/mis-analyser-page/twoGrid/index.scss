@@ -1,35 +1,29 @@
-// @import "../../../../global.scss";
-// @import "~antd/dist/antd.css";
+.container-fluid.two-analyser {
+      background: #2B3254 0% 0% no-repeat padding-box;
+      padding: 16px;
+      border-radius: 2px;
+      opacity: 1;
+      margin: 0 auto;
+      width: 95%;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
 
-// .connectm-Tabs {
-//     .tab-buttons {
-//         background-color: $TABLE_ROW_DARK;
-//         margin-right: 2px;
-//         border-top-left-radius: 10px;
-//         border-top-right-radius: 10px;
-//     }
-//     .tab-active {
-//         border-bottom: 1px solid $ACTIVE;
-//         font-weight: 600;
-//     }
-// }
+      .grid-one {
+            width: 100%;
+            height: 292px;
+            background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
+            border-radius: 0px 0px 2px 2px;
+            opacity: 1;
+            margin-bottom: 2em;
+      }
 
-// .site-card-wrapper {
-//     padding: 8px;
-//     background: #3c4473;
-// }
+      .grid-two {
+            width: 100%;
+            height: 292px;
+            background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
+            border-radius: 0px 0px 2px 2px;
+            opacity: 1;
+      }
 
-// .ant-row.col {
-//     background-color: $TABLE_ROW_DARK;
-//     color: white;
-//     // padding-left: 24px;
-//     // padding-top: 16px;
-// }
-
-// .container-fluid {
-//     padding-left: 80px;
-//     padding-right: 24px;
-//     padding-top: 24px;
-//     min-height: calc(100vh - (60px+60px));
-//     background-color: $APP_BACKGROUND;
-// }
+}

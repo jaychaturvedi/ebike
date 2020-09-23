@@ -3,48 +3,28 @@ import React, { PureComponent } from 'react';
 import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
 import { LeftCircleFilled } from '@ant-design/icons';
 
-interface AlertDetailProps { }
+interface Props { }
 
-interface AlertDetailStates {
-    activeTab: string
-}
-//Smart Alerts
-//BMS Alerts
-//Motor Controller Alerts
-class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
-    constructor(props: AlertDetailProps) {
-        super(props)
-        this.state = {
-            activeTab: 'mc'
-        }
-    }
-    tabClicked = (params: any) => {
-        console.log(params);
+interface State { }
 
-    }
-    render() {
-        const style = { background: '#3C4473', padding: '8px' };
-        return (
-            <>
+class Grid extends PureComponent<Props, State> {
+      render() {
+            return (
+                  <>
 
-                <div className='container-fluid main'>
-                    <Row>
-                        <Col className="gutter-row">
-                            <div className='heading-div' style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-                                <div>
-                                    <Typography.Text style={{ whiteSpace: "nowrap", width:'40%' }} className="header-title" strong>BATTERY STATUS</Typography.Text>
-                                </div>
-                                <div>
-                                    <Typography.Text style={{ whiteSpace: "nowrap",width:'60%'  }} className="header-title" strong>BATTERY STATUS</Typography.Text>
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
+                        <div className='container-fluid two-analyser' >
+                              <div className='grid-one'>
 
-            </>
-        )
-    }
+                              </div>
+
+                              <div className='grid-two'>
+
+                              </div>
+                        </div>
+
+                  </>
+            )
+      }
 }
 
-export default AlertDetail
+export default Grid

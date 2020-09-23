@@ -5,7 +5,7 @@ import MisCustomer from './mis-customer-page'
 import NavigationTabs from '../../subComponents/navigationTabs'
 import { Layout } from "antd";
 import MisMc from './mis-mc-page';
-import Analyser from './mis-analyser-page/fourGrid'
+import { FourGrid, TwoGrid } from './mis-analyser-page'
 
 interface MisContentProps { }
 
@@ -15,8 +15,8 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
     render() {
         return (
             <Layout.Content className="connectm-MisContent">
-                <NavigationTabs />
-                <Analyser/>
+                {/* <NavigationTabs /> */}
+                <FourGrid />
             </Layout.Content>
         )
     }
