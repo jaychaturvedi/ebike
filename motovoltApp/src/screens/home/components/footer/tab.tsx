@@ -1,18 +1,18 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { FooterTab, Icon } from 'native-base';
+import {Image, StyleSheet} from 'react-native';
+import {FooterTab, Icon} from 'native-base';
 import FooterItem from './footer-item';
 import LockButton from './lock-button';
 import Colors from '../../../../styles/colors';
-import { scale } from '../../../../styles/size-matters';
-import { ThemeContext } from '../../../../styles/theme/theme-context';
+import {scale} from '../../../../styles/size-matters';
+import {ThemeContext} from '../../../../styles/theme/theme-context';
 
 export type TFooterItem = 'home' | 'chart' | 'cycle' | 'menu';
 
 const styles = StyleSheet.create({
-  footerTab: { backgroundColor: Colors.WHITE },
-  iconSelected: { height: scale(28), width: scale(28) },
-  icon: { height: scale(28), width: scale(28), opacity: 0.5 },
+  footerTab: {backgroundColor: Colors.WHITE},
+  iconSelected: {height: scale(28), width: scale(28)},
+  icon: {height: scale(28), width: scale(28), opacity: 0.5},
 });
 
 type Props = {
@@ -25,9 +25,9 @@ type Props = {
 
 export default class Tab extends React.PureComponent<Props, {}> {
   render() {
-    let Theme = this.context.theme; //load theme 
+    let Theme = this.context.theme; //load theme
     return (
-      <FooterTab style={{ ...styles.footerTab, backgroundColor: Theme.BACKGROUND }}>
+      <FooterTab style={{...styles.footerTab }}>
         <FooterItem
           visible={!this.props.lockOnlyVisible}
           icon={
@@ -41,8 +41,8 @@ export default class Tab extends React.PureComponent<Props, {}> {
             />
           }
           onPress={() => {
-            console.log("Home pressed")
-            this.props.onItemSelect('home')
+            console.log('Home pressed');
+            this.props.onItemSelect('home');
           }}
           selected={this.props.selectedItem === 'home'}
         />
@@ -59,8 +59,8 @@ export default class Tab extends React.PureComponent<Props, {}> {
             />
           }
           onPress={() => {
-            console.log("Chart pressed")
-            this.props.onItemSelect('chart')
+            console.log('Chart pressed');
+            this.props.onItemSelect('chart');
           }}
           selected={this.props.selectedItem === 'chart'}
         />
