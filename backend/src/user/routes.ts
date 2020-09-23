@@ -45,6 +45,18 @@ app.post('/',
         res.json(response)
     })
 )
+//for testing purpose only, need to be deleted
+app.put('/update/:phone',
+    [param('phone', "phone is required in params").isString(),
+    body('frameId', "frameId is required in body").isString(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { frameId } = req.body
+        //update frameId found from ValidatePhone API
+        const updated = await User.updateByPhone(req.params.phone, { frameId });
+        const response = createResponse("OK", updated, undefined)
+        res.json(response)
+    })
+)
 
 app.delete('/phone/:phone',
     [param('phone', "phone can't be empty").isString().isLength({ min: 1 }), validate],
@@ -57,7 +69,7 @@ app.delete('/phone/:phone',
 )
 
 app.delete('/:uid',
-    [param('uid', "uid can't be empty").isString().isLength({ min: 1 }), validate],
+    [param('uid', "uid is required in params").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const uid = req.params.uid as string
         const deleted = await User.deleteById(uid);
