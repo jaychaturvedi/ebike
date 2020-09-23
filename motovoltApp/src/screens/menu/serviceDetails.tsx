@@ -10,6 +10,7 @@ import { MenuStackParamList } from '../../navigation/menu';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type ReduxState = {
   services: TStore['services'];
@@ -31,53 +32,60 @@ type CardProps = {
   data: { key: string; value: string }[];
 };
 
-function Card(props: CardProps) {
-  return (
-    <View
-      style={{
-        backgroundColor: "white",
-        padding: scale(16),
-        borderRadius: scale(8),
-      }}>
-      <Text
+class Card extends React.PureComponent<CardProps, {}> {
+
+  render() {
+    let props = this.props
+    let Theme = this.context.theme //load theme context
+    return (
+      <View
         style={{
-          fontSize: 18,
-          fontWeight: FontWeight.SEMI_BOLD,
-          color: Colors.DARK_BLACK,
-          marginBottom: scale(8),
+          backgroundColor: Theme.BACKGROUND_LIGHT,
+          padding: scale(16),
+          borderRadius: scale(8),
         }}>
-        {props.title}
-      </Text>
-      {props.data.map((item) => (
-        <Text style={{ marginVertical: scale(8) }}>
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: FontWeight.SEMI_BOLD,
-              color: Colors.BLACK,
-            }}>
-            {item.key}
-          </Text>{' '}
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: FontWeight.REGULAR,
-              color: Colors.DARK_BLACK,
-            }}>
-            {item.value}
-          </Text>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: FontWeight.SEMI_BOLD,
+            color: Theme.DARK_BLACK,
+            marginBottom: scale(8),
+          }}>
+          {props.title}
         </Text>
-      ))}
-    </View>
-  );
+        {props.data.map((item) => (
+          <Text style={{ marginVertical: scale(8) }}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: FontWeight.SEMI_BOLD,
+                color: Theme.TEXT_GREY,
+              }}>
+              {item.key}
+            </Text>{' '}
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: FontWeight.REGULAR,
+                color: Theme.DARK_BLACK,
+              }}>
+              {item.value}
+            </Text>
+          </Text>
+        ))}
+      </View>
+    );
+  }
 }
+
 
 class ServiceDetails extends React.PureComponent<Props, {}> {
   render() {
+    let Theme = this.context.theme //load theme context
     return (
       <View style={{ width: '100%', height: '100%' }}>
         <Header
-          backgroundColor={Colors.HEADER_YELLOW}
+          backgroundColor={Theme.HEADER_YELLOW}
           title={LanguageSelector.t("support.service")}
           hasBackButton
           onBackClick={() => this.props.navigation.goBack()}
@@ -85,7 +93,7 @@ class ServiceDetails extends React.PureComponent<Props, {}> {
         <ScrollView
           style={{
             flex: 1,
-            backgroundColor: Colors.BG_GREY,
+            backgroundColor: Theme.BACKGROUND,
             width: '100%',
           }}>
           {Object.keys(this.props.services.services).map((key, index) => this.props.route.params.serviceId == key ? (
@@ -122,6 +130,9 @@ class ServiceDetails extends React.PureComponent<Props, {}> {
     );
   }
 }
+
+Card.contextType = ThemeContext
+ServiceDetails.contextType = ThemeContext
 
 export default connect(
   (store: TStore): ReduxState => {

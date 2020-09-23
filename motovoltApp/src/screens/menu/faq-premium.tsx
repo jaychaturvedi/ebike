@@ -7,6 +7,7 @@ import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
 import QnaCard from '../common/QnACard';
 import { ScrollView } from 'react-native-gesture-handler';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type FAQPremiumNavigationProp = StackNavigationProp<
     MenuStackParamList,
@@ -22,12 +23,13 @@ interface State { }
 
 export default class FAQPremium extends React.PureComponent<Props, State>{
     render() {
+        let Theme = this.context.theme //load
         return (
-            <View style={styles.container}>
+            <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
                 <Header
                     hasBackButton
                     title={this.props.route.params.header}
-                    backgroundColor={Colors.HEADER_YELLOW}
+                    backgroundColor={Theme.HEADER_YELLOW}
                     onBackClick={() => this.props.navigation.goBack()}
                 />
                 <ScrollView style={styles.body}>
@@ -45,6 +47,8 @@ export default class FAQPremium extends React.PureComponent<Props, State>{
         )
     }
 }
+
+FAQPremium.contextType = ThemeContext
 
 const styles = StyleSheet.create({
     container: {

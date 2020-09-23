@@ -12,7 +12,7 @@ import FAQPremium from '../screens/menu/faq-premium';
 import FAQ from '../screens/menu/faq';
 import ComingSoon from '../screens/common/coming-soon';
 import Language from '../screens/menu/language';
-import App from '../styles/theme/app'
+import Theme from '../styles/theme/app'
 
 /**
  * All props definiton goes here
@@ -62,7 +62,7 @@ export default function MenuStack() {
             <Menu.Screen name="Faq" component={FAQ} />
             <Menu.Screen name="FaqPremium" component={FAQPremium} />
             <Menu.Screen name="Language" component={Language} />
-            <Menu.Screen name="Theme" component={App} />
+            <Menu.Screen name="Theme" component={Theme} />
             <Menu.Screen name="ComingSoon" component={ComingSoon} />
         </Menu.Navigator>
     );

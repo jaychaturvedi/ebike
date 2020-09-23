@@ -53,7 +53,7 @@ export default class MetricTile extends React.PureComponent<MetricTypeProps, {}>
     let Theme = this.context.theme; //load theme from context
     return (
       <View style={{
-        ...styles.tile, backgroundColor: Theme.WHITE,//change dark theme
+        ...styles.tile, backgroundColor: Theme.BACKGROUND_LIGHT,//change dark theme
       }}>
         <View style={{ ...styles.heading, backgroundColor: Theme.BACKGROUND_LIGHT }}>
           <Text numberOfLines={1}>

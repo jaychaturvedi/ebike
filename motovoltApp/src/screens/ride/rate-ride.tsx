@@ -92,7 +92,7 @@ class RateRide extends React.PureComponent<Props, State> {
                             header2={LanguageSelector.t("rateYourRide.duration")}
                             icon1={require('../../assets/icons/total_distance_icon.png')}
                             icon2={require('../../assets/icons/charge_time_remaining.png')}
-                            value1={this.props.ride.totalDistanceKm.toString()}
+                            value1={Math.round(Number(this.props.ride.totalDistanceKm)).toString()}
                             value2={this.props.ride.durationSec.toString()}
                             unit1="Km"
                             unit2=""
@@ -102,8 +102,8 @@ class RateRide extends React.PureComponent<Props, State> {
                             header2={LanguageSelector.t("rateYourRide.maxSpeed")}
                             icon1={require('../../assets/icons/average_speed_icon.png')}
                             icon2={require('../../assets/icons/max_speed_icon.png')}
-                            value1={this.props.ride.avgSpeedKmph.toString()}
-                            value2={this.props.ride.maxSpeedKmph.toString()}
+                            value1={Math.round(Number(this.props.ride.avgSpeedKmph)).toString()}
+                            value2={Math.round(Number(this.props.ride.maxSpeedKmph)).toString()}
                             unit1="Kmph"
                             unit2="Kmph"
                         />
@@ -112,8 +112,8 @@ class RateRide extends React.PureComponent<Props, State> {
                             header2={LanguageSelector.t("rateYourRide.caloriesBurnt")}
                             icon1={require('../../assets/icons/green_miles_icon.png')}
                             icon2={require('../../assets/icons/calories_icon_blue.png')}
-                            value1={this.props.ride.greenMilesKm.toString()}
-                            value2={this.props.ride.caloriesBurnt.toString()}
+                            value1={Math.round(Number(this.props.ride.greenMilesKm)).toString()}
+                            value2={Math.round(Number(this.props.ride.caloriesBurnt)).toString()}
                             unit1="Km"
                             unit2=""
                         />
@@ -122,8 +122,8 @@ class RateRide extends React.PureComponent<Props, State> {
                             header2={LanguageSelector.t("rateYourRide.petrolSavings")}
                             icon1={require('../../assets/icons/inr_icon.png')}
                             icon2={require('../../assets/icons/petrol_savings_icon.png')}
-                            value1={this.props.ride.petrolSavingsInr.toString()}
-                            value2={this.props.ride.petrolSavingsLtr.toString()}
+                            value1={Math.round(Number(this.props.ride.petrolSavingsInr)).toString()}
+                            value2={Math.round(Number(this.props.ride.petrolSavingsLtr)).toString()}
                             unit1="INR"
                             unit2="L"
                         />

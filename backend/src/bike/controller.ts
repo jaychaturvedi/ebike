@@ -9,10 +9,10 @@ const Op = Sequelize.Op
 export async function getMyBike(frameId: string) {
   const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
-    servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string);
+    servDate: serviceDate, warrantyValidTill, purchaseDate } = await ConnectmApi.getMyBike(frameId as string);
   if (!fid) throw new BikeError("frameId is not registered");
   const { bikeName } = await Bike.findOne({ frameId })
-  return { bikeName, motorPer, batteryChargePer, batteryHealthPer, batteries: [{ id: batteryId }], vehicleId, serviceDate }
+  return { bikeName, motorPer, batteryChargePer, batteryHealthPer, batteries: [{ id: batteryId }], vehicleId, serviceDate, warrantyValidTill, purchaseDate }
 }
 
 export async function homeScreen(frameId: string,) {
@@ -37,6 +37,7 @@ export async function verifyFrame(uid: string, frameId: string) {
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
     servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string)//cross verify with mobile number
   if (!fid) throw new BikeError("frameId is not registered");
+  //update frameId in new bike and user profile found from ValidatePhone API
   const result = await Promise.all([Bike.createNew({ frameId, model, uid }), User.updateByUid(uid, { frameId })])
   return {
     uid, frameId, model, type, serviceDate, batteryChargePer, batteries: [{ id: batteryId }]
