@@ -121,7 +121,7 @@ class Home extends React.PureComponent<Props, State> {
               <Text
                 style={{ fontSize: 20, fontWeight: 'bold' }}
                 numberOfLines={1}>
-                Cycle A
+                {this.props.bike.name}
               </Text>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}{'\n'}</Text>
               {this.props.bike.type === 'CELLULAR' ? <TouchableOpacity
