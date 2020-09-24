@@ -12,7 +12,6 @@
 }
 
 .ant-table-thead > tr > th {
-
     background: $TABLE_ROW_LIGHT !important;
     text-align: left;
 }
@@ -64,6 +63,9 @@ td.ant-table-column-sort {
     .table-body {
         zoom: 0.9;
         overflow: hidden !important;
+        margin-bottom: 8px;
+        max-height: 80%;
+        width: 100%;
     }
     .ant-table-cell-scrollbar {
         -webkit-box-shadow: none !important;
@@ -106,7 +108,6 @@ td.ant-table-column-sort {
         .ant-select-arrow svg {
             color: black;
         }
-
 
         .spacer {
             width: 30px;
