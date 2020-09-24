@@ -89,6 +89,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
         mobileNumber: this.state.mobile,
       },
     });
+    Toast.show("OTP Sent")
   };
 
   render() {
