@@ -48,7 +48,7 @@ export async function getRideHistory(frameId: string, startTime: string, endTime
     endTime as string, pageNo as number, pageSize as number)
   const graphData = await ConnectmApi.getRideHistoryStat(frameId, startTime as string,
     endTime as string, pageNo as number, pageSize as number)
-  if (!history[0].fid || !graphData[0].fid) throw new BikeError("please check time and frameId");
+  // if (!history[0].fid || !graphData[0].fid) throw new BikeError("please check time and frameId");
   return { history, graphData }
 }
 

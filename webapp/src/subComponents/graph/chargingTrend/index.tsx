@@ -1,3 +1,4 @@
+import { Brush } from '@material-ui/icons';
 import React, { PureComponent } from 'react';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -32,7 +33,7 @@ const data = [
 export default class LineGraph extends PureComponent {
     render() {
         return (
-            <div className="charging-trend">
+            <>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                         data={data}
@@ -44,11 +45,14 @@ export default class LineGraph extends PureComponent {
                         <YAxis tick={{ fill: 'white' }} stroke='#ffffff' />
                         <Line type="monotone" dataKey="uv" stroke="yellow" dot={{ r: 0 }} strokeWidth={4} />
                         {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+                        <Brush
+                            fill="#131731"
+                            height={12}
+                            stroke="#3C4473"
+                        />
                     </LineChart>
                 </ResponsiveContainer>
-                {/* </div> */}
-            </div>
-
+            </>
         );
     }
 }

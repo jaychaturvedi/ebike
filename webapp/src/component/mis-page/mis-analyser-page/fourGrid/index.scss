@@ -55,5 +55,33 @@
                   border-radius: 0px 0px 2px 2px;
                   opacity: 1;
             }
+
+            .grid-header {
+                  height: 32px;
+                  background: #303860 0% 0% no-repeat padding-box;
+                  .grid-dropDown {
+                        float: right;
+                        min-height: 32px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        cursor: pointer;
+                        border-bottom: 1px solid #fcc84a !important;
+                        font-family: "Roboto" !important;
+                        margin-right: 8px;
+
+                        // width: 22%;
+                  }
+            }
+            .graph-container {
+                  /* Firefox */
+                  height: -moz-calc(100% - 32px);
+                  /* WebKit */
+                  height: -webkit-calc(100% - 32px);
+                  /* Opera */
+                  height: -o-calc(100% - 32px);
+                  /* Standard */
+                  height: calc(100% - 32px);
+            }
       }
 }

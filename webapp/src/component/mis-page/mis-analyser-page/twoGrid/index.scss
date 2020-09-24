@@ -1,5 +1,5 @@
 .container-fluid.two-analyser {
-      background: #2B3254 0% 0% no-repeat padding-box;
+      background: #2b3254 0% 0% no-repeat padding-box;
       padding: 16px;
       border-radius: 2px;
       opacity: 1;
@@ -12,7 +12,7 @@
       .grid-one {
             width: 100%;
             height: 292px;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
+            background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
             border-radius: 0px 0px 2px 2px;
             opacity: 1;
             margin-bottom: 2em;
@@ -21,9 +21,17 @@
       .grid-two {
             width: 100%;
             height: 292px;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4D242233 100%) 0% 0% no-repeat padding-box;
+            background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
             border-radius: 0px 0px 2px 2px;
             opacity: 1;
       }
-
 }
+
+// .grid-two {
+//       width: 49%;
+//       height: 100%;
+//       background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat
+//             padding-box;
+//       border-radius: 0px 0px 2px 2px;
+//       opacity: 1;
+// }
