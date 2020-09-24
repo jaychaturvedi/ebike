@@ -121,12 +121,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
-        {
-          feature: "Theme",
-          icon: require('../../assets/icons/promotions_icon.png'),
-          onPress: () => console.log('Theme pressed'),
-          premium: false,
-        },
+        // {
+        //   feature: "Theme",
+        //   icon: require('../../assets/icons/promotions_icon.png'),
+        //   onPress: () => console.log('Theme pressed'),
+        //   premium: false,
+        // },
       ]
     }
   }
@@ -212,9 +212,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                       case LanguageSelector.t("morePremium.language"):
                         this.props.navigation.navigate('Language', {});
                         break;
-                      case "Theme":
-                        this.props.navigation.navigate('Theme', {});
-                        break;
+                      // case "Theme":
+                      //   this.props.navigation.navigate('Theme', {});
+                      //   break;
                       default:
                         this.props.navigation.navigate('ComingSoon', {});
                         break;

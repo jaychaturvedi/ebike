@@ -27,7 +27,7 @@ export default class FooterItem extends React.Component<Props, {}> {
     let props = this.props
     let Theme = this.context.theme //load 
     return (
-      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
+      <View style={{ ...styles.container }}>
         {props.visible && (
           <View
             style={{
@@ -38,7 +38,7 @@ export default class FooterItem extends React.Component<Props, {}> {
         )}
         <Button
           style={{
-            backgroundColor: Theme.BACKGROUND,
+            backgroundColor: Theme.WHITE,
             elevation: 0,
           }}
           onPress={props.onPress}>

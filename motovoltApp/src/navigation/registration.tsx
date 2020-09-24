@@ -40,10 +40,10 @@ export default function OnboardingStack(props: {}) {
             }}
         // mode="modal"
         >
-            {/* <Registration.Screen name="ValidateFrame" component={ValidateFrame} /> */}
-            {/* <Registration.Screen name="EnterFrameNumber" component={EnterFrameNumber} /> */}
-            {/* <Registration.Screen name="Scanner" component={Scanner} /> */}
-            {/* <Registration.Screen name="FrameRegistered" component={FrameRegistered} /> */}
+            <Registration.Screen name="ValidateFrame" component={ValidateFrame} />
+            <Registration.Screen name="EnterFrameNumber" component={EnterFrameNumber} />
+            <Registration.Screen name="Scanner" component={Scanner} />
+            <Registration.Screen name="FrameRegistered" component={FrameRegistered} />
             <Registration.Screen name="PersonalDetails" component={PersonalDetails} />
             <Registration.Screen name="TurnOnBluetooth" component={TurnOnBluetooth} />
             <Registration.Screen name="Discovering" component={Discovering} />
