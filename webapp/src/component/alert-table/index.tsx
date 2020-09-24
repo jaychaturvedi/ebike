@@ -301,9 +301,9 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     <ConfigProvider renderEmpty={() => <Empty description="No Data"
                         image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
                         <Table
-                            tableLayout={"fixed"}
+                            tableLayout={"auto"}
                             // size={"middle"}
-                            scroll={{ y: this.state.pageSize > 10 ? '56vh' : undefined }}
+                            scroll={{ y: '56vh' }}
                             // scroll={{ y: '55vh' }}
                             bordered={false}
                             className="ant-table-thead"
