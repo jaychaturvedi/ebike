@@ -2,15 +2,21 @@ import FourGrid from './fourGrid'
 import TwoGrid from './twoGrid'
 import React, { PureComponent } from 'react';
 import Header from './topHeader';
-
+import './index.scss'
 interface Props { }
 
-interface State { displayedGrid: 'Four' | 'Two' | string, }
+interface State {
+    displayedGrid: 'Four' | 'Two' | string,
+    showGraph: string
+}
 
 class Grid extends PureComponent<Props, State> {
     constructor(props: Props) {
         super(props)
-        this.state = { displayedGrid: 'Four' }
+        this.state = {
+            displayedGrid: 'Two',
+            showGraph: ''
+        }
     }
 
     renderComponent() {

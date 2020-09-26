@@ -1,29 +1,73 @@
 .container-fluid.two-analyser {
-      background: #2b3254 0% 0% no-repeat padding-box;
-      padding: 16px;
+      // background: #2b3254 0% 0% no-repeat padding-box;
+      // padding: 16px;
+      // border-radius: 2px;
+      // opacity: 1;
+      // margin: 0 auto;
+      // width: 95%;
+      // display: flex;
+      // justify-content: space-between;
+      // flex-direction: column;
+      flex-direction: column;
+      background: #363e69 0% 0% no-repeat padding-box;
+      border: 1px solid #ffffff0d;
       border-radius: 2px;
       opacity: 1;
+      padding: 16px;
+      width: 100%;
       margin: 0 auto;
-      width: 95%;
       display: flex;
       justify-content: space-between;
-      flex-direction: column;
+      height: 70vh;
 
       .grid-one {
             width: 100%;
-            height: 292px;
+            height: 47%;
             background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
             border-radius: 0px 0px 2px 2px;
             opacity: 1;
-            margin-bottom: 2em;
       }
 
       .grid-two {
             width: 100%;
-            height: 292px;
+            height: 47%;
             background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
             border-radius: 0px 0px 2px 2px;
             opacity: 1;
+      }
+      .grid-header {
+            height: 32px;
+            background: #303860 0% 0% no-repeat padding-box;
+            .grid-dropDown {
+                  float: right;
+                  min-height: 32px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  cursor: pointer;
+                  border-bottom: 1px solid #fcc84a !important;
+                  font-family: "Roboto" !important;
+                  margin-right: 8px;
+
+                  // width: 22%;
+            }
+      }
+      .graph-container {
+            /* Firefox */
+            height: -moz-calc(100% - 32px);
+            /* WebKit */
+            height: -webkit-calc(100% - 32px);
+            /* Opera */
+            height: -o-calc(100% - 32px);
+            /* Standard */
+            height: calc(100% - 32px);
+            .recharts-responsive-container {
+                  // display: flex;
+                  // justify-content: center;
+                  // font-size: 12px;
+                  background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat
+                        padding-box;
+            }
       }
 }
 

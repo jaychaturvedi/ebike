@@ -5,10 +5,14 @@ import { Menu, Dropdown, message, Tooltip } from 'antd';
 import { LeftCircleFilled, DownOutlined, UserOutlined } from '@ant-design/icons';
 import Header from "../topHeader"
 import LineGraph from '../../../../subComponents/graph/chargingTrend';
+import DischargeGraph from '../../../../subComponents/graph/dischargingTrend';
 
 interface Props { }
 
-interface State { }
+interface State {
+    dscharge: boolean,
+    charge: boolean
+}
 
 function handleButtonClick(e: any) {
     message.info('Click on left button.');
@@ -18,6 +22,12 @@ function handleButtonClick(e: any) {
 function handleMenuClick(e: any) {
     message.info('Click on menu item.');
     console.log('click', e);
+    // switch (e.key) {
+    //     case "1":
+    //         return <DischargeGraph />
+    //     case "2":
+    //         return <LineGraph />
+    // }
 }
 const graphTypes = ["SoC Battery Pressure", "SoC Acquisition", "SoC Current",
     "SoC", "Min/Max Battery Cell Voltage", "Min/Max Battery Cell Temp",
@@ -43,9 +53,16 @@ export const GraphSelector = () => (
     </Dropdown>)
 
 class Grid extends PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props)
+        this.state = {
+            charge: false,
+            dscharge: false
+        }
+    }
     render() {
         return (
-            <div >
+            <>
                 {/* <Header /> */}
                 <div className='container-fluid four-analyser' >
                     <div className='grid-one'>
@@ -84,7 +101,7 @@ class Grid extends PureComponent<Props, State> {
                         </div>
                     </div>
                 </div>
-            </div>
+            </>
         )
     }
 }

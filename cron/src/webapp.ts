@@ -176,18 +176,18 @@ function callApi() {
         console.log('errrr', e.response.status, e.response.statusText, e.response.data);
     })
 
-    axios.get(process.env.WEBURL!, {
-        params: {
-            vehicleId: "BLR 327490",
-            alertId: 123,
-            alertName: "vehicle active or idle",
-            alertTypeId: 10
-        }
-    }).then((res) => {
-        console.log(res.data);
-    }).catch((e) => {
-        console.log('errrr', e.response.status, e.response.statusText, e.response.data);
-    })
+    // axios.get(process.env.WEBURL!, {
+    //     params: {
+    //         vehicleId: "BLR 327490",
+    //         alertId: 123,
+    //         alertName: "vehicle active or idle",
+    //         alertTypeId: 10
+    //     }
+    // }).then((res) => {
+    //     console.log(res.data);
+    // }).catch((e) => {
+    //     console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    // })
 }
 let time = 0
 setInterval(() => {

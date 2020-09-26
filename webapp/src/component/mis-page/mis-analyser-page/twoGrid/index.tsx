@@ -12,8 +12,7 @@ interface State { }
 class Grid extends PureComponent<Props, State> {
       render() {
             return (
-                  <div>
-
+                  <>
                         <div className='container-fluid two-analyser' >
                               <div className='grid-one'>
                                     <div className="grid-header" >
@@ -33,7 +32,7 @@ class Grid extends PureComponent<Props, State> {
                                     </div>
                               </div>
                         </div>
-                  </div>
+                  </>
             )
       }
 }
