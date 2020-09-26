@@ -19,73 +19,72 @@ function handleMenuClick(e: any) {
     message.info('Click on menu item.');
     console.log('click', e);
 }
-
+const graphTypes = ["SoC Battery Pressure", "SoC Acquisition", "SoC Current",
+    "SoC", "Min/Max Battery Cell Voltage", "Min/Max Battery Cell Temp",
+    "BMS Life", "Ambient Temperature",
+    "Charge/Discharge Cycles", "Cell Voltage", "Speed"]
 const menu = (
     <Menu onClick={handleMenuClick}>
-        <Menu.Item key="1" icon={<UserOutlined />}>
-            1st menu item
-      </Menu.Item>
-        <Menu.Item key="2" icon={<UserOutlined />}>
-            2nd menu item
-      </Menu.Item>
-        <Menu.Item key="3" icon={<UserOutlined />}>
-            3rd menu item
-      </Menu.Item>
+        {  graphTypes.map((name, key) => {
+            return (<Menu.Item key={key} >
+                {name}
+            </Menu.Item>)
+        })}
     </Menu>
 );
-const GraphSelector = () => (<Dropdown overlay={menu} trigger={['click']} placement={"bottomRight"}>
-    <div className={"grid-dropDown grid-dropdown-active"}>
-        <div className={"pair"} >
-            <Typography.Text className={`dropdown-typography`}>dropdown</Typography.Text>
+export const GraphSelector = () => (
+    <Dropdown overlay={menu} trigger={['click']} placement={"bottomRight"}>
+        <div className={"grid-dropDown grid-dropdown-active"}>
+            <div className={"pair"} >
+                <Typography.Text className={`dropdown-typography`}>Choose Parameter</Typography.Text>
+            </div>
+            <DownOutlined className={"flip"} style={{ marginLeft: "16px" }} />
         </div>
-        <DownOutlined className={"flip"} style={{ marginLeft: "16px" }} />
-    </div>
-</Dropdown>)
+    </Dropdown>)
+
 class Grid extends PureComponent<Props, State> {
     render() {
         return (
-            <>
-                <div className="main-wrapper">
-                    <Header />
-                    <div className='container-fluid four-analyser' >
-                        <div className='grid-one'>
-                            <div className="grid-header" >
-                                <GraphSelector />
-                            </div>
-                            <div className="graph-container">
-                                <LineGraph />
-                            </div>
+            <div >
+                {/* <Header /> */}
+                <div className='container-fluid four-analyser' >
+                    <div className='grid-one'>
+                        <div className="grid-header" >
+                            <GraphSelector />
                         </div>
-
-                        <div className='grid-two'>
-                            <div className="grid-header">
-                                <GraphSelector />
-                            </div>
-                            <div className="graph-container">
-                                <LineGraph />
-
-                            </div>
+                        <div className="graph-container">
+                            <LineGraph />
                         </div>
                     </div>
-                    <div className='container-fluid four-analyser' >
 
-                        <div className='grid-three'>
-                            <div className="grid-header">
-                                <GraphSelector />
-                            </div>
-                            <div className="graph-container">
-                                <LineGraph />
-                            </div>
+                    <div className='grid-two'>
+                        <div className="grid-header">
+                            <GraphSelector />
                         </div>
+                        <div className="graph-container">
+                            <LineGraph />
 
-                        <div className='grid-four'>
-                            <div className="grid-header">
-                                <GraphSelector />
-                            </div>
                         </div>
                     </div>
                 </div>
-            </>
+                <div className='container-fluid four-analyser' >
+
+                    <div className='grid-three'>
+                        <div className="grid-header">
+                            <GraphSelector />
+                        </div>
+                        <div className="graph-container">
+                            <LineGraph />
+                        </div>
+                    </div>
+
+                    <div className='grid-four'>
+                        <div className="grid-header">
+                            <GraphSelector />
+                        </div>
+                    </div>
+                </div>
+            </div>
         )
     }
 }
