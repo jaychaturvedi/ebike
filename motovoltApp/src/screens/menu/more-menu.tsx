@@ -31,7 +31,8 @@ type MoreMenuNavigationProp = StackNavigationProp<
 >;
 
 interface ReduxState {
-  user: TStore["user"]
+  user: TStore["user"],
+  bike: TStore["bike"],
 }
 
 interface Props extends ReduxState {
@@ -163,11 +164,11 @@ class MoreMenu extends React.PureComponent<Props, State> {
               />
             </Text>
           </Text>
-          <Text style={{ textAlign: 'center', color: Theme.TEXT_WHITE }}>Classic Model-A</Text>
+            <Text style={{ textAlign: 'center', color: Theme.TEXT_WHITE }}>{this.props.bike.modal}</Text>
         </View>
         <View style={{
           ...styles.metric,
-          backgroundColor: Theme.BACKGROUND //change dark theme
+          backgroundColor: "white" //change dark theme
         }}>
           <RideMetric
             header1={LanguageSelector.t("morePremium.greenMiles")}
@@ -176,7 +177,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
             unit2=""
             icon1={require('../../assets/icons/green_miles_green_icon.png')}
             icon2={require('../../assets/icons/calories_red_icon.png')}
-            value1={"1000"}
+            value1={String(this.props.bike.greenMilesKm)}
             value2={"2000"}
           />
         </View>
@@ -236,6 +237,7 @@ export default connect(
   (store: TStore) => {
     return {
       user: store['user'],
+      bike: store['bike']
     };
   },
   (dispatch: Dispatch) => {
