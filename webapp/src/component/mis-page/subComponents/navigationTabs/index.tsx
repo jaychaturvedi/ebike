@@ -1,7 +1,7 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
 import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
-import HalfPie from '../../subComponents/halfPie';
+import HalfPie from '../../../../subComponents/halfPie';
 import { LeftCircleFilled } from '@ant-design/icons';
 
 interface AlertDetailProps {
@@ -18,7 +18,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
     constructor(props: AlertDetailProps) {
         super(props)
         this.state = {
-            activeTab: 'mc'
+            activeTab: 'analyser'
         }
     }
     tabClicked = (params: string) => {

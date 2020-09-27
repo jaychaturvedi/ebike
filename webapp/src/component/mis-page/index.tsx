@@ -2,7 +2,7 @@ import './index.scss';
 import React, { PureComponent } from 'react';
 import MisBattery from "./mis-battery-page"
 import MisCustomer from './mis-customer-page'
-import NavigationTabs from '../../subComponents/navigationTabs'
+import NavigationTabs from './subComponents/navigationTabs'
 import { Layout } from "antd";
 import MisMc from './mis-mc-page';
 import Analyser from './mis-analyser-page'
@@ -15,7 +15,7 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
     constructor(props: MisContentProps) {
         super(props)
         this.state = {
-            activeTab: "battery"
+            activeTab: "mc"
         }
     }
 
