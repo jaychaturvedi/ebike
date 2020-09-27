@@ -63,8 +63,8 @@ class GPSLui extends React.PureComponent<Props, State> {
         />
         <View style={styles.mapView}>
           <Map location={[{
-            latitude: this.props.bike.lat ? this.props.bike.lat : 37.78825,
-            longitude: this.props.bike.long ? this.props.bike.long : -122.4324,
+            latitude: this.props.bike.lat,
+            longitude: this.props.bike.long,
           }]} />
         </View>
         <View style={styles.footerView}>

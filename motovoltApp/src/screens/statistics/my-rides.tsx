@@ -243,9 +243,10 @@ class MyRides extends React.PureComponent<Props, State> {
               key={index}
               fromAddress={this.props.rides[key].from}
               toAddress={this.props.rides[key].to}
+              // todo
               progress={30}
-              fromTime={new Date()}
-              toTime={new Date()}
+              fromTime={new Date(this.props.rides[key].from)}
+              toTime={new Date(this.props.rides[key].to)}
               distance={this.props.rides[key].totalDistanceKm.toString()}
               rating={`${this.props.rides[key].score.toString()}/10`}
               speed={this.props.rides[key].avgSpeedKmph.toString()}
