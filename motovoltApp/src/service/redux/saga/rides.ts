@@ -130,7 +130,7 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 payload: {
                     data: data.graphData.map((gData: any) => ({
                         value: gData.speed,
-                        date: new Date().toString()
+                        date: gData.date
                     })),
                     avgKmph: data.graphData.length ? data.graphData[0].avgkmph : 0,
                     avgSpeed: data.graphData.length ? data.graphData[0].avgspd : 0,
