@@ -3,20 +3,109 @@
 
 .grid-container {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 10px;
-    background-color: #2196f3;
-    padding: 10px;
+    background: #2b3254 0% 0% no-repeat padding-box;
+    max-height: calc(100vh - 180px);
+    min-height: calc(100vh - 180px);
+    border-radius: 2px;
+    opacity: 1;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    .battery-table {
+        width: 60%;
+    }
+    .grid-header {
+        height: 32px;
+        background: #303860 0% 0% no-repeat padding-box;
+    }
+    .graph-container {
+        /* Firefox */
+        height: -moz-calc(100%);
+        /* WebKit */
+        height: -webkit-calc(100%);
+        /* Opera */
+        height: -o-calc(100%);
+        /* Standard */
+        height: calc(100%);
+        .recharts-responsive-container {
+            // display: flex;
+            // justify-content: center;
+            // font-size: 12px;
+            background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
+        }
+    }
+    .map-container {
+        .image-map {
+            width: 100%;
+            max-height: 70%;
+        }
+    }
 }
 
 .grid-container > div {
-    background-color: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    padding: 20px 0;
-    font-size: 30px;
+    background: #363e69 0% 0% no-repeat padding-box;
+    // text-align: center;
+    padding: 16px;
+    font-size: 14px;
 }
 
+.grid-container {
+    .top-cell {
+        height: 100%;
+        .card-container {
+            padding: 16px;
+            background: #00000033 0% 0% no-repeat padding-box;
+            .card-body {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                text-align: center;
+            }
+        }
+    }
+    .top-cell.left {
+        display: grid;
+        grid-template-rows: 1fr 1fr auto;
+    }
+    .bottom-cell {
+        height: 100%;
+    }
+}
 .item2 {
     grid-column-start: 2;
     grid-column-end: 4;
+    display: flex;
+    .health {
+        width: 40%;
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: column;
+        .health-tab {
+            display: flex;
+            justify-content: space-around;
+        }
+        .health-card {
+            background: #2d3456;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+        }
+
+        .battery-image-container {
+            display: flex;
+            justify-content: center;
+            .battery-health-circle {
+                width: 160px;
+                height: 160px;
+                background: #2d3456;
+                border-radius: 90px;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
 }

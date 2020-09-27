@@ -9,7 +9,7 @@ import "react-circular-progressbar/dist/styles.css";
 import ChangingProgressProvider from "./ChangingProgressProvider";
 
 const App = () => (
-    <div style={{ padding: "40px 40px 40px 40px" }}>
+    <div style={{ padding: "40px 40px 40px 40px", width: "30%", paddingRight: 30 }}>
         <ChangingProgressProvider values={[0, 80]}>
             {(value: number) => (
                 <CircularProgressbarWithChildren value={value}

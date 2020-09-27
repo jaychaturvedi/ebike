@@ -22,11 +22,11 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
     renderComponent() {
         switch (this.state.activeTab) {
             case "battery":
-                return <MisBattery />
+                return <MisMc />
             case "analyser":
                 return <Analyser />
             case "mc":
-                return <MisMc />
+                return <MisBattery />
             case "customer":
                 return <MisCustomer />
         }

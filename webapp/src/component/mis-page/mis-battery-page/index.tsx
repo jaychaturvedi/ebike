@@ -41,7 +41,7 @@ class MisBattery extends PureComponent<Props, States> {
                                 {/* <div style={{ height: '40%' }}>
                                     <HalfPie />
                                 </div> */}
-                                <div style={{ textAlign: 'center' }}>
+                                <div style={{ textAlign: 'center', height: '100px' }}>
                                     <Dialer />
                                 </div>
                                 <Row className="card-wrapper">

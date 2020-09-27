@@ -2,15 +2,17 @@
 @import "~antd/dist/antd.css";
 
 .container-battery {
-    padding-right: 24px;
-    padding-bottom: 70px;
-    height: 1px;
-    min-height: calc(100vh - (60px + 32px));
-    max-height: calc(100vh - (60px + 32px));
     background-color: $APP_BACKGROUND;
-    padding-left: 24px;
+
+    margin-right: 24px;
+    margin-left: 24px;
     display: flex;
     flex-direction: column;
+    /* margin-bottom: 70px; */
+    /* height: 1px; */
+    /* min-height: calc(100vh - (60px + 32px)); */
+    /* max-height: calc(100vh - (60px + 32px)); */
+
     .battery-top {
         .recharts-responsive-container {
             background-color: #3c4473;
