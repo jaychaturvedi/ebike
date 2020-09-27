@@ -1,9 +1,9 @@
 @import "../../global.scss";
 @import "~antd/dist/antd.css";
 
-.connectm-Tabs {
+.connectmMis-Tabs {
     margin-left: 24px;
-    margin-top: 24px;
+    // margin-top: 24px;
 
     .tab-buttons {
         background-color: $TABLE_ROW_DARK;
@@ -15,5 +15,10 @@
     .tab-active {
         border-bottom: 1px solid $ACTIVE;
         font-weight: 600;
+    }
+
+    .analyser-button {
+        float: right;
+        margin-right: 24px;
     }
 }

@@ -4,7 +4,9 @@ import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
 import HalfPie from '../../subComponents/halfPie';
 import { LeftCircleFilled } from '@ant-design/icons';
 
-interface AlertDetailProps { }
+interface AlertDetailProps {
+    toggleComponent: Function
+}
 
 interface AlertDetailStates {
     activeTab: string
@@ -19,14 +21,15 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
             activeTab: 'mc'
         }
     }
-    tabClicked = (params: any) => {
+    tabClicked = (params: string) => {
         console.log(params);
-
+        this.setState({ activeTab: params })
+        this.props.toggleComponent(params)
     }
     render() {
         return (
             <>
-                <div className="connectm-Tabs">
+                <div className="connectmMis-Tabs">
                     <LeftCircleFilled style={{ padding: '5px', fontSize: '20px' }} />
                     <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "customer" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("customer")}>
                         <Typography.Text style={{ whiteSpace: "nowrap" }}>Customer</Typography.Text>
@@ -40,6 +43,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                     <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("mc")}>
                         <Typography.Text style={{ whiteSpace: "nowrap" }}>Motor Controller</Typography.Text>
                     </Button>
+                    <div onClick={() => this.tabClicked("analyser")} className={`analyser-button ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} >
+                        Analyser
+                    </div>
                 </div>
             </>
         )

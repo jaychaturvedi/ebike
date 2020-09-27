@@ -8,15 +8,39 @@ import MisMc from './mis-mc-page';
 import Analyser from './mis-analyser-page'
 
 interface MisContentProps { }
-
-interface MisContentStates { }
+type TComponent = "customer" | "battery" | "vehicle" | "analyser" | "mc" | "back"
+interface MisContentStates { activeTab: TComponent }
 
 class MisContent extends PureComponent<MisContentProps, MisContentStates> {
+    constructor(props: MisContentProps) {
+        super(props)
+        this.state = {
+            activeTab: "battery"
+        }
+    }
+
+    renderComponent() {
+        switch (this.state.activeTab) {
+            case "battery":
+                return <MisBattery />
+            case "analyser":
+                return <Analyser />
+            case "mc":
+                return <MisMc />
+            case "customer":
+                return <MisCustomer />
+        }
+    }
+    toggleComponent = (type: TComponent) => {
+        this.setState({ activeTab: type })
+    }
     render() {
         return (
             <Layout.Content className="connectm-MisContent">
-                {/* <NavigationTabs /> */}
-                <Analyser />
+                <NavigationTabs toggleComponent={this.toggleComponent} />
+                {/* <Analyser /> */}
+                {/* <MisBattery /> */}
+                {this.renderComponent()}
             </Layout.Content>
         )
     }

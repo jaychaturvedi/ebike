@@ -9,20 +9,19 @@ import MeterBG from '../../../assets/batch2/meter_bg.png'
 import MeterBG2 from '../../../assets/batch2/map_bg@2x.png'
 import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import Dialer from './dialer'
 
-interface AlertDetailProps { }
+interface Props { }
 
-interface AlertDetailStates {
-    activeTab: string
+interface States {
 }
 //Smart Alerts
 //BMS Alerts
 //Motor Controller Alerts
-class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
-    constructor(props: AlertDetailProps) {
+class MisBattery extends PureComponent<Props, States> {
+    constructor(props: Props) {
         super(props)
         this.state = {
-            activeTab: 'smart'
         }
     }
     tabClicked = (params: any) => {
@@ -42,12 +41,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                                 {/* <div style={{ height: '40%' }}>
                                     <HalfPie />
                                 </div> */}
-                                <div style={{ height: '40%', textAlign: 'center' }}>
-                                    <img src={MeterBG}></img>
-                                </div>
-
-                                <div style={{ height: '40%', textAlign: 'center' }}>
-                                    <img src={MeterBG}></img>
+                                <div style={{ textAlign: 'center' }}>
+                                    <Dialer />
                                 </div>
                                 <Row className="card-wrapper">
                                     <Typography.Text style={{ whiteSpace: "nowrap" }}>Soc</Typography.Text>
@@ -132,4 +127,4 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
 
 }
 
-export default AlertDetail
+export default MisBattery
