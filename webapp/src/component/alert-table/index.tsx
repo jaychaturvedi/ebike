@@ -304,7 +304,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                             tableLayout={"fixed"}
                             // size={"middle"}
                             // scroll={{ y: '56vh' }}
-                            scroll={{ y: 400 }}
+                            // scroll={{ y: 400,x:'max-content' }}
                             bordered={false}
                             className="ant-table-thead"
                             showSorterTooltip={false}
