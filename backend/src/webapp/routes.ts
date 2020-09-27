@@ -199,9 +199,11 @@ app.get('/graphs',
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
+        console.log("Start API :",new Date())
         const { vehicleId, alertId, alertName, alertTypeId } = req.query as any
         const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName)
         const response = createResponse("OK", result, undefined)
+        console.log("End API :", new Date())
         res.json(response)
     })
 )
