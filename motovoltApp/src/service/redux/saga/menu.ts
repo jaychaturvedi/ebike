@@ -7,7 +7,7 @@ import { config, request } from "./utils";
 
 export function* readFAQ(params: MenuActions.ReadFAQ) {
     try {
-        const dataResponse = yield request(`${config.baseUrl}/feature/faq`,
+        const dataResponse = yield request(`${config.baseUrl}/faq`,
             "GET", undefined);
         if (dataResponse.success) {
             const data = dataResponse.response.body;

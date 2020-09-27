@@ -12,9 +12,9 @@
 }
 
 .ant-table-thead > tr > th {
-
     background: $TABLE_ROW_LIGHT !important;
     text-align: left;
+    z-index: 3;
 }
 
 .ant-table-row {
@@ -51,19 +51,31 @@ td.ant-table-column-sort {
     // height: calc(100% - 250px);
     // border: 1px solid red;
     .ant-table table {
-        overflow: hidden !important;
-        text-indent: 10px;
+        text-indent: 8px;
     }
 
     .ant-table {
-        overflow: hidden !important;
         background-color: transparent;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
+
+    table th {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 3;
+    }
+    tbody td {
+        z-index: 1;
+    }
+
     .table-body {
+        display: inline-block;
         zoom: 0.9;
-        overflow: hidden !important;
+        height: 80%;
+        width: 100%;
+        overflow: auto !important;
     }
     .ant-table-cell-scrollbar {
         -webkit-box-shadow: none !important;
@@ -106,7 +118,6 @@ td.ant-table-column-sort {
         .ant-select-arrow svg {
             color: black;
         }
-
 
         .spacer {
             width: 30px;

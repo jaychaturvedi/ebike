@@ -297,14 +297,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
         return <>
             <div className="container" >
-                <div className={'table-body'} style={{ maxHeight: "80%", width: '100%' }}>
+                <div className={'table-body'}>
                     <ConfigProvider renderEmpty={() => <Empty description="No Data"
                         image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
                         <Table
                             tableLayout={"fixed"}
                             // size={"middle"}
-                            scroll={{ y: this.state.pageSize > 10 ? '56vh' : undefined }}
-                            // scroll={{ y: '55vh' }}
+                            // scroll={{ y: '56vh' }}
+                            // scroll={{ y: 400,x:'max-content' }}
                             bordered={false}
                             className="ant-table-thead"
                             showSorterTooltip={false}

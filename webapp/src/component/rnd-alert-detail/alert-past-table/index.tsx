@@ -294,7 +294,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     <ConfigProvider renderEmpty={() => <Empty description="No Data"
                         image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
                         <Table
-                            tableLayout={"auto"}
+                            tableLayout={"fixed"}
                             // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
                             // scroll={{ y: this.state.data.length > 3 ? '28.5vh' : undefined}}
                             scroll={{ y: '28.5vh' }} //not able to make dynamic

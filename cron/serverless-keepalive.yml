@@ -1,0 +1,23 @@
+plugins: # List of plugins of use on application
+  # - serverless-offline # Get your serverless configuration and run the server local
+  - serverless-plugin-typescript-express # Help us with configuration typescript on serverless
+
+service: zelp-motovolt-app-keepAlive
+
+provider:
+  name: aws
+  endpointType: REGIONAL
+  runtime: nodejs10.x
+  stage: dev
+  region: us-east-2
+  memorySize: 2048
+  environment: 
+    MOTOVOLTAPI: https://q6sm9vkbn2.execute-api.us-east-2.amazonaws.com/dev
+functions:
+  keepAliveCron:
+    handler: src/keepAliveCron.keepAlive
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true

@@ -12,6 +12,7 @@ Amplify.configure({
 
 export async function signup(phoneNumber: string) {
     await signout();
+    await resetCredentials();
     const password = `${phoneNumber}motovOlt@`
     return Auth.signUp({
         username: phoneNumber,
@@ -58,6 +59,15 @@ export async function signup(phoneNumber: string) {
                         message: "User Not confirmed"
                     }
                 }
+                return {
+                    success: false,
+                    user: null,
+                    message: err.message || "Unknown Error",
+                    username: '',
+                    userConfirmed: false,
+                    userSub: '',
+                }
+            }).catch(err => {
                 return {
                     success: false,
                     user: null,
@@ -198,7 +208,7 @@ export async function getToken() {
 export function changePassword(mobileNumber: string, oldpassword: string, newpassword: string,) {
     return getUser().then(async response => {
         if (response.success) {
-            return Auth.changePassword(response.user, 
+            return Auth.changePassword(response.user,
                 oldpassword === "" ? `${mobileNumber}motovOlt@` : oldpassword, newpassword)
                 .then(async res => {
                     await storeCredentials(mobileNumber, newpassword);
