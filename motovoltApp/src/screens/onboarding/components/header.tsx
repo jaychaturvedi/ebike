@@ -45,7 +45,7 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
     return (
       <Header transparent>
         <View style={styles.container}>
-          <View>
+          <View style={{marginLeft: 10}}>
             {this.props.hasBackButton && (
               <TouchableOpacity onPress={this.props.onBackClick}>
                 <Image
