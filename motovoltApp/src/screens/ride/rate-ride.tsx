@@ -165,7 +165,7 @@ class RateRide extends React.PureComponent<Props, State> {
                 {LanguageSelector.t('rateYourRide.rateYourRide')}
               </Text>
             </View>
-            <View style={{padding: moderateScale(20)}}>
+            <View >
               <Rating
                 defaultRating={0}
                 maxRating={5}
