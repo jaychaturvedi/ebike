@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
   input: {
     width: scale(300),
     paddingHorizontal: scale(15),
-    height: verticalScale(40),
+    height: 44,
     borderColor: Colors.BORDER_GREY,
     borderWidth: 1,
     borderRadius: 10,
-    fontSize: verticalScale(12),
+    fontSize: 12,
   },
 });
 

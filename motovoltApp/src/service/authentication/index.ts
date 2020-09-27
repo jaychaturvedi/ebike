@@ -12,7 +12,6 @@ Amplify.configure({
 
 export async function signup(phoneNumber: string) {
     await signout();
-    await resetCredentials();
     const password = `${phoneNumber}motovOlt@`
     return Auth.signUp({
         username: phoneNumber,
