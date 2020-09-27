@@ -17,7 +17,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {fetchCredentials} from './src/service/secure-storage';
 
 import {TStore} from './src/service/redux/store';
-import {signIn} from './src/service/authentication';
+import {signIn, signout} from './src/service/authentication';
 import {getUser} from './src/service/redux/saga/user';
 import {SignIn} from './src/service/redux/actions/saga';
 import {connect} from 'react-redux';
@@ -86,6 +86,7 @@ class App extends React.PureComponent<Props, State> {
               },
             });
           } else {
+            await signout();
             this.props.resetStore({
               type: 'Store_Reset',
               payload: {},
