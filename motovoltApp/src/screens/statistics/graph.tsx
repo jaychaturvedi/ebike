@@ -164,44 +164,44 @@ export default class Graph extends React.PureComponent<Props, State>{
                 <View style={{ width: '90%', flexDirection: 'row' }} >
                     <YAxis
                         // data={this.state.data}
-                        data={[{
-                            value: 120,
-                            svg: {
-                                fill: 'transparent',
+                        data={[
+                            {
+                                value: 120,
+                                svg: {
+                                    fill: 'transparent',
+                                },
+                                date: new Date("2020-08-09T16:25:31.541Z"),
+                            }, {
+                                value: 10,
+                                svg: {
+                                    fill: 'transparent',
+                                },
+                                date: new Date("2020-08-07T16:25:31.541Z"),
                             },
-                            date: new Date("2020-08-09T16:25:31.541Z"),
-                        }, {
-                            value: 10,
-                            svg: {
-                                fill: 'rgb(83,114,255,0.4)',
+                            {
+                                value: 40,
+                                svg: {
+                                    fill: 'transparent',
+                                },
+                                date: new Date("2020-08-08T16:25:31.541Z"),
                             },
-                            date: new Date("2020-08-07T16:25:31.541Z"),
-                        },
-                        {
-                            value: 40,
-                            svg: {
-                                fill: 'rgb(83,114,255,0.4)',
+                            {
+                                value: 95,
+                                svg: {
+                                    fill: 'transparent',
+                                },
+                                date: new Date("2020-08-09T16:25:31.541Z"),
                             },
-                            date: new Date("2020-08-08T16:25:31.541Z"),
-                        },
-                        {
-                            value: 95,
-                            svg: {
-                                fill: 'rgb(83,114,255,0.4)',
-                            },
-                            date: new Date("2020-08-09T16:25:31.541Z"),
-                        },
-                        ...this.props.data.map((graph, index: number) => ({
-                            value: graph.value, date: graph.date, svg: {
-                                fill: index === this.props.data.length - 1 ? 'rgb(83,114,255,1)' : 'rgb(83,114,255,0.4)'
-                            }
-                        }))]}
+                            ...this.props.data.map((graph, index: number) => ({
+                                value: graph.value, date: graph.date, svg: {
+                                    fill: index === this.props.data.length - 1 ? 'rgb(83,114,255,1)' : 'rgb(83,114,255,0.4)'
+                                }
+                            }))]}
                         formatLabel={(value, index) => `${value} KM`}
                         numberOfTicks={2}
                         yAccessor={({ item }) => item.value}
                         svg={{ fill: '#3A8F98', fontSize: 12 }}
                         style={{ height: moderateScale(150), width: moderateScale(40) }} />
-
                     <ScrollView style={{}} horizontal={true}
                         onScrollAnimationEnd={() => console.log("animation end")}
                         onMomentumScrollEnd={() => console.log("Scroll ended")}
@@ -214,93 +214,105 @@ export default class Graph extends React.PureComponent<Props, State>{
                             this.setState({ offset: currentOffset, scrollEnd: false, direction });
                             // console.log(direction);
                         }} >
-                        <View style={{ minWidth: moderateScale(300) }}>
-                            <BarChart style={{ height: moderateScale(150) }}
-                                // data={this.state.data}
-                                data={[{
-                                    value: 120,
-                                    svg: {
-                                        fill: 'transparent',
-                                    },
-                                    date: new Date("2020-08-09T16:25:31.541Z"),
-                                },
-                                {
-                                    value: 10,
-                                    svg: {
-                                        fill: 'rgb(83,114,255,0.4)',
-                                    },
-                                    date: new Date("2020-08-07T16:25:31.541Z"),
-                                },
-                                {
-                                    value: 40,
-                                    svg: {
-                                        fill: 'rgb(83,114,255,0.4)',
-                                    },
-                                    date: new Date("2020-08-08T16:25:31.541Z"),
-                                },
-                                {
-                                    value: 95,
-                                    svg: {
-                                        fill: 'rgb(83,114,255,0.4)',
-                                    },
-                                    date: new Date("2020-08-09T16:25:31.541Z"),
-                                },
-                                ...this.props.data.map((graph, index: number) => ({
-                                    value: graph.value, date: graph.date, svg: {
-                                        fill: index === this.props.data.length - 1 ? 'rgb(83,114,255,1)' : 'rgb(83,114,255,0.4)'
-                                    }
-                                }))]}
-                                svg={{ fill: this.state.fill }}
-                                gridMin={2}
-                                yAccessor={({ item }) => item.value}
-                                numberOfTicks={2}
-                                spacingInner={0.2} >
-                                <Grid svg={{ strokeMiterlimit: 500 }} />
-                            </BarChart>
-                            <XAxis
-                                // data={this.state.data}
-                                data={[{
-                                    value: 120,
-                                    svg: {
-                                        fill: 'transparent',
-                                    },
-                                    date: new Date("2020-08-09T16:25:31.541Z"),
-                                },
-                                {
-                                    value: 10,
-                                    svg: {
-                                        fill: 'rgb(83,114,255,0.4)',
-                                    },
-                                    date: new Date("2020-08-07T16:25:31.541Z"),
-                                },
-                                {
-                                    value: 40,
-                                    svg: {
-                                        fill: 'rgb(83,114,255,0.4)',
-                                    },
-                                    date: new Date("2020-08-08T16:25:31.541Z"),
-                                },
-                                {
-                                    value: 95,
-                                    svg: {
-                                        fill: 'rgb(83,114,255,0.4)',
-                                    },
-                                    date: new Date("2020-08-09T16:25:31.541Z"),
-                                },
-                                ...this.props.data.map((graph, index: number) => ({
-                                    value: graph.value, date: graph.date, svg: {
-                                        fill: index === this.props.data.length - 1 ? 'rgb(83,114,255,1)' : 'rgb(83,114,255,0.4)',
-                                    }
-                                }))]}
-                                scale={scale.scaleBand}
-                                formatLabel={(value, index) => {
-                                    // console.log(this.state.data[index].date);
-                                    return this.getDayString(new Date(this.props.data[index] ? this.props.data[index].date : new Date()).getDay())
-                                }}
-                                style={{ height: moderateScale(40), paddingTop: moderateScale(5) }}
-                                svg={{ fill: '#3A8F98', fontSize: moderateScale(15) }}
-                            />
-                        </View>
+                        {
+                            this.props.data.length === 0 ? <View style={{
+                                height: '100%', minWidth: moderateScale(250),
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                borderBottomWidth: 1,
+                                borderBottomColor: '#f2f3f5'
+                            }}><Text>No history data found</Text></View>
+                                :
+                                <View style={{ minWidth: moderateScale(250) }}>
+                                    <BarChart style={{ height: moderateScale(150) }}
+                                        // data={this.state.data}
+                                        data={[
+                                            {
+                                                value: 120,
+                                                svg: {
+                                                    fill: 'rgb(83,114,255,0.4)',
+                                                },
+                                                date: new Date("2020-08-09T16:25:31.541Z"),
+                                            },
+                                            {
+                                                value: 10,
+                                                svg: {
+                                                    fill: 'rgb(83,114,255,0.4)',
+                                                },
+                                                date: new Date("2020-08-07T16:25:31.541Z"),
+                                            },
+                                            {
+                                                value: 40,
+                                                svg: {
+                                                    fill: 'rgb(83,114,255,0.4)',
+                                                },
+                                                date: new Date("2020-08-08T16:25:31.541Z"),
+                                            },
+                                            {
+                                                value: 95,
+                                                svg: {
+                                                    fill: 'rgb(83,114,255,0.4)',
+                                                },
+                                                date: new Date("2020-08-09T16:25:31.541Z"),
+                                            },
+                                            ...this.props.data.map((graph, index: number) => ({
+                                                value: graph.value, date: graph.date, svg: {
+                                                    fill: index === this.props.data.length - 1 ? 'rgb(83,114,255,1)' : 'rgb(83,114,255,0.4)'
+                                                }
+                                            }))]}
+                                        svg={{ fill: this.state.fill }}
+                                        gridMin={2}
+                                        yAccessor={({ item }) => item.value}
+                                        numberOfTicks={2}
+                                        spacingInner={0.2} >
+                                        <Grid svg={{ strokeMiterlimit: 500 }} />
+                                    </BarChart>
+                                    <XAxis
+                                        // data={this.state.data}
+                                        data={[{
+                                            value: 120,
+                                            svg: {
+                                                fill: 'transparent',
+                                            },
+                                            date: new Date("2020-08-09T16:25:31.541Z"),
+                                        },
+                                        {
+                                            value: 10,
+                                            svg: {
+                                                fill: 'transparent',
+                                            },
+                                            date: new Date("2020-08-07T16:25:31.541Z"),
+                                        },
+                                        {
+                                            value: 40,
+                                            svg: {
+                                                fill: 'transparent',
+                                            },
+                                            date: new Date("2020-08-08T16:25:31.541Z"),
+                                        },
+                                        {
+                                            value: 95,
+                                            svg: {
+                                                fill: 'transparent',
+                                            },
+                                            date: new Date("2020-08-09T16:25:31.541Z"),
+                                        },
+                                        ...this.props.data.map((graph, index: number) => ({
+                                            value: graph.value, date: graph.date, svg: {
+                                                fill: index === this.props.data.length - 1 ? 'rgb(83,114,255,1)' : 'rgb(83,114,255,0.4)',
+                                            }
+                                        }))]}
+                                        scale={scale.scaleBand}
+                                        formatLabel={(value, index) => {
+                                            // console.log(this.state.data[index].date);
+                                            return this.getDayString(new Date(this.props.data[index] ? this.props.data[index].date : new Date()).getDay())
+                                        }}
+                                        style={{ height: moderateScale(40), paddingTop: moderateScale(5) }}
+                                        svg={{ fill: '#3A8F98', fontSize: moderateScale(15) }}
+                                    />
+                                </View>
+                        }
                     </ScrollView>
                 </View>
                 {/* <Text>
