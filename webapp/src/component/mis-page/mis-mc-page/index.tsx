@@ -4,6 +4,7 @@ import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
 import ChargingTrend from '../../../subComponents/graph/chargingTrend';
 import Battery from '../../../assets/battery_health__g_icon.png'
 import IconMap from '../../../assets/batch2/map.png'
+import { ReactComponent as BatterySvg } from '../../../assets/Cell_icon.svg'
 import Header from './topHeader'
 import Dialer from './dialer'
 import { Typography } from 'antd';
@@ -121,10 +122,15 @@ class MisMC extends PureComponent<Props, States> {
                         <div className="header">
                             <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>CELL VOLTAGE</Typography.Text>
                         </div>
-                        <div className="content"></div>
-                        {/* <div className="graph-container">
-                            <ChargingTrend />
-                        </div> */}
+                        <div className="content">
+                            <div><BatterySvg width={30} height={30} /></div>
+                            <div><BatterySvg width={30} height={30} /></div>
+                            <div><BatterySvg width={30} height={30} /></div>
+                            <div><BatterySvg width={30} height={30} /></div>
+                            <div><BatterySvg width={30} height={30} /></div>
+
+                            <div><BatterySvg width={30} height={30} /></div>
+                        </div>
                     </div>
                     <div className="item4 bottom-cell center">
                         <div className="header">

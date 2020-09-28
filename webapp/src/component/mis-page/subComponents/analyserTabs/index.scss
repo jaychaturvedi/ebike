@@ -1,0 +1,30 @@
+@import "../../../../global.scss";
+@import "~antd/dist/antd.css";
+
+.connectmAnalyser-Tabs {
+    margin-left: 24px;
+    // margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .tab-buttons {
+        background-color: $TABLE_ROW_DARK;
+        margin-right: 2px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .tab-active {
+        border-bottom: 1px solid $ACTIVE;
+        font-weight: 600;
+    }
+
+    .analyser-button {
+        float: right;
+        margin-right: 32px;
+        background: #4d5fc1 0% 0% no-repeat padding-box;
+        border-radius: 4px;
+        opacity: 1;
+        // padding: 8px;
+    }
+}

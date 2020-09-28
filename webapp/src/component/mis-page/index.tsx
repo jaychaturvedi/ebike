@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react';
 import MisBattery from "./mis-battery-page"
 import MisCustomer from './mis-customer-page'
 import NavigationTabs from './subComponents/navigationTabs'
+import AnalyserTabs from './subComponents/analyserTabs'
+
 import { Layout } from "antd";
 import MisMc from './mis-mc-page';
 import Analyser from './mis-analyser-page'
@@ -37,7 +39,7 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
     render() {
         return (
             <Layout.Content className="connectm-MisContent">
-                <NavigationTabs toggleComponent={this.toggleComponent} />
+                {this.state.activeTab === "analyser" ? <AnalyserTabs toggleComponent={this.toggleComponent}></AnalyserTabs> : <NavigationTabs toggleComponent={this.toggleComponent} />}
                 {/* <Analyser /> */}
                 {/* <MisBattery /> */}
                 {this.renderComponent()}
