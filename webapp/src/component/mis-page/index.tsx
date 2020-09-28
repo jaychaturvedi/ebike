@@ -15,7 +15,7 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
     constructor(props: MisContentProps) {
         super(props)
         this.state = {
-            activeTab: "mc"
+            activeTab: "battery"
         }
     }
 

@@ -18,7 +18,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
     constructor(props: AlertDetailProps) {
         super(props)
         this.state = {
-            activeTab: 'analyser'
+            activeTab: 'battery'
         }
     }
     tabClicked = (params: string) => {

@@ -55,12 +55,18 @@
     .top-cell {
         height: 100%;
         .card-container {
-            padding: 16px;
+            padding-left: 16px;
             background: #00000033 0% 0% no-repeat padding-box;
             .card-body {
                 display: grid;
                 grid-template-columns: auto auto auto;
                 text-align: center;
+            }
+            .card-body .label {
+                // display: flex;
+                // flex-direction: column;
+                text-align: left;
+                // style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}
             }
         }
     }

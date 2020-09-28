@@ -33,7 +33,7 @@ class MisMC extends PureComponent<Props, States> {
                 <div className="grid-container">
                     <div className="item1 top-cell left">
                         <div className="dialer">
-                            <div style={{ width: "30%", paddingRight: 30 }}>
+                            <div style={{ width: "30%", margin: '0 auto' }}>
                                 <Dialer />
                             </div>
                         </div>
@@ -41,14 +41,31 @@ class MisMC extends PureComponent<Props, States> {
                         <div className="card-container">
                             <span>Soc</span>
                             <div className="card-body">
-                                <div className="charge">
-                                    charge
+                                <div className="label">
+                                    <div>
+                                        <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Charge</Typography.Text>
+                                    </div>
+                                    <div>
+                                        <Typography.Text style={{ whiteSpace: "nowrap" }} strong>84%</Typography.Text>
+                                    </div>
                                 </div>
-                                <div className="pressure">
-                                    charge
+                                <div className="label">
+                                    <div>
+                                        <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Pressure</Typography.Text>
+                                    </div>
+                                    <div>
+                                        <Typography.Text style={{ whiteSpace: "nowrap" }} strong>2.3V</Typography.Text>
+                                    </div>
                                 </div>
-                                <div className="apperance">
-                                    charge
+
+
+                                <div className="label" >
+                                    <div>
+                                        <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Acquisition</Typography.Text>
+                                    </div>
+                                    <div>
+                                        <Typography.Text style={{ whiteSpace: "nowrap", color: 'red' }} strong>2.2V</Typography.Text>
+                                    </div>
                                 </div>
 
                             </div>
