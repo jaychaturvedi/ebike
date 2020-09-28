@@ -2,9 +2,15 @@ import './index.scss';
 import React, { PureComponent } from 'react';
 import { Dropdown, Menu, message, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import Icon2gridInactive from '../../../../assets/batch2/2x1grid_icon_inactive.png'
+import Icon2gridActive from '../../../../assets/batch2/2x1grid_icon.png'
+import Icon4gridInactive from '../../../../assets/batch2/2x2grid_icon.png'
+import Icon4gridActive from '../../../../assets/batch2/2x2grid_icon_active.png'
+
 
 interface Props {
-    toggleGrid: Function
+    toggleGrid: Function,
+    displayedGrid: string
 }
 
 interface State { }
@@ -47,6 +53,7 @@ const VehicleSelector = () => (<Dropdown overlay={() => { return menu(vehicles) 
 
 
 class Header extends PureComponent<Props, State> {
+
     render() {
         return (
             <>
@@ -87,10 +94,10 @@ class Header extends PureComponent<Props, State> {
                         </div>
 
                         <div className="grid-pair right-two" onClick={() => { this.props.toggleGrid("Two") }}>
-                            2
+                            {this.props.displayedGrid === "Two" ? <img src={Icon2gridActive} /> : <img src={Icon2gridInactive} />}
                         </div>
                         <div className="grid-pair right-four" onClick={() => { this.props.toggleGrid("Four") }}>
-                            4
+                            {this.props.displayedGrid === "Four" ? <img src={Icon4gridActive} /> : <img src={Icon4gridInactive} />}
                         </div>
                     </div>
                 </div>

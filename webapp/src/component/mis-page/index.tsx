@@ -25,10 +25,10 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
                 return <MisMc />
             case "analyser":
                 return <Analyser />
-            case "mc":
-                return <MisBattery />
-            case "customer":
-                return <MisCustomer />
+            // case "mc":
+            //     return <MisBattery />
+            // case "customer":
+            //     return <MisCustomer />
         }
     }
     toggleComponent = (type: TComponent) => {

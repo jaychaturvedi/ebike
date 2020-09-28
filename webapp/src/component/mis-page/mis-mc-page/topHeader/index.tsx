@@ -60,7 +60,7 @@ class Header extends PureComponent<Props, State> {
                         </div>
                     </div>
                     <div className='header customer'>
-                        <Typography.Text className={`customerId-typography`} strong >CUS-34567</Typography.Text>
+                        <Typography.Text className={`customerId-typography`} strong >Battery Status</Typography.Text>
                     </div>
 
                     <div className='header battery'>

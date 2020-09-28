@@ -29,11 +29,14 @@ class MisMC extends PureComponent<Props, States> {
         const style = { background: '#3C4473', padding: '8px' };
         return (
             <>
-                <Header />
+                {/* <Header /> */}
                 <div className="grid-container">
                     <div className="item1 top-cell left">
                         <div className="dialer">
-                            <div style={{ width: "30%", margin: '0 auto' }}>
+                            <div style={{
+                                width: "30%", margin: '0 auto', position: 'relative',
+                                top: '24px'
+                            }}>
                                 <Dialer />
                             </div>
                         </div>

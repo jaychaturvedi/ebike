@@ -79,7 +79,7 @@ const useStyles = makeStyles({
     },
     container: {
 
-        maxHeight: '35vh',
+        maxHeight: '37vh',
     },
 });
 
