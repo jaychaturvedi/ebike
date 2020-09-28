@@ -51,7 +51,7 @@ class Home extends React.PureComponent<Props, State> {
     this.props.readBikeStat({
       type: 'ReadBikeStat',
       payload: {
-        bikeId: this.props.user.defaultBikeId
+        bikeId: this.props.bike.id
       }
     })
   }

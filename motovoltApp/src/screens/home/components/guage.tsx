@@ -1,19 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { Svg } from 'react-native-svg';
-import { scale } from '../../../styles/size-matters';
+import {View, Text, StyleSheet} from 'react-native';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import {Svg} from 'react-native-svg';
+import {scale} from '../../../styles/size-matters';
 import Marking from './markings';
 import Colors from '../../../styles/colors';
 import LanguageSelector from '../../../translations';
-import { ThemeContext } from '../../../styles/theme/theme-context';
+import {ThemeContext} from '../../../styles/theme/theme-context';
 
 const Width = scale(300);
 
 const guageStyle = StyleSheet.create({
   marking: {
     position: 'absolute',
-    transform: [{ rotateZ: '-120deg' }],
+    transform: [{rotateZ: '-120deg'}],
   },
   guageContainer: {
     width: '100%',
@@ -57,7 +57,7 @@ export default class Guage extends React.PureComponent<Props, {}> {
   render() {
     let Theme = this.context.theme; //load theme from context
     return (
-      <View style={{ width: '100%', alignItems: 'center' }}>
+      <View style={{width: '100%', alignItems: 'center', marginTop: 24}}>
         <Svg height={Width} width={Width} style={guageStyle.marking}>
           <Marking
             centerX={Width / 2}
@@ -81,16 +81,27 @@ export default class Guage extends React.PureComponent<Props, {}> {
             return (
               <View style={guageStyle.guageContainer}>
                 <View style={guageStyle.centre}>
-                  <Text style={{ ...guageStyle.key, color: Theme.BORDER_GREY }}>{LanguageSelector.t("speedometer.timeElapsed")}</Text>
-                  <Text style={{ ...guageStyle.value, color: Theme.TEXT_WHITE }}>{this.props.time}</Text>
+                  <Text style={{...guageStyle.key, color: Theme.BORDER_GREY}}>
+                    {LanguageSelector.t('speedometer.timeElapsed')}
+                  </Text>
+                  <Text style={{...guageStyle.value, color: Theme.TEXT_WHITE}}>
+                    {this.props.time}
+                  </Text>
                 </View>
                 <View style={guageStyle.centre}>
-                  <Text style={{ ...guageStyle.speed, color: Theme.TEXT_WHITE }}>{this.props.speed}</Text>
-                  <Text style={{ ...guageStyle.speedUnit, color: Theme.TEXT_WHITE }}>Km/h</Text>
+                  <Text style={{...guageStyle.speed, color: Theme.TEXT_WHITE}}>
+                    {this.props.speed}
+                  </Text>
+                  <Text
+                    style={{...guageStyle.speedUnit, color: Theme.TEXT_WHITE}}>
+                    Km/h
+                  </Text>
                 </View>
                 <View style={guageStyle.centre}>
-                  <Text style={{ ...guageStyle.key, color: Theme.BORDER_GREY }}>{LanguageSelector.t("speedometer.totalDistance")}</Text>
-                  <Text style={{ ...guageStyle.value, color: Theme.TEXT_WHITE }}>
+                  <Text style={{...guageStyle.key, color: Theme.BORDER_GREY}}>
+                    {LanguageSelector.t('speedometer.totalDistance')}
+                  </Text>
+                  <Text style={{...guageStyle.value, color: Theme.TEXT_WHITE}}>
                     {this.props.totalDistanceKm} Km
                   </Text>
                 </View>
@@ -103,4 +114,4 @@ export default class Guage extends React.PureComponent<Props, {}> {
   }
 }
 
-Guage.contextType = ThemeContext
+Guage.contextType = ThemeContext;

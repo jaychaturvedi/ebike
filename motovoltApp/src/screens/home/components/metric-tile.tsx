@@ -9,7 +9,7 @@ import { ThemeContext } from '../../../styles/theme/theme-context';
 const styles = StyleSheet.create({
   tile: {
     width: scale(100),
-    height: verticalScale(100),
+    height: 100,
     borderRadius: 10,
     display: 'flex',
     flexDirection: 'column',

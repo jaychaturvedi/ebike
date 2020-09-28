@@ -34,8 +34,7 @@ app.use(bodyparser.json());
 // db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
 module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
-    console.log("context", context, "event", event);
-    context.callbackWaitsForEmptyEventLoop = false;
+    console.log("context", context, "\nevent", event);
     app.use("/user", userRoutes)
     app.use("/bike", bikeRoutes)
     app.use("/feedback", feedbackRoutes)

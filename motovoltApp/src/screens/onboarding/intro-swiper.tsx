@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
-import { verticalScale, scale, moderateScale } from 'react-native-size-matters';
+import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {verticalScale, scale, moderateScale} from 'react-native-size-matters';
 import Swiper from 'react-native-swiper';
-import { Icon } from 'native-base';
+import {Icon} from 'native-base';
 import Button from '../../components/cta-button';
 import NextButton from './components/next-page-button';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native'
-import { OnboardingStackParamList } from '../../navigation/onboarding'
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
 
 type IntroSwiperNavigationProp = StackNavigationProp<
   OnboardingStackParamList,
@@ -15,8 +15,8 @@ type IntroSwiperNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-  navigation: IntroSwiperNavigationProp,
-  route: RouteProp<OnboardingStackParamList, 'IntroSwiper'>
+  navigation: IntroSwiperNavigationProp;
+  route: RouteProp<OnboardingStackParamList, 'IntroSwiper'>;
 };
 
 type State = {};
@@ -30,7 +30,7 @@ export const getHeader = (
   return (
     <View style={styles.skip}>
       {backButton ? (
-        <TouchableOpacity style={{ flex: 1 }} onPress={backFunc}>
+        <TouchableOpacity style={{flex: 1}} onPress={backFunc}>
           <Icon
             type="FontAwesome"
             name="chevron-left"
@@ -71,7 +71,7 @@ export const getText = (text: string) => {
   return (
     <View style={styles.helpText}>
       <Text
-        style={{ fontSize: scale(24), fontWeight: 'bold', textAlign: 'center' }}>
+        style={{fontSize: scale(24), fontWeight: 'bold', textAlign: 'center'}}>
         {text}
       </Text>
     </View>
@@ -107,14 +107,17 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
               () => console.log('back pressed'),
             )}
             {/* {getImage(require('../../assets/images/Intro_1.png'))} */}
-            <View style={{
-              ...styles.image, justifyContent: 'flex-end', borderBottomColor: 'black',
-              borderBottomWidth: 2,
-            }}>
-              <Image source={require('../../assets/images/Intro_1.png')}
-                style={{ height: '84%', aspectRatio: 1.3, }}
+            <View
+              style={{
+                ...styles.image,
+                justifyContent: 'flex-end',
+                borderBottomColor: 'black',
+                borderBottomWidth: 2,
+              }}>
+              <Image
+                source={require('../../assets/images/Intro_1.png')}
+                style={{height: '84%', aspectRatio: 1.3}}
               />
-
             </View>
             {getText('Drive Less, e-Cycle More!')}
             {getFooter(() => {
@@ -131,11 +134,15 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
               },
             )}
             {/* {getImage(require('../../assets/images/Intro_2.png'))} */}
-            <View style={{
-              ...styles.image, borderBottomColor: 'black',
-              borderBottomWidth: 2
-            }}>
-              <Image source={require('../../assets/images/Intro_2.png')} style={{ height: '100%', aspectRatio: 1 }}
+            <View
+              style={{
+                ...styles.image,
+                borderBottomColor: 'black',
+                borderBottomWidth: 2,
+              }}>
+              <Image
+                source={require('../../assets/images/Intro_2.png')}
+                style={{height: '100%', aspectRatio: 1}}
               />
             </View>
             {getText('Remotely control and locate your cycle')}
@@ -153,9 +160,11 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
               },
             )}
             {/* {getImage('')} */}
-            <View style={{ ...styles.image, alignItems: 'center' }}>
-              <Image source={require('../../assets/images/Intro_3.png')} style={{ height: '100%', aspectRatio: 0.65 }}
-                resizeMode='contain'
+            <View style={{...styles.image, alignItems: 'center'}}>
+              <Image
+                source={require('../../assets/images/Intro_3.png')}
+                style={{height: '100%', aspectRatio: 0.65}}
+                resizeMode="contain"
               />
             </View>
             {getText('Analyse cycle statistics on your phone')}
@@ -168,20 +177,28 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
               (this.refs.mySwiper as any).scrollBy(-1);
             })}
             {/* {getImage('')} */}
-            <View style={{ ...styles.image, justifyContent: 'center' }}>
-              <Image source={require('../../assets/images/Intro_4.png')}
-                style={{ height: '100%', aspectRatio: 1.1 }}
+            <View style={{...styles.image, justifyContent: 'center'}}>
+              <Image
+                source={require('../../assets/images/Intro_4.png')}
+                style={{height: '100%', aspectRatio: 1.1}}
               />
             </View>
             {getText('Gain Green Miles and earn exciting gifts!')}
             {/* {getFooter(() => { (this.refs.mySwiper as any).scrollBy(1) })} */}
             <View style={styles.register}>
-              <View style={{ height: '50%', justifyContent: 'flex-start' }}>
-                <Text style={{ textAlign: 'center', fontSize: scale(12) }}>
-                  <Text>Already have an account ?</Text>
+              <View
+                style={{
+                  height: '50%',
+                  justifyContent: 'flex-end',
+                  marginBottom: 8
+                }}>
+                <Text style={{textAlign: 'center', fontSize: scale(12)}}>
+                  <Text>Already have an account?</Text>
                   <Text
-                    style={{ color: 'black', fontWeight: 'bold' }}
-                    onPress={() => this.props.navigation.navigate('LoginPage', {})}>
+                    style={{color: 'black', fontWeight: 'bold'}}
+                    onPress={() =>
+                      this.props.navigation.navigate('LoginPage', {})
+                    }>
                     {' '}
                     Login
                   </Text>
@@ -190,7 +207,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
               <View
                 style={{
                   height: '50%',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'flex-start',
                   alignItems: 'center',
                 }}>
                 {/* <Button name="REGISTER" onPress={() => console.log("Register Pressed")} /> */}
@@ -198,7 +215,9 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                   text="REGISTER"
                   textColor="white"
                   backgroundColor="#142F6A"
-                  onPress={() => this.props.navigation.navigate('ValidateMobile', {})}
+                  onPress={() =>
+                    this.props.navigation.navigate('ValidateMobile', {})
+                  }
                 />
               </View>
             </View>
@@ -242,7 +261,6 @@ const styles = StyleSheet.create({
   },
   register: {
     height: '20%',
-    padding: scale(30),
   },
   carouselDot: {
     backgroundColor: '#CCCCCC',

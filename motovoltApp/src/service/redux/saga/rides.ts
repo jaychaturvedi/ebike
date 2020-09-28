@@ -4,6 +4,7 @@ import {
 import * as RideActions from "../actions/saga/rides";
 import { Store_UpdateRide, Store_SetRideHistory, Store_UpdateBike, Store_SetSpeedometer, Store_SetGraphdata } from "../actions/store";
 import { config, request } from "./utils";
+import Moment from "moment";
 
 export function* startRide(params: RideActions.StartRide) {
     try {
@@ -46,16 +47,11 @@ export function* endRide(params: RideActions.EndRide) {
                     petrolSavingsLtr: data.litreSaved,
                     startTime: data.startTime,
                     endTime: data.endTime,
-                    // path: data.gpsPath.map((item: any) => ({
-                    //     lat: item.lat ?? '',
-                    //     long: item.lng ?? '',
-                    //     time: item.utc ?? ''
-                    // }))
-                    path: [{
-                        lat: 37.78825,
-                        long: -122.4324,
-                        time: ''
-                    }],
+                    path: data.gpsPath.map((item: any) => ({
+                        lat: item.lat ?? '',
+                        long: item.lng ?? '',
+                        time: item.utc ?? ''
+                    }))
                 }
             } as Store_UpdateRide);
         }
@@ -103,9 +99,9 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
             const data = dataResponse.response.body;
             yield put({
                 type: 'Store_SetRideHistory',
-                payload: data.history.map((ride: any) => ({
+                payload: data.history.map((ride: any, i: number) => ({
                     // Should not be optional
-                    id: Math.random().toString(),
+                    id: i.toString(),
                     totalDistanceKm: ride.dist,
                     speedKmph: ride.kmph,
                     avgSpeedKmph: ride.kmph,
@@ -113,10 +109,11 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                     from: ride.startloc,
                     to: ride.endloc,
                     score: ride.rating,
-                    path: [{
-                        lat: 37.78825,
-                        long: -122.4324
-                    }],
+                    path: ride.gpsPath.map((item: any) => ({
+                        lat: item.lat ?? '',
+                        long: item.lng ?? '',
+                        time: item.utc ?? ''
+                    })),
                     startTime: `${ride.date} ${ride.fromtime}`,
                     endTime: `${ride.date} ${ride.totime}`,
                 }))
@@ -133,7 +130,7 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 payload: {
                     data: data.graphData.map((gData: any) => ({
                         value: gData.speed,
-                        date: new Date().toString()
+                        date: gData.date
                     })),
                     avgKmph: data.graphData.length ? data.graphData[0].avgkmph : 0,
                     avgSpeed: data.graphData.length ? data.graphData[0].avgspd : 0,
@@ -179,7 +176,7 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
 export function* getRide(params: RideActions.ReadRideData) {
     try {
         const dataResponse = yield request(`${config.baseUrl}/ride/detail/${params.payload.bikeId}?` +
-            `startTime=2020-06-30 11:08:38&endTime=2020-06-30 12:45:30`, "GET");
+            `startTime=${params.payload.startTime}&endTime=${params.payload.endTime}`, "GET");
         if (dataResponse.success) {
             const data = dataResponse.response.body;
             yield put({
@@ -195,16 +192,11 @@ export function* getRide(params: RideActions.ReadRideData) {
                     petrolSavingsLtr: data.litreSaved,
                     startTime: data.startTime,
                     endTime: data.endTime,
-                    // path: data.gpsPath.map((item: any) => ({
-                    //     lat: 37.78825,
-                    //     long: -122.4324,
-                    //     time: item.utc ?? ''
-                    // })),
-                    path: [{
-                        lat: 37.78825,
-                        long: -122.4324,
-                        time: ''
-                    }],
+                    path: data.gpsPath.map((item: any) => ({
+                        lat: item.lat ?? '',
+                        long: item.lng ?? '',
+                        time: item.utc ?? ''
+                    })),
                     durationSec: data.duration,
                     score: data.rating,
                 }
