@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "co.motovolt.thunder"
+        applicationId "co.motovolt.motovoltapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         missingDimensionStrategy 'react-native-camera', 'general'
