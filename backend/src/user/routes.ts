@@ -16,8 +16,10 @@ app.get('/all',
 
 app.get('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("Start Time:", new Date())
         const user = await profile(res.locals.user.uid)
         const response = createResponse("OK", user, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
