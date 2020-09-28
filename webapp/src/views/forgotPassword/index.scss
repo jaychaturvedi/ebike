@@ -1,0 +1,106 @@
+.login-form-forgot {
+    display: flex;
+    justify-content: center;
+}
+.ant-col-rtl .login-form-forgot {
+    float: left;
+}
+.login-form-button {
+    width: 100%;
+    background: #4d5fc1;
+    border-radius: 4px;
+    font-weight: bold;
+}
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+    color: #fff;
+    background: #4d5fc1;
+    border-color: #40a9ff;
+}
+
+.connectm-login {
+    position: absolute;
+    // box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 4px 4px 0px;
+    z-index: 15;
+    min-width: 700px;
+    max-width: 700px;
+    min-height: 368px;
+    max-height: 368px;
+    top: 50%;
+    left: 50%;
+    margin: -168px 0 0 -350px;
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        // height: 300px;
+        // background: #ffffff;
+
+        .login-image {
+            background: #4d5fc1;
+            mix-blend-mode: normal;
+            box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.25);
+            border-radius: 4px 0px 0px 4px;
+            color: #ffffff;
+            font-family: Roboto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .logo-title {
+                margin-left: 32px;
+            }
+            .motovolt {
+                font-style: normal;
+                font-weight: bold;
+                font-size: 40px;
+                line-height: 36px;
+            }
+            .command-center {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 19px;
+                line-height: 24px;
+            }
+        }
+
+        .login-form {
+            background: #ffffff;
+            // max-width: 300px;
+            .form-body {
+                margin-left: 24px;
+                margin-right: 24px;
+                margin-top: 24px;
+
+                .ant-input {
+                    background: #ececec;
+                    border: 1px solid rgba(0, 0, 0, 0.2);
+                }
+            }
+        }
+    }
+    .logo {
+        margin: 16px auto;
+        text-align: center;
+    }
+    .footer {
+        display: flex;
+        justify-content: space-between;
+    }
+    .notification-toast.error {
+        background: #c14d69;
+    }
+
+    .notification-toast.success {
+        background: #2bb4bd;
+    }
+    .notification-toast {
+    }
+    .ant-form-item-explain {
+        color: white;
+    }
+    .forgot-password-label {
+        color: #2c3987;
+        padding: px;
+    }
+}

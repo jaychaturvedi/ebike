@@ -1,0 +1,120 @@
+import { Layout } from "antd";
+import React, { PureComponent } from 'react';
+import Content from '../../component/content'
+import 'antd/dist/antd.css';
+import { Form, Input, Button } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import LoginImage from "../../assets/login_image.png"
+import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg"
+import './index.scss'
+interface LoginProps { }
+
+interface LoginStates {
+    formValid: string,
+    valid: boolean,
+    message: string
+}
+
+class Login extends PureComponent<LoginProps, LoginStates> {
+    constructor(props: LoginProps) {
+        super(props)
+        this.state = {
+            formValid: '',
+            valid: false,
+            message: ''
+        }
+    }
+    onFinish = (values: any) => {
+        console.log('Received values of form: ', values);
+    };
+    onToggle = (values: any) => {
+        if (!this.state.valid) {
+            this.setState({
+                formValid: 'error', valid: !this.state.valid,
+                message: 'Unable to log in. Pleae check your password and try again'
+            })
+        }
+        else
+            this.setState({
+                formValid: 'success', valid: !this.state.valid,
+                message: 'We have sent you an email with the link to reset the password!'
+            })
+
+    }
+    render() {
+        return (
+            <div className="connectm-login">
+                <div className="container">
+                    <div className="login-image">
+                        {/* <img src={LoginImage} alt="" /> */}
+                        <div className="logo-title">
+                            <div className="motovolt"><span>MOTOVOLT</span></div>
+                            <div className="command-center"><span>Command Center</span></div>
+                        </div>
+                    </div>
+                    <div className="login-form">
+                        <div className={`notification-toast ${this.state.formValid}`}>
+                            {this.state.message}
+                        </div>
+                        <div className={"form-body"}>
+                            <div className="logo">
+                                <ReactLogo width="80" height="60" />
+                            </div>
+                            {this.state.formValid === '' && <div className="forgot-password-label">Enter a new password. The password should be atleast 8 characters long</div>}
+                            <Form
+                                name="normal_login"
+                                className="login-form"
+                                initialValues={{
+                                    remember: true,
+                                }}
+                                onFinish={this.onFinish}>
+                                <Form.Item
+                                    name="password"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: '',
+                                        },
+                                    ]}>
+                                    <Input type="password"
+                                        placeholder="New Password" />
+                                </Form.Item>
+                                <Form.Item
+                                    name="confirmPassword"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: '',
+                                        },
+                                    ]}>
+                                    <Input
+                                        type="password"
+                                        placeholder="Confirm Password"
+                                    />
+                                </Form.Item>
+
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.onToggle}>
+                                        Continue
+                                </Button>
+                                </Form.Item>
+                            </Form>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="footer">
+                    <div>
+                        Copyright © Motovolt 2020. All rights reserved.
+                    </div>
+                    <div>
+                        Ver: 3.4.0
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+}
+
+export default Login;
