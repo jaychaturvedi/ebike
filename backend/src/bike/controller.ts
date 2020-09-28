@@ -32,10 +32,14 @@ export async function homeScreen(frameId: string,) {
   }
 }
 
-export async function verifyFrame(uid: string, frameId: string) {
+export async function verifyFrame(user: object, frameId: string) {
+  const { uid, phone } = user as any
+  const [validateFrame, myBikeData] = await Promise.all([ConnectmApi.validatePhone(phone), ConnectmApi.getMyBike(frameId as string)])
+  const { fid: associatedFrameId } = validateFrame
+  if (associatedFrameId != frameId) { throw new BikeError("frameId is not registered with phone"); }
   const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
-    servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string)//cross verify with mobile number
+    servDate: serviceDate } = myBikeData//cross verify with mobile number
   if (!fid) throw new BikeError("frameId is not registered");
   //update frameId in new bike and user profile found from ValidatePhone API
   const result = await Promise.all([Bike.createNew({ frameId, model, uid }), User.updateByUid(uid, { frameId })])
@@ -49,7 +53,7 @@ export async function getRideHistory(frameId: string, startTime: string, endTime
     endTime as string, pageNo as number, pageSize as number)
   const graphData = await ConnectmApi.getRideHistoryStat(frameId, startTime as string,
     endTime as string, pageNo as number, pageSize as number)
-  // if (!history[0].fid || !graphData[0].fid) throw new BikeError("please check time and frameId");
+  if (!history[0].fid || !graphData[0].fid) return { history: [], graphData: [] }
   return { history, graphData }
 }
 

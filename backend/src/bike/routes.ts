@@ -32,8 +32,8 @@ app.get('/myBike/:frameId', expressQAsync(secure),
 app.get('/verify/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { uid } = res.locals.user as any
-        const bikedetails = await verifyFrame(uid as string, req.params.frameId);
+        const user = res.locals.user as any
+        const bikedetails = await verifyFrame(user as object, req.params.frameId);
         const response = createResponse("OK", bikedetails, undefined)
         res.json(response)
     })
