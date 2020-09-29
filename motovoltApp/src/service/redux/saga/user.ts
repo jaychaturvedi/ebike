@@ -80,6 +80,13 @@ export function* updateUser(params: UserActions.UpdateUser) {
                     defaultBikeId: data.frameId,
                 }
             } as Store_UpdateUser)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataresponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
