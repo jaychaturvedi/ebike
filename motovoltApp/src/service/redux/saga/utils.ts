@@ -8,6 +8,7 @@ export async function request(url: string, method: string, body?: any) {
     try {
         const tokenRes = await getToken();
         console.log("Token  REceived");
+        console.log(tokenRes);
         if (!tokenRes.success) return {
             success: false,
             response: null,

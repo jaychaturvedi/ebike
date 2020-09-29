@@ -78,6 +78,7 @@
     },
     "home": {
         "on": "ON",
+        "off": "OFF",
         "hello": "Hello",
         "battery": "Battery",
         "charge": "Charge",
@@ -104,7 +105,7 @@
         "avgSpeed": "Avg. Speed",
         "maxSpeed": "Max Speed",
         "powerMode": "Power Mode",
-        "pedalAssist": "Padal Assist",
+        "pedalAssist": "Pedal Assist",
         "ecoMode": "Eco Mode"
     },
     "rateYourRide": {
@@ -215,7 +216,7 @@
         "reportAnIssue": "Report An Issue",
         "support": "Support",
         "service": "Service",
-        "model": "model",
+        "model": "Model",
         "vehicleId": "Vehicle ID",
         "comments": "Comments",
         "commentsPlaceholder": "Please describe your concern",

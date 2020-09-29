@@ -13,12 +13,18 @@ export default class Bike {
     }
 
     static async createNew(bike: TBike) { //change types of userId
-        console.log('in service create new bike');
+        // const exists = await BikeModel.findOne({ where: { frameId: bike.frameId } })
+        // console.log('in service create new bike', exists);
+        // if (exists) throw new BikeError("frameId already verified")
+        // const newBike = await BikeModel.create(bike)
+        // if (!newBike) throw new BikeError("Unable to create new")
+        // return newBike;
 
         const exists = await BikeModel.findOne({ where: { frameId: bike.frameId } })
         const newBike = exists ? exists : await BikeModel.create(bike)
         if (!newBike) throw new BikeError("Unable to create new")
         return newBike;
+
     }
 
     static async updateWhere(condition: any, bike: TBike) {

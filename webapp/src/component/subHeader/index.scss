@@ -17,6 +17,9 @@
         width: 72%;
         display: flex;
         padding-left: 24px;
+        .connectM-button-active {
+            border-bottom: 2px solid $ACTIVE !important;
+        }
     }
     .sub-header-right {
         width: 25%;
@@ -56,7 +59,7 @@
 
 .connectM-dropdown-active {
     color: $ACTIVE !important;
-    border-bottom: 1px solid $ACTIVE !important;
+    border-bottom: 2px solid $ACTIVE !important;
     .dropdown-svg-fill-active > g > g > g > path {
         fill: $ACTIVE !important;
     }

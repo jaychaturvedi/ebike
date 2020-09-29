@@ -35,12 +35,12 @@ export default class Upgrade extends React.PureComponent<Props, State>{
                     <Text numberOfLines={1} style={{ fontSize: moderateScale(16), color: Theme.TEXT_WHITE }}>{this.props.feature}</Text>
                     {
                         this.props.unit ?
-                            <Text style={{ fontSize: moderateScale(12), color: '#6F6F6F' }}>
-                                <Icon name="inr" type="FontAwesome" style={{ fontSize: moderateScale(12), color: '#6F6F6F' }} /> {this.props.unit} / month</Text>
+                            <Text style={{ fontSize: moderateScale(12), color: Theme.TEXT_WHITE }}>
+                                <Icon name="inr" type="FontAwesome" style={{ fontSize: moderateScale(12), color: Theme.TEXT_WHITE }} /> {this.props.unit} / month</Text>
                             : null
                     }
                 </View>
-            </TouchableOpacity>
+            </TouchableOpacity >
         )
     }
 }

@@ -22,7 +22,7 @@ app.get('/:id',
 )
 
 app.post('/', [
-    body('name', "name is too short").isLength({ min: 3 }),
+    body('name', "name is too short").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const feature = await SupportFeatures.createNew(req.body)
@@ -33,7 +33,7 @@ app.post('/', [
 )
 
 app.put('/:id', [
-    body('name', "name is too short").isLength({ min: 3 }),
+    body('name', "name is too short").isLength({ min: 1 }),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const Id = req.params.id as any as number;

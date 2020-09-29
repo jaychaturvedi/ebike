@@ -6,7 +6,7 @@ import { profile } from "./controller";
 const app = express.Router()
 
 
-app.get('/all', expressQAsync(secure),
+app.get('/all',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const users = await User.findAll()
         const response = createResponse("OK", users, undefined)
@@ -16,15 +16,17 @@ app.get('/all', expressQAsync(secure),
 
 app.get('/', expressQAsync(secure),
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("Start Time:", new Date())
         const user = await profile(res.locals.user.uid)
         const response = createResponse("OK", user, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
 //updates name and email during registration
 app.put('/', expressQAsync(secure),
-    [body('fullName', "name is too short").isString().isLength({ min: 3 }),
-    body("email", "Email is invalid").isEmail(), validate],
+    [body('fullName', "fullName is too short").isString().isLength({ min: 3 }),
+    body("email", "email is invalid").isEmail(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const uid = res.locals.user.uid
         const { fullName, email } = req.body
@@ -35,16 +37,30 @@ app.put('/', expressQAsync(secure),
 )
 
 //post routes just for testing purpose, in prod user created by cognito
-app.post('/', expressQAsync(secure),
+app.post('/',
+    [body('uid', "uid is too short").isString(),
+    body("phone", "phone is invalid").isString(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { phone, uid } = res.locals.user as any
+        const { phone, uid } = req.body as any
         const newUser = await User.createNew({ phone, uid })
         const response = createResponse("OK", newUser, undefined)
         res.json(response)
     })
 )
+//for testing purpose only, need to be deleted
+app.put('/update/:phone',
+    [param('phone', "phone is required in params").isString(),
+    body('frameId', "frameId is required in body").isString(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { frameId } = req.body
+        //update frameId found from ValidatePhone API
+        const updated = await User.updateByPhone(req.params.phone, { frameId });
+        const response = createResponse("OK", updated, undefined)
+        res.json(response)
+    })
+)
 
-app.delete('/phone/:phone', expressQAsync(secure),
+app.delete('/phone/:phone',
     [param('phone', "phone can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response) => {
         const { phone } = req.params
@@ -54,8 +70,8 @@ app.delete('/phone/:phone', expressQAsync(secure),
     })
 )
 
-app.delete('/:uid', expressQAsync(secure),
-    [param('uid', "uid can't be empty").isString().isLength({ min: 1 }), validate],
+app.delete('/:uid',
+    [param('uid', "uid is required in params").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const uid = req.params.uid as string
         const deleted = await User.deleteById(uid);
@@ -67,6 +83,4 @@ app.delete('/:uid', expressQAsync(secure),
 app.use(expressErrorHandler);
 
 export default app
-
-
 

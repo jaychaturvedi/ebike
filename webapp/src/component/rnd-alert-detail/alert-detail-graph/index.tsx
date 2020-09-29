@@ -44,9 +44,9 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
     static getDerivedStateFromProps(props: AlertGraphProps, state: AlertGraphStates) {
         let alertTypeId: number
         console.log("Got alert graph request")
-        if (props.alertName != undefined) {
+        if (props.alertName !== undefined) {
             alertTypeId = getAlertTypeId(props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
-            if (state.dataLoaded == false || alertTypeId != state.alertTypeId) {
+            if (state.dataLoaded === false || alertTypeId !== state.alertTypeId) {
                 props.getAlertGraph({
                     type: "GET_ALERT_GRAPH",
                     payload: {
@@ -77,7 +77,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             //vehicle idle active
             case 2: {
                 return <StackedGraph data={this.state.data} dataKey="timeDate"
-                    title="Vehicle Usage Graph (Active Vs Idle):" xAxisLabel="Days" yAxisLabel="Usage (in Hrs)"
+                    title="Vehicle Usage (Active Vs Idle):" xAxisLabel="Days" yAxisLabel="Usage (in Hrs)"
                     alertCleared={this.props.alertCleared} alertDate={this.props.alertDate}
                     bar1Key="activeTime" bar2Key="idleTime"
                     bar1Name="Active Time" bar2Name="Idle Time"

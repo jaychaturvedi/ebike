@@ -5,7 +5,7 @@ import ThemeTogglerButton from './theme-toggler-button';
 import React from 'react';
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert } from 'react-native';
 
-class App extends React.Component {
+class Theme extends React.Component {
     constructor(props: any) {
         super(props);
     }
@@ -19,6 +19,6 @@ class App extends React.Component {
         );
     }
 }
-App.contextType = ThemeContext
+Theme.contextType = ThemeContext
 
-export default App
+export default Theme

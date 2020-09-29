@@ -6,22 +6,21 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import { scale, moderateScale } from 'react-native-size-matters';
+import {scale, moderateScale} from 'react-native-size-matters';
 import Button from '../../components/cta-button';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
 import Input from '../onboarding/components/input';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 import {
   SignIn,
   SignUp,
   ConfirmSignUp,
   ResendSignUp,
 } from '../../service/redux/actions/saga/authentication-actions';
-import { fetchCredentials } from '../../service/secure-storage';
 import {
   Store_UpdateOnboarding,
   Store_ResetOnboarding,
@@ -63,7 +62,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       mobile: '',
-      isValid: false,
+      isValid: true,
       showOtp: false,
       signupSuccess: false,
     };
@@ -80,29 +79,24 @@ class ValidateMobile extends React.PureComponent<Props, State> {
     this.props.updateUser({
       type: 'Store_UpdateUser',
       payload: {
+        isLoggedIn: true,
         isPhoneValidated: true,
         isBikeRegistered: false,
       },
     });
-    fetchCredentials().then((cred) => {
-      if (cred) {
-        this.props.signIn({
-          type: 'SignIn',
-          payload: {
-            mobileNumber: cred.username,
-            password: cred.password,
-          },
-        });
-      }
-    });
   };
 
-  onChange = (text: string) => {
+  isValidPhone(text: string) {
     const matches = text.match(/\d/g);
+    return (
+      matches && matches.length === 12 && text.length === 13 && text[0] === '+'
+    );
+  }
+
+  onChange = (text: string) => {
     this.setState({
       mobile: text,
-      isValid: matches && matches.length === 12 && text.length === 13 && text[0] === '+' ? true : false,
-      // isValid: true,
+      isValid: true,
     });
   };
 
@@ -126,6 +120,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
   };
 
   render() {
+    console.log(this.state, this.props);
     if (this.props.onboarding.errorMessage) {
       Toast.show(this.props.onboarding.errorMessage);
       this.props.updateOnboarding({
@@ -149,54 +144,61 @@ class ValidateMobile extends React.PureComponent<Props, State> {
         successMessage={'Mobile Verified'}
       />
     ) : (
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-          <View style={styles.header}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontWeight: 'bold',
-                fontSize: scale(20),
-              }}>
-              Validate Your Mobile Number
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+        <View style={styles.header}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: scale(20),
+            }}>
+            Validate Your Mobile Number
           </Text>
-          </View>
-          <View style={styles.input}>
-            <Input
-              placeHolder="Enter Registered Mobile No."
-              keyboardNumericType
-              onChange={this.onChange}
-            />
-          </View>
-          <View style={styles.helpText}>
-            <Text style={{ fontSize: moderateScale(14, 0.1), textAlign: 'center' }}>
-              <Text>By Signing up with Motovolt, you accept our </Text>
-              <Text
-                style={{ color: '#0934F2' }}
-                onPress={() => {
-                  console.log('T & C Pressed');
-                }}>
-                T & C
+        </View>
+        <View style={styles.input}>
+          <Input
+            showError={!this.state.isValid}
+            placeHolder="Enter Registered Mobile No."
+            keyboardNumericType
+            onChange={this.onChange}
+          />
+        </View>
+        <View style={styles.helpText}>
+          <Text style={{fontSize: moderateScale(14, 0.1), textAlign: 'center'}}>
+            <Text>By Signing up with Motovolt, you accept our </Text>
+            <Text
+              style={{color: '#0934F2'}}
+              onPress={() => {
+                console.log('T & C Pressed');
+              }}>
+              T & C
             </Text>
-            </Text>
-          </View>
-          <View style={styles.verifyBtn}>
-            <Button
-              disabled={!this.state.isValid}
-              text="Verify"
-              textColor="white"
-              backgroundColor="#142F6A"
-              onPress={() =>
-                this.props.signUp({
-                  type: 'SignUp',
-                  payload: { mobileNumber: this.state.mobile },
-                })
+          </Text>
+        </View>
+        <View style={styles.verifyBtn}>
+          <Button
+            text="Verify"
+            textColor="white"
+            backgroundColor="#142F6A"
+            onPress={() => {
+              if (!this.isValidPhone(this.state.mobile)) {
+                Toast.show('Enter valid phone number with country code');
+                this.setState({
+                  isValid: false,
+                });
+                return;
               }
-            />
-          </View>
-        </KeyboardAvoidingView>
-      );
+              this.props.signUp({
+                type: 'SignUp',
+                payload: {mobileNumber: this.state.mobile},
+              });
+            }}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    );
   }
 }
 

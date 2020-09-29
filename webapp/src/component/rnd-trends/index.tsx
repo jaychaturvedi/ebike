@@ -89,7 +89,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     handlePeriodChange = (e: any) => {
         let dateTo
         let dateFrom
-        if (e.key == "Last 30 Days") {
+        if (e.key === "Last 30 Days") {
             this.setState({ interval: 1 })
             dateTo = moment().format("YYYY-MM-DD HH:mm:ss");
             dateFrom = moment().subtract(30, 'd').format("YYYY-MM-DD HH:mm:ss");
@@ -129,15 +129,15 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         const { clickCount, totalAlerts, top5Alerts, locationWiseAlerts } = this.state
         let trendsZoom = this.state.zoom
         // console.log("im clicked");
-        if (clickCount == 0) {
+        if (clickCount === 0) {
             // this.setState({ zoom: 4, clickCount: clickCount + 1 })
             trendsZoom = 4
         }
-        if (clickCount == 1) {
+        if (clickCount === 1) {
             // this.setState({ zoom: 2, clickCount: clickCount + 1 })
             trendsZoom = 2
         }
-        if (clickCount == 2) {
+        if (clickCount === 2) {
             // this.setState({ zoom: 0, clickCount: 0 })
             trendsZoom = 0
         }

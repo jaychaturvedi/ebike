@@ -51,11 +51,11 @@ app.get('/liveLocation/:frameId', expressQAsync(secure),
 )
 
 app.get('/history/:frameId', expressQAsync(secure),
-    [param('frameId', "frame can't be empty").isString().isLength({ min: 1 }),
-    query('startTime', "start can't be empty").isString().isLength({ min: 1 }),
-    query('endTime', "end can't be empty").isString().isLength({ min: 1 }),
-    query('pageNo', "page can't be empty").optional().toInt(),
-    query('pageSize', "sizee can't be empty").optional().toInt(), validate],
+    [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
+    query('startTime', "startTime can't be empty").isString().isLength({ min: 1 }),
+    query('endTime', "endTime can't be empty").isString().isLength({ min: 1 }),
+    query('pageNo', "pageNo can't be empty").optional().toInt(),
+    query('pageSize', "pageSize can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         console.log("req in history", req.query, req.params);
         const { startTime, endTime, pageNo, pageSize } = req.query as any
@@ -69,8 +69,8 @@ app.get('/history/:frameId', expressQAsync(secure),
 //whether to check if notificatin is true or false
 app.get('/notification/:frameId', expressQAsync(secure),
     [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
-    query('pageNo', "can't be empty").optional().toInt(),
-    query('pageSize', "can't be empty").optional().toInt(), validate],
+    query('pageNo', "pageNo can't be empty").optional().toInt(),
+    query('pageSize', "pageSize can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { pageNo, pageSize } = req.query as any
         const notification = await ConnectmApi.getNotification(req.params.frameId, pageNo as number, pageSize as number)
@@ -81,7 +81,7 @@ app.get('/notification/:frameId', expressQAsync(secure),
 )
 //home screen
 app.get('/:frameId', expressQAsync(secure),
-    [param('frameId', "name can't be empty").isString().isLength({ min: 1 }), validate],
+    [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         console.log("req params in home", req.params);
         const frameId = req.params.frameId as string
@@ -93,7 +93,7 @@ app.get('/:frameId', expressQAsync(secure),
 
 //update bikeName during registration
 app.put('/', expressQAsync(secure),
-    [body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 3 }),
+    [body('bikeName', "bikeName is too short").optional().isString().isLength({ min: 1 }),
     body('frameId', "frameId can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { bikeName, frameId } = req.body

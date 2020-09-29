@@ -2,8 +2,9 @@ import {
     put,
 } from "redux-saga/effects";
 import * as RideActions from "../actions/saga/rides";
-import { Store_UpdateRide, Store_SetRideHistory, Store_UpdateBike, Store_SetSpeedometer, Store_SetGraphdata } from "../actions/store";
+import { Store_UpdateRide, Store_SetRideHistory, Store_UpdateBike, Store_SetSpeedometer, Store_SetGraphdata, Store_UpdateError } from "../actions/store";
 import { config, request } from "./utils";
+import Moment from "moment";
 
 export function* startRide(params: RideActions.StartRide) {
     try {
@@ -18,9 +19,22 @@ export function* startRide(params: RideActions.StartRide) {
                     startTime: data.startTime,
                 }
             } as Store_UpdateRide)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -46,21 +60,29 @@ export function* endRide(params: RideActions.EndRide) {
                     petrolSavingsLtr: data.litreSaved,
                     startTime: data.startTime,
                     endTime: data.endTime,
-                    // path: data.gpsPath.map((item: any) => ({
-                    //     lat: item.lat ?? '',
-                    //     long: item.lng ?? '',
-                    //     time: item.utc ?? ''
-                    // }))
-                    path: [{
-                        lat: 37.78825,
-                        long: -122.4324,
-                        time: ''
-                    }],
+                    path: data.gpsPath.map((item: any) => ({
+                        lat: item.lat ?? '',
+                        long: item.lng ?? '',
+                        time: item.utc ?? ''
+                    }))
                 }
             } as Store_UpdateRide);
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -86,17 +108,22 @@ export function* rateRide(params: RideActions.SubmitRide) {
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
 
 export function* getRideHistory(params: RideActions.ReadRideHistory) {
     try {
-        console.log("Hellloo here ");
         const dataResponse = yield request(
             `${config.baseUrl}/bike/history/${params.payload.bikeId}` +
             `?pageSize=${encodeURIComponent(params.payload.pageSize)}&` +
-            `pageNo=${encodeURIComponent(params.payload.pageNumber)}&startTime=2020-07-07 10:49:38&endTime=2020-07-08 16:50:38`,
+            `pageNo=${encodeURIComponent(params.payload.pageNumber)}&startTime=${params.payload.startTime}&endTime=${params.payload.endTime}`,
             "GET", undefined)
         console.log("Data Response");
         console.log(dataResponse);
@@ -104,9 +131,9 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
             const data = dataResponse.response.body;
             yield put({
                 type: 'Store_SetRideHistory',
-                payload: data.history.map((ride: any) => ({
+                payload: data.history.map((ride: any, i: number) => ({
                     // Should not be optional
-                    id: Math.random().toString(),
+                    id: i.toString(),
                     totalDistanceKm: ride.dist,
                     speedKmph: ride.kmph,
                     avgSpeedKmph: ride.kmph,
@@ -114,10 +141,6 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                     from: ride.startloc,
                     to: ride.endloc,
                     score: ride.rating,
-                    path: [{
-                        lat: 37.78825,
-                        long: -122.4324
-                    }],
                     startTime: `${ride.date} ${ride.fromtime}`,
                     endTime: `${ride.date} ${ride.totime}`,
                 }))
@@ -134,7 +157,7 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 payload: {
                     data: data.graphData.map((gData: any) => ({
                         value: gData.speed,
-                        date: new Date().toString()
+                        date: gData.date
                     })),
                     avgKmph: data.graphData.length ? data.graphData[0].avgkmph : 0,
                     avgSpeed: data.graphData.length ? data.graphData[0].avgspd : 0,
@@ -145,6 +168,13 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
         throw Error(dataResponse.message);
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: "Unknown error"
+                // error: JSON.stringify(error, Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -174,13 +204,19 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
 export function* getRide(params: RideActions.ReadRideData) {
     try {
         const dataResponse = yield request(`${config.baseUrl}/ride/detail/${params.payload.bikeId}?` +
-            `startTime=2020-06-30 11:08:38&endTime=2020-06-30 12:45:30`, "GET");
+            `startTime=${params.payload.startTime}&endTime=${params.payload.endTime}`, "GET");
         if (dataResponse.success) {
             const data = dataResponse.response.body;
             yield put({
@@ -196,16 +232,11 @@ export function* getRide(params: RideActions.ReadRideData) {
                     petrolSavingsLtr: data.litreSaved,
                     startTime: data.startTime,
                     endTime: data.endTime,
-                    // path: data.gpsPath.map((item: any) => ({
-                    //     lat: 37.78825,
-                    //     long: -122.4324,
-                    //     time: item.utc ?? ''
-                    // })),
-                    path: [{
-                        lat: 37.78825,
-                        long: -122.4324,
-                        time: ''
-                    }],
+                    path: data.gpsPath.map((item: any) => ({
+                        lat: item.lat ?? '',
+                        long: item.lng ?? '',
+                        time: item.utc ?? ''
+                    })),
                     durationSec: data.duration,
                     score: data.rating,
                 }
@@ -213,6 +244,12 @@ export function* getRide(params: RideActions.ReadRideData) {
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -240,5 +277,11 @@ export function* getSpeedometerData(params: RideActions.Speedometer) {
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }

@@ -12,17 +12,16 @@ app.get('/',
     })
 )
 
-app.get('/:id',
+app.get('/:rideId',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = req.params.id as any as number
+        const Id = req.params.rideId as string
         const feedback = await Feedback.findById(Id)
         const response = createResponse("OK", feedback, undefined)
         res.json(response)
     })
 )
 
-app.post('/', [
-    validate],
+app.post('/',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const feedback = await Feedback.createNew(req.body)
         const response = createResponse("OK", feedback, undefined)
@@ -30,23 +29,24 @@ app.post('/', [
     })
 )
 
-app.put('/:id', [
-    param('id', "id can't be empty").isLength({ min: 1 }),
-    body('options', "name can't be empty").optional().isLength({ min: 1 }),
+app.put('/:rideId', [
+    param('rideId', "rideId can't be empty").isLength({ min: 1 }),
+    body('options', "options list can't be empty").optional(),
     validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const Id = req.params.id as any as number;
-        const updated = await Feedback.updateById(Id, req.body);
+        const rideId = req.params.rideId as string;
+        const updated = await Feedback.updateById(rideId, req.body);
         const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
 )
 
-app.delete('/:id',
+app.delete('/:rideId',
+    [param('rideId', "rideId can't be empty").isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response) => {
-        const Id = req.params.id as any as number;
-        const deleted = await Feedback.deleteById(Id);
-        const response = createResponse("OK", "Feedback deleted with id " + Id, undefined)
+        const rideId = req.params.rideId as string;
+        const deleted = await Feedback.deleteById(rideId);
+        const response = createResponse("OK", "Feedback deleted ", undefined)
         res.json(response);
     })
 )

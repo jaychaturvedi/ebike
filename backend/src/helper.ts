@@ -50,8 +50,8 @@ export function expressErrorHandler(err: Error, req: Request, res: Response,
     message: err.message
   })
   res.status(statusCode)
-  res.json(response);
-  next();
+  return res.json(response);
+  // next();
 }
 
 export function expressQAsync(fn: Function) {
@@ -60,24 +60,25 @@ export function expressQAsync(fn: Function) {
   }
 }
 
+
 export async function secure(
   req: Request,
   res: Response,
   next: any
 ) {
   const token = req.headers.authorization as string
-  if (!token) return res.status(401).send("pass json token in headers")
+  if (!token) throw new BadRequestError("No token in header")
   const decodedToken: any = await middleware(token)
   console.log(decodedToken, "decodedToken");
-  if (decodedToken.valid) {
-    const { sub: uid, phone_number: phone, phone_number_verified } = JwtDecode(token)
-    res.locals.user = { uid, phone }
-    console.log(res.locals.user);
-    next()
-  } else
-  //status ok ?
-    return res.status(401).json(createResponse("OK", null, { message: decodedToken.message, code: 401, name: "Token Error" }))
+  if (!decodedToken.valid) {
+    throw new BadRequestError(decodedToken.message)
+  }
+  const { sub: uid, phone_number: phone, phone_number_verified } = JwtDecode(token)
+  res.locals.user = { uid, phone }
+  console.log(res.locals.user);
+  next()
 }
+
 
 export function pagination(pageNumber: number, pageSize: number) {
   const limit = pageSize ? pageSize : 1

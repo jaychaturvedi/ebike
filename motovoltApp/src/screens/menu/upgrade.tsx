@@ -12,6 +12,7 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ReadUpgrades } from 'src/service/redux/actions/saga';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type UpdgradeNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -58,16 +59,17 @@ class Upgrade extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme; //load theme
     return (
       <View style={{ height: '100%' }}>
         <Header
           hasBackButton
           title={'Upgrades'}
-          backgroundColor={Colors.HEADER_YELLOW}
+          backgroundColor={Theme.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
         <ScrollView
-          style={styles.container}
+          style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}
           contentContainerStyle={{
             flexDirection: 'row',
             flexWrap: 'wrap',
@@ -99,6 +101,8 @@ class Upgrade extends React.PureComponent<Props, State> {
     );
   }
 }
+
+Upgrade.contextType = ThemeContext;
 
 export default connect(
   (store: TStore) => {

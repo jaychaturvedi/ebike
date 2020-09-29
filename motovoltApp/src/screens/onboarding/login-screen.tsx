@@ -1,5 +1,5 @@
 import React from 'react';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {scale, verticalScale} from '../../styles/size-matters';
 import {
   View,
   StyleSheet,
@@ -11,21 +11,24 @@ import Colors from '../../styles/colors';
 import Input from './components/input';
 import CTAHeader from './components/header';
 import NextButton from './components/next-page-button';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { SignIn } from '../../service/redux/actions/saga/authentication-actions';
-import { Store_UpdateOnboarding, Store_ResetOnboarding } from '../../service/redux/actions/store';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import {SignIn} from '../../service/redux/actions/saga/authentication-actions';
+import {
+  Store_UpdateOnboarding,
+  Store_ResetOnboarding,
+} from '../../service/redux/actions/store';
 import Toast from 'react-native-simple-toast';
 
 type ReduxState = {
   signIn: (params: SignIn) => void;
   onboarding: TStore['onboarding'];
-  updateOnboarding: (params: Store_UpdateOnboarding) => void,
-  resetOnboarding: (params: Store_ResetOnboarding) => void,
+  updateOnboarding: (params: Store_UpdateOnboarding) => void;
+  resetOnboarding: (params: Store_ResetOnboarding) => void;
 };
 
 type LoginNavigationProp = StackNavigationProp<
@@ -41,7 +44,8 @@ interface Props extends ReduxState {
 type State = {
   userName: string;
   password: string;
-  isValid: boolean;
+  isValidPhone: boolean;
+  isValidPassword: boolean;
 };
 
 const styles = StyleSheet.create({
@@ -69,17 +73,28 @@ class Login extends React.PureComponent<Props, State> {
     this.state = {
       userName: '',
       password: '',
-      isValid: false,
+      isValidPhone: true,
+      isValidPassword: true,
     };
+  }
+
+  isValidPhone(value: string) {
+    const matches = value.match(/\d/g);
+    return (
+      matches &&
+      matches.length === 12 &&
+      value.length === 13 &&
+      value[0] === '+'
+    );
   }
 
   render() {
     if (this.props.onboarding.errorMessage) {
       Toast.show(this.props.onboarding.errorMessage);
       this.props.resetOnboarding({
-        type: "Store_ResetOnboarding",
+        type: 'Store_ResetOnboarding',
         payload: {},
-      })
+      });
     }
     return (
       <KeyboardAvoidingView
@@ -104,25 +119,27 @@ class Login extends React.PureComponent<Props, State> {
           <Text style={styles.title}>Log In</Text>
         </View>
         <Input
+          showError={!this.state.isValidPhone}
           placeHolder="Mobile No."
           keyboardNumericType
           marginVeritical={verticalScale(InputMarginVeritical)}
           onChange={(value: string) => {
-            const matches = value.match(/\d/g);
             this.setState({
               userName: value,
-              // isValid: true,
-              isValid: matches && matches.length === 12 && value.length === 13 && value[0] === '+' ? true : false,
+              isValidPhone: true,
             });
           }}
         />
         <Input
-          onChange={(value: string) => this.setState({ password: value })}
+          showError={!this.state.isValidPassword}
+          onChange={(value: string) =>
+            this.setState({password: value, isValidPassword: true})
+          }
           placeHolder="Password"
           secure
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
-        <View style={{ height: '5%', justifyContent: 'flex-end' }}>
+        <View style={{height: '5%', justifyContent: 'flex-end'}}>
           <Text
             onPress={() => this.props.navigation.replace('ForgotPassword', {})}
             style={{
@@ -134,12 +151,25 @@ class Login extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.bottom}>
           <NextButton
-            mode={
-              this.state.userName && this.state.password && this.state.isValid
-                ? 'Active'
-                : 'Disabled'
-            }
+            mode={'Active'}
             onPress={() => {
+              if (
+                !this.state.userName ||
+                !this.isValidPhone(this.state.userName)
+              ) {
+                Toast.show('Enter mobile number with counter code');
+                this.setState({
+                  isValidPhone: false,
+                });
+                return;
+              }
+              if (!this.state.password || this.state.password.length <= 8) {
+                Toast.show('Enter valid password');
+                this.setState({
+                  isValidPassword: false,
+                });
+                return;
+              }
               this.props.signIn({
                 type: 'SignIn',
                 payload: {

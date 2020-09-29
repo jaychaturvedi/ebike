@@ -15,7 +15,7 @@ app.get('/all',
 )
 
 app.get('/byModel',
-  [query('model', "model").isLength({ min: 1 }), validate],
+  [query('model', "model is empty").isLength({ min: 1 }), validate],
   expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
     const alerts = await SmartAlert.findByModel(req.query.model as string)
     const response = createResponse("OK", alerts, undefined)
@@ -24,8 +24,8 @@ app.get('/byModel',
 )
 
 app.get('/byDate',
-  [query("startDate", "enter correct phone number").isLength({ min: 1 }),
-  query('endDate', "name is too short").optional().isLength({ min: 3 }), validate],
+  [query("startDate", "startDate is empty").isLength({ min: 1 }),
+  query('endDate', "endDate is empty").optional().isLength({ min: 1 }), validate],
   expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
     const updated = await SmartAlert.findByDate(req.query.startDate as string, req.query.endDate as string);
     const response = createResponse("OK", updated, undefined)
