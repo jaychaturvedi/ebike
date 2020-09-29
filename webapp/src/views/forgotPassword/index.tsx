@@ -6,13 +6,16 @@ import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import LoginImage from "../../assets/login_image.png"
 import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg"
+import Cross from '../../assets/png/cross-vector.png'
+import Exclamation from '../../assets/png/exclamation.png'
+import MotovoltLogo from '../../assets/png/motovolt_text.png'
 import './index.scss'
 interface LoginProps { }
 
 interface LoginStates {
     formValid: string,
     valid: boolean,
-    message: string
+    message: any
 }
 
 class Login extends PureComponent<LoginProps, LoginStates> {
@@ -31,13 +34,13 @@ class Login extends PureComponent<LoginProps, LoginStates> {
         if (!this.state.valid) {
             this.setState({
                 formValid: 'error', valid: !this.state.valid,
-                message: 'Unable to log in. Pleae check your password and try again'
+                message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
             })
         }
         else
             this.setState({
                 formValid: 'success', valid: !this.state.valid,
-                message: 'We have sent you an email with the link to reset the password!'
+                message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
             })
 
     }
@@ -48,7 +51,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                     <div className="login-image">
                         {/* <img src={LoginImage} alt="" /> */}
                         <div className="logo-title">
-                            <div className="motovolt"><span>MOTOVOLT</span></div>
+                            <div className="motovolt"><span><img src={MotovoltLogo} style={{ width: '80%' }} /></span></div>
                             <div className="command-center"><span>Command Center</span></div>
                         </div>
                     </div>
@@ -60,7 +63,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                             <div className="logo">
                                 <ReactLogo width="80" height="60" />
                             </div>
-                            {this.state.formValid === '' && <div className="forgot-password-label">Enter a new password. The password should be atleast 8 characters long</div>}
+                            {this.state.formValid === '' ? <div className="forgot-password-label">Enter a new password. The password should be atleast 8 characters long</div> : <div className="forgot-password-label" />}
                             <Form
                                 name="normal_login"
                                 className="login-form"

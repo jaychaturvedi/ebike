@@ -11,9 +11,9 @@ class App extends PureComponent<AppProp, AppState>{
     console.log('App life cycle');
 
     return <>
-      <Home />
+      {/* <Home /> */}
       {/* <Login /> */}
-      {/* <ForgotPassword /> */}
+      <ForgotPassword />
     </>
   }
 }
