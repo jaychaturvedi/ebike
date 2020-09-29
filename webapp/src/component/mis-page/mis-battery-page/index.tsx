@@ -4,12 +4,13 @@ import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
 import ChargingTrend from '../../../subComponents/graph/chargingTrend';
 import Battery from '../../../assets/battery_health__g_icon.png'
 import IconMap from '../../../assets/png/map.png'
-import BatteryPng from '../../../assets/png/battery-cell-green.png'
+import BatterCell from  "../../../assets/png/battery-cell.png"
+import BatteryGreenPng from '../../../assets/png/battery-cell-green.png'
 import BAtteryRedPng from '../../../assets/png/battery-cell-red.png'
 import Header from './topHeader'
 import Dialer from './dialer'
 import { Typography } from 'antd';
-
+import Cell from "../subComponents/cells"
 interface Props { }
 
 interface States {
@@ -124,10 +125,9 @@ class MisMC extends PureComponent<Props, States> {
                             <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>CELL VOLTAGE</Typography.Text>
                         </div>
                         <div className="content">
-                            <div><img src={BatteryPng} alt="green" /></div>
-                            <div><img src={BAtteryRedPng} alt="green" /></div>
-
-
+                            <Cell cellType={"normal"} cellNumber={1} cellIcon={BatterCell} cellValue={"3.080"} />
+                            <Cell cellType={"red"} cellNumber={1} cellIcon={BAtteryRedPng} cellValue={"3.080"} />
+                            <Cell cellType={"green"} cellNumber={1} cellIcon={BatteryGreenPng} cellValue={"3.080"} />
                         </div>
                     </div>
                     <div className="item4 bottom-cell center">

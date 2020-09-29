@@ -30,7 +30,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return (
             <>
                 <div className="connectmAnalyser-Tabs">
-                    <div><LeftCircleFilled style={{ padding: '5px', fontSize: '20px' }} />ANALYSER</div>
+                    <div><LeftCircleFilled style={{ padding: '5px', fontSize: '14px' }} />ANALYSER</div>
                 </div>
             </>
         )
