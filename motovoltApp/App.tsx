@@ -14,34 +14,38 @@ import FooterNavigation from './src/navigation/footer';
 import Registration from './src/navigation/registration';
 
 import SplashScreen from 'react-native-splash-screen';
-import {fetchCredentials} from './src/service/secure-storage';
+import { fetchCredentials } from './src/service/secure-storage';
 
-import {TStore} from './src/service/redux/store';
-import {signIn, signout} from './src/service/authentication';
-import {getUser} from './src/service/redux/saga/user';
-import {SignIn} from './src/service/redux/actions/saga';
-import {connect} from 'react-redux';
+import { TStore } from './src/service/redux/store';
+import { signIn, signout } from './src/service/authentication';
+import { getUser } from './src/service/redux/saga/user';
+import { SignIn } from './src/service/redux/actions/saga';
+import { connect } from 'react-redux';
 import {
   Store_Init,
   Store_Reset,
+  Store_UpdateError,
   Store_UpdateUser,
 } from 'src/service/redux/actions/store';
-import {ReadUser} from 'src/service/redux/actions/saga/user';
+import { ReadUser } from 'src/service/redux/actions/saga/user';
+import Toast from 'react-native-simple-toast';
 
-declare const global: {HermesInternal: null | {}};
+declare const global: { HermesInternal: null | {} };
 
 interface ReduxState {
   user: TStore['user'];
+  error: TStore['error'];
   signInUser: (params: SignIn) => void;
   updateUser: (params: Store_UpdateUser) => void;
   getUser: (params: ReadUser) => void;
   initStore: (params: Store_Init) => void;
   resetStore: (params: Store_Reset) => void;
+  resetError: (params: Store_UpdateError) => void
 }
 
-interface Props extends ReduxState {}
+interface Props extends ReduxState { }
 
-interface State {}
+interface State { }
 
 class App extends React.PureComponent<Props, State> {
   constructor(props: Props) {
@@ -112,6 +116,14 @@ class App extends React.PureComponent<Props, State> {
 
   render() {
     console.log('In app', this.props);
+    if (this.props.error) {
+      Toast.show(this.props.error);
+      this.props.resetError({
+        type: 'Store_UpdateError', payload: {
+          error: null
+        }
+      })
+    }
     if (!this.props.user.isLoggedIn) return <Onboarding />;
     if (this.props.user.isBikeRegistered) return <FooterNavigation />;
     return <Registration />;
@@ -122,6 +134,7 @@ export default connect(
   (store: TStore) => {
     return {
       user: store['user'],
+      error: store['error']
     };
   },
   (dispatch) => {
@@ -131,6 +144,7 @@ export default connect(
       getUser: (params: ReadUser) => dispatch(params),
       initStore: (params: Store_Init) => dispatch(params),
       resetStore: (params: Store_Reset) => dispatch(params),
+      resetError: (params: Store_UpdateError) => dispatch(params)
     };
   },
 )(App);

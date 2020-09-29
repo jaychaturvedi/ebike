@@ -235,6 +235,7 @@ export const ZeroSpeedometer: TSpeedometer = {
 }
 
 export type TStore = {
+    error: null | string,
     onboarding: TOnboarding,
     user: TUser,
     ride: TRide,
@@ -259,6 +260,7 @@ export type TStore = {
 }
 
 const ZeroState = {
+    error: null,
     onboarding: ZeroOnboarding,
     user: ZeroUser,
     bike: ZeroBike,
