@@ -27,7 +27,6 @@ class MisBattery extends PureComponent<Props, States> {
 
     }
     render() {
-        const style = { background: '#3C4473', padding: '8px' };
         return (
             <>
                 {/* <Header /> */}

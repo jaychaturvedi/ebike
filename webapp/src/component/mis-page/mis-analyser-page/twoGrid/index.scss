@@ -20,7 +20,16 @@
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
-      height: 70vh;
+      // height: 70vh;
+      height: 1px;
+      max-width: 100%;
+      min-width: 100%;
+      max-height: calc(100% - 33px);
+      min-height: calc(100% - 33px);
+      // border-radius: 2px;
+      // padding-left: 8px;
+      // padding-right: 8px;
+      // padding-bottom: 8px;
 
       .grid-one {
             width: 100%;

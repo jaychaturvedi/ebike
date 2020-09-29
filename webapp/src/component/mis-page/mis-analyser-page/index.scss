@@ -5,8 +5,15 @@
     border-radius: 2px;
     opacity: 1;
     // margin: 24px;
+    // padding-top: 45px;
+    background: $MIS_BACKGROUND;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: calc(100% - 33px);
+    min-height: calc(100% - 33px);
+    height: 1px;
+    border-radius: 2px;
     padding-left: 8px;
     padding-right: 8px;
     padding-bottom: 8px;
-    // padding-top: 45px;
 }

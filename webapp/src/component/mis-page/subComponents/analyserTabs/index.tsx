@@ -29,7 +29,10 @@ class AnalyserTabs extends PureComponent<AnalyserTabsProps, AnalyserTabsStates> 
         return (
             <>
                 <div className="connectmAnalyser-Tabs">
-                    <div><LeftCircleFilled style={{ padding: '5px', fontSize: '14px' }} />ANALYSER</div>
+                    <div>
+                        <img src={BackArrowButton} alt="back" className="back-button" onClick={() => this.tabClicked("battery")} />
+                        ANALYSER
+                        </div>
                 </div>
             </>
         )

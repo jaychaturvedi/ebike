@@ -4,8 +4,9 @@
       flex-direction: row;
       display: flex;
       justify-content: space-between;
-      padding: 8px;
-
+      // padding: 8px;
+      height: 33px;
+      line-height: 33px;
       .header {
             .battery-dropDown {
                   display: flex;
