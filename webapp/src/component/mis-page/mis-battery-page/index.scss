@@ -98,8 +98,10 @@
     .bottom-cell {
         height: 100%;
         .content {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            padding: 16px 8px;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-gap: 16px;
         }
     }
     .top-cell.left .content {
