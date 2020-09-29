@@ -37,24 +37,18 @@ export function createOptions(url: string, body: any, method: "POST" | "GET") {
 // }
 
 module.exports.preSignUp = async (event: any) => {
-    console.log("pre-Configuration error", event)
+    console.log("pre-Configuration event", event)
     const body = {
         "phone_number": event.request.userAttributes.phone_number
     }
-    console.log("request body" , body)
+    console.log("request body", body)
     // connectM call
     const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
-    try{
-        const response: any = await rp(options);
-        console.log("frame verification response", response)
-        if (response.ec) {
-            throw new Error(`${body.phone_number} have not registered any frameId`)
-        }
-    }catch(e){
-        console.log("error invoking yantra API",e)
-        throw new Error(`Internal Server Error`)
+    const response: any = await rp(options);
+    console.log("frame verification response", response)
+    if (response.ec) {
+        throw new Error(`${body.phone_number} have not registered any frameId`)
     }
-
     // event.response.autoConfirmUser = true;
     // event.response.autoVerifyPhone = true;
     return event;
