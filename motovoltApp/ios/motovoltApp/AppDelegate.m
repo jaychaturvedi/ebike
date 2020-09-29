@@ -6,7 +6,7 @@
 #import "RNSplashScreen.h" 
 #import <GoogleMaps/GoogleMaps.h>
 
-#if DEBUG
+#if DEBUG && TARGET_OS_SIMULATOR
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
 #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
@@ -29,7 +29,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#if DEBUG
+#if DEBUG && TARGET_OS_SIMULATOR
   InitializeFlipper(application);
 #endif
   [GMSServices provideAPIKey:@"AIzaSyAWO4UI7QPRc__8NUnNwNgicm2K4cdkCuY"]; // add this line using the api key obtained from Google Console

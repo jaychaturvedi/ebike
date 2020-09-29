@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>motovoltApp</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -43,13 +43,17 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Your message to user when the camera is accessed for the first time</string>
+	<string>MotovoltApp wants to access camera for QR code scanning functionality</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>MotovoltApp wants to access bluetooth for bluetooth devices</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>MotovoltApp wants to access bluetooth for bluetooth devices</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>location</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

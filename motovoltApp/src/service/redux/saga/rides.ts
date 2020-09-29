@@ -109,11 +109,6 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                     from: ride.startloc,
                     to: ride.endloc,
                     score: ride.rating,
-                    path: ride.gpsPath.map((item: any) => ({
-                        lat: item.lat ?? '',
-                        long: item.lng ?? '',
-                        time: item.utc ?? ''
-                    })),
                     startTime: `${ride.date} ${ride.fromtime}`,
                     endTime: `${ride.date} ${ride.totime}`,
                 }))
