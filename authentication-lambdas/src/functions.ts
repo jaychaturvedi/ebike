@@ -37,17 +37,17 @@ export function createOptions(url: string, body: any, method: "POST" | "GET") {
 // }
 
 module.exports.preSignUp = async (event: any) => {
-    console.log("signup", event)
+    console.log("pre-Configuration event", event)
     const body = {
         "phone_number": event.request.userAttributes.phone_number
     }
+    console.log("request body", body)
     // connectM call
     const options = createOptions(process.env.REGISTEREDFRAMEIDFORMOBILEURL!, body, "POST");
     const response: any = await rp(options);
-    // const response: any = { "frameId": "123qawsedrftgiop" }
     console.log("frame verification response", response)
     if (response.ec) {
-        throw new Error("User have not registered any framId")
+        throw new Error(`${body.phone_number} have not registered any frameId`)
     }
     // event.response.autoConfirmUser = true;
     // event.response.autoVerifyPhone = true;

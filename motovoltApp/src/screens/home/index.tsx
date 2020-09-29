@@ -17,6 +17,7 @@ import { RouteProp } from '@react-navigation/native';
 import { HomeStackParamList } from '../../navigation/home';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
+import { downloadFirmware } from '../../service/firmware/update';
 
 type HomeNavigationProp = StackNavigationProp<
   HomeStackParamList,
@@ -50,7 +51,7 @@ class Home extends React.PureComponent<Props, State> {
     this.props.readBikeStat({
       type: 'ReadBikeStat',
       payload: {
-        bikeId: this.props.user.defaultBikeId
+        bikeId: this.props.bike.id
       }
     })
   }
@@ -75,6 +76,7 @@ class Home extends React.PureComponent<Props, State> {
           title={`${LanguageSelector.t("home.hello")} ${this.props.user.name}`}
           backgroundColor={Colors.HEADER_YELLOW}
           hasTabs
+          onPromotionClick={() => downloadFirmware()}
         />
         <ScrollView style={styles.body}
           refreshControl={
@@ -119,10 +121,10 @@ class Home extends React.PureComponent<Props, State> {
               <Text
                 style={{ fontSize: 20, fontWeight: 'bold' }}
                 numberOfLines={1}>
-                Cycle A
+                {this.props.bike.name}
               </Text>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{LanguageSelector.t("home.on")}{'\n'}</Text>
-              {this.props.bike.type === 'GPS' ? <TouchableOpacity
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}{'\n'}</Text>
+              {this.props.bike.type === 'CELLULAR' ? <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('Gps', {})}
               ><Image
                 source={require('../../assets/icons/GPS_tracker.png')}></Image></TouchableOpacity> : null}
@@ -133,7 +135,7 @@ class Home extends React.PureComponent<Props, State> {
             avgRidescore={this.props.bike.avgRideScore.toString()}
             costRecovered={this.props.bike.costRecoveredPer.toString()}
             greenMiles={this.props.bike.greenMilesKm.toString()}
-            petrolSavings={this.props.bike.petrolSavingsLtr.toString()}
+            petrolSavings={Math.floor(this.props.bike.petrolSavingsLtr).toString()}
             totalDistance={this.props.bike.totalDistanceKm.toString()}
           />
         </ScrollView>

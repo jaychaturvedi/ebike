@@ -29,7 +29,7 @@ class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsState
     static getDerivedStateFromProps(props: AlertInsightsProps, state: AlertInsightsStates) {
         if (props.alertId) {
             const alert = props.alerts[props.alertType][props.alertId]
-            if (alert && state.reload == true) {
+            if (alert && state.reload === true) {
                 props.getAlertsInsights({
                     type: "GET_ALERTS_INSIGHTS",
                     payload: {

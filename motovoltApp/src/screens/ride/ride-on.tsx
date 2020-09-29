@@ -142,27 +142,27 @@ class RideOn extends React.PureComponent<Props, State> {
   render() {
     let Theme = this.context.theme; //load theme in class
     return (
-      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
+      <View style={{ ...styles.container }}>
         <Header
-          backgroundColor={Theme.HEADER_YELLOW} //change dark theme
-          title={`Bike ${this.props.bike.isOn ? 'ON' : 'OFF'}`}
+          backgroundColor={Theme.WHITE} //change dark theme
+          title={`Bike ${this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}`}
           hasTabs
         />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
-              batteryCharge={this.props.bike.batteryChargePer.toString()}
-              rangeAvailable={this.props.bike.rangeAvailableKm.toString()}
-              rangeCovered={this.props.bike.rangeCoveredKm.toString()}
+              batteryCharge={Math.round(Number(this.props.bike.batteryChargePer)).toString()}
+              rangeAvailable={Math.round(Number(this.props.bike.rangeAvailableKm)).toString()}
+              rangeCovered={Math.round(Number(this.props.bike.rangeCoveredKm)).toString()}
             />
           </View>
           <Guage
             fillDeg={(this.props.speedometer.speed * 240) / 360}
-            speed={this.props.speedometer.speed}
+            speed={Math.round(Number(this.props.speedometer.speed))}
             time={`${this.state.hour < 10 ? "0" + this.state.hour : this.state.hour}:` +
               `${this.state.minutes < 10 ? "0" + this.state.minutes : this.state.minutes}:` +
               `${this.state.seconds < 10 ? "0" + this.state.seconds : this.state.seconds}`}
-            totalDistanceKm={this.props.speedometer.distance}
+            totalDistanceKm={Math.round(Number(this.props.speedometer.distance))}
           />
           <View
             style={{
@@ -172,12 +172,12 @@ class RideOn extends React.PureComponent<Props, State> {
             }}>
             <Card
               title={LanguageSelector.t("speedometer.avgSpeed")}
-              value={this.props.speedometer.averageSpeed.toString()}
+              value={Math.round(Number(this.props.speedometer.averageSpeed)).toString()}
               unit={'Kmph'}
             />
             <Card
               title={LanguageSelector.t("speedometer.maxSpeed")}
-              value={this.props.speedometer.maxSpeed.toString()}
+              value={Math.round(Number(this.props.speedometer.maxSpeed)).toString()}
               unit={'Kmph'}
             />
           </View>

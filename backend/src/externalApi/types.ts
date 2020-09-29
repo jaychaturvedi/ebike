@@ -94,6 +94,8 @@ export type TMyBike = {
     model: string; // vehicle model
     type: string;
     servDate: string; //service date
+    purchaseDate: string;
+    warrantyValidTill: string;
     st: string;
     ec: string;
     em: string;
@@ -191,7 +193,7 @@ export type TDashboardFilter = {
     customerId?: string;
     alertType?: string;
     timeFrame?: string;
-    page?: number;
+    pageNo?: number;
     pageSize?: number;
 
 }

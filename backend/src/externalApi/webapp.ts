@@ -77,7 +77,9 @@ export default class WebAPI {
             alertTypeId,
             alertName
         })
+        console.log("External API Start Time : ",new Date())
         const fetchedData = await post(options)
+        console.log("External API End Time : ", new Date())
         return fetchedData
     }
 

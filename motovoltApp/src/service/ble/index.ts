@@ -22,6 +22,8 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 const ServiceId = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
 const CharecteristicId = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
 
+// String.fromCharCode.apply(null, [])
+
 const MaxMTU = 512;
 
 export type TBleListeners = {
@@ -138,7 +140,7 @@ export function startScan(timeSecs: number) {
 }
 
 export function getConnectedPeripherals() {
-    return BleManager.getConnectedPeripherals([ServiceId]).then((ps) => {
+    return BleManager.getConnectedPeripherals([]).then((ps) => {
         return { peripherals: ps, success: true }
     }).catch(err => {
         console.log(err);
@@ -152,7 +154,9 @@ export function connectPeripheral(id: string) {
             const services = await BleManager.retrieveServices(id);
             console.log('Services', JSON.stringify(services));
             await BleManager.requestMTU(id, MaxMTU);
-            await BleManager.startNotification(id, ServiceId, CharecteristicId);
+            await BleManager.startNotification(id, "00EE", "EE01");
+            await BleManager.startNotification(id, "00FF", "FF01");
+            await BleManager.startNotification(id, "00DD", "DD01");
             return { success: true }
         })
         .catch((err) => {

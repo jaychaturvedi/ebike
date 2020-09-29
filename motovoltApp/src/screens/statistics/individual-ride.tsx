@@ -45,20 +45,28 @@ class IndividualRide extends React.PureComponent<Props, State> {
         />
         <ScrollView>
           <View style={styles.map}>
-            <Map location={[
-              // {
-              //   latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
-              //   longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
-              // }
-              {
-                latitude: 37.3317876,
-                longitude: -122.0054812,
-              },
-              {
-                latitude: 37.771707,
-                longitude: -122.4053769,
-              },
-            ]} />
+            <Map location={
+              this.props.ride.path.map(point => {
+                return {
+                  latitude: point.lat,
+                  longitude: point.long
+                }
+              })
+            //   [
+            //   // {
+            //   //   latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
+            //   //   longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
+            //   // }
+            //   {
+            //     latitude: 37.3317876,
+            //     longitude: -122.0054812,
+            //   },
+            //   {
+            //     latitude: 37.771707,
+            //     longitude: -122.4053769,
+            //   },
+            // ]
+            } />
           </View>
           <View style={styles.tip}>
             <Swiper

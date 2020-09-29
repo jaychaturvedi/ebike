@@ -53,7 +53,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
     }
     static getDerivedStateFromProps(props: CellBatteryGraphProps, state: CellBatteryGraphStates) {
         let data = state.data
-        if (props.data != undefined) {
+        if (props.data !== undefined) {
             data = props.data
         }
         const keys = Object.keys(data)//["cell1","cell2","cell3","voltage difference"]

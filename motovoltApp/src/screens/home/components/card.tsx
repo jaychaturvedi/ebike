@@ -23,6 +23,8 @@ type CardProps = {
   title: string;
   value: string;
   unit: string;
+  TEXT_WHITE?: string;
+
 };
 export default class Card extends React.Component<CardProps, {}> {
 

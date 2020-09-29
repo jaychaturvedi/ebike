@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignContent: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.WHITE,
+    backgroundColor: Colors.WHITE, //change dark theme
   },
   heading: {
     paddingBottom: verticalScale(5),
@@ -24,9 +24,12 @@ const styles = StyleSheet.create({
   metric: {
     fontWeight: 'bold',
     fontSize: scale(16),
+    color: Colors.TEXT_WHITE//change dark theme
+
   },
   unit: {
     fontSize: scale(12),
+    color: Colors.TEXT_WHITE//change dark theme
   },
   body: {
     padding: verticalScale(2),
@@ -34,6 +37,7 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     fontSize: scale(12),
+    color: Colors.TEXT_WHITE//change dark theme
   },
 });
 

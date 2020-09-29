@@ -22,6 +22,8 @@ function* getUsers(params: IUsersAction) {
 function* getAlertData(params: IAlertActions) {
     try {
         const data: TAlertsTableData = yield call(getAlerts, params)
+        console.log("my getAlertData", data, params);
+
         yield put({
             type: "STORE_ALERT_UPDATE",
             payload: {

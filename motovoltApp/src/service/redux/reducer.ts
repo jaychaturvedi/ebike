@@ -1,4 +1,7 @@
-import Store, { TStore, ZeroOnboarding, ZeroRide, getZeroState } from "./store";
+import Store, {
+    TStore, ZeroOnboarding, ZeroRide, getZeroState,
+    ZeroUser, ZeroBLE, ZeroSpeedometer
+} from "./store";
 import Action from "./actions/store";
 
 export default (store: TStore = Store, params: Action): TStore => {
@@ -6,6 +9,14 @@ export default (store: TStore = Store, params: Action): TStore => {
     switch (params.type) {
         case "Store_Reset":
             return getZeroState();
+        case "Store_Init":
+            return {
+                ...store,
+                ble: ZeroBLE,
+                onboarding: ZeroOnboarding,
+                speedometer: ZeroSpeedometer,
+                user: ZeroUser
+            }
         case "Store_UpdateBle":
             return {
                 ...store,
@@ -43,6 +54,11 @@ export default (store: TStore = Store, params: Action): TStore => {
                     ...store.bike,
                     reportIssueSuccess: null
                 }
+            }
+        case 'Store_UpdateError':
+            return {
+                ...store,
+                error: params.payload.error
             }
         case "Store_UpdateBike":
             return {

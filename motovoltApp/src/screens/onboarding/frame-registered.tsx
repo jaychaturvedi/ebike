@@ -5,22 +5,32 @@ import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
 import Input from './components/input';
-import input from './components/input';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RegistartionStackParamList } from '../../navigation/registration';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { UpdateBike } from 'src/service/redux/actions/saga';
 
 type FrameRegisteredNavigationProp = StackNavigationProp<
   RegistartionStackParamList,
   'FrameRegistered'
 >;
 
-type Props = {
+interface ReduxProps {
+  bike: TStore['bike'],
+  updateBike: (params: UpdateBike) => void
+}
+
+interface Props extends ReduxProps {
   navigation: FrameRegisteredNavigationProp;
   route: RouteProp<RegistartionStackParamList, 'FrameRegistered'>;
 };
 
-type State = {};
+type State = {
+  name: string
+};
 
 const inputStyles = StyleSheet.create({
   container: {
@@ -70,7 +80,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class RegisterBike extends React.PureComponent<Props, State> {
+class RegisterBike extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      name: ''
+    }
+  }
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -97,15 +114,25 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
             <Text style={inputStyles.helperText}>
               Give a custom name for your bike
             </Text>
-            <Input placeHolder={'This name will be displayed on the screen'} />
+            <Input placeHolder={'This name will be displayed on the screen'}
+              onChange={(name: string) => this.setState({ name })}
+            />
             <Text style={inputStyles.optional}>(Optional)</Text>
           </View>
           <CTAButton
             text={'Continue'}
             textColor={Colors.WHITE}
             backgroundColor={Colors.NAVY_BLUE}
-            onPress={() =>
+            onPress={() => {
+              this.props.updateBike({
+                type: 'UpdateBike',
+                payload: {
+                  id: this.props.bike.id,
+                  name: this.state.name
+                }
+              })
               this.props.navigation.navigate('PersonalDetails', {})
+            }
             }
           />
         </View>
@@ -113,3 +140,16 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default connect(
+  (store: TStore) => {
+    return {
+      bike: store['bike'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      updateBike: (params: UpdateBike) => dispatch(params)
+    };
+  },
+)(RegisterBike);

@@ -3,7 +3,7 @@ import {
     put,
 } from "redux-saga/effects";
 import * as BikeActions from "../actions/saga/bike-actions";
-import { Store_UpdateBike, Store_UpdateNotification, Store_UpdateRide } from "../actions/store";
+import { Store_UpdateBike, Store_UpdateError, Store_UpdateNotification, Store_UpdateRide } from "../actions/store";
 import { config, request } from "./utils";
 
 export function* updateBike(params: BikeActions.UpdateBike) {
@@ -21,9 +21,22 @@ export function* updateBike(params: BikeActions.UpdateBike) {
                     name: data.bikeName
                 }
             } as Store_UpdateBike);
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataresponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -38,15 +51,28 @@ export function* validateFrame(params: BikeActions.ValidateFrame) {
                     id: data.frameId,
                     name: data.bikeName,
                     modal: data.model,
-                    type: data.type === "Internet" ? "GPS" : "BLE",
+                    type: data.type === "Cellular" ? "CELLULAR" : "BLE",
                     serviceDate: data.serviceDate,
                     batteryChargePer: data.batteryChargePer,
                     batteries: data.batteries
                 }
             } as Store_UpdateBike);
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataresponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -59,8 +85,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                 type: "Store_UpdateBike",
                 payload: {
                     id: params.payload.bikeId,
-                    type: data.type === "Internet" ? "GPS" : "BLE",
-                    batteryPer: data.batteryCharge,
+                    type: data.type === "Cellular" ? "CELLULAR" : "BLE",
                     co2SavingKg: data.co2sav,
                     totalDistanceKm: data.totalDistance,
                     avgRideScore: data.ratings,
@@ -95,33 +120,56 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     serviceDate: data.serviceDate,
                 }
             } as Store_UpdateBike);
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: myBikeResopnse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
 export function* getLocation(params: BikeActions.ReadBikeLocation) {
     try {
-        // const dataResponse = yield request(`${config.baseUrl}/bike/livelocation/${params.payload.bikeId}`, "GET",);
-        const dataResponse = yield request(`${config.baseUrl}/bike/livelocation/${'069bcc081a68a0832f123'}`, "GET",);
+        const dataResponse = yield request(`${config.baseUrl}/bike/livelocation/${params.payload.bikeId}`, "GET",);
         if (dataResponse.success) {
             const data = dataResponse.response.body;
             yield put({
                 type: "Store_UpdateBike",
                 payload: {
-                    // lat: data.latitude,
-                    // long: data.longitude,
-                    lat: 37.78825,
-                    long: -122.4324,
+                    lat: data.latitude,
+                    long: data.longitude,
                     lastLocationKnownTime: data.lastused,
                     address: data.address,
                 }
             } as Store_UpdateBike);
             // Update redux with ride details
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 

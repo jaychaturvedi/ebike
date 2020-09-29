@@ -67,7 +67,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: true,
             locationActive: false,
             calenderActive: false,
-            searchText:"",
+            searchText: "",
             applyFilter: {
                 fieldName: "model",
                 value: e.key
@@ -76,7 +76,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     handleLocationClick = (e: any) => {
-        console.log('click', e);
         this.setState({
             selectedLocation: e.key,
             selectedVehicle: "Vehicle",
@@ -85,12 +84,13 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: false,
             locationActive: true,
             calenderActive: false,
-            searchText:"",
+            searchText: "",
             applyFilter: {
                 fieldName: "location",
                 value: String(e.key)
             }
         })
+        console.log('click', this.state.applyFilter);
     }
 
     handleDateClick = (e: any) => {
@@ -106,7 +106,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
-                    searchText:"",
+                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "As of Now"
@@ -126,7 +126,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
-                    searchText:"",
+                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Last Week"
@@ -146,7 +146,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
-                    searchText : "",
+                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Month Till Date"
@@ -218,10 +218,12 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 value: this.state.searchText
             }
             this.setState({
-                allSelected : !this.state.allSelected
+                allSelected: !this.state.allSelected
             })
         } else {
             filter = this.state.applyFilter
+            console.log(filter, "my filter");
+
         }
         this.props.alertFilterChanged({
             type: "UPDATE_FILTER",
@@ -344,7 +346,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     <Typography.Text strong >East</Typography.Text>
                 </Menu.Item>
                 <Menu.Item key="kolkata" className={"location-dropdown-sub-item"}>
-                    kolkata
+                    Kolkata
                 </Menu.Item>
                 <Menu.Item key="West">
                     <Typography.Text strong >West</Typography.Text>
@@ -364,7 +366,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     Month Till Date
                 </Menu.Item>
                 <Menu.Item key="4" disabled={true} className={"connectM-DatePicker-container"}>
-                    <Typography.Text strong style={{ whiteSpace: "nowrap" }}>Date Range</Typography.Text>
+                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Date Range</Typography.Text>
                     <div className={"datepicker-text-pair"}>
                         From <DatePicker onChange={this.onFromChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
                     </div>
@@ -372,7 +374,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         To <DatePicker onChange={this.onToChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
                     </div>
                     <Button size={"small"} className={"apply-button-datepicker"} onClick={this.timeRangeApply}>
-                        <Typography.Text style={{ color: "black" }} strong>Done</Typography.Text>
+                        <Typography.Text style={{ color: "black" }} strong>DONE</Typography.Text>
                     </Button>
                 </Menu.Item>
             </Menu>
@@ -417,7 +419,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         <Input
                             onChange={this.onSearch}
                             value={this.state.searchText}
-                            placeholder="Vehicles, Batteries, Customers..."
+                            placeholder="Search By Vehicle ID"
                             prefix={<SearchOutlined />}
                             maxLength={50}
                             className={"search-background-color"}

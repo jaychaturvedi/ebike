@@ -51,7 +51,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         state.activeAlertType = state.alertType === "smart" ?
             "Smart Alerts" : state.alertType === "bms" ?
                 "BMS Alerts" : "Motor Controller Alerts"
-        if (state.alert == undefined || Object.keys(state.alert).length === 0) {
+        if (state.alert === undefined || Object.keys(state.alert).length === 0) {
             //get single alert detail
             // state.alert = alertLimpData()
             props.getSingleAlertDetail({

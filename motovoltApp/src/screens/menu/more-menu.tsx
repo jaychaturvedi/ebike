@@ -31,7 +31,8 @@ type MoreMenuNavigationProp = StackNavigationProp<
 >;
 
 interface ReduxState {
-  user: TStore["user"]
+  user: TStore["user"],
+  bike: TStore["bike"],
 }
 
 interface Props extends ReduxState {
@@ -121,12 +122,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
-        {
-          feature: "Theme",
-          icon: require('../../assets/icons/promotions_icon.png'),
-          onPress: () => console.log('Theme pressed'),
-          premium: false,
-        },
+        // {
+        //   feature: "Theme",
+        //   icon: require('../../assets/icons/promotions_icon.png'),
+        //   onPress: () => console.log('Theme pressed'),
+        //   premium: false,
+        // },
       ]
     }
   }
@@ -163,11 +164,11 @@ class MoreMenu extends React.PureComponent<Props, State> {
               />
             </Text>
           </Text>
-          <Text style={{ textAlign: 'center', color: Theme.TEXT_WHITE }}>Classic Model-A</Text>
+            <Text style={{ textAlign: 'center', color: Theme.TEXT_WHITE }}>{this.props.bike.modal}</Text>
         </View>
         <View style={{
           ...styles.metric,
-          backgroundColor: Theme.BACKGROUND //change dark theme
+          backgroundColor: "white" //change dark theme
         }}>
           <RideMetric
             header1={LanguageSelector.t("morePremium.greenMiles")}
@@ -176,8 +177,8 @@ class MoreMenu extends React.PureComponent<Props, State> {
             unit2=""
             icon1={require('../../assets/icons/green_miles_green_icon.png')}
             icon2={require('../../assets/icons/calories_red_icon.png')}
-            value1={String(250)}
-            value2={String(1358)}
+            value1={String(this.props.bike.greenMilesKm)}
+            value2={"2000"}
           />
         </View>
         <TouchableOpacity
@@ -212,9 +213,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                       case LanguageSelector.t("morePremium.language"):
                         this.props.navigation.navigate('Language', {});
                         break;
-                      case "Theme":
-                        this.props.navigation.navigate('Theme', {});
-                        break;
+                      // case "Theme":
+                      //   this.props.navigation.navigate('Theme', {});
+                      //   break;
                       default:
                         this.props.navigation.navigate('ComingSoon', {});
                         break;
@@ -236,6 +237,7 @@ export default connect(
   (store: TStore) => {
     return {
       user: store['user'],
+      bike: store['bike']
     };
   },
   (dispatch: Dispatch) => {
@@ -248,7 +250,7 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#282C52', //dark theme
     // padding: moderateScale(15)
   },
   profile: {
