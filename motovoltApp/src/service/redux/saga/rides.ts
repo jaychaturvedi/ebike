@@ -2,7 +2,7 @@ import {
     put,
 } from "redux-saga/effects";
 import * as RideActions from "../actions/saga/rides";
-import { Store_UpdateRide, Store_SetRideHistory, Store_UpdateBike, Store_SetSpeedometer, Store_SetGraphdata } from "../actions/store";
+import { Store_UpdateRide, Store_SetRideHistory, Store_UpdateBike, Store_SetSpeedometer, Store_SetGraphdata, Store_UpdateError } from "../actions/store";
 import { config, request } from "./utils";
 import Moment from "moment";
 
@@ -19,9 +19,22 @@ export function* startRide(params: RideActions.StartRide) {
                     startTime: data.startTime,
                 }
             } as Store_UpdateRide)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -54,9 +67,22 @@ export function* endRide(params: RideActions.EndRide) {
                     }))
                 }
             } as Store_UpdateRide);
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -82,6 +108,12 @@ export function* rateRide(params: RideActions.SubmitRide) {
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -136,6 +168,13 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
         throw Error(dataResponse.message);
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: "Unknown error"
+                // error: JSON.stringify(error, Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -165,6 +204,12 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -199,6 +244,12 @@ export function* getRide(params: RideActions.ReadRideData) {
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -226,5 +277,11 @@ export function* getSpeedometerData(params: RideActions.Speedometer) {
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
