@@ -2,10 +2,10 @@ import './index.scss';
 import React, { PureComponent } from 'react';
 import { Dropdown, Menu, message, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import Icon2gridInactive from '../../../../assets/batch2/2x1grid_icon_inactive.png'
-import Icon2gridActive from '../../../../assets/batch2/2x1grid_icon.png'
-import Icon4gridInactive from '../../../../assets/batch2/2x2grid_icon.png'
-import Icon4gridActive from '../../../../assets/batch2/2x2grid_icon_active.png'
+import Icon2gridInactive from '../../../../assets/png/2x1grid_icon_inactive.png'
+import Icon2gridActive from '../../../../assets/png/2x1grid_icon.png'
+import Icon4gridInactive from '../../../../assets/png/2x2grid_icon.png'
+import Icon4gridActive from '../../../../assets/png/2x2grid_icon_active.png'
 
 
 interface Props {

@@ -53,7 +53,7 @@ class Header extends PureComponent<Props, State> {
                 <div className='analyser-header' >
                     <div className='header start-time'>
                         <div className="text-pair left">
-                            Last Synced On
+                            {"Last Synced On:a"}
                         </div>
                         <div className="text-pair right">
                             1 Aug 20209:00AM

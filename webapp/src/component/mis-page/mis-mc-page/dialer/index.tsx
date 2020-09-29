@@ -2,38 +2,52 @@ import React from "react";
 // Import react-circular-progressbar module and styles
 import {
     CircularProgressbarWithChildren,
-    buildStyles, CircularProgressbar
+    buildStyles
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import IconTicks from '../../../../assets/batch2/Mask_Group_1.png'
-import IconMapBg from '../../../../assets/batch2/meter_bg.png'
-import { ReactComponent as BatterySvg } from '../../../../assets/Cell_icon.svg'
-
 
 import ChangingProgressProvider from "./ChangingProgressProvider";
 
 const App = () => (
-    <ChangingProgressProvider values={[0, 20, 80]}>
-        {(value: number) => (
-            <CircularProgressbarWithChildren
-                value={value}
-                text={`${value}%`}
-                circleRatio={0.75}
-                styles={buildStyles({
-                    rotation: 1 / 2 + 1 / 8,
-                    strokeLinecap: "round",
-                    trailColor: "#eee",
-                })}
-            >
+    <div style={{ padding: "40px 40px 40px 40px", width: "30%", paddingRight: 30 }}>
+        <ChangingProgressProvider values={[0, 80]}>
+            {(value: number) => (
+                <CircularProgressbarWithChildren value={value}
+                    styles={buildStyles({
+                        pathColor: "#f00",
+                        trailColor: "#eee",
+                        strokeLinecap: "butt"
+                    })}
+                    text="nnn"
+                >
+                    {/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
 
-                {/* <img
-                    style={{ zIndex: 10, position: 'inherit' }}
-                    src={IconTicks}
-                    alt="doge"
-                /> */}
-            </CircularProgressbarWithChildren>
-        )}
-    </ChangingProgressProvider>
+                    <img
+                        style={{ width: 50, marginTop: -5 }}
+                        src="https://i.imgur.com/b9NyUGm.png"
+                        alt="doge"
+                    />
+            hhhh
+                    <div style={{ fontSize: 12, marginTop: -5 }}>
+                        <strong>66%</strong> mate
+            </div>
+
+                </CircularProgressbarWithChildren>
+            )}
+        </ChangingProgressProvider>
+    </div>
 );
+
+function Example(props: any) {
+    return (
+        <div style={{ marginTop: 30, display: "flex" }}>
+            <div style={{ width: "30%", paddingRight: 30 }}>{props.children}</div>
+            <div style={{ width: "70%" }}>
+                <h3 className="h5">{props.label}</h3>
+                <p>{props.description}</p>
+            </div>
+        </div>
+    );
+}
 
 export default App

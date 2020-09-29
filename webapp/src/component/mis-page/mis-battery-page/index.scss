@@ -1,89 +1,142 @@
 @import "../../../global.scss";
 @import "~antd/dist/antd.css";
 
-.container-battery {
-    background-color: $APP_BACKGROUND;
-
-    margin-right: 24px;
-    margin-left: 24px;
-    display: flex;
-    flex-direction: column;
-    /* margin-bottom: 70px; */
-    /* height: 1px; */
-    /* min-height: calc(100vh - (60px + 32px)); */
-    /* max-height: calc(100vh - (60px + 32px)); */
-
-    .battery-top {
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    background: #2b3254 0% 0% no-repeat padding-box;
+    max-height: calc(100vh - 180px);
+    min-height: calc(100vh - 180px);
+    border-radius: 2px;
+    opacity: 1;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    .battery-table {
+        width: 60%;
+    }
+    .grid-header {
+        height: 32px;
+        background: #303860 0% 0% no-repeat padding-box;
+    }
+    .header {
+        background: #2b3254 0% 0% no-repeat padding-box;
+        padding: 8px;
+        height: 32px;
+    }
+    .graph-container {
+        /* Firefox */
+        height: -moz-calc(80%);
+        /* WebKit */
+        height: -webkit-calc(80%);
+        /* Opera */
+        height: -o-calc(80%);
+        /* Standard */
+        height: calc(80%);
         .recharts-responsive-container {
-            background-color: #3c4473;
+            // display: flex;
+            // justify-content: center;
+            // font-size: 12px;
+            background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
         }
-        margin: 0 !important;
-        padding-top: 8px; //class header-title padding
-        // height: 1px;
-        // border: 1px solid green;
-        background-color: $TABLE_ROW_DARK;
-        color: white;
-        // padding: 24px;
-        min-height: 60%;
-        .left-body {
-            background: #3c4473;
-            padding: 8px;
-            height: 1px;
-            min-height: 90%;
-            .card-wrapper {
-                padding-left: 24px;
-                min-height: 10%;
-                background: #2d3456;
-                margin-top: 14px;
-            }
+    }
+    .map-container {
+        .image-map {
+            width: 100%;
+            max-height: 70%;
         }
-        .right-body {
-            background: #3c4473;
-            display: flex;
-            flex-direction: row;
-            padding: 16px 16px 0px 16px;
-            min-height: 90%;
-            .table {
-                width: 60%;
-            }
-            .health {
-                margin-left: 20px;
-                width: 40%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                .health-card {
-                    background: #2d3456;
-                    display: flex;
-                    flex-direction: column;
-                    padding: 20px !important;
-                    border-radius: 5px;
-                }
+    }
+}
 
-                .battery-health-circle {
-                    width: 160px;
-                    height: 160px;
-                    background: #2d3456;
-                    border-radius: 90px;
-                    display: flex;
-                    justify-content: center;
-                }
+.grid-container > div {
+    background: #363e69 0% 0% no-repeat padding-box;
+    // text-align: center;
+    // padding: 16px;
+    font-size: 14px;
+}
+
+.grid-container {
+    .top-cell {
+        height: 100%;
+        .card-container {
+            padding-left: 16px;
+            background: #00000033 0% 0% no-repeat padding-box;
+            .card-body {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                text-align: center;
+            }
+            .card-body .label {
+                // display: flex;
+                // flex-direction: column;
+                text-align: left;
+                // style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}
             }
         }
     }
-    .battery-bottom {
-        .recharts-responsive-container {
-            background-color: #3c4473;
+    // .top-cell.left {
+    //     display: grid;
+    //     grid-template-rows: 1fr 1fr auto;
+    // }
+    .last-sync-header {
+        display: flex;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 16px;
+    }
+    .bottom-cell {
+        height: 100%;
+        .content {
+            display: flex;
+            justify-content: space-between;
         }
-        padding-top: 8px; //class header-title padding
-        margin: 0 !important;
-        background-color: $TABLE_ROW_DARK;
-        color: white;
-        .body {
-            background: #3c4473;
-            padding: 8px;
-            height: 30vh;
+    }
+    .top-cell.left .content {
+        margin: 16px;
+        display: grid;
+        grid-template-rows: 1fr 1fr auto;
+    }
+}
+
+.item2 {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    display: flex;
+    flex-direction: column;
+    .content {
+        display: flex;
+        margin: 16px;
+    }
+    .health {
+        width: 40%;
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: column;
+        .health-tab {
+            display: flex;
+            justify-content: space-around;
+        }
+        .health-card {
+            background: #2d3456;
+            display: flex;
+            flex-direction: column;
             border-radius: 5px;
+        }
+
+        .battery-image-container {
+            display: flex;
+            justify-content: center;
+            .battery-health-circle {
+                width: 160px;
+                height: 160px;
+                background: #2d3456;
+                border-radius: 90px;
+                display: flex;
+                justify-content: center;
+            }
         }
     }
 }
