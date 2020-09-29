@@ -44,6 +44,8 @@ type State = {
   name: string;
   email: string;
   isValidEmail: boolean;
+  isValidPassword: boolean;
+  isValidName: boolean;
   password: string;
   confirmPassword: string;
   success: boolean;
@@ -82,7 +84,9 @@ class PersonalDetails extends React.PureComponent<Props, State> {
     this.state = {
       confirmPassword: '',
       email: '',
-      isValidEmail: false,
+      isValidEmail: true,
+      isValidPassword: true,
+      isValidName: true,
       name: '',
       password: '',
       success: false,
@@ -161,23 +165,35 @@ class PersonalDetails extends React.PureComponent<Props, State> {
         />
         <Text style={styles.title}>Please enter your details</Text>
         <Input
-          onChange={(text: string) => this.setState({name: text})}
+          showError={!this.state.isValidName}
+          onChange={(text: string) =>
+            this.setState({name: text, isValidName: true})
+          }
           placeHolder="Full Name*"
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
         <Input
-          onChange={(text: string) => this.setState({email: text})}
+          showError={!this.state.isValidEmail}
+          onChange={(text: string) =>
+            this.setState({email: text, isValidEmail: true})
+          }
           placeHolder="Email*"
           marginVeritical={verticalScale(InputMarginVeritical)}
         />
         <Input
-          onChange={(text: string) => this.setState({password: text})}
+          showError={!this.state.isValidPassword}
+          onChange={(text: string) =>
+            this.setState({password: text, isValidPassword: true})
+          }
           placeHolder="Create a password*"
           marginVeritical={verticalScale(InputMarginVeritical)}
           secure
         />
         <Input
-          onChange={(text: string) => this.setState({confirmPassword: text})}
+          showError={!this.state.isValidPassword}
+          onChange={(text: string) =>
+            this.setState({confirmPassword: text, isValidPassword: true})
+          }
           placeHolder="Re-enter your password*"
           marginVeritical={verticalScale(InputMarginVeritical)}
           secure
@@ -195,34 +211,53 @@ class PersonalDetails extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.bottom}>
           <CTAButton
-            disabled={!formDataValid}
+            // disabled={!formDataValid}
             onPress={() => {
-              console.log(this.validatePassword(this.state.password));
+              if (!this.state.name) {
+                Toast.show('Enter valid name');
+                this.setState({
+                  isValidName: false,
+                });
+                return;
+              }
+              if (!this.state.email || !this.validateEmail(this.state.email)) {
+                Toast.show('Enter valid email');
+                this.setState({
+                  isValidEmail: false,
+                });
+                return;
+              }
               if (!this.validatePassword(this.state.password)) {
                 Toast.show(
                   'Password should be 8 characters containing atleast 1 uppercase, 1 lowercase, 1 digit and a special character',
                 );
+                this.setState({
+                  isValidPassword: false,
+                });
                 return;
               }
-              if (this.validateEmail(this.state.email)) {
-                this.props.changePassword({
-                  type: 'ChangePassword',
-                  payload: {
-                    mobileNumber: this.state.mobileNumber,
-                    oldPassword: this.state.oldPassword,
-                    newPassword: this.state.password,
-                  },
+              if (this.state.password !== this.state.confirmPassword) {
+                Toast.show('Password does not match');
+                this.setState({
+                  isValidPassword: false,
                 });
-                this.props.updatePersonalDetails({
-                  type: 'UpdateUser',
-                  payload: {
-                    email: this.state.email,
-                    name: this.state.name,
-                  },
-                });
-              } else {
-                Toast.show('Enter a valid email');
+                return;
               }
+              this.props.changePassword({
+                type: 'ChangePassword',
+                payload: {
+                  mobileNumber: this.state.mobileNumber,
+                  oldPassword: this.state.oldPassword,
+                  newPassword: this.state.password,
+                },
+              });
+              this.props.updatePersonalDetails({
+                type: 'UpdateUser',
+                payload: {
+                  email: this.state.email,
+                  name: this.state.name,
+                },
+              });
               // this.props.navigation.navigate('TurnOnBluetooth', {});
               // this.renderSuccess();
             }}

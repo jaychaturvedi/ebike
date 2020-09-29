@@ -6,19 +6,19 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { verticalScale } from '../../styles/size-matters';
+import {verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import Input from './components/input';
 import CTAHeader from './components/header';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/onboarding';
-import { InitiateForgotPassword } from '../../service/redux/actions/saga/authentication-actions';
-import { Store_ResetOnboarding } from '../../service/redux/actions/store';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {OnboardingStackParamList} from '../../navigation/onboarding';
+import {InitiateForgotPassword} from '../../service/redux/actions/saga/authentication-actions';
+import {Store_ResetOnboarding} from '../../service/redux/actions/store';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 import OTP from './otp';
 import Toast from 'react-native-simple-toast';
 
@@ -68,14 +68,14 @@ class ForgotPassword extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      isValid: false,
+      isValid: true,
       mobile: '',
       showOtp: false,
     };
   }
 
   onOtpFilled = (code: string) => {
-    this.setState({ showOtp: false });
+    this.setState({showOtp: false});
     this.props.navigation.replace('CreateNewPassword', {
       code,
       mobileNumber: this.state.mobile,
@@ -89,57 +89,68 @@ class ForgotPassword extends React.PureComponent<Props, State> {
         mobileNumber: this.state.mobile,
       },
     });
-    Toast.show("OTP Sent")
+    Toast.show('OTP Sent');
   };
+
+  isValidPhone(text: string) {
+    const matches = text.match(/\d/g);
+    return (
+      matches && matches.length === 12 && text.length === 13 && text[0] === '+'
+    );
+  }
 
   render() {
     return this.state.showOtp ? (
       <OTP
         onFilled={this.onOtpFilled}
         onResend={this.onOtpResend}
-        // onSuccess={() => { }}
         success={false}
         successMessage={''}
       />
     ) : (
-        <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          style={styles.container}>
-          <CTAHeader />
-          <Text style={styles.title}>Forgot Password</Text>
-          <View style={styles.body}>
-            <Input
-              keyboardNumericType
-              placeHolder="Enter Registered Mobile No"
-              onChange={(text: string) => {
-                const matches = text.match(/\d/g);
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        <CTAHeader />
+        <Text style={styles.title}>Forgot Password</Text>
+        <View style={styles.body}>
+          <Input
+            showError={!this.state.isValid}
+            keyboardNumericType
+            placeHolder="Enter Registered Mobile No"
+            onChange={(text: string) => {
+              this.setState({
+                mobile: text,
+                isValid: true,
+              });
+            }}
+          />
+        </View>
+        <View style={styles.footer}>
+          <CTAButton
+            text={'Verify'}
+            textColor={Colors.WHITE}
+            backgroundColor={Colors.NAVY_BLUE}
+            onPress={() => {
+              if (!this.state.mobile || !this.isValidPhone(this.state.mobile)) {
+                Toast.show('Enter valid mobile number with country code');
                 this.setState({
-                  mobile: text,
-                  // isValid: true,
-                  isValid: matches && matches.length === 12 && text.length === 13 && text[0] === '+' ? true : false,
+                  isValid: false,
                 });
-              }}
-            />
-          </View>
-          <View style={styles.footer}>
-            <CTAButton
-              disabled={!this.state.isValid}
-              text={'Verify'}
-              textColor={Colors.WHITE}
-              backgroundColor={Colors.NAVY_BLUE}
-              onPress={() => {
-                this.props.initiateForgotPassword({
-                  type: 'InitiateForgotPassword',
-                  payload: {
-                    mobileNumber: this.state.mobile,
-                  },
-                });
-                this.setState({ showOtp: true });
-              }}
-            />
-          </View>
-        </KeyboardAvoidingView>
-      );
+                return;
+              }
+              this.props.initiateForgotPassword({
+                type: 'InitiateForgotPassword',
+                payload: {
+                  mobileNumber: this.state.mobile,
+                },
+              });
+              this.setState({showOtp: true});
+            }}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    );
   }
 }
 

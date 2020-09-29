@@ -62,7 +62,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       mobile: '',
-      isValid: false,
+      isValid: true,
       showOtp: false,
       signupSuccess: false,
     };
@@ -86,18 +86,17 @@ class ValidateMobile extends React.PureComponent<Props, State> {
     });
   };
 
-  onChange = (text: string) => {
+  isValidPhone(text: string) {
     const matches = text.match(/\d/g);
+    return (
+      matches && matches.length === 12 && text.length === 13 && text[0] === '+'
+    );
+  }
+
+  onChange = (text: string) => {
     this.setState({
       mobile: text,
-      isValid:
-        matches &&
-        matches.length === 12 &&
-        text.length === 13 &&
-        text[0] === '+'
-          ? true
-          : false,
-      // isValid: true,
+      isValid: true,
     });
   };
 
@@ -160,6 +159,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.input}>
           <Input
+            showError={!this.state.isValid}
             placeHolder="Enter Registered Mobile No."
             keyboardNumericType
             onChange={this.onChange}
@@ -179,16 +179,22 @@ class ValidateMobile extends React.PureComponent<Props, State> {
         </View>
         <View style={styles.verifyBtn}>
           <Button
-            disabled={!this.state.isValid}
             text="Verify"
             textColor="white"
             backgroundColor="#142F6A"
-            onPress={() =>
+            onPress={() => {
+              if (!this.isValidPhone(this.state.mobile)) {
+                Toast.show('Enter valid phone number with country code');
+                this.setState({
+                  isValid: false,
+                });
+                return;
+              }
               this.props.signUp({
                 type: 'SignUp',
                 payload: {mobileNumber: this.state.mobile},
-              })
-            }
+              });
+            }}
           />
         </View>
       </KeyboardAvoidingView>
