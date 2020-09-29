@@ -64,7 +64,9 @@ export function* updateUser(params: UserActions.UpdateUser) {
     try {
         const dataresponse = yield request(`${config.baseUrl}/user/`, "PUT", {
             "fullName": params.payload.name,
-            "email": params.payload.email
+            "email": params.payload.email,
+            "gender": params.payload.gender,
+            "age": params.payload.age
         });
         if (dataresponse.success) {
             const data = dataresponse.response.body;

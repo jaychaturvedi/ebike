@@ -97,7 +97,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 8,
     width: 120,
     borderWidth: 0.5,
-    borderColor: 'purple',
+    borderColor: 'grey',
     borderRadius: 8,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
@@ -296,6 +296,8 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                     payload: {
                       email: this.state.email,
                       name: this.state.name,
+                      gender: this.state.gender,
+                      age: this.state.age
                     },
                   });
                 } else {
