@@ -32,13 +32,10 @@ class Grid extends PureComponent<Props, State> {
     }
     render() {
         return (
-            <>
-                <div className="main-wrapper">
-                    <Header toggleGrid={this.toggleGrid} displayedGrid={this.state.displayedGrid} />
-                    {this.renderComponent()}
-                </div>
-
-            </>
+            <div className="main-wrapper">
+                <Header toggleGrid={this.toggleGrid} displayedGrid={this.state.displayedGrid} />
+                {this.renderComponent()}
+            </div>
         )
     }
 }

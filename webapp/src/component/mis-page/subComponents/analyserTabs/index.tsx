@@ -5,18 +5,16 @@ import HalfPie from '../../../../subComponents/halfPie';
 import { LeftCircleFilled } from '@ant-design/icons';
 import BackArrowButton from '../../../../assets/png/back-arrow-button.png'
 
-interface AlertDetailProps {
+interface AnalyserTabsProps {
     toggleComponent: Function
 }
 
-interface AlertDetailStates {
+interface AnalyserTabsStates {
     activeTab: string
 }
-//Smart Alerts
-//BMS Alerts
-//Motor Controller Alerts
-class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
-    constructor(props: AlertDetailProps) {
+
+class AnalyserTabs extends PureComponent<AnalyserTabsProps, AnalyserTabsStates> {
+    constructor(props: AnalyserTabsProps) {
         super(props)
         this.state = {
             activeTab: 'battery'
@@ -31,14 +29,11 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return (
             <>
                 <div className="connectmAnalyser-Tabs">
-                    <div>
-                        <img src={BackArrowButton} alt="back" className="back-button" onClick={() => this.tabClicked("battery")} />
-                        ANALYSER
-                        </div>
+                    <div><LeftCircleFilled style={{ padding: '5px', fontSize: '14px' }} />ANALYSER</div>
                 </div>
             </>
         )
     }
 }
 
-export default AlertDetail
+export default AnalyserTabs
