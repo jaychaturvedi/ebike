@@ -5,7 +5,6 @@ import { ReactComponent as Alerts } from "../../assets/alerts_tab_icon.svg"
 import { ReactComponent as B2BLogo } from "../../assets/b2b_tab_icon.svg"
 import { ReactComponent as CharginStation } from "../../assets/charging_station_tab_icon.svg"
 import { Typography } from 'antd';
-//charging_station_tab_icon
 
 interface LeftPanelProps { }
 
@@ -15,9 +14,7 @@ interface LeftPanelStates {
     b2bClicked: boolean,
     stationsClicked: boolean
 }
-
 class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
-
     constructor(props: LeftPanelProps) {
         super(props);
         this.state = {

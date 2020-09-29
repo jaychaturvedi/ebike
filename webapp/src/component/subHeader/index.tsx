@@ -419,7 +419,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         <Input
                             onChange={this.onSearch}
                             value={this.state.searchText}
-                            placeholder="Vehicles, Batteries, Customers..."
+                            placeholder="Search By Vehicle ID"
                             prefix={<SearchOutlined />}
                             maxLength={50}
                             className={"search-background-color"}
