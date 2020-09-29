@@ -1,3 +1,5 @@
+@import "../../../../global.scss";
+
 .analyser-header {
       flex-direction: row;
       display: flex;
@@ -27,7 +29,7 @@
             grid-template-columns: 1fr 1fr;
             grid-gap: 4px;
             .text-pair.right {
-                  background: #00000033 0% 0% no-repeat padding-box;
+                  background: $MIS_CARD_BACKGROUND;
             }
       }
 
@@ -37,7 +39,7 @@
             grid-gap: 4px;
 
             .text-pair.right {
-                  background: #00000033 0% 0% no-repeat padding-box;
+                  background: $MIS_CARD_BACKGROUND;
             }
       }
 

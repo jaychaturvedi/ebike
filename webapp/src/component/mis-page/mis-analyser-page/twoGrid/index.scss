@@ -1,3 +1,5 @@
+@import "../../../../global.scss";
+
 .container-fluid.two-analyser {
       // background: #2b3254 0% 0% no-repeat padding-box;
       // padding: 16px;
@@ -9,7 +11,7 @@
       // justify-content: space-between;
       // flex-direction: column;
       flex-direction: column;
-      background: #363e69 0% 0% no-repeat padding-box;
+      background: $MIS_CONTAINER_BACKGROUND;
       border: 1px solid #ffffff0d;
       border-radius: 2px;
       opacity: 1;
@@ -23,7 +25,8 @@
       .grid-one {
             width: 100%;
             height: 47%;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
+            background: transparent linear-gradient(180deg, $MIS_CARD_BACKGROUND 0%, #4d242233 100%) 0% 0% no-repeat
+                  padding-box;
             border-radius: 0px 0px 2px 2px;
             opacity: 1;
       }
@@ -31,7 +34,8 @@
       .grid-two {
             width: 100%;
             height: 47%;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
+            background: transparent linear-gradient(180deg, $MIS_CARD_BACKGROUND 0%, #4d242233 100%) 0% 0% no-repeat
+                  padding-box;
             border-radius: 0px 0px 2px 2px;
             opacity: 1;
       }
@@ -65,17 +69,8 @@
                   // display: flex;
                   // justify-content: center;
                   // font-size: 12px;
-                  background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat
-                        padding-box;
+                  background: transparent linear-gradient(180deg, $MIS_CARD_BACKGROUND 0%, #4d242233 100%) 0% 0%
+                        no-repeat padding-box;
             }
       }
 }
-
-// .grid-two {
-//       width: 49%;
-//       height: 100%;
-//       background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat
-//             padding-box;
-//       border-radius: 0px 0px 2px 2px;
-//       opacity: 1;
-// }

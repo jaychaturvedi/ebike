@@ -1,5 +1,7 @@
+@import "../../../global.scss";
+
 .main-wrapper {
-    background: #2b3254 0% 0% no-repeat padding-box;
+    background: $MIS_BACKGROUND;
     border-radius: 2px;
     opacity: 1;
     // margin: 24px;

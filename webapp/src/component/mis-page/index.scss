@@ -1,23 +1,21 @@
 @import "../../global.scss";
 @import "~antd/dist/antd.css";
 .connectm-MisContent {
-    border: 1px solid rgb(192, 178, 178);
     min-height: calc(100vh - (60px));
     max-height: calc(100vh - (60px));
     min-width: calc(100vw - 80px);
     max-width: calc(100vw - 80px);
-    position: absolute;
-    left: 80px;
-    padding: 24px;
+    // position: absolute;
+    border: 1px solid red;
+    margin-left: 80px;
+    // left: 80px;
+    .mis-container {
+        margin: 24px;
+        // height: 87vh;
+        min-height: calc(100vh - 110px);
+        max-height: calc(100vh - 110px);
+        height: 1px;
+        // min-width: calc(100vw - 80px - 48px);
+        // max-width: calc(100vw - 80px - 48px);
+    }
 }
-// .container-fluid.main {
-//     background: #2B3254 0% 0% no-repeat padding-box;
-//     border-radius: 2px;
-//     opacity: 1;
-//     height: 802px;
-//     padding: 0%;
-//     width: 95%;
-// }
-// .heading-div{
-//     display: inline-block;
-// }

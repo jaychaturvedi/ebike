@@ -4,8 +4,9 @@ import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
 import ChargingTrend from '../../../subComponents/graph/chargingTrend';
 import Battery from '../../../assets/battery_health__g_icon.png'
 import IconMap from '../../../assets/png/map.png'
-import BatteryPng from '../../../assets/png/battery-cell-green.png'
-import BAtteryRedPng from '../../../assets/png/battery-cell-red.png'
+import BatteryGreenPng from '../../../assets/png/battery-cell-green.png'
+import BatteryRedPng from '../../../assets/png/battery-cell-red.png'
+import BatteryPng from '../../../assets/png/battery-cell.png'
 import Header from './topHeader'
 import Dialer from './dialer'
 import { Typography } from 'antd';
@@ -17,7 +18,7 @@ interface States {
 //Smart Alerts
 //BMS Alerts
 //Motor Controller Alerts
-class MisMC extends PureComponent<Props, States> {
+class MisBattery extends PureComponent<Props, States> {
     constructor(props: Props) {
         super(props)
         this.state = {
@@ -34,55 +35,55 @@ class MisMC extends PureComponent<Props, States> {
                 {/* <Header /> */}
                 <div className="grid-container">
                     <div className="item1 top-cell left">
-                        <div className="header">
-                            <div className='last-sync-header'>
-                                <div className="text-pair left">
-                                    Last Synced On
+                        <div >
+
+                            <div className="header">
+                                <div className='last-sync-header'>
+                                    <div className="text-pair left">
+                                        Last Synced On
                                 </div>
-                                <div className="text-pair right">
-                                    1 Aug 20209:00AM
+                                    <div className="text-pair right">
+                                        1 Aug 20209:00AM
                         </div>
-                            </div> </div>
-                        <div className="content">
-                            <div className="dialer">
-                                <div style={{
-                                    width: "30%", margin: '0 auto', position: 'relative',
-                                    top: '24px'
-                                }}>
+                                </div> </div>
+                            <div className="content">
+                                <div className="dialer-one">
+                                    {/* <div >
                                     <Dialer />
+                                </div> */}
                                 </div>
-                            </div>
-                            <div className="dialer"></div>
-                            <div className="card-container">
-                                <span>Soc</span>
-                                <div className="card-body">
-                                    <div className="label">
-                                        <div>
-                                            <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Charge</Typography.Text>
+                                <div className="dialer"></div>
+                                <div className="card-container">
+                                    <span>Soc</span>
+                                    <div className="card-body">
+                                        <div className="label">
+                                            <div>
+                                                <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Charge</Typography.Text>
+                                            </div>
+                                            <div>
+                                                <Typography.Text style={{ whiteSpace: "nowrap" }} strong>84%</Typography.Text>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <Typography.Text style={{ whiteSpace: "nowrap" }} strong>84%</Typography.Text>
+                                        <div className="label">
+                                            <div>
+                                                <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Pressure</Typography.Text>
+                                            </div>
+                                            <div>
+                                                <Typography.Text style={{ whiteSpace: "nowrap" }} strong>2.3V</Typography.Text>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="label">
-                                        <div>
-                                            <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Pressure</Typography.Text>
-                                        </div>
-                                        <div>
-                                            <Typography.Text style={{ whiteSpace: "nowrap" }} strong>2.3V</Typography.Text>
-                                        </div>
-                                    </div>
 
 
-                                    <div className="label" >
-                                        <div>
-                                            <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Acquisition</Typography.Text>
+                                        <div className="label" >
+                                            <div>
+                                                <Typography.Text style={{ whiteSpace: "nowrap", color: 'grey' }}>Acquisition</Typography.Text>
+                                            </div>
+                                            <div>
+                                                <Typography.Text style={{ whiteSpace: "nowrap", color: 'red' }} strong>2.2V</Typography.Text>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <Typography.Text style={{ whiteSpace: "nowrap", color: 'red' }} strong>2.2V</Typography.Text>
-                                        </div>
-                                    </div>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -124,10 +125,9 @@ class MisMC extends PureComponent<Props, States> {
                             <Typography.Text style={{ whiteSpace: "nowrap" }} className="header-title" strong>CELL VOLTAGE</Typography.Text>
                         </div>
                         <div className="content">
-                            <div><img src={BatteryPng} alt="green" /></div>
-                            <div><img src={BAtteryRedPng} alt="green" /></div>
-
-
+                            <div><img src={BatteryPng} alt="normal" /></div>
+                            <div><img src={BatteryGreenPng} alt="green" /></div>
+                            <div><img src={BatteryRedPng} alt="red" /></div>
                         </div>
                     </div>
                     <div className="item4 bottom-cell center">
@@ -154,4 +154,4 @@ class MisMC extends PureComponent<Props, States> {
     }
 }
 
-export default MisMC
+export default MisBattery

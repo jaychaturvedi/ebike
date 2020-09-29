@@ -5,11 +5,12 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 10px;
-    background: #2b3254 0% 0% no-repeat padding-box;
-    max-height: calc(100vh - 180px);
-    min-height: calc(100vh - 180px);
+    background: $MIS_BACKGROUND;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: calc(100% - 33px);
+    min-height: calc(100% - 33px);
     border-radius: 2px;
-    opacity: 1;
     padding-left: 8px;
     padding-right: 8px;
     padding-bottom: 8px;
@@ -21,24 +22,25 @@
         background: #303860 0% 0% no-repeat padding-box;
     }
     .header {
-        background: #2b3254 0% 0% no-repeat padding-box;
-        padding: 8px;
-        height: 32px;
+        background: $MIS_BACKGROUND;
+        height: 48px;
+        line-height: 66px;
     }
     .graph-container {
         /* Firefox */
-        height: -moz-calc(80%);
-        /* WebKit */
-        height: -webkit-calc(80%);
-        /* Opera */
-        height: -o-calc(80%);
-        /* Standard */
+        // height: -moz-calc(80%);
+        // /* WebKit */
+        // height: -webkit-calc(80%);
+        // /* Opera */
+        // height: -o-calc(80%);
+        // /* Standard */
         height: calc(80%);
+        padding: 8px;
         .recharts-responsive-container {
             // display: flex;
             // justify-content: center;
             // font-size: 12px;
-            background: transparent linear-gradient(180deg, #00000033 0%, #4d242233 100%) 0% 0% no-repeat padding-box;
+            background: $MIS_CONTAINER_BACKGROUND;
         }
     }
     .map-container {
@@ -50,7 +52,7 @@
 }
 
 .grid-container > div {
-    background: #363e69 0% 0% no-repeat padding-box;
+    background: $MIS_CONTAINER_BACKGROUND;
     // text-align: center;
     // padding: 16px;
     font-size: 14px;
@@ -61,7 +63,7 @@
         height: 100%;
         .card-container {
             padding-left: 16px;
-            background: #00000033 0% 0% no-repeat padding-box;
+            background: $MIS_CARD_BACKGROUND 0% 0% no-repeat padding-box;
             .card-body {
                 display: grid;
                 grid-template-columns: auto auto auto;
@@ -74,6 +76,14 @@
                 // style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}
             }
         }
+        .dialer-one {
+            background-color: $MIS_CARD_BACKGROUND;
+            height: 60px;
+        }
+        .dialer {
+            background-color: $MIS_CARD_BACKGROUND;
+            height: 60px;
+        }
     }
     // .top-cell.left {
     //     display: grid;
@@ -83,6 +93,7 @@
         display: flex;
         grid-template-columns: 1fr 1fr auto;
         gap: 16px;
+        white-space: nowrap;
     }
     .bottom-cell {
         height: 100%;
@@ -92,9 +103,11 @@
         }
     }
     .top-cell.left .content {
-        margin: 16px;
+        padding: 16px;
         display: grid;
         grid-template-rows: 1fr 1fr auto;
+        row-gap: 16px;
+        height: calc(100% - 32px);
     }
 }
 
@@ -124,6 +137,9 @@
             display: flex;
             flex-direction: column;
             border-radius: 5px;
+            height: 62px;
+            justify-content: center;
+            padding: 8px;
         }
 
         .battery-image-container {

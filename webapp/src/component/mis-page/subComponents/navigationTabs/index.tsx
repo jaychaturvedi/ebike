@@ -31,7 +31,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
             <>
                 <div className="connectmMis-Tabs">
                     {/* <LeftCircleFilled style={{ padding: '5px', fontSize: '20px' }} /> */}
-                    <img src={BackArrowButton} alt="" style={{ marginRight: '24px' }} />
+                    <img src={BackArrowButton} alt="back" className="back-button" />
                     <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "customer" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("customer")}>
                         <Typography.Text style={{ whiteSpace: "nowrap" }}>Customer</Typography.Text>
                     </Button>
@@ -44,9 +44,12 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                     <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("mc")}>
                         <Typography.Text style={{ whiteSpace: "nowrap" }}>Motor Controller</Typography.Text>
                     </Button>
-                    <div onClick={() => this.tabClicked("analyser")} className={`analyser-button ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} >
+                    {/* <div onClick={() => this.tabClicked("analyser")}  >
                         Analyser
-                    </div>
+                    </div> */}
+                    <Button size={"middle"} type="text" className={`analyser-button ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("analyser")}>
+                        <Typography.Text style={{ whiteSpace: "nowrap" }}>Analyser</Typography.Text>
+                    </Button>
                 </div>
             </>
         )

@@ -20,9 +20,17 @@
     .analyser-button {
         float: right;
         margin-right: 32px;
-        background: #4d5fc1 0% 0% no-repeat padding-box;
+        background: $MIS_ANALYSER_BUTTON;
         border-radius: 4px;
         opacity: 1;
         // padding: 8px;
+    }
+
+    .back-button {
+        margin-right: 24px;
+        width: 28px;
+        height: 28px;
+        margin-bottom: 4px;
+        margin-left: 4px;
     }
 }

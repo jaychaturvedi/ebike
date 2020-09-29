@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
 import HalfPie from '../../../../subComponents/halfPie';
 import { LeftCircleFilled } from '@ant-design/icons';
+import BackArrowButton from '../../../../assets/png/back-arrow-button.png'
 
 interface AlertDetailProps {
     toggleComponent: Function
@@ -30,7 +31,10 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return (
             <>
                 <div className="connectmAnalyser-Tabs">
-                    <div><LeftCircleFilled style={{ padding: '5px', fontSize: '20px' }} />ANALYSER</div>
+                    <div>
+                        <img src={BackArrowButton} alt="back" className="back-button" onClick={() => this.tabClicked("battery")} />
+                        ANALYSER
+                        </div>
                 </div>
             </>
         )

@@ -39,10 +39,13 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
     render() {
         return (
             <Layout.Content className="connectm-MisContent">
-                {this.state.activeTab === "analyser" ? <AnalyserTabs toggleComponent={this.toggleComponent}></AnalyserTabs> : <NavigationTabs toggleComponent={this.toggleComponent} />}
-                {/* <Analyser /> */}
-                {/* <MisBattery /> */}
-                {this.renderComponent()}
+                <div className="mis-container">
+                    {this.state.activeTab === "analyser" ? <AnalyserTabs toggleComponent={this.toggleComponent}></AnalyserTabs> : <NavigationTabs toggleComponent={this.toggleComponent} />}
+
+                    {/* <Analyser /> */}
+                    {/* <MisBattery /> */}
+                    {this.renderComponent()}
+                </div>
             </Layout.Content>
         )
     }
