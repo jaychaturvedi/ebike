@@ -57,7 +57,6 @@ class Header extends PureComponent<Props, State> {
     render() {
         return (
             <>
-
                 <div className='analyser-header' >
                     <div className='header customer'>
                         <Typography.Text className={`customerId-typography`} strong >CUS-34567</Typography.Text>
@@ -72,19 +71,17 @@ class Header extends PureComponent<Props, State> {
                         <div className="text-pair left">
                             Start Date/Time
                         </div>
-
-                        <div className="text-pair right">
-                            1 Aug 20209:00AM
+                        <div className="text-pair">
+                            <span className="right">1 Aug 2020 9:00AM</span>
                         </div>
                     </div>
                     <div className="header end-time">
-
                         <div className="text-pair left">
                             End Date/Time
                         </div>
 
-                        <div className="text-pair right">
-                            5 Sep 20209:00AM
+                        <div className="text-pair">
+                            <span className="right">1 Aug 2020 9:00AM</span>
                         </div>
 
                     </div>
@@ -101,7 +98,6 @@ class Header extends PureComponent<Props, State> {
                         </div>
                     </div>
                 </div>
-
             </>
         )
     }
