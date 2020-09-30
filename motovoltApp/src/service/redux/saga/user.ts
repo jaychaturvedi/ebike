@@ -52,11 +52,17 @@ export async function getUser() {
     try {
         const dataresponse = await request(`${config.baseUrl}/user/`, "GET");
         console.log(dataresponse);
-        if (dataresponse.success) {
-            return dataresponse.response.body;
-        }
+        return {
+            ...dataresponse,
+            response: dataresponse.success ? dataresponse.response.body : null,
+        };
     } catch (error) {
         console.log(error)
+        return {
+            success: false,
+            response: null,
+            message: error.message || "Unknown Error",
+        };
     }
 }
 
