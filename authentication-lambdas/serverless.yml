@@ -14,6 +14,7 @@ provider:
   environment: 
     REGISTEREDFRAMEIDFORMOBILEURL: https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra/validateph
     CREATEUSERURL: https://q6sm9vkbn2.execute-api.us-east-2.amazonaws.com/dev/createUser
+    WEBAPPSITEURL: http://localhost:3000
 functions:
   preSignUp:
     handler: src/functions.preSignUp
@@ -27,5 +28,12 @@ functions:
     events: 
       - http: 
           path: /postConfirmation
+          method: ANY
+          cors: true
+  webAppForgotPassword:
+    handler: src/functions.webAppForgotPassword
+    events: 
+      - http: 
+          path: /webAppForgotPassword
           method: ANY
           cors: true
