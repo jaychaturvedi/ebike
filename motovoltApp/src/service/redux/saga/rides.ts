@@ -165,14 +165,12 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 }
             } as Store_SetGraphdata);
         }
-        throw Error(dataResponse.message);
     } catch (error) {
         console.log(error)
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: "Unknown error"
-                // error: JSON.stringify(error, Object.getOwnPropertyNames(error))
+                error: JSON.stringify(error, Object.getOwnPropertyNames(error))
             }
         } as Store_UpdateError)
     }
