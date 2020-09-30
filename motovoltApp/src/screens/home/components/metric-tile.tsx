@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignContent: 'center',
     justifyContent: 'center',
-    backgroundColor: "red",
+    overflow: "hidden"
   },
   heading: {
     display: 'flex',
