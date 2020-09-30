@@ -3,6 +3,7 @@ import { body, param, query } from "express-validator";
 import User, { TFilter } from "./service"
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import { profile } from "./controller";
+import { UserError } from "../error";
 const app = express.Router()
 
 
@@ -23,12 +24,16 @@ app.get('/', expressQAsync(secure),
 )
 //updates name and email during registration
 app.put('/', expressQAsync(secure),
-    [body('fullName', "fullName is too short").isString().isLength({ min: 3 }),
-    body("email", "email is invalid").isEmail(), validate],
+    [body('fullName', "fullName is optional").optional().isString().isLength({ min: 1 }),
+    body("email", "email is optional").optional().isEmail(),
+    body('age', "age is optional").optional().isString().isLength({ min: 1 }),
+    body('gender', "gender is optional").optional().isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const uid = res.locals.user.uid
-        const { fullName, email } = req.body
-        const updated = await User.updateByUid(uid, { fullName, email });
+        const { fullName, email, age, gender } = req.body
+        if (!fullName && !email && !age && !gender)
+            throw new UserError("Please pass atleast one of 'fullName', 'email','age', or 'gender' ");
+        const updated = await User.updateByUid(uid, { fullName, email, age, gender });
         const response = createResponse("OK", updated, undefined)
         res.json(response)
     })
