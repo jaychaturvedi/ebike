@@ -26,8 +26,8 @@ export default class User {
   }
 
   static async findAll() {
-    const bikes = await UserModel.findAll()
-    return bikes
+    const users = await UserModel.findAll()
+    return users
   }
 
   static async createNew(user: TUser) {
