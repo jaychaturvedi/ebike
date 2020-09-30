@@ -14,23 +14,23 @@ import FooterNavigation from './src/navigation/footer';
 import Registration from './src/navigation/registration';
 
 import SplashScreen from 'react-native-splash-screen';
-import { fetchCredentials } from './src/service/secure-storage';
+import {fetchCredentials} from './src/service/secure-storage';
 
-import { TStore } from './src/service/redux/store';
-import { signIn, signout } from './src/service/authentication';
-import { getUser } from './src/service/redux/saga/user';
-import { SignIn } from './src/service/redux/actions/saga';
-import { connect } from 'react-redux';
+import {TStore} from './src/service/redux/store';
+import {signIn, signout} from './src/service/authentication';
+import {getUser} from './src/service/redux/saga/user';
+import {SignIn} from './src/service/redux/actions/saga';
+import {connect} from 'react-redux';
 import {
   Store_Init,
   Store_Reset,
   Store_UpdateError,
   Store_UpdateUser,
 } from 'src/service/redux/actions/store';
-import { ReadUser } from 'src/service/redux/actions/saga/user';
+import {ReadUser} from 'src/service/redux/actions/saga/user';
 import Toast from 'react-native-simple-toast';
 
-declare const global: { HermesInternal: null | {} };
+declare const global: {HermesInternal: null | {}};
 
 interface ReduxState {
   user: TStore['user'];
@@ -40,12 +40,12 @@ interface ReduxState {
   getUser: (params: ReadUser) => void;
   initStore: (params: Store_Init) => void;
   resetStore: (params: Store_Reset) => void;
-  resetError: (params: Store_UpdateError) => void
+  resetError: (params: Store_UpdateError) => void;
 }
 
-interface Props extends ReduxState { }
+interface Props extends ReduxState {}
 
-interface State { }
+interface State {}
 
 class App extends React.PureComponent<Props, State> {
   constructor(props: Props) {
@@ -66,27 +66,25 @@ class App extends React.PureComponent<Props, State> {
           const response = await signIn(cred.username, cred.password);
           console.log(response);
           if (response.success) {
-            this.props.updateUser({
-              type: 'Store_UpdateUser',
-              payload: {
-                isLoggedIn: true,
-              },
-            });
             //Fetch user from backend and update isBikeRegistered , isPhoneValidated
             console.log('Response ', response);
             const user = await getUser();
+            if(!user.success){
+              return;
+            }
             console.log('Initial User : ', user);
             this.props.updateUser({
               type: 'Store_UpdateUser',
               payload: {
                 isPhoneValidated:
                   response.user.attributes.phone_number_verified,
-                id: user.uid,
-                email: user.email,
-                name: user.fullName,
-                phone: user.phone,
-                defaultBikeId: user.frameId,
-                isBikeRegistered: Boolean(user.frameId),
+                id: user.response.uid,
+                email: user.response.email,
+                name: user.response.fullName,
+                phone: user.response.phone,
+                defaultBikeId: user.response.frameId,
+                isBikeRegistered: Boolean(user.response.frameId),
+                isLoggedIn: true,
               },
             });
           } else {
@@ -119,10 +117,11 @@ class App extends React.PureComponent<Props, State> {
     if (this.props.error) {
       Toast.show(this.props.error);
       this.props.resetError({
-        type: 'Store_UpdateError', payload: {
-          error: null
-        }
-      })
+        type: 'Store_UpdateError',
+        payload: {
+          error: null,
+        },
+      });
     }
     if (!this.props.user.isLoggedIn) return <Onboarding />;
     if (this.props.user.isBikeRegistered) return <FooterNavigation />;
@@ -134,7 +133,7 @@ export default connect(
   (store: TStore) => {
     return {
       user: store['user'],
-      error: store['error']
+      error: store['error'],
     };
   },
   (dispatch) => {
@@ -144,7 +143,7 @@ export default connect(
       getUser: (params: ReadUser) => dispatch(params),
       initStore: (params: Store_Init) => dispatch(params),
       resetStore: (params: Store_Reset) => dispatch(params),
-      resetError: (params: Store_UpdateError) => dispatch(params)
+      resetError: (params: Store_UpdateError) => dispatch(params),
     };
   },
 )(App);

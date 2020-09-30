@@ -4,32 +4,45 @@ import {
     put,
 } from "redux-saga/effects";
 import * as Authentication from "../../authentication";
+import * as User from "../saga/user";
 import * as AuthenticationActions from "../actions/saga/authentication-actions";
-import { Store_UpdateOnboarding, Store_UpdateUser, Store_Reset } from "../actions/store";
-import { ReadUser } from "../actions/saga/user";
+import { Store_UpdateOnboarding, Store_UpdateUser, Store_Reset, Store_UpdateError } from "../actions/store";
 
 
 //Onboarding
 export function* signIn(params: AuthenticationActions.SignIn) {
     const response = yield call(Authentication.signIn, params.payload.mobileNumber, params.payload.password)
-    // call fetch user API
-    console.log(response.user)
+    if (!response.success) {
+        yield put({
+            type: 'Store_UpdateOnboarding',
+            payload: {
+                errorMessage: response.success ? "" : response.message,
+            }
+        } as Store_UpdateOnboarding);
+        return;
+    }
+    const readUserResponse = yield call(User.getUser);
+    if (!readUserResponse.success) {
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: readUserResponse.success ? "" : readUserResponse.message,
+            }
+        } as Store_UpdateError);
+        return;
+    }
     yield put({
-        type: 'Store_UpdateUser',
+        type: "Store_UpdateUser",
         payload: {
-            isLoggedIn: response.success,
+            id: readUserResponse.response.uid,
+            email: readUserResponse.response.email,
+            name: readUserResponse.response.fullName,
+            phone: readUserResponse.response.phone,
+            defaultBikeId: readUserResponse.response.frameId,
+            isBikeRegistered: Boolean(readUserResponse.response.frameId),
+            isLoggedIn: true,
         }
-    } as Store_UpdateUser);
-    yield put({
-        type: 'Store_UpdateOnboarding',
-        payload: {
-            errorMessage: response.success ? "" : response.message,
-        }
-    } as Store_UpdateOnboarding);
-    yield put({
-        type: "ReadUser",
-        payload: {}
-    } as ReadUser)
+    } as Store_UpdateUser)
 }
 
 export function* signUp(params: AuthenticationActions.SignUp) {
