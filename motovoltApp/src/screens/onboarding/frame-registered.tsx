@@ -33,9 +33,7 @@ type State = {
 };
 
 const inputStyles = StyleSheet.create({
-  container: {
-    marginBottom: scale(72),
-  },
+  container: {},
   helperText: {
     alignSelf: 'flex-start',
     fontSize: 16,
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     marginVertical: verticalScale(40),
   },
   msg: {
