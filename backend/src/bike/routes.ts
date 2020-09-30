@@ -83,7 +83,7 @@ app.get('/notification/:frameId', expressQAsync(secure),
         console.log("Start Time:", new Date(), "req in notification", req.query, req.params);
         const notification = await ConnectmApi.getNotification(req.params.frameId, pageNo as number, pageSize as number)
         console.log("End Time:", new Date())
-        if (notification[0].st) throw new BadRequestError("Please check frameId");
+        if (notification[0].st) throw new BadRequestError("no data available for the devices");
         const response = createResponse("OK", notification, undefined)
         res.json(response)
     })

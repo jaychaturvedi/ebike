@@ -7,12 +7,16 @@ import { pagination, filters } from "../helper";
 const Op = Sequelize.Op
 
 export async function getMyBike(frameId: string) {
+  const result = await Promise.all([ConnectmApi.getMyBike(frameId as string), Bike.findOne({ frameId })])
   const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
-    servDate: serviceDate, warrantyValidTill, purchaseDate } = await ConnectmApi.getMyBike(frameId as string);
+    servDate: serviceDate, warrantyValidTill, purchaseDate } = result[0]
   if (!fid) throw new BikeError("frameId is not registered");
-  const { bikeName } = await Bike.findOne({ frameId })
-  return { bikeName, motorPer, batteryChargePer, batteryHealthPer, batteries: [{ id: batteryId }], vehicleId, serviceDate, warrantyValidTill, purchaseDate }
+  const { bikeName } = result[1]
+  return {
+    bikeName, motorPer, batteryChargePer, batteryHealthPer,
+    batteries: [{ id: batteryId }], vehicleId, serviceDate, warrantyValidTill, purchaseDate
+  }
 }
 
 export async function homeScreen(frameId: string,) {
@@ -49,10 +53,12 @@ export async function verifyFrame(user: object, frameId: string) {
 }
 
 export async function getRideHistory(frameId: string, startTime: string, endTime: string, pageNo: number, pageSize: number) {
-  const history = await ConnectmApi.getRideHistory(frameId, startTime as string,
-    endTime as string, pageNo as number, pageSize as number)
-  const graphData = await ConnectmApi.getRideHistoryStat(frameId, startTime as string,
-    endTime as string, pageNo as number, pageSize as number)
+  const result = await Promise.all([ConnectmApi.getRideHistory(frameId, startTime as string,
+    endTime as string, pageNo as number, pageSize as number),
+  ConnectmApi.getRideHistoryStat(frameId, startTime as string,
+    endTime as string, pageNo as number, pageSize as number)])
+  const history = result[0]
+  const graphData = result[1]
   if (!history[0].fid || !graphData[0].fid) return { history: [], graphData: [] }
   return { history, graphData }
 }
