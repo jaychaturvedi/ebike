@@ -35,6 +35,13 @@ export type Store_UpdateOnboarding = {
     }
 }
 
+export type Store_UpdateError = {
+    type: 'Store_UpdateError',
+    payload: {
+        error: null | string
+    }
+}
+
 export type Store_ResetOnboarding = {
     type: "Store_ResetOnboarding",
     payload: {}
@@ -252,6 +259,7 @@ type Action = Store_UpdateUser
     | Store_ResetReportIssue
     | Store_SetServices
     | Store_Reset
-    | Store_Init;
+    | Store_Init
+    | Store_UpdateError
 
 export default Action;

@@ -7,18 +7,18 @@ import {
   GestureResponderEvent,
 } from 'react-native';
 import Rating from '../../components/rating';
-import {moderateScale} from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
 import Feedback from './feedback';
 import ThumbsUp from '../../components/thumb-up';
-import {SubmitRide} from 'src/service/redux/actions/saga';
-import {Dispatch} from 'redux';
+import { SubmitRide } from 'src/service/redux/actions/saga';
+import { Dispatch } from 'redux';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
-import {ThemeContext} from '../../styles/theme/theme-context';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ThemeContext } from '../../styles/theme/theme-context';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -64,10 +64,10 @@ class RateRide extends React.PureComponent<Props, State> {
       <TouchableWithoutFeedback
         onPress={() => {
           if (this.state.showFeedback) {
-            this.setState({showFeedback: false, problem: '', description: ''});
+            this.setState({ showFeedback: false, problem: '', description: '' });
           }
         }}>
-        <ScrollView
+        <View
           style={{
             ...styles.container,
             backgroundColor: Theme.BACKGROUND, //change dark theme
@@ -191,7 +191,7 @@ class RateRide extends React.PureComponent<Props, State> {
                     !(this.state.problem || this.state.description)
                   ) {
                     console.log('Submit clicked');
-                    this.setState({showFeedback: true});
+                    this.setState({ showFeedback: true });
                   } else {
                     this.props.submitRide({
                       type: 'SubmitRide',
@@ -206,7 +206,7 @@ class RateRide extends React.PureComponent<Props, State> {
                     setTimeout(() => {
                       this.props.onComplete();
                     }, 1000);
-                    this.setState({showThumpUp: true});
+                    this.setState({ showThumpUp: true });
                   }
                 }}
                 onFeedback={(problem, description) => {
@@ -220,7 +220,7 @@ class RateRide extends React.PureComponent<Props, State> {
               />
             </View>
           </TouchableWithoutFeedback>
-        </ScrollView>
+        </View>
       </TouchableWithoutFeedback>
     );
   }

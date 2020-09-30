@@ -2,7 +2,7 @@ import {
     put,
 } from "redux-saga/effects";
 import * as ServiceActions from "../actions/saga/service-actions";
-import { Store_UpdateUser, Store_UpdateBike, Store_SetServices } from "../actions/store";
+import { Store_UpdateUser, Store_UpdateBike, Store_SetServices, Store_UpdateError } from "../actions/store";
 import { store } from "../../index";
 import { config, request } from './utils';
 
@@ -20,9 +20,22 @@ export function* reportIssue(params: ServiceActions.ReportIssue) {
                     reportIssueSuccess: true
                 }
             } as Store_UpdateBike)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataresponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -54,8 +67,21 @@ export function* getServices(params: ServiceActions.ReadService) {
                     })]
                 }
             } as Store_SetServices)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataresponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error);
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }

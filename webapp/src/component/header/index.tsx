@@ -1,5 +1,5 @@
 import './index.scss';
-import { Layout, Typography, Avatar } from 'antd'
+import { Layout, Avatar } from 'antd'
 import React, { PureComponent } from 'react';
 import { ReactComponent as ChatMessage } from "../../assets/chat_message_icon.svg"
 import { ReactComponent as Notification } from "../../assets/notification_icon.svg"
@@ -11,7 +11,6 @@ interface WebHeaderProp { }
 interface WebHeaderState { }
 
 class WebHeader extends PureComponent<WebHeaderProp, WebHeaderState> {
-
     render() {
         return (
             <Layout.Header className="web-header">
@@ -23,7 +22,6 @@ class WebHeader extends PureComponent<WebHeaderProp, WebHeaderState> {
             </Layout.Header>
         )
     }
-
 }
 
 export default WebHeader;

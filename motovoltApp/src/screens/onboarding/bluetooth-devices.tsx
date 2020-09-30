@@ -95,9 +95,14 @@ function CycleDetected(props: CycleProps) {
     <TouchableOpacity onPress={props.onSelect}>
       <View
         style={{
-          ...cycleStyles.container,
-          // borderColor: Colors.BORDER_GREY,
-          // borderWidth: props.selected ? 1 : 0,
+          ...{
+            ...cycleStyles.container,
+          },
+          ...(props.selected
+            ? {
+                backgroundColor: 'grey',
+              }
+            : {}),
         }}>
         <Image
           source={require('../../assets/images/cycle.png')}

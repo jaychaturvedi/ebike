@@ -55,6 +55,11 @@ export default (store: TStore = Store, params: Action): TStore => {
                     reportIssueSuccess: null
                 }
             }
+        case 'Store_UpdateError':
+            return {
+                ...store,
+                error: params.payload.error
+            }
         case "Store_UpdateBike":
             return {
                 ...store,
