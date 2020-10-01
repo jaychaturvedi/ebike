@@ -9,27 +9,48 @@ import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_spla
 import Cross from '../../assets/png/cross-vector.png'
 import Exclamation from '../../assets/png/exclamation.png'
 import MotovoltLogo from '../../assets/png/motovolt_text.png'
+import { signIn, initiateForgotPassword, forgotPasswordSubmit } from "../../connectm-client/authentication"
+import { withRouter, RouteComponentProps } from "react-router"
+import * as QueryString from "query-string"
 import './index.scss'
-interface LoginProps { }
+interface ForgotPasswordProps extends RouteComponentProps { }
 
-interface LoginStates {
+interface ForgotPasswordStates {
     formValid: string,
     valid: boolean,
-    message: any
+    message: any,
+    firstPassword: string,
+    secondPassword: string
 }
 
-class Login extends PureComponent<LoginProps, LoginStates> {
-    constructor(props: LoginProps) {
+class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordStates> {
+    constructor(props: ForgotPasswordProps) {
         super(props)
         this.state = {
             formValid: '',
             valid: false,
-            message: ''
+            message: '',
+            firstPassword: '',
+            secondPassword: ''
         }
     }
     onFinish = (values: any) => {
+        const params = QueryString.parse(this.props.location.search);
         console.log('Received values of form: ', values);
+        console.log(params.user_name)
+        console.log(params.confirmation_code)
+        forgotPasswordSubmit(String(params.user_name), String(params.confirmation_code), this.state.secondPassword)
+            .then((forgotPasswordObj) => {
+                if (forgotPasswordObj.message) {
+                    this.props.history.push("/login")
+                }
+                else {
+                    console.log("Error", forgotPasswordObj)
+                }
+            })
+
     };
+
     onToggle = (values: any) => {
         if (!this.state.valid) {
             this.setState({
@@ -42,8 +63,22 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                 formValid: 'success', valid: !this.state.valid,
                 message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
             })
-
     }
+
+    updateFirstPassword = (event: any) => {
+        console.log(event.target.value)
+        this.setState({
+            firstPassword: event.target.value
+        })
+    }
+
+    updateSecondPassword = (event: any) => {
+        console.log(event.target.value)
+        this.setState({
+            secondPassword: event.target.value
+        })
+    }
+
     render() {
         return (
             <div className="connectm-login">
@@ -79,8 +114,11 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                                             message: '',
                                         },
                                     ]}>
-                                    <Input type="password"
-                                        placeholder="New Password" />
+                                    <Input
+                                        type="password"
+                                        placeholder="New Password"
+                                        value={this.state.firstPassword}
+                                        onChange={this.updateFirstPassword} />
                                 </Form.Item>
                                 <Form.Item
                                     name="confirmPassword"
@@ -93,6 +131,8 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                                     <Input
                                         type="password"
                                         placeholder="Confirm Password"
+                                        value={this.state.secondPassword}
+                                        onChange={this.updateSecondPassword}
                                     />
                                 </Form.Item>
 
@@ -120,4 +160,4 @@ class Login extends PureComponent<LoginProps, LoginStates> {
 
 }
 
-export default Login;
+export default withRouter(ForgotPassword);

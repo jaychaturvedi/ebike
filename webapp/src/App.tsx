@@ -49,16 +49,7 @@ class App extends PureComponent<AppProp, AppState>{
     }
   }
 
-  signedIn = (user: any) => {
-    this.setState({
-      authenticated: true,
-      user: user
-    })
-    this.props.history.push("/");
-  }
-
   componentDidMount() {
-    if (this.props.history.location.pathname != MainRoutes.RESETPASSWORD)
       getUser()
         .then(userObject => {
           console.log(userObject)
@@ -72,6 +63,7 @@ class App extends PureComponent<AppProp, AppState>{
             this.setState({
               authenticated: false
             });
+            if (this.props.history.location.pathname != MainRoutes.RESETPASSWORD)
             this.props.history.push("/login");
           }
           console.log("move to login screen")
@@ -79,8 +71,8 @@ class App extends PureComponent<AppProp, AppState>{
   }
 
   render() {
-    console.log('App life cycle');
-    return this.props.history.location.pathname === MainRoutes.RESETPASSWORD ?
+    console.log('App life cycle',this.state);
+    return this.props.history.location.pathname === MainRoutes.RESETPASSWORD && !this.state.authenticated?
       <ForgotPassword /> :
       <Switch>
         <RestrictedRoute

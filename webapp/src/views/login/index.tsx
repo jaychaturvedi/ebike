@@ -10,11 +10,9 @@ import MotovoltLogo from '../../assets/png/motovolt_text.png'
 import Cross from '../../assets/png/cross-vector.png'
 import Exclamation from '../../assets/png/exclamation.png'
 import { signIn, initiateForgotPassword } from "../../connectm-client/authentication"
+import { withRouter, RouteComponentProps } from "react-router"
 import './index.scss'
-interface LoginProps {
-    logInMethod: (value: any) => void
-}
-
+interface LoginProps extends RouteComponentProps { }
 interface LoginStates {
     formValid: string,
     valid: boolean,
@@ -39,7 +37,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
             .then(signedInObject => {
                 console.log(signedInObject)
                 if (signedInObject.success) {
-                    this.props.logInMethod(signedInObject.user)
+                    this.props.history.push("/")
                 } else {
                     this.setState({
                         formValid: 'error', valid: !this.state.valid,
@@ -58,7 +56,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                         formValid: 'success', valid: !this.state.valid,
                         message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
                     })
-                }else{
+                } else {
                     this.setState({
                         formValid: 'error', valid: !this.state.valid,
                         message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
@@ -151,4 +149,4 @@ class Login extends PureComponent<LoginProps, LoginStates> {
     }
 }
 
-export default Login;
+export default withRouter(Login);
