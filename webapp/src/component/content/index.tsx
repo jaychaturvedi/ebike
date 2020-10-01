@@ -23,7 +23,7 @@ class Content extends PureComponent<ContentProp, ContentState>{
                 <WebHeader />
                 <LeftPanel />
                 <Switch>
-                    <Route exact path="/" component={HomePage} />
+                    <Route exact path="/alerts" component={HomePage} />
                     <Route exact path="/:alertType/:id" component={AlertDetail} />
                     {/* <Route exact path="/" component={MisPage} /> */}
                     {/* <Route exact path="/" component={MisBattery} /> */}

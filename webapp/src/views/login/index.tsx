@@ -11,8 +11,10 @@ import Cross from '../../assets/png/cross-vector.png'
 import Exclamation from '../../assets/png/exclamation.png'
 import { signIn, initiateForgotPassword } from "../../connectm-client/authentication"
 import { withRouter, RouteComponentProps } from "react-router"
+import { connect } from 'react-redux'
+import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
 import './index.scss'
-interface LoginProps extends RouteComponentProps { }
+interface LoginProps extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface LoginStates {
     formValid: string,
     valid: boolean,
@@ -37,7 +39,14 @@ class Login extends PureComponent<LoginProps, LoginStates> {
             .then(signedInObject => {
                 console.log(signedInObject)
                 if (signedInObject.success) {
-                    this.props.history.push("/")
+                    this.props.usersAction({
+                        type: "UPDATE_USER",
+                        payload: {
+                            authenticated: true,
+                            user: signedInObject.user
+                        }
+                    })
+                    // this.props.history.push("/")
                 } else {
                     this.setState({
                         formValid: 'error', valid: !this.state.valid,
@@ -149,4 +158,4 @@ class Login extends PureComponent<LoginProps, LoginStates> {
     }
 }
 
-export default withRouter(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

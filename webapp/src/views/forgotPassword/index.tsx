@@ -11,10 +11,11 @@ import Exclamation from '../../assets/png/exclamation.png'
 import MotovoltLogo from '../../assets/png/motovolt_text.png'
 import { signIn, initiateForgotPassword, forgotPasswordSubmit } from "../../connectm-client/authentication"
 import { withRouter, RouteComponentProps } from "react-router"
+import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
 import * as QueryString from "query-string"
+import { connect } from 'react-redux'
 import './index.scss'
-interface ForgotPasswordProps extends RouteComponentProps { }
-
+interface ForgotPasswordProps extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface ForgotPasswordStates {
     formValid: string,
     valid: boolean,
@@ -22,7 +23,6 @@ interface ForgotPasswordStates {
     firstPassword: string,
     secondPassword: string
 }
-
 class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordStates> {
     constructor(props: ForgotPasswordProps) {
         super(props)
@@ -42,6 +42,13 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
         forgotPasswordSubmit(String(params.user_name), String(params.confirmation_code), this.state.secondPassword)
             .then((forgotPasswordObj) => {
                 if (forgotPasswordObj.message) {
+                    this.props.usersAction({
+                        type: "UPDATE_USER",
+                        payload: {
+                            authenticated: true,
+                            user: null
+                        }
+                    })
                     this.props.history.push("/login")
                 }
                 else {
@@ -160,4 +167,4 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
 
 }
 
-export default withRouter(ForgotPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ForgotPassword));
