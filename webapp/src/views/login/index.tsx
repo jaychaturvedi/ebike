@@ -9,13 +9,17 @@ import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_spla
 import MotovoltLogo from '../../assets/png/motovolt_text.png'
 import Cross from '../../assets/png/cross-vector.png'
 import Exclamation from '../../assets/png/exclamation.png'
+import { signIn, initiateForgotPassword } from "../../connectm-client/authentication"
 import './index.scss'
-interface LoginProps { }
+interface LoginProps {
+    logInMethod: (value: any) => void
+}
 
 interface LoginStates {
     formValid: string,
     valid: boolean,
-    message: any
+    message: any,
+    username: string
 }
 
 class Login extends PureComponent<LoginProps, LoginStates> {
@@ -24,26 +28,53 @@ class Login extends PureComponent<LoginProps, LoginStates> {
         this.state = {
             formValid: '',
             valid: false,
-            message: ''
+            message: '',
+            username: ''
         }
     }
-    onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-    };
-    onToggle = (values: any) => {
-        if (!this.state.valid) {
-            this.setState({
-                formValid: 'error', valid: !this.state.valid,
-                message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
-            })
-        }
-        else
-            this.setState({
-                formValid: 'success', valid: !this.state.valid,
-                message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
-            })
 
+    loginToCommandCenter = (value: any) => {
+        console.log(value)
+        signIn(value.username, value.password)
+            .then(signedInObject => {
+                console.log(signedInObject)
+                if (signedInObject.success) {
+                    this.props.logInMethod(signedInObject.user)
+                } else {
+                    this.setState({
+                        formValid: 'error', valid: !this.state.valid,
+                        message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
+                    })
+                }
+            })
     }
+
+    forgotPassword = (event: any) => {
+        event.preventDefault()
+        initiateForgotPassword(this.state.username)
+            .then((passwordInit) => {
+                if (passwordInit.success) {
+                    this.setState({
+                        formValid: 'success', valid: !this.state.valid,
+                        message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
+                    })
+                }else{
+                    this.setState({
+                        formValid: 'error', valid: !this.state.valid,
+                        message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
+                    })
+                }
+                console.log(passwordInit)
+            })
+    }
+
+    updateUserName = (event: any) => {
+        console.log(event.target.value)
+        this.setState({
+            username: event.target.value
+        })
+    }
+
     render() {
         return (
             <div className="connectm-login">
@@ -69,7 +100,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                                 initialValues={{
                                     remember: true,
                                 }}
-                                onFinish={this.onFinish}>
+                                onFinish={this.loginToCommandCenter}>
                                 <Form.Item
                                     name="username"
                                     rules={[
@@ -78,7 +109,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                                             message: '',
                                         },
                                     ]}>
-                                    <Input placeholder="Username" />
+                                    <Input placeholder="Username" value={this.state.username} onChange={this.updateUserName} />
                                 </Form.Item>
                                 <Form.Item
                                     name="password"
@@ -95,10 +126,10 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                                 </Form.Item>
 
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.onToggle}>
+                                    <Button type="primary" htmlType="submit" className="login-form-button">
                                         Log in
                                 </Button>
-                                    <a className="login-form-forgot" href="">
+                                    <a className="login-form-forgot" href="" onClick={this.forgotPassword}>
                                         Forgot password?
                                 </a>
                                 </Form.Item>
@@ -118,7 +149,6 @@ class Login extends PureComponent<LoginProps, LoginStates> {
             </div>
         )
     }
-
 }
 
 export default Login;

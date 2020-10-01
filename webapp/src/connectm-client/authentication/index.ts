@@ -12,6 +12,22 @@ export async function signout() {
     await Auth.signOut().then(async () => {});
 }
 
+export function getUser() {
+    return Auth.currentAuthenticatedUser().then((user) => {
+        return {
+            user,
+            success: true,
+            message: null
+        };
+    }).catch(err => {
+        return {
+            message: err.message,
+            success: false,
+            user: null
+        }
+    })
+}
+
 export async function getToken() {
     try {
         const session = await Auth.currentSession()
@@ -50,7 +66,7 @@ export function signIn(username: string, password: string) {
     })
 }
 
-export function forgotPassword(username: string, code: string, password: string) {
+export function forgotPasswordSubmit(username: string, code: string, password: string) {
     return Auth.forgotPasswordSubmit(username, code, password)
         .then(async () => {
             return {
@@ -58,6 +74,23 @@ export function forgotPassword(username: string, code: string, password: string)
                 message: "Password Reset Successfull"
             }
         }).catch(err => {
+            return {
+                success: false,
+                message: err.message
+            }
+        })
+}
+
+export function initiateForgotPassword(username: string) {
+    return Auth.forgotPassword(username)
+        .then((data) => {
+            console.log(data);
+            return {
+                success: true,
+                message: "Forgot password initiated successfully"
+            }
+        }).catch(err => {
+            console.log(err);
             return {
                 success: false,
                 message: err.message
