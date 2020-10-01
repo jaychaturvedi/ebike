@@ -7,9 +7,12 @@
         margin-right: 2px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
+        @media screen and (min-width: 1600px) {
+            height: 51px;
+        }
     }
     .tab-active {
-        border-bottom: 1px solid $ACTIVE;
+        border-bottom: 2px solid $ACTIVE;
         font-weight: 600;
     }
 }

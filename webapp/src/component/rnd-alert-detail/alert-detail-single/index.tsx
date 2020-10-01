@@ -141,7 +141,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 <div className={"single-row"}>
                     <Dropdown overlay={clearAlert} trigger={['click']} visible={this.state.clearBoxToggle} disabled={this.state.alertCleared}>
                         <Button className={"clear-alert-button"} onClick={this.initiateClearAlert} disabled={this.state.alertCleared}>
-                            <Typography.Text style={{ color: "black", fontSize:"10px"}} strong>CLEAR ALERT</Typography.Text>
+                            <Typography.Text style={{ color: "black", }} strong className="clear-alert-text">CLEAR ALERT</Typography.Text>
                         </Button>
                     </Dropdown>
                 </div>

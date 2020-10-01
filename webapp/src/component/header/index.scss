@@ -8,7 +8,11 @@
   align-items: center;
   flex-direction: row;
   justify-content: flex-end;
-  .header-icon{
+  .header-icon {
     margin-left: 15px;
+  }
+  .header-logo {
+    position: absolute;
+    left: 122px;
   }
 }

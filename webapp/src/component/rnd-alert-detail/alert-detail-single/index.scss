@@ -11,19 +11,27 @@
     font-size: 12px;
     flex-direction: column;
     justify-content: space-between;
+    @media screen and (min-width: 1600px) {
+        width: 370px;
+    }
     .single-row {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         .single-cell-left {
             width: 40%;
-
+            @media screen and (min-width: 1600px) {
+                font-size: 16px;
+            }
             display: flex;
             justify-content: flex-end;
             padding-right: 4%;
         }
         .single-cell-right {
             width: 60%;
+            @media screen and (min-width: 1600px) {
+                font-size: 16px;
+            }
             .detail-link {
                 color: #ffffff;
                 text-decoration: underline;
@@ -46,6 +54,16 @@
             // overflow: hidden;
             margin-left: 5%;
             border-radius: 10px;
+            .ant-typography.clear-alert-text {
+                font-size: 14px;
+            }
+            @media screen and (min-width: 1600px) {
+                width: 140px;
+                height: 40px;
+                .ant-typography.clear-alert-text {
+                    font-size: 16px;
+                }
+            }
         }
     }
 }

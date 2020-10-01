@@ -158,10 +158,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         return <>
             <div className="connectm-RandDTrends" onClick={this.handleZoom}>
                 <div className="trends-header">
-                    <Typography.Text strong style={{ paddingLeft: "2px" }}>TRENDS</Typography.Text>
+                    <Typography.Text strong style={{ paddingLeft: "2px", fontSize: '18px' }}>TRENDS</Typography.Text>
                     <Dropdown overlay={this.trendPeriod} trigger={['click']}>
                         <Typography.Text className={"pair trend-dropdown-active"}
-                            style={{ paddingLeft: "2px", whiteSpace: "nowrap", minWidth: "50%" }}>
+                            style={{ paddingLeft: "2px", whiteSpace: "nowrap", }}>
                             {this.state.trendsPeriod}
                             <DownOutlined className={"flip"} style={{ marginLeft: "30px", paddingRight: "2px" }} />
                         </Typography.Text>
@@ -195,14 +195,14 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                     <Typography.Text strong style={{ paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
                 </div>
 
-                <ResponsiveContainer width="100%" height="28%">
+                <ResponsiveContainer width="100%" height="28%" className="top-five-recharts">
                     <LineChart data={this.state.top5Alerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
                         syncId="anyId">
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
                         <XAxis dataKey="date" tick={{ fill: 'white' }} interval={this.state.interval} padding={{ left: 20, right: 20 }}
                             tickFormatter={(label) => this.formatDate(label)} />
                         <Legend iconType="circle" iconSize={5}
-                            wrapperStyle={{ width: '90%', marginLeft: "20%" }} />
+                            wrapperStyle={{ width: '100%', marginLeft: "20%" }} />
                         <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
                         <Line name={this.state.top5Alerts.lines.alert1}
                             type="monotone" dataKey="alert1count" stroke="#EB8E27" strokeWidth={2} dot={false} />
@@ -218,7 +218,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                     <Typography.Text strong style={{ paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
                 </div>
 
-                <ResponsiveContainer width="100%" height="28%">
+                <ResponsiveContainer width="100%" height="28%" className="location-recharts">
                     <LineChart data={this.state.locationWiseAlerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
                         syncId="anyId">
                         <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />

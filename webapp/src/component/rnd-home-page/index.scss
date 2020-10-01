@@ -2,12 +2,12 @@
 @import "~antd/dist/antd.css";
 
 .home-content {
-    max-height: 100vh;
+    max-height: calc(100vh - 60px);
     min-height: calc(100vh - 60px);
-    min-width: calc(100vw - 80px);
-    max-width: calc(100vw - 80px);
-    position: absolute;
-    left: 80px;
+    min-width: calc(100vw - 96px);
+    max-width: calc(100vw - 96px);
+    position: fixed;
+    left: 96px;
 
     // .content {
     //     max-height: calc(100%-100px);

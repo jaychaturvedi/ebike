@@ -388,7 +388,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     <Dropdown overlay={vehicle} trigger={['click']}>
                         <div className={`connectM-dropDown ${this.state.vehicleActive ? "connectM-dropdown-active" : ""}`}>
                             <div className={"pair"}>
-                                <Vehicle style={{ marginLeft: "5px" }} width="20" height="20" className={`dropdown-svg-fill ${this.state.vehicleActive ? "dropdown-svg-fill-active" : ""}`} />
+                                <Vehicle style={{ marginLeft: "5px" }} width="24px" height="24px" className={`dropdown-svg-fill ${this.state.vehicleActive ? "dropdown-svg-fill-active" : ""}`} />
                                 <Typography.Text className={`dropdown-typography ${this.state.vehicleActive ? "typography-active" : ""}`}>{this.state.selectedVehicle}</Typography.Text>
                             </div>
                             <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
@@ -397,7 +397,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     <Dropdown overlay={location} trigger={['click']}>
                         <div className={`connectM-dropDown ${this.state.locationActive ? "connectM-dropdown-active" : ""}`}>
                             <div className={"pair"} >
-                                <Location width="20" height="20" className={`dropdown-svg-fill-location ${this.state.locationActive ? "dropdown-svg-fill-location-active" : ""}`} />
+                                <Location width="24px" height="24px" className={`dropdown-svg-fill-location ${this.state.locationActive ? "dropdown-svg-fill-location-active" : ""}`} />
                                 <Typography.Text className={`dropdown-typography ${this.state.locationActive ? "typography-active" : ""}`}>{this.state.selectedLocation}</Typography.Text>
                             </div>
                             <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
@@ -409,7 +409,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     >
                         <div className={`connectM-dropDown ${this.state.calenderActive ? "connectM-dropdown-active" : ""}`}>
                             <div className={"pair"} >
-                                <Calender width="20" height="20" className={`dropdown-svg-fill-timeframe ${this.state.calenderActive ? "dropdown-svg-fill-timeframe-active" : ""}`} />
+                                <Calender width="24px" height="24px" className={`dropdown-svg-fill-timeframe ${this.state.calenderActive ? "dropdown-svg-fill-timeframe-active" : ""}`} />
                                 <Typography.Text className={`dropdown-typography ${this.state.calenderActive ? "typography-active" : ""}`}>{this.state.selectedCalender}</Typography.Text>
                             </div>
                             <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
@@ -428,7 +428,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 </div>
                 <div className={"sub-header-right"}>
                     <Button size={"small"} className={"apply-button"} onClick={this.onApplyFilter}>
-                        <Typography.Text style={{ color: "black" }} strong>APPLY</Typography.Text>
+                        <Typography.Text style={{ color: "black" }} strong className="apply-text">APPLY</Typography.Text>
                     </Button>
                     <Button size={"small"} className={"reset-button"} onClick={this.onReset}>
                         <Typography.Text style={{ color: "#ffffff" }} strong>RESET</Typography.Text>
