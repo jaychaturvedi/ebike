@@ -170,8 +170,8 @@ class MyRides extends React.PureComponent<Props, State> {
             unit2="Km"
             icon1={require('../../assets/icons/CO2e_savings.png')}
             icon2={require('../../assets/icons/green_miles_icon.png')}
-            value1={String(this.props.graph.co2SavingKg)}
-            value2={String(this.props.graph.greenMilesKm)}
+            value1={String(this.props.graph.co2SavingKg ?? 0)}
+            value2={String(this.props.graph.greenMilesKm ?? 0)}
           />
           <View style={{ ...styles.chart, backgroundColor: Theme.BACKGROUND_LIGHT }}>
             <View
