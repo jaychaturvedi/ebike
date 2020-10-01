@@ -52,9 +52,10 @@ type TUser = {
     isBikeRegistered: boolean | null,
 }
 
-type TNotification = {
+export type TNotification = {
     isStale: boolean,
     time: string,
+    date: string,
     title: string,
     body: string,
 }
