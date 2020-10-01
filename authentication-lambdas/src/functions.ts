@@ -58,7 +58,7 @@ module.exports.postConfirmation = async (event: any) => {
     console.log("post confirmation", event)
     const body = {
         "uid": event.userName,
-        "phoneNumber": event.request.userAttributes.phone_number
+        "phone": event.request.userAttributes.phone_number
     }
     console.log(body)
     const options = createOptions(process.env.CREATEUSERURL!, body, "POST");
