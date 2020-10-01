@@ -14,7 +14,7 @@ export async function getMyBike(frameId: string) {
   if (!fid) throw new BikeError("frameId is not registered");
   const { bikeName } = result[1]
   return {
-    bikeName, motorPer, batteryChargePer, batteryHealthPer,
+    bikeName, motorPer, batteryChargePer, batteryHealthPer, model, type,
     batteries: [{ id: batteryId }], vehicleId, serviceDate, warrantyValidTill, purchaseDate
   }
 }
@@ -26,9 +26,9 @@ export async function homeScreen(frameId: string,) {
     ConnectmApi.getBikeLiveData(frameId as string)])
   const { type } = myBike
   const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
-    grnmls: greenMiles, costrcv: costRecovered } = bikeStat
+    grnmls: greenMiles, costrcv: costRecovered } = bikeStat //get bike status
   const { batchrgper: batteryCharge, rngcvr: rangeCovered,
-    rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } = bikeLiveData
+    rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } = bikeLiveData //get bike live data
   if (bikeLiveData.st || bikeStat.st || myBike.st) throw new BikeError("Please check valid frameId")
   return {
     co2sav, totalDistance, ratings, petrolSaved, type, greenMiles, costRecovered,
