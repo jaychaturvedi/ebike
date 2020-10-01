@@ -187,9 +187,9 @@ class RideOn extends React.PureComponent<Props, State> {
                 ...styles.flexAlignHorizontalCentre,
                 justifyContent: 'space-evenly',
               }}>
-              <Text style={{ ...styles.modeText, color: Colors.WARNING_RED }}>{LanguageSelector.t("speedometer.powerMode")}</Text>
+              <Text style={{ ...styles.modeText, color: this.props.speedometer.powerMod ? Colors.WARNING_RED : Theme.BORDER_GREY }}>{LanguageSelector.t("speedometer.powerMode")}</Text>
               <Text style={{
-                ...styles.modeText, color: Theme.BORDER_GREY,
+                ...styles.modeText, color: (this.props.speedometer.pedalAssit) ? "#5372FF" : Theme.BORDER_GREY,
               }}>{LanguageSelector.t("speedometer.pedalAssist")}</Text>
             </View>
           </View>
