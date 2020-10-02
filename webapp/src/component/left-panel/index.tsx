@@ -6,15 +6,18 @@ import { ReactComponent as Alerts } from "../../assets/alerts_tab_icon.svg"
 import { ReactComponent as B2BLogo } from "../../assets/b2b_tab_icon.svg"
 import { ReactComponent as CharginStation } from "../../assets/charging_station_tab_icon.svg"
 import { Typography } from 'antd';
-
-interface LeftPanelProps extends RouteComponentProps { }
-
+import { connect } from 'react-redux'
+import { RoleBasedMainRoutes } from "../../connectm-client/roles/role-access"
+import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
+interface LeftPanelProps extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface LeftPanelStates {
     logoClicked: boolean,
     alertsClicked: boolean,
     b2bClicked: boolean,
     stationsClicked: boolean,
-    misClicked : boolean
+    misClicked: boolean,
+    authenticated: boolean,
+    userRole: string
 }
 class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
     constructor(props: LeftPanelProps) {
@@ -24,11 +27,25 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
             alertsClicked: true,
             b2bClicked: false,
             stationsClicked: false,
-            misClicked : false
+            misClicked: false,
+            authenticated: false,
+            userRole: ""
         }
     }
 
-    alertsClicked = (navigateTo :string) => {
+    static getDerivedStateFromProps(props: LeftPanelProps, state: LeftPanelStates) {
+        if (props.user.authenticated) {
+            state.authenticated = props.user.authenticated
+            state.userRole = props.user.user.attributes['custom:role']
+        }
+        return state
+    }
+
+    componentDidMount() {
+        this.props.history.push(RoleBasedMainRoutes(this.props.user.user.attributes['custom:role']))
+    }
+
+    alertsClicked = (navigateTo: string) => {
         this.setState({
             ...this.state,
             logoClicked: false,
@@ -40,7 +57,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
         this.props.history.push("/" + navigateTo);
     }
 
-    stationsClicked = (navigateTo :string) => {
+    stationsClicked = (navigateTo: string) => {
         this.setState({
             ...this.state,
             logoClicked: false,
@@ -52,7 +69,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
         this.props.history.push("/" + navigateTo);
     }
 
-    b2bClicked = (navigateTo : string) => {
+    b2bClicked = (navigateTo: string) => {
         this.setState({
             ...this.state,
             logoClicked: false,
@@ -64,7 +81,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
         this.props.history.push("/" + navigateTo);
     }
 
-    misClicked = (navigateTo :string) => {
+    misClicked = (navigateTo: string) => {
         this.setState({
             ...this.state,
             logoClicked: false,
@@ -82,7 +99,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                     <div className={"logo"}>
                         <ReactLogo width="44" height="48" />
                     </div>
-                    <div className={`tab-icons ${this.state.alertsClicked ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("alerts")}>
+                    <div className={`tab-icons ${this.state.alertsClicked || ["DEVELOPER", "ADMIN"].includes(this.state.userRole) ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("alerts")}>
                         <Alerts width="40" height="40" />
                         <Typography.Text >Alerts</Typography.Text>
                     </div>
@@ -101,4 +118,4 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
 
 }
 
-export default withRouter(LeftPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LeftPanel));

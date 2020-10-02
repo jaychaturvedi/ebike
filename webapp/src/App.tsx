@@ -6,6 +6,7 @@ import ForgotPassword from './views/forgotPassword'
 import { getUser, signIn } from "./connectm-client/authentication"
 import { Route, Switch, Redirect } from "react-router-dom";
 import { withRouter, RouteComponentProps } from "react-router";
+import { RoleBasedMainRoutes } from "./connectm-client/roles/role-access"
 import { connect } from 'react-redux'
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "./connectm-client/actions/user"
 const MainRoutes = {
@@ -18,11 +19,12 @@ const RestrictedRoute = (props: {
   authenticated: boolean | null;
   path: string;
   component: any;
+  role: string
 }) => {
   console.log("restricted routes", props)
   // When the user has logged in and still visiting login page.
   if (props.path === MainRoutes.LOGIN && props.authenticated) {
-    return <Redirect to={MainRoutes.HOME} />;
+    return <Redirect to={RoleBasedMainRoutes(props.role)} />;
   }
   // When the user is not logged in.
   if (props.path === MainRoutes.LOGIN && props.authenticated === false) {
@@ -30,7 +32,6 @@ const RestrictedRoute = (props: {
   }
   if (props.path !== MainRoutes.LOGIN && props.authenticated)
     return <Route path={props.path} component={props.component} />;
- 
   return null
 };
 
@@ -38,13 +39,15 @@ interface AppProp extends RouteComponentProps, ReduxUserAction, ReduxUserState {
 interface AppState {
   authenticated: boolean | null
   user: any
+  userRole: string
 }
 class App extends PureComponent<AppProp, AppState>{
   constructor(props: AppProp) {
     super(props)
     this.state = {
       authenticated: null,
-      user: {}
+      user: {},
+      userRole: ''
     }
   }
 
@@ -71,9 +74,12 @@ class App extends PureComponent<AppProp, AppState>{
       })
   }
   static getDerivedStateFromProps(props: AppProp, state: AppState) {
-    console.log("derived state",props.user.user)
-      state.authenticated = props.user.authenticated
-      state.user = props.user.user
+    console.log("derived state", props.user.user)
+    state.authenticated = props.user.authenticated
+    state.user = props.user.user
+    if (props.user.user) {
+      state.userRole = props.user.user.attributes['custom:role']
+    }
     return state
   }
   render() {
@@ -84,11 +90,13 @@ class App extends PureComponent<AppProp, AppState>{
         <RestrictedRoute
           authenticated={this.state.authenticated}
           path={MainRoutes.LOGIN}
+          role={this.state.userRole}
           component={Login}
         />
         <RestrictedRoute
           authenticated={this.state.authenticated}
           path={MainRoutes.HOME}
+          role={this.state.userRole}
           component={Home}
         />
       </Switch>
