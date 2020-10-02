@@ -1,6 +1,5 @@
+import "./index.scss"
 import React, { PureComponent } from 'react';
-import Content from "./component/rnd-home-page"
-import Home from './views/home';
 import Login from './views/login';
 import ForgotPassword from './views/forgotPassword'
 import { getUser, signIn } from "./connectm-client/authentication"
@@ -9,6 +8,8 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { RoleBasedMainRoutes } from "./connectm-client/roles/role-access"
 import { connect } from 'react-redux'
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "./connectm-client/actions/user"
+import Content from "./component/rnd-home-page"
+import Home from './views/home';
 const MainRoutes = {
   HOME: "/",
   LOGIN: "/login",
@@ -74,10 +75,10 @@ class App extends PureComponent<AppProp, AppState>{
       })
   }
   static getDerivedStateFromProps(props: AppProp, state: AppState) {
-    console.log("derived state", props.user.user)
+    console.log("derived state", props.user)
     state.authenticated = props.user.authenticated
-    state.user = props.user.user
-    if (props.user.user) {
+    if (props.user?.user) {
+      state.user = props.user.user
       state.userRole = props.user.user.attributes['custom:role']
     }
     return state
@@ -102,5 +103,4 @@ class App extends PureComponent<AppProp, AppState>{
       </Switch>
   }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

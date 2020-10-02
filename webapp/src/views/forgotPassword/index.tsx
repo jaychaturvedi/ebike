@@ -45,11 +45,11 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
         } else {
             forgotPasswordSubmit(String(params.user_name), String(params.confirmation_code), this.state.secondPassword)
                 .then((forgotPasswordObj) => {
-                    if (forgotPasswordObj.message) {
+                    if (forgotPasswordObj.success) {
                         this.props.usersAction({
                             type: "UPDATE_USER",
                             payload: {
-                                authenticated: true,
+                                authenticated: false,
                                 user: null
                             }
                         })
