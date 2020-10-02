@@ -18,7 +18,9 @@ app.get('/all', expressQAsync(async (req: Request, res: Response, next: NextFunc
 app.get('/speedometer/:rideId', expressQAsync(secure),
     [param('rideId', "rideId be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("Start Time:", new Date(), "req for speedometer", req.params);
         const speedometer = await getSpeedometer(req.params.rideId)
+        console.log("End Time:", new Date())
         const response = createResponse("OK", speedometer, undefined)
         res.json(response)
     })
@@ -31,8 +33,10 @@ app.put('/rating/:rideId', expressQAsync(secure),
     body('option', "option can't be empty").optional(),
     body('comment', "comment can't be empty").optional(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("Start Time:", new Date(), "req for rating", req.params, req.body);
         const { rating, option, comment } = req.body
         const newride = await updateFeedback(req.params.rideId, rating as number, option as any, comment as string)
+        console.log("End Time:", new Date())
         const response = createResponse("OK", newride, undefined)
         res.json(response)
     })
@@ -60,9 +64,11 @@ app.get('/detail/:frameId', expressQAsync(secure),
     query('startTime', "startTime can't be empty").isString().isLength({ min: 1 }),
     query('endTime', "endTime can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("Start Time:", new Date(), "req for ride detail", req.params, req.query);
         const { startTime, endTime } = req.query as any
         const newride = await rideDetail(req.params.frameId, startTime, endTime)
         const response = createResponse("OK", newride, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
@@ -80,8 +86,10 @@ app.get('/:frameId', expressQAsync(secure),
         // let newride = {}
         // if (!locked && ignition) {//if bike is on then only start a ride
         // }
+        console.log("Start Time:", new Date(), "req for new ride", req.params, req.query, res.locals.user);
         const newride = await createNewRide(uid, frameId, req.query.rideId as string)
         const response = createResponse("OK", newride, undefined)//send locked state and send starttime
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
@@ -90,8 +98,10 @@ app.get('/:frameId', expressQAsync(secure),
 app.put('/:rideId', expressQAsync(secure),
     [param('rideId', "rideId can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("Start Time:", new Date(), "req for end ride", req.params);
         const ride = await endRide(req.params.rideId)
         const response = createResponse("OK", ride, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )

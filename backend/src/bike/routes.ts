@@ -21,9 +21,11 @@ app.get('/all',
 app.get('/myBike/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("Start Time:", new Date(), "request body", req.params)
         console.log("req params in mybike", req.params);
         const bikedetails = await getMyBike(req.params.frameId)
         const response = createResponse("OK", bikedetails, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
@@ -32,20 +34,24 @@ app.get('/myBike/:frameId', expressQAsync(secure),
 app.get('/verify/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { uid } = res.locals.user as any
-        const bikedetails = await verifyFrame(uid as string, req.params.frameId);
+        const user = res.locals.user as any
+        console.log("Start Time:", new Date(), "request", req.params, user)
+        const bikedetails = await verifyFrame(user as object, req.params.frameId);
         const response = createResponse("OK", bikedetails, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
 app.get('/liveLocation/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        console.log("Start Time:", new Date(), "request  for live location", req.params)
         const { lat: latitude, long: longitude, addr: address, utc: lastused } =
             await ConnectmApi.getLiveLocation(req.params.frameId)
         const response = createResponse("OK", {
             latitude, longitude, address, lastused
         }, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
@@ -57,11 +63,12 @@ app.get('/history/:frameId', expressQAsync(secure),
     query('pageNo', "pageNo can't be empty").optional().toInt(),
     query('pageSize', "pageSize can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        console.log("req in history", req.query, req.params);
+        console.log("Start Time:", new Date(), "req in history", req.query, req.params);
         const { startTime, endTime, pageNo, pageSize } = req.query as any
         const history = await getRideHistory(req.params.frameId, startTime as string,
             endTime as string, pageNo as number, pageSize as number)
         const response = createResponse("OK", history, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
@@ -73,8 +80,10 @@ app.get('/notification/:frameId', expressQAsync(secure),
     query('pageSize', "pageSize can't be empty").optional().toInt(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { pageNo, pageSize } = req.query as any
+        console.log("Start Time:", new Date(), "req in notification", req.query, req.params);
         const notification = await ConnectmApi.getNotification(req.params.frameId, pageNo as number, pageSize as number)
-        if (notification[0].st) throw new BadRequestError("Please check frameId");
+        console.log("End Time:", new Date())
+        if (notification[0].st) throw new BadRequestError("no data available for the devices");
         const response = createResponse("OK", notification, undefined)
         res.json(response)
     })
@@ -83,10 +92,11 @@ app.get('/notification/:frameId', expressQAsync(secure),
 app.get('/:frameId', expressQAsync(secure),
     [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        console.log("req params in home", req.params);
+        console.log("Start Time:", new Date(), "req for home", req.params);
         const frameId = req.params.frameId as string
         const body = await homeScreen(frameId)
         const response = createResponse("OK", body, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
@@ -97,8 +107,10 @@ app.put('/', expressQAsync(secure),
     body('frameId', "frameId can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { bikeName, frameId } = req.body
+        console.log("Start Time:", new Date(), "req for update bike", req.body);
         const { uid } = await Bike.updateWhere({ frameId }, { bikeName });
         const response = createResponse("OK", { uid, frameId, bikeName }, undefined)
+        console.log("End Time:", new Date())
         res.json(response)
     })
 )
