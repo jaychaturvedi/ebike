@@ -3,7 +3,6 @@ import Content from "./component/rnd-home-page"
 import Home from './views/home';
 import Login from './views/login';
 import ForgotPassword from './views/forgotPassword'
-import { Authenticator } from "aws-amplify-react";
 import { getUser, signIn } from "./connectm-client/authentication"
 import { Route, Switch, Redirect } from "react-router-dom";
 import { withRouter, RouteComponentProps } from "react-router";
@@ -31,8 +30,8 @@ const RestrictedRoute = (props: {
   }
   if (props.path !== MainRoutes.LOGIN && props.authenticated)
     return <Route path={props.path} component={props.component} />;
-  console.log("Redirect to Home", props, "did not find path")
-  return <div>Not Found Page</div>;
+ 
+  return null
 };
 
 interface AppProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
@@ -61,7 +60,6 @@ class App extends PureComponent<AppProp, AppState>{
               user: userObject.user
             }
           })
-          this.props.history.push("/");
         } else {
           this.setState({
             authenticated: false
