@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 16%;
+    height: 62px;
     @media screen and (min-width: 1600px) {
         .past-alerts-text {
             font-size: 18px;
@@ -23,6 +23,9 @@
                 width: 24px;
                 height: 24px;
             }
+            .pages-available {
+                width: 120px;
+            }
         }
 
         .select-button {
@@ -30,8 +33,9 @@
             overflow: hidden;
             appearance: none;
             background-color: transparent;
-            border-radius: 10px 10px 10px 10px;
-            width: 60px;
+            border-radius: 5px 5px 5px 5px;
+            // width: 60px;
+            height: 25px;
 
             .ant-select-selector {
                 height: 24px;
@@ -57,8 +61,9 @@
 }
 .connectm-AlertPastTable {
     // height: 40%;
+    height: calc(100% - 62px);
     background-color: #272b3c;
-    border-radius: 2%;
+    border-radius: 10px;
     // padding: 10px;
     color: white;
     justify-content: space-between;
@@ -78,51 +83,53 @@
     .ant-table-thead {
         tr {
             th {
-                border: 1px solid yellow;
-                position: sticky;
-                top: 0;
-                z-index: 1;
+                // border: 1px solid yellow;
+                // position: sticky;
+                // top: 0;
+                // z-index: 1;
                 background: $TABLE_ROW_DARK !important;
                 text-align: left;
-                font-size: 14px;
+                font-size: 16px;
+                font-weight: 600;
             }
         }
     }
+    .ant-table {
+        background-color: red;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    table th {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    tbody td {
+        z-index: 1;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .table-body {
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        overflow: auto !important;
+        background: #3b4473;
+    }
+    .ant-table-cell-scrollbar {
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+    }
 
     @media screen and (min-width: 1600px) {
-        table th {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        table th {
-            position: -webkit-sticky;
-            position: sticky;
-            top: 0;
-            z-index: 3;
-            font-size: 16px !important;
-        }
-        tbody td {
-            z-index: 1;
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-        .table-body {
-            display: inline-block;
-            height: 90%;
-            width: 100%;
-            overflow: auto !important;
-            background: #3b4473;
-        }
-
         .ant-table-thead > tr > th,
         .ant-table-tbody > tr > td {
             padding: 20px 2px;
-        }
-        tbody td {
-            z-index: 1;
-            font-size: 14px;
         }
     }
 

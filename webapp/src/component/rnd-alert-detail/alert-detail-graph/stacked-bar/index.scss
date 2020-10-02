@@ -5,7 +5,7 @@
   width: 79%;
   height: 100%;
   background-color: $TABLE_ROW_DARK;
-  border-radius: 2%;
+  border-radius: 10px;
   // padding: 10px;
   display: flex;
   font-size: 12px;
@@ -18,10 +18,9 @@
     display: flex;
     align-items: center;
   }
-  .recharts-layer.recharts-brush-traveller{
+  .recharts-layer.recharts-brush-traveller {
     cursor: pointer !important;
   }
-
 
   .recharts-responsive-container {
     display: flex;
@@ -29,7 +28,6 @@
     // font-size: 12px;
     background-color: $GRAPH_BACKGROUND;
 
- 
     .recharts-rectangle {
       height: 40px;
       box-sizing: border-box;

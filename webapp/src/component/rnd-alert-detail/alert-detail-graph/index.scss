@@ -1,6 +1,6 @@
 .connectm-AlertDetailGraph {
     @media screen and (min-width: 1600px) {
-        width: 74% !important;
+        width: calc(99% - 370px) !important;
     }
     .connectm-header {
         .graph-header-text {
