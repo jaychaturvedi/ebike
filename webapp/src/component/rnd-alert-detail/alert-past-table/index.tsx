@@ -269,7 +269,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div className={'spacer'}></div>
                     <span className={'nav-button'}>
-                        <pre> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+                        <pre className="pages-available"> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
                         {this.state.pageSize * this.state.current > this.state.total
                                 ? this.state.total : this.state.pageSize * this.state.current}
                           &nbsp;of {this.state.total}</pre>
@@ -297,7 +297,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                             tableLayout={"fixed"}
                             // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
                             // scroll={{ y: this.state.data.length > 3 ? '28.5vh' : undefined}}
-                            scroll={{ y: '30vh' }} //not able to make dynamic
+                            // scroll={{ y: '30vh' }} //not able to make dynamic
                             // size={"middle"}
                             bordered={false}
                             className="ant-table-thead"

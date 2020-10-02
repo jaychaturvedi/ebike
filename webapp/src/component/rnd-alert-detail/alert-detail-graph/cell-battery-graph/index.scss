@@ -5,7 +5,7 @@
   width: 79%;
   height: 100%;
   background-color: $TABLE_ROW_DARK;
-  border-radius: 2%;
+  border-radius: 10px;
   // padding: 10px;
   display: flex;
   font-size: 12px;
@@ -35,7 +35,7 @@
     display: flex;
     justify-content: center;
     // font-size: 12px;
-    background-color: $TABLE_ROW_DARK;
+    // background-color: $TABLE_ROW_DARK;
 
     .recharts-rectangle {
       height: 40px;
@@ -69,4 +69,26 @@
   // left: 10;
   float: left;
   z-index: 10;
+}
+.connectm-AlertDetailGraph.voltage-deviation {
+  .recharts-responsive-container {
+    // font-size: 12px;
+    background-color: unset !important;
+  }
+
+  .normal-operating-voltage-text {
+    font-size: 12px;
+    text-align: center;
+    margin: 16px;
+  }
+
+  .voltage-deviation-bottom,
+  .voltage-deviation-top {
+    display: flex;
+    justify-content: center;
+    height: 50%;
+    width: 95%;
+    flex-direction: row;
+    align-items: center;
+  }
 }
