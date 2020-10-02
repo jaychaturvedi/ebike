@@ -71,10 +71,9 @@ class App extends PureComponent<AppProp, AppState>{
       })
   }
   static getDerivedStateFromProps(props: AppProp, state: AppState) {
-    if (props.user.user) {
+    console.log("derived state",props.user.user)
       state.authenticated = props.user.authenticated
       state.user = props.user.user
-    }
     return state
   }
   render() {
