@@ -108,7 +108,7 @@ class MyRides extends React.PureComponent<Props, State> {
         pageNumber: 1,
         pageSize: 10,
         startTime: Moment(date).startOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
-        endTime: Moment(date).startOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
+        endTime: Moment(date).endOf('day').format('YYYY-MM-DD HH:mm:ss').toString(),
       },
     });
   };
