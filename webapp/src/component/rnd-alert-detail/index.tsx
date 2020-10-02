@@ -121,8 +121,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return (
             <div className="connectm-AlertDetail">
                 <Breadcrumb separator=">" className={"connectm-breadcrum"}>
-                    <Breadcrumb.Item href=""><Link to={"/"} className="link" onClick={this.goToHome}>Home</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item href="" ><Link to={"/"} className="link" onClick={this.goToAlert}><span>{this.state.activeAlertType}</span></Link></Breadcrumb.Item>
+                    <Breadcrumb.Item href=""><Link to={"/alerts"} className="link" onClick={this.goToHome}>Home</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item href="" ><Link to={"/alerts"} className="link" onClick={this.goToAlert}><span>{this.state.activeAlertType}</span></Link></Breadcrumb.Item>
                     <Breadcrumb.Item href={""} ><span className={"breadcrum-active"}>Alert Details</span></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className={"connectm-alert-detail-container"}>
