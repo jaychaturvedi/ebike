@@ -1,4 +1,8 @@
 const AWS = require('aws-sdk');
+
+import * as dotenv from "dotenv"
+import { APIGatewayProxyEvent, Context } from "aws-lambda";
+dotenv.config()
 const globalAny: any = global;
 globalAny.fetch = require("node-fetch");
 globalAny.navigator = () => null
@@ -6,16 +10,12 @@ globalAny.navigator = () => null
 const Amplify = require("@aws-amplify/core").default;
 const Auth = require("@aws-amplify/auth").default;
 
-const tempPassword = "Temp@1234"
-const userEmail = "example@gmail.com"
-const userRole = "ADMIN"
-
 const userPoolRegion = 'us-east-2'
-const userPoolID = 'us-east-xxxxxx'
-const userPoolWebClientID = 'xxxxxxxns8gp970j0lqjvg'
+const userPoolID = 'us-east-2_4yqT9fdQs'
+const userPoolWebClientID = '3t0apcbmln1ns8gp970j0lqjvg'
 
-const accessKeyId = ''
-const secretAccessKey = ''
+const accessKeyId = process.env.ACCESSKEYID
+const secretAccessKey = process.env.SECRETKEY
 const region = "us-east-2"
 
 // configure Amplify
@@ -30,32 +30,8 @@ Amplify.configure({
 AWS.config.update({ accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: region });
 var CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
 var client = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-19' });
-var params = {
-    UserPoolId: userPoolID,
-    Username: userEmail,
-    DesiredDeliveryMediums: [
-        'EMAIL'
-    ],
-    ForceAliasCreation: false,
-    TemporaryPassword: tempPassword,
-    UserAttributes: [
-        {
-            Name: 'email',
-            Value: userEmail
-        },
-        {
-            Name: 'email_verified',
-            Value: 'True'
-        },
-        {
-            Name: "custom:role",
-            Value: userRole
-        }
-        /* more items */
-    ]
-};
 
-function createUser() {
+function createUser(params: any, userEmail: string, password: string) {
     let this_account: any = undefined;
     let this_account_details: any = undefined
     if (!Auth.configure())
@@ -66,10 +42,10 @@ function createUser() {
             .promise()
             .then((user: any) => {
                 console.log("created User", user)
-                return Auth.signIn(user.User.Username, tempPassword);
+                return Auth.signIn(user.User.Username, password);
             })
             .then((user: any) => {
-                return Auth.completeNewPassword(user, tempPassword, {
+                return Auth.completeNewPassword(user, password, {
                     email: userEmail
                 });
             })
@@ -97,9 +73,54 @@ function createUser() {
             });
     })
 }
-
-createUser()
-    .then((userDetails: any) => {
-        console.log(userDetails)
-    })
-    .catch(err => console.log(err))
+// will be pushed other file
+// lambda function to be triggered to create new user
+module.exports.createWebAppUser = async (event: APIGatewayProxyEvent, context: Context) => {
+    const body = JSON.parse(event.body!)
+    const userEmail = body.userEmail
+    const password = body.password
+    const userRole = body.userRole
+    var params = {
+        UserPoolId: userPoolID,
+        Username: userEmail,
+        DesiredDeliveryMediums: [
+            'EMAIL'
+        ],
+        ForceAliasCreation: false,
+        TemporaryPassword: password,
+        UserAttributes: [
+            {
+                Name: 'email',
+                Value: userEmail
+            },
+            {
+                Name: 'email_verified',
+                Value: 'True'
+            },
+            {
+                Name: "custom:role",
+                Value: userRole
+            }
+            /* more items */
+        ]
+    };
+    let responseBody: any
+    createUser(params, userEmail, password)
+        .then((userDetails: any) => {
+            console.log(userDetails)
+            responseBody = userDetails
+        })
+        .catch(err => {
+            console.log(err)
+            responseBody = err
+        })
+    const response = {
+        statusCode: 200,
+        headers: {
+            "x-custom-header": "user_creation"
+        },
+        body: JSON.stringify(responseBody),
+        isBase64Encoded: false
+    };
+    return response
+};
