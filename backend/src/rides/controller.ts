@@ -18,7 +18,7 @@ export async function getSpeedometer(rideId: string) {
 }
 
 export async function createNewRide(uid: string, frameId: string, rideId: string) {
-  const startTime = "2020-06-30 11:08:38"// Date.now() as any
+  const startTime = "2020-09-25 00:00:00"// Date.now() as any
   const { startTime: time } = await Ride.createNew({ uid, frameId, rideId, startTime })
   return { rideId, frameId, uid, startTime: time }
 }
@@ -27,7 +27,7 @@ export async function createNewRide(uid: string, frameId: string, rideId: string
 //     "endTime":"2020-06-30 12:45:30"    
 
 export async function endRide(rideId: string) {
-  const endTime = "2020-06-30 12:45:30" //Date.now() as any
+  const endTime = "2020-09-25 23:59:59" //Date.now() as any
   const { frameId, startTime } = await Ride.findOneWhere({ rideId })
   console.log(startTime)
   const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),

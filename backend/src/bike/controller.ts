@@ -11,7 +11,7 @@ export async function getMyBike(frameId: string) {
   const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
     servDate: serviceDate, warrantyValidTill, purchaseDate } = result[0]
-  if (!fid) throw new BikeError("frameId is not registered");
+  if (!fid) throw new BikeError("No data available for devices");
   const { bikeName } = result[1]
   return {
     bikeName, motorPer, batteryChargePer, batteryHealthPer, model, type,
@@ -24,12 +24,12 @@ export async function homeScreen(frameId: string,) {
     ConnectmApi.getBikeStat(frameId as string),
     ConnectmApi.getMyBike(frameId as string),
     ConnectmApi.getBikeLiveData(frameId as string)])
-  const { type } = myBike
   const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
     grnmls: greenMiles, costrcv: costRecovered } = bikeStat //get bike status
+  const { type } = myBike
   const { batchrgper: batteryCharge, rngcvr: rangeCovered,
     rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } = bikeLiveData //get bike live data
-  if (bikeLiveData.st || bikeStat.st || myBike.st) throw new BikeError("Please check valid frameId")
+  if (!bikeLiveData.fid || !bikeStat.fid || !myBike.fid) throw new BikeError("No data available for frameId")
   return {
     co2sav, totalDistance, ratings, petrolSaved, type, greenMiles, costRecovered,
     batteryCharge, rangeCovered, rangeAvailable, ignition, locked, promotion, notification
