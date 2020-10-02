@@ -43,7 +43,7 @@ function callApi() {
     const token = myCache.has("myTokens") ? myCache.get("myTokens") : '';
     console.log(myCache.has("myTokens"));
     if (token) {
-        axios.get(process.env.APPURL! + '/user', {
+        axios.get(process.env.APPURL! + '/user/all', {
             headers: {
                 'Authorization': `${myCache.get("myTokens")}`
             }
@@ -65,7 +65,7 @@ function callApi() {
                 logIn()
             }
         })
-        axios.get(process.env.APPURL! + '/feature/faq').then((res) => {
+        axios.get(process.env.APPURL! + '/faq').then((res) => {
             console.log(res.data);
         }).catch((e) => {
             console.log('errrr', e.response.status, e.response.statusText, e.response.data);

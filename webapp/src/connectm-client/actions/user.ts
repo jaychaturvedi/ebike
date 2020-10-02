@@ -1,11 +1,15 @@
 import { Dispatch } from "redux";
 import { State } from "../redux/connectm-state";
 
-type UserActions = "RECEIVED_USER" | "GET_USER";
+type UserActions = "RECEIVED_USER" | "GET_USER" | "UPDATE_USER";
 
+export interface UserPayload {
+    authenticated: boolean,
+    user: any
+}
 export interface IUsersAction {
     type: UserActions,
-    payload: any
+    payload: UserPayload
 }
 
 export function UsersAction(params: IUsersAction) {
@@ -14,7 +18,6 @@ export function UsersAction(params: IUsersAction) {
         payload: params.payload
     }
 }
-
 export interface ReduxUserAction {
     usersAction: (params: IUsersAction) => IUsersAction
 }
@@ -24,13 +27,12 @@ export function mapDispatchToProps(dispatch: Dispatch): ReduxUserAction {
         usersAction: (params: IUsersAction) => dispatch(UsersAction(params))
     }
 }
-
 export interface ReduxUserState {
-    // user: State["user"]
+    user: State["user"]
 }
 
 export function mapStateToProps(state: State): ReduxUserState {
     return {
-        // user: state.user
+        user: state.user
     }
 }

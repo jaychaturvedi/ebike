@@ -5,7 +5,11 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number,
 }
-
+/////////////////////////////////////USERS//////////////////////////////////////
+export interface User {
+    authenticated: boolean,
+    user: any
+}
 ////////////////////////////////////Alerts//////////////////////////////////////
 export interface AlertData {
     alertId: number,

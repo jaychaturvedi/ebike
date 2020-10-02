@@ -1,9 +1,10 @@
 import {
     AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
-    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, Alert
+    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, Alert, User
 } from "./models";
 
 export interface State {
+    user: User,
     alerts: {
         smart: {
             [alertId: string]: AlertData
@@ -41,6 +42,10 @@ export interface State {
 }
 
 const connectmState: State = {
+    user: {
+        authenticated: false,
+        user: null,
+    },
     alerts: {
         smart: {},
         bms: {},

@@ -1,0 +1,88 @@
+@import "../../../../global.scss";
+
+.container-fluid.four-analyser {
+      background: $MIS_CONTAINER_BACKGROUND;
+      border: 1px solid #ffffff0d;
+      border-radius: 2px;
+      opacity: 1;
+      padding: 16px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      height: 47%;
+      //       height: 50%;
+      //     min-height: 50%;
+      //     max-height: 50%;
+
+      .grid-one {
+            width: 49%;
+            height: 100%;
+            background: transparent linear-gradient(180deg, $MIS_CARD_BACKGROUND 0%, #4d242233 100%) 0% 0% no-repeat
+                  padding-box;
+            border-radius: 0px 0px 2px 2px;
+            opacity: 1;
+      }
+
+      .grid-two {
+            width: 49%;
+            height: 100%;
+            background: transparent linear-gradient(180deg, $MIS_CARD_BACKGROUND 0%, #4d242233 100%) 0% 0% no-repeat
+                  padding-box;
+            border-radius: 0px 0px 2px 2px;
+            opacity: 1;
+      }
+
+      .grid-three {
+            width: 49%;
+            height: 100%;
+            background: transparent linear-gradient(180deg, $MIS_CARD_BACKGROUND 0%, #4d242233 100%) 0% 0% no-repeat
+                  padding-box;
+            border-radius: 0px 0px 2px 2px;
+            opacity: 1;
+      }
+
+      .grid-four {
+            width: 49%;
+            height: 100%;
+            background: transparent linear-gradient(180deg, $MIS_CARD_BACKGROUND 0%, #4d242233 100%) 0% 0% no-repeat
+                  padding-box;
+            border-radius: 0px 0px 2px 2px;
+            opacity: 1;
+      }
+
+      .grid-header {
+            height: 32px;
+            background: #303860 0% 0% no-repeat padding-box;
+            .grid-dropDown {
+                  float: right;
+                  min-height: 32px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  cursor: pointer;
+                  border-bottom: 1px solid #fcc84a !important;
+                  font-family: "Roboto" !important;
+                  margin-right: 8px;
+
+                  // width: 22%;
+            }
+      }
+      .graph-container {
+            /* Firefox */
+            height: -moz-calc(100% - 32px);
+            /* WebKit */
+            height: -webkit-calc(100% - 32px);
+            /* Opera */
+            height: -o-calc(100% - 32px);
+            /* Standard */
+            height: calc(100% - 32px);
+            .recharts-responsive-container {
+                  // display: flex;
+                  // justify-content: center;
+                  // font-size: 12px;
+                  background: transparent linear-gradient(180deg, $MIS_CARD_BACKGROUND 0%, #4d242233 100%) 0% 0%
+                        no-repeat padding-box;
+            }
+      }
+}
