@@ -34,7 +34,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
     }
 
     loginToCommandCenter = (value: any) => {
-        console.log(value)
+
         signIn(value.username, value.password)
             .then(signedInObject => {
                 console.log(signedInObject)
@@ -58,21 +58,28 @@ class Login extends PureComponent<LoginProps, LoginStates> {
 
     forgotPassword = (event: any) => {
         event.preventDefault()
-        initiateForgotPassword(this.state.username)
-            .then((passwordInit) => {
-                if (passwordInit.success) {
-                    this.setState({
-                        formValid: 'success', valid: !this.state.valid,
-                        message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
-                    })
-                } else {
-                    this.setState({
-                        formValid: 'error', valid: !this.state.valid,
-                        message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
-                    })
-                }
-                console.log(passwordInit)
+        if (this.state.username.length <= 0) {
+            this.setState({
+                formValid: 'error', valid: !this.state.valid,
+                message: <span> <img src={Cross} height="20px" /> &nbsp;Please enter your email and try again.</span>
             })
+        } else {
+            initiateForgotPassword(this.state.username)
+                .then((passwordInit) => {
+                    if (passwordInit.success) {
+                        this.setState({
+                            formValid: 'success', valid: !this.state.valid,
+                            message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
+                        })
+                    } else {
+                        this.setState({
+                            formValid: 'error', valid: !this.state.valid,
+                            message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to send you an email with the link to reset the password!</span>
+                        })
+                    }
+                    console.log(passwordInit)
+                })
+        }
     }
 
     updateUserName = (event: any) => {
@@ -109,23 +116,11 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                                 }}
                                 onFinish={this.loginToCommandCenter}>
                                 <Form.Item
-                                    name="username"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: '',
-                                        },
-                                    ]}>
+                                    name="username">
                                     <Input placeholder="Username" value={this.state.username} onChange={this.updateUserName} />
                                 </Form.Item>
                                 <Form.Item
-                                    name="password"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: '',
-                                        },
-                                    ]}>
+                                    name="password">
                                     <Input
                                         type="password"
                                         placeholder="Password"

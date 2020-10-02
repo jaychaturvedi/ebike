@@ -36,42 +36,40 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
     }
     onFinish = (values: any) => {
         const params = QueryString.parse(this.props.location.search);
-        console.log('Received values of form: ', values);
-        console.log(params.user_name)
-        console.log(params.confirmation_code)
-        forgotPasswordSubmit(String(params.user_name), String(params.confirmation_code), this.state.secondPassword)
-            .then((forgotPasswordObj) => {
-                if (forgotPasswordObj.message) {
-                    this.props.usersAction({
-                        type: "UPDATE_USER",
-                        payload: {
-                            authenticated: true,
-                            user: null
-                        }
-                    })
-                    this.props.history.push("/login")
-                }
-                else {
-                    console.log("Error", forgotPasswordObj)
-                }
-            })
-
-    };
-
-    onToggle = (values: any) => {
-        if (!this.state.valid) {
+        if (this.state.secondPassword !== this.state.firstPassword) {
             this.setState({
-                formValid: 'error', valid: !this.state.valid,
-                message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
+                formValid: 'error',
+                valid: !this.state.valid,
+                message: <span> <img src={Cross} height="20px" /> &nbsp;Passwords do not match.</span>
             })
+        } else {
+            forgotPasswordSubmit(String(params.user_name), String(params.confirmation_code), this.state.secondPassword)
+                .then((forgotPasswordObj) => {
+                    if (forgotPasswordObj.message) {
+                        this.props.usersAction({
+                            type: "UPDATE_USER",
+                            payload: {
+                                authenticated: true,
+                                user: null
+                            }
+                        })
+                        this.setState({
+                            formValid: 'success',
+                            valid: !this.state.valid,
+                            message: <span> <img src={Cross} height="20px" /> &nbsp;You can Login with your new password.</span>
+                        })
+                        this.props.history.push("/login")
+                    }
+                    else {
+                        this.setState({
+                            formValid: 'error',
+                            valid: !this.state.valid,
+                            message: <span> <img src={Cross} height="20px" /> &nbsp;Could not Reset Password.</span>
+                        })
+                    }
+                })
         }
-        else
-            this.setState({
-                formValid: 'success', valid: !this.state.valid,
-                message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
-            })
-    }
-
+    };
     updateFirstPassword = (event: any) => {
         console.log(event.target.value)
         this.setState({
@@ -144,7 +142,7 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
                                 </Form.Item>
 
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.onToggle}>
+                                    <Button type="primary" htmlType="submit" className="login-form-button" >
                                         Continue
                                 </Button>
                                 </Form.Item>
