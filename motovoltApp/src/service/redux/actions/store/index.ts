@@ -92,6 +92,7 @@ export type Store_UpdateBike = {
 
 type TNotification = {
     isStale: boolean,
+    date: string,
     time: string,
     title: string,
     type: number,

@@ -141,17 +141,13 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                     from: ride.startloc,
                     to: ride.endloc,
                     score: ride.rating,
+                    pedalAssistMode: ride.pa,
+                    ecoMode: ride.ecom,
+                    powerMode: ride.pm,
                     startTime: `${ride.date} ${ride.fromtime}`,
                     endTime: `${ride.date} ${ride.totime}`,
                 }))
             } as Store_SetRideHistory)
-            yield put({
-                type: 'Store_UpdateBike',
-                payload: {
-                    co2SavingKg: data.graphData.length ? data.graphData[0].co2sav : 0,
-                    greenMilesKm: data.graphData.length ? data.graphData[0].grnmls : 0
-                }
-            } as Store_UpdateBike)
             yield put({
                 type: 'Store_SetGraphdata',
                 payload: {
@@ -161,7 +157,9 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                     })),
                     avgKmph: data.graphData.length ? data.graphData[0].avgkmph : 0,
                     avgSpeed: data.graphData.length ? data.graphData[0].avgspd : 0,
-                    distance: data.graphData.length ? data.graphData[0].dist : 0
+                    distance: data.graphData.length ? data.graphData[0].dist : 0,
+                    co2SavingKg: data.graphData.length ? data.graphData[0].co2sav : 0,
+                    greenMilesKm: data.graphData.length ? data.graphData[0].grnmls : 0
                 }
             } as Store_SetGraphdata);
         }

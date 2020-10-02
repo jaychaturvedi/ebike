@@ -1,18 +1,23 @@
 @import "../../global.scss";
 @import "~antd/dist/antd.css";
-.connectm-RandDHomeContent{
+.connectm-RandDHomeContent {
     // border: 1px solid rgb(192, 178, 178);
-    min-height: calc(100vh - (60px + 32px + 15px));
-    max-height: calc(100vh - (60px + 32px + 15px));
-    padding: 24px 24px;
+    // min-height: calc(100vh - (60px + 40px + 15px));
+    // max-height: calc(100vh - (60px + 40px + 15px));
+    // padding: 24px 24px;
+    min-height: calc(100vh - (60px + 40px + 15px + 48px)); //48px for margin
+    max-height: calc(100vh - (60px + 40px + 15px + 48px));
+    min-width: calc(100vw - (96px + 48px)); //48px for margin
+    max-width: calc(100vw - (96px + 48px));
+    margin: 24px 24px;
     display: flex;
     justify-content: space-between;
-    .connectM-left{ 
-        min-width:74%;
+    .connectM-left {
+        min-width: 74%;
         // border: 1px solid rgb(192, 178, 178);
-        border-radius: 8px;  
+        border-radius: 8px;
     }
-    .connectM-right{
+    .connectM-right {
         background-color: $TABLE_ROW_DARK;
         min-width: 25%;
         // border: 1px solid rgb(192, 178, 178);

@@ -21,6 +21,7 @@ export function* getNotification(params: NotificationActions.ReadNotifications) 
                         return {
                             [`${Math.random() + index}`]: {
                                 isStale: true,
+                                date: notification.date,
                                 // time: `${new Date().getHours().toString()}`,
                                 time: notification.time,
                                 title: notification.title,

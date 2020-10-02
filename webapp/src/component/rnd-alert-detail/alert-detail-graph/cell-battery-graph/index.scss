@@ -26,11 +26,10 @@
   // }
 
   .bottom-graph-container {
-    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+4) {
+    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n + 4) {
       display: none;
     }
   }
-
 
   .recharts-responsive-container {
     display: flex;
@@ -43,46 +42,23 @@
       box-sizing: border-box;
       border: 1px solid #ffffff;
 
-
       &:hover {
         border: 1px solid #ffffff;
         overflow: hidden;
       }
-
     }
-    .connectm-AlertDetailGraph .recharts-responsive-container .recharts-tooltip-wrapper{
-    
-top:0;
+    .connectm-AlertDetailGraph .recharts-responsive-container .recharts-tooltip-wrapper {
+      top: 0;
       // width: 0;
     }
-
-    // .recharts-tooltip-wrapper {
-    //   width: 0;
-
-    //   .recharts-default-tooltip {
-
-    //     //
-    //     .recharts-tooltip-label {}
-
-    //     .recharts-tooltip-item-list {
-    //       .recharts-tooltip-item {
-    //         .recharts-tooltip-item-name {}
-
-    //         .recharts-tooltip-item-separator {}
-
-    //         .recharts-tooltip-item-value {}
-
-    //         .recharts-tooltip-item-unit {}
-    //       }
-    //     }
-    //   }
-    // }
-
-
+  }
+  .recharts-text.recharts-cartesian-axis-tick-value {
+    font-size: 11px;
+    font-weight: 700;
   }
 }
 
-.custom-tooltip{
+.custom-tooltip {
   display: flex;
   font-size: 10px;
   flex-direction: column;

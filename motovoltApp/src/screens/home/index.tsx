@@ -76,7 +76,7 @@ class Home extends React.PureComponent<Props, State> {
           title={`${LanguageSelector.t("home.hello")} ${this.props.user.name}`}
           backgroundColor={Colors.HEADER_YELLOW}
           hasTabs
-          onPromotionClick={() => downloadFirmware()}
+          onPromotionClick={() => {}}
         />
         <ScrollView style={styles.body}
           refreshControl={

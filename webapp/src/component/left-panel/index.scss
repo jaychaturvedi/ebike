@@ -36,5 +36,7 @@
     .option-clicked {
         border-left: 1px solid $ACTIVE !important;
         background-color: rgba($color: #eff0f9eb, $alpha: 0.4) !important;
+        height: 74px;
+        justify-content: center;
     }
 }

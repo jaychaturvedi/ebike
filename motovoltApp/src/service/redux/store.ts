@@ -22,6 +22,9 @@ type TRide = {
     greenMilesKm: number,
     caloriesBurnt: number,
     mode: "POWER" | "PEDAL_ASSIST",
+    pedalAssistMode: number,
+    ecoMode: number,
+    powerMode: number,
     score: number,
     petrolSavingsLtr: number,
     from: string,
@@ -49,9 +52,10 @@ type TUser = {
     isBikeRegistered: boolean | null,
 }
 
-type TNotification = {
+export type TNotification = {
     isStale: boolean,
     time: string,
+    date: string,
     title: string,
     body: string,
 }
@@ -174,6 +178,9 @@ export const ZeroRide: TRide = {
     greenMilesKm: 0,
     caloriesBurnt: 0,
     mode: "PEDAL_ASSIST",
+    pedalAssistMode: 0,
+    ecoMode: 0,
+    powerMode: 0,
     score: 0,
     petrolSavingsLtr: 0,
     petrolSavingsInr: 0,
@@ -242,6 +249,8 @@ export type TStore = {
     notifications: { isPresent: boolean, showNotifications: boolean, data: { [id: string]: TNotification } },
     bike: TBike,
     graph: {
+        co2SavingKg: number,
+        greenMilesKm:number,
         distance: number,
         avgSpeed: number,
         avgKmph: number,
@@ -259,7 +268,7 @@ export type TStore = {
     upgrades: TUpgrades
 }
 
-const ZeroState = {
+const ZeroState: TStore = {
     error: null,
     onboarding: ZeroOnboarding,
     user: ZeroUser,
@@ -268,6 +277,8 @@ const ZeroState = {
     notifications: { isPresent: false, showNotifications: false, data: {} },
     rides: {},
     graph: {
+        co2SavingKg: 0,
+        greenMilesKm: 0,
         distance: 0,
         avgSpeed: 0,
         avgKmph: 0, data: {}

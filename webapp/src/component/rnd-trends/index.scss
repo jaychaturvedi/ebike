@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     color: white;
-    height: 100%;
+    height: 98%;
 
     .trends-header {
         display: flex;
@@ -15,9 +15,9 @@
         height: 34px;
         align-items: center;
     }
-    .recharts-layer.recharts-brush-traveller{
+    .recharts-layer.recharts-brush-traveller {
         cursor: pointer !important;
-      }
+    }
 
     // .trends-graph {
     //     // min-height: 100%;
@@ -54,6 +54,24 @@
     //     }
     // }
     // }
+    .recharts-responsive-container.top-five-recharts {
+        .recharts-default-legend {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            display: grid;
+            text-align: left !important;
+            font-weight: 500;
+        }
+    }
+
+    .recharts-responsive-container.location-recharts {
+        .recharts-default-legend {
+            grid-template-columns: 1fr 1fr 1fr;
+            font-weight: 500;
+            display: grid;
+            text-align: center !important;
+        }
+    }
 }
 
 .recharts-responsive-container {

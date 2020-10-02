@@ -4,21 +4,21 @@ import { RideError } from "../error";
 import { createFeedback } from "../feedback/controller";
 
 export async function getSpeedometer(rideId: string) {
-  const { frameId } = await Ride.findOneWhere({ rideId })
+  const { frameId } = await Ride.findOneWhere({ rideId })//pass frameId directly here
   const { batchrgper: batteryChargePer, rngcrv: rangeCovered, rngavail: rangeAvailable,
     dist: distance, kmph: speed, avgspd: averageSpeed, timeelp: timeElapsed,
-    maxspd: maxSpeed, pa: pedalAssit, pm: powerMode, st } =
+    maxspd: maxSpeed, pa: pedalAssit, pm: powerMode, ec: ecoMode, ign: ignition, st } =
     await ConnectmApi.getCurrentRide(frameId as string)
   if (st) throw new RideError("No data available for the rideId or device")
   const body = {
     frameId, batteryChargePer, rangeCovered, rangeAvailable, distance, averageSpeed,
-    speed, maxSpeed, timeElapsed, pedalAssit, powerMode,
+    speed, maxSpeed, timeElapsed, pedalAssit, powerMode, ecoMode, ignition
   }
   return body
 }
 
 export async function createNewRide(uid: string, frameId: string, rideId: string) {
-  const startTime = "2020-06-30 11:08:38"//Date.now() as any
+  const startTime = Date.now() as any
   const { startTime: time } = await Ride.createNew({ uid, frameId, rideId, startTime })
   return { rideId, frameId, uid, startTime: time }
 }
@@ -27,12 +27,13 @@ export async function createNewRide(uid: string, frameId: string, rideId: string
 //     "endTime":"2020-06-30 12:45:30"    
 
 export async function endRide(rideId: string) {
-  const endTime = "2020-06-30 12:45:30"//Date.now() as any
+  const endTime = Date.now() as any
   const { frameId, startTime } = await Ride.findOneWhere({ rideId })
   console.log(startTime)
   const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
-  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string), Ride.updateWhere({ rideId }, { endTime })])
-  if (!ride[0].fid) throw new RideError("couldn't end ride");
+  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),
+  Ride.updateWhere({ rideId }, { endTime })])
+  if (!ride[0].fid) throw new RideError("couldn't get end ride stats");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = ride[0]
@@ -46,7 +47,7 @@ export async function endRide(rideId: string) {
 
 export async function rideDetail(frameId: string, startTime: string, endTime: string) {
   const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
-  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),])
+  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)])
   // Ride.findOneWhere({ frameId, startTime, endTime })])
   if (!ride[0].fid) throw new RideError("No data available for the device");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
@@ -62,8 +63,9 @@ export async function rideDetail(frameId: string, startTime: string, endTime: st
 
 
 export async function updateFeedback(rideId: string, rating: number, options: string[], comment?: string) {
-  const updated = Ride.updateWhere({ rideId }, { rating })
-  const feedback = await createFeedback(rideId, options, comment)
+  const result = await Promise.all([createFeedback(rideId, options, comment), Ride.updateWhere({ rideId }, { rating })])
+  const feedback = result[0]
+  const updated = result[1]
   if (!updated) throw new RideError("Couldn't update rating")
   return { rideId, rating, feedback }
 }

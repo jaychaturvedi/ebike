@@ -123,11 +123,11 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>{this.props.title}</Typography.Text>
+                    <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
                     <div style={{ display: 'flex', justifyContent: 'center', height: '50%', width: '95%', flexDirection: 'row', alignItems: 'center' }} >
-                        <pre style={{ fontSize: 8, textAlign: 'center' }}>Normal<br />Oprating<br />Voltage<br />
+                        <pre style={{ fontSize: '12px', textAlign: 'center' }}>Normal<br />Oprating<br />Voltage<br />
                         Range<br />(a)</pre>
                         <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
                             <BarChart
@@ -184,7 +184,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'center', height: '50%', width: '95%', flexDirection: 'row', alignItems: 'center' }} >
-                        <pre style={{ fontSize: 8, textAlign: 'center' }}>Normal<br />Oprating<br />Voltage<br />
+                        <pre style={{ fontSize: '12px', textAlign: 'center' }}>Normal<br />Oprating<br />Voltage<br />
                         Range<br />(b)</pre>
                         <ResponsiveContainer className="bottom-graph-container" width="95%" height="100%" >
                             <BarChart
@@ -239,14 +239,14 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                         </ResponsiveContainer>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', maxHeight: "15%" }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', fontSize: '10px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', fontSize: '12px' }}>
                             <span>Max Cell Voltage : {this.state.maxVolt}</span><span>Cell Position : {this.state.maxCellPos}</span>  </div>
                         <div style={{ width: '20px' }} />
-                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', fontSize: '10px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', fontSize: '12px' }}>
                             <span>Min Cell Voltage : {this.state.minVolt} </span><span>Cell Position :{this.state.minCellPos}</span>  </div>
                         <div style={{ width: '20px' }} />
                         <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                            <span><Typography.Text style={{ color: "#fcc84a", fontSize: '12px' }} strong>
+                            <span><Typography.Text style={{ color: "#fcc84a", fontSize: '16px' }} strong>
                                 Voltage Difference : {this.state.voltageDelta.toFixed(3)}
                             </Typography.Text>
                             </span> </div>

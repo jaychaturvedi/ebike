@@ -65,9 +65,12 @@ td.ant-table-column-sort {
         position: sticky;
         top: 0;
         z-index: 3;
+        font-size: 16px;
+        font-weight: 600;
     }
     tbody td {
         z-index: 1;
+        font-size: 14px;
     }
 
     .table-body {
@@ -76,6 +79,7 @@ td.ant-table-column-sort {
         height: 80%;
         width: 100%;
         overflow: auto !important;
+        background: #3b4473;
     }
     .ant-table-cell-scrollbar {
         -webkit-box-shadow: none !important;
@@ -94,16 +98,18 @@ td.ant-table-column-sort {
                 width: 24px;
                 height: 24px;
             }
+            .pages-available {
+                width: 120px;
+            }
         }
 
         .select-button {
-            border-radius: 3px;
             overflow: hidden;
             appearance: none;
             background-color: transparent;
             border-radius: 5px;
-            width: 60px;
-            height: 24px;
+            // width: 60px;
+            height: 25px;
         }
 
         .ant-select-selector {
@@ -130,6 +136,7 @@ td.ant-table-column-sort {
     justify-content: center;
     float: left;
     cursor: pointer;
+    align-items: center;
 }
 
 .alert-down-circle {
@@ -168,3 +175,46 @@ td.ant-table-column-sort {
 .ant-table-tbody > tr > td {
     padding: 8px 2px;
 }
+
+@media screen and (min-width: 1600px) {
+    table th {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .table-body {
+        display: inline-block;
+        height: 90%;
+        width: 100%;
+        overflow: auto !important;
+    }
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+        padding: 20px 2px;
+    }
+    button.ant-btn.apply-button.ant-btn-sm {
+        width: 80px;
+        height: 40px;
+    }
+    button.ant-btn.reset-button.ant-btn-sm {
+        width: 80px;
+        height: 40px;
+    }
+    span.ant-typography.apply-text {
+        font-size: 14px;
+    }
+    span.ant-typography {
+        font-size: 14px;
+    }
+    tbody td {
+        z-index: 1;
+        font-size: 14px;
+    }
+}
+
+/* On screens that are 600px wide or less, the background color is olive */
+// @media screen and (max-width: 600px) {
+//     body {
+//         background-color: olive;
+//         color: white;
+//     }
+// }

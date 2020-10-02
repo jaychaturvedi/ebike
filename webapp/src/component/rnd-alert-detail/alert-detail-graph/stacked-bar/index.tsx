@@ -62,7 +62,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     DynamicLabel = (props: any) => {
         return (
             <text
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "12px", fontWeight: 700 }}
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 text-anchor="middle"
@@ -103,7 +103,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>{this.props.title}</Typography.Text>
+                    <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
                     <ResponsiveContainer className="top-graph-container" width="95%" height="100%">

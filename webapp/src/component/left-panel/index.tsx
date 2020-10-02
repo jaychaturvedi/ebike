@@ -80,24 +80,20 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
             <div className="connectm-LeftPanel">
                 <div className={"left-panel"}>
                     <div className={"logo"}>
-                        <ReactLogo width="40" height="40" />
+                        <ReactLogo width="44" height="48" />
                     </div>
-                    <div className={`tab-icons ${this.state.misClicked ? "option-clicked" : ""}`} onClick={() => this.misClicked("mis")}>
-                        <Alerts width="32" height="32" />
-                        <Typography.Text >Mis</Typography.Text>
-                    </div>
-                    <div className={`tab-icons ${this.state.alertsClicked ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("")}>
-                        <Alerts width="32" height="32" />
+                    <div className={`tab-icons ${this.state.alertsClicked ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("alerts")}>
+                        <Alerts width="40" height="40" />
                         <Typography.Text >Alerts</Typography.Text>
                     </div>
-                    <div className={`tab-icons ${this.state.b2bClicked ? "option-clicked" : ""}`} onClick={() =>this.b2bClicked("")}>
+                    {/* <div className={`tab-icons ${this.state.b2bClicked ? "option-clicked" : ""}`} onClick={this.b2bClicked}>
                         <B2BLogo width="32" height="32" />
                         <Typography.Text >B2B</Typography.Text>
                     </div>
                     <div className={`tab-icons ${this.state.stationsClicked ? "option-clicked" : ""}`} onClick={() => this.stationsClicked("")}>
                         <CharginStation width="32" height="32" />
                         <Typography.Text >Stations</Typography.Text>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         )

@@ -170,8 +170,8 @@ class MyRides extends React.PureComponent<Props, State> {
             unit2="Km"
             icon1={require('../../assets/icons/CO2e_savings.png')}
             icon2={require('../../assets/icons/green_miles_icon.png')}
-            value1={String(this.props.bike.co2SavingKg)}
-            value2={String(this.props.bike.greenMilesKm)}
+            value1={String(this.props.graph.co2SavingKg)}
+            value2={String(this.props.graph.greenMilesKm)}
           />
           <View style={{ ...styles.chart, backgroundColor: Theme.BACKGROUND_LIGHT }}>
             <View
@@ -244,9 +244,9 @@ class MyRides extends React.PureComponent<Props, State> {
               fromAddress={this.props.rides[key].from}
               toAddress={this.props.rides[key].to}
               // todo
-              progress={30}
-              fromTime={new Date(this.props.rides[key].from)}
-              toTime={new Date(this.props.rides[key].to)}
+              progress={Number(this.props.rides[key].powerMode) + Number(this.props.rides[key].pedalAssistMode)}
+              fromTime={new Date(this.props.rides[key].startTime)}
+              toTime={new Date(this.props.rides[key].endTime)}
               distance={this.props.rides[key].totalDistanceKm.toString()}
               rating={`${this.props.rides[key].score.toString()}/10`}
               speed={this.props.rides[key].avgSpeedKmph.toString()}
