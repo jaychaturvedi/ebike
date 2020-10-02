@@ -8,7 +8,36 @@
   align-items: center;
   flex-direction: row;
   justify-content: flex-end;
-  .header-icon{
+  .header-icon {
     margin-left: 15px;
+  }
+  .header-avatar {
+    background-color: #acb4e0;
+    vertical-align: middle;
+    margin-left: 15px;
+  }
+  .header-avatar-menu {
+    position: relative;
+    .sign-out {
+      position: absolute;
+      top: 46px;
+      right: 12px;
+      background: #1b1e27;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border-top-left-radius: 10px;
+      color: white;
+      height: 27px;
+      width: 74px;
+      white-space: nowrap;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  .header-logo {
+    position: absolute;
+    left: 122px;
   }
 }

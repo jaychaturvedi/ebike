@@ -12,10 +12,10 @@
     flex-direction: column;
     justify-content: space-between;
     margin-left: 1%;
-    
-    .recharts-layer.recharts-brush-traveller{
+
+    .recharts-layer.recharts-brush-traveller {
         cursor: pointer !important;
-      }
+    }
     .connectm-header {
         padding-left: 10px;
         height: 15%;
@@ -29,4 +29,10 @@
         // font-size: 12px;
         background-color: $GRAPH_BACKGROUND;
     }
+
+    // .recharts-legend-item .recharts-legend-item-text {
+    //     @media screen and (min-width: 1600px) {
+    //         font-size: 24px !important;
+    //     }
+    // }
 }

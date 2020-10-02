@@ -134,7 +134,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                     <div className={"alert-bottom-container"}>
                         <div className={"alert-bottom-content-left"}>
                             <div className={"connectm-header"}>
-                                <Typography.Text style={{ color: "#ffffff" }} strong>ADDITIONAL INSIGHTS</Typography.Text>
+                                <Typography.Text style={{ color: "#ffffff" }} strong className="additional-insights-text">ADDITIONAL INSIGHTS</Typography.Text>
                             </div>
                             <AlertInsights alertId={this.state.alertId} alertType={this.state.alertType} />
                         </div>

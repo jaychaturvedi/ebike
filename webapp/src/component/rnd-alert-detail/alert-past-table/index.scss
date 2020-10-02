@@ -6,7 +6,12 @@
     justify-content: space-between;
     align-items: center;
     height: 16%;
-
+    @media screen and (min-width: 1600px) {
+        .past-alerts-text {
+            font-size: 18px;
+            font-weight: 700;
+        }
+    }
     .pagination-footer {
         // border: 1px solid yellow;
         padding-top: 1%;
@@ -64,7 +69,6 @@
 
     .table-row-dark {
         background: $TABLE_ROW_DARK;
-        
     }
 
     .past-alert-selected-row {
@@ -82,6 +86,43 @@
                 text-align: left;
                 font-size: 14px;
             }
+        }
+    }
+
+    @media screen and (min-width: 1600px) {
+        table th {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        table th {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            font-size: 16px !important;
+        }
+        tbody td {
+            z-index: 1;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .table-body {
+            display: inline-block;
+            height: 90%;
+            width: 100%;
+            overflow: auto !important;
+            background: #3b4473;
+        }
+
+        .ant-table-thead > tr > th,
+        .ant-table-tbody > tr > td {
+            padding: 20px 2px;
+        }
+        tbody td {
+            z-index: 1;
+            font-size: 14px;
         }
     }
 
