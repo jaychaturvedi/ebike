@@ -16,17 +16,32 @@ app.post('/',
     [body('id', "id is too short").toInt().isLength({ min: 1 }),
     body('name', "name can't be empty").isString().isLength({ min: 1 }),
     body('icon', "icon url can't be empty").isString().isLength({ min: 1 }),
+    body('active', "active is missing,should be true or false").isBoolean(),
     body('faq', "faq array can't be empty").isArray(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { id, name, icon, faq } = req.body
-        const faqs = await Faq.createNew({ id, name, icon, faq })
+        const { id, name, icon, faq, active } = req.body
+        const faqs = await Faq.createNew({ id, name, icon, faq, active })
         const response = createResponse("OK", faqs, undefined)
         res.send(response)
     })
 )
 
-app.delete('/',
+app.put('/',
     [body('id', "id is too short").toInt().isLength({ min: 1 }),
+    body('name', "name can't be empty").isString().isLength({ min: 1 }),
+    body('icon', "icon url can't be empty").isString().isLength({ min: 1 }),
+    body('active', "active is missing,should be true or false").isBoolean(),
+    body('faq', "faq array can't be empty").isArray(), validate],
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const { id, name, icon, faq, active } = req.body
+        const updated = await Faq.update({ id, name, icon, faq, active })
+        const response = createResponse("OK", updated, undefined)
+        res.send(response)
+    })
+)
+
+app.delete('/',
+    [body('id', "id is too short").optional().toInt().isLength({ min: 1 }),
     body('name', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { id, name, icon, faq } = req.body
@@ -36,7 +51,7 @@ app.delete('/',
     })
 )
 
-app.delete('/id/:id',
+app.delete('/:id',
     [param('id', "id is too short").toInt().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const id = req.params.id as any as number
@@ -45,7 +60,6 @@ app.delete('/id/:id',
         res.send(response)
     })
 )
-
 
 app.use(expressErrorHandler);
 
