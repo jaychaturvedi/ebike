@@ -33,7 +33,7 @@
     left: 50%;
     margin: -168px 0 0 -350px;
 
-    .container {
+    .login-body {
         display: grid;
         grid-template-columns: 1fr 1fr;
         // height: 300px;
@@ -85,7 +85,7 @@
         margin: 16px auto;
         text-align: center;
     }
-    .footer {
+    .login-footer {
         display: flex;
         justify-content: space-between;
     }

@@ -92,7 +92,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
     render() {
         return (
             <div className="connectm-login">
-                <div className="container">
+                <div className="login-body">
                     <div className="login-image">
                         {/* <img src={LoginImage} alt="" /> */}
                         <div className="logo-title">
@@ -140,7 +140,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
 
                     </div>
                 </div>
-                <div className="footer">
+                <div className="login-footer">
                     <div>
                         Copyright © Motovolt 2020. All rights reserved.
                     </div>
