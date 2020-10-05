@@ -1,10 +1,9 @@
 import './index.scss';
-import { Layout, Typography } from "antd";
+import { Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, BarChart, Bar, ReferenceLine, Cell
+    XAxis, YAxis, Tooltip, Label, ResponsiveContainer, BarChart, Bar, ReferenceLine, Cell
 } from 'recharts';
-import { FileExcelFilled } from '@ant-design/icons';
 import VoltageDifference from './voltageDifference';
 
 const volatgeDeviationData = {

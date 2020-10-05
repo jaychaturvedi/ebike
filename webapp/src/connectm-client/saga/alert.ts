@@ -1,5 +1,5 @@
 import { IAlertActions } from "../actions/alerts";
-import { AlertData, TAlertType, TSort, TPagination, TFilter, Alert } from "../redux/models"
+import { TAlertType, TSort, TPagination, TFilter, Alert } from "../redux/models"
 import { put } from "redux-saga/effects";
 import moment from "moment";
 import axios from "axios"

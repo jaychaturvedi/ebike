@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+    LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer
 } from 'recharts';
 import './index.scss'
 

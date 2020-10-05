@@ -1,13 +1,12 @@
 import './index.scss';
-import React, { PureComponent, useState } from 'react';
+import React from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
-import ActiveImage from '../../assets/Down_arrow.png'
 import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
-import { Table, Select, Button, Pagination, Alert, ConfigProvider, Empty } from 'antd';
+import { Table, Select, ConfigProvider, Empty } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
 import TimeRenderer from "./time-renderer"
@@ -167,7 +166,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 
     handleClickTime = (event: any) => {
-        const { isAsc, isDesc, timeClicked } = this.state
+        const { timeClicked } = this.state
         if (!timeClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: true,
             openSinceClicked: false, severityClicked: false, dataLoaded: false
@@ -179,7 +178,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 
     handleClickOpenSince = (event: any) => {
-        const { isAsc, isDesc, openSinceClicked } = this.state
+        const { openSinceClicked } = this.state
         if (!openSinceClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: false,
             openSinceClicked: true, severityClicked: false, dataLoaded: false
@@ -190,7 +189,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 
     handleClickSeverity = (event: any) => {
-        const { isAsc, isDesc, severityClicked, data } = this.state
+        const { severityClicked } = this.state
         if (!severityClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: false,
             openSinceClicked: false, severityClicked: true, dataLoaded: false
@@ -245,7 +244,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     render() {
         console.log("isAsc, isDesc ", this.state.isAsc, this.state.isDesc)
         // this.fetch()
-        let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
+        let { modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
             {
                 dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '27%',

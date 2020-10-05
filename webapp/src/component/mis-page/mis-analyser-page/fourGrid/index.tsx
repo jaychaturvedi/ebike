@@ -1,22 +1,16 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
-import { Menu, Dropdown, message, Tooltip } from 'antd';
-import { LeftCircleFilled, DownOutlined, UserOutlined } from '@ant-design/icons';
-import Header from "../topHeader"
+import { Typography } from 'antd';
+import { Menu, Dropdown, message } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+// import Header from "../topHeader"
 import LineGraph from '../../../../subComponents/graph/chargingTrend';
-import DischargeGraph from '../../../../subComponents/graph/dischargingTrend';
 
 interface Props { }
 
 interface State {
     dscharge: boolean,
     charge: boolean
-}
-
-function handleButtonClick(e: any) {
-    message.info('Click on left button.');
-    console.log('click left button', e);
 }
 
 function handleMenuClick(e: any) {

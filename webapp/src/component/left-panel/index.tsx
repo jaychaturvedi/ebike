@@ -3,8 +3,8 @@ import React, { PureComponent } from 'react';
 import { withRouter, RouteComponentProps } from "react-router";
 import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg"
 import { ReactComponent as Alerts } from "../../assets/alerts_tab_icon.svg"
-import { ReactComponent as B2BLogo } from "../../assets/b2b_tab_icon.svg"
-import { ReactComponent as CharginStation } from "../../assets/charging_station_tab_icon.svg"
+// import { ReactComponent as B2BLogo } from "../../assets/b2b_tab_icon.svg"
+// import { ReactComponent as CharginStation } from "../../assets/charging_station_tab_icon.svg"
 import { Typography } from 'antd';
 import { connect } from 'react-redux'
 import { RoleBasedMainRoutes } from "../../connectm-client/roles/role-access"

@@ -1,5 +1,5 @@
 import './index.scss';
-import { Button, Typography, Modal, Dropdown, Menu } from "antd";
+import { Button, Typography, Dropdown, Menu } from "antd";
 import React, { PureComponent } from 'react';
 import { AnyCnameRecord } from 'dns';
 import { Input } from 'antd';
@@ -12,7 +12,7 @@ import {
 import { AlertData, TAlertType } from '../../../connectm-client/redux/models';
 import { formatTime, formatHourMin, formatDate } from '../../../connectm-client/util/time-formater'
 import { alertLimpData } from '../../../connectm-client/redux/connectm-state';
-import { ReduxAlertGraphActions } from '../../../connectm-client/actions/graph';
+
 interface AlertDetailSingleProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
     alertType: TAlertType,

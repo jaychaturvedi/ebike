@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { TAlertType, TSort, TPagination, TFilter, TPastAlertData, TPastAlert } from "../redux/models";
+import { TAlertType, TSort, TPagination, TPastAlert } from "../redux/models";
 import { State } from "../redux/connectm-state"
 import { IAlertGraphActions, GraphAlerts } from "./graph";
 export type AlertDetailActions = "GET_ALERTS_INSIGHTS" | "STORE_ALERTS_INSIGHTS" |

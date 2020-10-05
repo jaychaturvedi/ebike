@@ -1,7 +1,5 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
-import { LeftCircleFilled } from '@ant-design/icons';
 import { GraphSelector } from '../fourGrid';
 import LineGraph from '../../../../subComponents/graph/dischargingTrend';
 

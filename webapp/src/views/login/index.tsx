@@ -46,7 +46,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                 } else {
                     this.setState({
                         formValid: 'error', valid: !this.state.valid,
-                        message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
+                        message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
                     })
                 }
             })
@@ -57,7 +57,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
         if (this.state.username.length <= 0) {
             this.setState({
                 formValid: 'error', valid: !this.state.valid,
-                message: <span> <img src={Cross} height="20px" /> &nbsp;Please enter your email and try again.</span>
+                message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Please enter your email and try again.</span>
             })
         } else {
             initiateForgotPassword(this.state.username)
@@ -65,12 +65,12 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                     if (passwordInit.success) {
                         this.setState({
                             formValid: 'success', valid: !this.state.valid,
-                            message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
+                            message: <span> <img src={Exclamation} height="20px" alt="exclamation" /> &nbsp;We have sent you an email with the link to reset the password!</span>
                         })
                     } else {
                         this.setState({
                             formValid: 'error', valid: !this.state.valid,
-                            message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to send you an email with the link to reset the password!</span>
+                            message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Unable to send you an email with the link to reset the password!</span>
                         })
                     }
                     console.log(passwordInit)
@@ -92,7 +92,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                     <div className="login-image">
                         {/* <img src={LoginImage} alt="" /> */}
                         <div className="logo-title">
-                            <div className="motovolt"><span><img src={MotovoltLogo} style={{ width: '80%' }} /></span></div>
+                            <div className="motovolt"><span><img src={MotovoltLogo} style={{ width: '80%' }} alt="motovolt-logo" /></span></div>
                             <div className="command-center"><span>Command Center</span></div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                                     <Button type="primary" htmlType="submit" className="login-form-button">
                                         Log in
                                 </Button>
-                                    <a className="login-form-forgot" href="" onClick={this.forgotPassword}>
+                                    <a className="login-form-forgot" href="/" onClick={this.forgotPassword}>
                                         Forgot password?
                                 </a>
                                 </Form.Item>

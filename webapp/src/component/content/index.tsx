@@ -6,13 +6,10 @@ import LeftPanel from "../left-panel"
 import { Route, withRouter, RouteComponentProps, Switch } from "react-router";
 import HomePage from "../rnd-home-page"
 import MisContent from "../mis-page"
-// import MisCustomer from "../mis-customer-page"
-import MisMotorController from "../mis-page/mis-mc-page"
 import MisAnalyserFour from '../mis-page/mis-analyser-page/fourGrid'
 // import User from "../user"
 import AlertDetail from "../rnd-alert-detail"
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
-// import Battery from "../rnd-alert-detail/alert-detail-graph/cell-battery-graph"
 import { connect } from 'react-redux'
 
 interface ContentProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
@@ -62,7 +59,7 @@ class Content extends PureComponent<ContentProp, ContentState>{
         return state
     }
     render() {
-        console.log("content ==>",this.state)
+        console.log("content ==>", this.state)
         return <>
             <Layout.Content className="web-content">
                 <WebHeader />

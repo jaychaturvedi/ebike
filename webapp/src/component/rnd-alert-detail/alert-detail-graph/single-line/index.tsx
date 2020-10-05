@@ -1,14 +1,14 @@
 import './index.scss';
-import { Layout, Typography } from "antd";
+import { Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine, Brush
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, ReferenceLine, Brush
 } from 'recharts';
 import moment from 'moment';
 
 
 const CustomizedDot = (props: any) => {
-    const { cx, cy, stroke, payload, value, L1, alertDate } = props;
+    const { cx, cy, payload, alertDate } = props;
     console.log(payload?.timeDate, "payyload", props.alertDate);
     if (payload?.timeDate === alertDate) {
         return (

@@ -4,7 +4,6 @@ import MisBattery from "./mis-battery-page"
 import MisCustomer from './mis-customer-page'
 import NavigationTabs from './subComponents/navigationTabs'
 import AnalyserTabs from './subComponents/analyserTabs'
-
 import { Layout } from "antd";
 import MisMc from './mis-mc-page';
 import Analyser from './mis-analyser-page'
@@ -27,10 +26,10 @@ class MisContent extends PureComponent<MisContentProps, MisContentStates> {
                 return <MisBattery />
             case "analyser":
                 return <Analyser />
-            // case "mc":
-            //     return <MisBattery />
-            // case "customer":
-            //     return <MisCustomer />
+            case "mc":
+                return <MisMc />
+            case "customer":
+                return <MisCustomer />
         }
     }
     toggleComponent = (type: TComponent) => {

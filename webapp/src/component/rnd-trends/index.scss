@@ -90,7 +90,7 @@
 }
 
 .trend-dropdown-active {
-    color: $ACTIVE;
+    color: $ACTIVE !important;
     border-bottom: 1px solid #fcc84a;
     display: flex;
     flex-direction: row;

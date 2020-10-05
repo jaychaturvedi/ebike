@@ -1,5 +1,4 @@
 import './index.scss';
-import { Layout } from "antd";
 import React, { PureComponent } from 'react';
 import { ReactComponent as Severity } from "../../../assets/severity_icon.svg"
 

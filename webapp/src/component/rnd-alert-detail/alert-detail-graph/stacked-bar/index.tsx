@@ -1,14 +1,10 @@
 import './index.scss';
-import { Layout, Typography } from "antd";
+import { Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, BarChart, Bar, ReferenceLine, Cell, Brush
+    XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, BarChart, Bar, Cell, Brush
 } from 'recharts'
-import { FileExcelFilled } from '@ant-design/icons';
-import { mapDispatchToProps, mapStateToProps, ReduxAlertGraphActions, ReduxAlertGraphState } from "../../../../connectm-client/actions/graph"
-import { connect } from 'react-redux';
 import moment from 'moment';
-// import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
 
 interface StackedGraphProps {
     data: any; bar1StrokeColor: string; bar2StrokeColor: string, L1?: boolean,

@@ -3,8 +3,6 @@ import React, { PureComponent } from 'react';
 import { Breadcrumb, Typography } from 'antd';
 import AlertDetailSingle from "./alert-detail-single"
 import AlertInsights from "./alert-additional-insights"
-import CellBatteryGraph from "./alert-detail-graph/cell-battery-graph"
-import StackedBarGraph from "./alert-detail-graph/stacked-bar"
 import {
     ReduxAlertDetailActions, ReduxAlertDetailState,
     mapDispatchToProps, mapStateToProps
@@ -13,7 +11,6 @@ import AlertPastTable from "./alert-past-table"
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AlertGraph from './alert-detail-graph'
-import { TAlertsTableData } from '../../connectm-client/saga/alert';
 import { AlertData, TAlertType } from '../../connectm-client/redux/models';
 import { alertLimpData } from '../../connectm-client/redux/connectm-state';
 
