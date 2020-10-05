@@ -1,10 +1,6 @@
-import { Layout } from "antd";
 import React, { PureComponent } from 'react';
-import Content from '../../component/content'
 import 'antd/dist/antd.css';
 import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import LoginImage from "../../assets/login_image.png"
 import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg"
 import MotovoltLogo from '../../assets/png/motovolt_text.png'
 import Cross from '../../assets/png/cross-vector.png'
@@ -106,7 +102,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                         </div>
                         <div className={"form-body"}>
                             <div className="logo">
-                                <ReactLogo width="80" height="60" />
+                                <ReactLogo className="motovolt-logo-icon" />
                             </div>
                             <Form
                                 name="normal_login"

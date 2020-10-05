@@ -7,12 +7,7 @@
 .ant-col-rtl .login-form-forgot {
     float: left;
 }
-.login-form-button {
-    width: 100%;
-    background: $MIS_ANALYSER_BUTTON;
-    border-radius: 4px;
-    font-weight: bold;
-}
+
 .ant-btn-primary:hover,
 .ant-btn-primary:focus {
     color: #fff;
@@ -32,11 +27,12 @@
     top: 50%;
     left: 50%;
     margin: -168px 0 0 -350px;
+    height: 1px;
 
     .login-body {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        // height: 300px;
+        height: 100%;
         // background: #ffffff;
 
         .login-image {
@@ -77,6 +73,30 @@
                 .ant-input {
                     background: #ececec;
                     border: 1px solid rgba(0, 0, 0, 0.2);
+                    @media screen and (min-width: 1600px) {
+                        height: 64px;
+                        width: 100%;
+                        font-size: 21px;
+                    }
+                }
+
+                .ant-form-item-control-input {
+                    margin: 0 auto;
+                    width: 100%;
+                    @media screen and (min-width: 1600px) {
+                        width: 365px;
+                    }
+                }
+
+                .login-form-button {
+                    width: 100%;
+                    background: $MIS_ANALYSER_BUTTON;
+                    border-radius: 4px;
+                    font-weight: bold;
+                    @media screen and (min-width: 1600px) {
+                        font-size: 24px;
+                        height: 64px;
+                    }
                 }
             }
         }
@@ -84,6 +104,17 @@
     .logo {
         margin: 16px auto;
         text-align: center;
+        .motovolt-logo-icon {
+            height: 60px;
+            width: 80px;
+            @media screen and (min-width: 1600px) {
+                height: 95px;
+                width: 101px;
+            }
+        }
+        @media screen and (min-width: 1600px) {
+            margin: 40px !important;
+        }
     }
     .login-footer {
         display: flex;
@@ -100,11 +131,28 @@
         // padding: 16px;
         text-align: center;
         height: 48px;
-        padding: 0px 10px 0px 10px;
-
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
         // margin-bottom: 16px;
     }
     .ant-form-item-explain {
         color: white;
+    }
+}
+@media screen and (min-width: 1600px) {
+    .connectm-login {
+        min-width: 984px !important;
+        max-width: 984px !important;
+        min-height: 564px !important;
+        max-height: 564px !important;
+        margin: -282px 0 0 -492px !important;
+    }
+    .notification-toast {
+        height: 60px !important;
+        // margin-bottom: 16px;
+    }
+    .login-form-forgot {
+        font-size: 18px;
     }
 }

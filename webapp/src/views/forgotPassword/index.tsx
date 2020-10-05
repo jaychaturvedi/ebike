@@ -86,7 +86,7 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
 
     render() {
         return (
-            <div className="connectm-login">
+            <div className="connectm-forgot">
                 <div className="container">
                     <div className="login-image">
                         {/* <img src={LoginImage} alt="" /> */}
