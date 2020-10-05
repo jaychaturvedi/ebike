@@ -119,7 +119,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                     <Typography.Text >Alert Clearance</Typography.Text>
                     <Input.TextArea rows={4} placeholder={"Enter Comments..."} onChange={this.onChange} value={this.state.clearanceComment} />
                     <Button className={"dropdown-clear-alert-button"} onClick={this.clearAlert}>
-                        <Typography.Text style={{ color: "black" }} strong>Clear Alert</Typography.Text>
+                        <Typography.Text strong className="dropdown-clear-alert-text">Clear Alert</Typography.Text>
                     </Button>
                 </Menu.Item>
             </Menu>
