@@ -76,6 +76,7 @@ function createUser(params: any, userEmail: string, password: string) {
 // will be pushed other file
 // lambda function to be triggered to create new user
 module.exports.createWebAppUser = async (event: APIGatewayProxyEvent, context: Context) => {
+    context.callbackWaitsForEmptyEventLoop = false;
     const body = JSON.parse(event.body!)
     const userEmail = body.userEmail
     const password = body.password
@@ -105,21 +106,21 @@ module.exports.createWebAppUser = async (event: APIGatewayProxyEvent, context: C
         ]
     };
     let responseBody: any
-    createUser(params, userEmail, password)
-        .then((userDetails: any) => {
-            console.log(userDetails)
-            responseBody = userDetails
-        })
-        .catch(err => {
-            console.log(err)
-            responseBody = err
-        })
+    let errorBody: any
+    try {
+        responseBody = await createUser(params, userEmail, password)
+        console.log(responseBody)
+    }
+    catch (e) {
+        console.log(e)
+        errorBody = e
+    }
     const response = {
         statusCode: 200,
         headers: {
             "x-custom-header": "user_creation"
         },
-        body: JSON.stringify(responseBody),
+        body: JSON.stringify({ response: responseBody, err: errorBody }),
         isBase64Encoded: false
     };
     return response
