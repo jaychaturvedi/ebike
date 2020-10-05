@@ -3,11 +3,24 @@ import { validationResult, body, param, query } from "express-validator";
 import { expressQAsync, expressErrorHandler, validate, createResponse, secure } from '../helper'
 import Faq from './service'
 const app = express.Router()
+function compare(a: any, b: any) {
+    // Use toUpperCase() to ignore character casing
+    const bandA = a.id;
+    const bandB = b.id;
+    let comparison = 0;
+    if (bandA > bandB) {
+        comparison = 1;
+    } else if (bandA < bandB) {
+        comparison = -1;
+    }
+    return comparison;
+}
 
 app.get('/',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const faqs = await Faq.findAll()
-        const response = createResponse("OK", { sections: faqs }, undefined)
+        const sortedFaqs = faqs.sort(compare);
+        const response = createResponse("OK", { sections: sortedFaqs }, undefined)
         res.send(response)
     })
 )
@@ -44,7 +57,7 @@ app.delete('/',
     [body('id', "id is too short").optional().toInt().isLength({ min: 1 }),
     body('name', "name can't be empty").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { id, name, icon, faq } = req.body
+        const { id, name } = req.body
         const faqs = await Faq.deleteWhere({ id, name })
         const response = createResponse("OK", "deleted", undefined)
         res.send(response)
