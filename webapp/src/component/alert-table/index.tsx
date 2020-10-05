@@ -263,7 +263,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span>,
             },
             {
-                dataIndex: 'frameId', key: 'frameId', title: <span > Vehicle Id </span>
+                dataIndex: 'frameId', key: 'frameId', title: <span > Vehicle Id </span>, width: '12%'
 
             },
             {
@@ -283,7 +283,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 render: (text: any, record: any, index: any) => <OpenSinceRenderer text={text} record={record} index={index} />,
             },
             {
-                dataIndex: 'Severity', key: 'Severity',
+                dataIndex: 'Severity', key: 'Severity', width: "12%",
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
                         {severityClicked ? <ActiveSort height='30px' width='30px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}

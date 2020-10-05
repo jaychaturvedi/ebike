@@ -76,7 +76,10 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         })
         arr2.push({ 'name': 'empty', }, { 'name': 'empty' }, { 'name': 'empty' }, { 'name': 'empty' })
 
-        // for (let i = 0; i <= 8 - arr2.length; i++) arr2.push({ 'name': '', 'value': 0 })
+        for (let i = 0; i < 2; i++) {
+            arr1.push({ 'name': 'empty', 'value': 3.001 });
+            arr2.push({ 'name': 'empty', 'value': 3.001 })
+        }
 
         state.data1 = arr1;
         state.data2 = arr2;

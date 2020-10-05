@@ -101,7 +101,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                     </div>
                     <div className={`tab-icons ${this.state.alertsClicked || ["DEVELOPER", "ADMIN"].includes(this.state.userRole) ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("alerts")}>
                         <Alerts width="40" height="40" />
-                        <Typography.Text >Alerts</Typography.Text>
+                        <Typography.Text style={{ color: 'white' }}>Alerts</Typography.Text>
                     </div>
                     {/* <div className={`tab-icons ${this.state.b2bClicked ? "option-clicked" : ""}`} onClick={this.b2bClicked}>
                         <B2BLogo width="32" height="32" />

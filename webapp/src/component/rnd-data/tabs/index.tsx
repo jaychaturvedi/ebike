@@ -54,13 +54,13 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
         return (
             <div className="connectm-Tabs">
                 <Button size={"middle"} type="text" className={`tab-buttons smart ${this.state.activeTab === "smart" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("smart")}>
-                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Smart Alerts <span style={{ paddingLeft: "5px" }}>({this.state.smartCount})</span></Typography.Text>
+                    <Typography.Text style={{ whiteSpace: "nowrap", color: "white" }}>Smart Alerts <span style={{ paddingLeft: "5px" }}>({this.state.smartCount})</span></Typography.Text>
                 </Button>
                 <Button size={"middle"} type="text" className={`tab-buttons bms ${this.state.activeTab === "bms" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("bms")}>
-                    <Typography.Text style={{ whiteSpace: "nowrap" }}>BMS Alerts <span style={{ paddingLeft: "5px" }}>({this.state.bmsCount})</span></Typography.Text>
+                    <Typography.Text style={{ whiteSpace: "nowrap", color: "white" }}>BMS Alerts <span style={{ paddingLeft: "5px" }}>({this.state.bmsCount})</span></Typography.Text>
                 </Button>
                 <Button size={"middle"} type="text" className={`tab-buttons mc ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("mc")}>
-                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Motor Controller Alerts <span style={{ paddingLeft: "5px" }}>({this.state.mcCount})</span></Typography.Text>
+                    <Typography.Text style={{ whiteSpace: "nowrap", color: "white" }}>Motor Controller Alerts <span style={{ paddingLeft: "5px" }}>({this.state.mcCount})</span></Typography.Text>
                 </Button>
             </div>
         )

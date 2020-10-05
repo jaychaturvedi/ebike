@@ -158,7 +158,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         return <>
             <div className="connectm-RandDTrends" onClick={this.handleZoom}>
                 <div className="trends-header">
-                    <Typography.Text strong style={{ paddingLeft: "2px", fontSize: '18px' }}>TRENDS</Typography.Text>
+                    <Typography.Text strong className="trends-header-text">TRENDS</Typography.Text>
                     <Dropdown overlay={this.trendPeriod} trigger={['click']}>
                         <Typography.Text className={"pair trend-dropdown-active"}
                             style={{ paddingLeft: "2px", whiteSpace: "nowrap", }}>
@@ -169,7 +169,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </div>
 
                 <div className={"title-header"}>
-                    <Typography.Text strong style={{ paddingLeft: "10px" }} >Total Alerts</Typography.Text>
+                    <Typography.Text strong className="title-header-text">Total Alerts</Typography.Text>
                 </div>
 
                 <ResponsiveContainer width="100%" height="28%">
@@ -192,7 +192,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </ResponsiveContainer>
 
                 <div className={"title-header"}>
-                    <Typography.Text strong style={{ paddingLeft: "10px" }} >Top 5 Alerts</Typography.Text>
+                    <Typography.Text strong className="title-header-text">Top 5 Alerts</Typography.Text>
                 </div>
 
                 <ResponsiveContainer width="100%" height="28%" className="top-five-recharts">
@@ -215,7 +215,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
                 </ResponsiveContainer>
 
                 <div className={"title-header"}>
-                    <Typography.Text strong style={{ paddingLeft: "10px" }} >Location-Wise Alerts</Typography.Text>
+                    <Typography.Text strong className="title-header-text">Location-Wise Alerts</Typography.Text>
                 </div>
 
                 <ResponsiveContainer width="100%" height="28%" className="location-recharts">
