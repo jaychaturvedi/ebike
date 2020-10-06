@@ -1,7 +1,6 @@
 import './index.scss';
-import { Layout, Table, Select, Typography, ConfigProvider, Empty } from "antd";
+import { Table, Select, Typography, ConfigProvider, Empty } from "antd";
 import React, { PureComponent } from 'react';
-import { ReactComponent as Severity } from "../../../assets/severity_icon.svg"
 import { DownOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../../assets/active_sort_icon.svg"
 import { ReactComponent as NextPage } from "../../../assets/next_page_icon.svg"
@@ -223,7 +222,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
 
     render() {
-        let { isAsc, alertTimeClicked: alertClicked } = this.state;
+        let { alertTimeClicked: alertClicked } = this.state;
         const columns: any = [
             {
                 dataIndex: 'alertTime', defaultSortOrder: 'ascend',

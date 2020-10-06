@@ -3,8 +3,7 @@ import { Store_UserUpdate } from "./user"
 import { IUsersAction } from "../actions/user"
 import { IAlertActions } from "../actions/alerts";
 import { getAlerts, updateAlertTabChange, updateAlertFilterChange, Store_AlertUpdate, TAlertsTableData } from "./alert";
-import { Store_AlertTabChange } from "./alert";
-import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, Store_UpdateALertTrends, updateAlertTrend } from "./trends"
+import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, updateAlertTrend } from "./trends"
 import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
 import { getAlertGraphData, Store_AlertGraph } from "./graph";

@@ -1,15 +1,13 @@
 import './index.scss';
-import { Layout, Typography } from "antd";
+import { Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine, Brush
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, ReferenceLine, Brush
 } from 'recharts';
 import moment from 'moment';
-import { stat } from 'fs';
-
 
 const CustomizedDot = (props: any) => {
-    const { cx, cy, stroke, payload, value, L1, alertDate } = props;
+    const { cx, cy, payload, alertDate } = props;
     console.log(payload?.timeDate, "payyload", props.alertDate);
     if (payload?.timeDate === alertDate) {
         return (
@@ -26,13 +24,6 @@ interface DoubleLineGraphProps {
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string, alertCleared?: boolean,
 }
-
-const limpData: any = {
-    data: [],
-    line1StrokeColor: "",
-    line2StrokeColor: ""
-}
-
 
 interface DoubleLineGraphStates {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string,

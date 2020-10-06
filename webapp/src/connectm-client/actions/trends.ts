@@ -1,7 +1,9 @@
 import { Dispatch } from "redux";
-import { TAlertType, TSort, TPagination, TFilter, TtrendLocationWise,
-     TtrendTotalAlerts, TtrendTop5Alert } from "../redux/models";
-import { State} from "../redux/connectm-state"
+import {
+    TAlertType, TtrendLocationWise,
+    TtrendTotalAlerts, TtrendTop5Alert
+} from "../redux/models";
+import { State } from "../redux/connectm-state"
 import { stat } from "fs";
 
 export type AlertTrendsActions = "GET_ALERT_TRENDS" | "STORE_GET_ALERT_TRENDS" | "UPDATE_ALERT_TRENDS"

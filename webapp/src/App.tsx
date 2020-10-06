@@ -8,7 +8,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { RoleBasedMainRoutes } from "./connectm-client/roles/role-access"
 import { connect } from 'react-redux'
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "./connectm-client/actions/user"
-import Content from "./component/rnd-home-page"
+// import Content from "./component/rnd-home-page"
 import Home from './views/home';
 const MainRoutes = {
   HOME: "/",
@@ -68,7 +68,7 @@ class App extends PureComponent<AppProp, AppState>{
           this.setState({
             authenticated: false
           })
-          if (this.props.history.location.pathname != MainRoutes.RESETPASSWORD)
+          if (this.props.history.location.pathname !== MainRoutes.RESETPASSWORD)
             this.props.history.push("/login");
         }
         console.log("move to login screen")
@@ -76,8 +76,8 @@ class App extends PureComponent<AppProp, AppState>{
   }
   static getDerivedStateFromProps(props: AppProp, state: AppState) {
     console.log("derived state", props.user)
-    state.authenticated = props.user.authenticated
     if (props.user?.user) {
+      state.authenticated = props.user.authenticated
       state.user = props.user.user
       state.userRole = props.user.user.attributes['custom:role']
     }

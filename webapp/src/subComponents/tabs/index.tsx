@@ -1,6 +1,6 @@
 import './index.scss';
 import React from 'react';
-import { Card, Typography, Row } from 'antd';
+import { Card, Typography } from 'antd';
 interface Props { title: string; extra?: string, width: string }
 
 

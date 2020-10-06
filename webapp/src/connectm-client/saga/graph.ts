@@ -1,4 +1,4 @@
-import { IAlertGraphActions, AlertGraphActions } from "../actions/graph"
+import { IAlertGraphActions } from "../actions/graph"
 import axios from "axios"
 
 export type Store_AlertGraph = {

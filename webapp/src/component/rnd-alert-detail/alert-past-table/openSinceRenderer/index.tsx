@@ -1,6 +1,5 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import moment from 'moment'
 import { formatHourMin } from "../../../../connectm-client/util/time-formater"
 
 interface OpenSinceRendererProps {

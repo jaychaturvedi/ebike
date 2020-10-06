@@ -3,20 +3,15 @@ import React, { PureComponent } from 'react';
 import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
 import ChargingTrend from '../../../subComponents/graph/chargingTrend';
 import Battery from '../../../assets/battery_health__g_icon.png'
-import IconMap from '../../../assets/png/map.png'
 import BatterCell from "../../../assets/png/battery-cell.png"
 import BatteryGreenPng from '../../../assets/png/battery-cell-green.png'
 import BAtteryRedPng from '../../../assets/png/battery-cell-red.png'
-import Header from './topHeader'
-import Dialer from './dialer'
 import { Typography } from 'antd';
 import Cell from "../subComponents/cells"
 interface Props { }
 
 interface States {
 }
-
-const data = []
 
 class MisBattery extends PureComponent<Props, States> {
     constructor(props: Props) {
@@ -106,7 +101,7 @@ class MisBattery extends PureComponent<Props, States> {
                                 </div>
                                 <div className="battery-image-container">
                                     <div className="battery-health-circle">
-                                        <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} />
+                                        <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} alt="battery" />
                                         <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center' }} >
                                             <Typography.Text style={{ whiteSpace: "normal", }} strong>Health</Typography.Text>
                                             <Typography.Text style={{ whiteSpace: "nowrap" }} strong>82%</Typography.Text>

@@ -1,12 +1,12 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Menu, Dropdown, DatePicker, Button, Input, Select, Typography } from 'antd';
-import { DownOutlined, UserOutlined, SearchOutlined } from '@ant-design/icons';
+import { Menu, Dropdown, DatePicker, Button, Input, Typography } from 'antd';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { ReactComponent as Vehicle } from "../../assets/vehicle_icon.svg"
 import { ReactComponent as CargoVehicle } from "../../assets/cargo_vehicle_icon.svg"
 import { ReactComponent as Location } from "../../assets/location_icon.svg"
 import { ReactComponent as Calender } from "../../assets/calendar_icon.svg"
-import { ReactComponent as Search } from "../../assets/search_icon.svg"
+// import { ReactComponent as Search } from "../../assets/search_icon.svg"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
 import { connect } from 'react-redux'
 import moment from 'moment';

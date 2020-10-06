@@ -1,10 +1,9 @@
 import './index.scss';
-import { Layout, Typography } from "antd";
+import { Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, BarChart, Bar, ReferenceLine, Cell
+    XAxis, YAxis, Tooltip, Label, ResponsiveContainer, BarChart, Bar, ReferenceLine, Cell
 } from 'recharts';
-import { FileExcelFilled } from '@ant-design/icons';
 import VoltageDifference from './voltageDifference';
 
 const volatgeDeviationData = {
@@ -76,7 +75,10 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         })
         arr2.push({ 'name': 'empty', }, { 'name': 'empty' }, { 'name': 'empty' }, { 'name': 'empty' })
 
-        // for (let i = 0; i <= 8 - arr2.length; i++) arr2.push({ 'name': '', 'value': 0 })
+        for (let i = 0; i < 2; i++) {
+            arr1.push({ 'name': 'empty', 'value': 3.001 });
+            arr2.push({ 'name': 'empty', 'value': 3.001 })
+        }
 
         state.data1 = arr1;
         state.data2 = arr2;

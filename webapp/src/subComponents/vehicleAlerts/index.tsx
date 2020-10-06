@@ -1,6 +1,6 @@
 import './index.scss';
 import React from 'react';
-import { Card, Typography, Row, Col } from 'antd';
+import { Card } from 'antd';
 import Table from '../tabsContent/table'
 import RidesGraph from '../tabsContent/ridesGraph'
 

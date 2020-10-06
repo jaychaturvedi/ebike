@@ -1,8 +1,5 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
-import HalfPie from '../../../../subComponents/halfPie';
-import { LeftCircleFilled } from '@ant-design/icons';
 import BackArrowButton from '../../../../assets/png/back-arrow-button.png'
 
 interface AnalyserTabsProps {
