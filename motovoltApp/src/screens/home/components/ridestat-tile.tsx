@@ -7,7 +7,7 @@ import { ThemeContext } from '../../../styles/theme/theme-context';
 
 const styles = StyleSheet.create({
   tile: {
-    width: moderateScale(100),
+    width: "32%",
     height: moderateScale(92),
     borderRadius: scale(10),
     display: 'flex',
@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.WHITE, //change dark theme
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},
   },
   heading: {
     paddingBottom: verticalScale(5),
@@ -57,6 +61,12 @@ export default class MetricTile extends React.Component<MetricTypeProps, {}> {
       }}>
         <View style={styles.heading}>{props.icon}</View>
         <View style={styles.body}>
+          <Text style={{
+            ...styles.bodyText, color: Theme.TEXT_WHITE //change dark theme 
+          }}
+            numberOfLines={1}>
+            {props.descriptionLine1}
+          </Text>
           <View style={styles.heading}>
             <Text>
               <Text style={{
@@ -67,12 +77,6 @@ export default class MetricTile extends React.Component<MetricTypeProps, {}> {
               }}> {props.unit}</Text>
             </Text>
           </View>
-          <Text style={{
-            ...styles.bodyText, color: Theme.TEXT_WHITE //change dark theme 
-          }}
-            numberOfLines={1}>
-            {props.descriptionLine1}
-          </Text>
         </View>
       </View>
     );

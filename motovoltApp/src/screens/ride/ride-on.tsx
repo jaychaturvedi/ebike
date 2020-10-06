@@ -12,6 +12,7 @@ const objectid = require("react-native-bson/lib/bson/objectid");
 import { Dispatch } from 'redux';
 import { StartRide, EndRide, Speedometer } from '../../service/redux/actions/saga';
 import LanguageSelector from '../../translations';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { ThemeContext } from '../../styles/theme/theme-context'
 
 type ReduxState = {
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   flexVerticalCentre: {
+    paddingHorizontal: scale(20),
     flex: 1,
     justifyContent: 'center',
   },
