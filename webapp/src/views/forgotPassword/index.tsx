@@ -82,7 +82,7 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
     render() {
         return (
             <div className="connectm-forgot">
-                <div className="container">
+                <div className="forgot-password-container">
                     <div className="login-image">
                         {/* <img src={LoginImage} alt="" /> */}
                         <div className="logo-title">
@@ -96,12 +96,12 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
                         </div>
                         <div className={"form-body"}>
                             <div className="logo">
-                                <ReactLogo width="80" height="60" />
+                                <ReactLogo className="motovolt-logo-icon" />
                             </div>
                             {this.state.formValid === '' ? <div className="forgot-password-label">Enter a new password. The password should be atleast 8 characters long</div> : <div className="forgot-password-label" />}
                             <Form
                                 name="normal_login"
-                                className="login-form"
+                                className="ant-login-form"
                                 initialValues={{
                                     remember: true,
                                 }}
@@ -146,7 +146,7 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
 
                     </div>
                 </div>
-                <div className="footer">
+                <div className="forgot-footer">
                     <div>
                         Copyright © Motovolt 2020. All rights reserved.
                     </div>

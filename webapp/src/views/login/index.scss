@@ -32,7 +32,7 @@
     .login-body {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        height: 100%;
+        // height: 100%;
         // background: #ffffff;
 
         .login-image {
@@ -140,6 +140,7 @@
         color: white;
     }
 }
+
 @media screen and (min-width: 1600px) {
     .connectm-login {
         min-width: 984px !important;
@@ -147,6 +148,9 @@
         min-height: 564px !important;
         max-height: 564px !important;
         margin: -282px 0 0 -492px !important;
+        .login-body {
+            height: 100%;
+        }
     }
     .notification-toast {
         height: 60px !important;
