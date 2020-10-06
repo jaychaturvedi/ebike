@@ -184,6 +184,11 @@
     background-color: $APPLY_BUTTON !important;
     border: none !important;
     margin-left: 2.5%;
+    width: 80px;
+
+    .apply-text {
+        color: black !important;
+    }
 }
 //should be inside
 .ant-btn-sm {
@@ -196,6 +201,7 @@
     color: #ffffff !important;
     margin-left: 5px;
     border-bottom: 1px solid white;
+    width: 80px;
 }
 
 .dropdown-typography {
