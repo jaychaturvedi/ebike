@@ -228,8 +228,8 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             {
                 dataIndex: 'alertTime', defaultSortOrder: 'ascend',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Time
-                    {alertClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} className={this.state.classname} />}
+                    {alertClicked ? <ActiveSort height='26px' width='26px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} className={this.state.classname} />}
                 </span>,
                 render: (text: any, record: any, index: any) => <TimeRenderer text={text} record={record} index={index} />
             },
@@ -256,7 +256,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         return <>
 
             <div className={"connectm-AlertPastTable-header"}>
-                <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
+                <Typography.Text style={{ color: "#ffffff" }} strong className="past-alerts-text">PAST ALERTS</Typography.Text>
                 <div className={"pagination-footer"}>
                     Showing &nbsp;&nbsp;&nbsp; <span >
                         <Select className={'select-button'}
@@ -269,7 +269,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div className={'spacer'}></div>
                     <span className={'nav-button'}>
-                        <pre> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+                        <pre className="pages-available"> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
                         {this.state.pageSize * this.state.current > this.state.total
                                 ? this.state.total : this.state.pageSize * this.state.current}
                           &nbsp;of {this.state.total}</pre>
@@ -297,7 +297,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                             tableLayout={"fixed"}
                             // scroll={{ y: datas.length > 10 ? 455 : 455, x: 'max-content' }}
                             // scroll={{ y: this.state.data.length > 3 ? '28.5vh' : undefined}}
-                            scroll={{ y: '28.5vh' }} //not able to make dynamic
+                            // scroll={{ y: '30vh' }} //not able to make dynamic
                             // size={"middle"}
                             bordered={false}
                             className="ant-table-thead"

@@ -2,6 +2,7 @@ import './index.scss';
 import React, { PureComponent, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
+import ActiveImage from '../../assets/Down_arrow.png'
 import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
@@ -249,16 +250,16 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             {
                 dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '27%',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
-                    {alertClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                    {alertClicked ? <ActiveSort height='30px' width='30px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                 </span>,
             },
             {
                 dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend', width: '10%',
                 title:
                     <span className="header-sorter" onClick={this.handleClickModel}> Model
-                        {modelClicked ? <ActiveSort height='20px' width='20px'
-                            className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                        {modelClicked ? <ActiveSort height='30px' width='30px'
+                            className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                     </span>,
             },
             {
@@ -268,24 +269,24 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             {
                 dataIndex: 'alertTime', key: 'alertTime', defaultSortOrder: 'ascend', width: "20%",
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
-                        {timeClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                        {timeClicked ? <ActiveSort height='30px' width='30px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                 </span>,
                 render: (text: any, record: any, index: any) => <TimeRenderer text={text} record={record} index={index} />,
             },
             {
                 dataIndex: 'openSince', key: 'openSince', width: "15%",
                 title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
-                        {openSinceClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                        {openSinceClicked ? <ActiveSort height='30px' width='30px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                 </span>,
                 render: (text: any, record: any, index: any) => <OpenSinceRenderer text={text} record={record} index={index} />,
             },
             {
                 dataIndex: 'Severity', key: 'Severity',
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
-                        {severityClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                        {severityClicked ? <ActiveSort height='30px' width='30px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                 </span>,
                 render: (text: any, record: any, index: any) => <SeverityRenderer text={text} record={record} index={index} />,
             },
@@ -329,7 +330,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div className={'spacer'}></div>
                     <span className={'nav-button'}>
-                        <pre> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+                        <pre className="pages-available"> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
                         {this.state.pageSize * this.state.current > this.state.total
                                 ? this.state.total : this.state.pageSize * this.state.current}
                           &nbsp;of {this.state.total}</pre>

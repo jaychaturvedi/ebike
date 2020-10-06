@@ -1,0 +1,23 @@
+.connectm-AlertDetailGraph {
+    @media screen and (min-width: 1600px) {
+        width: calc(99% - 370px) !important;
+    }
+    .connectm-header {
+        .graph-header-text {
+            color: #ffffff;
+            font-size: 15px;
+            @media screen and (min-width: 1600px) {
+                font-size: 24px !important;
+            }
+        }
+    }
+    .recharts-legend-item .recharts-legend-item-text {
+        @media screen and (min-width: 1600px) {
+            font-size: 12px !important;
+        }
+    }
+    .recharts-text.recharts-label {
+        font-size: 11px !important;
+        font-weight: 700;
+    }
+}

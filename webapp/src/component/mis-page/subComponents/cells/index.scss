@@ -1,0 +1,25 @@
+@import "../../../../global.scss";
+@import "~antd/dist/antd.css";
+.voltage-cell-text-wrapper {
+    font-size: 12px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    .voltage-cell-wrapper {
+        width: 54px;
+        height: 30px;
+        position: relative;
+        background: no-repeat;
+        color: black;
+        .cell-number-normal {
+            position: absolute;
+            top: 6px;
+            left: 18px;
+        }
+        .cell-number {
+            position: absolute;
+            top: 6px;
+            left: 18px;
+        }
+    }
+}
