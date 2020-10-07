@@ -167,6 +167,10 @@ const styles = StyleSheet.create({
   header: {
     height: moderateScale(100),
     justifyContent: 'center',
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   profileInfo: {
     marginVertical: verticalScale(8),
@@ -177,6 +181,11 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(15),
     backgroundColor: 'white',
     padding: moderateScale(15),
+    marginBottom: moderateScale(20),
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   info: {
     height: moderateScale(100),
@@ -185,6 +194,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: moderateScale(200),
+    marginBottom: moderateScale(20),
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   textArea: {
     borderRadius: moderateScale(15),

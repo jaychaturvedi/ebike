@@ -160,6 +160,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   metrics: {
     flex: 1,

@@ -45,7 +45,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         margin: moderateScale(10),
         borderRadius: moderateScale(10),
-        padding: moderateScale(20)
+        padding: moderateScale(20),
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        shadowColor: 'black',
+        shadowOffset: {height: 4, width: 2},    
     },
     title: {
         width: '100%',

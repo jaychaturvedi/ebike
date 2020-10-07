@@ -48,7 +48,11 @@ const styles = StyleSheet.create({
         padding: moderateScale(10),
         borderRadius: scale(10),
         backgroundColor: '#FFFFFF',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        shadowColor: 'black',
+        shadowOffset: {height: 4, width: 2},    
     },
     icon: {
         width: moderateScale(20)

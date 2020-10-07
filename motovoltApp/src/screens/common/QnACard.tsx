@@ -21,7 +21,11 @@ const styles = StyleSheet.create({
     borderRadius: scale(8),
     padding: scale(16),
     marginHorizontal: moderateScale(15),
-    marginTop: moderateScale(15)
+    marginTop: moderateScale(15),
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   header: {
     width: '100%',
