@@ -8,7 +8,7 @@ import {ThemeContext} from '../../../styles/theme/theme-context';
 
 const styles = StyleSheet.create({
   tile: {
-    width: "32%",
+    width: '32%',
     // width: scale(100),
     height: 100,
     borderRadius: 10,
@@ -17,11 +17,6 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     paddingLeft: 18,
-    // 0px 2px 4px rgba(0, 0, 0, 0.25);
-    shadowOpacity: 0.25,
-    shadowRadius: 1,
-    shadowColor: 'black',
-    shadowOffset: {height: 4, width: 2},
   },
   heading: {
     display: 'flex',
@@ -48,6 +43,7 @@ const styles = StyleSheet.create({
 type MetricTypeProps = {
   value: string;
   unit: string;
+  hideShadow?: boolean;
   descriptionLine1: string;
   descriptionLine2: string;
 };
@@ -63,6 +59,14 @@ export default class MetricTile extends React.PureComponent<
       <View
         style={{
           ...styles.tile,
+          ...(this.props.hideShadow
+            ? {}
+            : {
+                shadowOpacity: 0.25,
+                shadowRadius: 1,
+                shadowColor: 'black',
+                shadowOffset: {height: 4, width: 2},
+              }),
           backgroundColor: Theme.BACKGROUND_LIGHT, //change dark theme
         }}>
         <View style={styles.body}>

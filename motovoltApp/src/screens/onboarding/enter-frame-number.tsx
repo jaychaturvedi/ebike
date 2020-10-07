@@ -92,7 +92,10 @@ class InputFrameNumber extends React.PureComponent<
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-        <CTAHeader />
+        <CTAHeader 
+        hasBackButton
+        onBackClick={() => this.props.navigation.replace("ValidateFrame", {})}
+        />
         <View style={styles.body}>
           <Text style={styles.title}>Validate Frame Number</Text>
           <Input

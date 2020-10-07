@@ -147,12 +147,13 @@ class RideOn extends React.PureComponent<Props, State> {
       <View style={{ ...styles.container }}>
         <Header
           backgroundColor={Theme.WHITE} //change dark theme
-          title={`Bike ${this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}`}
+          title={`${LanguageSelector.t("home.bike")} ${this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}`}
           hasTabs
         />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
+              hideShadow
               batteryCharge={Math.round(Number(this.props.bike.batteryChargePer)).toString()}
               rangeAvailable={Math.round(Number(this.props.bike.rangeAvailableKm)).toString()}
               rangeCovered={Math.round(Number(this.props.bike.rangeCoveredKm)).toString()}

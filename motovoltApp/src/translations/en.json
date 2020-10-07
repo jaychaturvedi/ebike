@@ -1,4 +1,5 @@
 {
+    "A": "A",
     "language": "English",
     "intro": {
         "intro_1": "Let's Go Eectric",
@@ -6,7 +7,8 @@
         "intro_3": "Remotely control and locate your cycle",
         "intro_4": "Analyse cycle statistics on your phone",
         "intro_5": "Gain Green Miles and earn exciting gifts!",
-        "login": "Already have an account? Login",
+        "alreadyHaveAccount": "Already have an account?",
+        "login": "Login",
         "register": "REGISTER"
     },
     "login": {
@@ -24,12 +26,13 @@
         "verify": "Verify",
         "createNewPassword": "Create New Password",
         "enterNewPassword": "Enter New Password",
-        "subTitle": "Password must be alphanumeric with min 5 characters, 1 upper case and a special character.",
+        "subTitle": "Password must be alphanumeric with min 8 characters, 1 upper case, 1 lower case and a special character.",
         "reEnterPassword": "Re-enter Password",
         "passwordMismatch": "Password Mismatch",
-        "save&continue": "Save & Continue",
+        "saveNcontinue": "Save & Continue",
         "passwordCreatedSuccessfully": "New password successfully created",
-        "proceed": "Proceed"
+        "proceed": "Proceed",
+        "passwordChanged": "Password Changed"
     },
     "registration": {
         "validateMobileNumber": "Validate Your Mobile No",
@@ -54,10 +57,14 @@
         "scanQrTitle": "Scan QR Code for to Register",
         "scanQrSubTitle": "Point your camera at the QR Code",
         "bikeRegisteredSuccessfully": "Bike Registered Successfully",
-        "bikeRegisteredTitle": "Welcome to the MotoVolt family! Happy e-cycling to you...",
+        "bikeRegisteredTitle": "Welcome to the MotoVolt family",
+        "happyECycling": "Happy e-cycling to you...",
+        "bikeNamePlaceholder": "This name will be displayed on the screen",
         "bikeRegisteredSubTitle": "Give a custom name for your bike",
         "customBikeNamePlaceholder": "Enter name here",
         "continue": "CONTINUE",
+        "optional": "Optional",
+        "matchFound": "match found",
         "enterYourDetails": "Please enter your details",
         "fullNamePlaceholder": "Full Name",
         "emailPlaceholder": "Email",
@@ -80,6 +87,7 @@
         "on": "ON",
         "off": "OFF",
         "hello": "Hello",
+        "bike": "Bike",
         "battery": "Battery",
         "charge": "Charge",
         "range": "Range",
@@ -123,9 +131,9 @@
     "feedback": {
         "whatWentWrong": "What went wrong?",
         "batteryIssue": "Battery issue",
-        "lowPickUp": "Low Pick up",
-        "breakFailure": "Break failure",
-        "other": "other",
+        "lowPickUp": "Low Pick Up",
+        "breakFailure": "Break Failure",
+        "other": "Other",
         "placeholder": "Please describe your concern",
         "submit": "SUBMIT",
         "thankYou": "Thank you!",
@@ -146,7 +154,8 @@
         "co2eSavings": "CO2e Savings",
         "avgDistance": "Avg. Distance",
         "yourRides": "YOUR RIDES",
-        "mode": "Mode"
+        "mode": "Mode",
+        "noHistoryDataFound": "No history data found"
     },
     "myBike": {
         "myCycle": "My Cycle",
@@ -219,7 +228,7 @@
         "model": "Model",
         "vehicleId": "Vehicle ID",
         "comments": "Comments",
-        "commentsPlaceholder": "Please describe your concern",
+        "commentsPlaceholder": "Please describe your concern ... ",
         "submit": "SUBMIT",
         "cycleId": "Cycle ID",
         "serviceId": "Service ID",
@@ -237,6 +246,7 @@
         "cycleUnavailable": "Cycle Unavailable",
         "cycleUnavailableTitle": "Please remove this bike from your app by clicking on the button below.",
         "cycleUnavailableSubTitle": "For further assistance please contact customer support",
+        "customerSupport": "customer support",
         "removeThisBike": "Remove This Bike",
         "continue": "CONTINUE",
         "success": "Success!",

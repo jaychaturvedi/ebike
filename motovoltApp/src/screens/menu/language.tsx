@@ -1,70 +1,81 @@
 import React from 'react';
-import { View, StyleSheet, Button, Text } from 'react-native';
+import {View, StyleSheet, Button, Text, TouchableOpacity} from 'react-native';
 import Header from '../home/components/header/index';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { MenuStackParamList } from '../../navigation/menu';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MenuStackParamList} from '../../navigation/menu';
 import LanguageSelector from '../../translations';
 
 type MoreMenuNavigationProp = StackNavigationProp<
-    MenuStackParamList,
-    'Language'
+  MenuStackParamList,
+  'Language'
 >;
 
 type Props = {
-    navigation: MoreMenuNavigationProp;
-    route: RouteProp<MenuStackParamList, 'Language'>;
-}
+  navigation: MoreMenuNavigationProp;
+  route: RouteProp<MenuStackParamList, 'Language'>;
+};
 
-export default class SelectLanguage extends React.PureComponent<Props, { language: string }>{
+export default class SelectLanguage extends React.PureComponent<Props, {}> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {};
+  }
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            language: 'en'
-        }
-    }
+  changeLanguage(language: string) {
+    LanguageSelector.locale = language;
+    this.props.navigation.replace('MenuScreen', {});
+  }
 
-    changeLanguage(language: string) {
-        LanguageSelector.locale = language;
-        this.setState({ language: language });
-    }
-
-    render() {
-        return (
-            <View style={{ height: '100%', width: '100%' }}>
-                <Header title="More" backgroundColor={Colors.HEADER_YELLOW}
-                    hasBackButton onBackClick={() => this.props.navigation.replace('MenuScreen', {})}
-                />
-                <View style={styles.container}>
-                    <Button
-                        onPress={() => this.changeLanguage('en')}
-                        title="English"
-                        color="#841584"
-                        accessibilityLabel="English"
-                    />
-                    <Button
-                        onPress={() => this.changeLanguage('bn-IN')}
-                        title="Bengali"
-                        color="#841584"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
-                    <Text>
-                        {
-                            LanguageSelector.t("language")
-                        }
-                    </Text>
-                </View>
-            </View>
-        )
-    }
+  render() {
+    return (
+      <View style={{height: '100%', width: '100%'}}>
+        <Header
+          title="Language"
+          backgroundColor={Colors.HEADER_YELLOW}
+          hasBackButton
+          onBackClick={() => this.props.navigation.replace('MenuScreen', {})}
+        />
+        <View style={styles.container}>
+          <View
+            style={{
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              onPress={() => this.changeLanguage('en')}
+              style={styles.tile}>
+              <Text style={{fontSize: 64}}>{'A'}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.changeLanguage('bn-IN')}
+              style={styles.tile}>
+              <Text style={{fontSize: 64}}>{'ক'}</Text>
+            </TouchableOpacity>
+            <View style={{width: '33%'}}></View>
+          </View>
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        flex: 1,
-        alignItems: 'center'
-    }
-})
+  container: {
+    padding: 20,
+    flex: 1,
+  },
+  tile: {
+    width: '31%',
+    height: 100,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},
+  },
+});

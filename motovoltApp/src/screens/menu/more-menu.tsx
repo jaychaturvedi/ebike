@@ -45,6 +45,7 @@ type State = {
   feature: {
     feature: string;
     icon: any;
+    badge?: React.ReactNode;
     onPress: () => void;
     premium: boolean;
   }[];
@@ -95,6 +96,14 @@ class MoreMenu extends React.PureComponent<Props, State> {
           feature: LanguageSelector.t('morePremium.language'),
           icon: require('../../assets/icons/languages_icon.png'),
           onPress: () => console.log('Feature pressed'),
+          badge: (
+            <Text
+              style={{
+                fontSize: 18,
+              }}>
+              {LanguageSelector.t("A")}
+            </Text>
+          ),
           premium: false,
         },
         {
@@ -210,6 +219,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
                 <Feature
                   feature={feature.feature}
                   icon={feature.icon}
+                  badge={feature.badge}
                   onPress={() => {
                     switch (feature.feature) {
                       case LanguageSelector.t('morePremium.support'):
