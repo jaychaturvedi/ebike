@@ -76,7 +76,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
     DynamicLabel = (props: any) => {
         return (
             <text
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "12px", fontWeight: 700 }}
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
@@ -118,7 +118,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>{this.props.title}</Typography.Text>
+                    <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
@@ -135,13 +135,13 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                                     offset={-22}
                                     style={{ padding: 5 }}
                                     content={props => { return this.DynamicLabel(props) }}
-                                />
+                                    className="rechars-xaxis-label" />
                             </XAxis>
                             <YAxis tick={{ fill: 'white' }} yAxisId="left" stroke='#ffffff' dataKey={this.state.line1Key as string}>
                                 <Label angle={270} position='left' offset={-30} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value={this.state.yAxisLabel}>
+                                    }} value={this.state.yAxisLabel} className="recharts-yaxis-label">
                                 </Label>
                             </YAxis>
                             <YAxis tick={{ fill: 'white' }} yAxisId="right" stroke='#ffffff' orientation="right"
@@ -149,7 +149,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                                 <Label angle={270} position='right' offset={-30} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value={this.state.rightYaxisLabel}>
+                                    }} value={this.state.rightYaxisLabel} className="recharts-yaxis-label">
                                 </Label>
                             </YAxis>
                             <Brush dataKey={this.state.dataKey} fill="#131731" height={12} stroke="#3C4473" startIndex={0} endIndex={0} />

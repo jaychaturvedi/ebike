@@ -5,6 +5,7 @@ import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
 import { Store_GetAlertTrends, Store_UpdateALertTrends } from "../saga/trends";
 import { Store_AlertGraph } from "../saga/graph";
+import { Store_UserUpdate } from "../saga/user";
 import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert, Store_UpdateSingleAlert } from "../saga/alert-detail";
 type ActionParams = IUsersAction
     | Store_AlertUpdate
@@ -17,6 +18,7 @@ type ActionParams = IUsersAction
     | Store_UpdateALertTrends
     | Store_AlertGraph
     | Store_UpdateSingleAlert
+    | Store_UserUpdate
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -160,6 +162,12 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                         [actionParams.payload.alertId]: actionParams.payload.alertData
                     }
                 }
+            }
+        }
+        case "STORE_USER_UPDATE": {
+            return {
+                ...state,
+                user: actionParams.payload
             }
         }
         default: {

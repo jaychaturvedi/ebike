@@ -8,17 +8,18 @@
     align-items: center;
     margin-top: 15px;
     button {
+        height: 40px;
         border-bottom: 1px solid #ffffff;
     }
     .place {
         color: #ffffff !important;
     }
     .sub-header-left {
-        width: 72%;
+        width: 74%;
         display: flex;
         padding-left: 24px;
         .connectM-button-active {
-            border-bottom: 2px solid $ACTIVE !important;
+            border-bottom: 4px solid $ACTIVE !important;
         }
     }
     .sub-header-right {
@@ -26,12 +27,14 @@
         padding-left: 1%;
     }
 }
-
+.anticon.anticon-down.flip {
+    font-size: 16px;
+}
 .connectM-dropDown {
     color: #ffffff;
     width: 22%;
     min-height: 32px;
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -59,7 +62,7 @@
 
 .connectM-dropdown-active {
     color: $ACTIVE !important;
-    border-bottom: 2px solid $ACTIVE !important;
+    border-bottom: 4px solid $ACTIVE !important;
     .dropdown-svg-fill-active > g > g > g > path {
         fill: $ACTIVE !important;
     }
@@ -111,8 +114,13 @@
 .search-background-color {
     background-color: $APP_BACKGROUND !important;
     color: #ffffff !important;
-    min-height: 32px;
+    min-height: 40px;
     margin-left: 0.2%;
+    margin-right: 20px; //need to recheck
+    @media screen and (min-width: 1600px) {
+        // width: 100%;
+        min-height: 40px;
+    }
     input {
         background-color: $APP_BACKGROUND !important;
         color: #ffffff !important;
@@ -121,14 +129,14 @@
     .ant-input-affix-wrapper {
         color: #ffffff !important;
         border: none !important;
-        border-bottom: 1px solid #ffffff !important;
+        border-bottom: 2px solid #ffffff !important;
     }
     .ant-input-affix-wrapper-focused {
         color: #ffffff !important;
         border: none !important;
         border-color: $APP_BACKGROUND !important;
         outline: none !important;
-        border-bottom: 1px solid $ACTIVE !important;
+        border-bottom: 2px solid $ACTIVE !important;
         box-shadow: none !important;
         .ant-input-prefix {
             color: $ACTIVE !important;
@@ -139,8 +147,13 @@
 .search-background-color-active {
     background-color: $APP_BACKGROUND !important;
     color: #ffffff !important;
-    min-height: 32px;
+    min-height: 40px;
     margin-left: 0.2%;
+    @media screen and (min-width: 1600px) {
+        width: 100%;
+        min-height: 40px;
+        margin-right: 20px;
+    }
     input {
         background-color: $APP_BACKGROUND !important;
         color: $ACTIVE !important;
@@ -148,14 +161,14 @@
     .ant-input-affix-wrapper {
         color: #ffffff !important;
         border: none !important;
-        border-bottom: 1px solid $ACTIVE !important;
+        border-bottom: 2px solid $ACTIVE !important;
     }
     .ant-input-affix-wrapper-focused {
         color: #ffffff !important;
         border: none !important;
         border-color: $APP_BACKGROUND !important;
         outline: none !important;
-        border-bottom: 1px solid $ACTIVE !important;
+        border-bottom: 2px solid $ACTIVE !important;
         box-shadow: none !important;
         .ant-input-prefix {
             color: $ACTIVE !important;
@@ -182,6 +195,7 @@
     border-color: #ffffff !important;
     color: #ffffff !important;
     margin-left: 5px;
+    border-bottom: 1px solid white;
 }
 
 .dropdown-typography {
@@ -271,5 +285,11 @@
 .ant-picker-cell-inner {
     &:hover {
         background-color: $ROW_HOVER !important;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .connectM-dropDown {
+        min-height: 40px;
     }
 }

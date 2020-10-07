@@ -37,3 +37,10 @@ functions:
           path: /webAppForgotPassword
           method: ANY
           cors: true
+  createWebAppUser:
+    handler: src/createWebAppUser.createWebAppUser
+    events: 
+      - http: 
+          path: /createWebAppUser
+          method: POST
+          cors: true

@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { TAlertType } from '../../../connectm-client/redux/models';
 interface TabsProps extends ReduxAlertActions, ReduxAlertState {
 
- }
+}
 
 interface TabsStates {
     activeTab: TAlertType
@@ -53,13 +53,13 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
     render() {
         return (
             <div className="connectm-Tabs">
-                <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "smart" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("smart")}>
+                <Button size={"middle"} type="text" className={`tab-buttons smart ${this.state.activeTab === "smart" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("smart")}>
                     <Typography.Text style={{ whiteSpace: "nowrap" }}>Smart Alerts <span style={{ paddingLeft: "5px" }}>({this.state.smartCount})</span></Typography.Text>
                 </Button>
-                <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "bms" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("bms")}>
+                <Button size={"middle"} type="text" className={`tab-buttons bms ${this.state.activeTab === "bms" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("bms")}>
                     <Typography.Text style={{ whiteSpace: "nowrap" }}>BMS Alerts <span style={{ paddingLeft: "5px" }}>({this.state.bmsCount})</span></Typography.Text>
                 </Button>
-                <Button size={"middle"} type="text" className={`tab-buttons ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("mc")}>
+                <Button size={"middle"} type="text" className={`tab-buttons mc ${this.state.activeTab === "mc" ? 'tab-active' : ''}`} onClick={() => this.tabClicked("mc")}>
                     <Typography.Text style={{ whiteSpace: "nowrap" }}>Motor Controller Alerts <span style={{ paddingLeft: "5px" }}>({this.state.mcCount})</span></Typography.Text>
                 </Button>
             </div>

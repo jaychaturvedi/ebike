@@ -87,7 +87,7 @@ class Home extends React.PureComponent<Props, State> {
             />
           }
         >
-          <View style={{ marginVertical: verticalScale(20) }}>
+          <View style={{ marginVertical: verticalScale(20), paddingHorizontal: scale(20) }}>
             <Metrics
               batteryCharge={this.props.bike.batteryChargePer.toString()}
               rangeAvailable={this.props.bike.rangeAvailableKm.toString()}
@@ -116,7 +116,7 @@ class Home extends React.PureComponent<Props, State> {
                 width: '30%',
                 flexDirection: 'column',
                 alignItems: 'flex-end',
-                padding: 10,
+                padding: 15,
               }}>
               <Text
                 style={{ fontSize: 20, fontWeight: 'bold' }}
