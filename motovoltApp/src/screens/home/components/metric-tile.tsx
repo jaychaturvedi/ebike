@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     paddingLeft: 18,
     // 0px 2px 4px rgba(0, 0, 0, 0.25);
     shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowRadius: 1,
     shadowColor: 'black',
     shadowOffset: {height: 4, width: 2},
   },
