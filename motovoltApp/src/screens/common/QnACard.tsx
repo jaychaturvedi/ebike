@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     marginHorizontal: moderateScale(15),
     marginTop: moderateScale(15),
     shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowRadius: 1,
     shadowColor: 'black',
     shadowOffset: {height: 4, width: 2},    
   },

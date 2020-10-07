@@ -202,7 +202,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
                   width: '33.3%',
                   alignItems: 'center',
                   shadowOpacity: 0.25,
-                  shadowRadius: 4,
+                  shadowRadius: 1,
                   shadowColor: 'black',
                   shadowOffset: {height: 4, width: 2},
                 }}
