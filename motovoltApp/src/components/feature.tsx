@@ -1,28 +1,36 @@
-import React from 'react'
-import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native'
-import { moderateScale, scale } from 'react-native-size-matters'
-import { ThemeContext } from '../styles/theme/theme-context';
+import React from 'react';
+import {View, StyleSheet, TouchableOpacity, Image, Text} from 'react-native';
+import {moderateScale, scale} from 'react-native-size-matters';
+import {ThemeContext} from '../styles/theme/theme-context';
 
 type Props = {
-    icon: any,
-    feature: string,
-    premium: boolean,
-    onPress: () => void
-}
+  icon: any;
+  feature: string;
+  premium: boolean;
+  badge?: React.ReactNode;
+  onPress: () => void;
+};
 
-
-type State = {}
+type State = {};
 
 export default class Feature extends React.PureComponent<Props, State>{
     render() {
-        let Theme = this.context.theme; //load theme 
+    let Theme = this.context.theme; //load theme
         return (
             <TouchableOpacity style={{
                 ...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT //change dark theme
             }}
                 onPress={this.props.onPress}
             >
-                <View style={styles.premium}>
+        <View
+          style={{
+            position: 'absolute',
+            top: 4,
+            right: 8,
+          }}>
+          {this.props.badge}
+        </View>
+        <View style={styles.premium}>
                     {
                         this.props.premium ? <Image source={require("../assets/icons/premium_icon.png")} /> : null
                     }
@@ -47,6 +55,7 @@ const styles = StyleSheet.create({
         borderRadius: moderateScale(10),
         backgroundColor: 'white',
         marginBottom: moderateScale(20),
+        position: 'relative',
     },
     premium: {
         height: moderateScale(20),
