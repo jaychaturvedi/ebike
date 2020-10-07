@@ -6,8 +6,6 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {MenuStackParamList} from '../../navigation/menu';
 import LanguageSelector from '../../translations';
-import Bengali from '../../translations/bn.json';
-import English from '../../translations/en.json';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -48,12 +46,12 @@ export default class SelectLanguage extends React.PureComponent<Props, {}> {
             <TouchableOpacity
               onPress={() => this.changeLanguage('en')}
               style={styles.tile}>
-              <Text style={{fontSize: 64}}>{English.A}</Text>
+              <Text style={{fontSize: 64}}>{'A'}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.changeLanguage('bn-IN')}
               style={styles.tile}>
-              <Text style={{fontSize: 64}}>{Bengali.A}</Text>
+              <Text style={{fontSize: 64}}>{'ক'}</Text>
             </TouchableOpacity>
             <View style={{width: '33%'}}></View>
           </View>

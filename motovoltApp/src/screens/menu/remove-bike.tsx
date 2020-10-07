@@ -6,6 +6,7 @@ import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import FontWeight from '../../styles/font-weight';
 import Background from '../../components/background'
+import LanguageSelector from '../../translations';
 
 type Props = {
   onBackClick?: () => void;
@@ -90,24 +91,24 @@ export default function RegisterBike(props: Props) {
               source={require('../../assets/icons/warning_red_icon.png')}
               style={styles.cardWarning}
             />
-            <Text style={styles.cardTitle}>{'   '}Cycle Unavailable</Text>
+        <Text style={styles.cardTitle}>{'   '}{LanguageSelector.t("cycleUnavailable.cycleUnavailable")}</Text>
           </View>
           <Text style={styles.cardBody}>
-            Please remove this bike from your app by clicking on the button
-            below.
+            {LanguageSelector.t("cycleUnavailable.cycleUnavailableTitle")}
           </Text>
           <Text>
             <Text style={styles.cardSubtitle}>
-              For further assistance, please contact{' '}
+              {LanguageSelector.t("cycleUnavailable.cycleUnavailableSubTitle")}
+              {/* For further assistance, please contact{' '} */}
             </Text>
-            <Text style={styles.link}>customer support</Text>
+            <Text style={styles.link}>{LanguageSelector.t("cycleUnavailable.customerSupport")}</Text>
           </Text>
         </View>
       </View>
       <View style={styles.bottomContainer}>
         <CTAButton
           onPress={props.onContinue}
-          text={'Remove This Bike'}
+          text={LanguageSelector.t("cycleUnavailable.removeThisBike")}
           textColor={Colors.WHITE}
           backgroundColor={Colors.NAVY_BLUE}
         />

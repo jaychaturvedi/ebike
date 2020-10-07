@@ -55,8 +55,8 @@ class RateRide extends React.PureComponent<Props, State> {
     if (this.state.showThumpUp) {
       return (
         <ThumbsUp
-          msg={'Thank you!'}
-          subMsg={'We really appreciate your feedback.'}
+          msg={LanguageSelector.t("feedback.thankYou")}
+          subMsg={LanguageSelector.t("feedback.confirmationSubTitle")}
         />
       );
     }
