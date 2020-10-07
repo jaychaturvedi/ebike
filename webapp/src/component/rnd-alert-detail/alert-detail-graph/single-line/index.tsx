@@ -70,8 +70,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
-                fill="#ffffff"
-                fontFamily='Roboto'>
+                fill="#ffffff">
                 {props.value}
             </text>
         );
@@ -121,7 +120,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                     isFront={true} >
                                     <Label position={'insideBottomLeft'} fill="#ffffff"
                                         style={{
-                                            fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                            fontSize: '8px', textAnchor: 'center'
                                         }} value="L1">
                                     </Label>
                                 </ReferenceLine> : <ReferenceLine />
@@ -142,7 +141,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 padding={{ top: 20, bottom: 20 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle',
                                     }} value={this.state.yAxisLabel} className="recharts-yaxis-label">
                                 </Label>
                             </YAxis>

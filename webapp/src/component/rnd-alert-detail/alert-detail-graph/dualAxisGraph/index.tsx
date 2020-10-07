@@ -80,8 +80,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
-                fill="#ffffff"
-                fontFamily='Roboto'>
+                fill="#ffffff">
                 {props.value}
             </text>
         );
@@ -140,7 +139,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                             <YAxis tick={{ fill: 'white' }} yAxisId="left" stroke='#ffffff' dataKey={this.state.line1Key as string}>
                                 <Label angle={270} position='left' offset={-30} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle'
                                     }} value={this.state.yAxisLabel} className="recharts-yaxis-label">
                                 </Label>
                             </YAxis>
@@ -148,7 +147,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                                 dataKey={this.state.line2Key as string} >
                                 <Label angle={270} position='right' offset={-30} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle'
                                     }} value={this.state.rightYaxisLabel} className="recharts-yaxis-label">
                                 </Label>
                             </YAxis>
@@ -158,7 +157,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                                     isFront={true} >
                                     <Label position={'insideBottomLeft'} fill="#ffffff"
                                         style={{
-                                            fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                            fontSize: '8px', textAnchor: 'center'
                                         }} value="L1">
                                     </Label>
                                 </ReferenceLine> : ''

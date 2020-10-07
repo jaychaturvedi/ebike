@@ -162,7 +162,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     isFront={true} >
                                     <Label position={'right'} fill="#ffffff"
                                         style={{
-                                            fontSize: '7px', fontFamily: 'Roboto', paddingRight: '-50px'
+                                            fontSize: '7px', paddingRight: '-50px'
                                         }} value={this.props.maxL2 + " Max"}>
                                     </Label>
                                 </ReferenceLine>
@@ -170,7 +170,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     isFront={true} >
                                     <Label position={'right'} fill="#ffffff"
                                         style={{
-                                            fontSize: '7px', fontFamily: 'Roboto', paddingRight: '-50px'
+                                            fontSize: '7px', paddingRight: '-50px'
                                         }} value={this.props.minL1 + " Min"}>
                                     </Label>
                                 </ReferenceLine>
@@ -219,7 +219,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     isFront={true} >
                                     <Label position={'right'} fill="#ffffff"
                                         style={{
-                                            fontSize: '7px', fontFamily: 'Roboto', paddingRight: '-50px'
+                                            fontSize: '7px', paddingRight: '-50px'
                                         }} value={this.props.maxL2 + " Max"}>
                                     </Label>
                                 </ReferenceLine>
@@ -227,7 +227,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                                     isFront={true} >
                                     <Label position={'right'} fill="#ffffff"
                                         style={{
-                                            fontSize: '7px', fontFamily: 'Roboto', paddingRight: '-50px'
+                                            fontSize: '7px', paddingRight: '-50px'
                                         }} value={this.props.minL1 + " Min"}>
                                     </Label>
                                 </ReferenceLine>

@@ -76,8 +76,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
-                fill="#ffffff"
-                fontFamily='Roboto'>
+                fill="#ffffff">
                 {props.value}
             </text>
         );
@@ -127,7 +126,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     isFront={true} >
                                     <Label position={'insideBottomLeft'} fill="#ffffff"
                                         style={{
-                                            fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                            fontSize: '8px', textAnchor: 'center'
                                         }} value="L1">
                                     </Label>
                                 </ReferenceLine>
@@ -136,7 +135,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
-                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                        fontSize: '8px', textAnchor: 'center'
                                     }} value="L2">
                                 </Label>
                             </ReferenceLine> : <ReferenceLine />}
@@ -158,7 +157,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle'
                                     }} value={this.state.yAxisLabel}>
                                 </Label>
                             </YAxis>

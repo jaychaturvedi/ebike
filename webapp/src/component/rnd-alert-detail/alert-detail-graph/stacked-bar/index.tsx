@@ -62,8 +62,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 text-anchor="middle"
-                fill="#ffffff"
-                fontFamily='Roboto'>
+                fill="#ffffff">
                 {props.value}
             </text>
         );
@@ -131,7 +130,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 padding={{ top: 0, bottom: 1 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle'
                                     }} value={this.state.yAxisLabel}>
                                 </Label>
                             </YAxis>
