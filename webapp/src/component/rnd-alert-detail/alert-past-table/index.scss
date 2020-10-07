@@ -29,6 +29,11 @@
             }
         }
 
+        .icon.inactive svg {
+            // border: 1px solid white;
+            fill: #818181;
+        }
+
         .select-button {
             border-radius: 3px;
             overflow: hidden;

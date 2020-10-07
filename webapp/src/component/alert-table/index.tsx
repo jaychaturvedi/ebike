@@ -1,12 +1,13 @@
 import './index.scss';
 import React from 'react';
-import { DownOutlined } from '@ant-design/icons';
+import { DoubleLeftOutlined, DoubleRightOutlined, DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
 import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
-import { Table, Select, ConfigProvider, Empty } from 'antd';
+import GifLoader from '../../assets/gif/ImpoliteLivelyGenet-small.gif'
+import { Table, Select } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
 import TimeRenderer from "./time-renderer"
@@ -298,25 +299,25 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         return <>
             <div className="container" >
                 <div className={'table-body'}>
-                    <ConfigProvider renderEmpty={() => <Empty description="No Data"
-                        image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
-                        <Table
-                            tableLayout={"fixed"}
-                            // size={"middle"}
-                            // scroll={{ y: '56vh' }}
-                            // scroll={{ y: 400,x:'max-content' }}
-                            bordered={false}
-                            className="ant-table-thead"
-                            showSorterTooltip={false}
-                            rowKey={record => record.alertId}
-                            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                            columns={columns}
-                            dataSource={this.state.data}
-                            pagination={false}
-                            loading={false}
-                            onRow={this.onRow}
-                        />
-                    </ConfigProvider>
+                    <Table
+                        tableLayout={"fixed"}
+                        // size={"middle"}
+                        // scroll={{ y: '56vh' }}
+                        // scroll={{ y: 400,x:'max-content' }}
+                        bordered={false}
+                        className="ant-table-thead"
+                        showSorterTooltip={false}
+                        rowKey={record => record.alertId}
+                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
+                        columns={columns}
+                        dataSource={this.state.data}
+                        pagination={false}
+                        loading={{
+                            spinning: !this.state.data.length,
+                            indicator: <div className="loader-gif"><img src={GifLoader} alt="loading..." /></div>,
+                        }}
+                        onRow={this.onRow}
+                    />
                 </div>
                 <div className={"pagination-footer"}>
                     Showing &nbsp;&nbsp;&nbsp; <span >
@@ -329,23 +330,25 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div className={'spacer'}></div>
                     <span className={'nav-button'}>
-                        <pre className="pages-available"> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+                        <pre className="pages-available">
+                            {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
                         {this.state.pageSize * this.state.current > this.state.total
                                 ? this.state.total : this.state.pageSize * this.state.current}
                           &nbsp;of {this.state.total}</pre>
                     </span>
                     <div className={'spacer'}></div>
                     <span onClick={(e) => { this.handleNav("first", e) }} className={'nav-button'} >
-                        <FirstPage style={{ border: '1px solid #818181' }} className='icon' />
+                        <DoubleLeftOutlined className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} />
+                        {/* <FirstPage style={{}} className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} /> */}
                     </span>
                     <span onClick={(e) => { this.handleNav("prev", e) }} className={'nav-button'}>
-                        <PrevPage style={{ border: '1px solid #818181' }} className='icon' />
+                        <LeftOutlined className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} />
                     </span>
                     <span onClick={(e) => { this.handleNav("next", e) }} className={'nav-button'}>
-                        <NextPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                        <RightOutlined className={`icon ${this.state.current * this.state.pageSize >= this.state.total ? "inactive" : "active"}`} />
                     </span>
                     <span onClick={(e) => { this.handleNav("last", e) }} className={'nav-button'}>
-                        <LastPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                        <DoubleRightOutlined className={`icon ${this.state.current * this.state.pageSize >= this.state.total ? "inactive" : "active"}`} />
                     </span>
                 </div>
             </div>
