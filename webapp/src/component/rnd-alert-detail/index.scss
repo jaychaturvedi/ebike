@@ -16,6 +16,11 @@
 .connectm-breadcrum {
     min-height: 40px;
     line-height: 40px;
+    .back-arrow-button {
+        margin-left: 8px;
+        height: 24px;
+        width: 24px;
+    }
     @media screen and (min-width: 1600px) {
         font-size: 18px;
     }
@@ -80,6 +85,7 @@
                 height: 62px;
                 display: flex;
                 align-items: center;
+                padding-top: 24px;
                 @media screen and (min-width: 1600px) {
                     .additional-insights-text {
                         font-size: 18px;

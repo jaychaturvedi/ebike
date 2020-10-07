@@ -100,8 +100,8 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                 <div className={"connectm-header"}>
                     <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
-                    <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
+                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} className="alert-graph-container">
+                    <ResponsiveContainer className="top-graph-container" width="95%" height="95%">
                         <BarChart
                             data={this.state.data}
                             margin={{

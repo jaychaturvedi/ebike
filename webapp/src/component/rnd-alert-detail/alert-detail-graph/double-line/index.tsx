@@ -115,7 +115,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                     <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
+                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} className="alert-graph-container">
                     <ResponsiveContainer width="95%" height="95%">
                         <LineChart data={this.state.data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                             <Tooltip content={this.CustomTooltip} cursor={{ fill: "transparent", top: 0, }} />

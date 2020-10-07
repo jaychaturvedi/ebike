@@ -106,7 +106,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                     <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
+                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} className="alert-graph-container">
                     <ResponsiveContainer width="95%" height="95%">
                         <LineChart
                             data={this.props.data}
