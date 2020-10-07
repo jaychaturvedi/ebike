@@ -153,6 +153,7 @@ class RideOn extends React.PureComponent<Props, State> {
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
+              hideShadow
               batteryCharge={Math.round(Number(this.props.bike.batteryChargePer)).toString()}
               rangeAvailable={Math.round(Number(this.props.bike.rangeAvailableKm)).toString()}
               rangeCovered={Math.round(Number(this.props.bike.rangeCoveredKm)).toString()}
