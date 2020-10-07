@@ -7,9 +7,11 @@ export interface TFaq {
     name: string,
     icon: string,
     faq: {
+        id: number,
         Question: string,
         Answer: string
-    }[]
+    }[],
+    active: boolean
 }
 
 
@@ -29,7 +31,7 @@ let Faq: TFaqModel<TFaq & Model> = <TFaqModel<TFaq & Model>>db.define('faq',
         },
         name: {
             type: Sequelize.STRING,
-            allowNull: true,
+            allowNull: false
         },
         icon: {
             type: Sequelize.STRING,
@@ -38,6 +40,11 @@ let Faq: TFaqModel<TFaq & Model> = <TFaqModel<TFaq & Model>>db.define('faq',
         faq: {
             type: Sequelize.ARRAY(Sequelize.JSON),
             allowNull: false,
+        },
+        active: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
         }
     },
     {
