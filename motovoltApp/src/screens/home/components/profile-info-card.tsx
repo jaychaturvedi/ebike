@@ -14,6 +14,7 @@ import {
   verticalScale,
   moderateScale,
 } from '../../../styles/size-matters';
+import { ThemeContext } from '../../../styles/theme/theme-context'
 
 const styles = StyleSheet.create({
   container: {
@@ -66,42 +67,48 @@ type Props = {
   style?: ViewStyle;
 };
 
-export default function ProfileInfo(props: Props) {
-  return (
-    <View
-      style={{
-        ...styles.container,
-        ...(props.hasLeftBorder ? styles.leftBorder : {}),
-        ...(props.style || {}),
-      }}>
-      {props.hasTitle && (
-        <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.title}>{props.title}</Text>
-            <TouchableOpacity onPress={() => console.log('Pencil pressed')}>
-              <Image
-                style={styles.title}
-                source={require('../../../assets/icons/pencil-edit-button.png')}
-              />
-            </TouchableOpacity>
+export default class ProfileInfo extends React.PureComponent<Props, {}> {
+  render() {
+    let Theme = this.context.theme; //load theme 
+    return (
+      <View
+        style={{
+          ...styles.container,
+          ...(this.props.hasLeftBorder ? styles.leftBorder : {}),
+          ...(this.props.style || {}),
+          backgroundColor: Theme.BACKGROUND_LIGHT
+        }}>
+        {this.props.hasTitle && (
+          <View style={{ justifyContent: 'space-between', flexDirection: 'row', }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ ...styles.title, color: Theme.TEXT_WHITE }}>{this.props.title}</Text>
+              <TouchableOpacity onPress={() => console.log('Pencil pressed')}>
+                <Image
+                  style={styles.title}
+                  source={require('../../../assets/icons/pencil-edit-button.png')}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text
+              style={{
+                fontSize: moderateScale(14),
+                color: Colors.LINK_BLUE,
+              }}>
+              {' '}
+              {this.props.hasHeader ? 'Default' : null}
+            </Text>
           </View>
-          <Text
-            style={{
-              fontSize: moderateScale(14),
-              color: Colors.LINK_BLUE,
-            }}>
-            {' '}
-            {props.hasHeader ? 'Default' : null}
-          </Text>
-        </View>
-      )}
+        )}
 
-      {props.data.map((data) => (
-        <View style={styles.singleInfo}>
-          <Text style={styles.key}>{data.key}</Text>
-          <Text style={styles.value}>{data.value}</Text>
-        </View>
-      ))}
-    </View>
-  );
+        {this.props.data.map((data) => (
+          <View style={{ ...styles.singleInfo, }}>
+            <Text style={{ ...styles.key, color: Theme.TEXT_WHITE }}>{data.key}</Text>
+            <Text style={{ ...styles.value, color: Theme.TEXT_WHITE }}>{data.value}</Text>
+          </View>
+        ))}
+      </View>
+    );
+  }
 }
+
+ProfileInfo.contextType = ThemeContext

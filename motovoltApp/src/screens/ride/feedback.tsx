@@ -4,6 +4,8 @@ import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import Button from '../../components/cta-button';
 import CheckBox from '../../components/checkbox';
 import { Textarea } from 'native-base';
+import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context'
 
 type Props = {
   showFeedback: boolean;
@@ -27,18 +29,20 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme; //load theme in class
     return (
       <View style={styles.container}>
         {this.props.showFeedback && (
           <View style={styles.reviews}>
-            <View style={styles.model}>
+            <View style={{...styles.model, backgroundColor:Theme.BACKGROUND}}>
               <Text
                 style={{
                   fontWeight: 'bold',
                   fontSize: moderateScale(16),
                   paddingBottom: moderateScale(10),
+                  color: Theme.TEXT_WHITE //change dark theme
                 }}>
-                What went wrong?
+                {LanguageSelector.t("feedback.whatWentWrong")}
               </Text>
               <CheckBox
                 option1="Battery Issue"
@@ -55,7 +59,7 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
                   underline
                   rowSpan={4}
                   bordered
-                  placeholder="Please describe your concern ..."
+                  placeholder={LanguageSelector.t("feedback.placeholder")}
                   style={{
                     borderRadius: moderateScale(10),
                     backgroundColor: '#F8F8FC',
@@ -74,7 +78,7 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
           <Button
             fullWidth
             textColor={!this.props.submitDisabled ? 'white' : '#333333'}
-            text="SUBMIT"
+            text={LanguageSelector.t("rateYourRide.submit")}
             backgroundColor={!this.props.submitDisabled ? '#142F6A' : '#B7B7B7'}
             onPress={() => {
               if (!this.props.submitDisabled) {
@@ -88,6 +92,8 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
     );
   }
 }
+
+RideFeedback.contextType=ThemeContext
 
 const styles = StyleSheet.create({
   container: {

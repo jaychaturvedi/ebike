@@ -7,6 +7,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import * as serviceWorker from './serviceWorker';
 import store from './connectm-client';
 import { BrowserRouter } from "react-router-dom";
+
 require('dotenv').config()
 ReactDOM.render(
   <Provider store={store} >

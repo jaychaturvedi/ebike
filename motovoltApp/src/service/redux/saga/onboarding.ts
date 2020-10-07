@@ -4,27 +4,45 @@ import {
     put,
 } from "redux-saga/effects";
 import * as Authentication from "../../authentication";
+import * as User from "../saga/user";
 import * as AuthenticationActions from "../actions/saga/authentication-actions";
-import { Store_UpdateOnboarding, Store_UpdateUser } from "../actions/store";
+import { Store_UpdateOnboarding, Store_UpdateUser, Store_Reset, Store_UpdateError } from "../actions/store";
 
 
 //Onboarding
 export function* signIn(params: AuthenticationActions.SignIn) {
     const response = yield call(Authentication.signIn, params.payload.mobileNumber, params.payload.password)
-    // call fetch user API
-    console.log(response.user)
+    if (!response.success) {
+        yield put({
+            type: 'Store_UpdateOnboarding',
+            payload: {
+                errorMessage: response.success ? "" : response.message,
+            }
+        } as Store_UpdateOnboarding);
+        return;
+    }
+    const readUserResponse = yield call(User.getUser);
+    if (!readUserResponse.success) {
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: readUserResponse.success ? "" : readUserResponse.message,
+            }
+        } as Store_UpdateError);
+        return;
+    }
     yield put({
-        type: 'Store_UpdateUser',
+        type: "Store_UpdateUser",
         payload: {
-            isLoggedIn: response.success,
+            id: readUserResponse.response.uid,
+            email: readUserResponse.response.email,
+            name: readUserResponse.response.fullName,
+            phone: readUserResponse.response.phone,
+            defaultBikeId: readUserResponse.response.frameId,
+            isBikeRegistered: Boolean(readUserResponse.response.frameId),
+            isLoggedIn: true,
         }
-    } as Store_UpdateUser);
-    yield put({
-        type: 'Store_UpdateOnboarding',
-        payload: {
-            errorMessage: response.success ? "" : response.message,
-        }
-    } as Store_UpdateOnboarding);
+    } as Store_UpdateUser)
 }
 
 export function* signUp(params: AuthenticationActions.SignUp) {
@@ -62,11 +80,9 @@ export function* confirmSignUp(params: AuthenticationActions.ConfirmSignUp) {
 export function* signOut(params: AuthenticationActions.SignOut) {
     yield call(Authentication.signout)
     yield put({
-        type: 'Store_UpdateUser',
-        payload: {
-            isLoggedIn: false
-        }
-    } as Store_UpdateUser)
+        type: 'Store_Reset',
+        payload: {}
+    } as Store_Reset)
 }
 
 export function* initForgotPassword(params: AuthenticationActions.InitiateForgotPassword) {

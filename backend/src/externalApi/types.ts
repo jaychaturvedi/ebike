@@ -52,11 +52,11 @@ export type TCurrentRide = {
     timeelp: string; //unknown abbreviation
     avgspd: number; //average speed
     maxspd: number; //max speed
-    pa: boolean; //unknown
-    pm: boolean; //unknown
+    pa: boolean; //pedalassist
+    pm: boolean; //powermode
+    ec: boolean; //eco mode
     ign: boolean; //ignition
     st: string;
-    ec: string;
     em: string
 }
 
@@ -94,6 +94,8 @@ export type TMyBike = {
     model: string; // vehicle model
     type: string;
     servDate: string; //service date
+    purchaseDate: string;
+    warrantyValidTill: string;
     st: string;
     ec: string;
     em: string;
@@ -191,7 +193,7 @@ export type TDashboardFilter = {
     customerId?: string;
     alertType?: string;
     timeFrame?: string;
-    page?: number;
+    pageNo?: number;
     pageSize?: number;
 
 }

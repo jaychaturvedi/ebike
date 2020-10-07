@@ -2,7 +2,7 @@ import RideModel, { TRide } from "./model"
 import Bike from "../bike/model";
 import { RideError } from "../error"
 import Issues from "../service/model";
-
+import FeedbackModel from "../feedback/model";
 
 export default class Ride {
 
@@ -41,7 +41,7 @@ export default class Ride {
     }
 
     static async findAll() {
-        const rides = await RideModel.findAndCountAll({ include: [{ model: Issues }] })
+        const rides = await RideModel.findAndCountAll({ include: [{ model: FeedbackModel }] })
         if (!rides) throw new RideError("Unable to find and count");
         return rides
     }

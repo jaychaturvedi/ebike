@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 const objectid = require("react-native-bson/lib/bson/objectid");
 import { Dispatch } from 'redux';
 import { StartRide, EndRide, Speedometer } from '../../service/redux/actions/saga';
-
+import LanguageSelector from '../../translations';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { ThemeContext } from '../../styles/theme/theme-context'
 
 type ReduxState = {
   bike: TStore['bike'];
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   flexVerticalCentre: {
+    paddingHorizontal: scale(20),
     flex: 1,
     justifyContent: 'center',
   },
@@ -139,28 +142,29 @@ class RideOn extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme; //load theme in class
     return (
-      <View style={styles.container}>
+      <View style={{ ...styles.container }}>
         <Header
-          backgroundColor={Colors.WHITE}
-          title={`Bike ${this.props.bike.isOn ? 'ON' : 'OFF'}`}
+          backgroundColor={Theme.WHITE} //change dark theme
+          title={`Bike ${this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}`}
           hasTabs
         />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
-              batteryCharge={this.props.bike.batteryChargePer.toString()}
-              rangeAvailable={this.props.bike.rangeAvailableKm.toString()}
-              rangeCovered={this.props.bike.rangeCoveredKm.toString()}
+              batteryCharge={Math.round(Number(this.props.bike.batteryChargePer)).toString()}
+              rangeAvailable={Math.round(Number(this.props.bike.rangeAvailableKm)).toString()}
+              rangeCovered={Math.round(Number(this.props.bike.rangeCoveredKm)).toString()}
             />
           </View>
           <Guage
             fillDeg={(this.props.speedometer.speed * 240) / 360}
-            speed={this.props.speedometer.speed}
+            speed={Math.round(Number(this.props.speedometer.speed))}
             time={`${this.state.hour < 10 ? "0" + this.state.hour : this.state.hour}:` +
               `${this.state.minutes < 10 ? "0" + this.state.minutes : this.state.minutes}:` +
               `${this.state.seconds < 10 ? "0" + this.state.seconds : this.state.seconds}`}
-            totalDistanceKm={this.props.speedometer.distance}
+            totalDistanceKm={Math.round(Number(this.props.speedometer.distance))}
           />
           <View
             style={{
@@ -169,13 +173,13 @@ class RideOn extends React.PureComponent<Props, State> {
               width: '100%',
             }}>
             <Card
-              title={'Avg. Speed'}
-              value={this.props.speedometer.averageSpeed.toString()}
+              title={LanguageSelector.t("speedometer.avgSpeed")}
+              value={Math.round(Number(this.props.speedometer.averageSpeed)).toString()}
               unit={'Kmph'}
             />
             <Card
-              title={'Max Speed'}
-              value={this.props.speedometer.maxSpeed.toString()}
+              title={LanguageSelector.t("speedometer.maxSpeed")}
+              value={Math.round(Number(this.props.speedometer.maxSpeed)).toString()}
               unit={'Kmph'}
             />
           </View>
@@ -185,8 +189,10 @@ class RideOn extends React.PureComponent<Props, State> {
                 ...styles.flexAlignHorizontalCentre,
                 justifyContent: 'space-evenly',
               }}>
-              <Text style={{ ...styles.modeText, color: Colors.WARNING_RED }}>Power Mode</Text>
-              <Text style={styles.modeText}>Pedal Assist</Text>
+              <Text style={{ ...styles.modeText, color: this.props.speedometer.powerMod ? Colors.WARNING_RED : Theme.BORDER_GREY }}>{LanguageSelector.t("speedometer.powerMode")}</Text>
+              <Text style={{
+                ...styles.modeText, color: (this.props.speedometer.pedalAssit) ? "#5372FF" : Theme.BORDER_GREY,
+              }}>{LanguageSelector.t("speedometer.pedalAssist")}</Text>
             </View>
           </View>
         </View>
@@ -194,6 +200,8 @@ class RideOn extends React.PureComponent<Props, State> {
     );
   }
 }
+
+RideOn.contextType = ThemeContext //load theme from theme context
 
 export default connect(
   (store: TStore) => {

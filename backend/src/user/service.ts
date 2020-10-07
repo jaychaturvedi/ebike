@@ -26,8 +26,8 @@ export default class User {
   }
 
   static async findAll() {
-    const bikes = await UserModel.findAll()
-    return bikes
+    const users = await UserModel.findAll()
+    return users
   }
 
   static async createNew(user: TUser) {
@@ -45,7 +45,7 @@ export default class User {
       where: { phone },
       returning: true
     })
-    if (!isUpdated) throw new UserError("Unable to update with id ")
+    if (!isUpdated) throw new UserError("No data to update")
     return result;
   }
 
@@ -55,7 +55,7 @@ export default class User {
       where: { uid },
       returning: true
     })
-    if (!isUpdated) throw new UserError("Unable to update with id ")
+    if (!isUpdated) throw new UserError("No data to update")
     return result;
   }
 
@@ -63,7 +63,7 @@ export default class User {
     const deleted = await UserModel.destroy({
       where: { uid }
     });
-    if (!deleted) throw new UserError("Unable to delete user with id " + uid);
+    if (!deleted) throw new UserError("No data to delete");
     return deleted
   }
 
@@ -71,7 +71,7 @@ export default class User {
     const deleted = await UserModel.destroy({
       where: { phone }
     });
-    if (!deleted) throw new UserError("Unable to delete user with " + phone);
+    if (!deleted) throw new UserError("No data to delete");
     return deleted
   }
 

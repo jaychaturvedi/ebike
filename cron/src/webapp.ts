@@ -84,6 +84,110 @@ function callApi() {
             }
         })
         : logIn()
+
+    axios.get(process.env.WEBURL!, {
+        params: {
+            vehicleId: "069bcc081a68a0832f123",
+            alertId: 123,
+            alertName: "vehicle active or idle",
+            alertTypeId: 3
+        }
+    }).then((res) => {
+        console.log(res.data);
+    }).catch((e) => {
+        console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    })
+
+    axios.get(process.env.WEBURL!, {
+        params: {
+            vehicleId: "069bcc081a68a0832f123",
+            alertId: 123,
+            alertName: "vehicle active or idle",
+            alertTypeId: 4
+        }
+    }).then((res) => {
+        console.log(res.data);
+    }).catch((e) => {
+        console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    })
+
+    axios.get(process.env.WEBURL!, {
+        params: {
+            vehicleId: "BLR 327490",
+            alertId: 123,
+            alertName: "vehicle active or idle",
+            alertTypeId: 5
+        }
+    }).then((res) => {
+        console.log(res.data);
+    }).catch((e) => {
+        console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    })
+
+    axios.get(process.env.WEBURL!, {
+        params: {
+            vehicleId: "BLR 327490",
+            alertId: 123,
+            alertName: "vehicle active or idle",
+            alertTypeId: 6
+        }
+    }).then((res) => {
+        console.log(res.data);
+    }).catch((e) => {
+        console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    })
+
+    axios.get(process.env.WEBURL!, {
+        params: {
+            vehicleId: "BLR 327490",
+            alertId: 123,
+            alertName: "vehicle active or idle",
+            alertTypeId: 7
+        }
+    }).then((res) => {
+        console.log(res.data);
+    }).catch((e) => {
+        console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    })
+
+    axios.get(process.env.WEBURL!, {
+        params: {
+            vehicleId: "BLR 327490",
+            alertId: 123,
+            alertName: "vehicle active or idle",
+            alertTypeId: 8
+        }
+    }).then((res) => {
+        console.log(res.data);
+    }).catch((e) => {
+        console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    })
+
+    axios.get(process.env.WEBURL!, {
+        params: {
+            vehicleId: "BLR 327490",
+            alertId: 123,
+            alertName: "vehicle active or idle",
+            alertTypeId: 9
+        }
+    }).then((res) => {
+        console.log(res.data);
+    }).catch((e) => {
+        console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    })
+
+    // axios.get(process.env.WEBURL!, {
+    //     params: {
+    //         vehicleId: "BLR 327490",
+    //         alertId: 123,
+    //         alertName: "vehicle active or idle",
+    //         alertTypeId: 10
+    //     }
+    // }).then((res) => {
+    //     console.log(res.data);
+    // }).catch((e) => {
+    //     console.log('errrr', e.response.status, e.response.statusText, e.response.data);
+    // })
 }
 let time = 0
 setInterval(() => {

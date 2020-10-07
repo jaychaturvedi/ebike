@@ -48,7 +48,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
     }
     static getDerivedStateFromProps(props: AlertDetailGraphProps, state: AlertDetailGraphStates) {
         let data = state.data
-        if (props.data != undefined) {
+        if (props.data !== undefined) {
             data = props.data;
             state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
             state.xAxisLabel = props.xAxisLabel;
@@ -66,7 +66,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
     DynamicLabel = (props: any) => {
         return (
             <text
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "12px", fontWeight: 700 }}
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
@@ -77,7 +77,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
         );
     }
     formatDate = (label: any) => {
-        return this.props.xAxisLabel == "Time"
+        return this.props.xAxisLabel === "Time"
             ? this.state.data[0]?.timeDate === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")
@@ -104,7 +104,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>{this.props.title}</Typography.Text>
+                    <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
@@ -143,7 +143,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
-                                    }} value={this.state.yAxisLabel}>
+                                    }} value={this.state.yAxisLabel} className="recharts-yaxis-label">
                                 </Label>
                             </YAxis>
                             <Tooltip offset={-17}
@@ -159,8 +159,8 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                                 endIndex={0} />
                             {!this.props.alertCleared ?
                                 <Line name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
-                                    stroke={this.props.line1StrokeColor} strokeWidth={3}
-                                    dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} />
+                                    stroke={this.props.line1StrokeColor} strokeWidth={3} isAnimationActive={true}
+                                    dot={<CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} />} />
                                 : ''}
                         </LineChart>
                     </ResponsiveContainer>

@@ -2,6 +2,7 @@ import './index.scss';
 import React, { PureComponent, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
+import ActiveImage from '../../assets/Down_arrow.png'
 import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
@@ -76,9 +77,9 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
     static getDerivedStateFromProps(props: AlertProps, state: AlertStates) {
         console.log(props.alerts.activeAlertTab, state.isAsc, state.isDesc)
-        if ((state.alertType != props.alerts.activeAlertTab)
-            || state.dataLoaded == false
-            || (state.filterField.value != props.alerts.filter.value)) {
+        if ((state.alertType !== props.alerts.activeAlertTab)
+            || state.dataLoaded === false
+            || (state.filterField.value !== props.alerts.filter.value)) {
             props.getAlerts(
                 {
                     type: "GET_ALERTS",
@@ -100,8 +101,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             state.alertType = props.alerts.activeAlertTab
             state.filterField = props.alerts.filter
         }
-        state.total = props.alerts.activeAlertTab == 'smart'
-            ? props.alerts.smartCount : props.alerts.activeAlertTab == 'bms'
+        state.total = props.alerts.activeAlertTab === 'smart'
+            ? props.alerts.smartCount : props.alerts.activeAlertTab === 'bms'
                 ? props.alerts.bmsCount : props.alerts.mcCount
         state.pageSize = props.alerts.pagination.pageSize
         state.current = props.alerts.pagination.pageNumber
@@ -113,10 +114,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     handleSort = (arr: any, sort: TSort) => {
         if (!sort.fieldName) { return arr }
         let sortedData = arr.sort((a: any, b: any) => {
-            console.log(sort.fieldName, arr, a[sort.fieldName], "Severity", b[sort.fieldName]);
+            // console.log(sort.fieldName, arr, a[sorst.fieldName], "Severity", b[sort.fieldName]);
             return a[sort.fieldName].localeCompare(b[sort.fieldName])
         });
-        if (sort.direction == "descend") {
+        if (sort.direction === "descend") {
             return sortedData.reverse()
         }
         return sortedData
@@ -220,7 +221,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         const from = current * pageSize
         const last = Math.floor(total / pageSize)
         if (name === "next" && from < total) { this.setState({ current: ++current, dataLoaded: false }) }
-        if (name === "prev" && current != 1) { this.setState({ current: --current, dataLoaded: false }) }
+        if (name === "prev" && current !== 1) { this.setState({ current: --current, dataLoaded: false }) }
         if (name === "first") { this.setState({ current: 1, dataLoaded: false }) }
         if (name === "last") {
             (total % pageSize > 0) ? this.setState({ current: last + 1, dataLoaded: false }) : this.setState({ current: last, dataLoaded: false })
@@ -249,16 +250,16 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             {
                 dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '27%',
                 title: <span className="header-sorter" onClick={this.handleClickAlert}> Alert Name
-                    {alertClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                    {alertClicked ? <ActiveSort height='30px' width='30px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                 </span>,
             },
             {
                 dataIndex: 'model', key: 'model', defaultSortOrder: 'ascend', width: '10%',
                 title:
                     <span className="header-sorter" onClick={this.handleClickModel}> Model
-                        {modelClicked ? <ActiveSort height='20px' width='20px'
-                            className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                        {modelClicked ? <ActiveSort height='30px' width='30px'
+                            className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                     </span>,
             },
             {
@@ -268,24 +269,24 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             {
                 dataIndex: 'alertTime', key: 'alertTime', defaultSortOrder: 'ascend', width: "20%",
                 title: <span className="header-sorter" onClick={this.handleClickTime}> Time
-                        {timeClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                        {timeClicked ? <ActiveSort height='30px' width='30px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                 </span>,
                 render: (text: any, record: any, index: any) => <TimeRenderer text={text} record={record} index={index} />,
             },
             {
                 dataIndex: 'openSince', key: 'openSince', width: "15%",
                 title: <span className="header-sorter" onClick={this.handleClickOpenSince}> Open Since
-                        {openSinceClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                        {openSinceClicked ? <ActiveSort height='30px' width='30px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                 </span>,
                 render: (text: any, record: any, index: any) => <OpenSinceRenderer text={text} record={record} index={index} />,
             },
             {
                 dataIndex: 'Severity', key: 'Severity',
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
-                        {severityClicked ? <ActiveSort height='20px' width='20px'
-                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '10px' }} />}
+                        {severityClicked ? <ActiveSort height='30px' width='30px'
+                        className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
                 </span>,
                 render: (text: any, record: any, index: any) => <SeverityRenderer text={text} record={record} index={index} />,
             },
@@ -297,14 +298,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
 
         return <>
             <div className="container" >
-                <div className={'table-body'} style={{ maxHeight: "80%", width: '100%' }}>
+                <div className={'table-body'}>
                     <ConfigProvider renderEmpty={() => <Empty description="No Data"
                         image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
                         <Table
                             tableLayout={"fixed"}
                             // size={"middle"}
-                            scroll={{ y: this.state.pageSize > 10 ? '56vh' : undefined }}
-                            // scroll={{ y: '55vh' }}
+                            // scroll={{ y: '56vh' }}
+                            // scroll={{ y: 400,x:'max-content' }}
                             bordered={false}
                             className="ant-table-thead"
                             showSorterTooltip={false}
@@ -329,7 +330,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div className={'spacer'}></div>
                     <span className={'nav-button'}>
-                        <pre> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+                        <pre className="pages-available"> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
                         {this.state.pageSize * this.state.current > this.state.total
                                 ? this.state.total : this.state.pageSize * this.state.current}
                           &nbsp;of {this.state.total}</pre>

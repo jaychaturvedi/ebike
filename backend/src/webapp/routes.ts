@@ -44,10 +44,10 @@ function expressErrorHandler(
 }
 
 //dashboard main alerts
-app.post('/mainAlerts', expressQAsync(secure),
-    [body('alertType', "name is too short").isString().isLength({ min: 1 }),
-    body("pageNo", "Email is invalid").toInt(),
-    body("pageSize", "Email is invalid").toInt(), validate],
+app.post('/mainAlerts',
+    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
+    body("pageNo", "pageNo is invalid").toInt(),
+    body("pageSize", "pageSize is invalid").toInt(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
@@ -60,10 +60,10 @@ app.post('/mainAlerts', expressQAsync(secure),
     })
 )
 //
-app.post('/totalAlerts', expressQAsync(secure),
-    [body('alertType', "name is too short").isString().isLength({ min: 1 }),
-    body("startDate", "Email is invalid").isString(),
-    body("endDate", "Email is invalid").isString(), validate],
+app.post('/totalAlerts',
+    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
+    body("startDate", "startDate is invalid").isString(),
+    body("endDate", "endDate is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
@@ -74,7 +74,7 @@ app.post('/totalAlerts', expressQAsync(secure),
     })
 )
 
-app.post('/topFive', expressQAsync(secure),
+app.post('/topFive',
     [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
@@ -88,7 +88,7 @@ app.post('/topFive', expressQAsync(secure),
     })
 )
 
-app.post('/locationWise', expressQAsync(secure),
+app.post('/locationWise',
     [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
     body("startDate", "startDate is invalid").isString(),
     body("endDate", "endDate is invalid").isString(), validate],
@@ -102,39 +102,39 @@ app.post('/locationWise', expressQAsync(secure),
     })
 )
 
-app.post('/dashFilter', expressQAsync(secure),
-    [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
-    body("alertName", "startDate is invalid").isString(),
+app.post('/dashFilter',
+    [body('alertType', "alertType is too short").optional().isString().isLength({ min: 1 }),
+    body("alertName", "alertName is invalid").optional().isString(),
     body("startDate", "startDate is invalid").optional().isString(),
     body("endDate", "endDate is invalid").optional().isString(),
-    body("model", "startDate is invalid").optional().isString(),
-    body("subModel", "startDate is invalid").optional().isString(),
-    body("location", "startDate is invalid").optional().isString(),
-    body("subLocation", "startDate is invalid").optional().isString(),
-    body("batteryId", "startDate is invalid").optional().isString(),
-    body("customerId", "startDate is invalid").optional().isString(),
-    body("timeFrame", "startDate is invalid").optional().isString(),
-    body("pageNo", "Email is invalid").toInt(),
-    body("pageSize", "Email is invalid").toInt(), validate],
+    body("model", "model is invalid").optional().isString(),
+    body("subModel", "subModel is invalid").optional().isString(),
+    body("location", "location is invalid").optional().isString(),
+    body("subLocation", "subLocation is invalid").optional().isString(),
+    body("batteryId", "batteryId is invalid").optional().isString(),
+    body("customerId", "customerId is invalid").optional().isString(),
+    body("timeFrame", "timeFrame is invalid").optional().isString(),
+    body("pageNo", "pageNo is invalid").toInt(),
+    body("pageSize", "pageSize is invalid").toInt(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
         const { alertType, startDate, endDate, vehicleId, alertName, model, subModel,
-            location, subLocation, batteryId, customerId, timeFrame, page, pageSize } = req.body
+            location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize } = req.body
 
         const result = await WebAPI.dashFilter({
             alertType, startDate, endDate, vehicleId,
-            alertName, model, subModel, location, subLocation, batteryId, customerId, timeFrame, page, pageSize
+            alertName, model, subModel, location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize
         })
         const response = createResponse("OK", result, undefined)
         res.json(response)
     })
 )
 
-app.post('/additionalInsight', expressQAsync(secure),
-    [body("vehicleId", "startDate is invalid").optional().isString(),
+app.post('/additionalInsight',
+    [body("vehicleId", "vehicleId is invalid").optional().isString(),
+    body("customerId", "customerId is invalid").optional().isString(),
     body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
-    body("customerId", "startDate is invalid").optional().isString(),
     body("alertName", "alertName is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
@@ -146,13 +146,13 @@ app.post('/additionalInsight', expressQAsync(secure),
     })
 )
 
-app.post('/pastAlerts', expressQAsync(secure),
-    [body("vehicleId", "startDate is invalid").optional().isString(),
-    body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
-    body("customerId", "startDate is invalid").optional().isString(),
-    body("alertName", "alertName is invalid").isString(),
-    body("pageNo", "Email is invalid").toInt(),
-    body("pageSize", "Email is invalid").toInt(), validate],
+app.post('/pastAlerts',
+    [body("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
+    body("customerId", "customerId is invalid").optional().isString(),
+    body('alertId', "alertId is too short").optional().toInt(),
+    body("alertName", "alertName is invalid").isString().isLength({ min: 1 }),
+    body("pageNo", "pageNo is invalid").toInt(),
+    body("pageSize", "pageSize is invalid").toInt(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
@@ -163,10 +163,10 @@ app.post('/pastAlerts', expressQAsync(secure),
     })
 )
 
-app.post('/clearAlert', expressQAsync(secure),
-    [body("vehicleId", "vehicleId is invalid").optional().isString(),
+app.post('/clearAlert',
+    [body("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
     body('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
-    body("alertName", "alertName is invalid").isString(),
+    body("alertName", "alertName is invalid").isString().isLength({ min: 1 }),
     body("comment", "comment is invalid").isString(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
@@ -178,7 +178,7 @@ app.post('/clearAlert', expressQAsync(secure),
     })
 )
 
-app.get('/lowMileage', expressQAsync(secure),
+app.get('/lowMileage',
     [query("vehicleId", "vehicleId is invalid").optional().isString(),
     query('alertId', "alertId is too short").toInt().isLength({ min: 1 }),
     query("alertName", "alertName is invalid").isString(), validate],
@@ -191,22 +191,24 @@ app.get('/lowMileage', expressQAsync(secure),
         res.json(response)
     })
 )
-app.get('/graphs', expressQAsync(secure),
+app.get('/graphs',
     [query("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
-    query('alertTypeId', "alertId is too short").toInt(),
+    query('alertTypeId', "alertTypeId is too short").toInt(),
     query('alertId', "alertId is too short").toInt(),
-    query('alertName', "alertId is too short").isString().isLength({ min: 1 }), validate],
+    query('alertName', "alertName is too short").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
+        console.log("Start API :",new Date())
         const { vehicleId, alertId, alertName, alertTypeId } = req.query as any
         const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName)
         const response = createResponse("OK", result, undefined)
+        console.log("End API :", new Date())
         res.json(response)
     })
 )
 
-app.get('/alertDetails/:alertId', expressQAsync(secure),
+app.get('/alertDetails/:alertId',
     [param('alertId', "alertId is too short").toInt(), validate],
     expressQAsync(async (req: Express.Request,
         res: Express.Response,

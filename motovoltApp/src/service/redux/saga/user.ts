@@ -2,7 +2,7 @@ import {
     put,
 } from "redux-saga/effects";
 import * as UserActions from "../actions/saga/user";
-import { Store_UpdateUser, Store_UpdateBike } from "../actions/store";
+import { Store_UpdateUser, Store_UpdateBike, Store_UpdateError } from "../actions/store";
 import { store } from "../../index";
 import { config, request } from './utils';
 
@@ -29,9 +29,22 @@ export function* readUser(params: UserActions.ReadUser) {
                     serviceDate: data.serviceDate
                 }
             } as Store_UpdateBike);
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataresponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 
@@ -39,11 +52,17 @@ export async function getUser() {
     try {
         const dataresponse = await request(`${config.baseUrl}/user/`, "GET");
         console.log(dataresponse);
-        if (dataresponse.success) {
-            return dataresponse.response.body;
-        }
+        return {
+            ...dataresponse,
+            response: dataresponse.success ? dataresponse.response.body : null,
+        };
     } catch (error) {
         console.log(error)
+        return {
+            success: false,
+            response: null,
+            message: error.message || "Unknown Error",
+        };
     }
 }
 
@@ -51,7 +70,9 @@ export function* updateUser(params: UserActions.UpdateUser) {
     try {
         const dataresponse = yield request(`${config.baseUrl}/user/`, "PUT", {
             "fullName": params.payload.name,
-            "email": params.payload.email
+            "email": params.payload.email,
+            "gender": params.payload.gender,
+            "age": params.payload.age
         });
         if (dataresponse.success) {
             const data = dataresponse.response.body;
@@ -65,9 +86,22 @@ export function* updateUser(params: UserActions.UpdateUser) {
                     defaultBikeId: data.frameId,
                 }
             } as Store_UpdateUser)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataresponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: JSON.stringify(Object.getOwnPropertyNames(error))
+            }
+        } as Store_UpdateError)
     }
 }
 

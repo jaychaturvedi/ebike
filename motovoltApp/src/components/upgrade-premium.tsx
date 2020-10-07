@@ -2,6 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import { moderateScale } from 'react-native-size-matters';
+import LanguageSelector from '../translations';
 
 type Props = {}
 type State = {}
@@ -19,12 +20,12 @@ export default class Upgrade extends React.PureComponent<Props, State>{
                 <View style={styles.content}>
                     <View style={styles.header}>
                         <Text style={{ fontSize: moderateScale(19), fontWeight: 'bold' }}>
-                            Upgrade to Premium
+                            {LanguageSelector.t("morePremium.upgradeTitle")}
                         </Text>
                     </View>
                     <View style={styles.description}>
                         <Text style={{ fontSize: moderateScale(12) }}>
-                            Upgrade to Premium and unlock the full potential of your bike!
+                            {LanguageSelector.t("morePremium.upgradeSubTitle")}
                         </Text>
                     </View>
                 </View>

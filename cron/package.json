@@ -6,12 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "web": "npx ts-node src/webapp",
-    "app": "npx ts-node src/mobapp"
+    "app": "npx ts-node src/mobapp",
+    "build": "tsc -p .",
+    "deploy-keepAlive": "serverless deploy -c serverless-keepalive.yml"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-lambda": "^1.0.6",
     "amazon-cognito-identity-js": "^4.3.3",
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
@@ -25,9 +28,11 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "serverless-plugin-typescript-express": "^1.0.8"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.62",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/jwk-to-pem": "^2.0.0",
     "@types/jwt-decode": "^2.2.1",

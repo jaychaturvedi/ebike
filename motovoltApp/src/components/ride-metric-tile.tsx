@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, StyleSheet, Image, Text } from 'react-native'
 import { moderateScale, scale } from 'react-native-size-matters'
+import { ThemeContext } from '../styles/theme/theme-context';
+
 
 type Props = {
     icon: any,
@@ -12,19 +14,30 @@ type State = {}
 
 export default class RideMetricTile extends React.PureComponent<Props, State>{
     render() {
+        let Theme = this.context.theme //load theme context
         return (
-            <View style={styles.container}>
+            <View style={{
+                ...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT,//change dark theme
+            }}>
                 <View style={styles.icon}>
                     <Image source={this.props.icon} />
                 </View>
                 <View style={styles.textarea}>
                     <View style={{ paddingBottom: moderateScale(5) }}>
-                        <Text style={{ fontSize: scale(12) }}>{this.props.headerText}</Text>
+                        <Text style={{
+                            fontSize: scale(12),
+                            color: Theme.TEXT_WHITE, //change dark theme
+                        }}>{this.props.headerText}</Text>
                     </View>
                     <View style={{}}>
                         <Text>
-                            <Text style={{ color: '#000000', fontWeight: 'bold', fontSize: scale(16) }}>{this.props.value}</Text>
-                            <Text>&nbsp;{this.props.unit}</Text>
+                            <Text style={{
+                                color: Theme.TEXT_WHITE, //change dark theme
+                                fontWeight: 'bold', fontSize: scale(16)
+                            }}>{this.props.value}</Text>
+                            <Text style={{
+                                color: Theme.TEXT_WHITE, //change dark theme
+                            }}>&nbsp;{this.props.unit}</Text>
                         </Text>
                     </View>
                 </View>
@@ -32,6 +45,8 @@ export default class RideMetricTile extends React.PureComponent<Props, State>{
         )
     }
 }
+
+RideMetricTile.contextType = ThemeContext
 
 const styles = StyleSheet.create({
     container: {
@@ -41,6 +56,10 @@ const styles = StyleSheet.create({
         borderRadius: scale(10),
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        shadowColor: 'black',
+        shadowOffset: {height: 4, width: 2},    
     },
     icon: {
         width: moderateScale(20),

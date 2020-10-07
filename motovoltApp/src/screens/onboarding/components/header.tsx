@@ -28,8 +28,10 @@ const styles = StyleSheet.create({
     color: Colors.NAVY_BLUE,
   },
   container: {
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     width: '100%',
   },
   backButton: {
@@ -43,7 +45,7 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
     return (
       <Header transparent>
         <View style={styles.container}>
-          <Left style={{marginLeft: 10}}>
+          <View style={{marginLeft: 10}}>
             {this.props.hasBackButton && (
               <TouchableOpacity onPress={this.props.onBackClick}>
                 <Image
@@ -52,9 +54,9 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
                 />
               </TouchableOpacity>
             )}
-          </Left>
+          </View>
           <Text style={styles.title}>{this.props.title}</Text>
-          <Right>{this.props.right}</Right>
+          <View>{this.props.right}</View>
         </View>
       </Header>
     );

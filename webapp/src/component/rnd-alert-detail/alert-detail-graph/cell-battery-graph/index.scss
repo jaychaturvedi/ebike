@@ -5,7 +5,7 @@
   width: 79%;
   height: 100%;
   background-color: $TABLE_ROW_DARK;
-  border-radius: 2%;
+  border-radius: 10px;
   // padding: 10px;
   display: flex;
   font-size: 12px;
@@ -26,63 +26,39 @@
   // }
 
   .bottom-graph-container {
-    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n+4) {
+    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n + 4) {
       display: none;
     }
   }
-
 
   .recharts-responsive-container {
     display: flex;
     justify-content: center;
     // font-size: 12px;
-    background-color: $TABLE_ROW_DARK;
+    // background-color: $TABLE_ROW_DARK;
 
     .recharts-rectangle {
       height: 40px;
       box-sizing: border-box;
       border: 1px solid #ffffff;
 
-
       &:hover {
         border: 1px solid #ffffff;
         overflow: hidden;
       }
-
     }
-    .connectm-AlertDetailGraph .recharts-responsive-container .recharts-tooltip-wrapper{
-    
-top:0;
+    .connectm-AlertDetailGraph .recharts-responsive-container .recharts-tooltip-wrapper {
+      top: 0;
       // width: 0;
     }
-
-    // .recharts-tooltip-wrapper {
-    //   width: 0;
-
-    //   .recharts-default-tooltip {
-
-    //     //
-    //     .recharts-tooltip-label {}
-
-    //     .recharts-tooltip-item-list {
-    //       .recharts-tooltip-item {
-    //         .recharts-tooltip-item-name {}
-
-    //         .recharts-tooltip-item-separator {}
-
-    //         .recharts-tooltip-item-value {}
-
-    //         .recharts-tooltip-item-unit {}
-    //       }
-    //     }
-    //   }
-    // }
-
-
+  }
+  .recharts-text.recharts-cartesian-axis-tick-value {
+    font-size: 11px;
+    font-weight: 700;
   }
 }
 
-.custom-tooltip{
+.custom-tooltip {
   display: flex;
   font-size: 10px;
   flex-direction: column;
@@ -93,4 +69,26 @@ top:0;
   // left: 10;
   float: left;
   z-index: 10;
+}
+.connectm-AlertDetailGraph.voltage-deviation {
+  .recharts-responsive-container {
+    // font-size: 12px;
+    background-color: unset !important;
+  }
+
+  .normal-operating-voltage-text {
+    font-size: 12px;
+    text-align: center;
+    margin: 16px;
+  }
+
+  .voltage-deviation-bottom,
+  .voltage-deviation-top {
+    display: flex;
+    justify-content: center;
+    height: 50%;
+    width: 95%;
+    flex-direction: row;
+    align-items: center;
+  }
 }

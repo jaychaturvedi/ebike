@@ -9,6 +9,8 @@ import { RouteProp } from '@react-navigation/native';
 import { MenuStackParamList } from '../../navigation/menu';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
+import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type SupportNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -56,14 +58,15 @@ class Support extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme //load theme context
     return (
-      <View style={styles.container}>
+      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
           hasBackButton
-          title={'Support'}
+          title={LanguageSelector.t("morePremium.support")}
           hasSubtitle
           subtitle={this.props.bike.name}
-          backgroundColor={Colors.HEADER_YELLOW}
+          backgroundColor={Theme.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
         <View
@@ -73,7 +76,7 @@ class Support extends React.PureComponent<Props, State> {
             paddingVertical: moderateScale(20),
           }}>
           <View style={styles.header}>
-            <Text style={{ fontSize: moderateScale(16) }}>Help with issues</Text>
+            <Text style={{ fontSize: moderateScale(16), color: Theme.TEXT_WHITE }}>{LanguageSelector.t("morePremium.helpWithIssues")}</Text>
             <Text
               style={{
                 fontSize: moderateScale(13),
@@ -84,35 +87,35 @@ class Support extends React.PureComponent<Props, State> {
               View service
             </Text>
           </View>
-          <View style={styles.support}>
+          <View style={{ ...styles.support, backgroundColor: Theme.BACKGROUND }}>
             <Tile
-              feature="Call us"
+              feature={LanguageSelector.t("morePremium.callUs")}
               icon={require('../../assets/icons/icons1.5x/call.png')}
               onPress={() => this.dialCall()}
               height={moderateScale(110)}
             />
             <Tile
-              feature="Video Call"
+              feature={LanguageSelector.t("morePremium.videoCall")}
               icon={require('../../assets/icons/icons1.5x/video-call.png')}
               onPress={() => this.props.navigation.navigate('ComingSoon', {})}
               premium
               height={moderateScale(110)}
             />
             <Tile
-              feature="Report an Issue"
+              feature={LanguageSelector.t("morePremium.reportAnIssue")}
               icon={require('../../assets/icons/icons1.5x/report-issue.png')}
               onPress={() => this.props.navigation.navigate('ReportIssue', {})}
               height={moderateScale(110)}
             />
             <Tile
-              feature="Book a Service"
+              feature={LanguageSelector.t("morePremium.bookService")}
               icon={require('../../assets/icons/icons1.5x/book-service.png')}
               onPress={() => this.props.navigation.navigate('SupportService', {})}
               height={moderateScale(110)}
               premium
             />
             <Tile
-              feature="Chat with us"
+              feature={LanguageSelector.t("morePremium.chat")}
               icon={require('../../assets/icons/icons1.5x/chat.png')}
               onPress={() => this.props.navigation.navigate('ComingSoon', {})}
               height={moderateScale(110)}
@@ -124,6 +127,9 @@ class Support extends React.PureComponent<Props, State> {
     );
   }
 }
+
+Support.contextType = ThemeContext
+
 
 export default connect(
   (store: TStore) => {

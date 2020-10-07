@@ -13,47 +13,52 @@ import Onboarding from './src/navigation/onboarding';
 import FooterNavigation from './src/navigation/footer';
 import Registration from './src/navigation/registration';
 
-import { StyleSheet } from 'react-native';
-
 import SplashScreen from 'react-native-splash-screen';
-import { fetchCredentials } from './src/service/secure-storage';
+import {fetchCredentials} from './src/service/secure-storage';
 
-import { TStore } from './src/service/redux/store';
-import { signIn, getToken } from './src/service/authentication';
-import { getUser } from './src/service/redux/saga/user';
-import { SignIn } from './src/service/redux/actions/saga';
-import { connect } from 'react-redux';
-import { Store_UpdateUser } from 'src/service/redux/actions/store';
-import { ReadUser } from 'src/service/redux/actions/saga/user';
-import FAQPremium from 'src/screens/menu/faq-premium';
+import {TStore} from './src/service/redux/store';
+import {signIn, signout} from './src/service/authentication';
+import {getUser} from './src/service/redux/saga/user';
+import {SignIn} from './src/service/redux/actions/saga';
+import {connect} from 'react-redux';
+import {
+  Store_Init,
+  Store_Reset,
+  Store_UpdateError,
+  Store_UpdateUser,
+} from 'src/service/redux/actions/store';
+import {ReadUser} from 'src/service/redux/actions/saga/user';
+import Toast from 'react-native-simple-toast';
 
-declare const global: { HermesInternal: null | {} };
-
-const styles = StyleSheet.create({});
+declare const global: {HermesInternal: null | {}};
 
 interface ReduxState {
   user: TStore['user'];
+  error: TStore['error'];
   signInUser: (params: SignIn) => void;
   updateUser: (params: Store_UpdateUser) => void;
   getUser: (params: ReadUser) => void;
+  initStore: (params: Store_Init) => void;
+  resetStore: (params: Store_Reset) => void;
+  resetError: (params: Store_UpdateError) => void;
 }
 
-interface Props extends ReduxState { }
+interface Props extends ReduxState {}
 
-interface State {
-  isInitialised: boolean;
-}
+interface State {}
 
 class App extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      isInitialised: false,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
     console.log('In component did mount');
+    this.props.initStore({
+      type: 'Store_Init',
+      payload: {},
+    });
     return fetchCredentials()
       .then(async (cred) => {
         console.log('Cred', cred);
@@ -61,37 +66,40 @@ class App extends React.PureComponent<Props, State> {
           const response = await signIn(cred.username, cred.password);
           console.log(response);
           if (response.success) {
-            this.props.updateUser({
-              type: 'Store_UpdateUser',
-              payload: {
-                isLoggedIn: true,
-              },
-            });
             //Fetch user from backend and update isBikeRegistered , isPhoneValidated
             console.log('Response ', response);
             const user = await getUser();
+            if (!user.success) {
+              Toast.show('Error connecting to server');
+              return;
+            }
             console.log('Initial User : ', user);
             this.props.updateUser({
               type: 'Store_UpdateUser',
               payload: {
                 isPhoneValidated:
                   response.user.attributes.phone_number_verified,
-                id: user.uid,
-                email: user.email,
-                name: user.fullName,
-                phone: user.phone,
-                defaultBikeId: user.frameId,
-                isBikeRegistered: Boolean(user.frameId),
+                id: user.response.uid,
+                email: user.response.email,
+                name: user.response.fullName,
+                phone: user.response.phone,
+                defaultBikeId: user.response.frameId,
+                isBikeRegistered: Boolean(user.response.frameId),
+                isLoggedIn: true,
               },
             });
+          } else {
+            await signout();
+            this.props.resetStore({
+              type: 'Store_Reset',
+              payload: {},
+            } as Store_Reset);
           }
         } else {
-          this.props.updateUser({
-            type: 'Store_UpdateUser',
-            payload: {
-              isLoggedIn: false,
-            },
-          } as Store_UpdateUser);
+          this.props.resetStore({
+            type: 'Store_Reset',
+            payload: {},
+          } as Store_Reset);
         }
         SplashScreen.hide();
       })
@@ -107,10 +115,18 @@ class App extends React.PureComponent<Props, State> {
 
   render() {
     console.log('In app', this.props);
-    if (this.props.user.isBikeRegistered && this.props.user.isLoggedIn)
-      return <FooterNavigation />;
-    if (this.props.user.isLoggedIn !== true) return <Onboarding />;
-    else return <Registration />;
+    if (this.props.error) {
+      Toast.show(this.props.error);
+      this.props.resetError({
+        type: 'Store_UpdateError',
+        payload: {
+          error: null,
+        },
+      });
+    }
+    if (!this.props.user.isLoggedIn) return <Onboarding />;
+    if (this.props.user.isBikeRegistered) return <FooterNavigation />;
+    return <Registration />;
   }
 }
 
@@ -118,6 +134,7 @@ export default connect(
   (store: TStore) => {
     return {
       user: store['user'],
+      error: store['error'],
     };
   },
   (dispatch) => {
@@ -125,6 +142,9 @@ export default connect(
       updateUser: (params: Store_UpdateUser) => dispatch(params),
       signInUser: (params: SignIn) => dispatch(params),
       getUser: (params: ReadUser) => dispatch(params),
+      initStore: (params: Store_Init) => dispatch(params),
+      resetStore: (params: Store_Reset) => dispatch(params),
+      resetError: (params: Store_UpdateError) => dispatch(params),
     };
   },
 )(App);

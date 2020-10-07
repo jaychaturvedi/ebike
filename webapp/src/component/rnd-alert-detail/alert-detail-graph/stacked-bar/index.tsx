@@ -42,7 +42,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
 
     static getDerivedStateFromProps(props: StackedGraphProps, state: StackedGraphStates) {
         let data = state.data
-        if (props.data != undefined) {
+        if (props.data !== undefined) {
             data = props.data;
             state.L1Value = props.L1 ? props.data[0].L1 : 0;
             state.xAxisLabel = props.xAxisLabel;
@@ -62,7 +62,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     DynamicLabel = (props: any) => {
         return (
             <text
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "12px", fontWeight: 700 }}
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 text-anchor="middle"
@@ -74,7 +74,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     }
 
     formatDate = (label: any) => {
-        return this.props.xAxisLabel == "Days"
+        return this.props.xAxisLabel === "Days"
             ? this.state.data[0].timeDate === label
                 ? moment(`${label}`).format("DD MMM YYYY")
                 : moment(`${label}`).format("DD")
@@ -103,7 +103,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>{this.props.title}</Typography.Text>
+                    <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
                     <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
@@ -150,7 +150,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 <Bar name={this.state.bar2Name} dataKey={this.state.bar2Key}
                                     stackId="a" fill={this.props.bar2StrokeColor} isAnimationActive={true}>
                                     {this.state.data.map((entry: any, index: number) => (
-                                        <Cell fill={(entry.timeDate === this.props.alertDate) ? 'red' : this.props.bar2StrokeColor} key={index} />
+                                        <Cell fill={(entry.flag === true) ? '#E3513C' : this.props.bar2StrokeColor} key={index} />
                                     ))}
                                 </Bar>
                                 : ''}
@@ -158,7 +158,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key} fill={this.props.bar1StrokeColor} radius={[5, 5, 0, 0]}
                                     stackId="a" isAnimationActive={true}>
                                     {this.state.data.map((entry: any, index: number) => (
-                                        <Cell fill={this.state.data[index][this.state.dataKey] === this.props.alertDate ? 'red' : this.props.bar1StrokeColor} key={index} />
+                                        <Cell fill={(entry.flag === true) ? '#E3513C' : this.props.bar1StrokeColor} key={index} />
                                     ))}
                                 </Bar>
                                 : ''}

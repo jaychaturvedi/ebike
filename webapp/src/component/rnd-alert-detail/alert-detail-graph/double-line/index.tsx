@@ -60,7 +60,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
 
     static getDerivedStateFromProps(props: DoubleLineGraphProps, state: DoubleLineGraphStates) {
         let data = state.data
-        if (props.data != undefined) {
+        if (props.data !== undefined) {
             data = props.data;
             state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
             state.L2Value = props.data.length > 0 && props.L1 ? data[0].L2 : 0;
@@ -81,7 +81,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
     DynamicLabel = (props: any) => {
         return (
             <text
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "12px", fontWeight: 700 }}
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
@@ -92,7 +92,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         );
     }
     formatDate = (label: any) => {
-        return this.props.xAxisLabel == "Time"
+        return this.props.xAxisLabel === "Time"
             ? this.state.data[0]?.timeDate === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")
@@ -122,7 +122,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>
-                    <Typography.Text style={{ color: "#ffffff", fontSize: '15px' }} strong>{this.props.title}</Typography.Text>
+                    <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
                 <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >

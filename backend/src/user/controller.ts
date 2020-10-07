@@ -4,8 +4,9 @@ import ConnectmApi from "../externalApi/motovolt";
 
 export async function profile(uid: string) {
   const { frameId, email, phone, fullName } = await User.findByUid(uid)
-  const { batid: batteryId, vehid: vehicleId, servDate: serviceDate } = await ConnectmApi.getMyBike(frameId as string);
-  return { uid, frameId, email, phone, fullName, batteries: [{ id: batteryId }], vehicleId, serviceDate }//need purchase date and warranty
+  //since data is redundant
+  // const { batid: batteryId, vehid: vehicleId, servDate: serviceDate, purchaseDate, warrantyValidTill } = await ConnectmApi.getMyBike(frameId as string);
+  return { uid, frameId, email, phone, fullName}//need purchase date and warranty
 }
 
 export async function paginateUser(filter: TFilter) {

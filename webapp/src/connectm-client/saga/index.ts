@@ -1,5 +1,5 @@
 import { all, call, takeLatest, put } from "redux-saga/effects"
-import { getUser } from "./user"
+import { Store_UserUpdate } from "./user"
 import { IUsersAction } from "../actions/user"
 import { IAlertActions } from "../actions/alerts";
 import { getAlerts, updateAlertTabChange, updateAlertFilterChange, Store_AlertUpdate, TAlertsTableData } from "./alert";
@@ -15,13 +15,11 @@ import {
 import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction, IClearGraphActions } from "../actions/alert-detail";
 import { TAlertInsights, TPastAlert } from "../redux/models";
 
-function* getUsers(params: IUsersAction) {
-    yield call(getUser, params)
-}
-
 function* getAlertData(params: IAlertActions) {
     try {
         const data: TAlertsTableData = yield call(getAlerts, params)
+        console.log("my getAlertData", data, params);
+
         yield put({
             type: "STORE_ALERT_UPDATE",
             payload: {
@@ -180,8 +178,17 @@ function* resetAlertDataStore(params: IAlertDetailActions) {
     } as Store_AlertUpdate)
 }
 
+function* updateUser(params: IUsersAction) {
+    yield put({
+        type: "STORE_USER_UPDATE",
+        payload: {
+            authenticated: params.payload.authenticated,
+            user: params.payload.user
+        }
+    } as Store_UserUpdate)
+}
+
 function* actionWatcher() {
-    yield takeLatest("GET_USER", getUsers);
     yield takeLatest("GET_ALERTS", getAlertData);
     yield takeLatest("UPDATE_ACTIVE_ALERT", updateAlertTabChanges);
     yield takeLatest("UPDATE_FILTER", updateAlertFilterChanges);
@@ -198,7 +205,7 @@ function* actionWatcher() {
     yield takeLatest("GET_SINGLE_ALERT", getSingleAlertDetails)
     yield takeLatest("RESET_ALERT_MAIN_PAGE", resetAlertDataStore)
     yield takeLatest("CLEAR_ALERT_GRAPH", clearAlertGraph)
-
+    yield takeLatest("UPDATE_USER", updateUser)
 }
 
 export default function* rootSaga() {

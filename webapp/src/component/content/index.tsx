@@ -5,26 +5,72 @@ import WebHeader from "../header"
 import LeftPanel from "../left-panel"
 import { Route, withRouter, RouteComponentProps, Switch } from "react-router";
 import HomePage from "../rnd-home-page"
-import User from "../user"
+import MisContent from "../mis-page"
+// import MisCustomer from "../mis-customer-page"
+import MisMotorController from "../mis-page/mis-mc-page"
+import MisAnalyserFour from '../mis-page/mis-analyser-page/fourGrid'
+// import User from "../user"
 import AlertDetail from "../rnd-alert-detail"
-import Battery from "../rnd-alert-detail/alert-detail-graph/cell-battery-graph"
+import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
+// import Battery from "../rnd-alert-detail/alert-detail-graph/cell-battery-graph"
+import { connect } from 'react-redux'
 
+interface ContentProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
+interface ContentState {
+    userRole: string
+}
 
-interface ContentProp extends RouteComponentProps { }
-interface ContentState { }
+type AccessibleRoutes = {
+    role: string
+}
+function AccessibleRoutes(props: AccessibleRoutes) {
+    switch (props.role) {
+        case "DEVELOPER": {
+            return (
+                <Switch>
+                    <Route exact path="/alerts" component={HomePage} />
+                    <Route exact path="/:alertType/:id" component={AlertDetail} />
+                </Switch>
+            )
+        }
+        case "ADMIN": {
+            return (
+                <Switch>
+                    <Route exact path="/alerts" component={HomePage} />
+                    <Route exact path="/:alertType/:id" component={AlertDetail} />
+                    {/* <Route exact path="/" component={MisPage} /> */}
+                    {/* <Route exact path="/" component={MisBattery} /> */}
+                    {/* <Route exact path="/" component={MisMotorController} /> */}
+                    <Route exact path="/ana" component={MisAnalyserFour} />
+                    <Route exact path="/mis" component={MisContent} />
+                </Switch>
+            )
+        }
+    }
+}
 class Content extends PureComponent<ContentProp, ContentState>{
+    constructor(props: ContentProp) {
+        super(props)
+        this.state = {
+            userRole: ''
+        }
+    }
+    static getDerivedStateFromProps(props: ContentProp, state: ContentState) {
+        if (props.user.authenticated) {
+            state.userRole = props.user.user.attributes['custom:role']
+        }
+        return state
+    }
     render() {
+        console.log("content ==>",this.state)
         return <>
             <Layout.Content className="web-content">
                 <WebHeader />
                 <LeftPanel />
-                <Switch>
-                    <Route exact path="/" component={HomePage} />
-                    <Route exact path="/:alertType/:id" component={AlertDetail} />
-                </Switch>
+                {AccessibleRoutes({ role: this.state.userRole })}
             </Layout.Content>
         </>
     }
 }
 
-export default withRouter(Content);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Content));

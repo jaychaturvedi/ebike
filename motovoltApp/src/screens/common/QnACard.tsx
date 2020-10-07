@@ -4,6 +4,7 @@ import Colors from '../../styles/colors';
 import FontWeight from '../../styles/font-weight';
 import { scale } from '../../styles/size-matters';
 import { verticalScale, moderateScale } from 'react-native-size-matters';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type Props = {
   title: string;
@@ -20,14 +21,20 @@ const styles = StyleSheet.create({
     borderRadius: scale(8),
     padding: scale(16),
     marginHorizontal: moderateScale(15),
-    marginTop: moderateScale(15)
+    marginTop: moderateScale(15),
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   header: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   title: {
+    width: '92%',
     fontSize: 14,
     color: Colors.BLACK,
     fontWeight: FontWeight.SEMI_BOLD,
@@ -62,14 +69,18 @@ export default class Card extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme; //load theme context
     return (
-      <View style={styles.container}>
+      <View
+        style={{...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT}}>
         <View style={styles.header}>
-          <Text style={styles.title}>{this.props.title}</Text>
+          <Text style={{...styles.title, color: Theme.TEXT_WHITE}}>
+            {this.props.title}
+          </Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              this.setState({ expanded: !this.state.expanded });
+              this.setState({expanded: !this.state.expanded});
             }}>
             <Image
               source={
@@ -82,9 +93,13 @@ export default class Card extends React.PureComponent<Props, State> {
           </TouchableOpacity>
         </View>
         {this.state.expanded && (
-          <Text style={styles.body}>{this.props.description}</Text>
+          <Text style={{...styles.body, color: Theme.TEXT_WHITE}}>
+            {this.props.description}
+          </Text>
         )}
       </View>
     );
   }
 }
+
+Card.contextType = ThemeContext;

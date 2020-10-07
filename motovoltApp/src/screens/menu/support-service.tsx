@@ -14,6 +14,8 @@ import { Icon } from 'native-base';
 import { Dispatch } from 'redux';
 import { ReadService } from '../../service/redux/actions/saga/service-actions'
 import { ScrollView } from 'react-native-gesture-handler';
+import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type SupportServiceNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -62,20 +64,21 @@ class SupportService extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme //load theme context
     return (
       <View style={styles.container}>
         <Header
           hasBackButton
-          title={'Service'}
+          title={LanguageSelector.t("support.service")}
           subtitle={this.props.bike.name}
           hasTabs
           onBackClick={() => this.props.navigation.goBack()}
-          backgroundColor={Colors.HEADER_YELLOW}
+          backgroundColor={Theme.HEADER_YELLOW}
         />
         <Tabs
           data={[
             {
-              header: 'Open Service',
+              header: LanguageSelector.t("support.openService"),
               count: this.props.services.open,
               body: (
                 <ScrollView
@@ -107,7 +110,7 @@ class SupportService extends React.PureComponent<Props, State> {
               ),
             },
             {
-              header: 'Closed Service',
+              header: LanguageSelector.t("support.closedService"),
               count: this.props.services.closed,
               body: (
                 <ScrollView
@@ -145,6 +148,8 @@ class SupportService extends React.PureComponent<Props, State> {
     );
   }
 }
+
+SupportService.contextType = ThemeContext
 
 export default connect(
   (store: TStore) => {

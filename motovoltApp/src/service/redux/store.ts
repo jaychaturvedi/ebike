@@ -22,6 +22,9 @@ type TRide = {
     greenMilesKm: number,
     caloriesBurnt: number,
     mode: "POWER" | "PEDAL_ASSIST",
+    pedalAssistMode: number,
+    ecoMode: number,
+    powerMode: number,
     score: number,
     petrolSavingsLtr: number,
     from: string,
@@ -49,14 +52,15 @@ type TUser = {
     isBikeRegistered: boolean | null,
 }
 
-type TNotification = {
+export type TNotification = {
     isStale: boolean,
     time: string,
+    date: string,
     title: string,
     body: string,
 }
 
-type TBike = {
+export type TBike = {
     isStale: boolean,
     id: string,
     modal: string,
@@ -66,8 +70,7 @@ type TBike = {
     healthPer: number,
     serviceDate: string,
     motorPer: number,
-    batteryPer: number,
-    type: null | "GPS" | "BLE",
+    type: null | "CELLULAR" | "BLE",
     co2SavingKg: number,
     totalDistanceKm: number,
     avgRideScore: number,
@@ -150,7 +153,7 @@ export const ZeroOnboarding: TOnboarding = {
     errorMessage: ""
 }
 
-const ZeroUser: TUser = {
+export const ZeroUser: TUser = {
     isStale: true,
     isLoggedIn: null,
     id: "",
@@ -175,6 +178,9 @@ export const ZeroRide: TRide = {
     greenMilesKm: 0,
     caloriesBurnt: 0,
     mode: "PEDAL_ASSIST",
+    pedalAssistMode: 0,
+    ecoMode: 0,
+    powerMode: 0,
     score: 0,
     petrolSavingsLtr: 0,
     petrolSavingsInr: 0,
@@ -186,7 +192,7 @@ export const ZeroRide: TRide = {
     endTime: "",
 }
 
-const ZeroBike: TBike = {
+export const ZeroBike: TBike = {
     isStale: true,
     id: "",
     modal: "",
@@ -196,7 +202,6 @@ const ZeroBike: TBike = {
     healthPer: 0,
     serviceDate: "",
     motorPer: 0,
-    batteryPer: 0,
     batteries: {},
     type: null,
     batteryChargePer: 0,
@@ -217,13 +222,13 @@ const ZeroBike: TBike = {
     reportIssueSuccess: null
 }
 
-const ZeroBLE: TBLE = {
+export const ZeroBLE: TBLE = {
     scanning: false,
     state: "off",
     devices: [],
 }
 
-const ZeroSpeedometer: TSpeedometer = {
+export const ZeroSpeedometer: TSpeedometer = {
     rideId: '',
     averageSpeed: 0,
     batteryChargePer: 0,
@@ -237,12 +242,15 @@ const ZeroSpeedometer: TSpeedometer = {
 }
 
 export type TStore = {
+    error: null | string,
     onboarding: TOnboarding,
     user: TUser,
     ride: TRide,
     notifications: { isPresent: boolean, showNotifications: boolean, data: { [id: string]: TNotification } },
     bike: TBike,
     graph: {
+        co2SavingKg: number,
+        greenMilesKm:number,
         distance: number,
         avgSpeed: number,
         avgKmph: number,
@@ -260,7 +268,8 @@ export type TStore = {
     upgrades: TUpgrades
 }
 
-export default {
+const ZeroState: TStore = {
+    error: null,
     onboarding: ZeroOnboarding,
     user: ZeroUser,
     bike: ZeroBike,
@@ -268,6 +277,8 @@ export default {
     notifications: { isPresent: false, showNotifications: false, data: {} },
     rides: {},
     graph: {
+        co2SavingKg: 0,
+        greenMilesKm: 0,
         distance: 0,
         avgSpeed: 0,
         avgKmph: 0, data: {}
@@ -277,4 +288,10 @@ export default {
     ble: ZeroBLE,
     faq: {},
     upgrades: { upgrades: [] }
-} as TStore
+};
+
+export function getZeroState() {
+    return JSON.parse(JSON.stringify(ZeroState))
+}
+
+export default getZeroState() as TStore

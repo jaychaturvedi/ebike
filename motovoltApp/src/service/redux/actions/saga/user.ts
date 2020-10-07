@@ -8,6 +8,8 @@ export type UpdateUser = {
     payload: {
         name: string,
         email: string,
+        gender: string,
+        age: string
     }
 }
 

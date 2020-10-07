@@ -15,7 +15,8 @@ import Background from '../../components/background'
 import moment from 'moment';
 import { Dispatch } from 'redux';
 import { ReadBikeStat } from '../../service/redux/actions/saga/bike-actions';
-
+import LanguageSelector from '../../translations'
+import { ThemeContext } from '../../styles/theme/theme-context'
 type ReduxState = {
   bike: TStore['bike'];
   readBikeStat: (params: ReadBikeStat) => void
@@ -57,16 +58,16 @@ class MyCycle extends React.PureComponent<Props, State> {
   }
 
   render() {
+    let Theme = this.context.theme //load theme context
     return (
       <View style={styles.container}>
         <Background />
         <Header
-          title={'My Cycle'}
+          title={LanguageSelector.t("myBike.myCycle")}
           hasSubtitle
           subtitle={this.props.bike.name}
           hasTabs
           backgroundColor={Colors.HEADER_YELLOW}
-          onBackClick={() => console.log('To be handled')}
         />
         <ScrollView style={{ paddingHorizontal: moderateScale(15), flex: 1 }}
           refreshControl={
@@ -85,15 +86,18 @@ class MyCycle extends React.PureComponent<Props, State> {
               width={scale(300)}
             />
           </View>
-          <View style={styles.cycleName}>
-            <Text style={{ fontSize: scale(16), fontWeight: 'bold' }} numberOfLines={1}>
+          <View style={{
+            ...styles.cycleName, backgroundColor: Theme.BACKGROUND_LIGHT,//change dark theme
+
+          }}>
+            <Text style={{ fontSize: scale(16), fontWeight: 'bold', color: Theme.TEXT_WHITE }} numberOfLines={1}>
               {this.props.bike.name}
             </Text>
           </View>
           <View style={styles.metrics}>
             <RideMetric
-              header1="Health"
-              header2="Service Date"
+              header1={LanguageSelector.t("myBike.health")}
+              header2={LanguageSelector.t("myBike.serviceDate")}
               icon1={require('../../assets/icons/health_green.png')}
               icon2={require('../../assets/icons/calendar_green.png')}
               value1={`${this.props.bike.healthPer} %`}
@@ -102,18 +106,18 @@ class MyCycle extends React.PureComponent<Props, State> {
               unit2=""
             />
             <RideMetric
-              header1="Motor"
-              header2="Battery"
+              header1={LanguageSelector.t("myBike.motor")}
+              header2={LanguageSelector.t("myBike.battery")}
               icon1={require('../../assets/icons/motor_icon.png')}
               icon2={require('../../assets/icons/battery_green_icon.png')}
               value1={`${this.props.bike.motorPer} %`}
-              value2={`${this.props.bike.batteryPer} %`}
+              value2={`${this.props.bike.batteryChargePer} %`}
               unit1=""
               unit2=""
             />
             <VehicleInfo
-              header1="Vehicle ID"
-              header2="Battery ID"
+              header1={LanguageSelector.t("myBike.vechileId")}
+              header2={LanguageSelector.t("myBike.batteryId")}
               value1={[this.props.bike.id]}
               value2={Object.keys(this.props.bike.batteries)}
             />
@@ -123,6 +127,8 @@ class MyCycle extends React.PureComponent<Props, State> {
     );
   }
 }
+
+MyCycle.contextType = ThemeContext
 
 export default connect((store: TStore) => {
   return {
@@ -154,6 +160,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   metrics: {
     flex: 1,

@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ReadFAQ } from 'src/service/redux/actions/saga';
 import { ScrollView } from 'react-native-gesture-handler';
+import LanguageSelector from '../../translations';
+import { ThemeContext } from '../../styles/theme/theme-context';
 
 type FaqNavigationProp = StackNavigationProp<
     MenuStackParamList,
@@ -57,12 +59,13 @@ class FAQ extends React.PureComponent<Props, State> {
     }
 
     render() {
+        let Theme = this.context.theme //load theme context
         return (
-            <View style={styles.container}>
+            <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
                 <Header
                     hasBackButton
-                    title={'FAQ'}
-                    backgroundColor={Colors.HEADER_YELLOW}
+                    title={LanguageSelector.t("morePremium.faqs")}
+                    backgroundColor={Theme.HEADER_YELLOW}
                     onBackClick={() => this.props.navigation.goBack()}
                 />
                 <ScrollView
@@ -79,7 +82,7 @@ class FAQ extends React.PureComponent<Props, State> {
                         paddingVertical: moderateScale(20),
                     }}>
 
-                    <View style={styles.support}>
+                    <View style={{ ...styles.support, backgroundColor: Theme.BACKGROUND }}>
                         {
                             Object.keys(this.props.faq).map((faq: any, index: number) => {
                                 return <Tile
@@ -103,6 +106,8 @@ class FAQ extends React.PureComponent<Props, State> {
         );
     }
 }
+
+FAQ.contextType = ThemeContext
 
 export default connect(
     (store: TStore) => {
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
     support: {
         paddingVertical: moderateScale(10),
         flex: 1,
-        backgroundColor: '#F0F0F0',
+        // backgroundColor: '#F0F0F0',
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
