@@ -90,9 +90,11 @@ td.ant-table-column-sort {
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
     }
-    .ant-empty.ant-empty-normal {
-        display: none;
-    }
+
+    //no data image
+    // .ant-empty.ant-empty-normal {
+    //     display: none;
+    // }
 
     .pagination-footer {
         // border: 1px solid yellow;

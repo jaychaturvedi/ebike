@@ -7,7 +7,7 @@ import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
 import GifLoader from '../../assets/gif/ImpoliteLivelyGenet-small.gif'
-import { Table, Select } from 'antd';
+import { Table, Select, ConfigProvider, Empty } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
 import TimeRenderer from "./time-renderer"
@@ -299,25 +299,28 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         return <>
             <div className="container" >
                 <div className={'table-body'}>
-                    <Table
-                        tableLayout={"fixed"}
-                        // size={"middle"}
-                        // scroll={{ y: '56vh' }}
-                        // scroll={{ y: 400,x:'max-content' }}
-                        bordered={false}
-                        className="ant-table-thead"
-                        showSorterTooltip={false}
-                        rowKey={record => record.alertId}
-                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                        columns={columns}
-                        dataSource={this.state.data}
-                        pagination={false}
-                        loading={{
-                            spinning: !this.state.data.length,
-                            indicator: <div className="loader-gif"><img src={GifLoader} alt="loading..." /></div>,
-                        }}
-                        onRow={this.onRow}
-                    />
+                    <ConfigProvider renderEmpty={() => <Empty description="No Data"
+                        image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
+                        <Table
+                            tableLayout={"fixed"}
+                            // size={"middle"}
+                            // scroll={{ y: '56vh' }}
+                            // scroll={{ y: 400,x:'max-content' }}
+                            bordered={false}
+                            className="ant-table-thead"
+                            showSorterTooltip={false}
+                            rowKey={record => record.alertId}
+                            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
+                            columns={columns}
+                            dataSource={this.state.data}
+                            pagination={false}
+                            loading={{
+                                spinning: false,
+                                indicator: <div className="loader-gif"><img src={GifLoader} alt="loading..." /></div>,
+                            }}
+                            onRow={this.onRow}
+                        />
+                    </ConfigProvider>
                 </div>
                 <div className={"pagination-footer"}>
                     Showing &nbsp;&nbsp;&nbsp; <span >

@@ -150,7 +150,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 </Bar>
                                 : ''}
                             {!this.props.alertCleared ?
-                                <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key} fill={this.props.bar1StrokeColor} radius={[5, 5, 0, 0]}
+                                <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key} fill={this.props.bar1StrokeColor}
                                     stackId="a" isAnimationActive={true}>
                                     {this.state.data.map((entry: any, index: number) => (
                                         <Cell fill={(entry.flag === true) ? '#E3513C' : this.props.bar1StrokeColor} key={index} />
