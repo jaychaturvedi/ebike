@@ -16,7 +16,7 @@ export default class Ride {
         const exists = await RideModel.findOne({ where: { rideId: ride.rideId } })
         if (exists) throw new RideError('rideId already exists');
         const newride = await RideModel.create(ride)
-        if (!newride) throw new RideError("Ride already exists")
+        if (!newride) throw new RideError("Ride was not created maybe it already exists")
         return newride;
     }
 
@@ -27,7 +27,7 @@ export default class Ride {
                 where: { ...condition },
                 returning: true
             })
-        if (!isUpdated) throw new RideError("Unable to update with id ")
+        if (!isUpdated) throw new RideError("Unable to update with rideId ")
         return result
     }
 
