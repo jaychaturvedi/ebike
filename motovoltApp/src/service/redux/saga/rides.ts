@@ -8,7 +8,7 @@ import Moment from "moment";
 
 export function* startRide(params: RideActions.StartRide) {
     try {
-        const dataResponse = yield request(`${config.baseUrl}/ride/${params.payload.bikeId}?rideId=${params.payload.rideId}`,
+        const dataResponse = yield request(`${config.baseUrl}/ride/${params.payload.bikeId}?rideId=${params.payload.rideId}&startTime=${params.payload.startDate}`,
             "GET", undefined);
         if (dataResponse.success) {
             const data = dataResponse.response.body;
@@ -40,11 +40,7 @@ export function* startRide(params: RideActions.StartRide) {
 
 export function* endRide(params: RideActions.EndRide) {
     try {
-        const dataResponse = yield request(`${config.baseUrl}/ride/${params.payload.rideId}`, "PUT",
-            {
-                "rideId": params.payload.rideId,
-            }
-        );
+        const dataResponse = yield request(`${config.baseUrl}/ride/${params.payload.rideId}?endTime=${params.payload.endDate}`, "PUT");
         if (dataResponse.success) {
             const data = dataResponse.response.body;
             yield put({
