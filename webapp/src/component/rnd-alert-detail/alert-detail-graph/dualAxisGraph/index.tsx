@@ -1,14 +1,14 @@
 import './index.scss';
-import { Layout, Typography } from "antd";
+import { Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine, Brush
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, ReferenceLine, Brush
 } from 'recharts';
 import moment from 'moment';
 
 
 const CustomizedDot = (props: any) => {
-    const { cx, cy, stroke, payload, value, L1, alertDate } = props;
+    const { cx, cy, payload, alertDate } = props;
     console.log(payload?.timeDate, "payyload", props.alertDate);
     if (payload?.timeDate === alertDate) {
         return (
@@ -80,8 +80,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
-                fill="#ffffff"
-                fontFamily='Roboto'>
+                fill="#ffffff">
                 {props.value}
             </text>
         );
@@ -94,7 +93,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
             : label
     }
     CustomTooltip = (obj: any) => {
-        const { payload, label } = obj;
+        const { payload } = obj;
         const style = {
             top: obj.viewBox.y - 5,
             color: "#5FBDE0",
@@ -121,7 +120,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                     <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
+                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} className="alert-graph-container" >
                     <ResponsiveContainer width="95%" height="95%">
                         <LineChart data={this.state.data} margin={{ top: 10, right: -10, left: -15, bottom: 0, }}>
                             <Tooltip content={this.CustomTooltip} cursor={{ fill: "transparent", top: 0, }} />
@@ -140,7 +139,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                             <YAxis tick={{ fill: 'white' }} yAxisId="left" stroke='#ffffff' dataKey={this.state.line1Key as string}>
                                 <Label angle={270} position='left' offset={-30} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle'
                                     }} value={this.state.yAxisLabel} className="recharts-yaxis-label">
                                 </Label>
                             </YAxis>
@@ -148,7 +147,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                                 dataKey={this.state.line2Key as string} >
                                 <Label angle={270} position='right' offset={-30} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle'
                                     }} value={this.state.rightYaxisLabel} className="recharts-yaxis-label">
                                 </Label>
                             </YAxis>
@@ -158,7 +157,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                                     isFront={true} >
                                     <Label position={'insideBottomLeft'} fill="#ffffff"
                                         style={{
-                                            fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                            fontSize: '8px', textAnchor: 'center'
                                         }} value="L1">
                                     </Label>
                                 </ReferenceLine> : ''

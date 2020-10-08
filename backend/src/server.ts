@@ -23,16 +23,16 @@ app.use(cors());
 // app.options('/*', cors())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json());
-// app.use("/user", userRoutes)
-// app.use("/bike", bikeRoutes)
-// app.use("/feedback", feedbackRoutes)
-// app.use("/ride", ridesRoutes)
-// app.use("/service", serviceRoutes)
-// app.use("/feature", upgradeRoutes)
-// app.use("/faq", faqRoutes)
-// app.use("/webapp", webappRoutes)
-// const PORT = Number(process.env.SPORT) || 5000;
-// db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
+app.use("/user", userRoutes)
+app.use("/bike", bikeRoutes)
+app.use("/feedback", feedbackRoutes)
+app.use("/ride", ridesRoutes)
+app.use("/service", serviceRoutes)
+app.use("/feature", upgradeRoutes)
+app.use("/faq", faqRoutes)
+app.use("/webapp", webappRoutes)
+const PORT = Number(process.env.SPORT) || 5000;
+db.sync({ alter: true }).then(() => app.listen(PORT, () => { console.log(`Server started on port ${PORT}`) }))
 
 module.exports.handler = async (event: APIGatewayProxyEvent, context: Context) => {
     console.log("context", context, "\nevent", event);

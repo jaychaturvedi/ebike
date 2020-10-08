@@ -1,5 +1,5 @@
 import { IAlertActions } from "../actions/alerts";
-import { AlertData, TAlertType, TSort, TPagination, TFilter, Alert } from "../redux/models"
+import { TAlertType, TSort, TPagination, TFilter, Alert } from "../redux/models"
 import { put } from "redux-saga/effects";
 import moment from "moment";
 import axios from "axios"
@@ -233,3 +233,30 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
     console.log("my filtered data", response.data.body);
     return response.data.body
 }
+
+
+// function pastAlertDataGenerator() {
+//     let datas: any = []
+//     for (var i = 110; i < 202; i++) {
+//         datas.push({
+//             alertId: String(i),
+//             time: i + "-May-2020 10:05AM",
+//             openSince: "24 hrs " + i + "0 min",
+//             vehicleId: "BDS" + i,
+//             location: "Bangalore " + i,
+//             Severity: i % 3,
+//             alertName: 'my alert',
+//             model: 'Classic',
+//             mfgDate: i + "-May-2020 10:05AM",
+//             batteryId: i,
+//             customerId: i,
+//             frameId: '111111111',
+//             alertTime: i + "-May-2020 10:05AM",
+//         })
+//     }
+//     const pastAlert: any = {
+//         dataCount: 202 - 130,
+//         data: datas
+//     }
+//     return pastAlert
+// }

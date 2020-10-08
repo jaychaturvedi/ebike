@@ -1,14 +1,10 @@
 import './index.scss';
-import { Layout, Typography } from "antd";
+import { Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, BarChart, Bar, ReferenceLine, Cell, Brush
+    XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, BarChart, Bar, Cell, Brush
 } from 'recharts'
-import { FileExcelFilled } from '@ant-design/icons';
-import { mapDispatchToProps, mapStateToProps, ReduxAlertGraphActions, ReduxAlertGraphState } from "../../../../connectm-client/actions/graph"
-import { connect } from 'react-redux';
 import moment from 'moment';
-// import { TlowMileageGraph, TvehicleUsageGraph } from '../../../../connectm-client/redux/connectm-state';
 
 interface StackedGraphProps {
     data: any; bar1StrokeColor: string; bar2StrokeColor: string, L1?: boolean,
@@ -66,8 +62,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 text-anchor="middle"
-                fill="#ffffff"
-                fontFamily='Roboto'>
+                fill="#ffffff">
                 {props.value}
             </text>
         );
@@ -105,8 +100,8 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                 <div className={"connectm-header"}>
                     <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
-                    <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
+                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} className="alert-graph-container">
+                    <ResponsiveContainer className="top-graph-container" width="95%" height="95%">
                         <BarChart
                             data={this.state.data}
                             margin={{
@@ -135,7 +130,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 padding={{ top: 0, bottom: 1 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle'
                                     }} value={this.state.yAxisLabel}>
                                 </Label>
                             </YAxis>
@@ -155,7 +150,7 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
                                 </Bar>
                                 : ''}
                             {!this.props.alertCleared ?
-                                <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key} fill={this.props.bar1StrokeColor} radius={[5, 5, 0, 0]}
+                                <Bar name={this.state.bar1Name} dataKey={this.state.bar1Key} fill={this.props.bar1StrokeColor}
                                     stackId="a" isAnimationActive={true}>
                                     {this.state.data.map((entry: any, index: number) => (
                                         <Cell fill={(entry.flag === true) ? '#E3513C' : this.props.bar1StrokeColor} key={index} />

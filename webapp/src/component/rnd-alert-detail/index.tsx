@@ -3,8 +3,6 @@ import React, { PureComponent } from 'react';
 import { Breadcrumb, Typography } from 'antd';
 import AlertDetailSingle from "./alert-detail-single"
 import AlertInsights from "./alert-additional-insights"
-import CellBatteryGraph from "./alert-detail-graph/cell-battery-graph"
-import StackedBarGraph from "./alert-detail-graph/stacked-bar"
 import {
     ReduxAlertDetailActions, ReduxAlertDetailState,
     mapDispatchToProps, mapStateToProps
@@ -13,9 +11,9 @@ import AlertPastTable from "./alert-past-table"
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AlertGraph from './alert-detail-graph'
-import { TAlertsTableData } from '../../connectm-client/saga/alert';
 import { AlertData, TAlertType } from '../../connectm-client/redux/models';
 import { alertLimpData } from '../../connectm-client/redux/connectm-state';
+import BackArrowButton from '../../assets/png/back-arrow-button.png'
 
 interface AlertDetailProps extends ReduxAlertDetailActions, ReduxAlertDetailState, RouteComponentProps { }
 
@@ -120,11 +118,16 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
     render() {
         return (
             <div className="connectm-AlertDetail">
-                <Breadcrumb separator=">" className={"connectm-breadcrum"}>
+                {/* <Breadcrumb separator=">" className={"connectm-breadcrum"}>
                     <Breadcrumb.Item href=""><Link to={"/alerts"} className="link" onClick={this.goToHome}>Home</Link></Breadcrumb.Item>
                     <Breadcrumb.Item href="" ><Link to={"/alerts"} className="link" onClick={this.goToAlert}><span>{this.state.activeAlertType}</span></Link></Breadcrumb.Item>
                     <Breadcrumb.Item href={""} ><span className={"breadcrum-active"}>Alert Details</span></Breadcrumb.Item>
-                </Breadcrumb>
+                </Breadcrumb> */}
+                <div className={"connectm-breadcrum"}>
+                    <Link to={"/alerts"} className="link" onClick={this.goToAlert}>
+                        <img src={BackArrowButton} alt="back-arrow" className={"back-arrow-button"} />
+                    </Link>
+                </div>
                 <div className={"connectm-alert-detail-container"}>
                     <div className={"alert-top-container"}>
                         <AlertDetailSingle alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.alertCleared} />

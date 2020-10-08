@@ -6,6 +6,7 @@
     justify-content: space-between;
     align-items: center;
     height: 62px;
+    padding-top: 24px;
     @media screen and (min-width: 1600px) {
         .past-alerts-text {
             font-size: 18px;
@@ -26,6 +27,11 @@
             .pages-available {
                 width: 120px;
             }
+        }
+
+        .icon.inactive svg {
+            // border: 1px solid white;
+            fill: #818181;
         }
 
         .select-button {

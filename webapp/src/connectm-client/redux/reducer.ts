@@ -1,7 +1,5 @@
 import connectmState, { State } from "./connectm-state"
-import { TSort, AlertData } from "./models";
 import { IUsersAction } from "../actions/user"
-import { IAlertTrendActions } from "../actions/trends"
 import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
 import { Store_GetAlertTrends, Store_UpdateALertTrends } from "../saga/trends";
 import { Store_AlertGraph } from "../saga/graph";

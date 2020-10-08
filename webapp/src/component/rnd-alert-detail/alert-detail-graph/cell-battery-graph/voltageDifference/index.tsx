@@ -24,7 +24,7 @@ class VoltageDifference extends PureComponent<VoltageProps, VoltageStates> {
                     <span>Min Cell Voltage : {this.props.minVolt} </span><span>Cell Position :{this.props.minCellPos}</span>  </div>
                 <div style={{ width: '20px' }} />
                 <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <span><Typography.Text style={{ color: "#fcc84a", fontSize: '16px' }} strong>
+                    <span><Typography.Text style={{ color: "#fcc84a", fontSize: '16px' }} strong className="voltage-difference-text">
                         Voltage Difference : {this.props.voltageDelta.toFixed(3)}
                     </Typography.Text>
                     </span> </div>

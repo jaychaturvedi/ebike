@@ -7,7 +7,6 @@ import UserCard from '../../../subComponents/userCard'
 import VehicleAlert from '../../../subComponents/vehicleAlerts'
 import AlertHeader from '../../../subComponents/alertHeader'
 import BottomAlert from '../../../subComponents/rightBottomAlert'
-import { Meta } from 'antd/lib/list/Item';
 
 interface AlertDetailProps { }
 
@@ -15,9 +14,9 @@ interface AlertDetailStates {
 }
 
 class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
-    constructor(props: AlertDetailProps) {
-        super(props)
-    }
+    // constructor(props: AlertDetailProps) {
+    //     super(props)
+    // }
     render() {
         return (
             <>

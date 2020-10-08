@@ -1,12 +1,10 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Row, Col, Typography, Avatar, Card, Button } from 'antd';
-import HalfPie from '../../../subComponents/halfPie';
+import { Row, Col, Typography } from 'antd';
 import DischargingTrend from '../../../subComponents/graph/dischargingTrend';
 import ChargingTrend from '../../../subComponents/graph/chargingTrend';
 import Battery from '../../../assets/battery_health__g_icon.png'
 import CustomizedTables from '../../../subComponents/table/batteryStatusTable';
-import { ArrowLeftOutlined } from '@ant-design/icons';
 import Dialer from './dialer'
 
 interface Props { }
@@ -86,7 +84,7 @@ class MisBattery extends PureComponent<Props, States> {
                                     </Row>
                                     <Row>
                                         <div className="battery-health-circle">
-                                            <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} />
+                                            <img src={Battery} style={{ width: '50px', height: '50px', alignSelf: 'center' }} alt="battery" />
                                             <div style={{ display: 'flex', flexDirection: 'column', alignSelf: 'center' }} >
                                                 <Typography.Text style={{ whiteSpace: "normal", }} strong>Health</Typography.Text>
                                                 <Typography.Text style={{ whiteSpace: "nowrap" }} strong>82%</Typography.Text>

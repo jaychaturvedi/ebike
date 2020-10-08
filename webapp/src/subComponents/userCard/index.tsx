@@ -6,7 +6,6 @@ interface Props { title: string; extra?: string, width: string }
 
 export default class Cards extends React.PureComponent<Props, {}>{
     render() {
-        let Props = this.props;
         return (
             <>
                 <div className="site-card-wrapper">

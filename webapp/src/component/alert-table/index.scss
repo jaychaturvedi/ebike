@@ -80,11 +80,21 @@ td.ant-table-column-sort {
         width: 100%;
         overflow: auto !important;
         background: #3b4473;
+
+        .loader-gif.ant-spin-dot {
+            left: 38% !important;
+            top: 100% !important;
+        }
     }
     .ant-table-cell-scrollbar {
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
     }
+
+    //no data image
+    // .ant-empty.ant-empty-normal {
+    //     display: none;
+    // }
 
     .pagination-footer {
         // border: 1px solid yellow;
@@ -101,6 +111,11 @@ td.ant-table-column-sort {
             .pages-available {
                 width: 120px;
             }
+        }
+
+        .icon.inactive svg {
+            // border: 1px solid white;
+            fill: #818181;
         }
 
         .select-button {
@@ -179,7 +194,7 @@ td.ant-table-column-sort {
 @media screen and (min-width: 1600px) {
     table th {
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 600 !important;
     }
     .table-body {
         display: inline-block;

@@ -91,10 +91,10 @@ class Header extends PureComponent<Props, State> {
                         </div>
 
                         <div className="grid-pair right-two" onClick={() => { this.props.toggleGrid("Two") }}>
-                            {this.props.displayedGrid === "Two" ? <img src={Icon2gridActive} /> : <img src={Icon2gridInactive} />}
+                            {this.props.displayedGrid === "Two" ? <img src={Icon2gridActive} alt="two-grid-active" /> : <img src={Icon2gridInactive} alt="two-grid-inactive" />}
                         </div>
                         <div className="grid-pair right-four" onClick={() => { this.props.toggleGrid("Four") }}>
-                            {this.props.displayedGrid === "Four" ? <img src={Icon4gridActive} /> : <img src={Icon4gridInactive} />}
+                            {this.props.displayedGrid === "Four" ? <img src={Icon4gridActive} alt="four-grid-active" /> : <img src={Icon4gridInactive} alt="four-grid-inactive" />}
                         </div>
                     </div>
                 </div>

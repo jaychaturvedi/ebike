@@ -1,15 +1,13 @@
 import './index.scss';
-import { Layout, Typography } from "antd";
+import { Typography } from "antd";
 import React, { PureComponent } from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, Text, ReferenceLine, Brush
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, ReferenceLine, Brush
 } from 'recharts';
 import moment from 'moment';
-import { stat } from 'fs';
-
 
 const CustomizedDot = (props: any) => {
-    const { cx, cy, stroke, payload, value, L1, alertDate } = props;
+    const { cx, cy, payload, alertDate } = props;
     console.log(payload?.timeDate, "payyload", props.alertDate);
     if (payload?.timeDate === alertDate) {
         return (
@@ -26,13 +24,6 @@ interface DoubleLineGraphProps {
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string, alertCleared?: boolean,
 }
-
-const limpData: any = {
-    data: [],
-    line1StrokeColor: "",
-    line2StrokeColor: ""
-}
-
 
 interface DoubleLineGraphStates {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string,
@@ -85,8 +76,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                 x={props.viewBox.x + props.viewBox.width / 2}
                 y={props.viewBox.y + props.viewBox.height - 5}
                 textAnchor="middle"
-                fill="#ffffff"
-                fontFamily='Roboto'>
+                fill="#ffffff">
                 {props.value}
             </text>
         );
@@ -125,7 +115,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                     <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} >
+                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} className="alert-graph-container">
                     <ResponsiveContainer width="95%" height="95%">
                         <LineChart data={this.state.data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                             <Tooltip content={this.CustomTooltip} cursor={{ fill: "transparent", top: 0, }} />
@@ -136,7 +126,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     isFront={true} >
                                     <Label position={'insideBottomLeft'} fill="#ffffff"
                                         style={{
-                                            fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                            fontSize: '8px', textAnchor: 'center'
                                         }} value="L1">
                                     </Label>
                                 </ReferenceLine>
@@ -145,7 +135,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 isFront={true} >
                                 <Label position={'insideBottomLeft'} fill="#ffffff"
                                     style={{
-                                        fontSize: '8px', textAnchor: 'center', fontFamily: 'Roboto'
+                                        fontSize: '8px', textAnchor: 'center'
                                     }} value="L2">
                                 </Label>
                             </ReferenceLine> : <ReferenceLine />}
@@ -167,7 +157,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
-                                        fontSize: '12px', textAnchor: 'middle', fontFamily: 'Roboto'
+                                        fontSize: '12px', textAnchor: 'middle'
                                     }} value={this.state.yAxisLabel}>
                                 </Label>
                             </YAxis>

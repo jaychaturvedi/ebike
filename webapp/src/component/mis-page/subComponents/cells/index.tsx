@@ -1,8 +1,5 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import './index.scss';
-import { ReactComponent as BatterySvg } from '../../../../assets/Cell_icon.svg'
-import GreenIndicator from "../../../../assets/batch2/green_indicator.png"
-import BatteryRedPng from '../../../../assets/png/battery-cell-red.png'
 type CellProps = {
     cellNumber: number
     cellType: string
@@ -10,11 +7,11 @@ type CellProps = {
     cellValue: string
 }
 
-const cellIcons = {
-    normal: "",
-    red: "../../../../assets/png/battery-cell-red.png",
-    green: ""
-}
+// const cellIcons = {
+//     normal: "",
+//     red: "../../../../assets/png/battery-cell-red.png",
+//     green: ""
+// }
 
 function batteryStyle(batteryType: string, cellIcon: string) {
     switch (batteryType) {
@@ -62,7 +59,7 @@ export default function Cell(props: CellProps) {
     return (
         <div className={"voltage-cell-text-wrapper"} >
             <div className={"voltage-cell-wrapper"}>
-                <img src={st.backgroundImage} style={{ ...st.imageStyle }} />
+                <img src={st.backgroundImage} style={{ ...st.imageStyle }} alt="battery-cells" />
                 <span className={st.cellNumberStyle}>{props.cellNumber}</span>
             </div>
             <span>{props.cellValue}</span>

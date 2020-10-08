@@ -1,5 +1,5 @@
 import { IAlertDetailActions, AlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction, IClearGraphActions } from "../actions/alert-detail";
-import { TPastAlertData, TAlertInsights, TSort, TPagination, TPastAlert, AlertData, TAlertType } from "../redux/models"
+import { TAlertInsights, TSort, TPagination, TPastAlert, AlertData, TAlertType } from "../redux/models"
 import axios from "axios"
 import { put } from "redux-saga/effects";
 import { getAlertTypeId } from "../util/alert-graph";
@@ -137,21 +137,21 @@ async function getSingleAlert(params: ISingleAlertDetailAction) {
     return response.data.body as AlertData
 }
 
-function pastAlertDataGenerator(params: IAlertDetailActions) {
-    let datas: TPastAlertData[] = []
-    for (var i = 110; i < 130; i++) {
-        datas.push({
-            alertId: String(i),
-            alertTime: i + "-May-2020 10:05AM",
-            tat: "24 hrs " + i + "0 min",
-            vehicleId: "BDS" + i,
-            location: "Bangalore " + i,
-            alertGraph: false
-        })
-    }
-    const pastAlert: TPastAlert = {
-        dataCount: 130 - 110,
-        data: datas
-    }
-    return pastAlert
-}
+// function pastAlertDataGenerator(params: IAlertDetailActions) {
+//     let datas: TPastAlertData[] = []
+//     for (var i = 110; i < 130; i++) {
+//         datas.push({
+//             alertId: String(i),
+//             alertTime: i + "-May-2020 10:05AM",
+//             tat: "24 hrs " + i + "0 min",
+//             vehicleId: "BDS" + i,
+//             location: "Bangalore " + i,
+//             alertGraph: false
+//         })
+//     }
+//     const pastAlert: TPastAlert = {
+//         dataCount: 130 - 110,
+//         data: datas
+//     }
+//     return pastAlert
+// }

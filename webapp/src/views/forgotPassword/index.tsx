@@ -1,13 +1,8 @@
-import { Layout } from "antd";
 import React, { PureComponent } from 'react';
-import Content from '../../component/content'
 import 'antd/dist/antd.css';
 import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import LoginImage from "../../assets/login_image.png"
 import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg"
 import Cross from '../../assets/png/cross-vector.png'
-import Exclamation from '../../assets/png/exclamation.png'
 import MotovoltLogo from '../../assets/png/motovolt_text.png'
 import { signIn, initiateForgotPassword, forgotPasswordSubmit } from "../../connectm-client/authentication"
 import { withRouter, RouteComponentProps } from "react-router"
@@ -40,7 +35,7 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
             this.setState({
                 formValid: 'error',
                 valid: !this.state.valid,
-                message: <span> <img src={Cross} height="20px" /> &nbsp;Passwords do not match.</span>
+                message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Passwords do not match.</span>
             })
         } else {
             forgotPasswordSubmit(String(params.user_name), String(params.confirmation_code), this.state.secondPassword)
@@ -56,7 +51,7 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
                         this.setState({
                             formValid: 'success',
                             valid: !this.state.valid,
-                            message: <span> <img src={Cross} height="20px" /> &nbsp;You can Login with your new password.</span>
+                            message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;You can Login with your new password.</span>
                         })
                         this.props.history.push("/login")
                     }
@@ -64,7 +59,7 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
                         this.setState({
                             formValid: 'error',
                             valid: !this.state.valid,
-                            message: <span> <img src={Cross} height="20px" /> &nbsp;Could not Reset Password.</span>
+                            message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Could not Reset Password.</span>
                         })
                     }
                 })
@@ -86,12 +81,12 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
 
     render() {
         return (
-            <div className="connectm-login">
-                <div className="container">
+            <div className="connectm-forgot">
+                <div className="forgot-password-container">
                     <div className="login-image">
                         {/* <img src={LoginImage} alt="" /> */}
                         <div className="logo-title">
-                            <div className="motovolt"><span><img src={MotovoltLogo} style={{ width: '80%' }} /></span></div>
+                            <div className="motovolt"><span><img src={MotovoltLogo} style={{ width: '80%' }} alt="motovolt-logo" /></span></div>
                             <div className="command-center"><span>Command Center</span></div>
                         </div>
                     </div>
@@ -101,12 +96,12 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
                         </div>
                         <div className={"form-body"}>
                             <div className="logo">
-                                <ReactLogo width="80" height="60" />
+                                <ReactLogo className="motovolt-logo-icon" />
                             </div>
                             {this.state.formValid === '' ? <div className="forgot-password-label">Enter a new password. The password should be atleast 8 characters long</div> : <div className="forgot-password-label" />}
                             <Form
                                 name="normal_login"
-                                className="login-form"
+                                className="ant-login-form"
                                 initialValues={{
                                     remember: true,
                                 }}
@@ -151,12 +146,12 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
 
                     </div>
                 </div>
-                <div className="footer">
+                <div className="forgot-footer">
                     <div>
                         Copyright © Motovolt 2020. All rights reserved.
                     </div>
                     <div>
-                        Ver: 3.4.0
+                        Ver: 1.0.0
                     </div>
                 </div>
             </div>

@@ -1,13 +1,13 @@
 import './index.scss';
-import React, { PureComponent, useState } from 'react';
-import { DownOutlined } from '@ant-design/icons';
+import React from 'react';
+import { DoubleLeftOutlined, DoubleRightOutlined, DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../assets/active_sort_icon.svg"
-import ActiveImage from '../../assets/Down_arrow.png'
 import { ReactComponent as NextPage } from "../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../assets/previous_page_icon.svg"
 import { ReactComponent as LastPage } from "../../assets/last_page_icon.svg"
 import { ReactComponent as FirstPage } from "../../assets/first_page_icon.svg"
-import { Table, Select, Button, Pagination, Alert, ConfigProvider, Empty } from 'antd';
+import GifLoader from '../../assets/gif/ImpoliteLivelyGenet-small.gif'
+import { Table, Select, ConfigProvider, Empty } from 'antd';
 import { withRouter, RouteComponentProps } from "react-router";
 import SeverityRenderer from "./severity-rendere"
 import TimeRenderer from "./time-renderer"
@@ -167,7 +167,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 
     handleClickTime = (event: any) => {
-        const { isAsc, isDesc, timeClicked } = this.state
+        const { timeClicked } = this.state
         if (!timeClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: true,
             openSinceClicked: false, severityClicked: false, dataLoaded: false
@@ -179,7 +179,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 
     handleClickOpenSince = (event: any) => {
-        const { isAsc, isDesc, openSinceClicked } = this.state
+        const { openSinceClicked } = this.state
         if (!openSinceClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: false,
             openSinceClicked: true, severityClicked: false, dataLoaded: false
@@ -190,7 +190,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
 
     handleClickSeverity = (event: any) => {
-        const { isAsc, isDesc, severityClicked, data } = this.state
+        const { severityClicked } = this.state
         if (!severityClicked) this.setState({
             alertClicked: false, modelClicked: false, timeClicked: false,
             openSinceClicked: false, severityClicked: true, dataLoaded: false
@@ -245,7 +245,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     render() {
         console.log("isAsc, isDesc ", this.state.isAsc, this.state.isDesc)
         // this.fetch()
-        let { isAsc, modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
+        let { modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
         const columns: any = [
             {
                 dataIndex: 'alertName', defaultSortOrder: 'ascend', width: '27%',
@@ -263,7 +263,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span>,
             },
             {
-                dataIndex: 'frameId', key: 'frameId', title: <span > Vehicle Id </span>
+                dataIndex: 'frameId', key: 'frameId', title: <span > Vehicle Id </span>, width: '12%'
 
             },
             {
@@ -283,7 +283,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                 render: (text: any, record: any, index: any) => <OpenSinceRenderer text={text} record={record} index={index} />,
             },
             {
-                dataIndex: 'Severity', key: 'Severity',
+                dataIndex: 'Severity', key: 'Severity', width: "12%",
                 title: <span className="header-sorter" onClick={this.handleClickSeverity} style={{ cursor: 'pointer' }} > Severity
                         {severityClicked ? <ActiveSort height='30px' width='30px'
                         className={this.state.classname} /> : <DownOutlined style={{ padding: '5px', fontSize: '16px' }} />}
@@ -314,7 +314,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                             columns={columns}
                             dataSource={this.state.data}
                             pagination={false}
-                            loading={false}
+                            loading={{
+                                spinning: false,
+                                indicator: <div className="loader-gif"><img src={GifLoader} alt="loading..." /></div>,
+                            }}
                             onRow={this.onRow}
                         />
                     </ConfigProvider>
@@ -330,23 +333,25 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     </span> &nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div className={'spacer'}></div>
                     <span className={'nav-button'}>
-                        <pre className="pages-available"> {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+                        <pre className="pages-available">
+                            {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
                         {this.state.pageSize * this.state.current > this.state.total
                                 ? this.state.total : this.state.pageSize * this.state.current}
                           &nbsp;of {this.state.total}</pre>
                     </span>
                     <div className={'spacer'}></div>
                     <span onClick={(e) => { this.handleNav("first", e) }} className={'nav-button'} >
-                        <FirstPage style={{ border: '1px solid #818181' }} className='icon' />
+                        <DoubleLeftOutlined className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} />
+                        {/* <FirstPage style={{}} className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} /> */}
                     </span>
                     <span onClick={(e) => { this.handleNav("prev", e) }} className={'nav-button'}>
-                        <PrevPage style={{ border: '1px solid #818181' }} className='icon' />
+                        <LeftOutlined className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} />
                     </span>
                     <span onClick={(e) => { this.handleNav("next", e) }} className={'nav-button'}>
-                        <NextPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                        <RightOutlined className={`icon ${this.state.current * this.state.pageSize >= this.state.total ? "inactive" : "active"}`} />
                     </span>
                     <span onClick={(e) => { this.handleNav("last", e) }} className={'nav-button'}>
-                        <LastPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                        <DoubleRightOutlined className={`icon ${this.state.current * this.state.pageSize >= this.state.total ? "inactive" : "active"}`} />
                     </span>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 import './index.scss';
-import { Layout } from "antd";
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {

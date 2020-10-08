@@ -14,6 +14,11 @@
         background-color: $APP_BACKGROUND;
         height: 34px;
         align-items: center;
+        .trends-header-text {
+            color: #ffffff;
+            font-size: 18px;
+            padding-left: 2px;
+        }
     }
     .recharts-layer.recharts-brush-traveller {
         cursor: pointer !important;
@@ -37,6 +42,11 @@
         display: flex;
         align-items: center;
         text-align: left;
+
+        .title-header-text {
+            color: #ffffff;
+            padding-left: 10px;
+        }
     }
 
     // .line-chart {
@@ -80,10 +90,9 @@
 }
 
 .trend-dropdown-active {
-    color: $ACTIVE;
+    color: $ACTIVE !important;
     border-bottom: 1px solid #fcc84a;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    font-family: "Roboto" !important;
 }

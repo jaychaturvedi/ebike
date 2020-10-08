@@ -1,8 +1,7 @@
 import './index.scss';
-import { Layout, Table, Select, Typography, ConfigProvider, Empty } from "antd";
+import { Table, Select, Typography, ConfigProvider, Empty } from "antd";
 import React, { PureComponent } from 'react';
-import { ReactComponent as Severity } from "../../../assets/severity_icon.svg"
-import { DownOutlined } from '@ant-design/icons';
+import { DoubleLeftOutlined, DoubleRightOutlined, DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { ReactComponent as ActiveSort } from "../../../assets/active_sort_icon.svg"
 import { ReactComponent as NextPage } from "../../../assets/next_page_icon.svg"
 import { ReactComponent as PrevPage } from "../../../assets/previous_page_icon.svg"
@@ -223,7 +222,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
 
     render() {
-        let { isAsc, alertTimeClicked: alertClicked } = this.state;
+        let { alertTimeClicked: alertClicked } = this.state;
         const columns: any = [
             {
                 dataIndex: 'alertTime', defaultSortOrder: 'ascend',
@@ -276,16 +275,17 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                     </span>
                     <div className={'spacer'}></div>
                     <span onClick={(e) => { this.handleNav("first", e) }} className={'nav-button'} >
-                        <FirstPage style={{ border: '1px solid #818181' }} className='icon' />
+                        <DoubleLeftOutlined className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} />
+                        {/* <FirstPage style={{}} className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} /> */}
                     </span>
                     <span onClick={(e) => { this.handleNav("prev", e) }} className={'nav-button'}>
-                        <PrevPage style={{ border: '1px solid #818181' }} className='icon' />
+                        <LeftOutlined className={`icon ${this.state.current !== 1 ? "active" : "inactive"}`} />
                     </span>
                     <span onClick={(e) => { this.handleNav("next", e) }} className={'nav-button'}>
-                        <NextPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                        <RightOutlined className={`icon ${this.state.current * this.state.pageSize >= this.state.total ? "inactive" : "active"}`} />
                     </span>
                     <span onClick={(e) => { this.handleNav("last", e) }} className={'nav-button'}>
-                        <LastPage style={{ border: '1px solid #ffffff' }} className='icon' />
+                        <DoubleRightOutlined className={`icon ${this.state.current * this.state.pageSize >= this.state.total ? "inactive" : "active"}`} />
                     </span>
                 </div>
             </div>

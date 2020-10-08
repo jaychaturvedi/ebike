@@ -1,6 +1,6 @@
 import {
     AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
-    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, Alert, User
+    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User
 } from "./models";
 
 export interface State {

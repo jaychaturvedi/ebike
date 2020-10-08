@@ -1,7 +1,6 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import moment from 'moment'
-import {formatTime} from "../../../connectm-client/util/time-formater"
+import { formatTime } from "../../../connectm-client/util/time-formater"
 interface TimeRendererProps {
     text: any,
     record: any,

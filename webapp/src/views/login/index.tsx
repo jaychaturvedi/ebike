@@ -1,10 +1,6 @@
-import { Layout } from "antd";
 import React, { PureComponent } from 'react';
-import Content from '../../component/content'
 import 'antd/dist/antd.css';
 import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import LoginImage from "../../assets/login_image.png"
 import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg"
 import MotovoltLogo from '../../assets/png/motovolt_text.png'
 import Cross from '../../assets/png/cross-vector.png'
@@ -50,7 +46,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                 } else {
                     this.setState({
                         formValid: 'error', valid: !this.state.valid,
-                        message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
+                        message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
                     })
                 }
             })
@@ -61,7 +57,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
         if (this.state.username.length <= 0) {
             this.setState({
                 formValid: 'error', valid: !this.state.valid,
-                message: <span> <img src={Cross} height="20px" /> &nbsp;Please enter your email and try again.</span>
+                message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Please enter your email and try again.</span>
             })
         } else {
             initiateForgotPassword(this.state.username)
@@ -69,12 +65,12 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                     if (passwordInit.success) {
                         this.setState({
                             formValid: 'success', valid: !this.state.valid,
-                            message: <span> <img src={Exclamation} height="20px" /> &nbsp;We have sent you an email with the link to reset the password!</span>
+                            message: <span> <img src={Exclamation} height="20px" alt="exclamation" /> &nbsp;We have sent you an email with the link to reset the password!</span>
                         })
                     } else {
                         this.setState({
                             formValid: 'error', valid: !this.state.valid,
-                            message: <span> <img src={Cross} height="20px" /> &nbsp;Unable to send you an email with the link to reset the password!</span>
+                            message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Unable to send you an email with the link to reset the password!</span>
                         })
                     }
                     console.log(passwordInit)
@@ -92,11 +88,11 @@ class Login extends PureComponent<LoginProps, LoginStates> {
     render() {
         return (
             <div className="connectm-login">
-                <div className="container">
+                <div className="login-body">
                     <div className="login-image">
                         {/* <img src={LoginImage} alt="" /> */}
                         <div className="logo-title">
-                            <div className="motovolt"><span><img src={MotovoltLogo} style={{ width: '80%' }} /></span></div>
+                            <div className="motovolt"><span><img src={MotovoltLogo} style={{ width: '80%' }} alt="motovolt-logo" /></span></div>
                             <div className="command-center"><span>Command Center</span></div>
                         </div>
                     </div>
@@ -106,7 +102,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                         </div>
                         <div className={"form-body"}>
                             <div className="logo">
-                                <ReactLogo width="80" height="60" />
+                                <ReactLogo className="motovolt-logo-icon" />
                             </div>
                             <Form
                                 name="normal_login"
@@ -131,7 +127,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                                     <Button type="primary" htmlType="submit" className="login-form-button">
                                         Log in
                                 </Button>
-                                    <a className="login-form-forgot" href="" onClick={this.forgotPassword}>
+                                    <a className="login-form-forgot" href="/" onClick={this.forgotPassword}>
                                         Forgot password?
                                 </a>
                                 </Form.Item>
@@ -140,12 +136,12 @@ class Login extends PureComponent<LoginProps, LoginStates> {
 
                     </div>
                 </div>
-                <div className="footer">
+                <div className="login-footer">
                     <div>
                         Copyright © Motovolt 2020. All rights reserved.
                     </div>
                     <div>
-                        Ver: 3.4.0
+                        Ver: 1.0.0
                     </div>
                 </div>
             </div>
