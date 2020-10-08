@@ -69,7 +69,7 @@ class RateRide extends React.PureComponent<Props, State> {
             this.setState({showFeedback: false, problem: '', description: ''});
           }
         }}>
-        <View
+        <ScrollView
           style={{
             ...styles.container,
             backgroundColor: Theme.BACKGROUND, //change dark theme
@@ -273,7 +273,7 @@ class RateRide extends React.PureComponent<Props, State> {
               </View>
             </View>
           </Modal>
-        </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     );
   }
