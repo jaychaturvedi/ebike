@@ -28,16 +28,16 @@ app.get('/', expressQAsync(secure),
 )
 //updates name and email during registration
 app.put('/', expressQAsync(secure),
-    [body('fullName', "fullName is optional").optional().isString().isLength({ min: 1 }),
-    body("email", "email is optional").optional().isEmail(),
-    body('age', "age is optional").optional().isString().isLength({ min: 1 }),
-    body('gender', "gender is optional").optional().isString().isLength({ min: 1 }), validate],
+    [body('fullName', "fullName is required").isString().isLength({ min: 1 }),
+    body("email", "email is required").isEmail(),
+    body('age', "age is required").isString().isLength({ min: 1 }),
+    body('gender', "gender is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         console.log("Start Time:", new Date(), "request body", req.body)
         const uid = res.locals.user.uid
         const { fullName, email, age, gender } = req.body
-        if (!fullName && !email && !age && !gender)
-            throw new UserError("Please pass atleast one of 'fullName', 'email','age', or 'gender' ");
+        // if (!fullName && !email && !age && !gender) //optional condition
+        //     throw new UserError("Please pass atleast one of 'fullName', 'email','age', or 'gender' ");
         const updated = await User.updateByUid(uid, { fullName, email, age, gender });
         const response = createResponse("OK", updated, undefined)
         console.log("End Time:", new Date())
