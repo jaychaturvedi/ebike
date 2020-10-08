@@ -232,28 +232,28 @@ export default class Graph extends React.PureComponent<Props, State>{
                                             {
                                                 value: 120,
                                                 svg: {
-                                                    fill: 'rgb(83,114,255,0.4)',
+                                                    fill: 'transparent',
                                                 },
                                                 date: new Date("2020-08-09T16:25:31.541Z"),
                                             },
                                             {
                                                 value: 10,
                                                 svg: {
-                                                    fill: 'rgb(83,114,255,0.4)',
+                                                    fill: 'transparent',
                                                 },
                                                 date: new Date("2020-08-07T16:25:31.541Z"),
                                             },
                                             {
                                                 value: 40,
                                                 svg: {
-                                                    fill: 'rgb(83,114,255,0.4)',
+                                                    fill: 'transparent',
                                                 },
                                                 date: new Date("2020-08-08T16:25:31.541Z"),
                                             },
                                             {
                                                 value: 95,
                                                 svg: {
-                                                    fill: 'rgb(83,114,255,0.4)',
+                                                    fill: 'transparent',
                                                 },
                                                 date: new Date("2020-08-09T16:25:31.541Z"),
                                             },
