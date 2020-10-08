@@ -41,13 +41,13 @@ class MotovoltApp extends React.Component {
 
     return (
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
           <NavigationContainer>
             <ThemeContext.Provider value={this.state}>
               <App />
             </ThemeContext.Provider>
           </NavigationContainer>
-        </PersistGate>
+        {/* </PersistGate> */}
       </Provider>
     );
   }
