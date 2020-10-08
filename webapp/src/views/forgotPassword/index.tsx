@@ -151,7 +151,7 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
                         Copyright © Motovolt 2020. All rights reserved.
                     </div>
                     <div>
-                        Ver: 3.4.0
+                        Ver: 1.0.0
                     </div>
                 </div>
             </div>
