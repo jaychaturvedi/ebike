@@ -3,13 +3,14 @@ import { View, StyleSheet, Text } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import Button from '../../components/cta-button';
 import CheckBox from '../../components/checkbox';
-import { Textarea } from 'native-base';
+import { Icon, Textarea } from 'native-base';
 import LanguageSelector from '../../translations';
 import { ThemeContext } from '../../styles/theme/theme-context'
 
 type Props = {
   showFeedback: boolean;
   onFeedback: (problem: string, description: string) => void;
+  onClose: () => void
 };
 
 type State = {
@@ -32,15 +33,27 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <View style={styles.reviews}>
           <View style={{ ...styles.model, backgroundColor: Theme.BACKGROUND }}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: moderateScale(16),
-                paddingBottom: moderateScale(10),
-                color: Theme.TEXT_WHITE //change dark theme
-              }}>
-              {LanguageSelector.t("feedback.whatWentWrong")}
-            </Text>
+            <View style={{
+              height: moderateScale(20),
+              flex: 1, flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}>
+              <Text
+                style={{
+                  textAlign: 'left',
+                  fontWeight: 'bold',
+                  fontSize: moderateScale(16),
+                  paddingBottom: moderateScale(10),
+                  color: Theme.TEXT_WHITE //change dark theme
+                }}>
+                {LanguageSelector.t("feedback.whatWentWrong")}
+              </Text>
+              <Icon
+                type="FontAwesome"
+                name="close"
+                style={{ fontSize: moderateScale(20), fontWeight: 200 }}
+                onPress={this.props.onClose} />
+            </View>
             <CheckBox
               option1="Battery Issue"
               option2="Low Pick Up"
@@ -102,15 +115,14 @@ const styles = StyleSheet.create({
     height: '100%',
     position: 'relative',
     bottom: 0,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: verticalScale(16),
   },
   model: {
-    // backgroundColor: 'white',
     paddingVertical: moderateScale(20),
     paddingHorizontal: moderateScale(10),
-    height: '100%',
+    height: moderateScale(400),
     width: '100%',
     marginVertical: moderateScale(16),
     borderRadius: moderateScale(10),

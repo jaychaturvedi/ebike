@@ -1,13 +1,14 @@
 import React from 'react';
-import {Modal, View} from 'react-native';
+import { Modal, View } from 'react-native';
 
 type Props = {
   children: React.ReactNode;
+  visible?: boolean
 };
 
 export default (props: Props) => {
   return (
-    <Modal visible transparent animationType={'fade'}>
+    <Modal visible={props.visible !== undefined ? props.visible : true} transparent animationType={'fade'}>
       <View
         style={{
           justifyContent: 'center',

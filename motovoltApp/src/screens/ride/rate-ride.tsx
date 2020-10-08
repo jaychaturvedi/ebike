@@ -267,13 +267,13 @@ class RateRide extends React.PureComponent<Props, State> {
             />
           </View>
           <Modal
-            animationType="slide"
-            transparent={true}
+            transparent
             visible={this.state.showFeedback}
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Feedback
+                  onClose={() => this.setState({ showFeedback: false })}
                   onFeedback={(problem, description) => {
                     this.setState({
                       problem: problem,
@@ -333,23 +333,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(20),
     paddingVertical: moderateScale(32),
   },
-
-
-  /////
-
   centeredView: {
     flex: 1,
     width: '100%',
-    justifyContent: "flex-end",
+    height: '100%',
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
   },
   modalView: {
-    padding: moderateScale(10),
-    // backgroundColor: "#cfd0d1",
+    padding: moderateScale(20),
+    backgroundColor: "rgba(100,100,100,0.5)",
+    // opacity: 0.5,
     borderRadius: 10,
     alignItems: "center",
-    height: moderateScale(500),
+    // height: moderateScale(500),
+    height: '100%',
     shadowColor: "#000",
     width: '100%',
     shadowOffset: {
