@@ -4,8 +4,9 @@ import {
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
-  GestureResponderEvent,
+  GestureResponderEvent, Modal
 } from 'react-native';
+import Button from '../../components/cta-button';
 import Rating from '../../components/rating';
 import { moderateScale } from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
@@ -18,7 +19,7 @@ import { Dispatch } from 'redux';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
 import { ThemeContext } from '../../styles/theme/theme-context';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -178,7 +179,7 @@ class RateRide extends React.PureComponent<Props, State> {
               />
             </View>
           </View>
-          <TouchableWithoutFeedback
+          {/* <TouchableWithoutFeedback
             onPress={(event: GestureResponderEvent) => {
               console.log('Pressed inside');
               event.stopPropagation();
@@ -219,7 +220,72 @@ class RateRide extends React.PureComponent<Props, State> {
                 submitDisabled={!this.state.rating}
               />
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
+          <View style={styles.button}>
+            <Button
+              fullWidth
+              // textColor={this.state.rating < 4 ? '#333333' : "white"}
+              textColor={"white"}
+              text={LanguageSelector.t("rateYourRide.submit")}
+              // backgroundColor={this.state.rating < 4 ? '#B7B7B7' : '#142F6A'}
+              backgroundColor={'#142F6A'}
+              onPress={() => {
+                if (this.state.rating < 4) {
+                  if (!this.state.problem) {
+                    this.setState({ showFeedback: true })
+                  } else {
+                    this.props.submitRide({
+                      type: 'SubmitRide',
+                      payload: {
+                        bikeId: this.props.user.defaultBikeId,
+                        rideId: this.props.ride.id,
+                        comment: this.state.description,
+                        rating: this.state.rating,
+                        reason: [this.state.problem],
+                      },
+                    });
+                    setTimeout(() => {
+                      this.props.onComplete();
+                    }, 1000);
+                  }
+                } else {
+                  this.props.submitRide({
+                    type: 'SubmitRide',
+                    payload: {
+                      bikeId: this.props.user.defaultBikeId,
+                      rideId: this.props.ride.id,
+                      comment: this.state.description,
+                      rating: this.state.rating,
+                      reason: [this.state.problem],
+                    },
+                  });
+                  setTimeout(() => {
+                    this.props.onComplete();
+                  }, 1000);
+                }
+              }}
+            />
+          </View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.showFeedback}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Feedback
+                  onFeedback={(problem, description) => {
+                    this.setState({
+                      problem: problem,
+                      description: description,
+                      showFeedback: false
+                    });
+                  }}
+                  showFeedback={this.state.showFeedback}
+                />
+              </View>
+            </View>
+          </Modal>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -266,5 +332,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: moderateScale(20),
     paddingVertical: moderateScale(32),
+  },
+
+
+  /////
+
+  centeredView: {
+    flex: 1,
+    width: '100%',
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    padding: moderateScale(10),
+    // backgroundColor: "#cfd0d1",
+    borderRadius: 10,
+    alignItems: "center",
+    height: moderateScale(500),
+    shadowColor: "#000",
+    width: '100%',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
   },
 });
