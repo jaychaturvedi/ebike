@@ -4,22 +4,23 @@ import {
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
-  GestureResponderEvent, Modal
+  GestureResponderEvent,
+  Modal,
 } from 'react-native';
 import Button from '../../components/cta-button';
 import Rating from '../../components/rating';
-import { moderateScale } from 'react-native-size-matters';
+import {moderateScale} from 'react-native-size-matters';
 import RideMetric from '../../components/ride-metric';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
 import Feedback from './feedback';
 import ThumbsUp from '../../components/thumb-up';
-import { SubmitRide } from 'src/service/redux/actions/saga';
-import { Dispatch } from 'redux';
+import {SubmitRide} from 'src/service/redux/actions/saga';
+import {Dispatch} from 'redux';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
-import { ThemeContext } from '../../styles/theme/theme-context';
-import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
+import {ThemeContext} from '../../styles/theme/theme-context';
+import {ScrollView, TouchableHighlight} from 'react-native-gesture-handler';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -56,8 +57,8 @@ class RateRide extends React.PureComponent<Props, State> {
     if (this.state.showThumpUp) {
       return (
         <ThumbsUp
-          msg={LanguageSelector.t("feedback.thankYou")}
-          subMsg={LanguageSelector.t("feedback.confirmationSubTitle")}
+          msg={LanguageSelector.t('feedback.thankYou')}
+          subMsg={LanguageSelector.t('feedback.confirmationSubTitle')}
         />
       );
     }
@@ -65,7 +66,7 @@ class RateRide extends React.PureComponent<Props, State> {
       <TouchableWithoutFeedback
         onPress={() => {
           if (this.state.showFeedback) {
-            this.setState({ showFeedback: false, problem: '', description: '' });
+            this.setState({showFeedback: false, problem: '', description: ''});
           }
         }}>
         <View
@@ -166,7 +167,7 @@ class RateRide extends React.PureComponent<Props, State> {
                 {LanguageSelector.t('rateYourRide.rateYourRide')}
               </Text>
             </View>
-            <View >
+            <View>
               <Rating
                 defaultRating={0}
                 maxRating={5}
@@ -225,29 +226,13 @@ class RateRide extends React.PureComponent<Props, State> {
             <Button
               fullWidth
               // textColor={this.state.rating < 4 ? '#333333' : "white"}
-              textColor={"white"}
-              text={LanguageSelector.t("rateYourRide.submit")}
+              textColor={'white'}
+              text={LanguageSelector.t('rateYourRide.submit')}
               // backgroundColor={this.state.rating < 4 ? '#B7B7B7' : '#142F6A'}
               backgroundColor={'#142F6A'}
               onPress={() => {
                 if (this.state.rating < 4) {
-                  if (!this.state.problem) {
-                    this.setState({ showFeedback: true })
-                  } else {
-                    this.props.submitRide({
-                      type: 'SubmitRide',
-                      payload: {
-                        bikeId: this.props.user.defaultBikeId,
-                        rideId: this.props.ride.id,
-                        comment: this.state.description,
-                        rating: this.state.rating,
-                        reason: [this.state.problem],
-                      },
-                    });
-                    setTimeout(() => {
-                      this.props.onComplete();
-                    }, 1000);
-                  }
+                  this.setState({showFeedback: true});
                 } else {
                   this.props.submitRide({
                     type: 'SubmitRide',
@@ -262,23 +247,25 @@ class RateRide extends React.PureComponent<Props, State> {
                   setTimeout(() => {
                     this.props.onComplete();
                   }, 1000);
+                  this.setState({showThumpUp: true});
                 }
               }}
             />
           </View>
-          <Modal
-            transparent
-            visible={this.state.showFeedback}
-          >
+          <Modal transparent visible={this.state.showFeedback}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Feedback
-                  onClose={() => this.setState({ showFeedback: false })}
+                  onClose={() => this.setState({showFeedback: false})}
                   onFeedback={(problem, description) => {
+                    setTimeout(() => {
+                      this.props.onComplete();
+                    }, 1000);
                     this.setState({
                       problem: problem,
                       description: description,
-                      showFeedback: false
+                      showFeedback: false,
+                      showThumpUp: true,
                     });
                   }}
                   showFeedback={this.state.showFeedback}
@@ -337,32 +324,32 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 22,
   },
   modalView: {
     padding: moderateScale(20),
-    backgroundColor: "rgba(100,100,100,0.5)",
+    backgroundColor: 'rgba(100,100,100,0.5)',
     // opacity: 0.5,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center',
     // height: moderateScale(500),
     height: '100%',
-    shadowColor: "#000",
+    shadowColor: '#000',
     width: '100%',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
   openButton: {
-    backgroundColor: "#F194FF",
+    backgroundColor: '#F194FF',
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
 });
