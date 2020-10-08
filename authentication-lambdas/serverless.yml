@@ -14,7 +14,8 @@ provider:
   environment: 
     REGISTEREDFRAMEIDFORMOBILEURL: https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra/validateph
     CREATEUSERURL: https://q6sm9vkbn2.execute-api.us-east-2.amazonaws.com/dev/user/
-    WEBAPPSITEURL: http://localhost:3000
+    WEBAPPSITEURL: http://ev.connectm.com
+    MOBILEAPIURL: https://q6sm9vkbn2.execute-api.us-east-2.amazonaws.com/dev/user/phone/
 functions:
   preSignUp:
     handler: src/functions.preSignUp
@@ -36,4 +37,18 @@ functions:
       - http: 
           path: /webAppForgotPassword
           method: ANY
+          cors: true
+  createWebAppUser:
+    handler: src/createWebAppUser.createWebAppUser
+    events: 
+      - http: 
+          path: /createWebAppUser
+          method: POST
+          cors: true
+  deleteAppCognitoAndDbUser:
+    handler: src/deleteAppCognitoAndDbUser.deleteAppCognitoAndDbUser
+    events: 
+      - http: 
+          path: /deleteAppCognitoAndDbUser
+          method: POST
           cors: true

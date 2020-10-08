@@ -47,7 +47,7 @@ export default class RideFeedback extends React.PureComponent<Props, State> {
               <CheckBox
                 option1="Battery Issue"
                 option2="Low Pick Up"
-                option3="Break failure"
+                option3="Break Failure"
                 option4="Other"
                 returnValue={(value: string) => {
                   this.setState({ checkboxValue: value });

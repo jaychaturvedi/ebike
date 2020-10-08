@@ -61,8 +61,8 @@ export function* endRide(params: RideActions.EndRide) {
                     startTime: data.startTime,
                     endTime: data.endTime,
                     path: data.gpsPath.map((item: any) => ({
-                        lat: item.lat ?? '',
-                        long: item.lng ?? '',
+                        lat: item.lat ?? 0,
+                        long: item.lng ?? 0,
                         time: item.utc ?? ''
                     }))
                 }
@@ -229,8 +229,8 @@ export function* getRide(params: RideActions.ReadRideData) {
                     startTime: data.startTime,
                     endTime: data.endTime,
                     path: data.gpsPath.map((item: any) => ({
-                        lat: item.lat ?? '',
-                        long: item.lng ?? '',
+                        lat: Number(item.lat) ?? 0,
+                        long: Number(item.lng) ?? 0,
                         time: item.utc ?? ''
                     })),
                     durationSec: data.duration,

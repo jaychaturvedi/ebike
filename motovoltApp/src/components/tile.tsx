@@ -52,7 +52,11 @@ const styles = StyleSheet.create({
         width: '47%',
         backgroundColor: 'white',
         borderRadius: moderateScale(10),
-        marginBottom: moderateScale(20)
+        marginBottom: moderateScale(20),
+        shadowOpacity: 0.25,
+        shadowRadius: 1,
+        shadowColor: 'black',
+        shadowOffset: {height: 4, width: 2},    
     },
     premium: {
         height: '10%',

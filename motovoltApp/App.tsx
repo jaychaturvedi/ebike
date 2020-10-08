@@ -69,7 +69,8 @@ class App extends React.PureComponent<Props, State> {
             //Fetch user from backend and update isBikeRegistered , isPhoneValidated
             console.log('Response ', response);
             const user = await getUser();
-            if(!user.success){
+            if (!user.success) {
+              Toast.show('Error connecting to server');
               return;
             }
             console.log('Initial User : ', user);

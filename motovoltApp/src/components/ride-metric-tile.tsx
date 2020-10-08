@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
         borderRadius: scale(10),
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
+        shadowOpacity: 0.25,
+        shadowRadius: 1,
+        shadowColor: 'black',
+        shadowOffset: {height: 4, width: 2},    
     },
     icon: {
         width: moderateScale(20),

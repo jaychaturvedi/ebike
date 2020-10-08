@@ -5,7 +5,7 @@ export default class Faq {
 
     static async findWhere(condition: any) {
         const user = await FaqModel.findOne({ where: { ...condition } })
-        if (!user) throw new BadRequestError(`${condition} not found`)
+        if (!user) throw new BadRequestError(`faq id and name not found in record`)
         return user
     }
 
@@ -17,9 +17,16 @@ export default class Faq {
     static async createNew(faq: TFaq) {
         const { id, name } = faq;
         const existingFaqs = await FaqModel.findOne({ where: { id, name } })
-        if (existingFaqs) { return await Faq.update(faq) }
-        const newFaqs = await FaqModel.create(faq)
-        if (!newFaqs) throw new BadRequestError("Unable to create new ")
+        if (existingFaqs) { throw new BadRequestError("record with same id already exists") }
+        let newFaqs
+        try {
+
+            newFaqs = await FaqModel.create(faq)
+        }
+        catch (e) {
+            throw new BadRequestError("Unable to create record because of duplicate id or name")
+        }
+        // if (!newFaqs) throw new BadRequestError("Unable to create record because of duplicate id or name")
         return newFaqs;
     }
 

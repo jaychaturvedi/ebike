@@ -1,4 +1,5 @@
 {
+    "A": "ক",
     "language": "বাংলা",
     "intro": {
         "intro_1": "চলো ইকট্রিক",
@@ -6,7 +7,8 @@
         "intro_3": "দূরবর্তীভাবে আপনার চক্রটি নিয়ন্ত্রণ করুন এবং সনাক্ত করুন",
         "intro_4": "আপনার ফোনে সাইকেল পরিসংখ্যান বিশ্লেষণ করা হবে",
         "intro_5": "গ্রিন মাইলস অর্জন করুন এবং আকর্ষণীয় উপহার উপার্জন করুন!",
-        "login": "ইতোমধ্যে একটি অ্যাকাউন্ট আছে? লগ-ইন",
+        "alreadyHaveAccount": "ইতোমধ্যে একটি অ্যাকাউন্ট আছে?",
+        "login": "লগ-ইন",
         "register": "নিবন্ধন"
     },
     "login": {
@@ -27,9 +29,10 @@
         "subTitle": "পাসওয়ার্ড ৫টি অক্ষর, ১টি উপরের কেস এবং একটি বিশেষ অক্ষর দিয়ে আলফানুমেরিক হতে হবে.",
         "reEnterPassword": "পাসওয়ার্ড পুনঃপ্রবেশ করান",
         "passwordMismatch": "পাসওয়ার্ড মিসম্যাচ",
-        "save&continue": "ক্রমাগত সংরক্ষণ করো",
+        "saveNcontinue": "ক্রমাগত সংরক্ষণ করো",
         "passwordCreatedSuccessfully": "নতুন পাসওয়ার্ড সফলভাবে তৈরি",
-        "proceed": "এগিয়ে যান"
+        "proceed": "এগিয়ে যান",
+        "passwordChanged": "পাসওয়ার্ড পরিবর্তন"
     },
     "registration": {
         "validateMobileNumber": "আপনার মোবাইল নম্বরটি যাচাই করুন",
@@ -54,10 +57,14 @@
         "scanQrTitle": "নিবন্ধনের জন্য কিউআর কোডটি স্ক্যান করুন",
         "scanQrSubTitle": "আপনার ক্যামেরাটি কিউআর কোডটিতে দেখান",
         "bikeRegisteredSuccessfully": "সাফল্যের সাথে নিবন্ধিত",
-        "bikeRegisteredTitle": "মোটোভোল্ট পরিবারে আপনাকে স্বাগতম! আপনাকে শুভ ই-সাইক্লিং ...",
+        "bikeRegisteredTitle": "মোটোভোল্ট পরিবারে আপনাকে স্বাগতম! ",
+        "happyECycling": "আপনাকে শুভ ই-সাইক্লিং ...",
+        "bikeNamePlaceholder": "এই নামটি স্ক্রিনে প্রদর্শিত হবে",
         "bikeRegisteredSubTitle": "আপনার বাইকের জন্য একটি কাস্টম নাম দিন",
         "customBikeNamePlaceholder": "নাম প্রবিষ্ট করুন",
         "continue": "অব্যাহত রাখুন",
+        "optional": "চ্ছিক",
+        "matchFound": "ম্যাচ পাওয়া গেছে",
         "enterYourDetails": "আপনার অ্যাকাউন্টের বিস্তারিত তথ্য লিখুন",
         "fullNamePlaceholder": "সম্পূর্ণ নাম",
         "emailPlaceholder": "ইমেইল",
@@ -80,6 +87,7 @@
         "on": "চালু",
         "off": "বন্ধ",
         "hello": "হ্যালো",
+        "bike": "বাইক",
         "battery": "ব্যাটারির",
         "charge": "চার্জ",
         "range": "ব্যাপ্তি",
@@ -88,7 +96,7 @@
         "rideStatistics": "রাইড পরিসংখ্যান",
         "co2eSavings": "CO2e সঞ্চয়",
         "totalDistance": "সম্পুর্ণ দুরত্ব",
-        "avgRideScore": "গড় রাইড স্কোর",
+        "avgRideScore": "গড় স্কোর",
         "greenMiles": "সবুজ মাইলস",
         "petrolSavings": "পেট্রল সাশ্রয়",
         "costRecovered": "ব্যয় পুনরুদ্ধার",
@@ -146,7 +154,8 @@
         "co2eSavings": "CO2e সঞ্চয়",
         "avgDistance": "অ্যাভগ. দূরত্ব",
         "yourRides": "আপনার রাইড",
-        "mode": "মোড"
+        "mode": "মোড",
+        "noHistoryDataFound": "কোনও ইতিহাসের ডেটা পাওয়া যায় নি"
     },
     "myBike": {
         "myCycle": "আমার চক্র",
@@ -238,6 +247,7 @@
         "cycleUnavailableTitle": "নীচের বোতামে ক্লিক করে আপনার অ্যাপ্লিকেশন থেকে এই সাইকেলটি সরান।",
         "cycleUnavailableSubTitle": "আরও সহায়তার জন্য গ্রাহক সহায়তায় যোগাযোগ করুন",
         "removeThisBike": "এই বাইকটি সরান",
+        "customerSupport": "গ্রাহক সমর্থন",
         "continue": "অব্যাহত রাখুন",
         "success": "সাফল্য!",
         "successTitle": "বাইকটি সফলভাবে সরানো হয়েছে।",

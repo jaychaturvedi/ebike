@@ -111,7 +111,10 @@ class ForgotPassword extends React.PureComponent<Props, State> {
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         style={styles.container}>
-        <CTAHeader />
+        <CTAHeader 
+        hasBackButton
+        onBackClick={() => this.props.navigation.replace("LoginPage", {})}
+        />
         <Text style={styles.title}>Forgot Password</Text>
         <View style={styles.body}>
           <Input

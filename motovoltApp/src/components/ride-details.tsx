@@ -106,6 +106,10 @@ const styles = StyleSheet.create({
         height: moderateScale(180),
         borderRadius: 10,
         flexDirection: 'row',
+        shadowOpacity: 0.25,
+        shadowRadius: 1,
+        shadowColor: 'black',
+        shadowOffset: {height: 4, width: 2},    
     },
     headerText: {
         fontSize: moderateScale(10),

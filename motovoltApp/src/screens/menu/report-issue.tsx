@@ -51,9 +51,9 @@ class ReportIssue extends React.PureComponent<Props, State> {
     let Theme = this.context.theme //load theme context
     return this.props.bike.reportIssueSuccess === true ? (
       <ThumbsUp
-        msg="Success"
-        buttonText="CONTINUE"
-        subMsg="We have received your feedback and will help you with it soon."
+        msg={LanguageSelector.t("support.success")}
+        buttonText={LanguageSelector.t("support.continue")}
+        subMsg={LanguageSelector.t("support.successSubTitle")}
         onButtonPress={() => {
           this.props.resetReportIssue({ type: 'Store_ResetReportIssue', payload: {} })
           this.props.navigation.navigate('SupportService', {});
@@ -110,7 +110,7 @@ class ReportIssue extends React.PureComponent<Props, State> {
                   underline
                   rowSpan={7}
                   bordered
-                  placeholder="Please describe your concern ... "
+                  placeholder={LanguageSelector.t("support.commentsPlaceholder")}
                   style={styles.textArea}
                   onChangeText={(text: string) =>
                     this.setState({ description: text })
@@ -167,6 +167,10 @@ const styles = StyleSheet.create({
   header: {
     height: moderateScale(100),
     justifyContent: 'center',
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   profileInfo: {
     marginVertical: verticalScale(8),
@@ -177,6 +181,11 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(15),
     backgroundColor: 'white',
     padding: moderateScale(15),
+    marginBottom: moderateScale(20),
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   info: {
     height: moderateScale(100),
@@ -185,6 +194,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: moderateScale(200),
+    marginBottom: moderateScale(20),
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: {height: 4, width: 2},    
   },
   textArea: {
     borderRadius: moderateScale(15),

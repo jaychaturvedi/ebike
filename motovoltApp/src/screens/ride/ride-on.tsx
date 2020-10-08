@@ -12,6 +12,7 @@ const objectid = require("react-native-bson/lib/bson/objectid");
 import { Dispatch } from 'redux';
 import { StartRide, EndRide, Speedometer } from '../../service/redux/actions/saga';
 import LanguageSelector from '../../translations';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { ThemeContext } from '../../styles/theme/theme-context'
 
 type ReduxState = {
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   flexVerticalCentre: {
+    paddingHorizontal: scale(20),
     flex: 1,
     justifyContent: 'center',
   },
@@ -145,12 +147,13 @@ class RideOn extends React.PureComponent<Props, State> {
       <View style={{ ...styles.container }}>
         <Header
           backgroundColor={Theme.WHITE} //change dark theme
-          title={`Bike ${this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}`}
+          title={`${LanguageSelector.t("home.bike")} ${this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}`}
           hasTabs
         />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
+              hideShadow
               batteryCharge={Math.round(Number(this.props.bike.batteryChargePer)).toString()}
               rangeAvailable={Math.round(Number(this.props.bike.rangeAvailableKm)).toString()}
               rangeCovered={Math.round(Number(this.props.bike.rangeCoveredKm)).toString()}

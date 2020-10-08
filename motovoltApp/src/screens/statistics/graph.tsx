@@ -6,6 +6,7 @@ import { BarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts'
 // import { BarChart } from 'react-native-chart-kit';
 import * as scale from 'd3-scale'
 import { moderateScale } from 'react-native-size-matters'
+import LanguageSelector from '../../translations';
 
 type Props = {
     data: {
@@ -222,7 +223,7 @@ export default class Graph extends React.PureComponent<Props, State>{
                                 alignItems: 'center',
                                 borderBottomWidth: 1,
                                 borderBottomColor: '#f2f3f5'
-                            }}><Text>No history data found</Text></View>
+                            }}><Text>{LanguageSelector.t("myRides.noHistoryDataFound")}</Text></View>
                                 :
                                 <View style={{ minWidth: moderateScale(250) }}>
                                     <BarChart style={{ height: moderateScale(150) }}
@@ -231,28 +232,28 @@ export default class Graph extends React.PureComponent<Props, State>{
                                             {
                                                 value: 120,
                                                 svg: {
-                                                    fill: 'rgb(83,114,255,0.4)',
+                                                    fill: 'transparent',
                                                 },
                                                 date: new Date("2020-08-09T16:25:31.541Z"),
                                             },
                                             {
                                                 value: 10,
                                                 svg: {
-                                                    fill: 'rgb(83,114,255,0.4)',
+                                                    fill: 'transparent',
                                                 },
                                                 date: new Date("2020-08-07T16:25:31.541Z"),
                                             },
                                             {
                                                 value: 40,
                                                 svg: {
-                                                    fill: 'rgb(83,114,255,0.4)',
+                                                    fill: 'transparent',
                                                 },
                                                 date: new Date("2020-08-08T16:25:31.541Z"),
                                             },
                                             {
                                                 value: 95,
                                                 svg: {
-                                                    fill: 'rgb(83,114,255,0.4)',
+                                                    fill: 'transparent',
                                                 },
                                                 date: new Date("2020-08-09T16:25:31.541Z"),
                                             },
