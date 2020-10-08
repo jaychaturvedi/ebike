@@ -1,7 +1,7 @@
 import { getToken } from "../../authentication";
 
 export const config = {
-    baseUrl: "https://q6sm9vkbn2.execute-api.us-east-2.amazonaws.com/dev"
+    baseUrl: "https://evapi.connectm.com"
 };
 
 export async function request(url: string, method: string, body?: any) {

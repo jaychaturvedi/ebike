@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   heading: {
     display: 'flex',
     alignItems: 'flex-start',
-    backgroundColor: Colors.WHITE,
   },
   metric: {
     fontWeight: FontWeight.BOLD,
@@ -86,8 +85,7 @@ export default class MetricTile extends React.PureComponent<
             {props.descriptionLine2}
           </Text>
         </View>
-        <View
-          style={{...styles.heading, backgroundColor: Theme.BACKGROUND_LIGHT}}>
+        <View style={{...styles.heading, backgroundColor: 'transparent'}}>
           <Text numberOfLines={1}>
             <Text
               style={{
