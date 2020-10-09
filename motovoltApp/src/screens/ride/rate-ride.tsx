@@ -63,124 +63,112 @@ class RateRide extends React.PureComponent<Props, State> {
       );
     }
     return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          if (this.state.showFeedback) {
-            this.setState({showFeedback: false, problem: '', description: ''});
-          }
+      <ScrollView
+        style={{
+          ...styles.container,
+          backgroundColor: Theme.BACKGROUND, //change dark theme
         }}>
-        <ScrollView
-          style={{
-            ...styles.container,
-            backgroundColor: Theme.BACKGROUND, //change dark theme
-          }}>
-          <View style={styles.map}>
-            <Map
-              location={
-                this.props.ride.path.map((point) => {
-                  return {
-                    latitude: point.lat,
-                    longitude: point.long,
-                  };
-                })
-                //     [
-                //     // {
-                //     // latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
-                //     // longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
-                //     // }
-                //     {
-                //         latitude: 37.3317876,
-                //         longitude: -122.0054812,
-                //     },
-                //     {
-                //         latitude: 37.771707,
-                //         longitude: -122.4053769,
-                //     },
-                // ]
-              }
+        <View style={styles.map}>
+          <Map
+            location={
+              this.props.ride.path.map((point) => {
+                return {
+                  latitude: point.lat,
+                  longitude: point.long,
+                };
+              })
+              //     [
+              //     // {
+              //     // latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
+              //     // longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
+              //     // }
+              //     {
+              //         latitude: 37.3317876,
+              //         longitude: -122.0054812,
+              //     },
+              //     {
+              //         latitude: 37.771707,
+              //         longitude: -122.4053769,
+              //     },
+              // ]
+            }
+          />
+        </View>
+        <View style={styles.usageDetails}>
+          <RideMetric
+            header1={LanguageSelector.t('rateYourRide.distance')}
+            header2={LanguageSelector.t('rateYourRide.duration')}
+            icon1={require('../../assets/icons/total_distance_icon.png')}
+            icon2={require('../../assets/icons/charge_time_remaining.png')}
+            value1={Math.round(
+              Number(this.props.ride.totalDistanceKm),
+            ).toString()}
+            value2={this.props.ride.durationSec.toString()}
+            unit1="Km"
+            unit2=""
+          />
+          <RideMetric
+            header1={LanguageSelector.t('rateYourRide.avgSpeed')}
+            header2={LanguageSelector.t('rateYourRide.maxSpeed')}
+            icon1={require('../../assets/icons/average_speed_icon.png')}
+            icon2={require('../../assets/icons/max_speed_icon.png')}
+            value1={Math.round(Number(this.props.ride.avgSpeedKmph)).toString()}
+            value2={Math.round(Number(this.props.ride.maxSpeedKmph)).toString()}
+            unit1="Kmph"
+            unit2="Kmph"
+          />
+          <RideMetric
+            header1={LanguageSelector.t('rateYourRide.greenMiles')}
+            header2={LanguageSelector.t('rateYourRide.caloriesBurnt')}
+            icon1={require('../../assets/icons/green_miles_icon.png')}
+            icon2={require('../../assets/icons/calories_icon_blue.png')}
+            value1={Math.round(Number(this.props.ride.greenMilesKm)).toString()}
+            value2={Math.round(
+              Number(this.props.ride.caloriesBurnt),
+            ).toString()}
+            unit1="Km"
+            unit2=""
+          />
+          <RideMetric
+            header1={LanguageSelector.t('rateYourRide.petrolSavings')}
+            header2={LanguageSelector.t('rateYourRide.petrolSavings')}
+            icon1={require('../../assets/icons/inr_icon.png')}
+            icon2={require('../../assets/icons/petrol_savings_icon.png')}
+            value1={Math.round(
+              Number(this.props.ride.petrolSavingsInr),
+            ).toString()}
+            value2={Math.round(
+              Number(this.props.ride.petrolSavingsLtr),
+            ).toString()}
+            unit1="INR"
+            unit2="L"
+          />
+        </View>
+        <View style={styles.rating}>
+          <View>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: moderateScale(16),
+                color: Theme.TEXT_WHITE,
+              }}>
+              {LanguageSelector.t('rateYourRide.rateYourRide')}
+            </Text>
+          </View>
+          <View>
+            <Rating
+              defaultRating={0}
+              maxRating={5}
+              ratingCompleted={(rating: number) => {
+                this.setState({
+                  rating,
+                  showFeedback: false,
+                });
+              }}
             />
           </View>
-          <View style={styles.usageDetails}>
-            <RideMetric
-              header1={LanguageSelector.t('rateYourRide.distance')}
-              header2={LanguageSelector.t('rateYourRide.duration')}
-              icon1={require('../../assets/icons/total_distance_icon.png')}
-              icon2={require('../../assets/icons/charge_time_remaining.png')}
-              value1={Math.round(
-                Number(this.props.ride.totalDistanceKm),
-              ).toString()}
-              value2={this.props.ride.durationSec.toString()}
-              unit1="Km"
-              unit2=""
-            />
-            <RideMetric
-              header1={LanguageSelector.t('rateYourRide.avgSpeed')}
-              header2={LanguageSelector.t('rateYourRide.maxSpeed')}
-              icon1={require('../../assets/icons/average_speed_icon.png')}
-              icon2={require('../../assets/icons/max_speed_icon.png')}
-              value1={Math.round(
-                Number(this.props.ride.avgSpeedKmph),
-              ).toString()}
-              value2={Math.round(
-                Number(this.props.ride.maxSpeedKmph),
-              ).toString()}
-              unit1="Kmph"
-              unit2="Kmph"
-            />
-            <RideMetric
-              header1={LanguageSelector.t('rateYourRide.greenMiles')}
-              header2={LanguageSelector.t('rateYourRide.caloriesBurnt')}
-              icon1={require('../../assets/icons/green_miles_icon.png')}
-              icon2={require('../../assets/icons/calories_icon_blue.png')}
-              value1={Math.round(
-                Number(this.props.ride.greenMilesKm),
-              ).toString()}
-              value2={Math.round(
-                Number(this.props.ride.caloriesBurnt),
-              ).toString()}
-              unit1="Km"
-              unit2=""
-            />
-            <RideMetric
-              header1={LanguageSelector.t('rateYourRide.petrolSavings')}
-              header2={LanguageSelector.t('rateYourRide.petrolSavings')}
-              icon1={require('../../assets/icons/inr_icon.png')}
-              icon2={require('../../assets/icons/petrol_savings_icon.png')}
-              value1={Math.round(
-                Number(this.props.ride.petrolSavingsInr),
-              ).toString()}
-              value2={Math.round(
-                Number(this.props.ride.petrolSavingsLtr),
-              ).toString()}
-              unit1="INR"
-              unit2="L"
-            />
-          </View>
-          <View style={styles.rating}>
-            <View>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: moderateScale(16),
-                  color: Theme.TEXT_WHITE,
-                }}>
-                {LanguageSelector.t('rateYourRide.rateYourRide')}
-              </Text>
-            </View>
-            <View>
-              <Rating
-                defaultRating={0}
-                maxRating={5}
-                ratingCompleted={(rating: number) => {
-                  this.setState({
-                    rating,
-                    showFeedback: false,
-                  });
-                }}
-              />
-            </View>
-          </View>
-          {/* <TouchableWithoutFeedback
+        </View>
+        {/* <TouchableWithoutFeedback
             onPress={(event: GestureResponderEvent) => {
               console.log('Pressed inside');
               event.stopPropagation();
@@ -222,59 +210,58 @@ class RateRide extends React.PureComponent<Props, State> {
               />
             </View>
           </TouchableWithoutFeedback> */}
-          <View style={styles.button}>
-            <Button
-              fullWidth
-              // textColor={this.state.rating < 4 ? '#333333' : "white"}
-              textColor={'white'}
-              text={LanguageSelector.t('rateYourRide.submit')}
-              // backgroundColor={this.state.rating < 4 ? '#B7B7B7' : '#142F6A'}
-              backgroundColor={'#142F6A'}
-              onPress={() => {
-                if (this.state.rating < 4) {
-                  this.setState({showFeedback: true});
-                } else {
-                  this.props.submitRide({
-                    type: 'SubmitRide',
-                    payload: {
-                      bikeId: this.props.user.defaultBikeId,
-                      rideId: this.props.ride.id,
-                      comment: this.state.description,
-                      rating: this.state.rating,
-                      reason: [this.state.problem],
-                    },
-                  });
+        <View style={styles.button}>
+          <Button
+            fullWidth
+            // textColor={this.state.rating < 4 ? '#333333' : "white"}
+            textColor={'white'}
+            text={LanguageSelector.t('rateYourRide.submit')}
+            // backgroundColor={this.state.rating < 4 ? '#B7B7B7' : '#142F6A'}
+            backgroundColor={'#142F6A'}
+            onPress={() => {
+              if (this.state.rating < 4) {
+                this.setState({showFeedback: true});
+              } else {
+                this.props.submitRide({
+                  type: 'SubmitRide',
+                  payload: {
+                    bikeId: this.props.user.defaultBikeId,
+                    rideId: this.props.ride.id,
+                    comment: this.state.description,
+                    rating: this.state.rating,
+                    reason: [this.state.problem],
+                  },
+                });
+                setTimeout(() => {
+                  this.props.onComplete();
+                }, 1000);
+                this.setState({showThumpUp: true});
+              }
+            }}
+          />
+        </View>
+        <Modal transparent visible={this.state.showFeedback}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Feedback
+                onClose={() => this.setState({showFeedback: false})}
+                onFeedback={(problem, description) => {
                   setTimeout(() => {
                     this.props.onComplete();
                   }, 1000);
-                  this.setState({showThumpUp: true});
-                }
-              }}
-            />
-          </View>
-          <Modal transparent visible={this.state.showFeedback}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Feedback
-                  onClose={() => this.setState({showFeedback: false})}
-                  onFeedback={(problem, description) => {
-                    setTimeout(() => {
-                      this.props.onComplete();
-                    }, 1000);
-                    this.setState({
-                      problem: problem,
-                      description: description,
-                      showFeedback: false,
-                      showThumpUp: true,
-                    });
-                  }}
-                  showFeedback={this.state.showFeedback}
-                />
-              </View>
+                  this.setState({
+                    problem: problem,
+                    description: description,
+                    showFeedback: false,
+                    showThumpUp: true,
+                  });
+                }}
+                showFeedback={this.state.showFeedback}
+              />
             </View>
-          </Modal>
-        </ScrollView>
-      </TouchableWithoutFeedback>
+          </View>
+        </Modal>
+      </ScrollView>
     );
   }
 }

@@ -35,7 +35,11 @@ export async function request(url: string, method: string, body?: any) {
                 response: response,
                 message: "Success"
             }
-        throw new Error(response.error)
+        return {
+            success: false,
+            response: null,
+            message: response.error.message ? response.error.message : "Unknown Error"
+        }
     } catch (error) {
         console.log("Error : ", error)
         return {
