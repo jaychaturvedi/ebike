@@ -101,6 +101,13 @@ export function* rateRide(params: RideActions.SubmitRide) {
                     score: params.payload.rating,
                 }
             } as Store_UpdateRide)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
@@ -158,6 +165,13 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                     greenMilesKm: data.graphData.length ? data.graphData[0].grnmls : 0
                 }
             } as Store_SetGraphdata);
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
@@ -193,6 +207,13 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
                     maxSpeedKmph: data.maxSpeed,
                 }
             } as Store_UpdateRide)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
@@ -233,6 +254,13 @@ export function* getRide(params: RideActions.ReadRideData) {
                     score: data.rating,
                 }
             } as Store_UpdateRide)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
@@ -266,6 +294,13 @@ export function* getSpeedometerData(params: RideActions.Speedometer) {
                     speed: data.speed
                 }
             } as Store_SetSpeedometer)
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: dataResponse.message
+                }
+            } as Store_UpdateError)
         }
     } catch (error) {
         console.log(error)
