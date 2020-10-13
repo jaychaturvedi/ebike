@@ -47,6 +47,7 @@ export async function rideDetail(frameId: string, startTime: string, endTime: st
   ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)])
   // Ride.findOneWhere({ frameId, startTime, endTime })])
   if (!ride[0].fid) throw new RideError("No data available for the device");
+  if (ride[1][0].st === "false") throw new RideError("no gps path available for the frameId");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = ride[0]
