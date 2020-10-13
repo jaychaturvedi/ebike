@@ -106,6 +106,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
         onResend={this.onOtpResend}
         success={false}
         successMessage={''}
+        errored={false}
       />
     ) : (
       <KeyboardAvoidingView

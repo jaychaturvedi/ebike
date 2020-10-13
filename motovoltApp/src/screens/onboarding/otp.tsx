@@ -9,18 +9,26 @@ interface Props {
   onFilled: (code: string) => void;
   onResend: () => void;
   success: boolean;
+  errored: boolean;
   successMessage: string;
 }
 
-type State = {};
+type State = {
+  code: string;
+};
 
 export default class OTPInput extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      code: '',
+    };
   }
 
   render() {
+    if (this.state.code.length === 6 && this.props.errored) {
+      this.setState({code: ''});
+    }
     return this.props.success ? (
       <ThumbsUp msg={this.props.successMessage} />
     ) : (
@@ -38,12 +46,16 @@ export default class OTPInput extends React.PureComponent<Props, State> {
           <OTPInputView
             style={{width: '100%'}}
             pinCount={6}
+            code={this.state.code}
+            onCodeChanged={(code) => {
+              this.setState({code});
+              if (code.length === 6) {
+                this.props.onFilled(code);
+              }
+            }}
             autoFocusOnLoad
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
-            onCodeFilled={(code) => {
-              this.props.onFilled(code);
-            }}
           />
         </View>
         <View style={styles.footer}>
