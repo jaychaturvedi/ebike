@@ -122,15 +122,18 @@ const styles = StyleSheet.create({
     },
     backButton: {
         backgroundColor: overlayColor,
+        // backgroundColor: "red",
         width: '100%',
+        height: '10%',
         marginBottom: 0,
-        paddingLeft: moderateScale(30),
-        paddingTop: moderateScale(30)
+        paddingLeft: moderateScale(20),
+        paddingTop: moderateScale(20)
     },
     rectangle: {
         height: verticalScale(200),
         width: '60%',
-        backgroundColor: "transparent"
+        // backgroundColor: "transparent"
+        backgroundColor: "green"
     },
     topOverlay: {
         width: '100%',
