@@ -31,8 +31,9 @@ export default class RideDatePicker extends React.PureComponent<Props, State>{
 
     handleConfirm = (date: Date) => {
         // console.warn("A date has been picked: ", date);
-        this.props.onDateChange(date);
-        this.hideDatePicker();
+        this.setState({isVisible: false}, () => {
+            this.props.onDateChange(date);
+        })
     };
 
     render() {
