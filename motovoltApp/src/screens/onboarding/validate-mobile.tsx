@@ -141,6 +141,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
         onFilled={this.onOtpFilled}
         onResend={this.onOtpResend}
         success={Boolean(this.props.onboarding.confirmSignUpSuccess)}
+        errored={Boolean(this.props.onboarding.errorMessage)}
         successMessage={'Mobile Verified'}
       />
     ) : (

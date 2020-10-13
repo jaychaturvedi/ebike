@@ -1,4 +1,4 @@
-package com.motovoltapp;
+package co.motovolt.motovoltapp;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;

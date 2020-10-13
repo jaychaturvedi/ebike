@@ -47,6 +47,8 @@ type State = {
   isValidEmail: boolean;
   isValidPassword: boolean;
   isValidName: boolean;
+  isValidGender: boolean;
+  isValidAge: boolean;
   password: string;
   confirmPassword: string;
   success: boolean;
@@ -86,7 +88,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: 120,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: 'black',
     borderRadius: 10,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
@@ -96,8 +98,8 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     width: 120,
-    borderWidth: 0.5,
-    borderColor: 'grey',
+    borderWidth: 0.7,
+    borderColor: 'black',
     borderRadius: 8,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
@@ -118,13 +120,15 @@ class PersonalDetails extends React.PureComponent<Props, State> {
       isValidEmail: true,
       isValidPassword: true,
       isValidName: true,
+      isValidGender: true,
+      isValidAge: true,
       name: '',
       password: '',
       success: false,
       mobileNumber: '',
       oldPassword: '',
-      age: '23',
-      gender: 'Male',
+      age: '',
+      gender: '',
     };
   }
 
@@ -219,14 +223,26 @@ class PersonalDetails extends React.PureComponent<Props, State> {
             display: 'flex',
             flexDirection: 'row',
             paddingHorizontal: 40,
-            justifyContent: 'space-evenly',
+            justifyContent: 'flex-start',
           }}>
-          <View style={{width: '50%'}}>
+          <View style={{flex: 1}}>
             <RNPickerSelect
               style={{
-                ...pickerSelectStyles,
+                inputIOS: {
+                  ...pickerSelectStyles.inputIOS,
+                  ...(this.state.isValidGender ? {} : {borderColor: 'red'}),
+                },
+                inputAndroid: {
+                  ...pickerSelectStyles.inputAndroid,
+                  ...(this.state.isValidGender ? {} : {borderColor: 'red'}),
+                },
               }}
-              onValueChange={(value) => this.setState({gender: value})}
+              placeholder={{
+                label: 'Gender',
+                value: '',
+              }}
+              useNativeAndroidPickerStyle={false}
+              onValueChange={(value) => this.setState({gender: value, isValidGender: true})}
               items={[
                 {label: 'Male', value: 'Male'},
                 {label: 'Female', value: 'Female'},
@@ -236,25 +252,36 @@ class PersonalDetails extends React.PureComponent<Props, State> {
           </View>
           <View
             style={{
-              width: '50%',
-              display: 'flex',
-              justifyContent: 'center',
+              flex: 1,
+              // justifyContent: 'flex-end',
               flexDirection: 'row',
             }}>
-            <View>
+            <View style={{flex: 1}}>
               <RNPickerSelect
                 style={{
-                  ...pickerSelectStyles,
+                  inputIOS: {
+                    ...pickerSelectStyles.inputIOS,
+                    ...(this.state.isValidAge ? {} : {borderColor: 'red'}),
+                  },
+                  inputAndroid: {
+                    ...pickerSelectStyles.inputAndroid,
+                    ...(this.state.isValidAge ? {} : {borderColor: 'red'}),
+                  },
                 }}
+                placeholder={{
+                  label: 'Age',
+                  value: '',
+                }}
+                useNativeAndroidPickerStyle={false}
                 value={this.state.age}
-                onValueChange={(value) => this.setState({age: value})}
+                onValueChange={(value) => this.setState({age: value, isValidAge: true})}
                 items={ages.map((age) => {
                   return {label: `${age}`, value: `${age}`};
                 })}
               />
             </View>
-            <View style={{flex: 1, justifyContent: 'center', marginLeft: 10}}>
-              <Text>Years</Text>
+            <View style={{justifyContent: 'center', marginLeft: 10}}>
+              <Text>Yrs</Text>
             </View>
           </View>
         </View>
@@ -304,6 +331,20 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                 });
                 return;
               }
+              if(!this.state.gender){
+                Toast.show("Select gender");
+                this.setState({
+                  isValidGender: false
+                })
+                return;
+              }
+              if(!this.state.age){
+                Toast.show("Select age");
+                this.setState({
+                  isValidAge: false
+                })
+                return;
+              }
               if (!this.validatePassword(this.state.password)) {
                 Toast.show(
                   'Password should be 8 characters containing atleast 1 uppercase, 1 lowercase, 1 digit and a special character',
@@ -334,7 +375,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                   email: this.state.email,
                   name: this.state.name,
                   gender: this.state.gender,
-                  age: this.state.age
+                  age: this.state.age,
                 },
               });
               // this.props.navigation.navigate('TurnOnBluetooth', {});

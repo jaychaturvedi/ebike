@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   flexVerticalCentre: {
+    paddingTop: 10,
     paddingHorizontal: scale(20),
     flex: 1,
     justifyContent: 'center',

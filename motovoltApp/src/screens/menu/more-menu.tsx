@@ -101,7 +101,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
               style={{
                 fontSize: 18,
               }}>
-              {LanguageSelector.t("A")}
+              {LanguageSelector.t('A')}
             </Text>
           ),
           premium: false,
@@ -143,7 +143,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
   render() {
     let Theme = this.context.theme; //load theme context
     return (
-      <View style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
+      <ScrollView style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
         <Header
           title={LanguageSelector.t('morePremium.more')}
           backgroundColor={Theme.HEADER_YELLOW} //change dark Theme
@@ -197,12 +197,14 @@ class MoreMenu extends React.PureComponent<Props, State> {
           onPress={() => this.props.navigation.navigate('Upgrade', {})}>
           <Upgrade />
         </TouchableOpacity>
-        <ScrollView
-          style={styles.features}
-          contentContainerStyle={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignContent: 'center',
+        <View
+          style={{
+            ...styles.features,
+            ...{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              alignContent: 'center',
+            },
           }}>
           {this.state.feature.map((feature, index: number) => {
             return (
@@ -210,10 +212,6 @@ class MoreMenu extends React.PureComponent<Props, State> {
                 style={{
                   width: '33.3%',
                   alignItems: 'center',
-                  shadowOpacity: 0.25,
-                  shadowRadius: 1,
-                  shadowColor: 'black',
-                  shadowOffset: {height: 4, width: 2},
                 }}
                 key={index}>
                 <Feature
@@ -247,8 +245,8 @@ class MoreMenu extends React.PureComponent<Props, State> {
               </View>
             );
           })}
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
