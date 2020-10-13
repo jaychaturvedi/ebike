@@ -77,7 +77,7 @@ export default class WebAPI {
             alertTypeId,
             alertName
         })
-        console.log("External API Start Time : ",new Date())
+        console.log("External API Start Time : ", new Date())
         const fetchedData = await post(options)
         console.log("External API End Time : ", new Date())
         return fetchedData
@@ -89,6 +89,17 @@ export default class WebAPI {
         return fetchedData
     }
 
+    static async vehicleSearch(frameId: string, pageSize: number, pageNo: number) {
+        const options = createOptions('/vehsearch', {
+            frameId: frameId,
+            pageSize: pageSize,
+            pageNo: pageNo
+        })
+        console.log("External API Start Time: ", new Date())
+        const fetchedData = await post(options)
+        console.log("External API End Time: ", new Date())
+        return fetchedData
+    }
 
     ///////////////////////////////////////not using below routes//////////////////////////////
 

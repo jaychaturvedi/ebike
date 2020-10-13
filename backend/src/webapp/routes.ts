@@ -199,7 +199,7 @@ app.get('/graphs',
     expressQAsync(async (req: Express.Request,
         res: Express.Response,
         next: Express.NextFunction) => {
-        console.log("Start API :",new Date())
+        console.log("Start API :", new Date())
         const { vehicleId, alertId, alertName, alertTypeId } = req.query as any
         const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName)
         const response = createResponse("OK", result, undefined)
@@ -219,7 +219,22 @@ app.get('/alertDetails/:alertId',
     })
 )
 
+app.post('/search',
+    [body('frameId', "frameId is required").isString(),
+    body('pageNo', "pageNo is required").toInt(),
+    body('pageSize', "pageSize is required").toInt(), validate],
+    expressQAsync(async (req: Express.Request,
+        res: Express.Response,
+        next: Express.NextFunction) => {
+        const { pageNo, pageSize, frameId } = req.body as any
+        const result = await WebAPI.vehicleSearch(frameId as string
+            , pageSize as number, pageNo as number)
+        const response = createResponse("OK", result, undefined)
+        res.json(response)
+    })
+)
 
+///////////////////////////////////////not using below routes//////////////////////////////
 app.post('/batteryCell', expressQAsync(secure),
     [body("vehicleId", "vehicleId is invalid").optional().isString(),
     body('alertId', "alertId is too short").toInt().isLength({ min: 1 }), validate],
