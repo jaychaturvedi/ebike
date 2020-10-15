@@ -132,8 +132,8 @@ const styles = StyleSheet.create({
     rectangle: {
         height: verticalScale(200),
         width: '60%',
-        // backgroundColor: "transparent"
-        backgroundColor: "green"
+        backgroundColor: "transparent"
+        // backgroundColor: "green"
     },
     topOverlay: {
         width: '100%',
