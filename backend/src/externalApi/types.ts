@@ -52,6 +52,7 @@ export type TCurrentRide = {
     timeelp: string; //unknown abbreviation
     avgspd: number; //average speed
     maxspd: number; //max speed
+    mode: number;//mode
     pa: boolean; //pedalassist
     pm: boolean; //powermode
     ec: boolean; //eco mode
