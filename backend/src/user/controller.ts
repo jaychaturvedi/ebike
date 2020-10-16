@@ -3,10 +3,10 @@ import { pagination, filters } from "../helper";
 import ConnectmApi from "../externalApi/motovolt";
 
 export async function profile(uid: string) {
-  const { frameId, email, phone, fullName } = await User.findByUid(uid)
+  const user = await User.findByUid(uid)
   //since data is redundant
   // const { batid: batteryId, vehid: vehicleId, servDate: serviceDate, purchaseDate, warrantyValidTill } = await ConnectmApi.getMyBike(frameId as string);
-  return { uid, frameId, email, phone, fullName}//need purchase date and warranty
+  return user
 }
 
 export async function paginateUser(filter: TFilter) {
