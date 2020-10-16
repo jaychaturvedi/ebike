@@ -79,9 +79,9 @@ export default class ComingSoon extends React.PureComponent<Props, {}> {
             <View style={{}}>
               <Image
                 source={require('../../assets/images/motovolt_logo_medium.png')}
-                style={{width: '20%', height: '20%'}}
-                width={scale(100)}
-                height={scale(100)}
+                // style={{width: '20%', height: '20%'}}
+                width={200}
+                height={200}
               />
             </View>
             <View
