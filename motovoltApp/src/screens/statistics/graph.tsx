@@ -31,98 +31,6 @@ export default class Graph extends React.PureComponent<Props, State>{
             direction: '',
             scrollEnd: false,
             data: [],
-            // data: [
-            //     {
-            //         value: 120,
-            //         svg: {
-            //             fill: 'transparent',
-            //         },
-            //         date: new Date("2020-08-09T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 50,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-07-30T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 10,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-07-31T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 20,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-08-01T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 15,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-08-02T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 50,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-08-03T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 80,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-08-04T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 80,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-08-05T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 50,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-08-06T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 10,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-08-07T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 40,
-            //         svg: {
-            //             // stroke: 'purple',
-            //             // strokeWidth: 1,
-            //             // fill: 'white',
-            //             // strokeDasharray: [4, 2],
-            //             fill: 'rgb(83,114,255,0.4)',
-            //         },
-            //         date: new Date("2020-08-08T16:25:31.541Z"),
-            //     },
-            //     {
-            //         value: 95,
-            //         svg: {
-            //             fill: 'rgb(83,114,255,1)',
-            //         },
-            //         date: new Date("2020-08-09T16:25:31.541Z"),
-            //     },
-
-
-            // ],
             fill: '#5372FF',
             offset: 0
 
@@ -145,26 +53,8 @@ export default class Graph extends React.PureComponent<Props, State>{
     render() {
         return (
             <View style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                {/* {
-                    this.setState({
-                        data: [{
-                            value: 120,
-                            svg: {
-                                fill: 'transparent',
-                            },
-                            date: new Date("2020-08-09T16:25:31.541Z"),
-                        }, ...this.props.data.map(data => ({
-                            value: data.value,
-                            svg: {
-                                fill: 'rgb(83,114,255,0.4)',
-                            },
-                            date: new Date(data.date),
-                        }))]
-                    })
-                } */}
                 <View style={{ width: '90%', flexDirection: 'row' }} >
                     <YAxis
-                        // data={this.state.data}
                         data={[
                             {
                                 value: 120,
@@ -173,7 +63,7 @@ export default class Graph extends React.PureComponent<Props, State>{
                                 },
                                 date: new Date("2020-08-09T16:25:31.541Z"),
                             }, {
-                                value: 10,
+                                value: -10,
                                 svg: {
                                     fill: 'transparent',
                                 },

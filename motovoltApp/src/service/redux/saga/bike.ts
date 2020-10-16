@@ -53,7 +53,7 @@ export function* validateFrame(params: BikeActions.ValidateFrame) {
                     modal: data.model,
                     type: data.type === "Cellular" ? "CELLULAR" : "BLE",
                     serviceDate: data.serviceDate,
-                    batteryChargePer: data.batteryChargePer,
+                    batteryChargePer: Math.round(data.batteryChargePer),
                     batteries: data.batteries
                 }
             } as Store_UpdateBike);
@@ -86,15 +86,15 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                 payload: {
                     id: params.payload.bikeId,
                     type: data.type === "Cellular" ? "CELLULAR" : "BLE",
-                    co2SavingKg: data.co2sav,
-                    totalDistanceKm: data.totalDistance,
-                    avgRideScore: data.ratings,
-                    petrolSavingsLtr: data.petrolSaved,
-                    greenMilesKm: data.greenMiles,
-                    costRecoveredPer: data.costRecovered,
-                    batteryChargePer: data.batteryCharge,
-                    rangeCoveredKm: data.rangeCovered,
-                    rangeAvailableKm: data.rangeAvailable,
+                    co2SavingKg: Math.round(data.co2sav),
+                    totalDistanceKm: Math.round(data.totalDistance),
+                    avgRideScore: Math.round(data.ratings),
+                    petrolSavingsLtr: Math.round(data.petrolSaved),
+                    greenMilesKm: Math.round(data.greenMiles),
+                    costRecoveredPer: Math.round(data.costRecovered),
+                    batteryChargePer: Math.round(data.batteryCharge),
+                    rangeCoveredKm: Math.round(data.rangeCovered),
+                    rangeAvailableKm: Math.round(data.rangeAvailable),
                     isOn: Boolean(data.ignition),
                 }
             } as Store_UpdateBike);
@@ -113,9 +113,9 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                 payload: {
                     id: params.payload.bikeId,
                     name: data.bikeName,
-                    motorPer: data.motorPer,
-                    batteryChargePer: data.batteryChargePer,
-                    healthPer: data.batteryHealthPer,
+                    motorPer: Math.round(data.motorPer),
+                    batteryChargePer: Math.round(data.batteryChargePer),
+                    healthPer: Math.round(data.batteryHealthPer),
                     batteries: Object.assign({}, ...data.batteries.map((battery: any) => { return { [battery.id]: battery } })),
                     serviceDate: data.serviceDate,
                 }

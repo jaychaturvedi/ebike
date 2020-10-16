@@ -97,8 +97,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               header2={LanguageSelector.t("myRides.duration")}
               icon1={require('../../assets/icons/total_distance_icon.png')}
               icon2={require('../../assets/icons/charge_time_remaining.png')}
-              value1={this.props.ride.totalDistanceKm.toString()}
-              value2={this.props.ride.durationSec.toString()}
+              value1={String(this.props.ride.totalDistanceKm)}
+              value2={String(this.props.ride.durationSec)}
               unit1="Km"
               unit2=""
             />
@@ -107,8 +107,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               header2={LanguageSelector.t("myRides.maxSpeed")}
               icon1={require('../../assets/icons/average_speed_icon.png')}
               icon2={require('../../assets/icons/max_speed_icon.png')}
-              value1={this.props.ride.avgSpeedKmph.toString()}
-              value2={this.props.ride.maxSpeedKmph.toString()}
+              value1={String(this.props.ride.avgSpeedKmph)}
+              value2={String(this.props.ride.maxSpeedKmph)}
               unit1="Kmph"
               unit2="Kmph"
             />
@@ -117,8 +117,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               header2={LanguageSelector.t("myRides.caloriesBurnt")}
               icon1={require('../../assets/icons/green_miles_icon.png')}
               icon2={require('../../assets/icons/calories_icon_blue.png')}
-              value1={this.props.ride.greenMilesKm.toString()}
-              value2={this.props.ride.caloriesBurnt.toString()}
+              value1={String(this.props.ride.greenMilesKm)}
+              value2={String(this.props.ride.caloriesBurnt)}
               unit1="Km"
               unit2=""
             />
@@ -127,8 +127,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               header2={LanguageSelector.t("myRides.rideScore")}
               icon1={require('../../assets/icons/inr_icon.png')}
               icon2={require('../../assets/icons/star_icon_large.png')}
-              value1={this.props.ride.petrolSavingsInr.toString()}
-              value2={this.props.ride.score.toString()}
+              value1={String(this.props.ride.petrolSavingsInr)}
+              value2={String(this.props.ride.score)}
               unit1="INR"
               unit2="/10"
             />

@@ -10,9 +10,8 @@ export default () => {
         height: scale(10),
         zIndex: 1,
         position: 'absolute',
-        top: scale(10),
-        right: scale(12),
-        backgroundColor: 'red',
+        top: scale(8),
+        right: scale(8),
         borderRadius: scale(50),
       }}
     />
