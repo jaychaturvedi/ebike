@@ -12,6 +12,10 @@
     "deploy-webapp": "serverless deploy -c serverless-webapp.yml"
   },
   "dependencies": {
+    "@aws-amplify/auth": "^3.4.5",
+    "@aws-amplify/core": "^3.5.5",
+    "@types/aws-lambda": "^8.10.63",
+    "aws-sdk": "^2.713.0",
     "aws-lambda": "^1.0.6",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
