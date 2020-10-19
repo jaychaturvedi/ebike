@@ -16,7 +16,7 @@ export function createResponse(status: TResponseStatus, body: any,
   error: { code: number, message: string, name: string } | undefined) {
   return {
     status: body != undefined ? status : "ERROR",
-    body: body,
+    body: body ? body : null,
     error: error !== undefined ? {
       code: error.code,
       name: error.name,
