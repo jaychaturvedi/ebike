@@ -6,6 +6,7 @@ import {scale, moderateScale} from 'react-native-size-matters';
 import ThumbsUp from '../../components/thumb-up';
 import CTAButton from '../../components/cta-button';
 import Colors from '../../styles/colors';
+import Toast from 'react-native-simple-toast';
 
 interface Props {
   onFilled: (code: string) => void;
@@ -88,7 +89,13 @@ export default class OTPInput extends React.PureComponent<Props, State> {
                 fullWidth
                 text="SUBMIT"
                 textColor={Colors.WHITE}
-                onPress={() => this.props.onFilled(this.state.code)}
+                onPress={() => {
+                  if(this.state.code.length === 6){
+                    this.props.onFilled(this.state.code);
+                  }else{
+                    Toast.show("Please fill the OTP")
+                  }
+                }}
                 backgroundColor={Colors.NAVY_BLUE}
               />
             </View>
