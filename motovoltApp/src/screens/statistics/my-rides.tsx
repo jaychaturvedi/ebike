@@ -161,15 +161,22 @@ class MyRides extends React.PureComponent<Props, State> {
               />
             </View>
             <TouchableOpacity
+              style={{
+                width: 24,
+              }}
               onPress={() => {
                 this.setNewDate(
                   Moment(this.state.focusDate).add(1, 'days').toDate(),
                 );
               }}>
-              <Icon
-                type="FontAwesome"
-                name="chevron-right"
-                style={styles.icon}></Icon>
+              {Moment(this.state.focusDate).add(1, 'days').toDate().getTime() <
+                new Date().getTime() && (
+                <Icon
+                  type="FontAwesome"
+                  name="chevron-right"
+                  style={styles.icon}
+                />
+              )}
             </TouchableOpacity>
           </View>
           <RideMetric
@@ -216,7 +223,7 @@ class MyRides extends React.PureComponent<Props, State> {
                 {this.props.graph.avgSpeed} kmph
               </Text>
             </View>
-            <View style={{flex: 1, justifyContent: 'flex-end',}}>
+            <View style={{flex: 1, justifyContent: 'flex-end'}}>
               <Graph
                 data={Object.keys(this.props.graph.data).map(
                   (graph) => this.props.graph.data[graph],
