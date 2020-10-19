@@ -64,11 +64,14 @@ export default class Map extends React.PureComponent<Props, State> {
                 ? this.props.location.slice(1, -1)
                 : []
             }
+            // waypoints={this.props.location.slice(1, -1)}
             destination={this.props.location[this.props.location.length - 1]}
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
             strokeColor="hotpink"
-            optimizeWaypoints={true}
+            mode="BICYCLING"
+            splitWaypoints
+            // optimizeWaypoints={true}
             onStart={(params) => {
               console.log(
                 `Started routing between "${params.origin}" and "${params.destination}"`,

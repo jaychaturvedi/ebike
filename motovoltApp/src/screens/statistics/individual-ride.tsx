@@ -1,20 +1,20 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView } from 'react-native';
-import { moderateScale, verticalScale } from 'react-native-size-matters';
+import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {moderateScale, verticalScale} from 'react-native-size-matters';
 import TipCard from '../../components/tip-card';
 import Swiper from 'react-native-swiper';
 import RideMetric from '../../components/ride-metric';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { StatisticsStackParamList } from '../../navigation/statistics';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {StatisticsStackParamList} from '../../navigation/statistics';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
-import { ThemeContext } from '../../styles/theme/theme-context'
+import {ThemeContext} from '../../styles/theme/theme-context';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -34,39 +34,45 @@ type State = {};
 
 class IndividualRide extends React.PureComponent<Props, State> {
   render() {
-    let Theme = this.context.theme as any
+    let Theme = this.context.theme as any;
     return (
-      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
+      <View style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
         <Header
           hasBackButton
-          title={LanguageSelector.t("myRides.myRides")}
+          title={LanguageSelector.t('myRides.myRides')}
           backgroundColor={Colors.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
         <ScrollView>
           <View style={styles.map}>
-            <Map location={
-              this.props.ride.path.map(point => {
-                return {
-                  latitude: point.lat,
-                  longitude: point.long
-                }
-              })
-            //   [
-            //   // {
-            //   //   latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
-            //   //   longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
-            //   // }
-            //   {
-            //     latitude: 37.3317876,
-            //     longitude: -122.0054812,
-            //   },
-            //   {
-            //     latitude: 37.771707,
-            //     longitude: -122.4053769,
-            //   },
-            // ]
-            } />
+            <Map
+              location={
+                // this.props.ride.path.map(point => {
+                //   return {
+                //     latitude: point.lat,
+                //     longitude: point.long
+                //   }
+                // })
+                [
+                  // {
+                  //   latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
+                  //   longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
+                  // }
+                  {
+                    latitude: 37.3317876,
+                    longitude: -122.0054812,
+                  },
+                  {
+                    latitude: 40.771707,
+                    longitude: -122.4053728,
+                  },
+                  {
+                    latitude: 37.771707,
+                    longitude: -122.4053769,
+                  },
+                ]
+              }
+            />
           </View>
           <View style={styles.tip}>
             <Swiper
@@ -79,13 +85,13 @@ class IndividualRide extends React.PureComponent<Props, State> {
               ref="mySwiper">
               <View style={styles.slide}>
                 <TipCard
-                  header={LanguageSelector.t("myRides.tipToImproveRide")}
+                  header={LanguageSelector.t('myRides.tipToImproveRide')}
                   tip="Lorem ipsum dolor sit amet, consetetur sadip scing elitr, sed diam nonumy eirmod tempor invidunt ut"
                 />
               </View>
               <View style={styles.slide}>
                 <TipCard
-                  header={LanguageSelector.t("myRides.tipToImproveRide")}
+                  header={LanguageSelector.t('myRides.tipToImproveRide')}
                   tip="Lorem ipsum dolor sit amet, consetetur sadip scing elitr, sed diam nonumy eirmod tempor invidunt ut"
                 />
               </View>
@@ -93,8 +99,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
           </View>
           <View style={styles.metrics}>
             <RideMetric
-              header1={LanguageSelector.t("myRides.distance")}
-              header2={LanguageSelector.t("myRides.duration")}
+              header1={LanguageSelector.t('myRides.distance')}
+              header2={LanguageSelector.t('myRides.duration')}
               icon1={require('../../assets/icons/total_distance_icon.png')}
               icon2={require('../../assets/icons/charge_time_remaining.png')}
               value1={String(this.props.ride.totalDistanceKm)}
@@ -103,8 +109,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               unit2=""
             />
             <RideMetric
-              header1={LanguageSelector.t("myRides.avgSpeed")}
-              header2={LanguageSelector.t("myRides.maxSpeed")}
+              header1={LanguageSelector.t('myRides.avgSpeed')}
+              header2={LanguageSelector.t('myRides.maxSpeed')}
               icon1={require('../../assets/icons/average_speed_icon.png')}
               icon2={require('../../assets/icons/max_speed_icon.png')}
               value1={String(this.props.ride.avgSpeedKmph)}
@@ -113,8 +119,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               unit2="Kmph"
             />
             <RideMetric
-              header1={LanguageSelector.t("myRides.greenMiles")}
-              header2={LanguageSelector.t("myRides.caloriesBurnt")}
+              header1={LanguageSelector.t('myRides.greenMiles')}
+              header2={LanguageSelector.t('myRides.caloriesBurnt')}
               icon1={require('../../assets/icons/green_miles_icon.png')}
               icon2={require('../../assets/icons/calories_icon_blue.png')}
               value1={String(this.props.ride.greenMilesKm)}
@@ -123,8 +129,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
               unit2=""
             />
             <RideMetric
-              header1={LanguageSelector.t("myRides.petrolSavings")}
-              header2={LanguageSelector.t("myRides.rideScore")}
+              header1={LanguageSelector.t('myRides.petrolSavings')}
+              header2={LanguageSelector.t('myRides.rideScore')}
               icon1={require('../../assets/icons/inr_icon.png')}
               icon2={require('../../assets/icons/star_icon_large.png')}
               value1={String(this.props.ride.petrolSavingsInr)}
@@ -139,7 +145,7 @@ class IndividualRide extends React.PureComponent<Props, State> {
   }
 }
 
-IndividualRide.contextType = ThemeContext
+IndividualRide.contextType = ThemeContext;
 
 export default connect(
   (store: TStore): ReduxState => {
