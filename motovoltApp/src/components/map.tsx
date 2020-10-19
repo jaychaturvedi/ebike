@@ -31,6 +31,7 @@ export default class Map extends React.PureComponent<Props, State> {
   render() {
     return (
       <MapView
+        key={Math.random().toString()}
         zoomTapEnabled
         zoomControlEnabled
         provider={PROVIDER_GOOGLE}
@@ -46,12 +47,11 @@ export default class Map extends React.PureComponent<Props, State> {
         }}
         style={StyleSheet.absoluteFill}
         ref={(c) => {
-          
           this.mapView = c;
         }}>
         {this.props.location.map((coordinate, index) => (
           <Marker
-            key={`coordinate_${index}`}
+            key={Math.random().toString()}
             coordinate={coordinate}
             image={require('../assets/images/location_pin.png')}
           />
