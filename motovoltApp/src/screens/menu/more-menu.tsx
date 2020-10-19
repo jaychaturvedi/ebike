@@ -143,110 +143,112 @@ class MoreMenu extends React.PureComponent<Props, State> {
   render() {
     let Theme = this.context.theme; //load theme context
     return (
-      <ScrollView style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
+      <View style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
         <Header
           title={LanguageSelector.t('morePremium.more')}
           backgroundColor={Theme.HEADER_YELLOW} //change dark Theme
         />
-        <View style={styles.profile}>
-          <ProfileImage />
-          <Text
-            style={{
-              fontSize: moderateScale(24),
-              fontWeight: 'bold',
-              paddingTop: moderateScale(10),
-              textAlign: 'center',
-              color: Theme.TEXT_WHITE,
-            }}>
-            {this.props.user.name}&nbsp;
+        <ScrollView style={{width: '100%'}}>
+          <View style={styles.profile}>
+            <ProfileImage />
             <Text
               style={{
                 fontSize: moderateScale(24),
                 fontWeight: 'bold',
                 paddingTop: moderateScale(10),
                 textAlign: 'center',
-              }}
-              onPress={() => this.props.navigation.navigate('Profile', {})}>
-              <Image
-                source={require('../../assets/icons/pencil-edit-button.png')}
-              />
-            </Text>
-          </Text>
-          <Text style={{textAlign: 'center', color: Theme.TEXT_WHITE}}>
-            {this.props.bike.modal}
-          </Text>
-        </View>
-        <View
-          style={{
-            ...styles.metric,
-            // backgroundColor: 'white', //change dark theme
-          }}>
-          <RideMetric
-            header1={LanguageSelector.t('morePremium.greenMiles')}
-            header2={LanguageSelector.t('morePremium.calories')}
-            unit1="Km"
-            unit2=""
-            icon1={require('../../assets/icons/green_miles_green_icon.png')}
-            icon2={require('../../assets/icons/calories_red_icon.png')}
-            value1={String(this.props.bike.greenMilesKm)}
-            value2={'2000'}
-          />
-        </View>
-        <TouchableOpacity
-          style={styles.upgrade}
-          onPress={() => this.props.navigation.navigate('Upgrade', {})}>
-          <Upgrade />
-        </TouchableOpacity>
-        <View
-          style={{
-            ...styles.features,
-            ...{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              alignContent: 'center',
-            },
-          }}>
-          {this.state.feature.map((feature, index: number) => {
-            return (
-              <View
+                color: Theme.TEXT_WHITE,
+              }}>
+              {this.props.user.name}&nbsp;
+              <Text
                 style={{
-                  width: '33.3%',
-                  alignItems: 'center',
+                  fontSize: moderateScale(24),
+                  fontWeight: 'bold',
+                  paddingTop: moderateScale(10),
+                  textAlign: 'center',
                 }}
-                key={index}>
-                <Feature
-                  feature={feature.feature}
-                  icon={feature.icon}
-                  badge={feature.badge}
-                  onPress={() => {
-                    switch (feature.feature) {
-                      case LanguageSelector.t('morePremium.support'):
-                        this.props.navigation.navigate('Support', {});
-                        break;
-                      case LanguageSelector.t('morePremium.faqs'):
-                        this.props.navigation.navigate('Faq', {});
-                        break;
-                      case LanguageSelector.t('morePremium.logOut'):
-                        this.props.logout({type: 'SignOut', payload: {}});
-                        break;
-                      case LanguageSelector.t('morePremium.language'):
-                        this.props.navigation.navigate('Language', {});
-                        break;
-                      // case "Theme":
-                      //   this.props.navigation.navigate('Theme', {});
-                      //   break;
-                      default:
-                        this.props.navigation.navigate('ComingSoon', {});
-                        break;
-                    }
-                  }}
-                  premium={feature.premium}
+                onPress={() => this.props.navigation.navigate('Profile', {})}>
+                <Image
+                  source={require('../../assets/icons/pencil-edit-button.png')}
                 />
-              </View>
-            );
-          })}
-        </View>
-      </ScrollView>
+              </Text>
+            </Text>
+            <Text style={{textAlign: 'center', color: Theme.TEXT_WHITE}}>
+              {this.props.bike.modal}
+            </Text>
+          </View>
+          <View
+            style={{
+              ...styles.metric,
+              // backgroundColor: 'white', //change dark theme
+            }}>
+            <RideMetric
+              header1={LanguageSelector.t('morePremium.greenMiles')}
+              header2={LanguageSelector.t('morePremium.calories')}
+              unit1="Km"
+              unit2=""
+              icon1={require('../../assets/icons/green_miles_green_icon.png')}
+              icon2={require('../../assets/icons/calories_red_icon.png')}
+              value1={String(this.props.bike.greenMilesKm)}
+              value2={'2000'}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.upgrade}
+            onPress={() => this.props.navigation.navigate('Upgrade', {})}>
+            <Upgrade />
+          </TouchableOpacity>
+          <View
+            style={{
+              ...styles.features,
+              ...{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignContent: 'center',
+              },
+            }}>
+            {this.state.feature.map((feature, index: number) => {
+              return (
+                <View
+                  style={{
+                    width: '33.3%',
+                    alignItems: 'center',
+                  }}
+                  key={index}>
+                  <Feature
+                    feature={feature.feature}
+                    icon={feature.icon}
+                    badge={feature.badge}
+                    onPress={() => {
+                      switch (feature.feature) {
+                        case LanguageSelector.t('morePremium.support'):
+                          this.props.navigation.navigate('Support', {});
+                          break;
+                        case LanguageSelector.t('morePremium.faqs'):
+                          this.props.navigation.navigate('Faq', {});
+                          break;
+                        case LanguageSelector.t('morePremium.logOut'):
+                          this.props.logout({type: 'SignOut', payload: {}});
+                          break;
+                        case LanguageSelector.t('morePremium.language'):
+                          this.props.navigation.navigate('Language', {});
+                          break;
+                        // case "Theme":
+                        //   this.props.navigation.navigate('Theme', {});
+                        //   break;
+                        default:
+                          this.props.navigation.navigate('ComingSoon', {});
+                          break;
+                      }
+                    }}
+                    premium={feature.premium}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
