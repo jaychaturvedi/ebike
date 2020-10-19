@@ -74,15 +74,7 @@ class GPSLui extends React.PureComponent<Props, State> {
               {
                 latitude: this.props.bike.lat,
                 longitude: this.props.bike.long,
-              },
-              {
-                latitude: 10,
-                longitude: 77,
-              },
-              {
-                latitude: 11,
-                longitude: 80,
-              },
+              }
             ]}
           />
         </View>
