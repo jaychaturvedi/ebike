@@ -88,22 +88,33 @@ export default class RideCard extends React.PureComponent<Props, State> {
             </Text>
             <ProgressBar progress={this.props.progress} />
             <View style={styles.footerGroup}>
-              <Text style={{fontSize: scale(12), color: Theme.TEXT_WHITE}}>
+              <View style={{flexDirection: 'row'}}>
                 <Image
                   source={require('../assets/icons/total_distance_icon_small.png')}
                 />
-                &nbsp;{this.props.distance} KM
-              </Text>
-              <Text style={{fontSize: scale(12), color: Theme.TEXT_WHITE}}>
+                <Text
+                  style={{
+                    fontSize: scale(12),
+                    color: Theme.TEXT_WHITE,
+                    textAlignVertical: 'top',
+                  }}>
+                  &nbsp;{this.props.distance} KM
+                </Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
                 <Image
-                  source={require('../assets/icons/total_distance_icon_small.png')}
+                  source={require('../assets/icons/average_speed_small_icon.png')}
                 />
-                &nbsp;{this.props.speed} Kmph
-              </Text>
-              <Text style={{fontSize: scale(12), color: Theme.TEXT_WHITE}}>
+                <Text style={{fontSize: scale(12), color: Theme.TEXT_WHITE}}>
+                  &nbsp;{this.props.speed} Kmph
+                </Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
                 <Image source={require('../assets/icons/star_icon.png')} />
-                &nbsp;{this.props.rating}
-              </Text>
+                <Text style={{fontSize: scale(12), color: Theme.TEXT_WHITE}}>
+                  &nbsp;{this.props.rating}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -156,10 +167,13 @@ const styles = StyleSheet.create({
   },
   footer: {
     marginTop: verticalScale(25),
+    height: moderateScale(30),
   },
   footerGroup: {
     marginTop: verticalScale(10),
     flexDirection: 'row',
+    display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-around',
   },
   leftContainer: {
