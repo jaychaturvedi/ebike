@@ -74,6 +74,13 @@ class ForgotPassword extends React.PureComponent<Props, State> {
     };
   }
 
+  componentDidMount(){
+    this.props.resetOnboarding({
+      type: 'Store_ResetOnboarding',
+      payload: {},
+    });
+  }
+
   onOtpFilled = (code: string) => {
     this.setState({showOtp: false});
     this.props.navigation.replace('CreateNewPassword', {
