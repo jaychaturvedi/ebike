@@ -177,6 +177,7 @@
         "community": "Community",
         "support": "Support",
         "language": "Language",
+        "swap": "Swap",
         "promotions": "Promotions",
         "sendInvite": "Send invite",
         "insurance": "Insurance",
@@ -193,7 +194,8 @@
     "gps": {
         "gps": "GPS",
         "finalPosition": "Final Position",
-        "refresh": "Refresh"
+        "refresh": "Refresh",
+        "noDataAvailable": "No location data available"
     },
     "cycleCharging": {
         "charging": "Charging",

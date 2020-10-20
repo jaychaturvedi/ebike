@@ -124,6 +124,9 @@ class MyRides extends React.PureComponent<Props, State> {
 
   render() {
     let Theme = this.context.theme; //load theme context
+    const invalidNextDate =
+      Moment(this.state.focusDate).add(1, 'days').toDate().getTime() >
+      new Date().getTime();
     return (
       <View style={{flex: 1}}>
         <Header
@@ -144,6 +147,15 @@ class MyRides extends React.PureComponent<Props, State> {
           }>
           <View style={styles.date}>
             <TouchableOpacity
+              style={{
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'white',
+                paddingRight: 4,
+                borderRadius: 20,
+              }}
               onPress={() =>
                 this.setNewDate(
                   Moment(this.state.focusDate).add(-1, 'days').toDate(),
@@ -161,22 +173,31 @@ class MyRides extends React.PureComponent<Props, State> {
               />
             </View>
             <TouchableOpacity
+              disabled={invalidNextDate}
               style={{
-                width: 24,
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingLeft: 4,
+                backgroundColor: invalidNextDate ? '#E5E5E5' : 'white',
+                borderRadius: 20,
               }}
               onPress={() => {
                 this.setNewDate(
                   Moment(this.state.focusDate).add(1, 'days').toDate(),
                 );
               }}>
-              {Moment(this.state.focusDate).add(1, 'days').toDate().getTime() <
-                new Date().getTime() && (
+              {
                 <Icon
                   type="FontAwesome"
                   name="chevron-right"
-                  style={styles.icon}
+                  style={{
+                    ...styles.icon,
+                    color: invalidNextDate ? '#868686' : 'black',
+                  }}
                 />
-              )}
+              }
             </TouchableOpacity>
           </View>
           <RideMetric
@@ -331,7 +352,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   icon: {
-    fontSize: moderateScale(12),
+    fontSize: moderateScale(16),
   },
   chart: {
     height: 300,

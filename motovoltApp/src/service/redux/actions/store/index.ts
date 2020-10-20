@@ -187,6 +187,8 @@ export type Store_SetGraphdata = {
         distance: number,
         avgSpeed: number,
         avgKmph: number,
+        co2SavingKg: number,
+        greenMilesKm: number,
         data: {
             value: number,
             date: string

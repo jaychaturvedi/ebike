@@ -112,6 +112,8 @@ export default (store: TStore = Store, params: Action): TStore => {
                     avgKmph: params.payload.avgKmph,
                     avgSpeed: params.payload.avgSpeed,
                     distance: params.payload.distance,
+                    co2SavingKg:params.payload.co2SavingKg,
+                    greenMilesKm: params.payload.greenMilesKm,
                     data: Object.assign({}, ...params.payload.data.map(graph => ({ [Math.random().toString()]: graph })))
                 }
             }

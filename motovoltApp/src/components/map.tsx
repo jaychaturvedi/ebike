@@ -53,7 +53,7 @@ export default class Map extends React.PureComponent<Props, State> {
           <Marker
             key={Math.random().toString()}
             coordinate={coordinate}
-            image={require('../assets/images/location_pin.png')}
+            image={require('../assets/icons/location_pin.png')}
           />
         ))}
         {this.props.location.length >= 2 && (

@@ -69,30 +69,28 @@ class RateRide extends React.PureComponent<Props, State> {
           backgroundColor: Theme.BACKGROUND, //change dark theme
         }}>
         <View style={styles.map}>
-          <Map
-            location={
-              this.props.ride.path.map((point) => {
+          {this.props.ride.path.length === 0 ? (
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100%',
+              }}>
+              <Text>
+                {LanguageSelector.t('gps.noDataAvailable')}
+              </Text>
+            </View>
+          ) : (
+            <Map
+              location={this.props.ride.path.map((point) => {
                 return {
                   latitude: point.lat,
                   longitude: point.long,
                 };
-              })
-              //     [
-              //     // {
-              //     // latitude: this.props.ride.path.length ? this.props.ride.path[0].lat : 37.78825,
-              //     // longitude: this.props.ride.path.length ? this.props.ride.path[0].long : -122.4324,
-              //     // }
-              //     {
-              //         latitude: 37.3317876,
-              //         longitude: -122.0054812,
-              //     },
-              //     {
-              //         latitude: 37.771707,
-              //         longitude: -122.4053769,
-              //     },
-              // ]
-            }
-          />
+              })}
+            />
+          )}
         </View>
         <View style={styles.usageDetails}>
           <RideMetric
