@@ -1,8 +1,10 @@
+import * as dotenv from "dotenv"
+dotenv.config()
 const AWS = require('aws-sdk');
 let awsCredentials = {
   region: "us-east-2",
-  accessKeyId: "",
-  secretAccessKey: ""
+  accessKeyId: process.env.ACCESSKEYID,
+  secretAccessKey: process.env.SECRETKEY
 };
 AWS.config.update(awsCredentials);
 function getQuickSightUrl(idToken: any, username: any) {
@@ -44,12 +46,16 @@ function getQuickSightUrl(idToken: any, username: any) {
       });
       let quicksight = new AWS.QuickSight({
         apiVersion: '2018-04-01',
-        region : "us-east-1"
+        region: "us-east-1"
       });
       quicksight.registerUser(params, function (err: any, data: any) {
         if (err) {
           console.log(JSON.stringify(err));
           if (err.statusCode == 409) {
+            quicksight = new AWS.QuickSight({
+              apiVersion: '2018-04-01',
+              region: "us-east-2"
+            });
             quicksight.getDashboardEmbedUrl({
               AwsAccountId: "447347746650",
               DashboardId: "e3cf1a0d-04f4-442b-8276-a359cada2b32",
@@ -70,10 +76,10 @@ function getQuickSightUrl(idToken: any, username: any) {
           }
           console.log("err register user ::::::::::::::::::", err, err.stack);
         } // an error occurred
-        // else {
+        else {
           quicksight = new AWS.QuickSight({
             apiVersion: '2018-04-01',
-            region : "us-east-2"
+            region: "us-east-2"
           });
           console.log("Register User :::::::::::::::: =========================>\n", data);
           quicksight.getDashboardEmbedUrl({
@@ -93,13 +99,13 @@ function getQuickSightUrl(idToken: any, username: any) {
               }
             }
           );
-        
+        }
       });
     }
   });
 }
 
-let idToken ="eyJraWQiOiJwY2t2ZFZleEFaQTJyQXdzbU1iYVY4YTk0NU05RHBkSUtOdVNNUWRMVlJzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIwYmM5MjRmOS0xMGNmLTQ4ZjEtODJiNS00YTY3MjM2MjU0ZTMiLCJhdWQiOiIzdDBhcGNibWxuMW5zOGdwOTcwajBscWp2ZyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJldmVudF9pZCI6ImE0ZjQ5YzE0LTRiMDgtNGQwNi1iM2MxLTgyMzU5NmIwZThiMiIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjAzMDk0MTI2LCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0yLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMl80eXFUOWZkUXMiLCJjb2duaXRvOnVzZXJuYW1lIjoiMGJjOTI0ZjktMTBjZi00OGYxLTgyYjUtNGE2NzIzNjI1NGUzIiwiZXhwIjoxNjAzMTc1NTUzLCJjdXN0b206cm9sZSI6IkFETUlOIiwiaWF0IjoxNjAzMTcxOTUzLCJlbWFpbCI6InNvbnVAemVscC5pbyJ9.Rx_VGI4ilA58glp8FuvO1UY6HbrwRzh75ZExUGre2lVVBm5nhSWevNYSrIAxF0DBS3zUiVAVqcIhDhut2EEd_qzMtMVa77lJ1nqvMiEs4TBKOKhnXbaDP8kw6UL3QpzZ9uO_-76bd8VhvsPAerbuApTpDfwn041z8BoOVmqlQcO9wnoNT4iVzDblD5S6mFJMjBSFOmdtRWwWLUNxv9gZp9W06oiOjiGI2iQmr3NpKsDRc-T_DoXAjq_jqxIEFqZxg9tXz7H8UJHLHvJDHUyBxKIEV5a0QN6ul2zTyL4Xth_D7m0DMJXqOOIFGKN43yTN6Y7PXaUr9KFctpZIpY-M2A"
+let idToken = "eyJraWQiOiJwY2t2ZFZleEFaQTJyQXdzbU1iYVY4YTk0NU05RHBkSUtOdVNNUWRMVlJzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIwYmM5MjRmOS0xMGNmLTQ4ZjEtODJiNS00YTY3MjM2MjU0ZTMiLCJhdWQiOiIzdDBhcGNibWxuMW5zOGdwOTcwajBscWp2ZyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJldmVudF9pZCI6IjVkMGMwMGI5LTczMDctNDU2OS05ZTkwLWMyMjY1NDVlYWNjOSIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjAzMTkxMTIzLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0yLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMl80eXFUOWZkUXMiLCJjb2duaXRvOnVzZXJuYW1lIjoiMGJjOTI0ZjktMTBjZi00OGYxLTgyYjUtNGE2NzIzNjI1NGUzIiwiZXhwIjoxNjAzMTk0NzIzLCJjdXN0b206cm9sZSI6IkFETUlOIiwiaWF0IjoxNjAzMTkxMTIzLCJlbWFpbCI6InNvbnVAemVscC5pbyJ9.MXN15W8ctBi7Tx3b3A2r8JwuPDp5bMPtLY5qLJyc4gnjW0PmxhvbLh6XIz52CtZ0oBNOqAptRtcwmdFad5wIMl5QAow_gOhoD19vT8ykUdoE0UmrR-EaC_zl3b7mNaOawPiWh03RV8VmummklxbkkaI4gav2oCw9LW3D0pNvHQk8T8OyIQsBJoaHsiCpD_guCMCFR2g1-bwZedzBoOLVnzS2UhZggmac1jqrtwOXFKAvN2v_rPD98cGaI1rM4N6SEkVpm8iqLJGL0BFN3ma-h6YKKGCl4NB0oJf8q7IgKeoarF1fELp3IT8fHsNVmlUQ4VlqWfMacPd0mxdVrhzZCg"
 getQuickSightUrl(idToken, "sonu@zelp.io")
 
 
