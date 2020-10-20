@@ -4,6 +4,9 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {Text} from 'native-base';
 import {scale, moderateScale} from 'react-native-size-matters';
 import ThumbsUp from '../../components/thumb-up';
+import CTAButton from '../../components/cta-button';
+import Colors from '../../styles/colors';
+import Toast from 'react-native-simple-toast';
 
 interface Props {
   onFilled: (code: string) => void;
@@ -15,6 +18,7 @@ interface Props {
 
 type State = {
   code: string;
+  ref: any;
 };
 
 export default class OTPInput extends React.PureComponent<Props, State> {
@@ -22,6 +26,7 @@ export default class OTPInput extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       code: '',
+      ref: React.createRef(),
     };
   }
 
@@ -49,20 +54,53 @@ export default class OTPInput extends React.PureComponent<Props, State> {
             code={this.state.code}
             onCodeChanged={(code) => {
               this.setState({code});
-              if (code.length === 6) {
-                this.props.onFilled(code);
-              }
+              // if (code.length === 6) {
+              //   this.props.onFilled(code);
+              // }
             }}
+            ref={this.state.ref}
             autoFocusOnLoad
             codeInputFieldStyle={styles.underlineStyleBase}
             codeInputHighlightStyle={styles.underlineStyleHighLighted}
           />
         </View>
         <View style={styles.footer}>
+          <View
+            style={{
+              width: '100%',
+              // flex: 1,
+              marginBottom: moderateScale(20),
+              flexDirection: 'row',
+            }}>
+            <View style={{width: '50%', paddingHorizontal: 10}}>
+              <CTAButton
+                fullWidth
+                text="CLEAR"
+                onPress={() => {
+                  this.setState({code: ''});
+                  // this.state.ref.current.clear();
+                }}
+                textColor={Colors.WHITE}
+                backgroundColor={Colors.NAVY_BLUE}
+              />
+            </View>
+            <View style={{width: '50%', paddingHorizontal: 10}}>
+              <CTAButton
+                fullWidth
+                text="SUBMIT"
+                textColor={Colors.WHITE}
+                onPress={() => {
+                  if(this.state.code.length === 6){
+                    this.props.onFilled(this.state.code);
+                  }else{
+                    Toast.show("Please fill the OTP")
+                  }
+                }}
+                backgroundColor={Colors.NAVY_BLUE}
+              />
+            </View>
+          </View>
           <Text style={{textAlign: 'center'}}>
-            <Text style={styles.footerText}>
-              Haven't received the 6-digit OTP?{' '}
-            </Text>
             <Text
               style={styles.resendOTP}
               onPress={() => {

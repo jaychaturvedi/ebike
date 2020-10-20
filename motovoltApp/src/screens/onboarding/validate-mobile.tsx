@@ -163,18 +163,20 @@ class ValidateMobile extends React.PureComponent<Props, State> {
             showError={!this.state.isValid}
             placeHolder="Enter Registered Mobile No."
             keyboardNumericType
+            hasPrefix
+            prefix="+91"
             onChange={this.onChange}
           />
         </View>
         <View style={styles.helpText}>
           <Text style={{fontSize: moderateScale(14, 0.1), textAlign: 'center'}}>
-            <Text>By Signing up with Motovolt, you accept our </Text>
+            <Text>By Signing up with Motovolt, you accept our{'\n'} </Text>
             <Text
               style={{color: '#0934F2'}}
               onPress={() => {
                 console.log('T & C Pressed');
               }}>
-              T & C
+              Terms and Condition
             </Text>
           </Text>
         </View>

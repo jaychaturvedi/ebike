@@ -121,6 +121,8 @@ class Login extends React.PureComponent<Props, State> {
         <Input
           showError={!this.state.isValidPhone}
           placeHolder="Mobile No."
+          hasPrefix
+          prefix="+91"
           keyboardNumericType
           marginVeritical={verticalScale(InputMarginVeritical)}
           onChange={(value: string) => {

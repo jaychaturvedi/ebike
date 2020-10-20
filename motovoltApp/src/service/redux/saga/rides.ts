@@ -47,13 +47,13 @@ export function* endRide(params: RideActions.EndRide) {
                 type: "Store_UpdateRide",
                 payload: {
                     id: data.rideId,
-                    totalDistanceKm: data.distance,
-                    durationSec: data.duration,
-                    avgSpeedKmph: data.averageSpeed,
-                    maxSpeedKmph: data.maxSpeed,
-                    caloriesBurnt: data.caloriesBurnt,
-                    petrolSavingsInr: data.petrolSaved,
-                    petrolSavingsLtr: data.litreSaved,
+                    totalDistanceKm: Math.round(data.distance),
+                    durationSec: Math.round(data.duration),
+                    avgSpeedKmph: Math.round(data.averageSpeed),
+                    maxSpeedKmph: Math.round(data.maxSpeed),
+                    caloriesBurnt: Math.round(data.caloriesBurnt),
+                    petrolSavingsInr: Math.round(data.petrolSaved),
+                    petrolSavingsLtr: Math.round(data.litreSaved),
                     startTime: data.startTime,
                     endTime: data.endTime,
                     path: data.gpsPath.map((item: any) => ({
@@ -98,7 +98,7 @@ export function* rateRide(params: RideActions.SubmitRide) {
                 payload: {
                     id: params.payload.rideId,
                     comment: params.payload.comment,
-                    score: params.payload.rating,
+                    score: Math.round(params.payload.rating),
                 }
             } as Store_UpdateRide)
         } else {
@@ -137,13 +137,13 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 payload: data.history.map((ride: any, i: number) => ({
                     // Should not be optional
                     id: i.toString(),
-                    totalDistanceKm: ride.dist,
-                    speedKmph: ride.kmph,
-                    avgSpeedKmph: ride.kmph,
-                    maxSpeedKmph: ride.kmph,
+                    totalDistanceKm: Math.round(ride.dist),
+                    speedKmph: Math.round(ride.kmph),
+                    avgSpeedKmph: Math.round(ride.kmph),
+                    maxSpeedKmph: Math.round(ride.kmph),
                     from: ride.startloc,
                     to: ride.endloc,
-                    score: ride.rating,
+                    score: Math.round(ride.rating),
                     pedalAssistMode: ride.pa,
                     ecoMode: ride.ecom,
                     powerMode: ride.pm,
@@ -158,11 +158,11 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                         value: gData.speed,
                         date: gData.date
                     })),
-                    avgKmph: data.graphData.length ? data.graphData[0].avgkmph : 0,
-                    avgSpeed: data.graphData.length ? data.graphData[0].avgspd : 0,
-                    distance: data.graphData.length ? data.graphData[0].dist : 0,
-                    co2SavingKg: data.graphData.length ? data.graphData[0].co2sav : 0,
-                    greenMilesKm: data.graphData.length ? data.graphData[0].grnmls : 0
+                    avgKmph: data.graphData.length ? Math.round(data.graphData[0].avgkmph) : 0,
+                    avgSpeed: data.graphData.length ? Math.round(data.graphData[0].avgspd) : 0,
+                    distance: data.graphData.length ? Math.round(data.graphData[0].dist) : 0,
+                    co2SavingKg: data.graphData.length ? Math.round(data.graphData[0].co2sav) : 0,
+                    greenMilesKm: data.graphData.length ? Math.round(data.graphData[0].grnmls) : 0
                 }
             } as Store_SetGraphdata);
         } else {
@@ -192,19 +192,19 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
             yield put({
                 type: 'Store_UpdateBike',
                 payload: {
-                    batteryChargePer: data.batteryChargePer,
-                    rangeCoveredKm: data.rangeCovered,
-                    rangeAvailableKm: data.rangeAvailable,
+                    batteryChargePer: Math.round(data.batteryChargePer),
+                    rangeCoveredKm: Math.round(data.rangeCovered),
+                    rangeAvailableKm: Math.round(data.rangeAvailable),
                 }
             } as Store_UpdateBike);
             yield put({
                 type: 'Store_UpdateRide',
                 payload: {
                     id: params.payload.rideId,
-                    totalDistanceKm: data.distance,
-                    avgSpeedKmph: data.averageSpeed,
-                    speedKmph: data.speed,
-                    maxSpeedKmph: data.maxSpeed,
+                    totalDistanceKm: Math.round(data.distance),
+                    avgSpeedKmph: Math.round(data.averageSpeed),
+                    speedKmph: Math.round(data.speed),
+                    maxSpeedKmph: Math.round(data.maxSpeed),
                 }
             } as Store_UpdateRide)
         } else {
@@ -236,13 +236,13 @@ export function* getRide(params: RideActions.ReadRideData) {
                 type: 'Store_UpdateRide',
                 payload: {
                     id: params.payload.rideId,
-                    totalDistanceKm: data.distance,
-                    avgSpeedKmph: data.averageSpeed,
-                    maxSpeedKmph: data.maxSpeed,
-                    greenMilesKm: data.caloriesBurnt,
-                    caloriesBurnt: data.caloriesBurnt,
-                    petrolSavingsInr: data.petrolSaved,
-                    petrolSavingsLtr: data.litreSaved,
+                    totalDistanceKm: Math.round(data.distance),
+                    avgSpeedKmph: Math.round(data.averageSpeed),
+                    maxSpeedKmph: Math.round(data.maxSpeed),
+                    greenMilesKm: Math.round(data.caloriesBurnt),
+                    caloriesBurnt: Math.round(data.caloriesBurnt),
+                    petrolSavingsInr: Math.round(data.petrolSaved),
+                    petrolSavingsLtr: Math.round(data.litreSaved),
                     startTime: data.startTime,
                     endTime: data.endTime,
                     path: data.gpsPath.map((item: any) => ({
@@ -251,7 +251,7 @@ export function* getRide(params: RideActions.ReadRideData) {
                         time: item.utc ?? ''
                     })),
                     durationSec: data.duration,
-                    score: data.rating,
+                    score: Math.round(data.rating),
                 }
             } as Store_UpdateRide)
         } else {
@@ -283,15 +283,15 @@ export function* getSpeedometerData(params: RideActions.Speedometer) {
                 type: 'Store_SetSpeedometer',
                 payload: {
                     rideId: params.payload.rideId,
-                    averageSpeed: data.averageSpeed,
-                    batteryChargePer: data.batteryChargePer,
-                    distance: data.distance,
-                    maxSpeed: data.maxSpeed,
+                    averageSpeed: Math.round(data.averageSpeed),
+                    batteryChargePer: Math.round(data.batteryChargePer),
+                    distance: Math.round(data.distance),
+                    maxSpeed: Math.round(data.maxSpeed),
                     pedalAssit: data.pedalAssit,
                     powerMod: data.powerMode,
-                    rangeAvailable: data.rangeAvailable,
-                    rangeCovered: data.rangeCovered,
-                    speed: data.speed
+                    rangeAvailable: Math.round(data.rangeAvailable),
+                    rangeCovered: Math.round(data.rangeCovered),
+                    speed: Math.round(data.speed)
                 }
             } as Store_SetSpeedometer)
         } else {
