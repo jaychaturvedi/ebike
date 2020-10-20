@@ -49,13 +49,16 @@ export default class Map extends React.PureComponent<Props, State> {
         ref={(c) => {
           this.mapView = c;
         }}>
-        {this.props.location.map((coordinate, index) => (
-          <Marker
-            key={Math.random().toString()}
-            coordinate={coordinate}
-            image={require('../assets/icons/location_pin.png')}
-          />
-        ))}
+        {this.props.location.map((coordinate, index) => {
+          if (index === 0 || index === this.props.location.length - 1)
+            return (
+              <Marker
+                key={Math.random().toString()}
+                coordinate={coordinate}
+                image={require('../assets/icons/location_pin.png')}
+              />
+            );
+        })}
         {this.props.location.length >= 2 && (
           <MapViewDirections
             origin={this.props.location[0]}
@@ -69,7 +72,6 @@ export default class Map extends React.PureComponent<Props, State> {
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
             strokeColor="hotpink"
-            mode="BICYCLING"
             splitWaypoints
             // optimizeWaypoints={true}
             onStart={(params) => {
