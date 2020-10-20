@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg"
 import { ReactComponent as Alerts } from "../../assets/alerts_tab_icon.svg"
 // import { ReactComponent as B2BLogo } from "../../assets/b2b_tab_icon.svg"
-// import { ReactComponent as CharginStation } from "../../assets/charging_station_tab_icon.svg"
+import { ReactComponent as CharginStation } from "../../assets/charging_station_tab_icon.svg"
 import { Typography } from 'antd';
 import { connect } from 'react-redux'
 import { RoleBasedMainRoutes } from "../../connectm-client/roles/role-access"
@@ -106,11 +106,11 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                     {/* <div className={`tab-icons ${this.state.b2bClicked ? "option-clicked" : ""}`} onClick={this.b2bClicked}>
                         <B2BLogo width="32" height="32" />
                         <Typography.Text >B2B</Typography.Text>
-                    </div>
-                    <div className={`tab-icons ${this.state.stationsClicked ? "option-clicked" : ""}`} onClick={() => this.stationsClicked("")}>
-                        <CharginStation width="32" height="32" />
-                        <Typography.Text >Stations</Typography.Text>
                     </div> */}
+                   {["ADMIN"].includes(this.state.userRole) && <div className={`tab-icons ${this.state.misClicked || ["ADMIN"].includes(this.state.userRole) ? "option-clicked" : ""}`}  onClick={() => this.misClicked("mis")}>
+                        <CharginStation width="40" height="40" />
+                        <Typography.Text style={{ color: 'white' }}>MIS</Typography.Text>
+                    </div>}
                 </div>
             </div>
         )

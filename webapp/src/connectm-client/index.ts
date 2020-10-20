@@ -6,30 +6,30 @@ import { createStore, applyMiddleware } from "redux";
 
 const sagaMiddleware = createSagaMiddleware();
 
-function saveToLocalStorage(state: any) {
-    try {
-        const serializedState = JSON.stringify(state)
-        localStorage.setItem('state', serializedState)
+// function saveToLocalStorage(state: any) {
+//     try {
+//         const serializedState = JSON.stringify(state)
+//         localStorage.setItem('state', serializedState)
 
-    } catch (e) {
-        console.log(e);
-    }
-}
+//     } catch (e) {
+//         console.log(e);
+//     }
+// }
 
-function loadFromLocalStorage() {
-    try {
-        const serializedState = localStorage.getItem('state')
-        if (serializedState === null) return undefined
-        return JSON.parse(serializedState)
-    } catch (e) {
-        console.log(e);
-        return undefined
-    }
-}
+// function loadFromLocalStorage() {
+//     try {
+//         const serializedState = localStorage.getItem('state')
+//         if (serializedState === null) return undefined
+//         return JSON.parse(serializedState)
+//     } catch (e) {
+//         console.log(e);
+//         return undefined
+//     }
+// }
 
-const persistedState = loadFromLocalStorage()
-const store = createStore(AppReducer, persistedState, applyMiddleware(sagaMiddleware, logger));
-store.subscribe(() => saveToLocalStorage(store.getState()))
+// const persistedState = loadFromLocalStorage()
+const store = createStore(AppReducer, applyMiddleware(sagaMiddleware, logger));
+// store.subscribe(() => saveToLocalStorage(store.getState()))
 
 sagaMiddleware.run(rootSaga);
 

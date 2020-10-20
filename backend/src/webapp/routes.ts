@@ -3,6 +3,10 @@ import { validationResult, body, query, param } from "express-validator";
 import { createResponse } from "../helper";
 import WebAPI from "../externalApi/webapp";
 import { createWebAppUser, deleteWebAppUser } from "./lambdaService";
+import { BadRequestError } from "../error";
+import JwtDecode from "jwt-decode";
+import { getEmbedUrl, getQuickSightUrl } from "./getQuickSightUrl";
+
 
 const app = Express.Router();
 
@@ -24,14 +28,17 @@ export function expressQAsync(fn: Function) {
   }
 }
 
-function secure(
+function webSecure(
   req: Express.Request,
   res: Express.Response,
   next: Express.NextFunction
 ) {
-  // Authenticate requests
-  // console.log("webapp req secure", req);
-  next();
+  const token = req.headers.authorization as string
+  if (!token) throw new BadRequestError("No token in header")
+  const { email } = JwtDecode(token)
+  res.locals.user = { email, idToken: token }
+  console.log(res.locals.user);
+  next()
 }
 
 function expressErrorHandler(
@@ -259,6 +266,20 @@ app.delete('/deleteUser',
     const { userEmail } = req.body as any
     const result = await deleteWebAppUser({ userEmail })
     const response = createResponse("OK", result.response, result.err)
+    res.json(response)
+  })
+)
+
+app.post('/quicksight', expressQAsync(webSecure),
+  [body('dashboardId', "dashboardId is too short").isString(), validate],
+  expressQAsync(async (req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction) => {
+    const { email, idToken } = res.locals.user
+    // DashboardId: "e3cf1a0d-04f4-442b-8276-a359cada2b32",
+    const dashboardId = req.body.dashboardId as string
+    const result = await getEmbedUrl(idToken, email, dashboardId)
+    const response = createResponse("OK", result, undefined)
     res.json(response)
   })
 )

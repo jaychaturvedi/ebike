@@ -1,15 +1,11 @@
 import './index.scss';
-import { Layout, Avatar } from 'antd'
+import { Layout, Avatar,Tooltip } from 'antd'
 import React, { PureComponent } from 'react';
 import { withRouter, RouteComponentProps } from "react-router";
 import Motovolt from '../../assets/MotovoltLogo.png'
 import { connect } from 'react-redux'
 import { signout } from "../../connectm-client/authentication"
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
-// import { ReactComponent as ChatMessage } from "../../assets/chat_message_icon.svg"
-// import { ReactComponent as Notification } from "../../assets/notification_icon.svg"
-// import { ReactComponent as Refresh } from "../../assets/refresh_icon.svg"
-// import { ReactComponent as Settings } from "../../assets/settings_icon.svg"
 
 interface WebHeaderProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 
@@ -54,20 +50,12 @@ class WebHeader extends PureComponent<WebHeaderProp, WebHeaderState> {
         return (
             <Layout.Header className="web-header">
                 <div className={"header-logo"}> <img src={Motovolt} alt="motovolt-logo" /></div>
-                {/* <Refresh width="24" height="24" className={"header-icon"} />
-                <Settings width="24" height="24" className={"header-icon"} />
-                <ChatMessage width="24" height="24" className={"header-icon"} />
-                <Notification width="24" height="24" className={"header-icon"} /> */}
-                <div onClick={() => {
-                    this.setState({ showPopup: !this.state.showPopup })
-
-                }} className="header-avatar-menu">
+                <Tooltip placement="bottomRight" color="#1b1e27"
+                title={<span onClick={this.logoutFromCommandCenter}>{"Sign Out"}</span>} trigger="click">
                     <Avatar size="small" gap={4} className={"header-avatar"} >
                         {this.state.userEmail.slice(0, 1).toUpperCase()}
                     </Avatar>
-                    {this.state.showPopup && <div className="sign-out" onClick={this.logoutFromCommandCenter}><span>{"Sign Out"}</span></div>}
-                </div>
-                {/* <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" size="small" className={"header-icon"} /> */}
+                </Tooltip>
             </Layout.Header>
         )
     }

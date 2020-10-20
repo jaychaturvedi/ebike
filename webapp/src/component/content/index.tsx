@@ -11,6 +11,7 @@ import MisAnalyserFour from '../mis-page/mis-analyser-page/fourGrid'
 import AlertDetail from "../rnd-alert-detail"
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
 import { connect } from 'react-redux'
+import Quicksight from "../quicksight"
 
 interface ContentProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface ContentState {
@@ -39,7 +40,8 @@ function AccessibleRoutes(props: AccessibleRoutes) {
                     {/* <Route exact path="/" component={MisBattery} /> */}
                     {/* <Route exact path="/" component={MisMotorController} /> */}
                     <Route exact path="/ana" component={MisAnalyserFour} />
-                    <Route exact path="/mis" component={MisContent} />
+                    {/* <Route exact path="/mis" component={MisContent} /> */}
+                    <Route exact path="/mis" component={Quicksight} />
                 </Switch>
             )
         }

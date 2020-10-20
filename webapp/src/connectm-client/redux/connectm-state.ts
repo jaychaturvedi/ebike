@@ -38,7 +38,8 @@ export interface State {
     trendsZoom: number,
     graphs: {
         [alertTypeId: string]: any
-    }
+    },
+    quickSightUrl:string
 }
 
 const connectmState: State = {
@@ -81,7 +82,8 @@ const connectmState: State = {
         },
     },
     trendsZoom: 0,
-    graphs: []
+    graphs: [],
+    quickSightUrl:""
 }
 
 export default connectmState;
