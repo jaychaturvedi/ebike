@@ -2,57 +2,70 @@ import './index.scss';
 import React, { PureComponent } from 'react';
 import Iframe from 'react-iframe'
 import { connect } from 'react-redux'
-import { ReduxQuickSightAction, ReduxQuickSightState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/quickSight"
+import { ReduxDashboardAction, ReduxDashboardState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/dashboard"
+import { TDashboardList } from "../../connectm-client/redux/models"
+import { Card } from 'antd';
+const { Meta } = Card;
 
-interface QuickSightProps extends ReduxQuickSightAction, ReduxQuickSightState {
+interface DashboardProps extends ReduxDashboardAction, ReduxDashboardState {
 }
 
-interface QuickSightState {
-  quickSightUrl: string,
-  dataLoaded:boolean
+interface DashboardState {
+  dashboardList: TDashboardList[],
+  dataLoaded: boolean
 }
 
+const dashboardTitle = ["Customer Trials - Status Overview", "Yantra MotoVolt Sensor Data"]
+const cardDescription = "last synced 1hrs ago"
 
-class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
-  constructor(props: QuickSightProps) {
+class Dashboard extends PureComponent<DashboardProps, DashboardState> {
+  constructor(props: DashboardProps) {
     super(props)
     this.state = {
-      quickSightUrl: "",
-      dataLoaded:false
+      dashboardList: [],
+      dataLoaded: false
     }
   }
 
-  static getDerivedStateFromProps(props: QuickSightProps, state: QuickSightState) {
-    if(!state.dataLoaded){
-
-      props.QuickSightAction({
-        type: "GET_QUICKSIGHT_EMBED_URL",
-        payload: {
-          dashboardId: "e3cf1a0d-04f4-442b-8276-a359cada2b32"
-        }
+  static getDerivedStateFromProps(props: DashboardProps, state: DashboardState) {
+    if (!state.dataLoaded) {
+      props.getDashboardList({
+        type: "GET_DASHBOARD_LIST",
+        payload: {}
       })
-      state.quickSightUrl = props.quickSightUrl
-      if(state?.quickSightUrl?.length){
-        state.dataLoaded=true
+      state.dashboardList = props.dashboardList
+      if (state?.dashboardList?.length) {
+        state.dataLoaded = true
       }
     }
-    console.log("inside quicksight state", state);
-    
+    console.log("inside dashboard state", state);
+
     return state
   }
-
   render() {
     return (
       <div className='container-quicksight' >
-        <Iframe url={this.state.quickSightUrl}
+        {this.state.dashboardList.map((dashboard: TDashboardList) => {
+          return (<div className="dashboard-container">
+            <Card
+              className="dashboard-card"
+              hoverable
+              style={{ width: "auto" }}
+              cover={<img alt={dashboard.dashboardName} src={dashboard.dashboardImageUrl} style={{height:200}} />}
+            >
+              <Meta title={dashboard.dashboardName} description={cardDescription} />
+            </Card>
+          </div>)
+        })}
+        {/* <Iframe url={this.state.quickSightUrl}
           width="100%"
           height="100%"
           id="myId"
           className="myClassname"
-          position="relative" />
+          position="relative" /> */}
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuickSight);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
