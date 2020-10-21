@@ -40,7 +40,9 @@ export default class WebUser {
   }
 
   static async findAll() {
-    const webUser = await WebUserModel.findAll()
+    const webUser = await WebUserModel.findAll({
+      attributes: ['dashboardId', 'dashboardName', 'dashboardImageUrl','authorizedGroup']
+    })
     return webUser
   }
 }
