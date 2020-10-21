@@ -80,13 +80,19 @@ class IndividualRide extends React.PureComponent<Props, State> {
               <View style={styles.slide}>
                 <TipCard
                   header={LanguageSelector.t('myRides.tipToImproveRide')}
-                  tip="Lorem ipsum dolor sit amet, consetetur sadip scing elitr, sed diam nonumy eirmod tempor invidunt ut"
+                  tip={LanguageSelector.t('myRides.tip1')}
                 />
               </View>
               <View style={styles.slide}>
                 <TipCard
                   header={LanguageSelector.t('myRides.tipToImproveRide')}
-                  tip="Lorem ipsum dolor sit amet, consetetur sadip scing elitr, sed diam nonumy eirmod tempor invidunt ut"
+                  tip={LanguageSelector.t('myRides.tip2')}
+                />
+              </View>
+              <View style={styles.slide}>
+                <TipCard
+                  header={LanguageSelector.t('myRides.tipToImproveRide')}
+                  tip={LanguageSelector.t('myRides.tip3')}
                 />
               </View>
             </Swiper>
