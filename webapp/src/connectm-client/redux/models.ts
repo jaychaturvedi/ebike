@@ -5,6 +5,14 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number,
 }
+/////////////////////////////////////QUICKSIGHT DASHBOARD///////////////////////
+export interface TDashboardList {
+  dashboardId: string;
+  dashboardName: string;
+  dashboardImageUrl: string;
+  authorizedGroup: string[];
+}
+
 /////////////////////////////////////USERS//////////////////////////////////////
 export interface User {
     authenticated: boolean,

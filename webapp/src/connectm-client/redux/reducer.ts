@@ -6,6 +6,7 @@ import { Store_AlertGraph } from "../saga/graph";
 import { Store_UserUpdate } from "../saga/user";
 import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert, Store_UpdateSingleAlert } from "../saga/alert-detail";
 import { Store_QuickSightUrl } from "../saga/quickSight";
+import { Store_DashboardList } from "../saga/dashboard"
 type ActionParams = IUsersAction
     | Store_AlertUpdate
     | Store_AlertTabChange
@@ -19,6 +20,7 @@ type ActionParams = IUsersAction
     | Store_UpdateSingleAlert
     | Store_UserUpdate
     | Store_QuickSightUrl
+    |Store_DashboardList
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
     switch (actionParams.type) {
@@ -170,10 +172,16 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
                 user: actionParams.payload
             }
         }
-         case "STORE_QUICKSIGHTURL": {
+        case "STORE_QUICKSIGHTURL": {
           return {
               ...state,
               quickSightUrl: (actionParams as Store_QuickSightUrl).payload.quickSightUrl
+          }
+        }
+        case "STORE_DASHBOARDLIST": {
+          return {
+              ...state,
+              dashboardList: (actionParams as Store_DashboardList).payload.dashboardList
           }
         }
         default: {

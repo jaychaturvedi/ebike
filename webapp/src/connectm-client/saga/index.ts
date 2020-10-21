@@ -14,6 +14,7 @@ import {
 import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction, IClearGraphActions } from "../actions/alert-detail";
 import { TAlertInsights, TPastAlert } from "../redux/models";
 import { getQuickSightUrl } from "./quickSight";
+import { getDashboardList } from './dashboard'
 
 function* getAlertData(params: IAlertActions) {
     try {
@@ -207,6 +208,8 @@ function* actionWatcher() {
     yield takeLatest("CLEAR_ALERT_GRAPH", clearAlertGraph)
     yield takeLatest("UPDATE_USER", updateUser)
     yield takeLatest("GET_QUICKSIGHT_EMBED_URL", getQuickSightUrl)
+    yield takeLatest("GET_DASHBOARD_LIST", getDashboardList)
+
 }
 
 export default function* rootSaga() {

@@ -1,6 +1,6 @@
 import {
     AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
-    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User
+    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User, TDashboardList
 } from "./models";
 
 export interface State {
@@ -39,7 +39,8 @@ export interface State {
     graphs: {
         [alertTypeId: string]: any
     },
-    quickSightUrl:string
+    quickSightUrl:string,
+    dashboardList:TDashboardList[]
 }
 
 const connectmState: State = {
@@ -83,7 +84,8 @@ const connectmState: State = {
     },
     trendsZoom: 0,
     graphs: [],
-    quickSightUrl:""
+    quickSightUrl:"",
+    dashboardList:[]
 }
 
 export default connectmState;
