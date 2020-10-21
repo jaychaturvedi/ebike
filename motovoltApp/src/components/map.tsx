@@ -1,3 +1,4 @@
+import {View} from 'native-base';
 import React from 'react';
 import {Dimensions, StyleSheet} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -50,7 +51,7 @@ export default class Map extends React.PureComponent<Props, State> {
           this.mapView = c;
         }}>
         {this.props.location.map((coordinate, index) => {
-          if (index === 0 || index === this.props.location.length - 1)
+          if (index === this.props.location.length - 1)
             return (
               <Marker
                 key={Math.random().toString()}
@@ -58,6 +59,26 @@ export default class Map extends React.PureComponent<Props, State> {
                 image={require('../assets/icons/location_pin.png')}
               />
             );
+          if (index === 0) {
+            return (
+              <Marker
+                coordinate={coordinate}
+                key={Math.random().toString()}
+                children={
+                  <View
+                    style={{
+                      width: 16,
+                      height: 16,
+                      borderRadius: 8,
+                      borderColor: 'black',
+                      backgroundColor: 'white',
+                      borderWidth: 4,
+                    }}
+                  />
+                }
+              />
+            );
+          }
         })}
         {this.props.location.length >= 2 && (
           <MapViewDirections
