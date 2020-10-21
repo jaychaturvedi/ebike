@@ -3,9 +3,10 @@ import { validationResult, body, query, param } from "express-validator";
 import { createResponse } from "../helper";
 import WebAPI from "../externalApi/webapp";
 import { createWebAppUser, deleteWebAppUser } from "./lambdaService";
-import { BadRequestError } from "../error";
+import { BadRequestError, MotoVoltError } from "../error";
 import JwtDecode from "jwt-decode";
 import { getEmbedUrl, getQuickSightUrl } from "./getQuickSightUrl";
+import Dashboard from './service'
 
 
 const app = Express.Router();
@@ -47,8 +48,13 @@ function expressErrorHandler(
   res: Express.Response,
   next: Express.NextFunction
 ) {
-  res.status(500).json(err);
-  return
+  const response = createResponse("ERROR", undefined, {
+    code: (err as MotoVoltError).errorCode,
+    name: err.name,
+    message: err.message
+  })
+  res.status(200)
+  return res.json(response);
 }
 
 //dashboard main alerts
@@ -283,6 +289,62 @@ app.post('/quicksight', expressQAsync(webSecure),
     res.json(response)
   })
 )
+
+app.get('/getDashboard',
+  expressQAsync(async (req: Express.Request, res: Express.Response,
+    next: Express.NextFunction) => {
+    const result = await Dashboard.findAll()
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
+
+app.post('/createDashboard',
+  [body('dashboardId', "dashboardId is required").isString(),
+  body('dashboardName', "dashboardName is required").isString(),
+  body('dashboardImageUrl', "dashboardImageUrl is required").isString(),
+  body('authorizedGroup', "authorizedGroup is an array required")
+    .isArray().isLength({ min: 1 }), validate],
+  expressQAsync(async (req: Express.Request, res: Express.Response,
+    next: Express.NextFunction) => {
+    const { dashboardId, dashboardName,
+      dashboardImageUrl, authorizedGroup } = req.body as any
+    const result = await Dashboard.createNew(
+      { dashboardId, dashboardName, dashboardImageUrl, authorizedGroup }
+    )
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
+
+app.post('/updateDashboard',
+  [body('dashboardId', "dashboardId is required").isString(),
+  body('dashboardName', "dashboardName is required").isString(),
+  body('dashboardImageUrl', "dashboardImageUrl is required").isString(),
+  body('authorizedGroup', "authorizedGroup is an array required")
+    .isArray().isLength({ min: 1 }), validate],
+  expressQAsync(async (req: Express.Request, res: Express.Response,
+    next: Express.NextFunction) => {
+    const { dashboardId, dashboardName,
+      dashboardImageUrl, authorizedGroup } = req.body as any
+    const result = await Dashboard.updateWhere({ dashboardId },
+      { dashboardName, dashboardImageUrl, authorizedGroup })
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
+
+app.delete('/deleteDashboardId/:dashboardId',
+[param('dashboardId', "dashboardId is required").isString().isLength({ min: 1 }), validate],
+  expressQAsync(async (req: Express.Request, res: Express.Response,
+    next: Express.NextFunction) => {
+      const dashboardId = req.params.dashboardId as string
+    const result = await Dashboard.deleteWhere({dashboardId})
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
+
 
 app.use(expressErrorHandler);
 
