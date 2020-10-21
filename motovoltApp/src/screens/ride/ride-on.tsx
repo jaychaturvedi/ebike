@@ -10,6 +10,7 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 const objectid = require("react-native-bson/lib/bson/objectid");
 import { Dispatch } from 'redux';
+import {Store_ResetRide} from "../../service/redux/actions/store"
 import { StartRide, EndRide, Speedometer } from '../../service/redux/actions/saga';
 import LanguageSelector from '../../translations';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -19,6 +20,7 @@ type ReduxState = {
   bike: TStore['bike'];
   ride: TStore['ride'];
   speedometer: TStore['speedometer'],
+  resetRide: (params: Store_ResetRide) => void,
   startRide: (params: StartRide) => void,
   endRide: (params: EndRide) => void,
   getSpeedometerData: (params: Speedometer) => void,
@@ -118,6 +120,10 @@ class RideOn extends React.PureComponent<Props, State> {
     const rideId = new objectid().toHexString()
     console.log(rideId);
     this.setState({ rideId });
+    this.props.resetRide({
+      type: "Store_ResetRide",
+      payload: {}
+    })
     this.props.startRide({
       type: 'StartRide',
       payload: {
@@ -215,6 +221,7 @@ export default connect(
   },
   (dispatch: Dispatch) => {
     return {
+      resetRide: (params: Store_ResetRide) => dispatch(params),
       startRide: (params: StartRide) => dispatch(params),
       endRide: (params: EndRide) => dispatch(params),
       getSpeedometerData: (params: Speedometer) => dispatch(params),

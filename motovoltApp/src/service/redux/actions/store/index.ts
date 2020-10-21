@@ -247,6 +247,11 @@ export type Store_Init = {
     payload: {}
 }
 
+export type Store_ResetRide = {
+    type: "Store_ResetRide",
+    payload: {}
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -264,5 +269,6 @@ type Action = Store_UpdateUser
     | Store_Reset
     | Store_Init
     | Store_UpdateError
+    | Store_ResetRide
 
 export default Action;

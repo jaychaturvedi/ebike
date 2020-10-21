@@ -47,13 +47,13 @@ export function* endRide(params: RideActions.EndRide) {
                 type: "Store_UpdateRide",
                 payload: {
                     id: data.rideId,
-                    totalDistanceKm: Math.round(data.distance),
-                    durationSec: Math.round(data.duration),
-                    avgSpeedKmph: Math.round(data.averageSpeed),
-                    maxSpeedKmph: Math.round(data.maxSpeed),
-                    caloriesBurnt: Math.round(data.caloriesBurnt),
-                    petrolSavingsInr: Math.round(data.petrolSaved),
-                    petrolSavingsLtr: Math.round(data.litreSaved),
+                    totalDistanceKm: Math.round(data.distance || 0),
+                    durationSec: Math.round(data.duration || 0),
+                    avgSpeedKmph: Math.round(data.averageSpeed || 0),
+                    maxSpeedKmph: Math.round(data.maxSpeed || 0),
+                    caloriesBurnt: Math.round(data.caloriesBurnt || 0),
+                    petrolSavingsInr: Math.round(data.petrolSaved || 0),
+                    petrolSavingsLtr: Math.round(data.litreSaved || 0),
                     startTime: data.startTime,
                     endTime: data.endTime,
                     path: data.gpsPath.map((item: any) => ({
@@ -98,7 +98,7 @@ export function* rateRide(params: RideActions.SubmitRide) {
                 payload: {
                     id: params.payload.rideId,
                     comment: params.payload.comment,
-                    score: Math.round(params.payload.rating),
+                    score: Math.round(params.payload.rating || 0),
                 }
             } as Store_UpdateRide)
         } else {
@@ -137,13 +137,13 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 payload: data.history.map((ride: any, i: number) => ({
                     // Should not be optional
                     id: i.toString(),
-                    totalDistanceKm: Math.round(ride.dist),
-                    speedKmph: Math.round(ride.kmph),
-                    avgSpeedKmph: Math.round(ride.kmph),
-                    maxSpeedKmph: Math.round(ride.kmph),
+                    totalDistanceKm: Math.round(ride.dist || 0),
+                    speedKmph: Math.round(ride.kmph || 0),
+                    avgSpeedKmph: Math.round(ride.kmph || 0),
+                    maxSpeedKmph: Math.round(ride.kmph || 0),
                     from: ride.startloc,
                     to: ride.endloc,
-                    score: Math.round(ride.rating),
+                    score: Math.round(ride.rating || 0),
                     pedalAssistMode: ride.pa,
                     ecoMode: ride.ecom,
                     powerMode: ride.pm,
@@ -158,11 +158,11 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                         value: gData.speed,
                         date: gData.date
                     })),
-                    avgKmph: data.graphData.length ? Math.round(data.graphData[0].avgkmph) : 0,
-                    avgSpeed: data.graphData.length ? Math.round(data.graphData[0].avgspd) : 0,
-                    distance: data.graphData.length ? Math.round(data.graphData[0].dist) : 0,
-                    co2SavingKg: data.graphData.length ? Math.round(data.graphData[0].co2sav) : 0,
-                    greenMilesKm: data.graphData.length ? Math.round(data.graphData[0].grnmls) : 0
+                    avgKmph: data.graphData.length ? Math.round(data.graphData[0].avgkmph || 0) : 0,
+                    avgSpeed: data.graphData.length ? Math.round(data.graphData[0].avgspd || 0) : 0,
+                    distance: data.graphData.length ? Math.round(data.graphData[0].dist || 0) : 0,
+                    co2SavingKg: data.graphData.length ? Math.round(data.graphData[0].co2sav || 0) : 0,
+                    greenMilesKm: data.graphData.length ? Math.round(data.graphData[0].grnmls || 0) : 0
                 }
             } as Store_SetGraphdata);
         } else {
@@ -192,19 +192,19 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
             yield put({
                 type: 'Store_UpdateBike',
                 payload: {
-                    batteryChargePer: Math.round(data.batteryChargePer),
-                    rangeCoveredKm: Math.round(data.rangeCovered),
-                    rangeAvailableKm: Math.round(data.rangeAvailable),
+                    batteryChargePer: Math.round(data.batteryChargePer || 0),
+                    rangeCoveredKm: Math.round(data.rangeCovered || 0),
+                    rangeAvailableKm: Math.round(data.rangeAvailable || 0),
                 }
             } as Store_UpdateBike);
             yield put({
                 type: 'Store_UpdateRide',
                 payload: {
                     id: params.payload.rideId,
-                    totalDistanceKm: Math.round(data.distance),
-                    avgSpeedKmph: Math.round(data.averageSpeed),
-                    speedKmph: Math.round(data.speed),
-                    maxSpeedKmph: Math.round(data.maxSpeed),
+                    totalDistanceKm: Math.round(data.distance || 0),
+                    avgSpeedKmph: Math.round(data.averageSpeed || 0),
+                    speedKmph: Math.round(data.speed || 0),
+                    maxSpeedKmph: Math.round(data.maxSpeed || 0),
                 }
             } as Store_UpdateRide)
         } else {
@@ -236,13 +236,13 @@ export function* getRide(params: RideActions.ReadRideData) {
                 type: 'Store_UpdateRide',
                 payload: {
                     id: params.payload.rideId,
-                    totalDistanceKm: Math.round(data.distance),
-                    avgSpeedKmph: Math.round(data.averageSpeed),
-                    maxSpeedKmph: Math.round(data.maxSpeed),
-                    greenMilesKm: Math.round(data.caloriesBurnt),
-                    caloriesBurnt: Math.round(data.caloriesBurnt),
-                    petrolSavingsInr: Math.round(data.petrolSaved),
-                    petrolSavingsLtr: Math.round(data.litreSaved),
+                    totalDistanceKm: Math.round(data.distance || 0),
+                    avgSpeedKmph: Math.round(data.averageSpeed || 0),
+                    maxSpeedKmph: Math.round(data.maxSpeed || 0),
+                    greenMilesKm: Math.round(data.greenMilesKm || 0),
+                    caloriesBurnt: Math.round(data.caloriesBurnt || 0),
+                    petrolSavingsInr: Math.round(data.petrolSaved || 0),
+                    petrolSavingsLtr: Math.round(data.litreSaved || 0),
                     startTime: data.startTime,
                     endTime: data.endTime,
                     path: data.gpsPath.map((item: any) => ({
@@ -251,7 +251,7 @@ export function* getRide(params: RideActions.ReadRideData) {
                         time: item.utc ?? ''
                     })),
                     durationSec: data.duration,
-                    score: Math.round(data.rating),
+                    score: Math.round(data.rating || 0),
                 }
             } as Store_UpdateRide)
         } else {
@@ -283,15 +283,15 @@ export function* getSpeedometerData(params: RideActions.Speedometer) {
                 type: 'Store_SetSpeedometer',
                 payload: {
                     rideId: params.payload.rideId,
-                    averageSpeed: Math.round(data.averageSpeed),
-                    batteryChargePer: Math.round(data.batteryChargePer),
-                    distance: Math.round(data.distance),
-                    maxSpeed: Math.round(data.maxSpeed),
+                    averageSpeed: Math.round(data.averageSpeed || 0),
+                    batteryChargePer: Math.round(data.batteryChargePer || 0),
+                    distance: Math.round(data.distance || 0),
+                    maxSpeed: Math.round(data.maxSpeed || 0),
                     pedalAssit: data.pedalAssit,
                     powerMod: data.powerMode,
-                    rangeAvailable: Math.round(data.rangeAvailable),
-                    rangeCovered: Math.round(data.rangeCovered),
-                    speed: Math.round(data.speed)
+                    rangeAvailable: Math.round(data.rangeAvailable || 0),
+                    rangeCovered: Math.round(data.rangeCovered || 0),
+                    speed: Math.round(data.speed || 0)
                 }
             } as Store_SetSpeedometer)
         } else {
