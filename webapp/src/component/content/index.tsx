@@ -12,6 +12,7 @@ import AlertDetail from "../rnd-alert-detail"
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
 import { connect } from 'react-redux'
 import Quicksight from "../quicksight"
+import Dashboard from "../quicksight/dashboard"
 
 interface ContentProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface ContentState {
@@ -27,7 +28,7 @@ function AccessibleRoutes(props: AccessibleRoutes) {
             return (
                 <Switch>
                     <Route exact path="/alerts" component={HomePage} />
-                    <Route exact path="/:alertType/:id" component={AlertDetail} />
+                    <Route exact path="/alerts/:alertType/:id" component={AlertDetail} />
                 </Switch>
             )
         }
@@ -35,13 +36,14 @@ function AccessibleRoutes(props: AccessibleRoutes) {
             return (
                 <Switch>
                     <Route exact path="/alerts" component={HomePage} />
-                    <Route exact path="/:alertType/:id" component={AlertDetail} />
+                    <Route exact path="/alerts/:alertType/:id" component={AlertDetail} />
                     {/* <Route exact path="/" component={MisPage} /> */}
                     {/* <Route exact path="/" component={MisBattery} /> */}
                     {/* <Route exact path="/" component={MisMotorController} /> */}
                     <Route exact path="/ana" component={MisAnalyserFour} />
                     {/* <Route exact path="/mis" component={MisContent} /> */}
                     <Route exact path="/mis" component={Quicksight} />
+                    <Route exact path="/mis/:dashboardId" component={Dashboard} />
                 </Switch>
             )
         }

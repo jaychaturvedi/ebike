@@ -3,8 +3,9 @@ import React, { PureComponent } from 'react';
 import Iframe from 'react-iframe'
 import { connect } from 'react-redux'
 import { ReduxQuickSightAction, ReduxQuickSightState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/quickSight"
+import { Link, RouteComponentProps } from 'react-router-dom';
 
-interface QuickSightProps extends ReduxQuickSightAction, ReduxQuickSightState {
+interface QuickSightProps extends RouteComponentProps, ReduxQuickSightAction, ReduxQuickSightState {
 }
 
 interface QuickSightState {
@@ -24,11 +25,12 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
 
   static getDerivedStateFromProps(props: QuickSightProps, state: QuickSightState) {
     if(!state.dataLoaded){
-
+      const pathNames = props.location.pathname.split('/')
+      console.log(pathNames);      
       props.QuickSightAction({
         type: "GET_QUICKSIGHT_EMBED_URL",
         payload: {
-          dashboardId: "e3cf1a0d-04f4-442b-8276-a359cada2b32"
+          dashboardId: pathNames[2]
         }
       })
       state.quickSightUrl = props.quickSightUrl

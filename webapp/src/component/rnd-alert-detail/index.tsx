@@ -43,8 +43,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         //     type : "GET_ALERT_TRENDS"
         // })
         const pathNames = props.location.pathname.split('/')
-        state.alertType = pathNames[1] as TAlertType
-        state.alertId = pathNames[2]
+        state.alertType = pathNames[2] as TAlertType
+        state.alertId = pathNames[3]
         state.alert = props.alerts[state.alertType][state.alertId]
         state.activeAlertType = state.alertType === "smart" ?
             "Smart Alerts" : state.alertType === "bms" ?
