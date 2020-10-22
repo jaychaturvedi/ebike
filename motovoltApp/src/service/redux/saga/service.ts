@@ -5,6 +5,7 @@ import * as ServiceActions from "../actions/saga/service-actions";
 import { Store_UpdateUser, Store_UpdateBike, Store_SetServices, Store_UpdateError } from "../actions/store";
 import { store } from "../../index";
 import { config, request } from './utils';
+import Moment from "moment";
 
 export function* reportIssue(params: ServiceActions.ReportIssue) {
     try {
@@ -55,14 +56,14 @@ export function* getServices(params: ServiceActions.ReadService) {
                             id: open.serviceId,
                             title: open.comments,
                             isOpen: true,
-                            openDate: open.openTime,
+                            openDate: Moment(open.openTime).format("DD-MM-YYYY hh:mm A"),
                         }
                     }), ...data.closed.rows.map((open: any) => {
                         return {
                             id: open.serviceId,
                             title: open.comments,
                             isOpen: false,
-                            openDate: open.openTime,
+                            openDate: Moment(open.openTime).format("DD-MM-YYYY hh:mm A"),
                         }
                     })]
                 }

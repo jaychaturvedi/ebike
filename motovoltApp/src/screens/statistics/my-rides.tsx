@@ -27,6 +27,10 @@ import {
   ReadRideHistory,
   ReadRideData,
 } from '../../service/redux/actions/saga/rides';
+import {
+  Store_Reset,
+  Store_ResetRide
+} from '../../service/redux/actions/store';
 import Graph from './graph';
 import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
@@ -36,6 +40,7 @@ type ReduxState = {
   user: TStore['user'];
   bike: TStore['bike'];
   graph: TStore['graph'];
+  resetRide: (params: Store_ResetRide) => void;
   readRideHistory: (params: ReadRideHistory) => void;
   getIndividualRide: (params: ReadRideData) => void;
 };
@@ -294,6 +299,10 @@ class MyRides extends React.PureComponent<Props, State> {
                 rating={`${this.props.rides[key].score.toString()}/10`}
                 speed={this.props.rides[key].avgSpeedKmph.toString()}
                 onItemSelect={() => {
+                  this.props.resetRide({
+                    type: 'Store_ResetRide',
+                    payload: {},
+                  });
                   this.props.getIndividualRide({
                     type: 'ReadRideData',
                     payload: {
@@ -326,6 +335,7 @@ export default connect(
   },
   (dispatch: Dispatch) => {
     return {
+      resetRide: (params: Store_ResetRide) => dispatch(params),
       readRideHistory: (params: ReadRideHistory) => dispatch(params),
       getIndividualRide: (params: ReadRideData) => dispatch(params),
     };
