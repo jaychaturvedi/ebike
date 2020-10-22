@@ -137,7 +137,7 @@
         "placeholder": "Please describe your concern",
         "submit": "SUBMIT",
         "thankYou": "Thank you!",
-        "confirmationSubTitle": "We really appreciate you're feedback"
+        "confirmationSubTitle": "We really appreciate your feedback"
     },
     "myRides": {
         "gpsMapTextArea": "Did you know you could track your ride when your app is connected to the cycle via bluetooth during the ride.",

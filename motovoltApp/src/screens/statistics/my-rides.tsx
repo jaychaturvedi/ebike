@@ -232,7 +232,8 @@ class MyRides extends React.PureComponent<Props, State> {
               style={{
                 height: '10%',
                 flexDirection: 'row',
-                justifyContent: 'space-around',
+                justifyContent: 'space-between',
+                marginHorizontal: 20,
                 marginVertical: moderateScale(10),
               }}>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
@@ -355,8 +356,9 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
   },
   chart: {
-    height: 300,
+    height: 350,
     backgroundColor: 'white',
+    paddingBottom: 10,
     marginBottom: verticalScale(10),
     marginTop: verticalScale(10),
     borderRadius: scale(10),
