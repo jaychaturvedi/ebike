@@ -52,7 +52,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
             b2bClicked: false,
             stationsClicked: false,
             misClicked: false,
-            alertsClicked: !this.state.alertsClicked
+            alertsClicked: true
         })
         this.props.history.push("/" + navigateTo);
     }
@@ -87,7 +87,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
             logoClicked: false,
             b2bClicked: false,
             stationsClicked: false,
-            misClicked: !this.state.misClicked,
+            misClicked: true,
             alertsClicked: false
         });
         this.props.history.push("/" + navigateTo);
@@ -99,15 +99,17 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                     <div className={"logo"}>
                         <ReactLogo width="44" height="48" />
                     </div>
-                    <div className={`tab-icons ${this.state.alertsClicked || ["DEVELOPER", "ADMIN"].includes(this.state.userRole) ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("alerts")}>
+                    {["DEVELOPER", "ADMIN"].includes(this.state.userRole) &&
+                    <div className={`tab-icons ${this.state.alertsClicked && ["DEVELOPER", "ADMIN"].includes(this.state.userRole) ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("alerts")}>
                         <Alerts width="40" height="40" />
                         <Typography.Text style={{ color: 'white' }}>Alerts</Typography.Text>
                     </div>
+                    }
                     {/* <div className={`tab-icons ${this.state.b2bClicked ? "option-clicked" : ""}`} onClick={this.b2bClicked}>
                         <B2BLogo width="32" height="32" />
                         <Typography.Text >B2B</Typography.Text>
                     </div> */}
-                   {["ADMIN"].includes(this.state.userRole) && <div className={`tab-icons ${this.state.misClicked || ["ADMIN"].includes(this.state.userRole) ? "option-clicked" : ""}`}  onClick={() => this.misClicked("mis")}>
+                   {["ADMIN","MIS"].includes(this.state.userRole) && <div className={`tab-icons ${this.state.misClicked && ["ADMIN","MIS"].includes(this.state.userRole) ? "option-clicked" : ""}`}  onClick={() => this.misClicked("mis")}>
                         <CharginStation width="40" height="40" />
                         <Typography.Text style={{ color: 'white' }}>MIS</Typography.Text>
                     </div>}

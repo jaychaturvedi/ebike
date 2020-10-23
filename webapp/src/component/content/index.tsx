@@ -47,6 +47,14 @@ function AccessibleRoutes(props: AccessibleRoutes) {
                 </Switch>
             )
         }
+        case "MIS": {
+          return (
+              <Switch>
+                  <Route exact path="/mis" component={Quicksight} />
+                  <Route exact path="/mis/:dashboardId" component={Dashboard} />
+              </Switch>
+          )
+      }
     }
 }
 class Content extends PureComponent<ContentProp, ContentState>{

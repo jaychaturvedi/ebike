@@ -53,16 +53,16 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
       <div className='container-quicksight' >
         <div className="dashboard-header">
           <div  className="dashboard-text">
-            {"DASHBOARD"}
+            {"DASHBOARDS"}
           </div>
-          <div className="dashboard-dropdown">
+          {/* <div className="dashboard-dropdown">
             <Select defaultValue="lucy" style={{ width: "auto" }} onChange={this.handleChange}>
               <Option value="jack">Last published (newest first)</Option>
               <Option value="lucy">Last published (oldest first)</Option>
               <Option value="disabled">Dashboard name (A-Z)</Option>
               <Option value="Yiminghe">Dashboard name (Z-A)</Option>
             </Select>
-          </div>
+          </div> */}
         </div>
         <Divider style={{background:"grey", margin:"10px 0"}} />
         <div className="dashboard-card-container">

@@ -32,6 +32,8 @@
         align-items: center;
         margin-bottom: 20%;
         border-left: 1px solid $LEFT_PANEL_BACKGROUND;
+        height: 74px;
+        justify-content: center;
     }
     .option-clicked {
         border-left: 1px solid $ACTIVE !important;

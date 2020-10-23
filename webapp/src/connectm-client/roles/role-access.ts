@@ -7,6 +7,9 @@ export function RoleBasedMainRoutes(role: string) {
         case "DEVELOPER": {
             return "/alerts"
         }
+        case "MIS": {
+          return "/mis"
+      }
         default: {
             return "/"
         }
