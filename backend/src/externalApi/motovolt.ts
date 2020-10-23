@@ -3,7 +3,7 @@ import * as dotenv from "dotenv"
 import {
     TValidatePhone, TRequestBody, TMyBike, TBikeLiveDate,
     TLiveLocation, TCurrentRide, TEndRideStat, TEndRideGps, TRideHistory,
-    TRideHistoryStats, TBikeStat, TNotification
+    TRideHistoryStats, TBikeStat, TNotification, THistEndRideStat
 } from "./types";
 
 dotenv.config()
@@ -121,6 +121,15 @@ export default class ConnectmApi {
         const fetchedData: TNotification[] = await post(options)
         return fetchedData
     }
+
+    static async histEndRideStat(frameId: string, tripId:string) {
+      const options = createOptions('/histendridestat', {
+          frameid: frameId,
+          tripId
+      })
+      const fetchedData: THistEndRideStat = await post(options)
+      return fetchedData
+  }
 
 }
 

@@ -76,6 +76,23 @@ export type TEndRideStat = {
     em: string
 }
 
+export type THistEndRideStat = {
+  fid: string;
+  dist: number; //distance
+  dur: string; //duration
+  avgspd: number; //average speed
+  maxspd: number; //max speed    
+  grmls: number; //green miles
+  calbnt: number; //calories burnt
+  ptrsav: number; //petrol saved
+  ptrlt: number; //petrol saved inn liter
+  tripId:string;
+  rating:string;
+  st: string;
+  ec: string;
+  em: string
+}
+
 export type TEndRideGps = {
     lat: number; //latitude
     long: number; //longitude
@@ -109,6 +126,7 @@ export type TRideHistory = {
     pm: string;
     pa: string;
     ecom: string;
+    tripId:string;
     startloc: string;
     endloc: string; //locationg name
     fromtime: string;
@@ -154,6 +172,7 @@ export type TRequestBody = {
     phone_number?: string;
     startTime?: string;
     endTime?: string;
+    tripId?:string;
 }
 
 //webapp graph types

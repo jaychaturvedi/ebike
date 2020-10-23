@@ -26,10 +26,12 @@ export async function createNewRide(uid: string, frameId: string, rideId: string
 export async function endRide(rideId: string, endTime: string) {
   // const endTime = "2020-09-25 23:59:59" //Date.now() as any
   const { frameId, startTime } = await Ride.findOneWhere({ rideId })
-  const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
-  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),
-  Ride.updateWhere({ rideId }, { endTime })])
-  if (!ride[0].fid) throw new RideError("no end ride stats available for the frameId");
+  const ride = await Promise.all([
+    ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
+    ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),
+    Ride.updateWhere({ rideId }, { endTime })
+  ])
+  if (ride[0].st === "false") throw new RideError("no end ride stats available for the frameId");
   if (ride[1][0].st === "false") throw new RideError("no gps path available for the frameId");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
@@ -42,20 +44,22 @@ export async function endRide(rideId: string, endTime: string) {
   }
 }
 
-export async function rideDetail(frameId: string, startTime: string, endTime: string) {
-  const ride = await Promise.all([ConnectmApi.getEndRideStat(frameId as string, startTime as string, endTime),
-  ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)])
+export async function rideDetail(frameId: string, startTime: string, endTime: string, tripId: string) {
+  const ride = await Promise.all([
+    ConnectmApi.histEndRideStat(frameId, tripId),
+    ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)
+  ])
   // Ride.findOneWhere({ frameId, startTime, endTime })])
-  if (!ride[0].fid) throw new RideError("No data available for the device");
-  if (ride[1][0].st === "false") throw new RideError("no gps path available for the frameId");
+  if (ride[0].st === "false") throw new RideError("No ride stats available for the frameId");
+  if (ride[1][0].st === "false") throw new RideError("No gps path available for the frameId");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
-    grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
-    ptrlt: litreSaved } = ride[0]
+    grmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
+    ptrlt: litreSaved, rating } = ride[0]
   const gpsPath = ride[1]
   // const { rating } = ride[2]
   return {
     frameId, distance, duration, averageSpeed,
-    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime, gpsPath, rating: 3
+    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime, tripId, rating, gpsPath,
   }
 }
 

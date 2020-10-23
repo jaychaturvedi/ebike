@@ -63,11 +63,12 @@ app.get('/graphData/:frameId', expressQAsync(secure),
 app.get('/detail/:frameId', expressQAsync(secure),
     [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
     query('startTime', "startTime can't be empty").isString().isLength({ min: 1 }),
-    query('endTime', "endTime can't be empty").isString().isLength({ min: 1 }), validate],
+    query('endTime', "endTime can't be empty").isString().isLength({ min: 1 }),
+    query('tripId', "tripId can't be empty").isString(), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         console.log("Start Time:", new Date(), "req for ride detail", req.params, req.query);
-        const { startTime, endTime } = req.query as any
-        const newride = await rideDetail(req.params.frameId, startTime, endTime)
+        const { startTime, endTime, tripId } = req.query as any
+        const newride = await rideDetail(req.params.frameId, startTime, endTime, tripId)
         const response = createResponse("OK", newride, undefined)
         console.log("End Time:", new Date())
         res.json(response)
