@@ -291,7 +291,8 @@ export function* getSpeedometerData(params: RideActions.Speedometer) {
                     powerMod: data.powerMode,
                     rangeAvailable: Math.round(data.rangeAvailable || 0),
                     rangeCovered: Math.round(data.rangeCovered || 0),
-                    speed: Math.round(data.speed || 0)
+                    speed: Math.round(data.speed || 0),
+                    mode: data.mode,
                 }
             } as Store_SetSpeedometer)
         } else {

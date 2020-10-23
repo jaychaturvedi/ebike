@@ -72,6 +72,21 @@ interface State {
   interval: any;
 }
 
+function getMode(mode: number | null) {
+  switch (mode) {
+    case 1:
+      return 'Pedal Assist';
+    case 2:
+      return 'Eco Mode';
+    case 3:
+      return 'Cruise Mode';
+    case 4:
+      return 'Power Mode';
+    default:
+      return '';
+  }
+}
+
 class RideOn extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -232,20 +247,12 @@ class RideOn extends React.PureComponent<Props, State> {
               <Text
                 style={{
                   ...styles.modeText,
-                  color: this.props.speedometer.powerMod
-                    ? Colors.WARNING_RED
-                    : Theme.BORDER_GREY,
+                  color:
+                    this.props.speedometer.mode === 4
+                      ? Colors.WARNING_RED
+                      : Theme.BORDER_GREY,
                 }}>
-                {LanguageSelector.t('speedometer.powerMode')}
-              </Text>
-              <Text
-                style={{
-                  ...styles.modeText,
-                  color: this.props.speedometer.pedalAssit
-                    ? '#5372FF'
-                    : Theme.BORDER_GREY,
-                }}>
-                {LanguageSelector.t('speedometer.pedalAssist')}
+                {getMode(this.props.speedometer.mode)}
               </Text>
             </View>
           </View>
