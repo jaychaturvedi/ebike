@@ -69,14 +69,26 @@ class GPSLui extends React.PureComponent<Props, State> {
           onBackClick={() => this.props.navigation.goBack()}
         />
         <View style={styles.mapView}>
-          <Map
-            location={[
-              {
-                latitude: this.props.bike.lat,
-                longitude: this.props.bike.long,
-              }
-            ]}
-          />
+          {this.props.bike.lat === 0 && this.props.bike.lat === 0 ? (
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100%',
+              }}>
+              <Text numberOfLines={1}>{LanguageSelector.t("gps.noDataAvailable")}</Text>
+            </View>
+          ) : (
+            <Map
+              location={[
+                {
+                  latitude: this.props.bike.lat,
+                  longitude: this.props.bike.long,
+                },
+              ]}
+            />
+          )}
         </View>
         <View style={styles.footerView}>
           <View style={styles.footerDescription}>
@@ -97,7 +109,7 @@ class GPSLui extends React.PureComponent<Props, State> {
                   fontSize: moderateScale(12),
                   lineHeight: moderateScale(30),
                 }}>
-                {this.props.bike.lastLocationKnownTime}
+                {Moment(this.props.bike.lastLocationKnownTime).format("DD-MM-YYYY hh:mm A")}
               </Text>
               <Text></Text>
             </View>
@@ -170,7 +182,6 @@ const styles = StyleSheet.create({
   },
   mapView: {
     flex: 1,
-    backgroundColor: 'red',
   },
   footerView: {
     height: '20%',

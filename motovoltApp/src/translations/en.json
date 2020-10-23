@@ -137,7 +137,7 @@
         "placeholder": "Please describe your concern",
         "submit": "SUBMIT",
         "thankYou": "Thank you!",
-        "confirmationSubTitle": "We really appreciate you're feedback"
+        "confirmationSubTitle": "We really appreciate your feedback"
     },
     "myRides": {
         "gpsMapTextArea": "Did you know you could track your ride when your app is connected to the cycle via bluetooth during the ride.",
@@ -150,6 +150,9 @@
         "rideScore": "Ride Score",
         "caloriesBurnt": "Calories burnt",
         "tipToImproveRide": "Tip to improve ride",
+        "tip1": "ECO mode gives best performance with higher mileage",
+        "tip2": "Do not over accelerate or apply harsh braking",
+        "tip3": "Soft pedalling during rides enable to achieve higher speed",
         "myRides": "My Rides",
         "co2eSavings": "CO2e Savings",
         "avgDistance": "Avg. Distance",
@@ -177,6 +180,7 @@
         "community": "Community",
         "support": "Support",
         "language": "Language",
+        "swap": "Swap",
         "promotions": "Promotions",
         "sendInvite": "Send invite",
         "insurance": "Insurance",
@@ -193,7 +197,8 @@
     "gps": {
         "gps": "GPS",
         "finalPosition": "Final Position",
-        "refresh": "Refresh"
+        "refresh": "Refresh",
+        "noDataAvailable": "No location data available"
     },
     "cycleCharging": {
         "charging": "Charging",

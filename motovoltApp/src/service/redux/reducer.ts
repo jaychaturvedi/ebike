@@ -17,6 +17,13 @@ export default (store: TStore = Store, params: Action): TStore => {
                 speedometer: ZeroSpeedometer,
                 user: ZeroUser
             }
+        case "Store_ResetRide":
+            return {
+                ...store,
+                ride: {
+                    ...ZeroRide,
+                }
+            }
         case "Store_UpdateBle":
             return {
                 ...store,
@@ -81,7 +88,7 @@ export default (store: TStore = Store, params: Action): TStore => {
             return {
                 ...store,
                 ride: {
-                    ...store.ride,
+                    ...ZeroRide,
                     ...params.payload
                 },
             }
@@ -112,6 +119,8 @@ export default (store: TStore = Store, params: Action): TStore => {
                     avgKmph: params.payload.avgKmph,
                     avgSpeed: params.payload.avgSpeed,
                     distance: params.payload.distance,
+                    co2SavingKg: params.payload.co2SavingKg,
+                    greenMilesKm: params.payload.greenMilesKm,
                     data: Object.assign({}, ...params.payload.data.map(graph => ({ [Math.random().toString()]: graph })))
                 }
             }

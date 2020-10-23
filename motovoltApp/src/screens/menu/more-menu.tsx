@@ -107,6 +107,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
           premium: false,
         },
         {
+          feature: LanguageSelector.t('morePremium.swap'),
+          icon: require('../../assets/icons/swap.png'),
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
           feature: LanguageSelector.t('morePremium.promotions'),
           icon: require('../../assets/icons/promotions_icon.png'),
           onPress: () => console.log('Feature pressed'),

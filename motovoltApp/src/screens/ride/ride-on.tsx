@@ -1,27 +1,34 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Card from '../home/components/card';
 import Metrics from '../home/components/metrics';
 import Header from '../home/components/header';
 import Footer from '../home/components/footer';
 import Guage from '../home/components/guage';
 import Colors from '../../styles/colors';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-const objectid = require("react-native-bson/lib/bson/objectid");
-import { Dispatch } from 'redux';
-import { StartRide, EndRide, Speedometer } from '../../service/redux/actions/saga';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+const objectid = require('react-native-bson/lib/bson/objectid');
+import {Dispatch} from 'redux';
+import {Store_ResetRide} from '../../service/redux/actions/store';
+import {
+  StartRide,
+  EndRide,
+  Speedometer,
+} from '../../service/redux/actions/saga';
 import LanguageSelector from '../../translations';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
-import { ThemeContext } from '../../styles/theme/theme-context'
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import {ThemeContext} from '../../styles/theme/theme-context';
+import Moment from 'moment';
 
 type ReduxState = {
   bike: TStore['bike'];
   ride: TStore['ride'];
-  speedometer: TStore['speedometer'],
-  startRide: (params: StartRide) => void,
-  endRide: (params: EndRide) => void,
-  getSpeedometerData: (params: Speedometer) => void,
+  speedometer: TStore['speedometer'];
+  resetRide: (params: Store_ResetRide) => void;
+  startRide: (params: StartRide) => void;
+  endRide: (params: EndRide) => void;
+  getSpeedometerData: (params: Speedometer) => void;
 };
 
 const styles = StyleSheet.create({
@@ -55,18 +62,17 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Props extends ReduxState { }
+interface Props extends ReduxState {}
 
 interface State {
-  rideId: string,
-  hour: number,
-  minutes: number,
-  seconds: number,
-  interval: any
+  rideId: string;
+  hour: number;
+  minutes: number;
+  seconds: number;
+  interval: any;
 }
 
 class RideOn extends React.PureComponent<Props, State> {
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -74,8 +80,8 @@ class RideOn extends React.PureComponent<Props, State> {
       hour: 0,
       minutes: 0,
       seconds: 0,
-      interval: null
-    }
+      interval: null,
+    };
   }
 
   startTimer() {
@@ -86,26 +92,26 @@ class RideOn extends React.PureComponent<Props, State> {
             this.props.getSpeedometerData({
               type: 'Speedometer',
               payload: {
-                rideId: this.state.rideId
-              }
-            })
+                rideId: this.state.rideId,
+              },
+            });
           }
           this.setState({
-            seconds: this.state.seconds + 1
+            seconds: this.state.seconds + 1,
           });
         } else if (this.state.minutes !== 59) {
           this.setState({
             seconds: 0,
-            minutes: this.state.minutes + 1
+            minutes: this.state.minutes + 1,
           });
         } else {
           this.setState({
             seconds: 0,
             minutes: 0,
-            hour: this.state.hour + 1
+            hour: this.state.hour + 1,
           });
         }
-      }, 1000)
+      }, 1000),
     });
   }
 
@@ -114,59 +120,87 @@ class RideOn extends React.PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    console.log("Ride on")
-    const rideId = new objectid().toHexString()
+    console.log('Ride on');
+    const rideId = new objectid().toHexString();
     console.log(rideId);
-    this.setState({ rideId });
+    this.setState({rideId});
+    this.props.resetRide({
+      type: 'Store_ResetRide',
+      payload: {},
+    });
     this.props.startRide({
       type: 'StartRide',
       payload: {
         rideId: rideId,
         bikeId: this.props.bike.id,
-        startDate: new Date().toISOString()
-      }
-    })
-    this.startTimer()
+        startDate: Moment().format('YYYY-MM-DD HH:mm:ss'),
+      },
+    });
+    this.startTimer();
   }
 
   componentWillUnmount() {
-    console.log("Ride off")
-    this.stopTimer()
+    console.log('Ride off');
+    this.stopTimer();
     this.props.endRide({
       type: 'EndRide',
       payload: {
         rideId: this.state.rideId,
         bikeId: this.props.bike.id,
-        endDate: new Date().toISOString()
-      }
-    })
+        endDate: Moment().format('YYYY-MM-DD HH:mm:ss'),
+      },
+    });
   }
 
   render() {
     let Theme = this.context.theme; //load theme in class
     return (
-      <View style={{ ...styles.container }}>
+      <View style={{...styles.container}}>
         <Header
           backgroundColor={Theme.WHITE} //change dark theme
-          title={`${LanguageSelector.t("home.bike")} ${this.props.bike.isOn ? LanguageSelector.t("home.on") : LanguageSelector.t("home.off")}`}
+          title={`${LanguageSelector.t('home.bike')} ${
+            this.props.bike.isOn
+              ? LanguageSelector.t('home.on')
+              : LanguageSelector.t('home.off')
+          }`}
           hasTabs
         />
         <View style={styles.flexAlignHorizontalCentre}>
           <View style={styles.flexVerticalCentre}>
             <Metrics
               hideShadow
-              batteryCharge={Math.round(Number(this.props.bike.batteryChargePer)).toString()}
-              rangeAvailable={Math.round(Number(this.props.bike.rangeAvailableKm)).toString()}
-              rangeCovered={Math.round(Number(this.props.bike.rangeCoveredKm)).toString()}
+              batteryCharge={Math.round(
+                Number(this.props.bike.batteryChargePer),
+              ).toString()}
+              rangeAvailable={Math.round(
+                Number(this.props.bike.rangeAvailableKm),
+              ).toString()}
+              rangeCovered={Math.round(
+                Number(this.props.bike.rangeCoveredKm),
+              ).toString()}
             />
           </View>
           <Guage
             fillDeg={(this.props.speedometer.speed * 240) / 360}
             speed={Math.round(Number(this.props.speedometer.speed))}
-            time={`${this.state.hour < 10 ? "0" + this.state.hour : this.state.hour}:` +
-              `${this.state.minutes < 10 ? "0" + this.state.minutes : this.state.minutes}:` +
-              `${this.state.seconds < 10 ? "0" + this.state.seconds : this.state.seconds}`}
-            totalDistanceKm={Math.round(Number(this.props.speedometer.distance))}
+            time={
+              `${
+                this.state.hour < 10 ? '0' + this.state.hour : this.state.hour
+              }:` +
+              `${
+                this.state.minutes < 10
+                  ? '0' + this.state.minutes
+                  : this.state.minutes
+              }:` +
+              `${
+                this.state.seconds < 10
+                  ? '0' + this.state.seconds
+                  : this.state.seconds
+              }`
+            }
+            totalDistanceKm={Math.round(
+              Number(this.props.speedometer.distance),
+            )}
           />
           <View
             style={{
@@ -175,13 +209,17 @@ class RideOn extends React.PureComponent<Props, State> {
               width: '100%',
             }}>
             <Card
-              title={LanguageSelector.t("speedometer.avgSpeed")}
-              value={Math.round(Number(this.props.speedometer.averageSpeed)).toString()}
+              title={LanguageSelector.t('speedometer.avgSpeed')}
+              value={Math.round(
+                Number(this.props.speedometer.averageSpeed),
+              ).toString()}
               unit={'Kmph'}
             />
             <Card
-              title={LanguageSelector.t("speedometer.maxSpeed")}
-              value={Math.round(Number(this.props.speedometer.maxSpeed)).toString()}
+              title={LanguageSelector.t('speedometer.maxSpeed')}
+              value={Math.round(
+                Number(this.props.speedometer.maxSpeed),
+              ).toString()}
               unit={'Kmph'}
             />
           </View>
@@ -191,10 +229,24 @@ class RideOn extends React.PureComponent<Props, State> {
                 ...styles.flexAlignHorizontalCentre,
                 justifyContent: 'space-evenly',
               }}>
-              <Text style={{ ...styles.modeText, color: this.props.speedometer.powerMod ? Colors.WARNING_RED : Theme.BORDER_GREY }}>{LanguageSelector.t("speedometer.powerMode")}</Text>
-              <Text style={{
-                ...styles.modeText, color: (this.props.speedometer.pedalAssit) ? "#5372FF" : Theme.BORDER_GREY,
-              }}>{LanguageSelector.t("speedometer.pedalAssist")}</Text>
+              <Text
+                style={{
+                  ...styles.modeText,
+                  color: this.props.speedometer.powerMod
+                    ? Colors.WARNING_RED
+                    : Theme.BORDER_GREY,
+                }}>
+                {LanguageSelector.t('speedometer.powerMode')}
+              </Text>
+              <Text
+                style={{
+                  ...styles.modeText,
+                  color: this.props.speedometer.pedalAssit
+                    ? '#5372FF'
+                    : Theme.BORDER_GREY,
+                }}>
+                {LanguageSelector.t('speedometer.pedalAssist')}
+              </Text>
             </View>
           </View>
         </View>
@@ -203,7 +255,7 @@ class RideOn extends React.PureComponent<Props, State> {
   }
 }
 
-RideOn.contextType = ThemeContext //load theme from theme context
+RideOn.contextType = ThemeContext; //load theme from theme context
 
 export default connect(
   (store: TStore) => {
@@ -215,10 +267,10 @@ export default connect(
   },
   (dispatch: Dispatch) => {
     return {
+      resetRide: (params: Store_ResetRide) => dispatch(params),
       startRide: (params: StartRide) => dispatch(params),
       endRide: (params: EndRide) => dispatch(params),
       getSpeedometerData: (params: Speedometer) => dispatch(params),
     };
   },
-
 )(RideOn);

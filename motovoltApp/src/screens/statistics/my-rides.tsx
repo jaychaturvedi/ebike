@@ -27,6 +27,10 @@ import {
   ReadRideHistory,
   ReadRideData,
 } from '../../service/redux/actions/saga/rides';
+import {
+  Store_Reset,
+  Store_ResetRide
+} from '../../service/redux/actions/store';
 import Graph from './graph';
 import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
@@ -36,6 +40,7 @@ type ReduxState = {
   user: TStore['user'];
   bike: TStore['bike'];
   graph: TStore['graph'];
+  resetRide: (params: Store_ResetRide) => void;
   readRideHistory: (params: ReadRideHistory) => void;
   getIndividualRide: (params: ReadRideData) => void;
 };
@@ -124,6 +129,9 @@ class MyRides extends React.PureComponent<Props, State> {
 
   render() {
     let Theme = this.context.theme; //load theme context
+    const invalidNextDate =
+      Moment(this.state.focusDate).add(1, 'days').toDate().getTime() >
+      new Date().getTime();
     return (
       <View style={{flex: 1}}>
         <Header
@@ -144,6 +152,15 @@ class MyRides extends React.PureComponent<Props, State> {
           }>
           <View style={styles.date}>
             <TouchableOpacity
+              style={{
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'white',
+                paddingRight: 4,
+                borderRadius: 20,
+              }}
               onPress={() =>
                 this.setNewDate(
                   Moment(this.state.focusDate).add(-1, 'days').toDate(),
@@ -161,22 +178,31 @@ class MyRides extends React.PureComponent<Props, State> {
               />
             </View>
             <TouchableOpacity
+              disabled={invalidNextDate}
               style={{
-                width: 24,
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingLeft: 4,
+                backgroundColor: invalidNextDate ? '#E5E5E5' : 'white',
+                borderRadius: 20,
               }}
               onPress={() => {
                 this.setNewDate(
                   Moment(this.state.focusDate).add(1, 'days').toDate(),
                 );
               }}>
-              {Moment(this.state.focusDate).add(1, 'days').toDate().getTime() <
-                new Date().getTime() && (
+              {
                 <Icon
                   type="FontAwesome"
                   name="chevron-right"
-                  style={styles.icon}
+                  style={{
+                    ...styles.icon,
+                    color: invalidNextDate ? '#868686' : 'black',
+                  }}
                 />
-              )}
+              }
             </TouchableOpacity>
           </View>
           <RideMetric
@@ -211,7 +237,8 @@ class MyRides extends React.PureComponent<Props, State> {
               style={{
                 height: '10%',
                 flexDirection: 'row',
-                justifyContent: 'space-around',
+                justifyContent: 'space-between',
+                marginHorizontal: 20,
                 marginVertical: moderateScale(10),
               }}>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
@@ -272,6 +299,10 @@ class MyRides extends React.PureComponent<Props, State> {
                 rating={`${this.props.rides[key].score.toString()}/10`}
                 speed={this.props.rides[key].avgSpeedKmph.toString()}
                 onItemSelect={() => {
+                  this.props.resetRide({
+                    type: 'Store_ResetRide',
+                    payload: {},
+                  });
                   this.props.getIndividualRide({
                     type: 'ReadRideData',
                     payload: {
@@ -304,6 +335,7 @@ export default connect(
   },
   (dispatch: Dispatch) => {
     return {
+      resetRide: (params: Store_ResetRide) => dispatch(params),
       readRideHistory: (params: ReadRideHistory) => dispatch(params),
       getIndividualRide: (params: ReadRideData) => dispatch(params),
     };
@@ -331,11 +363,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   icon: {
-    fontSize: moderateScale(12),
+    fontSize: moderateScale(16),
   },
   chart: {
-    height: 300,
+    height: 350,
     backgroundColor: 'white',
+    paddingBottom: 10,
     marginBottom: verticalScale(10),
     marginTop: verticalScale(10),
     borderRadius: scale(10),

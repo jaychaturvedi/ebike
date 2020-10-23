@@ -209,7 +209,7 @@ export default class Graph extends React.PureComponent<Props, State> {
                     height: moderateScale(40),
                     paddingTop: moderateScale(5),
                   }}
-                  svg={{fill: '#3A8F98', fontSize: moderateScale(15)}}
+                  svg={{fill: '#3A8F98', fontSize: 13}}
                 />
               </View>
             )}

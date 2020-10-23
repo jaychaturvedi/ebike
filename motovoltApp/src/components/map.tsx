@@ -1,3 +1,4 @@
+import {View} from 'native-base';
 import React from 'react';
 import {Dimensions, StyleSheet} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -5,7 +6,7 @@ import MapViewDirections from 'react-native-maps-directions';
 
 const {width, height} = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.0922;
+const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAWO4UI7QPRc__8NUnNwNgicm2K4cdkCuY';
@@ -49,13 +50,36 @@ export default class Map extends React.PureComponent<Props, State> {
         ref={(c) => {
           this.mapView = c;
         }}>
-        {this.props.location.map((coordinate, index) => (
-          <Marker
-            key={Math.random().toString()}
-            coordinate={coordinate}
-            image={require('../assets/images/location_pin.png')}
-          />
-        ))}
+        {this.props.location.map((coordinate, index) => {
+          if (index === this.props.location.length - 1)
+            return (
+              <Marker
+                key={Math.random().toString()}
+                coordinate={coordinate}
+                image={require('../assets/icons/location_pin.png')}
+              />
+            );
+          if (index === 0) {
+            return (
+              <Marker
+                coordinate={coordinate}
+                key={Math.random().toString()}
+                children={
+                  <View
+                    style={{
+                      width: 16,
+                      height: 16,
+                      borderRadius: 8,
+                      borderColor: 'black',
+                      backgroundColor: 'white',
+                      borderWidth: 4,
+                    }}
+                  />
+                }
+              />
+            );
+          }
+        })}
         {this.props.location.length >= 2 && (
           <MapViewDirections
             origin={this.props.location[0]}
@@ -69,7 +93,6 @@ export default class Map extends React.PureComponent<Props, State> {
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
             strokeColor="hotpink"
-            mode="BICYCLING"
             splitWaypoints
             // optimizeWaypoints={true}
             onStart={(params) => {
