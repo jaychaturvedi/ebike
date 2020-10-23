@@ -34,7 +34,7 @@ export async function endRide(rideId: string, endTime: string) {
   if (ride[0].st === "false") throw new RideError("no end ride stats available for the frameId");
   if (ride[1][0].st === "false") throw new RideError("no gps path available for the frameId");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
-    grnmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
+    grmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = ride[0]
   const gpsPath = ride[1]
   const { endTime: time } = ride[2] as any

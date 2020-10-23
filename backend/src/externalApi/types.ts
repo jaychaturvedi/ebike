@@ -67,7 +67,7 @@ export type TEndRideStat = {
     dur: string; //duration
     avgspd: number; //average speed
     maxspd: number; //max speed    
-    grnmls: number; //green miles
+    grmls: number; //green miles
     calbnt: number; //calories burnt
     ptrsav: number; //petrol saved
     ptrlt: number; //petrol saved inn liter
