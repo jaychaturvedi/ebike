@@ -118,6 +118,8 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     healthPer: Math.round(data.batteryHealthPer || 0),
                     batteries: Object.assign({}, ...data.batteries.map((battery: any) => { return { [battery.id]: battery } })),
                     serviceDate: data.serviceDate,
+                    warrantyTill: data.warrantyValidTill,
+                    purchaseDate: data.purchaseDate
                 }
             } as Store_UpdateBike);
         } else {

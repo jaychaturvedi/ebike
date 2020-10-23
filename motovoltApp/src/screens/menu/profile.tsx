@@ -22,6 +22,7 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import LanguageSelector from '../../translations';
 import { ThemeContext } from '../../styles/theme/theme-context';
+import Moment from "moment";
 
 type ReduxState = {
   user: TStore['user'];
@@ -102,8 +103,8 @@ class Profile extends React.PureComponent<Props, State> {
             title={this.props.bike.name}
             data={[
               { key: LanguageSelector.t("profile.vehicleId"), value: this.props.bike.id },
-              { key: LanguageSelector.t("profile.purchaseDate"), value: this.props.bike.purchaseDate },
-              { key: LanguageSelector.t("profile.warrantyValidTill"), value: this.props.bike.warrantyTill },
+              { key: LanguageSelector.t("profile.purchaseDate"), value: Moment(this.props.bike.purchaseDate).format("DD-MM-YYYY") },
+              { key: LanguageSelector.t("profile.warrantyValidTill"), value: Moment(this.props.bike.warrantyTill).format("DD-MM-YYYY") },
             ]}
           />
           <DottedButton text={LanguageSelector.t("profile.addNewCycle")} onPress={() => { }} />
