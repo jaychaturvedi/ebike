@@ -136,7 +136,7 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 type: 'Store_SetRideHistory',
                 payload: data.history.map((ride: any, i: number) => ({
                     // Should not be optional
-                    id: i.toString(),
+                    id: String(ride.tripId),
                     totalDistanceKm: Math.round(ride.dist || 0),
                     speedKmph: Math.round(ride.kmph || 0),
                     avgSpeedKmph: Math.round(ride.kmph || 0),
@@ -229,7 +229,7 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
 export function* getRide(params: RideActions.ReadRideData) {
     try {
         const dataResponse = yield request(`${config.baseUrl}/ride/detail/${params.payload.bikeId}?` +
-            `startTime=${params.payload.startTime}&endTime=${params.payload.endTime}`, "GET");
+            `startTime=${params.payload.startTime}&endTime=${params.payload.endTime}&tripId=${params.payload.rideId}`, "GET");
         if (dataResponse.success) {
             const data = dataResponse.response.body;
             yield put({
