@@ -94,7 +94,7 @@ class SupportService extends React.PureComponent<Props, State> {
                     Object.keys(this.props.services.services).map((service, index: number) => {
                       return (
                         this.props.services.services[service].isOpen ?
-                          <View style={{ height: moderateScale(97), marginTop: moderateScale(15) }}>
+                          <View style={{  marginTop: moderateScale(15) }}>
                             <ServiceTile
                               key={index}
                               title={this.props.services.services[service].title}
@@ -126,7 +126,7 @@ class SupportService extends React.PureComponent<Props, State> {
                     Object.keys(this.props.services.services).map((service, index: number) => {
                       return (
                         !this.props.services.services[service].isOpen ?
-                          <View style={{ height: moderateScale(97), marginTop: moderateScale(15) }}>
+                          <View style={{ marginTop: moderateScale(15) }}>
                             <ServiceTile
                               key={index}
                               title={this.props.services.services[service].title}

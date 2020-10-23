@@ -15,6 +15,7 @@ import {
 import {TStore, TNotification} from 'src/service/redux/store';
 import {Store_UpdateNotification} from 'src/service/redux/actions/store';
 import LanguageSelector from '../../translations';
+import Moment from "moment";
 
 interface ReduxState {
   updateNotifications: (params: Store_UpdateNotification) => void;
@@ -102,7 +103,7 @@ class Notifications extends React.PureComponent<Props, {}> {
           {
             Object.keys(dayWise).map(day => {
               return <Timeline
-              title={`${day} ${this.getDay(new Date(day).getDay())}`}
+              title={`${Moment(day).format("DD-MM-YYYY")} ${this.getDay(new Date(day).getDay())}`}
               data={dayWise[day].map(
                 (notification) => {
                   return {
