@@ -30,7 +30,7 @@ export function* getQuickSightUrl(params: IQuickSightAction) {
 
 export async function getQuickSightEmbedUrl(params: IQuickSightAction) {
   const tokenRes = await getToken();
-  const response = await axios.post('https://q6sm9vkbn2.execute-api.us-east-2.amazonaws.com/dev/webapp/quicksight',
+  const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/quicksight',
     {
       dashboardId: params.payload.dashboardId
     }, {

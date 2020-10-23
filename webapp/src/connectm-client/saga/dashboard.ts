@@ -30,7 +30,7 @@ export function* getDashboardList(params: IDashboardAction) {
 }
 
 export async function getDashboard(params: IDashboardAction) {
-  const response = await axios.get('https://q6sm9vkbn2.execute-api.us-east-2.amazonaws.com/dev/webapp/getDashboard')
+  const response = await axios.get(process.env.REACT_APP_WEBAPIURL + '/getDashboard')
   console.log("called dashboard saga", response.data);
   return response.data.body as TDashboardList[]
 }
