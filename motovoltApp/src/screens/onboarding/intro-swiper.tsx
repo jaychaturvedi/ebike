@@ -191,7 +191,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                   height: '50%',
                   justifyContent: 'center',
                 }}>
-                <Text style={{textAlign: 'center', fontSize: scale(12)}}>
+                <Text style={{textAlign: 'center', fontSize: scale(14)}}>
                   <Text>Already have an account?</Text>
                   <Text
                     style={{color: 'black', fontWeight: 'bold'}}

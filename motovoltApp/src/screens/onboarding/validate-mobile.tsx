@@ -161,7 +161,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
         <View style={styles.input}>
           <Input
             showError={!this.state.isValid}
-            placeHolder="Enter Registered Mobile No."
+            placeHolder="Enter your mobile number"
             keyboardNumericType
             hasPrefix
             prefix="+91"
