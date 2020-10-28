@@ -53,7 +53,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
     }
     static getDerivedStateFromProps(props: CellBatteryGraphProps, state: CellBatteryGraphStates) {
         let data = state.data
-        if (props.data !== undefined) {
+        if (props.data !== undefined && props.data !== null) {
             data = props.data
         }
         const keys = Object.keys(data)//["cell1","cell2","cell3","voltage difference"]
@@ -88,7 +88,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         state.minCellPos = minPos + 1;
         state.voltageDelta = (max - min)
         // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
-        console.log(state, "graph cell in func");
+        console.log(state, "graph cell in func",props);
         return state
     }
     tooltipContent(tooltipProps: any) {
@@ -121,133 +121,169 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         return null;
     };
 
-    render() {
-        console.log(this.state, "rendered test graph cell");
-        return (
-            <div className="connectm-AlertDetailGraph voltage-deviation">
-                <div className={"connectm-header"}>
-                    <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
-                    <div className="voltage-deviation-top" >
-                        <pre className="normal-operating-voltage-text">Normal<br />Oprating<br />Voltage<br />
+  render() {
+    console.log(this.state, "rendered test graph cell");
+    return (
+      <div className="connectm-AlertDetailGraph voltage-deviation">
+        <div className={"connectm-header"}>
+          <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
+          <div className="voltage-deviation-top" >
+            <pre className="normal-operating-voltage-text">Normal<br />Oprating<br />Voltage<br />
                         Range<br />(a)</pre>
-                        <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
-                            <BarChart
-                                data={this.state.data1}
-                                margin={{
-                                    top: 10, right: 0, left: 0, bottom: 0,
-                                }} maxBarSize={25} style={{ fontSize: '7px' }} barGap={50}>
-                                <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }}
-                                    axisLine={false} tickLine={false}
-                                    tick={{ fill: 'white' }} allowDecimals={true} />
-                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }}
-                                    tickLine={false}
-                                    ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
-                                    orientation="right"
-                                    tickFormatter={(label) => {
-                                        if (label === 3.001) return label + " volt"
-                                        else return label
-                                    }}
-                                    domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
-                                <Tooltip
-                                    content={this.CustomTooltip}
-                                    offset={-17}
-                                    // position={{ y: 0, x: 0 }} stroke: "#5FBDE0"
-                                    viewBox={{ x: 5, y: 5, height: 50, width: 20 }}
-                                    cursor={{ fill: "transparent", top: 0, }}
-                                />
-                                {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                                <ReferenceLine y={this.props.maxL2} stroke="#717171" strokeDasharray="3 3 5 2"
-                                    isFront={true} >
-                                    <Label position={'right'} fill="#ffffff"
-                                        style={{
-                                            fontSize: '7px', paddingRight: '-50px'
-                                        }} value={this.props.maxL2 + " Max"}>
-                                    </Label>
-                                </ReferenceLine>
-                                <ReferenceLine y={this.props.minL1} stroke="#717171" strokeDasharray="3 3 5 2"
-                                    isFront={true} >
-                                    <Label position={'right'} fill="#ffffff"
-                                        style={{
-                                            fontSize: '7px', paddingRight: '-50px'
-                                        }} value={this.props.minL1 + " Min"}>
-                                    </Label>
-                                </ReferenceLine>
-                                {!this.props.alertCleared ?
-                                    <Bar dataKey={this.props.barDataKey} radius={[10, 10, 0, 0]} >
-                                        {this.state.data1.map((entry: any, index: number) => (
-                                            <Cell fill={entry[this.props.barDataKey] <= 3.730 ? 'red' : '#73A93C'} key={index} />
-                                        ))}
-                                    </Bar>
-                                    : ''}
-                            </BarChart>
+            <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
+              <BarChart
+                data={this.state.data1}
+                margin={{ top: 10, right: 0, left: 0, bottom: 0, }}
+                maxBarSize={25}
+                style={{ fontSize: '7px' }}
+                barGap={50}>
+                <XAxis
+                  dataKey={this.props.dataKey}
+                  padding={{ left: 10, right: 10 }}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: 'white' }}
+                  allowDecimals={true} />
+                <YAxis
+                  dataKey={this.props.dataKey}
+                  tick={{ fill: 'white' }}
+                  tickLine={false}
+                  ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
+                  orientation="right"
+                  tickFormatter={(label) => {
+                    if (label === 3.001) return label + " volt"
+                    else return label
+                  }}
+                  domain={['dataMin', 'dataMax']}
+                  interval={8}
+                  scale="sqrt" />
+                <Tooltip
+                  content={this.CustomTooltip}
+                  offset={-17}
+                  // position={{ y: 0, x: 0 }} stroke: "#5FBDE0"
+                  viewBox={{ x: 5, y: 5, height: 50, width: 20 }}
+                  cursor={{ fill: "transparent", top: 0, }}
+                />
+                {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                <ReferenceLine
+                  y={this.props.maxL2}
+                  stroke="#717171"
+                  strokeDasharray="3 3 5 2"
+                  isFront={true} >
+                  <Label
+                    position={'right'}
+                    fill="#ffffff"
+                    style={{ fontSize: '7px', paddingRight: '-50px' }}
+                    value={this.props.maxL2 + " Max"}>
+                  </Label>
+                </ReferenceLine>
+                <ReferenceLine
+                  y={this.props.minL1}
+                  stroke="#717171"
+                  strokeDasharray="3 3 5 2"
+                  isFront={true} >
+                  <Label
+                    position={'right'}
+                    fill="#ffffff"
+                    style={{ fontSize: '7px', paddingRight: '-50px' }}
+                    value={this.props.minL1 + " Min"}>
+                  </Label>
+                </ReferenceLine>
+                {!this.props.alertCleared ?
+                  <Bar
+                    dataKey={this.props.barDataKey}
+                    radius={[10, 10, 0, 0]} >
+                    {this.state.data1.map((entry: any, index: number) => (
+                      <Cell fill={entry[this.props.barDataKey] <= 3.730 ? 'red' : '#73A93C'} key={index} />
+                    ))}
+                  </Bar>
+                  : ''}
+              </BarChart>
 
-                        </ResponsiveContainer>
-                    </div>
+            </ResponsiveContainer>
+          </div>
 
-                    <div className="voltage-deviation-bottom" >
-                        <pre className="normal-operating-voltage-text">Normal<br />Oprating<br />Voltage<br />
+          <div className="voltage-deviation-bottom" >
+            <pre className="normal-operating-voltage-text">Normal<br />Oprating<br />Voltage<br />
                         Range<br />(b)</pre>
-                        <ResponsiveContainer className="bottom-graph-container" width="95%" height="100%" >
-                            <BarChart
-                                data={this.state.data2}
-                                margin={{
-                                    top: 10, right: 0, left: 0, bottom: 0,
-                                }}
-                                maxBarSize={25}
-                                style={{ fontSize: '7px' }}>
-                                <XAxis dataKey={this.props.dataKey} padding={{ left: 10, right: 10 }}
-                                    axisLine={false} tickLine={false}
-                                    tick={{ fill: 'white' }} allowDecimals={true} />
-                                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} tickLine={false}
-                                    ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
-                                    orientation="right"
-                                    tickFormatter={(label) => {
-                                        if (label === 3.001) return label + " volt"
-                                        else return label
-                                    }}
-                                    domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
-                                <Tooltip
-                                    content={this.CustomTooltip}
-                                    // position={{ y: 0, x: 0 }}
-                                    offset={-17} viewBox={{ x: 5, y: 5, height: 10, width: 5 }}
-                                    // viewBox={10} strokeWidth: 2, stroke: '#5FBDE0', 
-                                    cursor={{ fill: "transparent", top: 0 }}
-                                />
-                                <ReferenceLine y={this.props.maxL2} stroke="#717171" strokeDasharray="3 3 5 2"
-                                    isFront={true} >
-                                    <Label position={'right'} fill="#ffffff"
-                                        style={{
-                                            fontSize: '7px', paddingRight: '-50px'
-                                        }} value={this.props.maxL2 + " Max"}>
-                                    </Label>
-                                </ReferenceLine>
-                                <ReferenceLine y={this.props.minL1} stroke="#717171" strokeDasharray="3 3 5 2"
-                                    isFront={true} >
-                                    <Label position={'right'} fill="#ffffff"
-                                        style={{
-                                            fontSize: '7px', paddingRight: '-50px'
-                                        }} value={this.props.minL1 + " Min"}>
-                                    </Label>
-                                </ReferenceLine>
-                                {!this.props.alertCleared ?
-                                    <Bar dataKey={this.props.barDataKey} radius={[10, 10, 0, 0]} >
-                                        {this.state.data2.map((entry: any, index: number) => (
-                                            <Cell fill={entry[this.props.barDataKey] <= 3.730 ? 'red' : '#73A93C'} key={index} />
-                                        ))}
-                                    </Bar>
-                                    : ''}
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                    <VoltageDifference maxCellPos={this.state.maxCellPos} minCellPos={this.state.minCellPos}
-                        maxVolt={this.state.maxVolt} minVolt={this.state.minVolt} voltageDelta={this.state.voltageDelta} />
-                </div>
-            </div>
-        )
-    }
-
+            <ResponsiveContainer className="bottom-graph-container" width="95%" height="100%" >
+              <BarChart
+                data={this.state.data2}
+                margin={{
+                  top: 10, right: 0, left: 0, bottom: 0,
+                }}
+                maxBarSize={25}
+                style={{ fontSize: '7px' }}>
+                <XAxis
+                  dataKey={this.props.dataKey}
+                  padding={{ left: 10, right: 10 }}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: 'white' }}
+                  allowDecimals={true} />
+                <YAxis dataKey={this.props.dataKey} tick={{ fill: 'white' }} tickLine={false}
+                  ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
+                  orientation="right"
+                  tickFormatter={(label) => {
+                    if (label === 3.001) return label + " volt"
+                    else return label
+                  }}
+                  domain={['dataMin', 'dataMax']} interval={8} scale="sqrt" />
+                <Tooltip
+                  content={this.CustomTooltip}
+                  // position={{ y: 0, x: 0 }}
+                  offset={-17} viewBox={{ x: 5, y: 5, height: 10, width: 5 }}
+                  // viewBox={10} strokeWidth: 2, stroke: '#5FBDE0', 
+                  cursor={{ fill: "transparent", top: 0 }}
+                />
+                <ReferenceLine
+                  y={this.props.maxL2}
+                  stroke="#717171"
+                  strokeDasharray="3 3 5 2"
+                  isFront={true} >
+                  <Label
+                    position={'right'}
+                    fill="#ffffff"
+                    style={{ fontSize: '7px', paddingRight: '-50px' }}
+                    value={this.props.maxL2 + " Max"}>
+                  </Label>
+                </ReferenceLine>
+                <ReferenceLine
+                  y={this.props.minL1}
+                  stroke="#717171"
+                  strokeDasharray="3 3 5 2"
+                  isFront={true} >
+                  <Label
+                    position={'right'}
+                    fill="#ffffff"
+                    style={{ fontSize: '7px', paddingRight: '-50px' }}
+                    value={this.props.minL1 + " Min"}>
+                  </Label>
+                </ReferenceLine>
+                {!this.props.alertCleared ?
+                  <Bar
+                    dataKey={this.props.barDataKey}
+                    radius={[10, 10, 0, 0]} >
+                    {this.state.data2.map((entry: any, index: number) => (
+                      <Cell fill={entry[this.props.barDataKey] <= 3.730 ? 'red' : '#73A93C'} key={index} />
+                    ))}
+                  </Bar>
+                  : ''}
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <VoltageDifference
+            maxCellPos={this.state.maxCellPos}
+            minCellPos={this.state.minCellPos}
+            maxVolt={this.state.maxVolt}
+            minVolt={this.state.minVolt}
+            voltageDelta={this.state.voltageDelta} />
+        </div>
+      </div>
+    )
+  }
 }
 
 export default CellBatteryGraph;

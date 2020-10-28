@@ -52,6 +52,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     }
 
     static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
+      console.log("GET_ALERT_TRENDS",state);
+      
         if (state.reload) {
             props.getAlertTrends({
                 type: "GET_ALERT_TRENDS",
@@ -121,7 +123,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         // console.log(moment(`${label}`).format('dddd'));
         if ("Last 7 Days" === this.state.trendsPeriod)
             return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
-        else if (label === this.state.startDate) { return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0] }
+        else if (label === this.state.startDate) { 
+          return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0] 
+        }
         else return moment(`${label}`).format('DD')
     }
     handleZoom = () => {
@@ -152,90 +156,213 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         })
     }
 
-    render() {
+  render() {
+    return <div className="connectm-RandDTrends" onClick={this.handleZoom}>
+        <div className="trends-header">
+          <Typography.Text strong className="trends-header-text">TRENDS</Typography.Text>
+          <Dropdown
+            overlay={this.trendPeriod}
+            trigger={['click']}>
+            <Typography.Text
+              className={"pair trend-dropdown-active"}
+              style={{ paddingLeft: "2px", whiteSpace: "nowrap", }}
+            >
+              {this.state.trendsPeriod}
+              <DownOutlined
+                className={"flip"}
+                style={{ marginLeft: "30px", paddingRight: "2px" }}
+              />
+            </Typography.Text>
+          </Dropdown>
+        </div>
 
-        return <>
-            <div className="connectm-RandDTrends" onClick={this.handleZoom}>
-                <div className="trends-header">
-                    <Typography.Text strong className="trends-header-text">TRENDS</Typography.Text>
-                    <Dropdown overlay={this.trendPeriod} trigger={['click']}>
-                        <Typography.Text className={"pair trend-dropdown-active"}
-                            style={{ paddingLeft: "2px", whiteSpace: "nowrap", }}>
-                            {this.state.trendsPeriod}
-                            <DownOutlined className={"flip"} style={{ marginLeft: "30px", paddingRight: "2px" }} />
-                        </Typography.Text>
-                    </Dropdown>
-                </div>
+        <div className={"title-header"}>
+          <Typography.Text
+            strong
+            className="title-header-text"
+          >
+            Total Alerts
+            </Typography.Text>
+        </div>
 
-                <div className={"title-header"}>
-                    <Typography.Text strong className="title-header-text">Total Alerts</Typography.Text>
-                </div>
+        <ResponsiveContainer width="100%" height="28%">
+          <LineChart
+            margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
+            syncId="anyId"
+            data={this.state.totalAlerts}
+          >
+            <CartesianGrid
+              strokeDasharray="3 4 5 2"
+              stroke="#515151"
+            />
+            <XAxis
+              dataKey="date"
+              tick={{ fill: 'white' }}
+              interval={this.state.interval}
+              padding={{ left: 20, right: 20 }}
+              minTickGap={1}
+              tickFormatter={(label) => this.formatDate(label)}
+            />
+            {/* <Tooltip /> */}
+            <YAxis
+              type="number"
+              domain={[0, 100]}
+              tick={{ fill: 'white' }}
+              stroke='#131731' />
+            <Line
+              name="line 1"
+              type="monotone"
+              dataKey="count"
+              stroke="#7BE9F4"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Brush
+              padding={{ bottom: 10 }}
+              // dataKey='loc1count'
+              fill="#131731"
+              height={15}
+              stroke="#3C4473"
+              startIndex={0}
+              endIndex={0} />
+          </LineChart>
+        </ResponsiveContainer>
 
-                <ResponsiveContainer width="100%" height="28%">
-                    <LineChart margin={{ top: 10, right: 10, left: -30, bottom: 0 }} syncId="anyId"
-                        data={this.state.totalAlerts}>
-                        <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                        <XAxis dataKey="date" tick={{ fill: 'white' }} interval={this.state.interval} padding={{ left: 20, right: 20 }} minTickGap={1}
-                            tickFormatter={(label) => this.formatDate(label)} />
-                        {/* <Tooltip /> */}
-                        <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
-                        <Line name="line 1" type="monotone" dataKey="count" stroke="#7BE9F4" strokeWidth={2} dot={false} />
-                        <Brush padding={{ bottom: 10 }}
-                            // dataKey='loc1count'
-                            fill="#131731"
-                            height={15}
-                            stroke="#3C4473"
-                            startIndex={0}
-                            endIndex={0} />
-                    </LineChart>
-                </ResponsiveContainer>
+        <div className={"title-header"}>
+          <Typography.Text strong className="title-header-text">Top 5 Alerts</Typography.Text>
+        </div>
 
-                <div className={"title-header"}>
-                    <Typography.Text strong className="title-header-text">Top 5 Alerts</Typography.Text>
-                </div>
+        <ResponsiveContainer width="100%" height="28%" className="top-five-recharts">
+          <LineChart
+            data={this.state.top5Alerts.data}
+            margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
+            syncId="anyId"
+          >
+            <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
+            <XAxis
+              dataKey="date"
+              tick={{ fill: 'white' }}
+              interval={this.state.interval}
+              padding={{ left: 20, right: 20 }}
+              tickFormatter={(label) => this.formatDate(label)}
+            />
+            <Legend
+              iconType="circle"
+              iconSize={5}
+              wrapperStyle={{ width: '100%', marginLeft: "20%" }}
+            />
+            <YAxis
+              type="number"
+              domain={[0, 100]}
+              tick={{ fill: 'white' }}
+              stroke='#131731'
+            />
+            <Line
+              name={this.state.top5Alerts.lines.alert1}
+              type="monotone"
+              dataKey="alert1count"
+              stroke="#EB8E27"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              name={this.state.top5Alerts.lines.alert2}
+              type="monotone"
+              dataKey="alert2count"
+              stroke="#80F0FA"
+              strokeWidth={2}
+              isAnimationActive={true}
+              animationEasing={'ease-in-out'}
+              animationDuration={100}
+              dot={false}
+            />
+            <Line
+              name={this.state.top5Alerts.lines.alert3}
+              type="monotone"
+              dataKey="alert3count"
+              stroke="#5280EF"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              name={this.state.top5Alerts.lines.alert4}
+              type="monotone"
+              dataKey="alert4count"
+              stroke="#89ED72"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              name={this.state.top5Alerts.lines.alert5}
+              type="monotone"
+              dataKey="alert5count"
+              stroke="#B7413E"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
 
-                <ResponsiveContainer width="100%" height="28%" className="top-five-recharts">
-                    <LineChart data={this.state.top5Alerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
-                        syncId="anyId">
-                        <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                        <XAxis dataKey="date" tick={{ fill: 'white' }} interval={this.state.interval} padding={{ left: 20, right: 20 }}
-                            tickFormatter={(label) => this.formatDate(label)} />
-                        <Legend iconType="circle" iconSize={5}
-                            wrapperStyle={{ width: '100%', marginLeft: "20%" }} />
-                        <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
-                        <Line name={this.state.top5Alerts.lines.alert1}
-                            type="monotone" dataKey="alert1count" stroke="#EB8E27" strokeWidth={2} dot={false} />
-                        <Line name={this.state.top5Alerts.lines.alert2} type="monotone" dataKey="alert2count" stroke="#80F0FA" strokeWidth={2}
-                            isAnimationActive={true} animationEasing={'ease-in-out'} animationDuration={100} dot={false} />
-                        <Line name={this.state.top5Alerts.lines.alert3} type="monotone" dataKey="alert3count" stroke="#5280EF" strokeWidth={2} dot={false} />
-                        <Line name={this.state.top5Alerts.lines.alert4} type="monotone" dataKey="alert4count" stroke="#89ED72" strokeWidth={2} dot={false} />
-                        <Line name={this.state.top5Alerts.lines.alert5} type="monotone" dataKey="alert5count" stroke="#B7413E" strokeWidth={2} dot={false} />
-                    </LineChart>
-                </ResponsiveContainer>
+        <div className={"title-header"}>
+          <Typography.Text strong className="title-header-text">Location-Wise Alerts</Typography.Text>
+        </div>
 
-                <div className={"title-header"}>
-                    <Typography.Text strong className="title-header-text">Location-Wise Alerts</Typography.Text>
-                </div>
-
-                <ResponsiveContainer width="100%" height="28%" className="location-recharts">
-                    <LineChart data={this.state.locationWiseAlerts.data} margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
-                        syncId="anyId">
-                        <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
-                        <XAxis dataKey="date" tick={{ fill: 'white' }} interval={this.state.interval} padding={{ left: 20, right: 20 }}
-                            tickFormatter={(label) => this.formatDate(label)} />
-                        <Legend iconType="circle" iconSize={5} align="right"
-                            wrapperStyle={{ width: '80%', paddingRight: '50px' }} />
-                        <YAxis type="number" domain={[0, 100]} tick={{ fill: 'white' }} stroke='#131731' />
-                        <Line name={this.state.locationWiseAlerts.lines.alert1} type="monotone" dataKey="alert1count" stroke="#EB8E27" strokeWidth={2} dot={false} />
-                        <Line name={this.state.locationWiseAlerts.lines.alert2} type="monotone" dataKey="alert2count" stroke="#80F0FA" strokeWidth={2} dot={false} />
-                        <Line name={this.state.locationWiseAlerts.lines.alert3} type="monotone" dataKey="alert3count" stroke="#89ED6F" strokeWidth={2} dot={false} />
-                    </LineChart>
-                </ResponsiveContainer>
-            </div>
-        </>
-        // console.log(this.state.top5Alerts, 'top5')
-
-    }
+        <ResponsiveContainer width="100%" height="28%" className="location-recharts">
+          <LineChart
+            data={this.state.locationWiseAlerts.data}
+            margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
+            syncId="anyId"
+          >
+            <CartesianGrid
+              strokeDasharray="3 4 5 2"
+              stroke="#515151"
+            />
+            <XAxis
+              dataKey="date"
+              tick={{ fill: 'white' }}
+              interval={this.state.interval}
+              padding={{ left: 20, right: 20 }}
+              tickFormatter={(label) => this.formatDate(label)}
+            />
+            <Legend
+              iconType="circle"
+              iconSize={5} align="right"
+              wrapperStyle={{ width: '80%', paddingRight: '50px' }}
+            />
+            <YAxis type="number"
+              domain={[0, 100]}
+              tick={{ fill: 'white' }}
+              stroke='#131731'
+            />
+            <Line
+              name={this.state.locationWiseAlerts.lines.loc1}
+              type="monotone"
+              dataKey="loc1count"
+              stroke="#EB8E27"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              name={this.state.locationWiseAlerts.lines.loc2}
+              type="monotone"
+              dataKey="loc2count"
+              stroke="#80F0FA"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              name={this.state.locationWiseAlerts.lines.loc3}
+              type="monotone"
+              dataKey="loc3count"
+              stroke="#89ED6F"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    // console.log(this.state.top5Alerts, 'top5')
+  }
     scale(endIndex: any) {
         throw new Error("Method not implemented.");
     }

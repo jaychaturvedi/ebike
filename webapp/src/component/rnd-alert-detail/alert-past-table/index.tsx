@@ -198,7 +198,8 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
                         alertId: this.state.graphDataLoaded ? this.state.selectedRowId : this.props.alertId as any as number,
                         vehicleId: this.props.vehicleId,
                         alertName: this.props.alertName,
-                        alertTypeId: alertTypeId
+                        alertTypeId: alertTypeId,
+                        timeStamp:"2020-10-21 10:58:35"
                     }
                 })
             }

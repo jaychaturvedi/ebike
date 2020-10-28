@@ -51,7 +51,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
 
     static getDerivedStateFromProps(props: DoubleLineGraphProps, state: DoubleLineGraphStates) {
         let data = state.data
-        if (props.data !== undefined) {
+        if (props.data !== undefined && props.data !== null) {
             data = props.data;
             state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
             state.L2Value = props.data.length > 0 && props.L1 ? data[0].L2 : 0;

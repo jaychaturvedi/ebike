@@ -58,7 +58,7 @@ async function totalAlerts(params: IAlertTrendActions) {
         {
             alertType: params.payload.alertType,
             startDate: params.payload.startDate,
-            endDate: params.payload.startDate
+            endDate: params.payload.endDate
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as TtrendTotalAlerts[]
@@ -69,7 +69,7 @@ async function top5Alerts(params: IAlertTrendActions) {
         {
             alertType: params.payload.alertType,
             startDate: params.payload.startDate,
-            endDate: params.payload.startDate
+            endDate: params.payload.endDate
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as TtrendTop5Alert
@@ -80,7 +80,7 @@ async function locationWiseAlerts(params: IAlertTrendActions) {
         {
             alertType: params.payload.alertType,
             startDate: params.payload.startDate,
-            endDate: params.payload.startDate
+            endDate: params.payload.endDate
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as TtrendLocationWise

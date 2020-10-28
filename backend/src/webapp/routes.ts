@@ -137,7 +137,7 @@ app.post('/dashFilter',
       location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize } = req.body
 
     const result = await WebAPI.dashFilter({
-      alertType, startDate, endDate, vehicleId,
+      alertType, startDate, endDate, vehicleID:vehicleId,
       alertName, model, subModel, location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize
     })
     const response = createResponse("OK", result, undefined)
@@ -170,8 +170,8 @@ app.post('/pastAlerts',
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
-    const { vehicleId, customerId, alertId, alertName, pageNo, pageSize } = req.body
-    const result = await WebAPI.pastAlerts(vehicleId, alertId, alertName, customerId, pageNo, pageSize)
+    const { vehicleId, alertId, alertName, pageNo, pageSize } = req.body
+    const result = await WebAPI.pastAlerts(vehicleId, alertId, alertName, pageNo, pageSize)
     const response = createResponse("OK", result, undefined)
     res.json(response)
   })
@@ -206,16 +206,17 @@ app.get('/lowMileage',
   })
 )
 app.get('/graphs',
-  [query("vehicleId", "vehicleId is invalid").isString().isLength({ min: 1 }),
+  [query("vehicleId", "vehicleId is invalid").isString(),
   query('alertTypeId', "alertTypeId is too short").toInt(),
   query('alertId', "alertId is too short").toInt(),
-  query('alertName', "alertName is too short").isString().isLength({ min: 1 }), validate],
+  query('alertName', "alertName is too short").isString(), 
+  query('timeStamp', "timeStamp is too short").isString(),validate],
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
     console.log("Start API :", new Date())
-    const { vehicleId, alertId, alertName, alertTypeId } = req.query as any
-    const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName)
+    const { vehicleId, alertId, alertName, alertTypeId,timeStamp } = req.query as any
+    const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName, timeStamp)
     const response = createResponse("OK", result, undefined)
     console.log("End API :", new Date())
     res.json(response)

@@ -182,26 +182,28 @@ export type TDashboardData = {
     alertId: number;
     mfgDate: string;
     batteryId: string;
+    alertType:string;
     customerId: string;
     frameId: string;
     alertTime: string;
     location: string;
     openSince: string;
     Severity: number;
+    alarmValue:string;
 }
 
 export type TDashboard = {
-    dataCount?: number;
+    dataCount: number;
     data: Array<TDashboardData>;
 }
 
-export type TTotalAlert = [{
+export type TTotalAlert = {
     data: string;
     count: number
-}]
+}[]
 
 export type TDashboardFilter = {
-    vehicleId?: string;
+    vehicleID?: string;
     alertName?: string;
     model?: string;
     subModel?: string;
@@ -216,4 +218,31 @@ export type TDashboardFilter = {
     pageNo?: number;
     pageSize?: number;
 
+}
+
+export type TAdditionalInsight = {
+  totalDistInKm: number;
+	utilization: number;
+	ridesPerMnthInKm: number;
+	avgRangeRideInKm: number;
+  avgMileageInKm: number;   
+  st?:string; //status
+  ec?:string; //error code
+}
+
+export type TAlertDetails = {
+  frameId: string;
+  batteryId: string;
+  customerId: string;
+  model: string;
+  mfgDate: string;
+  location: string;
+  subLocation: string;
+  alertTime: string;
+  alertId: number;
+  openSince: string;
+  alarmValue: string;
+  alertName: string;
+  alertType: string;
+  Severity: string;
 }

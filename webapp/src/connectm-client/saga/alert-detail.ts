@@ -93,7 +93,7 @@ export async function getPastAlertGraphData(params: IAlertGraphActions) {
 async function getAdditionalInsights(params: IAlertDetailActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/additionalInsight',
         {
-            vehicleID: params.payload.vehicleID,
+            vehicleId: params.payload.vehicleID,
             alertId: params.payload.alertId,
             alertName: params.payload.alertName,
             customerId: params.payload.customerId

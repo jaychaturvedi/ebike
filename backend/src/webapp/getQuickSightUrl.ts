@@ -8,7 +8,7 @@ let awsCredentials = {
 };
 AWS.config.update(awsCredentials);
 
-export async function getQuickSightUrl(idToken: any, username: any, dashboardId: string) {
+export function getQuickSightUrl(idToken: any, username: any, dashboardId: string) {
   console.log('called');
   AWS.config.region = 'us-east-2';
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({

@@ -1,6 +1,6 @@
 import { get, post, put } from 'request-promise'
 import * as dotenv from "dotenv"
-import { TDashboardFilter, TDashboard, TTotalAlert } from './types';
+import { TDashboardFilter, TDashboard, TTotalAlert, TAdditionalInsight, TAlertDetails } from './types';
 
 dotenv.config()
 function createOptions(url: string, body: any,) {
@@ -53,12 +53,12 @@ export default class WebAPI {
 
     static async additionalInsight(vehicleId: string, alertId: number, alertName: string, customerId: string) {
         const options = createOptions('/additinsts', { vehicleID: vehicleId, alertId, alertName, customerId })
-        const fetchedData = await post(options)
+        const fetchedData:TAdditionalInsight = await post(options)
         return fetchedData
     }
 
-    static async pastAlerts(vehicleId: string, alertId: number, alertName: string, customerId: string, pageNo: number, pageSize: number) {
-        const options = createOptions('/pastalerts', { vehicleID: vehicleId, alertId, alertName, customerId, pageNo, pageSize })
+    static async pastAlerts(vehicleId: string, alertId: number, alertName: string, pageNo: number, pageSize: number) {
+        const options = createOptions('/pastalerts', { vehicleID: vehicleId, alertId, alertName, pageNo, pageSize })
         const fetchedData = await post(options)
         return fetchedData
     }
@@ -70,18 +70,25 @@ export default class WebAPI {
         return fetchedData
     }
 
-    static async getDynamicSubGraph(vehicleId: string, alertId: number, alertTypeId: number, alertName: string) {
-        const options = createOptions('/subgraph/dynamic', {
-            vehicleID: vehicleId,
-            alertId,
-            alertTypeId,
-            alertName
-        })
-        console.log("External API Start Time : ", new Date())
-        const fetchedData = await post(options)
-        console.log("External API End Time : ", new Date())
-        return fetchedData
-    }
+  static async getDynamicSubGraph(
+    vehicleId: string,
+    alertId: number,
+    alertTypeId: number,
+    alertName: string,
+    timeStamp: string
+    ) {
+    const options = createOptions('/dynamic', {
+      vehicleId,
+      alertId,
+      alertTypeId,
+      alertName,
+      timeStamp
+    })
+    console.log("External API Start Time : ", new Date())
+    const fetchedData = await post(options)
+    console.log("External API End Time : ", new Date())
+    return fetchedData
+  }
 
     static async getAlertDetails(alertId: number) {
         const options = createOptions('/alertdetails', { alertId })
@@ -101,13 +108,13 @@ export default class WebAPI {
         return fetchedData
     }
 
-    ///////////////////////////////////////not using below routes//////////////////////////////
-
     static async lowMileageGraph(vehicleId: string, alertId: number, alertName: string) {
         const options = createOptions('/maingraph', { vehicleID: vehicleId, alertId, alertName })
         const fetchedData = await post(options)
         return fetchedData
     }
+    ///////////////////////////////////////not using below routes//////////////////////////////
+
 
 
     static async batteryCellGraph(vehicleId: string, alertId: number) {

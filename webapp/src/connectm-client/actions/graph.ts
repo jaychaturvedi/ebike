@@ -9,7 +9,8 @@ export interface AlertGraphPayload {
     vehicleId: string,
     alertId: number,
     alertName: string,
-    alertTypeId: number
+    alertTypeId: number,
+    timeStamp:string
 }
 export interface IAlertGraphActions {
     type: AlertGraphActions,

@@ -36,7 +36,8 @@ async function getGraphData(params: IAlertGraphActions) {
                     vehicleId: params.payload.vehicleId,
                     alertId: params.payload.alertId,
                     alertName: params.payload.alertName,
-                    alertTypeId: params.payload.alertTypeId
+                    alertTypeId: params.payload.alertTypeId,
+                    timeStamp:params.payload.timeStamp
                 }
             }
         )
