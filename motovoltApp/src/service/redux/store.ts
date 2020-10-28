@@ -119,7 +119,8 @@ type TSpeedometer = {
     speed: number,
     maxSpeed: number,
     pedalAssit: number,
-    powerMod: number
+    powerMod: number,
+    mode: number | null,
 }
 
 type TGraph = {
@@ -238,7 +239,8 @@ export const ZeroSpeedometer: TSpeedometer = {
     powerMod: 0,
     rangeAvailable: 0,
     rangeCovered: 0,
-    speed: 0
+    speed: 0,
+    mode: null,
 }
 
 export type TStore = {

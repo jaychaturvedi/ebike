@@ -208,7 +208,8 @@ export type Store_SetSpeedometer = {
         speed?: number,
         maxSpeed?: number,
         pedalAssit?: number,
-        powerMod?: number
+        powerMod?: number,
+        mode?: number,
     }
 }
 

@@ -136,7 +136,7 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 type: 'Store_SetRideHistory',
                 payload: data.history.map((ride: any, i: number) => ({
                     // Should not be optional
-                    id: i.toString(),
+                    id: String(ride.tripId),
                     totalDistanceKm: Math.round(ride.dist || 0),
                     speedKmph: Math.round(ride.kmph || 0),
                     avgSpeedKmph: Math.round(ride.kmph || 0),
@@ -229,7 +229,7 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
 export function* getRide(params: RideActions.ReadRideData) {
     try {
         const dataResponse = yield request(`${config.baseUrl}/ride/detail/${params.payload.bikeId}?` +
-            `startTime=${params.payload.startTime}&endTime=${params.payload.endTime}`, "GET");
+            `startTime=${params.payload.startTime}&endTime=${params.payload.endTime}&tripId=${params.payload.rideId}`, "GET");
         if (dataResponse.success) {
             const data = dataResponse.response.body;
             yield put({
@@ -291,7 +291,8 @@ export function* getSpeedometerData(params: RideActions.Speedometer) {
                     powerMod: data.powerMode,
                     rangeAvailable: Math.round(data.rangeAvailable || 0),
                     rangeCovered: Math.round(data.rangeCovered || 0),
-                    speed: Math.round(data.speed || 0)
+                    speed: Math.round(data.speed || 0),
+                    mode: data.mode,
                 }
             } as Store_SetSpeedometer)
         } else {
