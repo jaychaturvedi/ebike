@@ -25,13 +25,13 @@ export async function homeScreen(frameId: string,) {
     ConnectmApi.getMyBike(frameId as string),
     ConnectmApi.getBikeLiveData(frameId as string)])
   const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
-    grnmls: greenMiles, costrcv: costRecovered } = bikeStat //get bike status
+    grnmls: greenMiles, costrcv: costRecovered ,ptrlt:petrolInLitre} = bikeStat //get bike status
   const { type } = myBike
   const { batchrgper: batteryCharge, rngcvr: rangeCovered,
     rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } = bikeLiveData //get bike live data
   if (!bikeLiveData.fid || !bikeStat.fid || !myBike.fid) throw new BikeError("No data available for frameId")
   return {
-    co2sav, totalDistance, ratings, petrolSaved, type, greenMiles, costRecovered,
+    co2sav, totalDistance, ratings, petrolSaved, petrolInLitre, type, greenMiles, costRecovered,
     batteryCharge, rangeCovered, rangeAvailable, ignition, locked, promotion, notification
   }
 }

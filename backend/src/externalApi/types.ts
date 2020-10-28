@@ -10,6 +10,7 @@ export type TBikeStat = {
     co2sav: number; // co2savings
     totdist: number //total distance
     petlsav: number; //petrol saving
+    ptrlt:number; //petrol in litre
     grnmls: number; //green miles
     costrcv: number; // cost recovered
     rats: number; // ratings
