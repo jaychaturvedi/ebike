@@ -13,7 +13,7 @@ import {
 } from "./alert-detail"
 import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction, IClearGraphActions } from "../actions/alert-detail";
 import { TAlertInsights, TPastAlert } from "../redux/models";
-import { getQuickSightUrl } from "./quickSight";
+import { getQuickSightUrl, clearQuickSightUrl } from "./quickSight";
 import { getDashboardList } from './dashboard'
 
 function* getAlertData(params: IAlertActions) {
@@ -209,6 +209,7 @@ function* actionWatcher() {
     yield takeLatest("UPDATE_USER", updateUser)
     yield takeLatest("GET_QUICKSIGHT_EMBED_URL", getQuickSightUrl)
     yield takeLatest("GET_DASHBOARD_LIST", getDashboardList)
+    yield takeLatest("CLEAR_QUICKSIGHT_EMBED_URL", clearQuickSightUrl)
 
 }
 

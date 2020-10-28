@@ -13,6 +13,7 @@ import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } 
 import { connect } from 'react-redux'
 import Quicksight from "../quicksight"
 import Dashboard from "../quicksight/dashboard"
+import SimpleMap from '../googleMap';
 
 interface ContentProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface ContentState {
@@ -44,6 +45,7 @@ function AccessibleRoutes(props: AccessibleRoutes) {
                     {/* <Route exact path="/mis" component={MisContent} /> */}
                     <Route exact path="/mis" component={Quicksight} />
                     <Route exact path="/mis/:dashboardId" component={Dashboard} />
+                    <Route exact path="/map" component={SimpleMap} />
                 </Switch>
             )
         }

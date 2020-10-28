@@ -10,7 +10,7 @@ interface QuickSightProps extends RouteComponentProps, ReduxQuickSightAction, Re
 
 interface QuickSightState {
   quickSightUrl: string,
-  dataLoaded:boolean
+  dataLoaded: boolean
 }
 
 
@@ -19,14 +19,15 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
     super(props)
     this.state = {
       quickSightUrl: "",
-      dataLoaded:false
+      dataLoaded: false
     }
   }
 
   static getDerivedStateFromProps(props: QuickSightProps, state: QuickSightState) {
-    if(!state.dataLoaded){
+    console.log("before dashboard state", state);
+    if (!state.dataLoaded) {
       const pathNames = props.location.pathname.split('/')
-      console.log(pathNames);      
+      console.log(pathNames);
       props.QuickSightAction({
         type: "GET_QUICKSIGHT_EMBED_URL",
         payload: {
@@ -34,13 +35,17 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
         }
       })
       state.quickSightUrl = props.quickSightUrl
-      if(state?.quickSightUrl?.length){
-        state.dataLoaded=true
-      }
+      state.dataLoaded = true
     }
-    console.log("inside quicksight state", state);
-    
+    console.log("inside dashboar state after", state);
+
     return state
+  }
+
+  componentWillUnmount() {
+    this.props.ClearQuickSightAction({
+      type: "CLEAR_QUICKSIGHT_EMBED_URL"
+    })
   }
 
   render() {

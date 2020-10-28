@@ -1,6 +1,6 @@
 import axios from "axios"
 import { call, put } from "redux-saga/effects"
-import { IQuickSightAction } from "../actions/quickSight"
+import { IQuickSightAction,IClearQuickSightAction } from "../actions/quickSight"
 import { getToken } from "../authentication"
 
 export type Store_QuickSightUrl = {
@@ -8,6 +8,10 @@ export type Store_QuickSightUrl = {
   payload: {
     quickSightUrl: string
   }
+}
+
+export type Clear_QuickSightUrl = {
+  type: "CLEAR_QUICKSIGHT_URL",
 }
 
 export type TAlertsTrendData = {
@@ -24,7 +28,7 @@ export function* getQuickSightUrl(params: IQuickSightAction) {
       }
     } as Store_QuickSightUrl)
   } catch (error) {
-    console.log("get search options error", error)
+    console.log("get quicksight url error", error)
   }
 }
 
@@ -42,4 +46,14 @@ export async function getQuickSightEmbedUrl(params: IQuickSightAction) {
   )
   console.log("called quicksight saga", response);
   return response.data.body.EmbedUrl as string
+}
+
+export function* clearQuickSightUrl(params: IClearQuickSightAction) {
+  try {
+    yield put({
+      type: "CLEAR_QUICKSIGHT_URL"
+    } as Clear_QuickSightUrl)
+  } catch (error) {
+    console.log("clear quicksight state error", error)
+  }
 }

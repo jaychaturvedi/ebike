@@ -48,13 +48,21 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
   handleChange = (value: any) => {
     console.log(`selected ${value}`);
   }
+  openMap=()=>{
+    this.props.history.push("/map");
+  }
   render() {
     return (
       <div className='container-quicksight' >
         <div className="dashboard-header">
-          <div  className="dashboard-text">
+          <div className="dashboard-text">
             {"DASHBOARDS"}
           </div>
+          {/* <div
+            onClick={() => this.openMap()}
+          >
+            <button>map</button>
+          </div> */}
           {/* <div className="dashboard-dropdown">
             <Select defaultValue="lucy" style={{ width: "auto" }} onChange={this.handleChange}>
               <Option value="jack">Last published (newest first)</Option>
@@ -64,7 +72,7 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
             </Select>
           </div> */}
         </div>
-        <Divider style={{background:"grey", margin:"10px 0"}} />
+        <Divider style={{ background: "grey", margin: "10px 0" }} />
         <div className="dashboard-card-container">
           {this.state.dashboardList.map((dashboard: TDashboardList) => {
             return (<div className="dashboard-container">
@@ -73,7 +81,8 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
                 className="dashboard-card"
                 hoverable
                 style={{ width: "auto" }}
-                cover={<img alt={dashboard.dashboardName} src={dashboard.dashboardImageUrl} style={{ height: 150 }} />}
+                cover={<img alt={dashboard.dashboardName} 
+                src={dashboard.dashboardImageUrl} style={{ height: 150 }} />}
               >
                 <Meta title={dashboard.dashboardName} />
               </Card>

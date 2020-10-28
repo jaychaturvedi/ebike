@@ -65,7 +65,7 @@ export async function getQuickSightUrl(idToken: any, username: any, dashboardId:
                 IdentityType: "IAM",
                 ResetDisabled: true,
                 SessionLifetimeInMinutes: 400,
-                UndoRedoDisabled: false
+                UndoRedoDisabled: true
               },
                 function (err: any, data: any) {
                   if (!err) {
