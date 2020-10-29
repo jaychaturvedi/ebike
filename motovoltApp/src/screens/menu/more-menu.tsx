@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     marginTop: moderateScale(15),
   },
   metric: {
-    height: moderateScale(65),
+    // height: moderateScale(65),
     // backgroundColor: 'white',
     borderRadius: moderateScale(10),
     paddingLeft: moderateScale(0),

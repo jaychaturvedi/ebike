@@ -27,10 +27,27 @@ import {
   Store_UpdateError,
   Store_UpdateUser,
 } from 'src/service/redux/actions/store';
+import {StyleSheet, Text, View} from 'react-native';
 import {ReadUser} from 'src/service/redux/actions/saga/user';
 import Toast from 'react-native-simple-toast';
 
 declare const global: {HermesInternal: null | {}};
+
+const styles = StyleSheet.create({
+  defaultFontFamily: {
+    fontFamily: 'Roboto',
+  },
+});
+
+const NewText = Text as any;
+
+const oldRender = (NewText as any).render;
+NewText.render = function (...args: any[]) {
+  const origin: any = oldRender.call(this, ...args);
+  return React.cloneElement(origin, {
+    style: [styles.defaultFontFamily, origin.props.style],
+  });
+};
 
 interface ReduxState {
   user: TStore['user'];
@@ -111,6 +128,10 @@ class App extends React.PureComponent<Props, State> {
 
   componentDidCatch() {
     console.log('Catched err');
+    this.props.resetStore({
+      type: 'Store_Reset',
+      payload: {},
+    });
   }
 
   render() {

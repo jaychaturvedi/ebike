@@ -29,6 +29,7 @@ type Props = {
   greenMiles: string;
   petrolSavings: string;
   costRecovered: string;
+  petrolInLitre: string;
 };
 
 export default class RidestatSection extends React.Component<Props, {}> {
@@ -100,7 +101,7 @@ export default class RidestatSection extends React.Component<Props, {}> {
                 />
               }
               value={props.petrolSavings}
-              unit="(20L)"
+              unit={`(${props.petrolInLitre}L)`}
               descriptionLine1={LanguageSelector.t('home.petrolSavings')}
             />
             <RideStat

@@ -29,7 +29,8 @@ import {
 } from '../../service/redux/actions/saga/rides';
 import {
   Store_Reset,
-  Store_ResetRide
+  Store_ResetRide,
+  Store_ResetStats,
 } from '../../service/redux/actions/store';
 import Graph from './graph';
 import LanguageSelector from '../../translations';
@@ -42,6 +43,7 @@ type ReduxState = {
   graph: TStore['graph'];
   resetRide: (params: Store_ResetRide) => void;
   readRideHistory: (params: ReadRideHistory) => void;
+  resetRideHistory: (params: Store_ResetStats) => void;
   getIndividualRide: (params: ReadRideData) => void;
 };
 
@@ -70,6 +72,10 @@ class MyRides extends React.PureComponent<Props, State> {
   }
 
   componentDidMount() {
+    this.props.resetRideHistory({
+      type: 'Store_ResetStats',
+      payload: {},
+    });
     this.props.readRideHistory({
       type: 'ReadRideHistory',
       payload: {
@@ -87,6 +93,10 @@ class MyRides extends React.PureComponent<Props, State> {
 
   onRefresh() {
     this.setState({refreshing: true});
+    this.props.resetRideHistory({
+      type: 'Store_ResetStats',
+      payload: {},
+    });
     this.props.readRideHistory({
       type: 'ReadRideHistory',
       payload: {
@@ -109,6 +119,10 @@ class MyRides extends React.PureComponent<Props, State> {
       this.setState({
         focusDate: date,
       });
+    this.props.resetRideHistory({
+      type: 'Store_ResetStats',
+      payload: {},
+    });
     this.props.readRideHistory({
       type: 'ReadRideHistory',
       payload: {
@@ -337,6 +351,7 @@ export default connect(
     return {
       resetRide: (params: Store_ResetRide) => dispatch(params),
       readRideHistory: (params: ReadRideHistory) => dispatch(params),
+      resetRideHistory: (params: Store_ResetStats) => dispatch(params),
       getIndividualRide: (params: ReadRideData) => dispatch(params),
     };
   },
@@ -352,7 +367,7 @@ const styles = StyleSheet.create({
   },
   date: {
     marginTop: verticalScale(20),
-    marginBottom: verticalScale(10),
+    marginBottom: verticalScale(20),
     height: verticalScale(30),
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -360,6 +375,7 @@ const styles = StyleSheet.create({
   },
   datePicker: {
     width: '50%',
+    height: 40,
     alignSelf: 'center',
   },
   icon: {

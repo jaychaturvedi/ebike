@@ -1,6 +1,6 @@
 import Store, {
     TStore, ZeroOnboarding, ZeroRide, getZeroState,
-    ZeroUser, ZeroBLE, ZeroSpeedometer
+    ZeroUser, ZeroBLE, ZeroSpeedometer, ZeroGraph
 } from "./store";
 import Action from "./actions/store";
 
@@ -23,6 +23,12 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ride: {
                     ...ZeroRide,
                 }
+            }
+        case "Store_ResetStats":
+            return {
+                ...store,
+                graph: ZeroGraph,
+                rides: {},
             }
         case "Store_UpdateBle":
             return {

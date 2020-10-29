@@ -69,7 +69,7 @@ class Home extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <Background />
         <Header
-          title={`${LanguageSelector.t('home.hello')} ${this.props.user.name}`}
+          title={`${LanguageSelector.t('home.hello')} ${this.props.user.name || ""}`}
           backgroundColor={Colors.HEADER_YELLOW}
           hasTabs
           onPromotionClick={() => {}}
@@ -145,6 +145,7 @@ class Home extends React.PureComponent<Props, State> {
             avgRidescore={this.props.bike.avgRideScore.toString()}
             costRecovered={this.props.bike.costRecoveredPer.toString()}
             greenMiles={this.props.bike.greenMilesKm.toString()}
+            petrolInLitre={this.props.bike.petrolInLitre.toString()}
             petrolSavings={Math.floor(
               this.props.bike.petrolSavingsLtr,
             ).toString()}

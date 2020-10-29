@@ -73,6 +73,7 @@ export type TBike = {
     type: null | "CELLULAR" | "BLE",
     co2SavingKg: number,
     totalDistanceKm: number,
+    petrolInLitre: number,
     avgRideScore: number,
     greenMilesKm: number,
     petrolSavingsLtr: number,
@@ -124,9 +125,19 @@ type TSpeedometer = {
 }
 
 type TGraph = {
-    value: number,
-    date: string
+    co2SavingKg: number,
+    greenMilesKm: number,
+    distance: number,
+    avgSpeed: number,
+    avgKmph: number,
+    data: {
+        [id: string]: {
+            value: number,
+            date: string
+        }
+    }
 }
+
 
 type TFAQ = {
     [name: string]: {
@@ -201,6 +212,7 @@ export const ZeroBike: TBike = {
     purchaseDate: "",
     warrantyTill: "",
     healthPer: 0,
+    petrolInLitre: 0,
     serviceDate: "",
     motorPer: 0,
     batteries: {},
@@ -243,6 +255,14 @@ export const ZeroSpeedometer: TSpeedometer = {
     mode: null,
 }
 
+export const ZeroGraph: TGraph = {
+    co2SavingKg: 0,
+    greenMilesKm: 0,
+    distance: 0,
+    avgSpeed: 0,
+    avgKmph: 0, data: {}
+}
+
 export type TStore = {
     error: null | string,
     onboarding: TOnboarding,
@@ -250,14 +270,7 @@ export type TStore = {
     ride: TRide,
     notifications: { isPresent: boolean, showNotifications: boolean, data: { [id: string]: TNotification } },
     bike: TBike,
-    graph: {
-        co2SavingKg: number,
-        greenMilesKm:number,
-        distance: number,
-        avgSpeed: number,
-        avgKmph: number,
-        data: { [id: string]: TGraph }
-    },
+    graph: TGraph,
     services: {
         services: { [id: string]: TService },
         open: number,
@@ -278,13 +291,7 @@ const ZeroState: TStore = {
     ride: ZeroRide,
     notifications: { isPresent: false, showNotifications: false, data: {} },
     rides: {},
-    graph: {
-        co2SavingKg: 0,
-        greenMilesKm: 0,
-        distance: 0,
-        avgSpeed: 0,
-        avgKmph: 0, data: {}
-    },
+    graph: ZeroGraph,
     speedometer: ZeroSpeedometer,
     services: { services: {}, open: 0, closed: 0 },
     ble: ZeroBLE,
