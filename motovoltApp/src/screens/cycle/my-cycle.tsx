@@ -150,20 +150,14 @@ const styles = StyleSheet.create({
   },
   cycle: {
     height: moderateScale(300),
-    padding: moderateScale(20),
     justifyContent: 'center',
     alignItems: 'center',
   },
   cycleName: {
-    height: moderateScale(50),
+    // height: moderateScale(50),
     borderRadius: moderateScale(10),
     justifyContent: 'flex-start',
     alignItems: 'center',
-    shadowOpacity: 0.25,
-    shadowRadius: 1,
-    shadowColor: 'black',
-    shadowOffset: {height: 1, width: 1},   
-    elevation: 2   
   },
   metrics: {
     flex: 1,
