@@ -48,11 +48,9 @@ td.ant-table-column-sort {
     height: 100%;
     width: 100%;
     padding-right: 20px;
-    // height: calc(100% - 250px);
-    // border: 1px solid red;
-    .ant-table table {
-        text-indent: 8px;
-    }
+    // .ant-table table {
+    //     text-indent: 8px;
+    // }
 
     .ant-table {
         background-color: transparent;
@@ -67,10 +65,12 @@ td.ant-table-column-sort {
         z-index: 3;
         font-size: 16px;
         font-weight: 600;
+        white-space: nowrap;
     }
     tbody td {
         z-index: 1;
         font-size: 14px;
+        white-space: nowrap;
     }
 
     .table-body {
@@ -186,12 +186,12 @@ td.ant-table-column-sort {
     fill: $MINOR;
 }
 
-.ant-table-thead > tr > th,
-.ant-table-tbody > tr > td {
-    padding: 8px 2px;
-}
+// .ant-table-thead > tr > th,
+// .ant-table-tbody > tr > td {
+//     padding: 8px 2px;
+// }
 
-@media screen and (min-width: 1600px) {
+@media screen and (min-width: 1400px) {
     table th {
         font-size: 16px;
         font-weight: 600 !important;
@@ -202,10 +202,10 @@ td.ant-table-column-sort {
         width: 100%;
         overflow: auto !important;
     }
-    .ant-table-thead > tr > th,
-    .ant-table-tbody > tr > td {
-        padding: 20px 2px;
-    }
+    // .ant-table-thead > tr > th,
+    // .ant-table-tbody > tr > td {
+    //     padding: 20px 2px;
+    // }
     button.ant-btn.apply-button.ant-btn-sm {
         width: 80px;
         height: 40px;
@@ -223,6 +223,7 @@ td.ant-table-column-sort {
     tbody td {
         z-index: 1;
         font-size: 14px;
+        white-space: nowrap;
     }
 }
 

@@ -39,6 +39,7 @@ export interface AlertData {
     openSince: string,    // hh:mm
     Severity: number // 1 means RED, 2 means Orange, 3 means Yellow
     location: string,
+    alertCode:string;
 }
 
 export interface Alert {

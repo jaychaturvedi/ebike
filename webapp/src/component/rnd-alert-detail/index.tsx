@@ -134,7 +134,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                         <AlertGraph
                           alertName={this.state.alert.alertName}
                           clearAlertState={this.getAlertClearedState}
-                          vehicleId={"FRM327901"}
+                          vehicleId={this.state.alert.frameId}
                           alertCleared={this.state.alertCleared}
                           alertId={Number(this.state.alertId)}
                           alertDate={this.state.alert.alertTime}

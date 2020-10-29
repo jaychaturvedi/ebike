@@ -54,7 +54,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
     static getDerivedStateFromProps(props: CellBatteryGraphProps, state: CellBatteryGraphStates) {
         let data = state.data
         if (props.data !== undefined && props.data !== null) {
-            data = props.data
+            data = props.data//first props.data was an object now it's coming in an array
         }
         const keys = Object.keys(data)//["cell1","cell2","cell3","voltage difference"]
         const voltageDelta = keys.splice(-1)[0]
@@ -109,7 +109,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             else
                 return (
                     <div className="custom-tooltip" style={style}>
-                        <p className="label">{`${payload[0]?.value ? payload[0]?.value.toFixed(3) + " V" : ''}`}</p>
+                        <p className="label">{`${payload[0]?.value ? payload[0]?.value + " V" : ''}`}</p>
                         <span className="intro">&nbsp;</span>
                         <span className="desc">&nbsp;</span>
                         <span className="intro">&nbsp;</span>
@@ -206,8 +206,9 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
           </div>
 
           <div className="voltage-deviation-bottom" >
-            <pre className="normal-operating-voltage-text">Normal<br />Oprating<br />Voltage<br />
-                        Range<br />(b)</pre>
+            <pre className="normal-operating-voltage-text">
+              Normal<br />Oprating<br />Voltage<br />Range<br />(b)
+            </pre>
             <ResponsiveContainer className="bottom-graph-container" width="95%" height="100%" >
               <BarChart
                 data={this.state.data2}

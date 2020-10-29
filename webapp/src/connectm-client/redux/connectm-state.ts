@@ -116,7 +116,8 @@ export function alertLimpData() {
         location: "N/A",
         mfgDate: "N/A",
         model: "N/A",
-        openSince: "N/A"
+        openSince: "N/A",
+        alertCode:"N/A"
     }
     return alert;
 }
