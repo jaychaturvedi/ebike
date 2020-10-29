@@ -1,6 +1,6 @@
 {
   "name": "motovoltApp",
-  "version": "0.9.10",
+  "version": "0.9.11",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
