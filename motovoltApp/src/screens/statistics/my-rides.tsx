@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
   },
   date: {
     marginTop: verticalScale(20),
-    marginBottom: verticalScale(10),
+    marginBottom: verticalScale(20),
     height: verticalScale(30),
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -360,6 +360,7 @@ const styles = StyleSheet.create({
   },
   datePicker: {
     width: '50%',
+    height: 40,
     alignSelf: 'center',
   },
   icon: {
