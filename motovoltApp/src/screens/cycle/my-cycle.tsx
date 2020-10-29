@@ -87,10 +87,10 @@ class MyCycle extends React.PureComponent<Props, State> {
             />
           </View>
           <View style={{
-            ...styles.cycleName, backgroundColor: Theme.BACKGROUND_LIGHT,//change dark theme
+            ...styles.cycleName //change dark theme
 
           }}>
-            <Text style={{ fontSize: scale(16), fontWeight: 'bold', color: Theme.TEXT_WHITE }} numberOfLines={1}>
+            <Text style={{ fontSize: 30, fontWeight: 'bold', color: Theme.TEXT_WHITE }} numberOfLines={1}>
               {this.props.bike.name}
             </Text>
           </View>
@@ -100,9 +100,9 @@ class MyCycle extends React.PureComponent<Props, State> {
               header2={LanguageSelector.t("myBike.serviceDate")}
               icon1={require('../../assets/icons/health_green.png')}
               icon2={require('../../assets/icons/calendar_green.png')}
-              value1={`${this.props.bike.healthPer} %`}
+              value1={`${this.props.bike.healthPer}`}
               value2={`${moment(this.props.bike.serviceDate).format('DD/MM/YY')}`}
-              unit1=""
+              unit1="%"
               unit2=""
             />
             <RideMetric
@@ -110,10 +110,10 @@ class MyCycle extends React.PureComponent<Props, State> {
               header2={LanguageSelector.t("myBike.battery")}
               icon1={require('../../assets/icons/motor_icon.png')}
               icon2={require('../../assets/icons/battery_green_icon.png')}
-              value1={`${this.props.bike.motorPer} %`}
-              value2={`${this.props.bike.batteryChargePer} %`}
-              unit1=""
-              unit2=""
+              value1={`${this.props.bike.motorPer}`}
+              value2={`${this.props.bike.batteryChargePer}`}
+              unit1="%"
+              unit2="%"
             />
             <VehicleInfo
               header1={LanguageSelector.t("myBike.vechileId")}
@@ -157,8 +157,7 @@ const styles = StyleSheet.create({
   cycleName: {
     height: moderateScale(50),
     borderRadius: moderateScale(10),
-    backgroundColor: 'white',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     shadowOpacity: 0.25,
     shadowRadius: 1,

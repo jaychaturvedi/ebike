@@ -17,15 +17,15 @@ export default class VehicleInfoTile extends React.PureComponent<Props, State>{
             <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT }}>
                 <View style={styles.textarea}>
                     <View style={{ paddingBottom: moderateScale(5) }}>
-                        <Text style={{ fontSize: scale(12), color: Theme.TEXT_WHITE }}>{this.props.headerText}</Text>
+                        <Text style={{ fontSize: 16, color: Theme.TEXT_WHITE }}>{this.props.headerText}</Text>
                     </View>
-                    <ScrollView style={{ height: scale(70) }}>
+                    <ScrollView>
                         {
                             this.props.value.map((value: string, index: number) => {
                                 return (
                                     <Text style={{
                                         color: Theme.TEXT_WHITE, fontWeight: 'bold',
-                                        fontSize: scale(16), textDecorationLine: 'underline',
+                                        fontSize: 25, 
                                     }} key={index} numberOfLines={1}>{value}
                                     </Text>
                                 )
@@ -43,9 +43,8 @@ VehicleInfoTile.contextType = ThemeContext
 
 const styles = StyleSheet.create({
     container: {
-        height: scale(100),
-        width: scale(150),
-        padding: moderateScale(10),
+        width: "49%",
+        padding: 16,
         borderRadius: scale(10),
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
         width: moderateScale(20)
     },
     textarea: {
-        flex: 1,
+        // flex: 1,
         // alignItems: 'center',
         flexDirection: 'column',
     }

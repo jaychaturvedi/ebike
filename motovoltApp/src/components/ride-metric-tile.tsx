@@ -20,22 +20,23 @@ export default class RideMetricTile extends React.PureComponent<Props, State>{
                 ...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT,//change dark theme
             }}>
                 <View style={styles.icon}>
-                    <Image source={this.props.icon} />
+                    <Image style={{width: 40, height: 40}} source={this.props.icon} />
                 </View>
                 <View style={styles.textarea}>
                     <View style={{ paddingBottom: moderateScale(5) }}>
                         <Text style={{
-                            fontSize: scale(12),
+                            fontSize: 16,
                             color: Theme.TEXT_WHITE, //change dark theme
                         }}>{this.props.headerText}</Text>
                     </View>
                     <View style={{}}>
-                        <Text>
+                        <Text numberOfLines={1}>
                             <Text style={{
                                 color: Theme.TEXT_WHITE, //change dark theme
-                                fontWeight: 'bold', fontSize: scale(16)
+                                fontWeight: 'bold', fontSize: 24
                             }}>{this.props.value}</Text>
                             <Text style={{
+                                fontSize: 18,
                                 color: Theme.TEXT_WHITE, //change dark theme
                             }}>&nbsp;{this.props.unit}</Text>
                         </Text>
@@ -50,9 +51,9 @@ RideMetricTile.contextType = ThemeContext
 
 const styles = StyleSheet.create({
     container: {
-        height: scale(60),
-        width: scale(150),
-        padding: moderateScale(10),
+        // height: scale(60),
+        width: "49%",
+        padding: 16,
         borderRadius: scale(10),
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
@@ -67,9 +68,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textarea: {
-        flex: 1,
-        // alignItems: 'center',
         flexDirection: 'column',
+        justifyContent: "center",
         paddingLeft: moderateScale(25)
     }
 })
