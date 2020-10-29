@@ -7,6 +7,8 @@ import { Store_UserUpdate } from "../saga/user";
 import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert, Store_UpdateSingleAlert } from "../saga/alert-detail";
 import { Store_QuickSightUrl, Clear_QuickSightUrl } from "../saga/quickSight";
 import { Store_DashboardList } from "../saga/dashboard"
+import { Store_MapMarkers } from "../saga/map"
+
 type ActionParams = IUsersAction
   | Store_AlertUpdate
   | Store_AlertTabChange
@@ -22,6 +24,7 @@ type ActionParams = IUsersAction
   | Store_QuickSightUrl
   | Store_DashboardList
   | Clear_QuickSightUrl
+  | Store_MapMarkers
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
   switch (actionParams.type) {
@@ -189,6 +192,12 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
       return {
         ...state,
         dashboardList: (actionParams as Store_DashboardList).payload.dashboardList
+      }
+    }
+    case "STORE_MAPMARKERS":{
+      return{
+        ...state,
+        mapMarkers: (actionParams as Store_MapMarkers).payload.mapMarkers
       }
     }
     default: {

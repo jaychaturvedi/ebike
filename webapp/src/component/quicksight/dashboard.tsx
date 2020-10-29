@@ -4,6 +4,8 @@ import Iframe from 'react-iframe'
 import { connect } from 'react-redux'
 import { ReduxQuickSightAction, ReduxQuickSightState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/quickSight"
 import { Link, RouteComponentProps } from 'react-router-dom';
+import { Divider } from 'antd';
+import BackArrowButton from '../../assets/png/back-arrow-button.png'
 
 interface QuickSightProps extends RouteComponentProps, ReduxQuickSightAction, ReduxQuickSightState {
 }
@@ -37,8 +39,8 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
       state.quickSightUrl = props.quickSightUrl
       state.dataLoaded = true
     }
+    state.quickSightUrl = props.quickSightUrl
     console.log("inside dashboar state after", state);
-
     return state
   }
 
@@ -48,12 +50,31 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
     })
   }
 
+  onRefresh = () => {
+    this.setState({
+      dataLoaded: false,
+    })
+    this.forceUpdate()
+  }
+
   render() {
     return (
       <div className='container-quicksight' >
+         <div className="dashboard-header">
+          <div className="dashboard-text">
+            <Link to={"/mis"} className="link" >
+              <img src={BackArrowButton} alt="back-arrow" className={"back-arrow-button"} />
+            </Link>
+            {"DASHBOARDS"}
+          </div>
+          <div className="refresh-button" onClick={this.onRefresh}>
+            {"REFRESH"}
+          </div>
+        </div>
+        <Divider style={{ background: "grey", margin: "10px 0" }} />
         <Iframe url={this.state.quickSightUrl}
           width="100%"
-          height="100%"
+          height="90%"
           id="myId"
           className="myClassname"
           position="relative" />

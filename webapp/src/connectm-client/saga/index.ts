@@ -15,6 +15,7 @@ import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction,
 import { TAlertInsights, TPastAlert } from "../redux/models";
 import { getQuickSightUrl, clearQuickSightUrl } from "./quickSight";
 import { getDashboardList } from './dashboard'
+import * as Map from './map'
 
 function* getAlertData(params: IAlertActions) {
     try {
@@ -210,7 +211,7 @@ function* actionWatcher() {
     yield takeLatest("GET_QUICKSIGHT_EMBED_URL", getQuickSightUrl)
     yield takeLatest("GET_DASHBOARD_LIST", getDashboardList)
     yield takeLatest("CLEAR_QUICKSIGHT_EMBED_URL", clearQuickSightUrl)
-
+    yield takeLatest("GET_MAP_MARKERS", Map.getMapMarkers)
 }
 
 export default function* rootSaga() {

@@ -48,7 +48,7 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
   handleChange = (value: any) => {
     console.log(`selected ${value}`);
   }
-  openMap=()=>{
+  openMap = () => {
     this.props.history.push("/map");
   }
   render() {
@@ -58,22 +58,25 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
           <div className="dashboard-text">
             {"DASHBOARDS"}
           </div>
-          {/* <div
-            onClick={() => this.openMap()}
-          >
-            <button>map</button>
-          </div> */}
-          {/* <div className="dashboard-dropdown">
-            <Select defaultValue="lucy" style={{ width: "auto" }} onChange={this.handleChange}>
-              <Option value="jack">Last published (newest first)</Option>
-              <Option value="lucy">Last published (oldest first)</Option>
-              <Option value="disabled">Dashboard name (A-Z)</Option>
-              <Option value="Yiminghe">Dashboard name (Z-A)</Option>
-            </Select>
-          </div> */}
         </div>
         <Divider style={{ background: "grey", margin: "10px 0" }} />
         <div className="dashboard-card-container">
+          <div className="dashboard-container">
+            <Card
+             onClick={() => this.openMap()}
+              className="dashboard-card"
+              hoverable
+              style={{ width: "auto" }}
+              cover={
+                <img
+                  alt={"open map"}
+                  src={"https://miro.medium.com/max/5334/1*qYUvh-EtES8dtgKiBRiLsA.png"} style={{ height: 150 }}
+                />
+              }
+            >
+              <Meta title={"MAP"} />
+            </Card>
+          </div>
           {this.state.dashboardList.map((dashboard: TDashboardList) => {
             return (<div className="dashboard-container">
               <Card
@@ -81,8 +84,8 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
                 className="dashboard-card"
                 hoverable
                 style={{ width: "auto" }}
-                cover={<img alt={dashboard.dashboardName} 
-                src={dashboard.dashboardImageUrl} style={{ height: 150 }} />}
+                cover={<img alt={dashboard.dashboardName}
+                  src={dashboard.dashboardImageUrl} style={{ height: 150 }} />}
               >
                 <Meta title={dashboard.dashboardName} />
               </Card>

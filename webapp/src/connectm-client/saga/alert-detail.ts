@@ -58,7 +58,7 @@ export async function postAlertClearanceComment(params: IAlertDetailActions) {
 
 export async function postClearAlertGraph(params: IClearGraphActions) {
     const alertName = params.payload.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase()
-    const clearGraphAlertTypeId = await getAlertTypeId(alertName);
+    const clearGraphAlertTypeId = getAlertTypeId(alertName);
     return clearGraphAlertTypeId
 }
 

@@ -5,6 +5,14 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number,
 }
+////////////////////////////////////MAP MARKERS/////////////////////////////////
+export interface TMapMarkers{
+  lat:number;
+  lng:number;
+  frameId:string;
+  timestamp:string;
+}
+
 /////////////////////////////////////QUICKSIGHT DASHBOARD///////////////////////
 export interface TDashboardList {
   dashboardId: string;
