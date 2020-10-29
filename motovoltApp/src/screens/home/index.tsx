@@ -69,7 +69,7 @@ class Home extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <Background />
         <Header
-          title={`${LanguageSelector.t('home.hello')} ${this.props.user.name}`}
+          title={`${LanguageSelector.t('home.hello')} ${this.props.user.name || ""}`}
           backgroundColor={Colors.HEADER_YELLOW}
           hasTabs
           onPromotionClick={() => {}}

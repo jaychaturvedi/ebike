@@ -157,19 +157,21 @@ class NewPassword extends React.PureComponent<Props, State> {
             }}
             secure
           />
-          {this.state.confirmPassword !== this.state.password && (
-            <View style={styles.warningContainer}>
-              <Image
-                style={styles.warningLogo}
-                source={require('../../assets/icons/error_outline-red.png')}
-              />
-              <View style={{paddingHorizontal: 4}}>
-                <Text style={{...styles.warningText, color: Colors.ERROR_RED}}>
-                  Password Mismatch
-                </Text>
+          {this.state.confirmPassword !== this.state.password &&
+            this.state.confirmPassword !== "" && (
+              <View style={styles.warningContainer}>
+                <Image
+                  style={styles.warningLogo}
+                  source={require('../../assets/icons/error_outline-red.png')}
+                />
+                <View style={{paddingHorizontal: 4}}>
+                  <Text
+                    style={{...styles.warningText, color: Colors.ERROR_RED}}>
+                    Password Mismatch
+                  </Text>
+                </View>
               </View>
-            </View>
-          )}
+            )}
         </View>
         <View style={styles.bottom}>
           <CTAButton
