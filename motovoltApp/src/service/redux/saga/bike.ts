@@ -90,6 +90,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     totalDistanceKm: Math.round(data.totalDistance || 0),
                     avgRideScore: Math.round(data.ratings || 0),
                     petrolSavingsLtr: Math.round(data.petrolSaved || 0),
+                    petrolInLitre: Math.round(data.petrolInLitre || 0),
                     greenMilesKm: Math.round(data.greenMiles || 0),
                     costRecoveredPer: Math.round(data.costRecovered || 0),
                     batteryChargePer: Math.round(data.batteryCharge || 0),

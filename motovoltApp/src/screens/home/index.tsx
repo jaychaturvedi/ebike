@@ -145,6 +145,7 @@ class Home extends React.PureComponent<Props, State> {
             avgRidescore={this.props.bike.avgRideScore.toString()}
             costRecovered={this.props.bike.costRecoveredPer.toString()}
             greenMiles={this.props.bike.greenMilesKm.toString()}
+            petrolInLitre={this.props.bike.petrolInLitre.toString()}
             petrolSavings={Math.floor(
               this.props.bike.petrolSavingsLtr,
             ).toString()}

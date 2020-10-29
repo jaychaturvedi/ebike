@@ -66,6 +66,7 @@ export type Store_UpdateBike = {
         serviceDate?: string,
         motorPer?: number,
         batteryPer?: number,
+        petrolInLitre?: number,
         type?: "CELLULAR" | "BLE" | null,
         batteries?: {
             [id: string]: {
