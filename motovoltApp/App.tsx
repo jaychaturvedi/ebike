@@ -27,7 +27,7 @@ import {
   Store_UpdateError,
   Store_UpdateUser,
 } from 'src/service/redux/actions/store';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {ReadUser} from 'src/service/redux/actions/saga/user';
 import Toast from 'react-native-simple-toast';
 
@@ -128,6 +128,10 @@ class App extends React.PureComponent<Props, State> {
 
   componentDidCatch() {
     console.log('Catched err');
+    this.props.resetStore({
+      type: 'Store_Reset',
+      payload: {},
+    });
   }
 
   render() {

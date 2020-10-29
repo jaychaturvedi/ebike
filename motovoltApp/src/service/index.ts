@@ -12,17 +12,17 @@ const persistConfig = {
     storage: AsyncStorage,
 }
 
-// const persistedReducer = persistReducer(persistConfig, AppReducer)
+const persistedReducer = persistReducer(persistConfig, AppReducer)
 
 const sagaMiddleware = createSagaMiddleware();
-let store = createStore(AppReducer, applyMiddleware(sagaMiddleware, logger));
-// let store = createStore(persistedReducer, applyMiddleware(sagaMiddleware, logger));
-// let persistor = persistStore(store as any);
+// let store = createStore(AppReducer, applyMiddleware(sagaMiddleware, logger));
+let store = createStore(persistedReducer, applyMiddleware(sagaMiddleware, logger));
+let persistor = persistStore(store as any);
 
 sagaMiddleware.run(rootSaga);
 
 export {
     store,
-    // persistor,
+    persistor,
     SecureStorage
 };
