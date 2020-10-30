@@ -10,6 +10,7 @@ import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } 
 import * as QueryString from "query-string"
 import { connect } from 'react-redux'
 import './index.scss'
+import WebContent from "../webContentText.json"
 interface ForgotPasswordProps extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface ForgotPasswordStates {
     formValid: string,
@@ -148,10 +149,10 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
                 </div>
                 <div className="forgot-footer">
                     <div>
-                        Copyright © Motovolt 2020. All rights reserved.
+                      {WebContent.copyright}
                     </div>
                     <div>
-                        Ver: 1.0.0
+                      {WebContent.version}
                     </div>
                 </div>
             </div>

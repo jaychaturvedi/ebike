@@ -10,6 +10,7 @@ import { withRouter, RouteComponentProps } from "react-router"
 import { connect } from 'react-redux'
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
 import './index.scss'
+import WebContent from "../webContentText.json"
 interface LoginProps extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface LoginStates {
     formValid: string,
@@ -46,7 +47,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                 } else {
                     this.setState({
                         formValid: 'error', valid: !this.state.valid,
-                        message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Unable to log in. Pleae check your password and try again</span>
+                        message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;{WebContent.loginPassword.error}</span>
                     })
                 }
             })
@@ -57,7 +58,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
         if (this.state.username.length <= 0) {
             this.setState({
                 formValid: 'error', valid: !this.state.valid,
-                message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Please enter your email and try again.</span>
+            message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;{WebContent.forgotPassword.enterYourEmail}</span>
             })
         } else {
             initiateForgotPassword(this.state.username)
@@ -65,12 +66,12 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                     if (passwordInit.success) {
                         this.setState({
                             formValid: 'success', valid: !this.state.valid,
-                            message: <span> <img src={Exclamation} height="20px" alt="exclamation" /> &nbsp;We have sent you an email with the link to reset the password!</span>
+                            message: <span> <img src={Exclamation} height="20px" alt="exclamation" /> &nbsp;{WebContent.forgotPassword.success} </span>
                         })
                     } else {
                         this.setState({
                             formValid: 'error', valid: !this.state.valid,
-                            message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;Unable to send you an email with the link to reset the password!</span>
+                        message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;{WebContent.forgotPassword.error}</span>
                         })
                     }
                     console.log(passwordInit)
@@ -138,10 +139,10 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                 </div>
                 <div className="login-footer">
                     <div>
-                        Copyright © Motovolt 2020. All rights reserved.
+                        {WebContent.copyright}
                     </div>
                     <div>
-                        Ver: 1.0.0
+                        {WebContent.version}
                     </div>
                 </div>
             </div>
