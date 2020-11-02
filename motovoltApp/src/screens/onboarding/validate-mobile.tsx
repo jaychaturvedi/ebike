@@ -155,7 +155,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
               fontWeight: 'bold',
               fontSize: scale(20),
             }}>
-            Validate Your Mobile Number
+            Enter Your Mobile Number
           </Text>
         </View>
         <View style={styles.input}>
