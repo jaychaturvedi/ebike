@@ -196,7 +196,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
               icon1={require('../../assets/icons/green_miles_green_icon.png')}
               icon2={require('../../assets/icons/calories_red_icon.png')}
               value1={String(this.props.bike.greenMilesKm)}
-              value2={'2000'}
+              value2={String(this.props.bike.caloriesBurnt)}
             />
           </View>
           <TouchableOpacity

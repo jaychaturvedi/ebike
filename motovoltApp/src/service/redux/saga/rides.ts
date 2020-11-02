@@ -48,7 +48,7 @@ export function* endRide(params: RideActions.EndRide) {
                 payload: {
                     id: data.rideId,
                     totalDistanceKm: Math.round(data.distance || 0),
-                    durationSec: Math.round(data.duration || 0),
+                    durationSec: String(data.duration || ""),
                     avgSpeedKmph: Math.round(data.averageSpeed || 0),
                     maxSpeedKmph: Math.round(data.maxSpeed || 0),
                     caloriesBurnt: Math.round(data.caloriesBurnt || 0),
@@ -295,6 +295,12 @@ export function* getSpeedometerData(params: RideActions.Speedometer) {
                     mode: data.mode,
                 }
             } as Store_SetSpeedometer)
+            yield put({
+                type: "Store_UpdateBike",
+                payload: {
+                    isOn: Boolean(data.ignition)
+                }
+            } as Store_UpdateBike)
         } else {
             yield put({
                 type: 'Store_UpdateError',
