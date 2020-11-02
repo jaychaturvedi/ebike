@@ -12,7 +12,8 @@ export type TBikeStat = {
     petlsav: number; //petrol saving
     ptrlt:number; //petrol in litre
     grnmls: number; //green miles
-    costrcv: number; // cost recovered
+    costrcv: number; // cost recovered,
+    calbnt:number; //calories burnt
     rats: number; // ratings
     st: string; //status
     ec: string; //error code

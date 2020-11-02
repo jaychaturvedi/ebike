@@ -54,6 +54,7 @@ function AccessibleRoutes(props: AccessibleRoutes) {
               <Switch>
                   <Route exact path="/mis" component={Quicksight} />
                   <Route exact path="/mis/:dashboardId" component={Dashboard} />
+                  <Route exact path="/map" component={SimpleMap} />
               </Switch>
           )
       }

@@ -113,6 +113,18 @@ export default class WebAPI {
         const fetchedData = await post(options)
         return fetchedData
     }
+      
+    static async getCustomerLiveLocations(customerId: string) {
+      const options = {
+        uri: "https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra/custlivelocation",
+        body: { custId: customerId},
+        headers: {'Content-Type': 'application/json'},
+        json: true
+      };
+      const fetchedData = await post(options)
+      return fetchedData
+    }
+
     ///////////////////////////////////////not using below routes//////////////////////////////
 
 

@@ -14,7 +14,7 @@ class OpenSinceRenderer extends PureComponent<OpenSinceRendererProps, OpenSinceR
     render() {
         return (
             <span >
-                {formatHourMin(this.props.text)}
+                {formatHourMin(this.props?.text)}
             </span>
         )
     }

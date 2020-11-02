@@ -43,8 +43,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
 
     static getDerivedStateFromProps(props: AlertGraphProps, state: AlertGraphStates) {
         let alertTypeId: number
-        console.log("Got alert graph request")
-        if (props.alertName !== undefined) {
+        if (props?.alertName !== undefined) {
             alertTypeId = getAlertTypeId(props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
             if (state.dataLoaded === false || alertTypeId !== state.alertTypeId) {
                 props.getAlertGraph({
@@ -61,14 +60,12 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             state.alertTypeId = alertTypeId
         }
-        console.log("graph in deri", props.graphs);
-        console.log("alert type id"+alertTypeId!);
+        console.log("component alert detail graph props", props);
         state.data = props.graphs[state.alertTypeId!]
         // state.data = lowMileageData
         return state
     }
   render() {
-    console.log("graph in alert index  ", this.state.alertTypeId, this.state.data);
     switch (this.state.alertTypeId) {
       //voltage deviation graph
       case 1: {
@@ -234,7 +231,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           alertCleared={this.props.alertCleared} />
       }
       default: {
-        return <div>Nothing</div>
+        return <div>No graph available for alert name</div>
       }
     }
   }
