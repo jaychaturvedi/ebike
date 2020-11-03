@@ -105,7 +105,7 @@ class RegisterBike extends React.PureComponent<Props, State> {
           source={require('../../assets/images/cycle_with_headlight.png')}
           style={styles.image}
         />
-        <Text style={styles.msg}>Welcome to the MotoVolt family!</Text>
+        <Text style={styles.msg}>Welcome to the Motovolt family!</Text>
         <Text style={styles.msg}>Happy e-cycling to you…</Text>
         <View style={styles.bottomContainer}>
           <View style={inputStyles.container}>

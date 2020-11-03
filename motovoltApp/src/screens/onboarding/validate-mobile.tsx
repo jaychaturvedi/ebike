@@ -187,7 +187,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
             backgroundColor="#142F6A"
             onPress={() => {
               if (!this.isValidPhone(this.state.mobile)) {
-                Toast.show('Enter valid phone number with country code');
+                Toast.show('Enter valid phone number');
                 this.setState({
                   isValid: false,
                 });
