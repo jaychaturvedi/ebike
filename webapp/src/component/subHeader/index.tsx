@@ -323,8 +323,8 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 <Menu.Item key="Cargo" icon={<CargoVehicle width="20" height="20" />}>
                     <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Cargo</Typography.Text>
                 </Menu.Item>
-                <Menu.Item key="Ham" className={"dropdown-sub-item"}>
-                    Ham
+                <Menu.Item key="Hum" className={"dropdown-sub-item"}>
+                    Hum
                 </Menu.Item>
             </Menu>
         );
@@ -345,7 +345,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 <Menu.Item key="East">
                     <Typography.Text strong >East</Typography.Text>
                 </Menu.Item>
-                <Menu.Item key="kolkata" className={"location-dropdown-sub-item"}>
+                <Menu.Item key="Kolkata" className={"location-dropdown-sub-item"}>
                     Kolkata
                 </Menu.Item>
                 <Menu.Item key="West">

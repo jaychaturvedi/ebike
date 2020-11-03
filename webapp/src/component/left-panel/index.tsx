@@ -5,6 +5,7 @@ import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_spla
 import { ReactComponent as Alerts } from "../../assets/alerts_tab_icon.svg"
 // import { ReactComponent as B2BLogo } from "../../assets/b2b_tab_icon.svg"
 import { ReactComponent as CharginStation } from "../../assets/charging_station_tab_icon.svg"
+import { ReactComponent as MisLogo } from "../../assets/Mis.svg"
 import { Typography } from 'antd';
 import { connect } from 'react-redux'
 import { RoleBasedMainRoutes } from "../../connectm-client/roles/role-access"
@@ -110,7 +111,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                         <Typography.Text >B2B</Typography.Text>
                     </div> */}
                    {["ADMIN","MIS"].includes(this.state.userRole) && <div className={`tab-icons ${this.state.misClicked && ["ADMIN","MIS"].includes(this.state.userRole) ? "option-clicked" : ""}`}  onClick={() => this.misClicked("mis")}>
-                        <CharginStation width="40" height="40" />
+                        <MisLogo width="40" height="40" />
                         <Typography.Text style={{ color: 'white' }}>MIS</Typography.Text>
                     </div>}
                 </div>
