@@ -1,8 +1,35 @@
-.google-map-container{
-  height: 90%;
+.google-map-container {
+  height: 80%;
 }
 .back-arrow-button {
   margin: 0px 8px;
   height: 24px;
   width: 24px;
+}
+.map-filter-dropdown {
+  color: #a5b8ff;
+  min-width: 120px;
+  min-height: 32px;
+  border-bottom: 2px solid #a5b8ff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+.dashboard-subheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  .filters {
+    display: flex;
+    width: 60%;
+    justify-content: space-between;
+    align-items: center;
+    .icon-pair img{
+      margin-right: 25px;
+    }
+  }
 }

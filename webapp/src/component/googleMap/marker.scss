@@ -67,6 +67,11 @@
   animation-delay: 1.1s;
 }
 
+.ant-popover-inner-content{
+  background-color: #3D487D;
+  color: white;
+}
+
 @keyframes pulsate {
   0% {
     transform: scale(0.1, 0.1);
