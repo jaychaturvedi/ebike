@@ -6,7 +6,7 @@ import { ReduxQuickSightAction, ReduxQuickSightState, mapDispatchToProps, mapSta
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Divider } from 'antd';
 import BackArrowButton from '../../assets/png/back-arrow-button.png'
-
+import { ReactComponent as RefreshIcon } from "../../assets/Refresh.svg"
 interface QuickSightProps extends RouteComponentProps, ReduxQuickSightAction, ReduxQuickSightState {
 }
 
@@ -60,7 +60,7 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
   render() {
     return (
       <div className='container-quicksight' >
-         <div className="dashboard-header">
+        <div className="dashboard-header">
           <div className="dashboard-text">
             <Link to={"/mis"} className="link" >
               <img src={BackArrowButton} alt="back-arrow" className={"back-arrow-button"} />
@@ -68,7 +68,7 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
             {"DASHBOARDS"}
           </div>
           <div className="refresh-button" onClick={this.onRefresh}>
-            {"REFRESH"}
+            <RefreshIcon width="24" height="24" />
           </div>
         </div>
         <Divider style={{ background: "grey", margin: "10px 0" }} />
