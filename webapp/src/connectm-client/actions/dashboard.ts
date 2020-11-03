@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { State } from "../redux/connectm-state";
 
-type DashboardAction = "GET_DASHBOARD_LIST";
+type DashboardAction = "GET_DASHBOARD_LIST" | "CLEAR_DASHBOARD_LIST";
 
 export interface DashboardPayload {
 }
@@ -18,12 +18,15 @@ export function QuickSight(params: IDashboardAction) {
   }
 }
 export interface ReduxDashboardAction {
-  getDashboardList: (params: IDashboardAction) => IDashboardAction
+  getDashboardList: (params: IDashboardAction) => IDashboardAction,
+  clearDashboardList: (params: IDashboardAction) => IDashboardAction
+
 }
 
 export function mapDispatchToProps(dispatch: Dispatch): ReduxDashboardAction {
   return {
-    getDashboardList: (params: IDashboardAction) => dispatch(QuickSight(params))
+    getDashboardList: (params: IDashboardAction) => dispatch(QuickSight(params)),
+    clearDashboardList: (params: IDashboardAction) => dispatch(QuickSight(params))
   }
 }
 export interface ReduxDashboardState {
