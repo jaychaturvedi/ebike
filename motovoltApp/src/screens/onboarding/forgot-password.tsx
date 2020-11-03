@@ -146,7 +146,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
             backgroundColor={Colors.NAVY_BLUE}
             onPress={() => {
               if (!this.state.mobile || !this.isValidPhone(this.state.mobile)) {
-                Toast.show('Enter valid mobile number with country code');
+                Toast.show('Enter valid mobile number');
                 this.setState({
                   isValid: false,
                 });

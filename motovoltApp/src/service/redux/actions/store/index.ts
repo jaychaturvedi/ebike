@@ -65,8 +65,8 @@ export type Store_UpdateBike = {
         healthPer?: number,
         serviceDate?: string,
         motorPer?: number,
-        batteryPer?: number,
         petrolInLitre?: number,
+        batteryHealthPer?: number,
         type?: "CELLULAR" | "BLE" | null,
         batteries?: {
             [id: string]: {
@@ -83,6 +83,7 @@ export type Store_UpdateBike = {
         address?: string,
         co2SavingKg?: number,
         totalDistanceKm?: number,
+        caloriesBurnt?: number,
         avgRideScore?: number,
         greenMilesKm?: number,
         petrolSavingsLtr?: number,
@@ -116,7 +117,7 @@ export type Store_UpdateRide = {
         id: string,
         isRiding?: boolean,
         totalDistanceKm?: number,
-        durationSec?: number,
+        durationSec?: string,
         speedKmph?: number,
         avgSpeedKmph?: number,
         maxSpeedKmph?: number,

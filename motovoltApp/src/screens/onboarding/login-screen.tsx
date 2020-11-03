@@ -159,7 +159,7 @@ class Login extends React.PureComponent<Props, State> {
                 !this.state.userName ||
                 !this.isValidPhone(this.state.userName)
               ) {
-                Toast.show('Enter valid mobile number with country code');
+                Toast.show('Enter valid mobile number');
                 this.setState({
                   isValidPhone: false,
                 });

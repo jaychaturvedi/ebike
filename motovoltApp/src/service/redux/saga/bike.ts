@@ -95,6 +95,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     costRecoveredPer: Math.round(data.costRecovered || 0),
                     batteryChargePer: Math.round(data.batteryCharge || 0),
                     rangeCoveredKm: Math.round(data.rangeCovered || 0),
+                    caloriesBurnt: Math.round(data.caloriesBurnt || 0),
                     rangeAvailableKm: Math.round(data.rangeAvailable || 0),
                     isOn: Boolean(data.ignition),
                 }
@@ -115,7 +116,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     id: params.payload.bikeId,
                     name: data.bikeName,
                     motorPer: Math.round(data.motorPer || 0),
-                    batteryChargePer: Math.round(data.batteryChargePer || 0),
+                    batteryHealthPer: Math.round(data.batteryChargePer || 0),
                     healthPer: Math.round(data.batteryHealthPer || 0),
                     batteries: Object.assign({}, ...data.batteries.map((battery: any) => { return { [battery.id]: battery } })),
                     serviceDate: data.serviceDate,

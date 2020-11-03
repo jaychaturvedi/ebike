@@ -24,14 +24,14 @@ type State = {
   isMorning: boolean;
 };
 
-const beforeTime = Moment('06:00:00', 'HH:MM A');
-const afterTime = Moment('18:00:00', 'HH:MM A');
+const beforeTime = Moment('06:00:00', 'HH:mm A');
+const afterTime = Moment('18:00:00', 'HH:mm A');
 
 export default class RideCard extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      isMorning: Moment(this.props.fromTime, 'HH:MM A').isBetween(
+      isMorning: Moment(this.props.fromTime, 'HH:mm A').isBetween(
         beforeTime,
         afterTime,
       ),
@@ -59,8 +59,8 @@ export default class RideCard extends React.PureComponent<Props, State> {
             </View>
             <Text style={{...styles.headerText, color: Theme.TEXT_WHITE}}>
               {' '}
-              {Moment(this.props.fromTime).format('HH:MM A')} -{' '}
-              {Moment(this.props.toTime).format('HH:MM A')}
+              {Moment(this.props.fromTime).format('HH:mm A')} -{' '}
+              {Moment(this.props.toTime).format('HH:mm A')}
             </Text>
           </View>
           <View style={{flexDirection: 'row'}}>

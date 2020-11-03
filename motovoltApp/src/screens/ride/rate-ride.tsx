@@ -166,48 +166,6 @@ class RateRide extends React.PureComponent<Props, State> {
             />
           </View>
         </View>
-        {/* <TouchableWithoutFeedback
-            onPress={(event: GestureResponderEvent) => {
-              console.log('Pressed inside');
-              event.stopPropagation();
-            }}>
-            <View style={styles.button}>
-              <Feedback
-                onSubmit={() => {
-                  if (
-                    this.state.rating < 4 &&
-                    !(this.state.problem || this.state.description)
-                  ) {
-                    console.log('Submit clicked');
-                    this.setState({ showFeedback: true });
-                  } else {
-                    this.props.submitRide({
-                      type: 'SubmitRide',
-                      payload: {
-                        bikeId: this.props.user.defaultBikeId,
-                        rideId: this.props.ride.id,
-                        comment: this.state.description,
-                        rating: this.state.rating,
-                        reason: [this.state.problem],
-                      },
-                    });
-                    setTimeout(() => {
-                      this.props.onComplete();
-                    }, 1000);
-                    this.setState({ showThumpUp: true });
-                  }
-                }}
-                onFeedback={(problem, description) => {
-                  this.setState({
-                    problem: problem,
-                    description: description,
-                  });
-                }}
-                showFeedback={this.state.showFeedback}
-                submitDisabled={!this.state.rating}
-              />
-            </View>
-          </TouchableWithoutFeedback> */}
         <View style={styles.button}>
           <Button
             fullWidth
@@ -290,7 +248,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   usageDetails: {
-    height: moderateScale(350),
+    // height: moderateScale(350),
     padding: moderateScale(20),
   },
   rating: {
