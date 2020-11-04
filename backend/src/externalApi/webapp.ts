@@ -70,19 +70,22 @@ export default class WebAPI {
         return fetchedData
     }
 
+
   static async getDynamicSubGraph(
     vehicleId: string,
     alertId: number,
     alertTypeId: number,
     alertName: string,
-    timeStamp: string
+    timeStamp: string,
+    alertCode: string
     ) {
     const options = createOptions('/dynamic', {
       vehicleId,
       alertId,
       alertTypeId,
       alertName,
-      timeStamp
+      timeStamp,
+      alertCode
     })
     console.log("External API Start Time : ", new Date())
     const fetchedData = await post(options)

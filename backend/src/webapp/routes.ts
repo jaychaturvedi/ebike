@@ -205,18 +205,20 @@ app.get('/lowMileage',
     res.json(response)
   })
 )
+
 app.get('/graphs',
   [query("vehicleId", "vehicleId is invalid").isString(),
   query('alertTypeId', "alertTypeId is too short").toInt(),
   query('alertId', "alertId is too short").toInt(),
-  query('alertName', "alertName is too short").isString(), 
+  query('alertName', "alertName is too short").isString(),
+  query('alertCode', "alertCode is too short").isString(), 
   query('timeStamp', "timeStamp is too short").isString(),validate],
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
     console.log("Start API :", new Date())
-    const { vehicleId, alertId, alertName, alertTypeId,timeStamp } = req.query as any
-    const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName, timeStamp)
+    const { vehicleId, alertId, alertName, alertTypeId,timeStamp, alertCode } = req.query as any
+    const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName, timeStamp, alertCode)
     const response = createResponse("OK", result, undefined)
     console.log("End API :", new Date())
     res.json(response)
