@@ -57,3 +57,4 @@ export function getAlertTypeId(alertName: string) {
 // 7	High SOC - L1
 // 8	Excessive Temperature Difference L1
 // 9	Hall Sensor Fault
+// 10 Capacity Deterioration

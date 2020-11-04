@@ -23,21 +23,22 @@
 
     .tab-icons {
         &:hover {
-            border-left: 1px solid $ACTIVE !important;
+            border-right: 2px solid $ACTIVE !important;
             background-color: rgba($color: #eff0f9eb, $alpha: 0.4) !important;
+            cursor: pointer;
         }
 
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-bottom: 20%;
-        border-left: 1px solid $LEFT_PANEL_BACKGROUND;
+        border-right: 2px solid $LEFT_PANEL_BACKGROUND;
         height: 74px;
         justify-content: center;
     }
     .option-clicked {
-        border-left: 1px solid $ACTIVE !important;
-        background-color: rgba($color: #eff0f9eb, $alpha: 0.4) !important;
+        border-right: 2px solid $ACTIVE !important;
+        background-color: #4053B8 !important;
         height: 74px;
         justify-content: center;
     }

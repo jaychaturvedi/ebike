@@ -6,6 +6,9 @@ import { ReduxDashboardAction, ReduxDashboardState, mapDispatchToProps, mapState
 import { TDashboardList } from "../../connectm-client/redux/models"
 import { withRouter, RouteComponentProps } from "react-router";
 import { Card, Divider, Select } from 'antd';
+import BackArrowButton from '../../assets/png/back-arrow-button.png'
+import { ReactComponent as RefreshIcon } from "../../assets/Refresh.svg"
+import { Link } from 'react-router-dom';
 const { Option } = Select;
 const { Meta } = Card;
 
@@ -51,19 +54,37 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
   openMap = () => {
     this.props.history.push("/map");
   }
+
+  onRefresh = () => {
+    this.setState({
+      dataLoaded: false,
+      dashboardList: []
+    })
+    this.props.clearDashboardList({
+      type: "CLEAR_DASHBOARD_LIST",
+      payload: {}
+    })
+  }
+
   render() {
     return (
       <div className='container-quicksight' >
         <div className="dashboard-header">
           <div className="dashboard-text">
+            <Link to={"/mis"} className="link" >
+              <img src={BackArrowButton} alt="back-arrow" className={"back-arrow-button"} />
+            </Link>
             {"DASHBOARDS"}
+          </div>
+          <div className="refresh-button" onClick={this.onRefresh}>
+            <RefreshIcon width="24" height="24" />
           </div>
         </div>
         <Divider style={{ background: "grey", margin: "10px 0" }} />
         <div className="dashboard-card-container">
           <div className="dashboard-container">
             <Card
-             onClick={() => this.openMap()}
+              onClick={() => this.openMap()}
               className="dashboard-card"
               hoverable
               style={{ width: "auto" }}
@@ -74,7 +95,7 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
                 />
               }
             >
-              <Meta title={"MAP"} />
+              <Meta title={"Map View"} />
             </Card>
           </div>
           {this.state.dashboardList.map((dashboard: TDashboardList) => {

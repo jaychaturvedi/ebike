@@ -14,7 +14,7 @@ import {
 import { IAlertDetailActions, IPastAlertDetailActions, ISingleAlertDetailAction, IClearGraphActions } from "../actions/alert-detail";
 import { TAlertInsights, TPastAlert } from "../redux/models";
 import { getQuickSightUrl, clearQuickSightUrl } from "./quickSight";
-import { getDashboardList } from './dashboard'
+import * as Dashboard from './dashboard'
 import * as Map from './map'
 
 function* getAlertData(params: IAlertActions) {
@@ -209,7 +209,8 @@ function* actionWatcher() {
     yield takeLatest("CLEAR_ALERT_GRAPH", clearAlertGraph)
     yield takeLatest("UPDATE_USER", updateUser)
     yield takeLatest("GET_QUICKSIGHT_EMBED_URL", getQuickSightUrl)
-    yield takeLatest("GET_DASHBOARD_LIST", getDashboardList)
+    yield takeLatest("GET_DASHBOARD_LIST", Dashboard.getDashboardList)
+    yield takeLatest("CLEAR_DASHBOARD_LIST", Dashboard.clearDashboardList)
     yield takeLatest("CLEAR_QUICKSIGHT_EMBED_URL", clearQuickSightUrl)
     yield takeLatest("GET_MAP_MARKERS", Map.getMapMarkers)
 }

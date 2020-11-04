@@ -26,9 +26,22 @@
     }
 
     .dashboard-card {
-      box-shadow: 0 2px 3px 0 grey, 0 2px 6px 0 grey;
-      border: 1px solid #ccc;
+      border: 2px solid #3D487D;
       border-radius: 2px;
+      background: none;
+      .ant-card-body{
+        background-color: #3B477A;
+        padding: 4px;
+        .ant-card-meta-title{
+          color:#A5B8FF;
+          font-size: 14px;
+          border: none;
+        }
+      }
+      &:hover{
+        box-shadow: 0 2px 3px 0 grey, 0 2px 6px 0 grey;
+        // border: 2px solid #ccc;
+      }
     }
   }
 

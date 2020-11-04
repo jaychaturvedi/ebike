@@ -115,6 +115,7 @@ export default class WebAPI {
     }
       
     static async getCustomerLiveLocations(customerId: string) {
+      console.log("External API Start Time: ", new Date())
       const options = {
         uri: "https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra/custlivelocation",
         body: { custId: customerId},
@@ -122,6 +123,7 @@ export default class WebAPI {
         json: true
       };
       const fetchedData = await post(options)
+      console.log("External API End Time : ", new Date())
       return fetchedData
     }
 

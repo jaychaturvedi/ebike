@@ -353,9 +353,9 @@ app.get('/customerLiveLocation/:customerId',
     res: Express.Response,
     next: Express.NextFunction) => {
     const result = await WebAPI.getCustomerLiveLocations(req.params.customerId as string)
-    if (result[0].st==="false"){
-      throw new Error("No data available for customerId")
-    }
+    // if (result[0].st==="false"){
+    //   throw new BadRequestError("No data available for customerId")
+    // }
     const response = createResponse("OK", result, undefined)
     res.json(response)
   })

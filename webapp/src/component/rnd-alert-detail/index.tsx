@@ -130,7 +130,11 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                 </div>
                 <div className={"connectm-alert-detail-container"}>
                     <div className={"alert-top-container"}>
-                        <AlertDetailSingle alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.alertCleared} />
+                        <AlertDetailSingle
+                          alertId={this.state.alertId}
+                          alertType={this.state.alertType}
+                          alertCleared={this.alertCleared}
+                        />
                         <AlertGraph
                           alertName={this.state.alert.alertName}
                           clearAlertState={this.getAlertClearedState}
@@ -145,15 +149,22 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                             <div className={"connectm-header"}>
                                 <Typography.Text style={{ color: "#ffffff" }} strong className="additional-insights-text">ADDITIONAL INSIGHTS</Typography.Text>
                             </div>
-                            <AlertInsights alertId={this.state.alertId} alertType={this.state.alertType} />
+                            <AlertInsights 
+                              alertId={this.state.alertId} 
+                              alertType={this.state.alertType} 
+                            />
                         </div>
                         <div className={"alert-bottom-content-right"}>
                             {/* <div className={"connectm-header"}>
                                 <Typography.Text style={{ color: "#ffffff" }} strong>PAST ALERTS</Typography.Text>
                             </div> */}
-                            <AlertPastTable alertId={this.state.alertId} alertType={this.state.alertType} alertCleared={this.state.alertCleared}
-                                alertName={this.state.alert.alertName}
-                                vehicleId={this.state.alert.frameId} />
+                            <AlertPastTable 
+                              alertId={this.state.alertId} 
+                              alertType={this.state.alertType} 
+                              alertCleared={this.state.alertCleared}
+                              alertName={this.state.alert.alertName}
+                              vehicleId={this.state.alert.frameId} 
+                            />
                         </div>
                     </div>
                 </div>
