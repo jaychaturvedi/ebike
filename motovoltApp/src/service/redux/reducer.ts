@@ -22,6 +22,9 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 ride: {
                     ...ZeroRide,
+                },
+                speedometer: {
+                    ...ZeroSpeedometer
                 }
             }
         case "Store_ResetStats":
