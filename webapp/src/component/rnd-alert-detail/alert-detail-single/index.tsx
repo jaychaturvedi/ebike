@@ -147,7 +147,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Vehicle ID:</div>
-                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>{this.state.alert.frameId}</Link></div>
+                    <div className={"single-cell-right"}>{this.state.alert.frameId}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Model:</div>
@@ -159,11 +159,11 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Battery ID:</div>
-                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>{this.state.alert.batteryId}</Link></div>
+                    <div className={"single-cell-right"}>{this.state.alert.batteryId}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Customer ID:</div>
-                    <div className={"single-cell-right"}><Link to={""} className={"detail-link"}>{this.state.alert.customerId}</Link></div>
+                    <div className={"single-cell-right"}>{this.state.alert.customerId}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Location:</div>

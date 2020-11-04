@@ -61,6 +61,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
             })
         }
         state.alert = state.alert === undefined ? alertLimpData() : props.alerts[state.alertType][state.alertId]
+        console.log("component rnd alert detail props & state",props.alerts, state);
         return state
     }
 
@@ -118,11 +119,6 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
     render() {
         return (
             <div className="connectm-AlertDetail">
-                {/* <Breadcrumb separator=">" className={"connectm-breadcrum"}>
-                    <Breadcrumb.Item href=""><Link to={"/alerts"} className="link" onClick={this.goToHome}>Home</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item href="" ><Link to={"/alerts"} className="link" onClick={this.goToAlert}><span>{this.state.activeAlertType}</span></Link></Breadcrumb.Item>
-                    <Breadcrumb.Item href={""} ><span className={"breadcrum-active"}>Alert Details</span></Breadcrumb.Item>
-                </Breadcrumb> */}
                 <div className={"connectm-breadcrum"}>
                     <Link to={"/alerts"} className="link" onClick={this.goToAlert}>
                         <img src={BackArrowButton} alt="back-arrow" className={"back-arrow-button"} />
@@ -142,6 +138,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                           alertCleared={this.state.alertCleared}
                           alertId={Number(this.state.alertId)}
                           alertDate={this.state.alert.alertTime}
+                          alertCode={this.state.alert.alertCode}
+                          alertTypeId={this.state.alert.alertTypeId}
+                          key={Number(this.state.alertId)}
                         />
                     </div>
                     <div className={"alert-bottom-container"}>
@@ -163,7 +162,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                               alertType={this.state.alertType} 
                               alertCleared={this.state.alertCleared}
                               alertName={this.state.alert.alertName}
-                              vehicleId={this.state.alert.frameId} 
+                              vehicleId={this.state.alert.frameId}
+                              alertCode={this.state.alert.alertCode}
+                              alertTypeId={this.state.alert.alertTypeId} 
                             />
                         </div>
                     </div>
