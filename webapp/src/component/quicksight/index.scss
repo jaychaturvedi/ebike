@@ -26,14 +26,14 @@
     }
 
     .dashboard-card {
-      border: 2px solid #3D487D;
+      border: 2px solid #3d487d;
       border-radius: 2px;
       background: none;
-      .ant-card-body{
-        background-color: #3B477A;
+      .ant-card-body {
+        background-color: #3b477a;
         padding: 4px;
-        .ant-card-meta-title{
-          color:#A5B8FF;
+        .ant-card-meta-title {
+          color: #a5b8ff;
           font-size: 14px;
           border: none;
         }
@@ -47,6 +47,23 @@
 
   .refresh-button {
     cursor: pointer;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .refresh-start {
+    animation-name: rotate;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-play-state: running;
   }
 
   // display: flex;

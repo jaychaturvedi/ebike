@@ -12,7 +12,8 @@ interface QuickSightProps extends RouteComponentProps, ReduxQuickSightAction, Re
 
 interface QuickSightState {
   quickSightUrl: string,
-  dataLoaded: boolean
+  dataLoaded: boolean,
+  refreshing:boolean
 }
 
 
@@ -21,7 +22,8 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
     super(props)
     this.state = {
       quickSightUrl: "",
-      dataLoaded: false
+      dataLoaded: false,
+      refreshing:false
     }
   }
 
@@ -52,9 +54,14 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
 
   onRefresh = () => {
     this.setState({
+      refreshing: true,
       dataLoaded: false,
     })
-    this.forceUpdate()
+    setTimeout(() => {
+      this.setState({
+        refreshing: false
+      })
+    }, 1500)  
   }
 
   render() {
@@ -68,7 +75,7 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
             {"DASHBOARDS"}
           </div>
           <div className="refresh-button" onClick={this.onRefresh}>
-            <RefreshIcon width="24" height="24" />
+            <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"}/>
           </div>
         </div>
         <Divider style={{ background: "grey", margin: "10px 0" }} />
