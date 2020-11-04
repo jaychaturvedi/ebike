@@ -155,7 +155,7 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                 type: 'Store_SetGraphdata',
                 payload: {
                     data: data.graphData.map((gData: any) => ({
-                        value: gData.speed,
+                        value: gData.dist,
                         date: gData.date
                     })),
                     avgKmph: data.graphData.length ? Math.round(data.graphData[0].avgkmph || 0) : 0,

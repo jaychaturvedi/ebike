@@ -185,13 +185,13 @@ class RideOn extends React.PureComponent<Props, State> {
             <Metrics
               hideShadow
               batteryCharge={Math.round(
-                Number(this.props.bike.batteryChargePer),
+                Number(this.props.speedometer.batteryChargePer),
               ).toString()}
               rangeAvailable={Math.round(
-                Number(this.props.bike.rangeAvailableKm),
+                Number(this.props.speedometer.rangeAvailable),
               ).toString()}
               rangeCovered={Math.round(
-                Number(this.props.bike.rangeCoveredKm),
+                Number(this.props.speedometer.rangeCovered),
               ).toString()}
             />
           </View>
