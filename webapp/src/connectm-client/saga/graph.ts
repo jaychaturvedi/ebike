@@ -1,5 +1,6 @@
 import { IAlertGraphActions } from "../actions/graph"
 import axios from "axios"
+import { call, put } from "redux-saga/effects"
 
 export type Store_AlertGraph = {
     type: "STORE_ALERT_GRAPH",
@@ -7,6 +8,21 @@ export type Store_AlertGraph = {
         alertTypeId: number,
         data: any
     }
+}
+
+export function* getAlertGraphDatas(params: IAlertGraphActions) {
+  try {
+      const data = yield call(getAlertGraphData, params)
+      yield put({
+          type: "STORE_ALERT_GRAPH",
+          payload: {
+              alertTypeId: params.payload.alertTypeId,
+              data: data
+          }
+      } as Store_AlertGraph)
+  } catch (error) {
+      console.log("error", error)
+  }
 }
 
 export async function getAlertGraphData(params: IAlertGraphActions) {
@@ -37,7 +53,8 @@ async function getGraphData(params: IAlertGraphActions) {
                     alertId: params.payload.alertId,
                     alertName: params.payload.alertName,
                     alertTypeId: params.payload.alertTypeId,
-                    timeStamp:params.payload.timeStamp
+                    timeStamp: params.payload.timeStamp,
+                    alertCode: params.payload.alertCode
                 }
             }
         )

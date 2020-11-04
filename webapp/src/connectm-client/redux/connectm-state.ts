@@ -117,7 +117,10 @@ export function alertLimpData() {
         mfgDate: "N/A",
         model: "N/A",
         openSince: "N/A",
-        alertCode:"N/A"
+        alertCode:"N/A",
+        alertTypeId:-1,
+        alertType:"N/A",
+        alarmValue:"N/A"
     }
     return alert;
 }

@@ -28,18 +28,21 @@ export interface User {
 }
 ////////////////////////////////////Alerts//////////////////////////////////////
 export interface AlertData {
-    alertId: number,
-    alertName: string,
-    mfgDate: string,
-    batteryId: string,
-    customerId: string,
-    model: string,
-    frameId: string,
-    alertTime: string,
-    openSince: string,    // hh:mm
-    Severity: number // 1 means RED, 2 means Orange, 3 means Yellow
-    location: string,
-    alertCode:string;
+  alertTypeId: number;
+  frameId: string;
+  batteryId: string;
+  customerId: string;
+  model: string;
+  mfgDate: string;
+  location: string;
+  alertTime: string;
+  alertId: number;
+  openSince: string;
+  alarmValue:string;
+  alertName: string;
+  alertCode: string;
+  alertType:string;
+  Severity: number;// 1 means RED, 2 means Orange, 3 means Yellow
 }
 
 export interface Alert {
