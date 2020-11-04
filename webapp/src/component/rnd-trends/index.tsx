@@ -5,7 +5,7 @@ import { TtrendTotalAlerts, TtrendLocationWise, TtrendTop5Alert } from "../../co
 import React, { PureComponent } from 'react';
 import moment from "moment";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, Brush,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, Brush, Tooltip,
 } from 'recharts';
 import { ReduxAlertTrendActions, ReduxAlertTrendState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/trends"
 import { connect } from 'react-redux';
@@ -66,8 +66,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       })
       state.reload = false;
     }
-
-    console.log(props.trendTotalAlert, "get my aalert", props.trendLocationWise);
     state.totalAlerts = props.trendTotalAlert.sort((a: any, b: any): any => {
       return a["date"] > b["date"] ? b["date"] : a["date"]
     })
@@ -78,12 +76,13 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       })
     }
     state.locationWiseAlerts = {
-      lines: props.trendLocationWise.lines, data: props.trendLocationWise.data.sort((a: any, b: any): any => {
+      lines: props.trendLocationWise.lines,
+      data: props.trendLocationWise.data.sort((a: any, b: any): any => {
         return a["date"] - b["date"] ? b["date"] : a["date"]
       })
     }
     state.zoom = props.trendsZoom
-    console.log(props.trendsZoom, "trends zoom");
+    console.log("component rnd trends props and states", props, state);
     return state
   }
 
@@ -156,6 +155,24 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     })
   }
 
+  CustomTooltip = (obj: any) => {
+    const { label, payload, active } = obj;
+    if (!active || !label || !payload) return label;
+    const style = { top: obj?.viewBox.y - 30, color: "#5FBDE0", zIndex: 10 };
+    if (active) {
+      return (
+        <div className="custom-tooltip" style={style}>
+          {
+            payload?.length ? payload.map((element: any) => {
+              return <p className="label">{`${element?.name}`} : <b>{`${element?.value}`}</b></p>
+            }) : ""
+          }
+        </div>
+      );
+    }
+    return null;
+  };
+
   render() {
     return <div className="connectm-RandDTrends">
       <div className="trends-header">
@@ -204,10 +221,14 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             minTickGap={1}
             tickFormatter={(label) => this.formatDate(label)}
           />
-          {/* <Tooltip /> */}
+          <Tooltip
+            offset={-17}
+            content={this.CustomTooltip}
+            cursor={{ fill: "transparent", top: 0, }}
+          />
           <YAxis
             type="number"
-            domain={[0, 100]}
+            // domain={[0, 'dataMax']}
             tick={{ fill: 'white' }}
             stroke='#131731'
           />
@@ -254,55 +275,70 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             iconSize={5}
             wrapperStyle={{ width: '100%', marginLeft: "20%" }}
           />
+          <Tooltip
+            offset={-17}
+            content={this.CustomTooltip}
+            cursor={{ fill: "transparent", top: 0, }}
+          />
           <YAxis
             type="number"
-            domain={[0, 100]}
+            // domain={[0, 100]}
             tick={{ fill: 'white' }}
             stroke='#131731'
           />
-          <Line
-            name={this.state.top5Alerts.lines.alert1}
-            type="monotone"
-            dataKey="alert1count"
-            stroke="#EB8E27"
-            strokeWidth={2}
-            dot={false}
-          />
-          <Line
-            name={this.state.top5Alerts.lines.alert2}
-            type="monotone"
-            dataKey="alert2count"
-            stroke="#80F0FA"
-            strokeWidth={2}
-            isAnimationActive={true}
-            animationEasing={'ease-in-out'}
-            animationDuration={100}
-            dot={false}
-          />
-          <Line
-            name={this.state.top5Alerts.lines.alert3}
-            type="monotone"
-            dataKey="alert3count"
-            stroke="#5280EF"
-            strokeWidth={2}
-            dot={false}
-          />
-          <Line
-            name={this.state.top5Alerts.lines.alert4}
-            type="monotone"
-            dataKey="alert4count"
-            stroke="#89ED72"
-            strokeWidth={2}
-            dot={false}
-          />
-          <Line
-            name={this.state.top5Alerts.lines.alert5}
-            type="monotone"
-            dataKey="alert5count"
-            stroke="#B7413E"
-            strokeWidth={2}
-            dot={false}
-          />
+          {this.state.top5Alerts.lines.alert1 &&
+            <Line
+              name={this.state.top5Alerts.lines.alert1}
+              type="monotone"
+              dataKey="alert1count"
+              stroke="#EB8E27"
+              strokeWidth={2}
+              dot={false}
+            />
+          }
+          {this.state.top5Alerts.lines.alert2 &&
+            <Line
+              name={this.state.top5Alerts.lines.alert2}
+              type="monotone"
+              dataKey="alert2count"
+              stroke="#80F0FA"
+              strokeWidth={2}
+              isAnimationActive={true}
+              animationEasing={'ease-in-out'}
+              animationDuration={100}
+              dot={false}
+            />
+          }
+          {this.state.top5Alerts.lines.alert3 &&
+            <Line
+              name={this.state.top5Alerts.lines.alert3}
+              type="monotone"
+              dataKey="alert3count"
+              stroke="#5280EF"
+              strokeWidth={2}
+              dot={false}
+            />
+          }
+          {this.state.top5Alerts.lines.alert4 &&
+            <Line
+              name={this.state.top5Alerts.lines.alert4}
+              type="monotone"
+              dataKey="alert4count"
+              stroke="#89ED72"
+              strokeWidth={2}
+              dot={false}
+            />
+          }
+          {this.state.top5Alerts.lines.alert5 &&
+            <Line
+              name={this.state.top5Alerts.lines.alert5}
+              type="monotone"
+              dataKey="alert5count"
+              stroke="#B7413E"
+              strokeWidth={2}
+              dot={false}
+            />
+          }
         </LineChart>
       </ResponsiveContainer>
 
@@ -333,34 +369,45 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             wrapperStyle={{ width: '80%', paddingRight: '50px' }}
           />
           <YAxis type="number"
-            domain={[0, 100]}
+            // domain={[0, 100]}
             tick={{ fill: 'white' }}
             stroke='#131731'
           />
-          <Line
-            name={this.state.locationWiseAlerts.lines.loc1}
-            type="monotone"
-            dataKey="loc1count"
-            stroke="#EB8E27"
-            strokeWidth={2}
-            dot={false}
+          <Tooltip
+            offset={-17}
+            content={this.CustomTooltip}
+            cursor={{ fill: "transparent", top: 0, }}
           />
-          <Line
-            name={this.state.locationWiseAlerts.lines.loc2}
-            type="monotone"
-            dataKey="loc2count"
-            stroke="#80F0FA"
-            strokeWidth={2}
-            dot={false}
-          />
-          <Line
-            name={this.state.locationWiseAlerts.lines.loc3}
-            type="monotone"
-            dataKey="loc3count"
-            stroke="#89ED6F"
-            strokeWidth={2}
-            dot={false}
-          />
+          {this.state.locationWiseAlerts.lines.loc1 &&
+            <Line
+              name={this.state.locationWiseAlerts.lines.loc1}
+              type="monotone"
+              dataKey="loc1count"
+              stroke="#EB8E27"
+              strokeWidth={2}
+              dot={false}
+            />
+          }
+          {this.state.locationWiseAlerts.lines.loc2 &&
+            <Line
+              name={this.state.locationWiseAlerts.lines.loc2}
+              type="monotone"
+              dataKey="loc2count"
+              stroke="#80F0FA"
+              strokeWidth={2}
+              dot={false}
+            />
+          }
+          {this.state.locationWiseAlerts.lines.loc3 &&
+            <Line
+              name={this.state.locationWiseAlerts.lines.loc3}
+              type="monotone"
+              dataKey="loc3count"
+              stroke="#89ED6F"
+              strokeWidth={2}
+              dot={false}
+            />
+          }
         </LineChart>
       </ResponsiveContainer>
     </div>
