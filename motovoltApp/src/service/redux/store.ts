@@ -185,7 +185,7 @@ export const ZeroRide: TRide = {
     isStale: true,
     isRiding: false,
     totalDistanceKm: 0,
-    durationSec: "",
+    durationSec: "00:00:00",
     speedKmph: 0,
     avgSpeedKmph: 0,
     maxSpeedKmph: 0,

@@ -8,7 +8,7 @@ export default class Background extends React.Component {
     return (
       <View
         style={{
-          height: '100%',
+          height: '40%',
           width: '100%',
           backgroundColor: Theme.BACKGROUND, //change dark theme
           position: 'absolute',
@@ -17,8 +17,10 @@ export default class Background extends React.Component {
           source={require('../assets/images/yellow_bg.png')}
           style={{
             width: Dimensions.get('window').width,
+            height: "100%",
           }}
-          resizeMode={'contain'}
+          resizeMethod={"resize"}
+          resizeMode={'stretch'}
         />
         {/* <View style={{ height: '45%', backgroundColor: '#FFC40F', justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ ...styles.triangle, borderBottomColor: Theme.BACKGROUND }}>

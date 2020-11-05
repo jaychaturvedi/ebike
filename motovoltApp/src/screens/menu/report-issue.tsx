@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     shadowColor: 'black',
     shadowOffset: {height: 1, width: 1},    
-    elevation: 2  
+    elevation: 3  
   },
   profileInfo: {
     marginVertical: verticalScale(8),
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     shadowColor: 'black',
     shadowOffset: {height: 1, width: 1},  
-    elevation: 2    
+    elevation: 3    
   },
   info: {
     height: moderateScale(100),
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     shadowColor: 'black',
     shadowOffset: {height: 1, width: 1},   
-    elevation: 2   
+    elevation: 3   
   },
   textArea: {
     borderRadius: moderateScale(15),

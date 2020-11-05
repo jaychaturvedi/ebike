@@ -65,7 +65,7 @@ export default class MetricTile extends React.PureComponent<
                 shadowRadius: 1,
                 shadowColor: 'black',
                 shadowOffset: {height: 1, width: 1},
-                elevation: 2  
+                elevation: 3  
               }),
           backgroundColor: Theme.BACKGROUND_LIGHT, //change dark theme
         }}>

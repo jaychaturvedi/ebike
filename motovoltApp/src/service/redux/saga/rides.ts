@@ -48,7 +48,7 @@ export function* endRide(params: RideActions.EndRide) {
                 payload: {
                     id: data.rideId,
                     totalDistanceKm: Math.round(data.distance || 0),
-                    durationSec: String(data.duration || ""),
+                    durationSec: String(data.duration || "00:00:00"),
                     avgSpeedKmph: Math.round(data.averageSpeed || 0),
                     maxSpeedKmph: Math.round(data.maxSpeed || 0),
                     caloriesBurnt: Math.round(data.caloriesBurnt || 0),
