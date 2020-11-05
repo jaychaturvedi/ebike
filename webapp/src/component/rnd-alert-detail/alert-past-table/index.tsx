@@ -23,6 +23,8 @@ interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailS
   alertCleared: boolean,
   alertName: string,
   vehicleId: string,
+  alertTypeId:number,
+  alertCode:string
 }
 
 interface AlertPastTableStates {
@@ -191,19 +193,20 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
         }
       }
     })
-    let alertTypeId: number
+    // let alertTypeId: number
     console.log("Got alert graph request", record)
     if (this.props.alertName !== undefined && this.state.selectedRowId === -1) {
-      alertTypeId = getAlertTypeId(this.props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
-      if (this.state.graphDataLoaded === false || alertTypeId !== this.state.selectedRowId) {
+      // alertTypeId = getAlertTypeId(this.props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
+      if (this.state.graphDataLoaded === false || this.props.alertTypeId !== this.state.selectedRowId) {
         this.props.getPastAlertGraph({
           type: "GET_ALERT_GRAPH",
           payload: {
             alertId: this.state.graphDataLoaded ? this.state.selectedRowId : this.props.alertId as any as number,
             vehicleId: this.props.vehicleId,
             alertName: this.props.alertName,
-            alertTypeId: alertTypeId,
-            timeStamp: record.alertTime
+            alertTypeId: this.props.alertTypeId,
+            timeStamp: record.alertTime,
+            alertCode:this.props.alertCode
           }
         })
       }

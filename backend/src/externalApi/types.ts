@@ -179,19 +179,21 @@ export type TRequestBody = {
 
 //webapp graph types
 export type TDashboardData = {
-    alertName: string;
-    model: string;
-    alertId: number;
-    mfgDate: string;
-    batteryId: string;
-    alertType:string;
-    customerId: string;
-    frameId: string;
-    alertTime: string;
-    location: string;
-    openSince: string;
-    Severity: number;
-    alarmValue:string;
+  alertTypeId: number;
+  frameId: string;
+  batteryId: string;
+  customerId: string;
+  model: string;
+  mfgDate: string;
+  location: string;
+  alertTime: string;
+  alertId: number;
+  openSince: string;
+  alarmValue:string;
+  alertName: string;
+  alertCode: string;
+  alertType:string;
+  Severity: number;// 1 means RED, 2 means Orange, 3 means Yellow
 }
 
 export type TDashboard = {

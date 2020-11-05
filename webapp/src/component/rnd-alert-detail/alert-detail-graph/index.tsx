@@ -19,6 +19,8 @@ interface AlertGraphProps extends ReduxAlertGraphActions, ReduxAlertGraphState {
     vehicleId?: string,
     alertDate: string,
     alertCleared?: boolean,
+    alertTypeId:number,
+    alertCode:string,
     clearAlertState: Function
 }
 
@@ -42,25 +44,26 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
     }
 
     static getDerivedStateFromProps(props: AlertGraphProps, state: AlertGraphStates) {
-        let alertTypeId: number
+        // let alertTypeId: number
         if (props?.alertName !== undefined) {
-            alertTypeId = getAlertTypeId(props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
-            if (state.dataLoaded === false || alertTypeId !== state.alertTypeId) {
+            // alertTypeId = getAlertTypeId(props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
+            if (state.dataLoaded === false || props.alertTypeId !== state.alertTypeId) {
                 props.getAlertGraph({
                     type: "GET_ALERT_GRAPH",
                     payload: {
                         alertId: props.alertId!,
                         vehicleId: props.vehicleId!,
                         alertName: props.alertName!,
-                        alertTypeId: alertTypeId,
-                        timeStamp: props.alertDate
+                        alertTypeId: props.alertTypeId,
+                        timeStamp: props.alertDate,
+                        alertCode: props.alertCode
                     }
                 })
                 state.dataLoaded = true
             }
-            state.alertTypeId = alertTypeId
+            state.alertTypeId = props.alertTypeId
         }
-        console.log("component alert detail graph props", props);
+        console.log("component alert detail graph props and state", props,state);
         state.data = props.graphs[state.alertTypeId!]
         // state.data = lowMileageData
         return state
@@ -85,7 +88,8 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           data={this.state.data}
           dataKey="timeDate"
           title="Vehicle Usage (Active Vs Idle):"
-          xAxisLabel="Days" yAxisLabel="Usage (in Hrs)"
+          xAxisLabel="Days" 
+          yAxisLabel="Usage (in Hrs)"
           alertCleared={this.props.alertCleared}
           alertDate={this.props.alertDate}
           bar1Key="activeTime"
@@ -93,7 +97,9 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           bar1Name="Active Time"
           bar2Name="Idle Time"
           bar1StrokeColor="#8599FE"
-          bar2StrokeColor="#5A5BA0" L1={false} />
+          bar2StrokeColor="#5A5BA0" 
+          L1={false} 
+        />
       }
       case 3: {
         return <DoubleLineGraph
@@ -112,7 +118,8 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           line2StrokeColor="#f3cd58"
           refColor="green"
           xAxisLabel="Time"
-          yAxisLabel="Temperature (`C)" />
+          yAxisLabel="Temperature (`C)" 
+        />
       }
       case 4: {
         return <SingleLineGraph
@@ -135,100 +142,120 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
         return <DualAxisLineGraph
           title="Charging Temperature Trend"
           dataKey="timeDate"
-          data={this.state.data}
           L1={true}
           line1Key="current"
           line2Key="chargingTemp"
-          alertDate={this.props.alertDate}
           line1Name='Current'
           line2Name='Charging Temperature (T1 or T2)'
           line1StrokeColor="#D48D4F"
           line2StrokeColor="#4aa7cf"
-          alertCleared={this.props.alertCleared}
           refColor="green"
           xAxisLabel="Time"
           yAxisLabel="Temperature `C"
-          rightYaxisLabel="Current (A)" />
+          rightYaxisLabel="Current (A)" 
+          data={this.state.data}
+          alertCleared={this.props.alertCleared}
+          alertDate={this.props.alertDate}
+        />
       }
       case 6: {
         return <SingleLineGraph
-          data={this.state.data}
-          dataKey="timeDate" L1={true}
           title="Charging Current Trend"
-          alertDate={this.props.alertDate}
+          dataKey="timeDate" 
+          L1={true}
           line1Key="chargOverCurnt"
           line1Name='Charge Over Current'
-          refColor="#e3e6e8"
           line1StrokeColor="#4aa7cf"
+          refColor="#e3e6e8"
           xAxisLabel="Time"
           yAxisLabel="Current (A)"
+          data={this.state.data}
+          alertDate={this.props.alertDate}
           alertCleared={this.props.alertCleared}
         />
       }
       case 7: {
         return <SingleLineGraph 
-        data={this.state.data} 
-        dataKey="timeDate" L1={true} 
-        title="Soc Trend"
-          line1Key="soc" 
-          line1Name="Soc" 
-          refColor="#e3e6e8" 
+          title="Soc Trend"
+          dataKey="timeDate"
+          L1={true}
+          line1Key="soc"
+          line1Name="Soc"
+          line1StrokeColor="#4aa7cf"
+          refColor="#e3e6e8"
+          xAxisLabel="Time"
+          yAxisLabel="SOC"
+          data={this.state.data}
           alertDate={this.props.alertDate}
-          line1StrokeColor="#4aa7cf" 
-          xAxisLabel="Time" 
-          yAxisLabel="SOC" 
           alertCleared={this.props.alertCleared}
         />
       }
       case 8: {
         return <SingleLineGraph 
-          data={this.state.data} 
-          dataKey="timeDate" L1={true}
           title="Battery Temperature Difference Trend" 
-          alertDate={this.props.alertDate}
+          dataKey="timeDate" 
+          L1={true}
           line1Key="deltaTemp" 
           line1Name="Delta Temperature (T1-T2)" 
-          refColor="#e3e6e8"
           line1StrokeColor="#4aa7cf" 
+          refColor="#e3e6e8"
           xAxisLabel="Time" 
           yAxisLabel="Temperature (`C)" 
+          data={this.state.data} 
+          alertDate={this.props.alertDate}
           alertCleared={this.props.alertCleared}
         />
       }
       case 9: {
         return <SingleLineGraph 
-          data={this.state.data} 
-          dataKey="timeDate" 
           title="Speed Trend"
+          dataKey="timeDate" 
+          L1={false} 
           line1Key="speed" 
           line1Name="Average Speed" 
-          refColor="#e3e6e8" 
-          L1={false} 
-          alertDate={this.props.alertDate}
           line1StrokeColor="#4aa7cf" 
+          refColor="#e3e6e8" 
           xAxisLabel="Time" 
           yAxisLabel="Speed (Km)" 
+          data={this.state.data} 
+          alertDate={this.props.alertDate}
           alertCleared={this.props.alertCleared}
         />
       }
       case 10: {
         return <DoubleLineGraph 
-          data={this.state.data} 
+          title="Low Mileage"
           dataKey="nocycles" 
+          L1={false} 
+          L2={false} 
           line1Key="amilage" 
           line2Key="smilage" 
-          title="Low Mileage"
+          line1Name='Specified Mileage'
           line2Name='Actual Mileage' 
-          line1Name='Specified Mileage' 
           line1StrokeColor="#79a45b" 
           line2StrokeColor="#4aa7cf" 
-          alertDate={this.props.alertDate}
           refColor="green" 
           xAxisLabel="No of Cycles" 
           yAxisLabel="Mileage (Km)" 
-          L1={false} 
-          L2={false} 
+          data={this.state.data} 
+          alertDate={this.props.alertDate}
           alertCleared={this.props.alertCleared} />
+      }
+      case 999: {
+        return <SingleLineGraph 
+          title={this.props.alertName!}
+          dataKey="timeDate"
+          L1={false}
+          line1Key="value" 
+          line1Name={this.state.data?.length?this.state.data[0]["param"]:"common alerts"}
+          line1StrokeColor="#4aa7cf" 
+          refColor="#e3e6e8"
+          xAxisLabel="Time"
+          yAxisLabel={this.state.data?.length?this.state.data[0]["param"]:"Y Axis"}
+          data={this.state.data} 
+          alertDate={this.props.alertDate}
+          alertCleared={this.props.alertCleared}
+        />
       }
       default: {
         return <div>No graph available for alert name</div>

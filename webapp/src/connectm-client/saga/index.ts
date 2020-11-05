@@ -6,7 +6,8 @@ import { getAlerts, updateAlertTabChange, updateAlertFilterChange, Store_AlertUp
 import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, updateAlertTrend } from "./trends"
 import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
-import { getAlertGraphData, Store_AlertGraph } from "./graph";
+import {  Store_AlertGraph } from "./graph";
+import * as Graphs from "./graph"
 import {
     Store_AlertInsights, getAlertInsight, postAlertClearanceComment, getPastAlertGraphData,
     getPastAlertData, Store_PastAlert, updatePastAlertData, getSingleAlertDetail, Store_UpdateSingleAlert, postClearAlertGraph
@@ -117,22 +118,6 @@ function* updatePastAlertDatas(params: IPastAlertDetailActions) {
     yield call(updatePastAlertData, params)//
 }
 
-function* getAlertGraphDatas(params: IAlertGraphActions) {
-    try {
-        const data = yield call(getAlertGraphData, params)
-        yield put({
-            type: "STORE_ALERT_GRAPH",
-            payload: {
-                alertTypeId: params.payload.alertTypeId,
-                data: data
-            }
-        } as Store_AlertGraph)
-    } catch (error) {
-        console.log("error", error)
-    }
-}
-
-
 function* getPastAlertGraphDatas(params: IAlertGraphActions) {
     try {
         const data = yield call(getPastAlertGraphData, params)
@@ -202,7 +187,7 @@ function* actionWatcher() {
     yield takeLatest("GET_PAST_ALERTS", getPastAlertDatas)
     yield takeLatest("UPDATE_PAST_ALERTS", updatePastAlertDatas)
     yield takeLatest("UPDATE_ALERT_TRENDS", updateAlertTrend)
-    yield takeLatest("GET_ALERT_GRAPH", getAlertGraphDatas)
+    yield takeLatest("GET_ALERT_GRAPH", Graphs.getAlertGraphDatas)
     yield takeLatest("GET_PAST_ALERT_GRAPH", getPastAlertGraphDatas)
     yield takeLatest("GET_SINGLE_ALERT", getSingleAlertDetails)
     yield takeLatest("RESET_ALERT_MAIN_PAGE", resetAlertDataStore)

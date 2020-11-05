@@ -17,7 +17,8 @@ interface DashboardProps extends RouteComponentProps, ReduxDashboardAction, Redu
 
 interface DashboardState {
   dashboardList: TDashboardList[],
-  dataLoaded: boolean
+  dataLoaded: boolean,
+  refreshing: boolean
 }
 
 class Dashboard extends PureComponent<DashboardProps, DashboardState> {
@@ -25,7 +26,8 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
     super(props)
     this.state = {
       dashboardList: [],
-      dataLoaded: false
+      dataLoaded: false,
+      refreshing: false
     }
   }
 
@@ -57,6 +59,7 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
 
   onRefresh = () => {
     this.setState({
+      refreshing: true,
       dataLoaded: false,
       dashboardList: []
     })
@@ -64,6 +67,11 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
       type: "CLEAR_DASHBOARD_LIST",
       payload: {}
     })
+    setTimeout(() => {
+      this.setState({
+        refreshing: false
+      })
+    }, 1500)
   }
 
   render() {
@@ -77,7 +85,7 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
             {"DASHBOARDS"}
           </div>
           <div className="refresh-button" onClick={this.onRefresh}>
-            <RefreshIcon width="24" height="24" />
+            <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"} />
           </div>
         </div>
         <Divider style={{ background: "grey", margin: "10px 0" }} />
@@ -91,7 +99,8 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
               cover={
                 <img
                   alt={"open map"}
-                  src={"https://miro.medium.com/max/5334/1*qYUvh-EtES8dtgKiBRiLsA.png"} style={{ height: 150 }}
+                  src={"https://zelp-motovolt-webapp-dashboard.s3.us-east-2.amazonaws.com/map-view.png"}
+                  style={{ height: 150 }}
                 />
               }
             >

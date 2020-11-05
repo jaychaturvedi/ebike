@@ -188,7 +188,13 @@
     .apply-text {
         color: black !important;
     }
+
+    &:active{
+      transform: scale(0.95); 
+
+    }
 }
+
 //should be inside
 .ant-btn-sm {
     font-size: 10px !important;
@@ -201,6 +207,10 @@
     margin-left: 5px;
     border-bottom: 1px solid white;
     width: 80px;
+
+    &:active{
+      transform: scale(0.95); 
+    }
 }
 
 .dropdown-typography {
