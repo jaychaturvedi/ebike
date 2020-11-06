@@ -43,7 +43,7 @@ export function getAlertTypeId(alertName: string) {
             return 10 //user defined
         }
         default: {
-            return 0
+            return 999
         }
     }
 }

@@ -5,12 +5,31 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number,
 }
+/////////////////////////////////// DROPDOWN FILTERS ///////////////////////////
+interface TVehicle{
+  model:string,
+  subModel:string[]
+}
+
+interface TLocation{
+  location:string,
+  subLocation:string[]
+}
+
+export interface TDropdownFilters{
+  vehicle:TVehicle[],
+  location:TLocation[]
+}
+
+
+
 ////////////////////////////////////MAP MARKERS/////////////////////////////////
 export interface TMapMarkers{
   lat:number;
   lng:number;
   frameId:string;
   timestamp:string;
+  isActive:boolean
 }
 
 /////////////////////////////////////QUICKSIGHT DASHBOARD///////////////////////
@@ -63,11 +82,11 @@ export interface TtrendTop5Alert {
     }
     data: {
         date: string,
-        alert1count: string,
-        alert2count: string,
-        alert3count: string,
-        alert4count: string,
-        alert5count: string
+        alert1count?: number,
+        alert2count?: number,
+        alert3count?: number,
+        alert4count?: number,
+        alert5count?: number
     }[]
 }
 
@@ -77,11 +96,11 @@ export interface TtrendLocationWise {
     }
     data: {
         date: string,
-        loc1count: string,
-        loc2count: string,
-        loc3count: string,
-        loc4count: string,
-        loc5count: string
+        loc1count?: number,
+        loc2count?: number,
+        loc3count?: number,
+        loc4count?: number,
+        loc5count?: number
     }[]
 }
 
@@ -97,10 +116,14 @@ export interface TAlertInsights {
 ////////////////////////////////PastAlert///////////////////////////////////////
 export interface TPastAlertData {
     vehicleId: string,
-    alertTime: string,
+    alertCode:string,
     tat: string,
-    alertId: string,
+    graph: string,
+    alertId: number,
+    alertTime: string,
+    alertTypeId:number,
     location: string,
+    subLocation: string,
     alertGraph: boolean
 }
 export interface TPastAlert {

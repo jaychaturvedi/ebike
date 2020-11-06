@@ -1,6 +1,6 @@
-import { IAlertActions } from "../actions/alerts";
-import { TAlertType, TSort, TPagination, TFilter, Alert } from "../redux/models"
-import { put } from "redux-saga/effects";
+import { IAlertActions, IDropdownFilterActions } from "../actions/alerts";
+import { TAlertType, TSort, TPagination, TFilter, Alert, TDropdownFilters } from "../redux/models"
+import { call, put } from "redux-saga/effects";
 import moment from "moment";
 import axios from "axios"
 import * as dotenv from "dotenv"
@@ -49,21 +49,74 @@ export type Store_AlertFilterChange = {
         filter: TFilter
     }
 }
+
+export type Store_DropdownFilters={
+  type: "STORE_DROPDOWN_FILTERS",
+  payload:TDropdownFilters
+}
+
 export type TAlertsTableData = {
     smart: Alert,
     bms: Alert,
     mc: Alert
 }
 
-export async function getAlerts(params: IAlertActions) {
+/////////////////////GET FILTER OPTIONS IN SUBHEADER//////////////////////
+export function* getDropdownFilterOptions(params: IDropdownFilterActions) {
+  try {
+    const data: TDropdownFilters = yield call(fetchDropdownFilters, params)
+    yield put({
+      type: "STORE_DROPDOWN_FILTERS",
+      payload: {
+        location: data.location,
+        vehicle: data.vehicle
+      }
+    } as Store_DropdownFilters)
+  } catch (error) {
+    console.log("get filters error", error)
+  }
+}
+async function fetchDropdownFilters(params: IDropdownFilterActions) {
+  const response = await axios.get(process.env.REACT_APP_WEBAPIURL + "/dropdownFilters")
+  return response.data.body as TDropdownFilters
+}
+
+
+//////////////////////////////////GET ALERT TABLE DATA ///////////////////////////
+export function* getAlertData(params: IAlertActions) {
+  try {
+      const data: TAlertsTableData = yield call(getAlerts, params)
+      console.log("my getAlertData", data, params);
+
+      yield put({
+          type: "STORE_ALERT_UPDATE",
+          payload: {
+              alertType: params.payload.alertType,
+              alerts: data,
+              pagination: params.payload.pagination,
+              sort: params.payload.sort
+          }
+      } as Store_AlertUpdate)
+  } catch (error) {
+      console.log("get Alerts error", error)
+  }
+}
+
+async function getAlerts(params: IAlertActions) {
     console.log("called saga", params);
     let response = [];
     if (params.payload.filter.value !== "") {
         const request = await getFilteredAlertDetailsRequest(params);
         console.log(request, "my request");
-        response = await Promise.all([getFilteredSmartAlert(request!), getFilteredBmsAlert(request!), getFilteredMcAlert(request!)])
+        response = await Promise.all([
+          getFilteredSmartAlert(request!), 
+          getFilteredBmsAlert(request!), 
+          getFilteredMcAlert(request!)])
     } else {
-        response = await Promise.all([getSmartAlert(params), getBmsAlert(params), getMcAlert(params)])
+        response = await Promise.all([
+          getSmartAlert(params), 
+          getBmsAlert(params), 
+          getMcAlert(params)])
     }
     console.log("response in get alerts", response)
     const data: TAlertsTableData = {
@@ -74,20 +127,30 @@ export async function getAlerts(params: IAlertActions) {
     return data
 }
 
-export function* updateAlertTabChange(params: IAlertActions) {
-    yield put({
-        type: "STORE_ALERT_TAB_CHANGE",
-        payload: params.payload
-    } as Store_AlertTabChange)
-}
 
+///////////////////////////change tabs to sms, bms, mc////////////////////////
+export function* updateAlertTabChange(params: IAlertActions) {
+  try {
+    yield put({
+      type: "STORE_ALERT_TAB_CHANGE",
+      payload: params.payload
+    } as Store_AlertTabChange)
+  } catch (error) {
+    console.log("error", error)
+  }
+}
+//////////////////////////updates filters///////////////////////////////////
 export function* updateAlertFilterChange(params: IAlertActions) {
-    yield put(
+    try{
+      yield put(
         {
             type: "STORE_UPDATE_FILTER",
             payload: params.payload
         } as Store_AlertFilterChange
-    )
+    )}
+    catch (error) {
+      console.log("error", error)
+    }
 }
 
 async function getFilteredAlertDetailsRequest(params: IAlertActions) {

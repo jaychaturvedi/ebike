@@ -1,8 +1,8 @@
 import { all, call, takeLatest, put } from "redux-saga/effects"
 import { Store_UserUpdate } from "./user"
 import { IUsersAction } from "../actions/user"
-import { IAlertActions } from "../actions/alerts";
-import { getAlerts, updateAlertTabChange, updateAlertFilterChange, Store_AlertUpdate, TAlertsTableData } from "./alert";
+import { Store_AlertUpdate } from "./alert";
+import * as Alert from "./alert"
 import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, updateAlertTrend } from "./trends"
 import { IAlertTrendActions } from "../actions/trends";
 import { IAlertGraphActions } from "../actions/graph";
@@ -17,33 +17,6 @@ import { TAlertInsights, TPastAlert } from "../redux/models";
 import { getQuickSightUrl, clearQuickSightUrl } from "./quickSight";
 import * as Dashboard from './dashboard'
 import * as Map from './map'
-
-function* getAlertData(params: IAlertActions) {
-    try {
-        const data: TAlertsTableData = yield call(getAlerts, params)
-        console.log("my getAlertData", data, params);
-
-        yield put({
-            type: "STORE_ALERT_UPDATE",
-            payload: {
-                alertType: params.payload.alertType,
-                alerts: data,
-                pagination: params.payload.pagination,
-                sort: params.payload.sort
-            }
-        } as Store_AlertUpdate)
-    } catch (error) {
-        console.log("get Alerts error", error)
-    }
-}
-
-function* updateAlertTabChanges(params: IAlertActions) {
-    yield call(updateAlertTabChange, params)
-}
-
-function* updateAlertFilterChanges(params: IAlertActions) {
-    yield call(updateAlertFilterChange, params)
-}
 
 function* getAlertTrend(params: IAlertTrendActions) {
     try {
@@ -176,9 +149,10 @@ function* updateUser(params: IUsersAction) {
 }
 
 function* actionWatcher() {
-    yield takeLatest("GET_ALERTS", getAlertData);
-    yield takeLatest("UPDATE_ACTIVE_ALERT", updateAlertTabChanges);
-    yield takeLatest("UPDATE_FILTER", updateAlertFilterChanges);
+    yield takeLatest("GET_ALERTS", Alert.getAlertData);
+    yield takeLatest("UPDATE_ACTIVE_ALERT", Alert.updateAlertTabChange);
+    yield takeLatest("UPDATE_FILTER", Alert.updateAlertFilterChange);
+    yield takeLatest("GET_DROPDOWN_FILTERS", Alert.getDropdownFilterOptions)
     yield takeLatest("GET_ALERT_TRENDS", getAlertTrend);
     yield takeLatest("GET_ALERTS_INSIGHTS", getAlertInsights)
     yield takeLatest("POST_ALERT_CLEARANCE", postAlertClearance)

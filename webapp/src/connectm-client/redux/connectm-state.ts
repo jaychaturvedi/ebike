@@ -1,6 +1,6 @@
 import {
     AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
-    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User, TDashboardList, TMapMarkers
+    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User, TDashboardList, TMapMarkers, TDropdownFilters
 } from "./models";
 
 export interface State {
@@ -41,7 +41,8 @@ export interface State {
     },
     quickSightUrl:string,
     dashboardList:TDashboardList[],
-    mapMarkers:TMapMarkers[]
+    mapMarkers:TMapMarkers[],
+    dropdownFilters:TDropdownFilters
 }
 
 const connectmState: State = {
@@ -87,7 +88,11 @@ const connectmState: State = {
     graphs: [],
     quickSightUrl:"",
     dashboardList:[],
-    mapMarkers:[]
+    mapMarkers:[],
+    dropdownFilters:{
+      location:[],
+      vehicle:[]
+    }
 }
 
 export default connectmState;
