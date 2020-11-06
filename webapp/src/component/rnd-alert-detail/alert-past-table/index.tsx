@@ -24,7 +24,8 @@ interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailS
   alertName: string,
   vehicleId: string,
   alertTypeId:number,
-  alertCode:string
+  alertCode:string,
+  alertTime:string
 }
 
 interface AlertPastTableStates {
@@ -93,7 +94,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
     state.data = state.handleSort(Object.values(props.pastAlerts.data), props.pastAlerts.sort) as TPastAlertData[]
     state.total = props.pastAlerts.dataCount
-    // console.log("past alert table", state)
+    console.log("past alert table", state,props)
     return state
   }
   renderClass = () => {
@@ -195,18 +196,18 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     })
     // let alertTypeId: number
     console.log("Got alert graph request", record)
-    if (this.props.alertName !== undefined && this.state.selectedRowId === -1) {
+    if (this.props.alertName !== undefined) {
       // alertTypeId = getAlertTypeId(this.props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
       if (this.state.graphDataLoaded === false || this.props.alertTypeId !== this.state.selectedRowId) {
         this.props.getPastAlertGraph({
           type: "GET_ALERT_GRAPH",
           payload: {
-            alertId: this.state.graphDataLoaded ? this.state.selectedRowId : this.props.alertId as any as number,
-            vehicleId: this.props.vehicleId,
+            alertId: this.state.selectedRowId !== -1? this.props.alertId : record.alertId,
+            vehicleId: this.state.selectedRowId !== -1? this.props.vehicleId : record.vehicleId,
             alertName: this.props.alertName,
             alertTypeId: this.props.alertTypeId,
-            timeStamp: record.alertTime,
-            alertCode:this.props.alertCode
+            timeStamp:  this.state.selectedRowId !== -1?  this.props.alertTime : record.alertTime,
+            alertCode:  this.state.selectedRowId !== -1? this.props.alertCode : record.alertCode
           }
         })
       }

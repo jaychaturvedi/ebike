@@ -362,7 +362,14 @@ app.get('/customerLiveLocation/:customerId',
     res.json(response)
   })
 )
-
+/////////api to give vehicle filter option and location filter option in subheader of webapp////////////////
+app.get('/dropdownFilters',
+  expressQAsync(async (req: Express.Request, res: Express.Response,next: Express.NextFunction) => {
+    const result = await WebAPI.getDropdownFilters()
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
 
 app.use(expressErrorHandler);
 

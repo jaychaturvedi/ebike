@@ -9,15 +9,17 @@ import moment from 'moment';
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    console.log(payload?.timeDate, "payyload", props.alertDate);
-    if (payload?.timeDate === alertDate) {
+    // console.log(payload?.timeDate, "payyload", moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss"));
+    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm:ss")
+    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss")
+    if (TimeDate === AlertDate) {
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />
             </svg>
         );
     }
-    return (<svg></svg>);
+    else return (<svg></svg>);
 };
 
 interface DualAxisGraphProps {

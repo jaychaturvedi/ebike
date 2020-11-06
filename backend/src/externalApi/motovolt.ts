@@ -87,30 +87,39 @@ export default class ConnectmApi {
         return fetchedData
     }
 
-    static async getRideHistory(frameId: string, startTime: string, endTime: string, pageNo: number, pageSize: number) {
+    static async getRideHistory(
+      frameId: string, 
+      startTime: string, 
+      endTime: string, 
+      pageNo: number, 
+      pageSize: number) {
         const options = createOptions('/getridehistory', {
             frameid: frameId,
             pageSize,
             pageNo,
             startTime,
             endTime
-
         })
         const fetchedData: TRideHistory[] = await post(options)
         return fetchedData
     }
 
-    static async getRideHistoryStat(frameId: string, startTime: string, endTime: string, pageNo: number, pageSize: number) {
-        const options = createOptions('/getridehistorystat', {
-            frameid: frameId,
-            pageSize,
-            pageNo,
-            startTime,
-            endTime
-        })
-        const fetchedData: TRideHistoryStats[] = await post(options)
-        return fetchedData
-    }
+  static async getRideHistoryStat(
+    frameId: string,
+    startTime: string,
+    endTime: string,
+    pageNo: number,
+    pageSize: number) {
+    const options = createOptions('/getridehistorystat', {
+      frameid: frameId,
+      pageSize,
+      pageNo,
+      startTime,
+      endTime
+    })
+    const fetchedData: TRideHistoryStats[] = await post(options)
+    return fetchedData
+  }
 
     static async getNotification(frameId: string, pageNo: number, pageSize: number) {
         const options = createOptions('/getnotific', {

@@ -10,7 +10,7 @@ import { ReactComponent as Calender } from "../../assets/calendar_icon.svg"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
 import { connect } from 'react-redux'
 import moment from 'moment';
-import { TFilter } from '../../connectm-client/redux/models';
+import { TDropdownFilters, TFilter } from '../../connectm-client/redux/models';
 
 interface SubHeaderProps extends ReduxAlertActions, ReduxAlertState { }
 
@@ -29,7 +29,9 @@ interface SubHeaderStates {
     } | null
     dateRangeApplied: boolean
     searchText: string,
-    applyFilter: TFilter
+    applyFilter: TFilter,
+    dropdownFilters:TDropdownFilters,
+    dropdownLoaded:boolean
 }
 
 class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
@@ -53,9 +55,38 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             applyFilter: {
                 fieldName: "all",
                 value: ""
-            }
+            },
+            dropdownFilters: {
+              vehicle: [{subModel:[],model:"no data"}],
+              location: [{subLocation:[],location:"no data"}]
+            },
+            dropdownLoaded:false
         }
     }
+     
+    // componentWillMount(){
+    //   this.props.getDropdownFilters({
+    //     type:"GET_DROPDOWN_FILTERS",
+    //     payload:{}
+    //   })
+    //   this.setState({dropdownFilters:this.props.dropdownFilters})
+    //   console.log("component subheader states and props",this.state,this.props.dropdownFilters);   
+    // }
+
+  static getDerivedStateFromProps(props: SubHeaderProps, state: SubHeaderStates) {
+    const locationAndVehicleFiltersEmpty = !state.dropdownFilters.location?.length && !state.dropdownFilters.vehicle?.length
+    if (!state.dropdownLoaded) {
+      props.getDropdownFilters({
+        type: "GET_DROPDOWN_FILTERS",
+        payload: {}
+      })
+      state.dropdownFilters = props.dropdownFilters
+      state.dropdownLoaded = true
+      console.log("component subheader states and props", state, props.dropdownFilters);
+    }
+    state.dropdownFilters=props.dropdownFilters
+    return state
+  }
 
     handleVehicleClick = (e: any) => {
         console.log('click', e);
@@ -166,6 +197,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     onFromChange = (value: any, dateString: string) => {
         console.log('Selected Time: ', value);
         console.log('Formatted Selected Time: ', dateString)
+        //////////////value = "Selected Time", dateString = "Formatted Selected Time"///////////////
         this.setState(
             {
                 timeFrame: {
@@ -304,56 +336,56 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             }
         )
     }
+    // componentWillMount(){
+    //   this.props.getDropdownFilters({
+    //     type:"GET_DROPDOWN_FILTERS",
+    //     payload:{}
+    //   })
+    //   this.setState({dropdownFilters:this.props.dropdownFilters})
+    //   console.log("component subheader states and props",this.state,this.props.dropdownFilters);   
+    // }
 
     render() {
-        const vehicle = (
-            <Menu onClick={this.handleVehicleClick}>
-                <Menu.Item key="Classic" icon={<Vehicle width="20" height="20" />}>
-                    <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Classic</Typography.Text>
+      const vehicleMenu=(
+      <Menu onClick={this.handleVehicleClick}>
+          {
+            this.state.dropdownFilters?.vehicle?.map(e => {
+              return <>
+                <Menu.Item key={e.model} icon={<Vehicle width="20" height="20" />}>
+                  <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{e.model}</Typography.Text>
                 </Menu.Item>
-                <Menu.Item key="Ice" className={"dropdown-sub-item"}>
-                    Ice
+                {
+                  e?.subModel?.map(sub => {
+                    return <Menu.Item key={sub} className={"dropdown-sub-item"}>
+                      {sub}
+                    </Menu.Item>
+                  })
+                }
+              </>
+            })
+          }
+      </Menu>
+      )
+      const locationMenu = (
+        <Menu onClick={this.handleLocationClick}>
+          {
+            this.state.dropdownFilters?.location?.map(e => {
+              return <>
+                <Menu.Item key={e.location}>
+                  <Typography.Text strong>{e.location}</Typography.Text>
                 </Menu.Item>
-                <Menu.Item key="Kivo Standard" className={"dropdown-sub-item"}>
-                    Kivo Standard
-                </Menu.Item>
-                <Menu.Item key="Kivo Easy" className={"dropdown-sub-item"}>
-                    Kivo Easy
-                </Menu.Item>
-                <Menu.Item key="Cargo" icon={<CargoVehicle width="20" height="20" />}>
-                    <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Cargo</Typography.Text>
-                </Menu.Item>
-                <Menu.Item key="Hum" className={"dropdown-sub-item"}>
-                    Hum
-                </Menu.Item>
-            </Menu>
-        );
-        const location = (
-            <Menu onClick={this.handleLocationClick}>
-                <Menu.Item key="North">
-                    <Typography.Text strong >North</Typography.Text>
-                </Menu.Item>
-                <Menu.Item key="South">
-                    <Typography.Text strong>South</Typography.Text>
-                </Menu.Item>
-                <Menu.Item key="Bangalore" className={"location-dropdown-sub-item"}>
-                    Bangalore
-                </Menu.Item>
-                <Menu.Item key="Hyderabad" className={"location-dropdown-sub-item"}>
-                    Hyderabad
-                </Menu.Item>
-                <Menu.Item key="East">
-                    <Typography.Text strong >East</Typography.Text>
-                </Menu.Item>
-                <Menu.Item key="Kolkata" className={"location-dropdown-sub-item"}>
-                    Kolkata
-                </Menu.Item>
-                <Menu.Item key="West">
-                    <Typography.Text strong >West</Typography.Text>
-                </Menu.Item>
-            </Menu>
-        );
-
+                {
+                  e?.subLocation?.map(sub => {
+                    return <Menu.Item key={sub} className={"location-dropdown-sub-item"}>
+                      {sub}
+                    </Menu.Item>
+                  })
+                }
+              </>
+            })
+          }
+        </Menu>
+      )
         const timeFrame = (
             <Menu onClick={this.handleDateClick}>
                 <Menu.Item key="1" >
@@ -365,15 +397,33 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 <Menu.Item key="3" >
                     Month Till Date
                 </Menu.Item>
-                <Menu.Item key="4" disabled={true} className={"connectM-DatePicker-container"}>
-                    <Typography.Text style={{ whiteSpace: "nowrap" }}>Date Range</Typography.Text>
+                <Menu.Item 
+                  key="4" 
+                  disabled={true} 
+                  className={"connectM-DatePicker-container"}>
+                    <Typography.Text style={{ whiteSpace: "nowrap" }}>
+                        Date Range
+                    </Typography.Text>
                     <div className={"datepicker-text-pair"}>
-                        From <DatePicker onChange={this.onFromChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
+                        From 
+                      <DatePicker 
+                        onChange={this.onFromChange} 
+                        defaultValue={moment()} 
+                        format={this.dateFormatList} 
+                        bordered={false} />
                     </div>
                     <div className={"datepicker-text-pair"}>
-                        To <DatePicker onChange={this.onToChange} defaultValue={moment()} format={this.dateFormatList} bordered={false} />
+                        To 
+                      <DatePicker 
+                        onChange={this.onToChange} 
+                        defaultValue={moment()} 
+                        format={this.dateFormatList} 
+                        bordered={false} />
                     </div>
-                    <Button size={"small"} className={"apply-button-datepicker"} onClick={this.timeRangeApply}>
+                    <Button 
+                      size={"small"} 
+                      className={"apply-button-datepicker"} 
+                      onClick={this.timeRangeApply}>
                         <Typography.Text style={{ color: "black" }} strong>DONE</Typography.Text>
                     </Button>
                 </Menu.Item>
@@ -385,32 +435,66 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     <Button className={`connectM-button ${this.state.allSelected ? "connectM-button-active" : ""}`} size={"middle"} type="text" onClick={this.onAll}>
                         All
                 </Button>
-                    <Dropdown overlay={vehicle} trigger={['click']}>
+                    <Dropdown overlay={vehicleMenu} trigger={['click']}>
                         <div className={`connectM-dropDown ${this.state.vehicleActive ? "connectM-dropdown-active" : ""}`}>
                             <div className={"pair"}>
-                                <Vehicle style={{ marginLeft: "5px" }} width="24px" height="24px" className={`dropdown-svg-fill ${this.state.vehicleActive ? "dropdown-svg-fill-active" : ""}`} />
-                                <Typography.Text className={`dropdown-typography ${this.state.vehicleActive ? "typography-active" : ""}`}>{this.state.selectedVehicle}</Typography.Text>
+                                <Vehicle 
+                                  style={{ marginLeft: "5px" }} 
+                                  width="24px" 
+                                  height="24px" 
+                                  className={`dropdown-svg-fill ${this.state.vehicleActive 
+                                    ? "dropdown-svg-fill-active" 
+                                    : ""}`} />
+                                <Typography.Text 
+                                  className={`dropdown-typography ${this.state.vehicleActive 
+                                  ? "typography-active" 
+                                  : ""}`}>{this.state.selectedVehicle}
+                                </Typography.Text>
                             </div>
-                            <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
+                            <DownOutlined 
+                              className={"flip"} 
+                              style={{ marginLeft: "40px" }} />
                         </div>
                     </Dropdown>
-                    <Dropdown overlay={location} trigger={['click']}>
+                    <Dropdown overlay={locationMenu} trigger={['click']}>
                         <div className={`connectM-dropDown ${this.state.locationActive ? "connectM-dropdown-active" : ""}`}>
                             <div className={"pair"} >
-                                <Location width="24px" height="24px" className={`dropdown-svg-fill-location ${this.state.locationActive ? "dropdown-svg-fill-location-active" : ""}`} />
-                                <Typography.Text className={`dropdown-typography ${this.state.locationActive ? "typography-active" : ""}`}>{this.state.selectedLocation}</Typography.Text>
+                                <Location 
+                                  width="24px" 
+                                  height="24px" 
+                                  className={`dropdown-svg-fill-location ${this.state.locationActive 
+                                  ? "dropdown-svg-fill-location-active" 
+                                  : ""}`} />
+                                <Typography.Text 
+                                  className={`dropdown-typography ${this.state.locationActive 
+                                  ? "typography-active" 
+                                  : ""}`}>{this.state.selectedLocation}
+                                </Typography.Text>
                             </div>
-                            <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
+                            <DownOutlined 
+                              className={"flip"} 
+                              style={{ marginLeft: "40px" }} />
                         </div>
                     </Dropdown>
-                    <Dropdown overlay={timeFrame} trigger={['click']}
-                        visible={this.state.timeFrameVisible}
-                        onVisibleChange={this.timeFrameVisibleChange}
+                    <Dropdown 
+                      overlay={timeFrame} 
+                      trigger={['click']}
+                      visible={this.state.timeFrameVisible}
+                      onVisibleChange={this.timeFrameVisibleChange}
                     >
                         <div className={`connectM-dropDown ${this.state.calenderActive ? "connectM-dropdown-active" : ""}`}>
                             <div className={"pair"} >
-                                <Calender width="24px" height="24px" className={`dropdown-svg-fill-timeframe ${this.state.calenderActive ? "dropdown-svg-fill-timeframe-active" : ""}`} />
-                                <Typography.Text className={`dropdown-typography ${this.state.calenderActive ? "typography-active" : ""}`}>{this.state.selectedCalender}</Typography.Text>
+                              <Calender 
+                                width="24px" 
+                                height="24px" 
+                                className={`dropdown-svg-fill-timeframe ${this.state.calenderActive 
+                                ? "dropdown-svg-fill-timeframe-active" 
+                                : ""}`} />
+                              <Typography.Text 
+                                className={`dropdown-typography ${this.state.calenderActive 
+                                ? "typography-active" 
+                                : ""}`}>{this.state.selectedCalender}
+                              </Typography.Text>
                             </div>
                             <DownOutlined className={"flip"} style={{ marginLeft: "40px" }} />
                         </div>
@@ -428,7 +512,12 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 </div>
                 <div className={"sub-header-right"}>
                     <Button size={"small"} className={"apply-button"} onClick={this.onApplyFilter}>
-                        <Typography.Text style={{ color: "black" }} strong className="apply-text">APPLY</Typography.Text>
+                        <Typography.Text 
+                          style={{ color: "black" }} 
+                          strong 
+                          className="apply-text">
+                            APPLY
+                        </Typography.Text>
                     </Button>
                     <Button size={"small"} className={"reset-button"} onClick={this.onReset}>
                         <Typography.Text style={{ color: "#ffffff" }} strong>RESET</Typography.Text>

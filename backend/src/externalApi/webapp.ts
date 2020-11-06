@@ -130,6 +130,12 @@ export default class WebAPI {
       return fetchedData
     }
 
+    static async getDropdownFilters(){
+      const vehicle = await get(createOptions('/vehicledropdown', undefined))
+      const location = await get(createOptions('/locationdropdown', undefined))
+      return {vehicle,location}
+    }
+
     ///////////////////////////////////////not using below routes//////////////////////////////
 
 

@@ -168,7 +168,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     const { label, payload, active } = obj;
     if (!active || !label || !payload) return label;
     const style = { top: obj?.viewBox.y - 30, color: "#5FBDE0", zIndex: 10 };
-    console.log(payload);
+    // console.log(payload);
     
     if (active) {
       if(payload[0]?.name==="Total Alerts"){
