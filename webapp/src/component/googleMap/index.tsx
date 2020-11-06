@@ -27,7 +27,8 @@ interface MapProps extends ReduxMapAction, ReduxMapState {
 interface MapState {
   mapMarkers: TMapMarkers[],
   dataLoaded: boolean,
-  customerId: string
+  customerId: string,
+  refreshing: boolean
 }
 
 const defaultProps = {
@@ -40,7 +41,8 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
     this.state = {
       mapMarkers: [],
       dataLoaded: false,
-      customerId: "CUS123456"
+      customerId: "CUS123456",
+      refreshing: false
     }
   }
 
@@ -74,8 +76,14 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
   onRefresh = () => {
     this.setState({
       dataLoaded: false,
-      mapMarkers: []
+      mapMarkers: [],
+      refreshing: true
     })
+    setTimeout(() => {
+      this.setState({
+        refreshing: false
+      })
+    }, 1500)
   }
 
   render() {
@@ -113,7 +121,6 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         </Menu.Item>
       </Menu>
     );
-    const element = { lat: 22, lng: 77, frameId: "44774", timeStamp: "11-01-20" }
     return (
       // Important! Always set the container height explicitly
       <div className='container-quicksight'>
@@ -152,7 +159,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
             </Dropdown>
           </div>
           <div className="refresh-button" onClick={this.onRefresh}>
-            <RefreshIcon width="24" height="24" />
+            <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"}/>
           </div>
         </div>
         <Divider style={{ background: "grey", margin: "10px 0" }} />
@@ -174,8 +181,9 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
                   lat={element.lat}
                   lng={element.lng}
                   frameId={element.frameId}
+                  isActive={element.isActive}
                   lastActive={element.timestamp}
-                  color="#3D487D"
+                  color={element.isActive ? "#3D487D" : "#41A3C9"}
                 />
               )
             })}
