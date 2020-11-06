@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   body: {
     lineHeight: verticalScale(16),
     marginTop: verticalScale(12),
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.BLACK,
     fontWeight: FontWeight.REGULAR,
   },

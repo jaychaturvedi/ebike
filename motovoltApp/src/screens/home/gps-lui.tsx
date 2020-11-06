@@ -77,7 +77,9 @@ class GPSLui extends React.PureComponent<Props, State> {
                 width: '100%',
                 height: '100%',
               }}>
-              <Text numberOfLines={1}>{LanguageSelector.t("gps.noDataAvailable")}</Text>
+              <Text numberOfLines={1}>
+                {LanguageSelector.t('gps.noDataAvailable')}
+              </Text>
             </View>
           ) : (
             <Map
@@ -109,7 +111,7 @@ class GPSLui extends React.PureComponent<Props, State> {
                   fontSize: moderateScale(12),
                   lineHeight: moderateScale(30),
                 }}>
-                {Moment(this.props.bike.lastLocationKnownTime).format("DD-MM-YYYY hh:mm A")}
+                {Moment(this.props.bike.lastLocationKnownTime).fromNow()}
               </Text>
               <Text></Text>
             </View>
@@ -145,14 +147,18 @@ class GPSLui extends React.PureComponent<Props, State> {
             </View>
           </View>
           <View style={styles.footerAddress}>
-            <View style={{width: '80%'}}>
+            <View>
               <Text style={{fontSize: scale(12)}}>
                 {this.props.bike.address}
               </Text>
             </View>
-            <View style={{alignItems: 'flex-end'}}>
+            <View>
               <Text style={{fontSize: scale(12)}}>
-                {Moment(this.props.bike.lastLocationKnownTime).fromNow()}
+                {`${LanguageSelector.t('gps.ignitionStatus')} : ${
+                  this.props.bike.isOn
+                    ? LanguageSelector.t('gps.on')
+                    : LanguageSelector.t('gps.off')
+                }`}
               </Text>
             </View>
           </View>
@@ -184,7 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footerView: {
-    height: '20%',
+    // height: '20%',
     padding: moderateScale(20),
     backgroundColor: '#FFFFFF',
   },
@@ -197,13 +203,11 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(24),
   },
   footerDescription: {
-    height: '70%',
     flexDirection: 'row',
   },
   footerAddress: {
-    height: '30%',
+    justifyContent: 'space-between',
     flexDirection: 'row',
     paddingTop: moderateScale(10),
-    flex: 1,
   },
 });
