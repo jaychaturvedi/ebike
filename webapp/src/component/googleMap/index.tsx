@@ -183,7 +183,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
             <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"} />
           </div>
         </div>
-        <Divider style={{ background: "grey", margin: "10px 0" }} />
+        {/* <Divider style={{ background: "grey", margin: "10px 0" }} /> */}
         {this.state.dataLoaded && <div className="google-map-container">
           <GoogleMapReact
             bootstrapURLKeys={{
