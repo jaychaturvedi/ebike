@@ -26,7 +26,8 @@ export function* getMapMarkers(params: IMapMarkerAction) {
 
 async function getMarkersForCustomer(params: IMapMarkerAction) {
   const response = await axios.get(process.env.REACT_APP_WEBAPIURL +
-    "/customerLiveLocation/" + params.payload.customerId)
+    "/customerLiveLocation/" + params.payload.customerId +
+    "?"+"location="+params.payload.location+"&zone="+params.payload.zone)
   console.log("api response of mapMarkers", response);
   return response.data.body as TMapMarkers[]
 }

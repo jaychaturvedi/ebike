@@ -6,7 +6,9 @@ type MapMarkerActions = "GET_MAP_MARKERS" | "UPDATE_MAP_MARKERS";
 /////////////////////////GET_MAP_MARKERS//////////////////////
 
 export interface MapMarkerPayload {
-  customerId: string
+  customerId: string,
+  location:string,
+  zone:string
 }
 export interface IMapMarkerAction {
   type: MapMarkerActions,
