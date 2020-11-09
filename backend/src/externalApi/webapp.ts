@@ -117,11 +117,11 @@ export default class WebAPI {
         return fetchedData
     }
       
-    static async getCustomerLiveLocations(customerId: string) {
+    static async getCustomerLiveLocations(customerId: string, location:string,zone:string) {
       console.log("External API Start Time: ", new Date())
       const options = {
         uri: "https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra/custlivelocation",
-        body: { custId: customerId},
+        body: { custId: customerId,location,zone},
         headers: {'Content-Type': 'application/json'},
         json: true
       };

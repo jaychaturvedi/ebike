@@ -20,7 +20,7 @@ app.get('/all', expressQAsync(secure),
             return b.openTime - a.openTime
           })
         
-        const response = createResponse("OK", { sortedOpen, sortedClosed }, undefined)
+        const response = createResponse("OK", { open:sortedOpen, closed:sortedClosed }, undefined)
         res.send(response)
     })
 )

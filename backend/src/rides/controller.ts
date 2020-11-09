@@ -34,11 +34,11 @@ export async function endRide(rideId: string, endTime: string) {
   console.log(ride);
   
   if (ride[0]?.st === "false") throw new RideError("no end ride stats available for the frameId");
-  if (!ride[1]?.length || ride[1][0]?.st === "false") throw new RideError("no gps path available for the frameId");
+  // if (!ride[1]?.length || ride[1][0]?.st === "false") throw new RideError("no gps path available for the frameId");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = ride[0]
-  const gpsPath = ride[1]
+  const gpsPath =(!ride[1]?.length || ride[1][0]?.st === "false") ? []: ride[1]
   // const { endTime: time } = ride[2] as any
   return {
     frameId, rideId, distance, duration, averageSpeed,
@@ -53,11 +53,11 @@ export async function rideDetail(frameId: string, startTime: string, endTime: st
   ])
   // Ride.findOneWhere({ frameId, startTime, endTime })])
   if (ride[0]?.st === "false") throw new RideError("No ride stats available for the frameId");
-  if (!ride[1]?.length || ride[1][0]?.st === "false") throw new RideError("No gps path available for the frameId");
+  // if (!ride[1]?.length || ride[1][0]?.st === "false") throw new RideError("No gps path available for the frameId");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved, rating } = ride[0]
-  const gpsPath = ride[1]
+  const gpsPath = (!ride[1]?.length || ride[1][0]?.st === "false") ? []:ride[1]
   // const { rating } = ride[2]
   return {
     frameId, distance, duration, averageSpeed,
