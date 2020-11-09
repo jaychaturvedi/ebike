@@ -177,7 +177,7 @@ export default class Graph extends React.PureComponent<Props, State> {
                 <Text>{LanguageSelector.t('myRides.noHistoryDataFound')}</Text>
               </View>
             ) : (
-              <View style={{minWidth: moderateScale(280), width: "100%"}}>
+              <View style={{minWidth: moderateScale(260), width: "100%"}}>
                 <BarChart
                   yMin={-5}
                   yMax={110}
