@@ -42,6 +42,7 @@ app.get('/verify/:frameId', expressQAsync(secure),
         res.json(response)
     })
 )
+//bikes live location
 app.get('/liveLocation/:frameId', expressQAsync(secure),
     [param('frameId', "frameId is required").isString().isLength({ min: 1 }), validate],
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -55,7 +56,7 @@ app.get('/liveLocation/:frameId', expressQAsync(secure),
         res.json(response)
     })
 )
-
+//ride history and graph data
 app.get('/history/:frameId', expressQAsync(secure),
     [param('frameId', "frameId can't be empty").isString().isLength({ min: 1 }),
     query('startTime', "startTime can't be empty").isString().isLength({ min: 1 }),
@@ -83,7 +84,7 @@ app.get('/notification/:frameId', expressQAsync(secure),
         console.log("Start Time:", new Date(), "req in notification", req.query, req.params);
         const notification = await ConnectmApi.getNotification(req.params.frameId, pageNo as number, pageSize as number)
         console.log("End Time:", new Date())
-        if (notification[0].st) throw new BadRequestError("no data available for the devices");
+        if (!notification?.length || notification[0]?.st) throw new BadRequestError("no data available for the devices");
         const response = createResponse("OK", notification, undefined)
         res.json(response)
     })

@@ -24,7 +24,7 @@ const middleware = async (token: string) => {
             json: true
         };
         const publicKey = await get(options)
-        console.log("got publickey", publicKey);
+        // console.log("got publickey", publicKey);
         const body = publicKey
         let pems: any = {};
         var keys = body['keys'];

@@ -31,16 +31,18 @@ export async function endRide(rideId: string, endTime: string) {
     ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string),
     Ride.updateWhere({ rideId }, { endTime })
   ])
-  if (ride[0].st === "false") throw new RideError("no end ride stats available for the frameId");
-  if (ride[1][0].st === "false") throw new RideError("no gps path available for the frameId");
+  console.log(ride);
+  
+  if (ride[0]?.st === "false") throw new RideError("no end ride stats available for the frameId");
+  if (!ride[1]?.length || ride[1][0]?.st === "false") throw new RideError("no gps path available for the frameId");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved } = ride[0]
   const gpsPath = ride[1]
-  const { endTime: time } = ride[2] as any
+  // const { endTime: time } = ride[2] as any
   return {
     frameId, rideId, distance, duration, averageSpeed,
-    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime: time, gpsPath
+    maxSpeed, greenMiles, caloriesBurnt, petrolSaved, litreSaved, startTime, endTime, gpsPath
   }
 }
 
@@ -50,8 +52,8 @@ export async function rideDetail(frameId: string, startTime: string, endTime: st
     ConnectmApi.getEndRideGps(frameId as string, startTime as string, endTime as string)
   ])
   // Ride.findOneWhere({ frameId, startTime, endTime })])
-  if (ride[0].st === "false") throw new RideError("No ride stats available for the frameId");
-  if (ride[1][0].st === "false") throw new RideError("No gps path available for the frameId");
+  if (ride[0]?.st === "false") throw new RideError("No ride stats available for the frameId");
+  if (!ride[1]?.length || ride[1][0]?.st === "false") throw new RideError("No gps path available for the frameId");
   const { dist: distance, avgspd: averageSpeed, dur: duration, maxspd: maxSpeed,
     grmls: greenMiles, calbnt: caloriesBurnt, ptrsav: petrolSaved,
     ptrlt: litreSaved, rating } = ride[0]
