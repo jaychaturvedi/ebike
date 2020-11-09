@@ -198,7 +198,10 @@
         "gps": "GPS",
         "finalPosition": "শেষ পজিশন",
         "refresh": "রিফ্রেশ",
-        "noDataAvailable": "কোনও অবস্থানের ডেটা উপলব্ধ নেই"
+        "noDataAvailable": "কোনও অবস্থানের ডেটা উপলব্ধ নেই",
+        "ignitionStatus": "ইগনিশন স্থিতি",
+        "on": "চালু",
+        "off": "বন্ধ"
     },
     "cycleCharging": {
         "charging": "চার্জিং",

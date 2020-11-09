@@ -133,7 +133,7 @@ export default class Graph extends React.PureComponent<Props, State> {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View style={{width: '90%', flexDirection: 'row'}}>
+        <View style={{width: '90%', flexDirection: 'row' }}>
           <YAxis
             max={110}
             min={-5}
@@ -177,7 +177,7 @@ export default class Graph extends React.PureComponent<Props, State> {
                 <Text>{LanguageSelector.t('myRides.noHistoryDataFound')}</Text>
               </View>
             ) : (
-              <View style={{minWidth: moderateScale(250)}}>
+              <View style={{minWidth: moderateScale(260), width: "100%"}}>
                 <BarChart
                   yMin={-5}
                   yMax={110}

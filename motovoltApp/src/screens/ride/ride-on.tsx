@@ -21,6 +21,8 @@ import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import {ThemeContext} from '../../styles/theme/theme-context';
 import Moment from 'moment';
 
+const MaxSpeed = 50;
+
 type ReduxState = {
   bike: TStore['bike'];
   ride: TStore['ride'];
@@ -196,7 +198,7 @@ class RideOn extends React.PureComponent<Props, State> {
             />
           </View>
           <Guage
-            fillDeg={(this.props.speedometer.speed * 240) / 360}
+            fillDeg={(100 / MaxSpeed ) * this.props.speedometer.speed}
             speed={Math.round(Number(this.props.speedometer.speed))}
             time={
               `${

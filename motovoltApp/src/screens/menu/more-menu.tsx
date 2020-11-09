@@ -56,36 +56,36 @@ class MoreMenu extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       feature: [
-        {
-          feature: LanguageSelector.t('morePremium.batteryAnalytics'),
-          icon: require('../../assets/icons/battery_analytics.png'),
-          onPress: () => console.log('Feature pressed'),
-          premium: true,
-        },
-        {
-          feature: LanguageSelector.t('morePremium.geoFencing'),
-          icon: require('../../assets/icons/geo_fencing_icon.png'),
-          onPress: () => console.log('Feature pressed'),
-          premium: true,
-        },
-        {
-          feature: LanguageSelector.t('morePremium.nearby'),
-          icon: require('../../assets/icons/nearby_icon.png'),
-          onPress: () => console.log('Feature pressed'),
-          premium: false,
-        },
+        // {
+        //   feature: LanguageSelector.t('morePremium.batteryAnalytics'),
+        //   icon: require('../../assets/icons/battery_analytics.png'),
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: true,
+        // },
+        // {
+        //   feature: LanguageSelector.t('morePremium.geoFencing'),
+        //   icon: require('../../assets/icons/geo_fencing_icon.png'),
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: true,
+        // },
+        // {
+        //   feature: LanguageSelector.t('morePremium.nearby'),
+        //   icon: require('../../assets/icons/nearby_icon.png'),
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: false,
+        // },
         {
           feature: LanguageSelector.t('morePremium.faqs'),
           icon: require('../../assets/icons/faq_icon.png'),
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
-        {
-          feature: LanguageSelector.t('morePremium.community'),
-          icon: require('../../assets/icons/comunity_icon.png'),
-          onPress: () => console.log('Feature pressed'),
-          premium: false,
-        },
+        // {
+        //   feature: LanguageSelector.t('morePremium.community'),
+        //   icon: require('../../assets/icons/comunity_icon.png'),
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: false,
+        // },
         {
           feature: LanguageSelector.t('morePremium.support'),
           icon: require('../../assets/icons/support_icon.png'),
@@ -112,24 +112,24 @@ class MoreMenu extends React.PureComponent<Props, State> {
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
-        {
-          feature: LanguageSelector.t('morePremium.promotions'),
-          icon: require('../../assets/icons/promotions_icon.png'),
-          onPress: () => console.log('Feature pressed'),
-          premium: false,
-        },
-        {
-          feature: LanguageSelector.t('morePremium.sendInvite'),
-          icon: require('../../assets/icons/send_invite_icon.png'),
-          onPress: () => console.log('Feature pressed'),
-          premium: false,
-        },
-        {
-          feature: LanguageSelector.t('morePremium.insurance'),
-          icon: require('../../assets/icons/insurance_icon.png'),
-          onPress: () => console.log('Feature pressed'),
-          premium: false,
-        },
+        // {
+        //   feature: LanguageSelector.t('morePremium.promotions'),
+        //   icon: require('../../assets/icons/promotions_icon.png'),
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: false,
+        // },
+        // {
+        //   feature: LanguageSelector.t('morePremium.sendInvite'),
+        //   icon: require('../../assets/icons/send_invite_icon.png'),
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: false,
+        // },
+        // {
+        //   feature: LanguageSelector.t('morePremium.insurance'),
+        //   icon: require('../../assets/icons/insurance_icon.png'),
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: false,
+        // },
         {
           feature: LanguageSelector.t('morePremium.logOut'),
           icon: require('../../assets/icons/logout_icon.png'),

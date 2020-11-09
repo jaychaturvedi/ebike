@@ -198,7 +198,10 @@
         "gps": "GPS",
         "finalPosition": "Final Position",
         "refresh": "Refresh",
-        "noDataAvailable": "No location data available"
+        "noDataAvailable": "No location data available",
+        "ignitionStatus": "Ignition Status",
+        "on": "ON",
+        "off": "OFF"
     },
     "cycleCharging": {
         "charging": "Charging",

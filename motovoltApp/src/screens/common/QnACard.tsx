@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     shadowColor: 'black',
     shadowOffset: {height: 1, width: 1},
-    elevation: 2      
+    elevation: 3      
   },
   header: {
     width: '100%',
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   body: {
     lineHeight: verticalScale(16),
     marginTop: verticalScale(12),
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.BLACK,
     fontWeight: FontWeight.REGULAR,
   },
