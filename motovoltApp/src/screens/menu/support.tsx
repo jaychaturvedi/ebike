@@ -88,7 +88,7 @@ class Support extends React.PureComponent<Props, State> {
             </Text>
           </View>
           <View style={{ ...styles.support, backgroundColor: Theme.BACKGROUND }}>
-            <Tile
+            {/* <Tile
               feature={LanguageSelector.t("morePremium.callUs")}
               icon={require('../../assets/icons/icons1.5x/call.png')}
               onPress={() => this.dialCall()}
@@ -100,7 +100,7 @@ class Support extends React.PureComponent<Props, State> {
               onPress={() => this.props.navigation.navigate('ComingSoon', {})}
               premium
               height={moderateScale(110)}
-            />
+            /> */}
             <Tile
               feature={LanguageSelector.t("morePremium.reportAnIssue")}
               icon={require('../../assets/icons/icons1.5x/report-issue.png')}
@@ -114,13 +114,13 @@ class Support extends React.PureComponent<Props, State> {
               height={moderateScale(110)}
               premium
             />
-            <Tile
+            {/* <Tile
               feature={LanguageSelector.t("morePremium.chat")}
               icon={require('../../assets/icons/icons1.5x/chat.png')}
               onPress={() => this.props.navigation.navigate('ComingSoon', {})}
               height={moderateScale(110)}
               premium
-            />
+            /> */}
           </View>
         </View>
       </View>
