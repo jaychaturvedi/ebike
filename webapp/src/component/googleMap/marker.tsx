@@ -15,7 +15,7 @@ const Marker = (props: any) => {
   const { color, name, id } = props;
   return (
     <div>
-      <Popover content={() => content(props)} trigger="click" className="map-tooltip">
+      <Popover content={() => content(props)} trigger="hover" className="map-tooltip">
         <div
           className="pin bounce"
           style={{ backgroundColor: color, cursor: 'pointer' }}
