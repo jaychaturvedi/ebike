@@ -28,10 +28,8 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
   }
 
   static getDerivedStateFromProps(props: QuickSightProps, state: QuickSightState) {
-    console.log("before dashboard state", state);
     if (!state.dataLoaded) {
       const pathNames = props.location.pathname.split('/')
-      console.log(pathNames);
       props.QuickSightAction({
         type: "GET_QUICKSIGHT_EMBED_URL",
         payload: {
@@ -42,7 +40,6 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
       state.dataLoaded = true
     }
     state.quickSightUrl = props.quickSightUrl
-    console.log("inside dashboar state after", state);
     return state
   }
 

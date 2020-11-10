@@ -67,14 +67,12 @@ class ForgotPassword extends PureComponent<ForgotPasswordProps, ForgotPasswordSt
         }
     };
     updateFirstPassword = (event: any) => {
-        console.log(event.target.value)
         this.setState({
             firstPassword: event.target.value
         })
     }
 
     updateSecondPassword = (event: any) => {
-        console.log(event.target.value)
         this.setState({
             secondPassword: event.target.value
         })

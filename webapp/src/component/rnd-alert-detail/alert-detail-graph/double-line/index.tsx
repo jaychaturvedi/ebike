@@ -67,7 +67,6 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         }
 
         state.data = data
-        console.log(state.data, props.data, props.alertCleared, "graph mount");
         return state
     }
     DynamicLabel = (props: any) => {
@@ -107,9 +106,6 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
 
 
     render() {
-
-        console.log(this.props.data, "graph data");
-
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>

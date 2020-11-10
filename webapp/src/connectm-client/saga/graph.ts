@@ -59,8 +59,6 @@ async function getGraphData(params: IAlertGraphActions) {
             }
         )
     }
-
-    console.log("graph data call", response.data.body);
     return response.data.body
 }
 

@@ -58,7 +58,6 @@ export function* updateAlertTrend(params: IAlertUpdateActions) {
 }
 
 async function getAlertTrends(params: IAlertTrendActions) {
-    console.log("called trend saga");
     let response = [];
     response = await Promise.all([totalAlerts(params), top5Alerts(params), locationWiseAlerts(params)])
     const data: TAlertsTrendData = {
@@ -66,7 +65,7 @@ async function getAlertTrends(params: IAlertTrendActions) {
         trendTop5Alert: response[1],
         trendLocationWise: response[2]
     }
-    console.log(params.payload, 'in getAlert')
+    // console.log(params.payload, 'in getAlert')
 
     return data
 }

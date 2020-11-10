@@ -152,7 +152,6 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
       }
     }
     case "STORE_ALERT_GRAPH": {
-      console.log("in store alert", actionParams.payload.data);
       return {
         ...state,
         graphs: {

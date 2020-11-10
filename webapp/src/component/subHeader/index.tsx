@@ -189,14 +189,13 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     timeFrameVisibleChange = (open: boolean) => {
-        console.log(open)
         this.setState({
             timeFrameVisible: open
         })
     }
     onFromChange = (value: any, dateString: string) => {
-        console.log('Selected Time: ', value);
-        console.log('Formatted Selected Time: ', dateString)
+        // console.log('Selected Time: ', value);
+        // console.log('Formatted Selected Time: ', dateString)
         //////////////value = "Selected Time", dateString = "Formatted Selected Time"///////////////
         this.setState(
             {
@@ -208,8 +207,8 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         )
     }
     onToChange = (value: any, dateString: any) => {
-        console.log('Selected Time: ', value);
-        console.log('Formatted Selected Time: ', dateString)
+        // console.log('Selected Time: ', value);
+        // console.log('Formatted Selected Time: ', dateString)
         this.setState(
             {
                 timeFrame: {
@@ -220,7 +219,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         )
     }
     timeRangeApply = () => {
-        console.log("applying date", this.state.timeFrame, "moment", moment(new Date(), this.dateFormatList[0]))
+        // console.log("applying date", this.state.timeFrame, "moment", moment(new Date(), this.dateFormatList[0]))
         const dateRange = `${this.state.timeFrame!.starTime || moment().format(this.dateFormatList[0])} to ${this.state.timeFrame!.endTime || moment().format(this.dateFormatList[0])}`
         this.setState({
             selectedCalender: dateRange,
@@ -242,7 +241,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     dateFormatList = ['DD/MM/YYYY'];
 
     onApplyFilter = () => {
-        console.log(moment("2020-07-24 10:13:00").toDate())
+        // console.log(moment("2020-07-24 10:13:00").toDate())
         let filter: TFilter
         if (this.state.searchText.length > 0) {
             filter = {
@@ -254,8 +253,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             })
         } else {
             filter = this.state.applyFilter
-            console.log(filter, "my filter");
-
+            // console.log(filter, "my filter");
         }
         this.props.alertFilterChanged({
             type: "UPDATE_FILTER",
@@ -328,7 +326,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     onSearch = (e: any) => {
-        console.log("search", e.target)
         this.setState(
             {
                 ...this.state,

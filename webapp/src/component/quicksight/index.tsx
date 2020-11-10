@@ -43,12 +43,10 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
         state.dataLoaded = true
       }
     }
-    console.log("inside dashboard state", state);
     return state
   }
 
   onCardClick = (record: any) => {
-    console.log(record)
     this.props.history.push("/" + "mis" + "/" + record.dashboardId);
   }
   handleChange = (value: any) => {

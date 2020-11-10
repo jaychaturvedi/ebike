@@ -11,7 +11,6 @@ export default class AlertHeader extends React.Component {
     };
 
     onTabChange = (key: any, type: any) => {
-        console.log(key, type);
         this.setState({ [type]: key });
     };
 

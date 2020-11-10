@@ -71,7 +71,6 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         }
 
         state.data = data
-        console.log(state.data, props.data, "graph mount");
         return state
     }
 
@@ -115,7 +114,6 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
 
     };
     render() {
-        console.log(this.props.data);
         return (
             <div className="connectm-AlertDetailGraph">
                 <div className={"connectm-header"}>

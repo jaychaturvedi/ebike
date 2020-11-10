@@ -87,7 +87,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
   }
 
   static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
-    console.log("GET_ALERT_TRENDS props",state, props.alerts.activeAlertTab,props.trendsAlertType);
+    // console.log("GET_ALERT_TRENDS props",state, props.alerts.activeAlertTab,props.trendsAlertType);
     if (state.alertType !==props.alerts.activeAlertTab) {
       props.getAlertTrends({
         type: "GET_ALERT_TRENDS",
@@ -117,7 +117,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       })
     }
     state.zoom = props.trendsZoom
-    console.log("component rnd trends props and states", props, state);
+    // console.log("component rnd trends props and states", props, state);
     return state
   }
 

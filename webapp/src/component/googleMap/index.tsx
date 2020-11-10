@@ -70,10 +70,9 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
           zone: state.zone
         }
       })
-      console.log("component googlemap state", props.mapMarkers);
+      // console.log("component googlemap state", props.mapMarkers);
       state.mapMarkers = props.mapMarkers
       // state.dataLoaded=props.mapMarkers.length?false:true
-      console.log("component googlemap state");
       state.dataLoaded = true
     }
     state.mapMarkers = props.mapMarkers
@@ -96,14 +95,12 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
   }
 
   handleLocationClick = (e: any) => {
-    console.log(e.key);
     this.setState({
       location: e.key,
       dataLoaded:false
     })
   }
   handleZoneClick= (e:any) =>{
-    console.log(e.key);
     this.setState({
       zone:e.key,
       dataLoaded:false

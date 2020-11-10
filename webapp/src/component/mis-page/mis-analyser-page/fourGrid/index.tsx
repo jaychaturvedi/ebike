@@ -15,7 +15,6 @@ interface State {
 
 function handleMenuClick(e: any) {
     message.info('Click on menu item.');
-    console.log('click', e);
     // switch (e.key) {
     //     case "1":
     //         return <DischargeGraph />

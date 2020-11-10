@@ -94,7 +94,6 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     }
     state.data = state.handleSort(Object.values(props.pastAlerts.data), props.pastAlerts.sort) as TPastAlertData[]
     state.total = props.pastAlerts.dataCount
-    console.log("past alert table", state,props)
     return state
   }
   renderClass = () => {
@@ -122,13 +121,11 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
     })
     this.setState({ sortingKey: "alertTime", dataLoaded: false })
     this.renderClass()
-    console.log(this.state.classname);
   }
   handleSelect = (event: any) => {
     this.setState({ sortingKey: '' })
     const { pageSize, current } = this.state
     this.setState({ pageSize: Number(event), current: 1, dataLoaded: false })
-    console.log(pageSize, current);
   }
 
   handleNav = (name: any, e: any) => {
@@ -195,7 +192,6 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
       }
     })
     // let alertTypeId: number
-    console.log("Got alert graph request", record)
     if (this.props.alertName !== undefined) {
       // alertTypeId = getAlertTypeId(this.props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
       if (this.state.graphDataLoaded === false || this.props.alertTypeId !== this.state.selectedRowId) {

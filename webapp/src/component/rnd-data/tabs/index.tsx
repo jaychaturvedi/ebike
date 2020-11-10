@@ -35,7 +35,6 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
     }
 
     tabClicked = (tab: TAlertType) => {
-        console.log("tab clicked", tab)
         this.props.alertTabChanged({
             type: "UPDATE_ACTIVE_ALERT",
             payload: {

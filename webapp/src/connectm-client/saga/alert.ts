@@ -86,8 +86,6 @@ async function fetchDropdownFilters(params: IDropdownFilterActions) {
 export function* getAlertData(params: IAlertActions) {
   try {
       const data: TAlertsTableData = yield call(getAlerts, params)
-      console.log("my getAlertData", data, params);
-
       yield put({
           type: "STORE_ALERT_UPDATE",
           payload: {
@@ -103,11 +101,9 @@ export function* getAlertData(params: IAlertActions) {
 }
 
 async function getAlerts(params: IAlertActions) {
-    console.log("called saga", params);
     let response = [];
     if (params.payload.filter.value !== "") {
         const request = await getFilteredAlertDetailsRequest(params);
-        console.log(request, "my request");
         response = await Promise.all([
           getFilteredSmartAlert(request!), 
           getFilteredBmsAlert(request!), 
@@ -118,7 +114,6 @@ async function getAlerts(params: IAlertActions) {
           getBmsAlert(params), 
           getMcAlert(params)])
     }
-    console.log("response in get alerts", response)
     const data: TAlertsTableData = {
         smart: response[0],
         bms: response[1],
@@ -204,7 +199,7 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
         let key = "";
         const searchString = params.payload.filter.value
         const searchStringSub = searchString.slice(0, 3)
-        console.log("search string", searchString, "Search sub", searchStringSub)
+        // console.log("search string", searchString, "Search sub", searchStringSub)
         key = searchKeyField(searchStringSub)
         if (key.length > 0) {
             request = {
@@ -213,8 +208,6 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
                 pageNo: params.payload.pagination.pageNumber,
                 pageSize: params.payload.pagination.pageSize
             }
-            console.log(request);
-
             return request
         }
     }
@@ -222,8 +215,6 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
 
 
 async function getSmartAlert(params: IAlertActions) {
-    console.log('envvv', process.env.REACT_APP_WEBAPIURLC);
-
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "smart",
@@ -231,13 +222,10 @@ async function getSmartAlert(params: IAlertActions) {
             pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log("datat", response)
     return response.data.body as Alert
 }
 
 async function getBmsAlert(params: IAlertActions) {
-    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
-
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "bms",
@@ -260,7 +248,6 @@ async function getMcAlert(params: IAlertActions) {
 }
 
 async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
-    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
     const smartFilter: FilterAlertRequest = {
         ...requestPayload,
         alertType: "smart"
@@ -269,7 +256,6 @@ async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
         smartFilter
         , { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log("my filtered data", response.data.body);
     return response.data.body
 }
 
@@ -281,7 +267,6 @@ async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         bmsFilter, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log("my filtered data", response.data.body);
     return response.data.body
 }
 
@@ -293,7 +278,6 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         mcFilter, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log("my filtered data", response.data.body);
     return response.data.body
 }
 

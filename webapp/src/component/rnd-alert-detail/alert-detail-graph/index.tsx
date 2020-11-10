@@ -65,7 +65,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             state.alertTypeId = props.alertTypeId
         }
-        console.log("component alert detail graph props and state", props,state);
+        // console.log("component alert detail graph props and state", props,state);
         ///////// props.graphs[state.alertTypeId!] is storing graph data as { alertTime:"", data:[]}/////////
         state.data = props.graphs[state.alertTypeId!]?.data
         state.alertTime = props.graphs[state.alertTypeId!]?.alertTime
