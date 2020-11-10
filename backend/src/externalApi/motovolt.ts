@@ -111,7 +111,8 @@ export default class ConnectmApi {
     endTime: string,
     pageNo: number,
     pageSize: number) {
-    const last7days= moment(startTime).subtract(7,'d').format('YYYY-MM-DD HH:mm:ss')
+    const last7days= moment(startTime).subtract(6,'d').format('YYYY-MM-DD HH:mm:ss')
+    console.log("last7days",last7days);
     const options = createOptions('/getridehistorystat', {
       frameid: frameId,
       pageSize,
@@ -119,7 +120,6 @@ export default class ConnectmApi {
       startTime:last7days,
       endTime
     })
-    
     const fetchedData: TRideHistoryStats[] = await post(options)
     return fetchedData
   }

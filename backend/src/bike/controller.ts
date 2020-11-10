@@ -29,7 +29,8 @@ export async function homeScreen(frameId: string,) {
   const { type } = myBike
   const { batchrgper: batteryCharge, rngcvr: rangeCovered,
     rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } = bikeLiveData //get bike live data
-  if (!bikeLiveData?.fid || !bikeStat?.fid || !myBike?.fid) throw new BikeError("No data available for frameId")
+  if (!bikeLiveData?.fid || !bikeStat?.fid || !myBike?.fid) 
+    throw new BikeError("No data available for frameId")
   return {
     co2sav, totalDistance, ratings, petrolSaved, petrolInLitre, type, greenMiles, costRecovered,
     batteryCharge, rangeCovered, rangeAvailable, ignition, locked, promotion, notification,
@@ -62,7 +63,8 @@ export async function getRideHistory(frameId: string, startTime: string, endTime
   const graphData = result[1]
   console.log(graphData);
   
-  if (!history?.length || !graphData?.length || !history[0]?.fid || !graphData[0]?.fid) return { history: [], graphData: [] }
+  // if (!history?.length || !graphData?.length || !history[0]?.fid || !graphData[0]?.fid) 
+  //   return { history: [], graphData: [] }
   return { history, graphData }
 }
 

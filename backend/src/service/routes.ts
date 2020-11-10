@@ -19,8 +19,16 @@ app.get('/all', expressQAsync(secure),
           const sortedClosed = closed.rows.sort(function(a:any,b:any){
             return b.openTime - a.openTime
           })
-        
-        const response = createResponse("OK", { open:sortedOpen, closed:sortedClosed }, undefined)
+        const response = createResponse("OK", {
+          open: {
+            count: open.count,
+            rows: sortedOpen
+          },
+          closed: {
+            count: closed.count,
+            rows: sortedClosed
+          }
+        }, undefined)
         res.send(response)
     })
 )

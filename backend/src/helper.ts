@@ -15,12 +15,12 @@ type TResponseStatus = "ERROR" | "OK" | "NOT_FOUND" | "INVALID_REQUEST" | "UNKNO
 export function createResponse(status: TResponseStatus, body: any,
   error: { code: number, message: string, name: string } | undefined) {
   return {
-    status: body != undefined ? status : "ERROR",
+    status: (body !== undefined )? status : "ERROR",
     body: body ? body : null,
-    error: error !== undefined ? {
-      code: error.code,
-      name: error.name,
-      message: error.message,
+    error: (error !== undefined )? {
+      code: error?.code,
+      name: error?.name,
+      message: error?.message,
     } : null,
     date: new Date()
   }
