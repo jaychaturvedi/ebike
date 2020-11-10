@@ -2,7 +2,10 @@ import './index.scss';
 import React, { PureComponent } from 'react';
 import RandDData from "../rnd-data"
 import RandDTrends from "../rnd-trends"
-interface RandDHomeContentProps { }
+import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
+import { connect } from 'react-redux';
+
+interface RandDHomeContentProps extends ReduxAlertActions, ReduxAlertState { }
 
 interface RandDHomeContentStates { }
 
@@ -15,12 +18,13 @@ class RandDHomeContent extends PureComponent<RandDHomeContentProps, RandDHomeCon
                     <RandDData />
                 </div>
                 <div className={"connectM-right"}>
-                    <RandDTrends />
+                    <RandDTrends trendsAlertType={this.props.alerts.activeAlertTab}/>
                 </div>
             </div>
         )
     }
 
 }
+export default connect(mapStateToProps, mapDispatchToProps)(RandDHomeContent);
 
-export default RandDHomeContent;
+// export default RandDHomeContent;

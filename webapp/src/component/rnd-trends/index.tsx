@@ -11,7 +11,9 @@ import { ReduxAlertTrendActions, ReduxAlertTrendState, mapDispatchToProps, mapSt
 import { connect } from 'react-redux';
 import TrendsDropdown from './dropdown';
 
-interface RandDTrendsProps extends ReduxAlertTrendActions, ReduxAlertTrendState { }
+interface RandDTrendsProps extends ReduxAlertTrendActions, ReduxAlertTrendState { 
+  trendsAlertType:"smart"|"bms"|"mc"
+}
 
 interface RandDTrendsStates {
   trendsPeriod: string,
@@ -24,7 +26,8 @@ interface RandDTrendsStates {
   endDate: string,
   clickCount: number,
   zoom: number,
-  interval: number
+  interval: number,
+  alertType:"smart"|"bms"|"mc"
 }
 // let data: object[] = []
 // for (let i = 1; i <= 31; i++) {
@@ -67,18 +70,29 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       reload: true,
       startDate: moment().subtract(7, 'd').format("YYYY-MM-DD HH:mm:ss"),
       endDate: moment().format("YYYY-MM-DD HH:mm:ss"),
-      interval: 0
+      interval: 0,
+      alertType:"smart"
     }
+  }
+  componentDidMount(){
+    this.props.getAlertTrends({
+      type: "GET_ALERT_TRENDS",
+      payload: {
+        alertType: this.props.trendsAlertType,
+        startDate: this.state.startDate,
+        endDate: this.state.endDate,
+        trendsZoom: this.state.zoom
+      }
+    })
   }
 
   static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
-    console.log("GET_ALERT_TRENDS", state);
-
-    if (state.reload) {
+    console.log("GET_ALERT_TRENDS props",state, props.alerts.activeAlertTab,props.trendsAlertType);
+    if (state.alertType !==props.alerts.activeAlertTab) {
       props.getAlertTrends({
         type: "GET_ALERT_TRENDS",
         payload: {
-          alertType: 'smart',
+          alertType: props.trendsAlertType,
           startDate: state.startDate,
           endDate: state.endDate,
           trendsZoom: state.zoom
@@ -86,6 +100,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       })
       state.reload = false;
     }
+    state.alertType=props.alerts.activeAlertTab
     state.totalAlerts = props.trendTotalAlert.sort((a: any, b: any): any => {
       return a["date"] > b["date"] ? b["date"] : a["date"]
     })
@@ -239,14 +254,15 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             tick={{ fill: 'white' }}
             stroke='#131731'
           />
-          <Line
-            name="Total Alerts"
-            type="monotone"
-            dataKey="count"
-            stroke="#7BE9F4"
-            strokeWidth={2}
-            dot={false}
-          />
+          {this.state.totalAlerts?.length &&
+            <Line
+              name="Total Alerts"
+              type="monotone"
+              dataKey="count"
+              stroke="#7BE9F4"
+              strokeWidth={2}
+              dot={false}
+            />}
           <Brush
             padding={{ bottom: 10 }}
             // dataKey='loc1count'
@@ -293,9 +309,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             tick={{ fill: 'white' }}
             stroke='#131731'
           />
-          {this.state.top5Alerts.lines.alert1 &&
+          {this.state.top5Alerts.lines?.alert1 &&
             <Line
-              name={this.state.top5Alerts.lines.alert1}
+              name={this.state.top5Alerts.lines?.alert1}
               type="monotone"
               dataKey="alert1count"
               stroke="#EB8E27"
@@ -303,9 +319,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               dot={false}
             />
           }
-          {this.state.top5Alerts.lines.alert2 &&
+          {this.state.top5Alerts.lines?.alert2 &&
             <Line
-              name={this.state.top5Alerts.lines.alert2}
+              name={this.state.top5Alerts.lines?.alert2}
               type="monotone"
               dataKey="alert2count"
               stroke="#80F0FA"
@@ -316,9 +332,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               dot={false}
             />
           }
-          {this.state.top5Alerts.lines.alert3 &&
+          {this.state.top5Alerts.lines?.alert3 &&
             <Line
-              name={this.state.top5Alerts.lines.alert3}
+              name={this.state.top5Alerts.lines?.alert3}
               type="monotone"
               dataKey="alert3count"
               stroke="#5280EF"
@@ -326,9 +342,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               dot={false}
             />
           }
-          {this.state.top5Alerts.lines.alert4 &&
+          {this.state.top5Alerts.lines?.alert4 &&
             <Line
-              name={this.state.top5Alerts.lines.alert4}
+              name={this.state.top5Alerts.lines?.alert4}
               type="monotone"
               dataKey="alert4count"
               stroke="#89ED72"
@@ -336,9 +352,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               dot={false}
             />
           }
-          {this.state.top5Alerts.lines.alert5 &&
+          {this.state.top5Alerts.lines?.alert5 &&
             <Line
-              name={this.state.top5Alerts.lines.alert5}
+              name={this.state.top5Alerts.lines?.alert5}
               type="monotone"
               dataKey="alert5count"
               stroke="#B7413E"
@@ -385,9 +401,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             content={this.CustomTooltip}
             cursor={{ fill: "transparent", top: 0, }}
           />
-          {this.state.locationWiseAlerts.lines.loc1 &&
+          {this.state.locationWiseAlerts.lines?.loc1 &&
             <Line
-              name={this.state.locationWiseAlerts.lines.loc1}
+              name={this.state.locationWiseAlerts.lines?.loc1}
               type="monotone"
               dataKey="loc1count"
               stroke="#EB8E27"
@@ -395,9 +411,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               dot={false}
             />
           }
-          {this.state.locationWiseAlerts.lines.loc2 &&
+          {this.state.locationWiseAlerts.lines?.loc2 &&
             <Line
-              name={this.state.locationWiseAlerts.lines.loc2}
+              name={this.state.locationWiseAlerts.lines?.loc2}
               type="monotone"
               dataKey="loc2count"
               stroke="#80F0FA"
@@ -405,9 +421,9 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               dot={false}
             />
           }
-          {this.state.locationWiseAlerts.lines.loc3 &&
+          {this.state.locationWiseAlerts.lines?.loc3 &&
             <Line
-              name={this.state.locationWiseAlerts.lines.loc3}
+              name={this.state.locationWiseAlerts.lines?.loc3}
               type="monotone"
               dataKey="loc3count"
               stroke="#89ED6F"

@@ -3,8 +3,7 @@ import { Store_UserUpdate } from "./user"
 import { IUsersAction } from "../actions/user"
 import { Store_AlertUpdate } from "./alert";
 import * as Alert from "./alert"
-import { Store_GetAlertTrends, TAlertsTrendData, getAlertTrends, updateAlertTrend } from "./trends"
-import { IAlertTrendActions } from "../actions/trends";
+import * as Trends from "./trends"
 import { IAlertGraphActions } from "../actions/graph";
 import {  Store_AlertGraph } from "./graph";
 import * as Graphs from "./graph"
@@ -17,24 +16,6 @@ import { TAlertInsights, TPastAlert } from "../redux/models";
 import { getQuickSightUrl, clearQuickSightUrl } from "./quickSight";
 import * as Dashboard from './dashboard'
 import * as Map from './map'
-
-function* getAlertTrend(params: IAlertTrendActions) {
-    try {
-        const data: TAlertsTrendData = yield call(getAlertTrends, params)
-        yield put({
-            type: "STORE_GET_ALERT_TRENDS",
-            payload: {
-                trendTotalAlert: data.trendTotalAlert,
-                trendTop5Alert: data.trendTop5Alert,
-                trendLocationWise: data.trendLocationWise
-            }
-        } as Store_GetAlertTrends)
-        console.log(data, 'in index.ts')
-
-    } catch (error) {
-        console.log("get Alerts error", error)
-    }
-}
 
 function* getAlertInsights(params: IAlertDetailActions) {
     try {
@@ -68,8 +49,6 @@ function* clearAlertGraph(params: IClearGraphActions) {
         console.log("error", error)
     }
 }
-
-
 
 function* getPastAlertDatas(param: IAlertDetailActions) {
     try {
@@ -153,14 +132,14 @@ function* actionWatcher() {
     yield takeLatest("UPDATE_ACTIVE_ALERT", Alert.updateAlertTabChange);
     yield takeLatest("UPDATE_FILTER", Alert.updateAlertFilterChange);
     yield takeLatest("GET_DROPDOWN_FILTERS", Alert.getDropdownFilterOptions)
-    yield takeLatest("GET_ALERT_TRENDS", getAlertTrend);
+    yield takeLatest("GET_ALERT_TRENDS", Trends.getAlertTrend);
     yield takeLatest("GET_ALERTS_INSIGHTS", getAlertInsights)
     yield takeLatest("POST_ALERT_CLEARANCE", postAlertClearance)
     // yield takeLatest("GET_LOW_MILEAGE", getLowMileageGraph);
     // yield takeLatest("GET_VEHICLE_USAGE", getVehicleUsageGraph);
     yield takeLatest("GET_PAST_ALERTS", getPastAlertDatas)
     yield takeLatest("UPDATE_PAST_ALERTS", updatePastAlertDatas)
-    yield takeLatest("UPDATE_ALERT_TRENDS", updateAlertTrend)
+    yield takeLatest("UPDATE_ALERT_TRENDS", Trends.updateAlertTrend)
     yield takeLatest("GET_ALERT_GRAPH", Graphs.getAlertGraphDatas)
     yield takeLatest("GET_PAST_ALERT_GRAPH", getPastAlertGraphDatas)
     yield takeLatest("GET_SINGLE_ALERT", getSingleAlertDetails)
