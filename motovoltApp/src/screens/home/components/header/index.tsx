@@ -78,7 +78,7 @@ class CHeader extends React.PureComponent<Props, {}> {
             </View>
           </View>
           <View style={{width: '30%', flexDirection: "row", justifyContent:"flex-end"}}>
-            {!this.props.hidePromo && (
+            {/* {!this.props.hidePromo && (
               <Button transparent onPress={this.props.onPromotionClick}>
                 {this.props.hasPromoNotification && <Badge />}
                 <Image
@@ -86,7 +86,7 @@ class CHeader extends React.PureComponent<Props, {}> {
                   style={styles.rightIcon}
                 />
               </Button>
-            )}
+            )} */}
             {this.props.bike.type === 'BLE' && (
               <Button transparent onPress={this.props.onBluetoothClick}>
                 <Image

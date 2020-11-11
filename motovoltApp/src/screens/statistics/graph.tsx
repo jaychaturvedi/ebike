@@ -125,6 +125,7 @@ export default class Graph extends React.PureComponent<Props, State> {
         },
       })),
     ];
+    const maxY = Math.max(...this.props.data.map((graph) => graph.value));
     return (
       <View
         style={{
@@ -133,10 +134,10 @@ export default class Graph extends React.PureComponent<Props, State> {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View style={{width: '90%', flexDirection: 'row' }}>
+        <View style={{width: '90%', height: "100%", flexDirection: 'row'}}>
           <YAxis
-            max={110}
-            min={-5}
+            max={maxY * 1.2}
+            min={-1}
             data={yData.slice(-7)}
             formatLabel={(value, index) => `${value} KM`}
             numberOfTicks={3}
@@ -144,25 +145,7 @@ export default class Graph extends React.PureComponent<Props, State> {
             svg={{fill: 'black', fontSize: 12}}
             style={{height: moderateScale(150), width: moderateScale(40)}}
           />
-          <ScrollView
-            style={{}}
-            horizontal={true}
-            onScrollAnimationEnd={() => console.log('animation end')}
-            onMomentumScrollEnd={() => console.log('Scroll ended')}
-            onScrollEndDrag={() => this.setState({scrollEnd: true})}
-            scrollEventThrottle={16}
-            bounces={false}
-            onScroll={(event) => {
-              var currentOffset = event.nativeEvent.contentOffset.x;
-              var direction =
-                currentOffset > this.state.offset ? 'right' : 'left';
-              this.setState({
-                offset: currentOffset,
-                scrollEnd: false,
-                direction,
-              });
-              // console.log(direction);
-            }}>
+          <View>
             {this.props.data.length === 0 ? (
               <View
                 style={{
@@ -177,10 +160,14 @@ export default class Graph extends React.PureComponent<Props, State> {
                 <Text>{LanguageSelector.t('myRides.noHistoryDataFound')}</Text>
               </View>
             ) : (
-              <View style={{minWidth: moderateScale(260), width: "100%"}}>
+              <View
+                style={{
+                  minWidth: moderateScale(260),
+                  width: '100%',
+                }}>
                 <BarChart
-                  yMin={-5}
-                  yMax={110}
+                  yMin={-1}
+                  yMax={maxY * 1.2}
                   style={{height: moderateScale(150)}}
                   // data={this.state.data}
                   data={yData.slice(-7)}
@@ -189,12 +176,14 @@ export default class Graph extends React.PureComponent<Props, State> {
                   gridMax={2}
                   yAccessor={({item}) => item.value}
                   numberOfTicks={3}
-                  spacingInner={0.2}>
+                  spacingOuter={0.2}
+                  spacingInner={0.6}>
                   <Grid svg={{strokeMiterlimit: 500}} />
                 </BarChart>
                 <XAxis
-                  // data={this.state.data}
                   data={yData.slice(-7)}
+                  spacingInner={0.6}
+                  spacingOuter={0.2}
                   scale={scale.scaleBand}
                   formatLabel={(value, index) => {
                     console.log(yData.slice(-7));
@@ -209,11 +198,11 @@ export default class Graph extends React.PureComponent<Props, State> {
                     height: moderateScale(40),
                     paddingTop: moderateScale(5),
                   }}
-                  svg={{fill: '#3A8F98', fontSize: 13}}
+                  svg={{fill: '#3A8F98', fontSize: 12}}
                 />
               </View>
             )}
-          </ScrollView>
+          </View>
         </View>
         {/* <Text>
                     ScrollEnd : {this.state.scrollEnd ? "true" : "false"}</Text><Text>
