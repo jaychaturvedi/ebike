@@ -47,7 +47,10 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
   }
 
   onCardClick = (record: any) => {
-    this.props.history.push("/" + "mis" + "/" + record.dashboardId);
+    const a =this.state.dashboardList.filter( e=>{
+      return e.dashboardId === record.dashboardId
+    })
+    this.props.history.push("/" + "mis" + "/" + record.dashboardId+"?name="+a[0]?.dashboardName);
   }
   handleChange = (value: any) => {
     console.log(`selected ${value}`);

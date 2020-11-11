@@ -27,7 +27,7 @@
     }
     .ant-card-meta-avatar {
       float: right;
-      padding-right: 16px;
+      padding-right: 0;
     }
     .ant-card-cover{
       margin: 2px;
@@ -80,4 +80,28 @@
   // .dashboard-container {
   //   margin: auto;
   // }
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(46,54,69); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2E3674; 
+}
+
+:root{
+  scrollbar-color: rgb(46,54,69) transparent !important; //thumb and background of scroll bar
+  scrollbar-width: thin !important;
+
 }

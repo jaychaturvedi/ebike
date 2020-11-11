@@ -24,7 +24,7 @@
     .tab-icons {
         &:hover {
             border-right: 2px solid $ACTIVE !important;
-            background-color: rgba($color: #eff0f9eb, $alpha: 0.4) !important;
+            background-color: rgba($color: #4053B8, $alpha: 0.4) !important;
             cursor: pointer;
         }
 
@@ -33,13 +33,13 @@
         align-items: center;
         // margin-bottom: 20%;
         border-right: 2px solid $LEFT_PANEL_BACKGROUND;
-        height: 74px;
+        height: 85px;
         justify-content: center;
     }
     .option-clicked {
         border-right: 2px solid $ACTIVE !important;
         background-color: #4053B8 !important;
-        height: 74px;
+        height: 85px;
         justify-content: center;
     }
 }
