@@ -44,6 +44,15 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             alertTime:""
         }
     }
+    componentWillUnmount() {
+      const props = this.props
+      props.clearAlertGraph({
+        type: "CLEAR_ALERT_GRAPH_DATA",
+        payload: {
+            alertTypeId: props.alertTypeId
+        }
+    })
+    }
 
     static getDerivedStateFromProps(props: AlertGraphProps, state: AlertGraphStates) {
         // let alertTypeId: number

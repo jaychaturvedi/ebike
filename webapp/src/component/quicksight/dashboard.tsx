@@ -82,7 +82,7 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
           width="100%"
           height="90%"
           id="myId"
-          className="myClassname"
+          className="myIframe"
           position="relative" />
       </div>
     )

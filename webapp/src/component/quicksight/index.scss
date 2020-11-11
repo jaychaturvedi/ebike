@@ -73,13 +73,10 @@
     animation-timing-function: linear;
     animation-play-state: running;
   }
-
-  // display: flex;
-  // justify-content: space-evenly;
-
-  // .dashboard-container {
-  //   margin: auto;
-  // }
+//////////dashboard.tsx/////////////////////////
+  .myIframe {
+    border: none;
+  }
 }
 ::-webkit-scrollbar {
   width: 10px;

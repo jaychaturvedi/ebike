@@ -141,6 +141,7 @@ function* actionWatcher() {
     yield takeLatest("UPDATE_PAST_ALERTS", updatePastAlertDatas)
     yield takeLatest("UPDATE_ALERT_TRENDS", Trends.updateAlertTrend)
     yield takeLatest("GET_ALERT_GRAPH", Graphs.getAlertGraphDatas)
+    yield takeLatest("CLEAR_ALERT_GRAPH_DATA", Graphs.clearAlertGraphDatas)    
     yield takeLatest("GET_PAST_ALERT_GRAPH", getPastAlertGraphDatas)
     yield takeLatest("GET_SINGLE_ALERT", getSingleAlertDetails)
     yield takeLatest("RESET_ALERT_MAIN_PAGE", resetAlertDataStore)

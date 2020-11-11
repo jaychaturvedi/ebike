@@ -21,6 +21,9 @@ export interface State {
         sort: TSort,
         pagination: TPagination,
         filter: TFilter,
+        locationFilter: TFilter,
+        vehicleFilter: TFilter,
+        timeFrameFilter: TFilter,
         activeAlertTab: TAlertType
     },
     trendTotalAlerts: TtrendTotalAlerts[],
@@ -66,6 +69,9 @@ const connectmState: State = {
             direction: 'descend'
         },
         filter: { fieldName: "all", value: "" },
+        locationFilter: { fieldName: "all", value: "" },
+        vehicleFilter: { fieldName: "all", value: "" },
+        timeFrameFilter: { fieldName: "all", value: "" },
         activeAlertTab: "smart"
     },
     trendTotalAlerts: [],

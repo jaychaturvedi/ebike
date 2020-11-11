@@ -25,6 +25,16 @@ export function* getAlertGraphDatas(params: IAlertGraphActions) {
   }
 }
 
+export function* clearAlertGraphDatas(params: IAlertGraphActions) {
+    yield put({
+      type: "STORE_ALERT_GRAPH",
+      payload: {
+        alertTypeId: params.payload.alertTypeId,
+        data:undefined
+      }
+    } as Store_AlertGraph)
+}
+
 export async function getAlertGraphData(params: IAlertGraphActions) {
     const data = await getGraphData(params)
     return data
