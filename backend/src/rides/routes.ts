@@ -54,7 +54,7 @@ app.get('/graphData/:frameId', expressQAsync(secure),
         const { startTime, endTime, pageNo, pageSize } = req.query as any
         const history = await ConnectmApi.getRideHistoryStat(req.params.frameId, startTime as string,
             endTime as string, pageNo as number, pageSize as number)
-        if (history[0].st) throw new BadRequestError("No data available for the device")
+        if (history[0]?.st) throw new BadRequestError("No data available for the device")
         const response = createResponse("OK", history, undefined)
         res.json(response)
     })

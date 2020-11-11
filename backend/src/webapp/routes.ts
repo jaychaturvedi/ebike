@@ -137,7 +137,7 @@ app.post('/dashFilter',
       location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize } = req.body
 
     const result = await WebAPI.dashFilter({
-      alertType, startDate, endDate, vehicleID:vehicleId,
+      alertType, startDate, endDate, vehicleID: vehicleId,
       alertName, model, subModel, location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize
     })
     const response = createResponse("OK", result, undefined)
@@ -211,13 +211,13 @@ app.get('/graphs',
   query('alertTypeId', "alertTypeId is too short").toInt(),
   query('alertId', "alertId is too short").toInt(),
   query('alertName', "alertName is too short").isString(),
-  query('alertCode', "alertCode is too short").isString(), 
-  query('timeStamp', "timeStamp is too short").isString(),validate],
+  query('alertCode', "alertCode is too short").isString(),
+  query('timeStamp', "timeStamp is too short").isString(), validate],
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
     console.log("Start API :", new Date())
-    const { vehicleId, alertId, alertName, alertTypeId,timeStamp, alertCode } = req.query as any
+    const { vehicleId, alertId, alertName, alertTypeId, timeStamp, alertCode } = req.query as any
     const result = await WebAPI.getDynamicSubGraph(vehicleId, alertId, alertTypeId, alertName, timeStamp, alertCode)
     const response = createResponse("OK", result, undefined)
     console.log("End API :", new Date())
@@ -338,11 +338,11 @@ app.post('/updateDashboard',
 )
 
 app.delete('/deleteDashboardId/:dashboardId',
-[param('dashboardId', "dashboardId is required").isString().isLength({ min: 1 }), validate],
+  [param('dashboardId', "dashboardId is required").isString().isLength({ min: 1 }), validate],
   expressQAsync(async (req: Express.Request, res: Express.Response,
     next: Express.NextFunction) => {
-      const dashboardId = req.params.dashboardId as string
-    const result = await Dashboard.deleteWhere({dashboardId})
+    const dashboardId = req.params.dashboardId as string
+    const result = await Dashboard.deleteWhere({ dashboardId })
     const response = createResponse("OK", result, undefined)
     res.json(response)
   })
@@ -350,11 +350,17 @@ app.delete('/deleteDashboardId/:dashboardId',
 
 
 app.get('/customerLiveLocation/:customerId',
-  [param('customerId', "customerId is too short").isString(), validate],
+  [param('customerId', "customerId is too short").isString(),
+  query('location', "location is too short").isString(),
+  query('zone', "zone is too short").isString(), validate],
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
-    const result = await WebAPI.getCustomerLiveLocations(req.params.customerId as string)
+    const { location, zone } = req.query as any
+    const result = await WebAPI.getCustomerLiveLocations(
+      req.params.customerId as string,
+      location,
+      zone)
     // if (result[0].st==="false"){
     //   throw new BadRequestError("No data available for customerId")
     // }
@@ -362,7 +368,14 @@ app.get('/customerLiveLocation/:customerId',
     res.json(response)
   })
 )
-
+/////////api to give vehicle filter option and location filter option in subheader of webapp////////////////
+app.get('/dropdownFilters',
+  expressQAsync(async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const result = await WebAPI.getDropdownFilters()
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
 
 app.use(expressErrorHandler);
 

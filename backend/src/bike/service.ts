@@ -8,7 +8,7 @@ export default class Bike {
         const bike = await BikeModel.findOne({
             where: { ...condition },
         })
-        if (!bike) throw new BikeError('Unable to find bike by id ');
+        if (!bike) throw new BikeError('No data available for devices');
         return bike
     }
 

@@ -117,17 +117,23 @@ export default class WebAPI {
         return fetchedData
     }
       
-    static async getCustomerLiveLocations(customerId: string) {
+    static async getCustomerLiveLocations(customerId: string, location:string,zone:string) {
       console.log("External API Start Time: ", new Date())
       const options = {
         uri: "https://fwvwsm1jsh.execute-api.us-east-2.amazonaws.com/yantra/custlivelocation",
-        body: { custId: customerId},
+        body: { custId: customerId,location,zone},
         headers: {'Content-Type': 'application/json'},
         json: true
       };
       const fetchedData = await post(options)
       console.log("External API End Time : ", new Date())
       return fetchedData
+    }
+
+    static async getDropdownFilters(){
+      const vehicle = await get(createOptions('/vehicledropdown', undefined))
+      const location = await get(createOptions('/locationdropdown', undefined))
+      return {vehicle,location}
     }
 
     ///////////////////////////////////////not using below routes//////////////////////////////

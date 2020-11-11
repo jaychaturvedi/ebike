@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { ReduxDashboardAction, ReduxDashboardState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/dashboard"
 import { TDashboardList } from "../../connectm-client/redux/models"
 import { withRouter, RouteComponentProps } from "react-router";
-import { Card, Divider, Select } from 'antd';
+import { Card, Divider, Select, Tooltip } from 'antd';
 import BackArrowButton from '../../assets/png/back-arrow-button.png'
 import { ReactComponent as RefreshIcon } from "../../assets/Refresh.svg"
 import { Link } from 'react-router-dom';
@@ -104,7 +104,10 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
                 />
               }
             >
-              <Meta title={"Map View"} />
+              <Tooltip placement="bottom" color="#272b3c"
+                title={<span>{"Map View"}</span>} trigger="hover">
+                <Meta title={"Map View"} />
+              </Tooltip>
             </Card>
           </div>
           {this.state.dashboardList.map((dashboard: TDashboardList) => {
@@ -117,7 +120,10 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
                 cover={<img alt={dashboard.dashboardName}
                   src={dashboard.dashboardImageUrl} style={{ height: 150 }} />}
               >
-                <Meta title={dashboard.dashboardName} />
+                <Tooltip placement="bottom" color="#272b3c"
+                  title={<span>{dashboard.dashboardName}</span>} trigger="hover">
+                  <Meta title={dashboard.dashboardName} />
+                </Tooltip>
               </Card>
             </div>)
           })}

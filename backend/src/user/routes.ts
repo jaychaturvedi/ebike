@@ -60,6 +60,17 @@ app.post('/',
     res.json(response)
   })
 )
+
+app.post('/create', expressQAsync(secure),
+  expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+    console.log("Start Time:", new Date(), "request body", req.body)
+    const { phone, uid } = res.locals.user
+    const newUser = await User.createNew({ phone, uid })
+    const response = createResponse("OK", newUser, undefined)
+    console.log("End Time:", new Date())
+    res.json(response)
+  })
+)
 //for testing purpose only, need to be deleted
 app.put('/update/:phone',
   [param('phone', "phone is required in params").isString(),

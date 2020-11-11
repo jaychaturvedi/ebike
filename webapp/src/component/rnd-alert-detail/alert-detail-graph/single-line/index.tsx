@@ -9,15 +9,17 @@ import moment from 'moment';
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    console.log(payload?.timeDate, "payyload", props.alertDate);
-    if (payload?.timeDate === alertDate) {
+    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm:ss")
+    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss")
+    // console.log(moment(payload?.timeDate).format("DD/MM/YYYY hh:mm:ss"), "payyyyload",  moment(props.alertDate).format("DD/MM/YYYY hh:mm:ss"));
+    if (TimeDate === AlertDate) {
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />
             </svg>
         );
     }
-    return (<svg></svg>);
+    else return (<svg></svg>);
 };
 
 interface AlertDetailGraphProps {
@@ -102,11 +104,11 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
     CustomTooltip = (obj: any) => {
         const { label, payload, active } = obj;
         if (!active || !label || !payload) return label;
-        const style = { top: obj?.viewBox.y - 5, color: "#5FBDE0", zIndex: 10 };
+        const style = { top: obj?.viewBox.y - 15, color: "#5FBDE0", zIndex: 10, fontSize:"14px" };
         if (active) {
             return (
                 <div className="custom-tooltip" style={style}>
-                    <p className="label">{`${payload[0]?.value}`}</p>
+                    <p className="label"> <b>{`${payload[0]?.value}`}</b></p>
                 </div>
             );
         }
@@ -188,7 +190,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                 />
               </YAxis>
               <Tooltip
-                offset={-17}
+                offset={-25}
                 content={this.CustomTooltip}
                 cursor={{ fill: "transparent", top: 0, }}
               />

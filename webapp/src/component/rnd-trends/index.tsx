@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import { ReduxAlertTrendActions, ReduxAlertTrendState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/trends"
 import { connect } from 'react-redux';
+import TrendsDropdown from './dropdown';
 
 interface RandDTrendsProps extends ReduxAlertTrendActions, ReduxAlertTrendState { }
 
@@ -39,9 +40,28 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     this.state = {
       clickCount: 0,
       trendsPeriod: "Last 7 Days",
-      totalAlerts: [],
-      locationWiseAlerts: { lines: {}, data: [] },
-      top5Alerts: { lines: {}, data: [] },
+      totalAlerts: [{
+        date: "2020-10-15",
+        count: 1
+      }],
+      locationWiseAlerts: {
+        lines: {
+          loc1: "Bengaluru",
+          loc2: "Kolkata"
+        }, data: [{
+          date: "2020-11-02",
+          loc1count: 4,
+          loc2count: 15
+        }]
+      },
+      top5Alerts: {
+        lines: {
+          alert1: "No data"
+        }, data: [{
+          date: "2020-10-30",
+          alert1count: 4
+        }]
+      },
       zoom: 0,
       xAxis: 7,
       reload: true,
@@ -106,17 +126,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     })
   }
 
-  trendPeriod = (
-    <Menu onClick={this.handlePeriodChange}>
-      <Menu.Item key="Last 7 Days">
-        Last 7 Days
-        </Menu.Item>
-      <Menu.Item key="Last 30 Days">
-        Last 30 Days
-        </Menu.Item>
-    </Menu>
-  );
-
   formatDate = (label: any) => {
     // console.log("label", label)
     // console.log(moment(`${label}`).format('dddd'));
@@ -159,13 +168,26 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     const { label, payload, active } = obj;
     if (!active || !label || !payload) return label;
     const style = { top: obj?.viewBox.y - 30, color: "#5FBDE0", zIndex: 10 };
+    // console.log(payload);
+    
     if (active) {
-      return (
+      if(payload[0]?.name==="Total Alerts"){
+        return (
+          <div className="custom-tooltip" style={style}>
+              <p className="label"><b>{`${payload[0]?.value}`}</b></p>
+          </div>
+      );
+      }
+      else return (
         <div className="custom-tooltip" style={style}>
           {
-            payload?.length ? payload.map((element: any) => {
-              return <p className="label">{`${element?.name}`} : <b>{`${element?.value}`}</b></p>
-            }) : ""
+            payload?.length 
+            ? payload.map((element: any) => {
+              return <p className="label" style={{color:element.color}}>
+                {/* {`${element?.name}`} : */}
+                 <b>{`${element?.value}`}</b></p>
+            }) 
+            : ""
           }
         </div>
       );
@@ -175,32 +197,17 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
 
   render() {
     return <div className="connectm-RandDTrends">
-      <div className="trends-header">
-        <Typography.Text strong className="trends-header-text">TRENDS</Typography.Text>
-        <Dropdown
-          overlay={this.trendPeriod}
-          trigger={['click']}
-        >
-          <Typography.Text
-            className={"pair trend-dropdown-active"}
-            style={{ paddingLeft: "2px", whiteSpace: "nowrap", }}
-          >
-            {this.state.trendsPeriod}
-            <DownOutlined
-              className={"flip"}
-              style={{ marginLeft: "30px", paddingRight: "2px" }}
-            />
-          </Typography.Text>
-        </Dropdown>
-      </div>
-
+        <TrendsDropdown 
+          handlePeriodChange={this.handlePeriodChange}
+          trendsPeriod={this.state.trendsPeriod}
+        />
       <div className={"title-header"}>
         <Typography.Text
           strong
           className="title-header-text"
         >
           Total Alerts
-            </Typography.Text>
+        </Typography.Text>
       </div>
 
       <ResponsiveContainer width="100%" height="28%">
@@ -233,7 +240,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             stroke='#131731'
           />
           <Line
-            name="line 1"
+            name="Total Alerts"
             type="monotone"
             dataKey="count"
             stroke="#7BE9F4"

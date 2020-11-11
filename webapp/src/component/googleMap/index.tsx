@@ -27,9 +27,13 @@ interface MapProps extends ReduxMapAction, ReduxMapState {
 interface MapState {
   mapMarkers: TMapMarkers[],
   dataLoaded: boolean,
-  customerId: string
+  customerId: string,
+  refreshing: boolean,
+  location: string,
+  zone: string
 }
-
+const defaultCity="Kolkata"
+const defaultZone="All"
 const defaultProps = {
   center: { lat: 22, lng: 77 },
   zoom: 12
@@ -40,7 +44,10 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
     this.state = {
       mapMarkers: [],
       dataLoaded: false,
-      customerId: "CUS123456"
+      customerId: "CUS123456",
+      refreshing: false,
+      zone: "All",
+      location: "Kolkata"
     }
   }
 
@@ -58,7 +65,9 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       props.getMapMarkers({
         type: "GET_MAP_MARKERS",
         payload: {
-          customerId: state.customerId
+          customerId: state.customerId,
+          location: state.location,
+          zone: state.zone
         }
       })
       console.log("component googlemap state", props.mapMarkers);
@@ -74,46 +83,65 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
   onRefresh = () => {
     this.setState({
       dataLoaded: false,
-      mapMarkers: []
+      mapMarkers: [],
+      refreshing: true,
+      location:defaultCity,
+      zone:defaultZone
     })
+    setTimeout(() => {
+      this.setState({
+        refreshing: false
+      })
+    }, 1500)
   }
 
+  handleLocationClick = (e: any) => {
+    console.log(e.key);
+    this.setState({
+      location: e.key,
+      dataLoaded:false
+    })
+  }
+  handleZoneClick= (e:any) =>{
+    console.log(e.key);
+    this.setState({
+      zone:e.key,
+      dataLoaded:false
+    })
+  }
   render() {
     const vehicle = (
       <Menu >
         <Menu.Item key="Zomato" >
           <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Zomato</Typography.Text>
         </Menu.Item>
-        <Menu.Item key="Swiggy">
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Swiggy</Typography.Text>
-        </Menu.Item>
       </Menu>
     );
     const location = (
-      <Menu >
-        <Menu.Item key="Bangalore" >
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Bangalore</Typography.Text>
-        </Menu.Item>
+      <Menu onClick={this.handleLocationClick} >
         <Menu.Item key="Kolkata">
           <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Kolkata</Typography.Text>
+        </Menu.Item>
+        <Menu.Item key="Bengaluru" >
+          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Bangalore</Typography.Text>
         </Menu.Item>
         <Menu.Item key="Hyderabad">
           <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Hyderabad</Typography.Text>
         </Menu.Item>
       </Menu>
     );
-
-    const person = (
-      <Menu >
-        <Menu.Item key="All" >
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>All</Typography.Text>
-        </Menu.Item>
-        <Menu.Item key="Me">
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Me</Typography.Text>
-        </Menu.Item>
+    const zones=["All","North","South","East", "West", "Centre"]
+    const zone = (
+      <Menu onClick={this.handleZoneClick}>
+        {
+          zones.map(Zone => {
+            return <Menu.Item key={Zone} >
+              <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{Zone}</Typography.Text>
+            </Menu.Item>
+          })
+        }
       </Menu>
     );
-    const element = { lat: 22, lng: 77, frameId: "44774", timeStamp: "11-01-20" }
     return (
       // Important! Always set the container height explicitly
       <div className='container-quicksight'>
@@ -142,20 +170,20 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
             </Dropdown>
             <Dropdown overlay={location} trigger={['click']}>
               <div className="map-filter-dropdown" onClick={e => e.preventDefault()}>
-                Bangalore <DownOutlined />
+                {this.state.location} <DownOutlined />
               </div>
             </Dropdown>
-            <Dropdown overlay={person} trigger={['click']}>
+            <Dropdown overlay={zone} trigger={['click']}>
               <div className="map-filter-dropdown" onClick={e => e.preventDefault()}>
-                All <DownOutlined />
+                {this.state.zone} <DownOutlined />
               </div>
             </Dropdown>
           </div>
           <div className="refresh-button" onClick={this.onRefresh}>
-            <RefreshIcon width="24" height="24" />
+            <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"} />
           </div>
         </div>
-        <Divider style={{ background: "grey", margin: "10px 0" }} />
+        {/* <Divider style={{ background: "grey", margin: "10px 0" }} /> */}
         {this.state.dataLoaded && <div className="google-map-container">
           <GoogleMapReact
             bootstrapURLKeys={{
@@ -174,8 +202,9 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
                   lat={element.lat}
                   lng={element.lng}
                   frameId={element.frameId}
+                  isActive={element.isActive}
                   lastActive={element.timestamp}
-                  color="#3D487D"
+                  color={element.isActive ? "#3D487D" : "#41A3C9"}
                 />
               )
             })}

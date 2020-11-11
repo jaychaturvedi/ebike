@@ -1,6 +1,6 @@
 import connectmState, { State } from "./connectm-state"
 import { IUsersAction } from "../actions/user"
-import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange } from "../saga/alert"
+import { Store_AlertUpdate, Store_AlertTabChange, Store_AlertFilterChange, Store_DropdownFilters } from "../saga/alert"
 import { Store_GetAlertTrends, Store_UpdateALertTrends } from "../saga/trends";
 import { Store_AlertGraph } from "../saga/graph";
 import { Store_UserUpdate } from "../saga/user";
@@ -26,6 +26,7 @@ type ActionParams = IUsersAction
   | Clear_DashboardList
   | Clear_QuickSightUrl
   | Store_MapMarkers
+  | Store_DropdownFilters
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
   switch (actionParams.type) {
@@ -205,6 +206,12 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
       return {
         ...state,
         dashboardList: []
+      }
+    }
+    case "STORE_DROPDOWN_FILTERS":{
+      return {
+        ...state,
+        dropdownFilters: (actionParams as Store_DropdownFilters).payload
       }
     }
     default: {

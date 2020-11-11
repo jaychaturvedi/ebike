@@ -112,7 +112,9 @@ td.ant-table-column-sort {
                 width: 150px;
             }
         }
-
+        .icon.active svg{
+          cursor: pointer;
+        }
         .icon.inactive svg {
             // border: 1px solid white;
             fill: #818181;

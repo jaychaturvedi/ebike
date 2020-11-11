@@ -28,7 +28,8 @@ interface AlertGraphStates {
     dataLoaded: boolean
     alertTypeId: number,
     data: any,
-    clearAlertState: boolean
+    clearAlertState: boolean,
+    alertTime:string
 
 }
 
@@ -39,7 +40,8 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             dataLoaded: false,
             alertTypeId: 0,
             data: {},
-            clearAlertState: props.clearAlertState()
+            clearAlertState: props.clearAlertState(),
+            alertTime:""
         }
     }
 
@@ -64,7 +66,9 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             state.alertTypeId = props.alertTypeId
         }
         console.log("component alert detail graph props and state", props,state);
-        state.data = props.graphs[state.alertTypeId!]
+        ///////// props.graphs[state.alertTypeId!] is storing graph data as { alertTime:"", data:[]}/////////
+        state.data = props.graphs[state.alertTypeId!]?.data
+        state.alertTime = props.graphs[state.alertTypeId!]?.alertTime
         // state.data = lowMileageData
         return state
     }
@@ -90,8 +94,6 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           title="Vehicle Usage (Active Vs Idle):"
           xAxisLabel="Days" 
           yAxisLabel="Usage (in Hrs)"
-          alertCleared={this.props.alertCleared}
-          alertDate={this.props.alertDate}
           bar1Key="activeTime"
           bar2Key="idleTime"
           bar1Name="Active Time"
@@ -99,6 +101,8 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           bar1StrokeColor="#8599FE"
           bar2StrokeColor="#5A5BA0" 
           L1={false} 
+          alertDate={this.state.alertTime}
+          alertCleared={this.props.alertCleared}
         />
       }
       case 3: {
@@ -107,9 +111,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           data={this.state.data}
           L1={true}
           L2={true}
-          alertDate={this.props.alertDate}
           title="Battery Temperature:"
-          alertCleared={this.props.alertCleared}
           line1Key="chrgTemp"
           line2Key="abintTemp"
           line1Name='Charging Temp'
@@ -119,6 +121,8 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           refColor="green"
           xAxisLabel="Time"
           yAxisLabel="Temperature (`C)" 
+          alertDate={this.state.alertTime}
+          alertCleared={this.props.alertCleared}
         />
       }
       case 4: {
@@ -127,13 +131,13 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           dataKey="timeDate"
           L1={true}
           title="Battery Voltage Trend"
-          alertDate={this.props.alertDate}
           line1Key="batteryPackVoltage"
           line1Name='Battery Pack Voltage'
           refColor="green"
           line1StrokeColor="#4aa7cf"
           xAxisLabel="Time"
           yAxisLabel="Voltage"
+          alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
@@ -154,8 +158,8 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           yAxisLabel="Temperature `C"
           rightYaxisLabel="Current (A)" 
           data={this.state.data}
+          alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
-          alertDate={this.props.alertDate}
         />
       }
       case 6: {
@@ -170,7 +174,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           xAxisLabel="Time"
           yAxisLabel="Current (A)"
           data={this.state.data}
-          alertDate={this.props.alertDate}
+          alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
@@ -186,7 +190,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           xAxisLabel="Time"
           yAxisLabel="SOC"
           data={this.state.data}
-          alertDate={this.props.alertDate}
+          alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
@@ -202,7 +206,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           xAxisLabel="Time" 
           yAxisLabel="Temperature (`C)" 
           data={this.state.data} 
-          alertDate={this.props.alertDate}
+          alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
@@ -218,7 +222,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           xAxisLabel="Time" 
           yAxisLabel="Speed (Km)" 
           data={this.state.data} 
-          alertDate={this.props.alertDate}
+          alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
@@ -238,7 +242,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           xAxisLabel="No of Cycles" 
           yAxisLabel="Mileage (Km)" 
           data={this.state.data} 
-          alertDate={this.props.alertDate}
+          alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared} />
       }
       case 999: {
@@ -253,7 +257,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           xAxisLabel="Time"
           yAxisLabel={this.state.data?.length?this.state.data[0]["param"]:"Y Axis"}
           data={this.state.data} 
-          alertDate={this.props.alertDate}
+          alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }

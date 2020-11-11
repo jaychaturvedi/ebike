@@ -164,7 +164,8 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                               alertName={this.state.alert.alertName}
                               vehicleId={this.state.alert.frameId}
                               alertCode={this.state.alert.alertCode}
-                              alertTypeId={this.state.alert.alertTypeId} 
+                              alertTypeId={this.state.alert.alertTypeId}
+                              alertTime={this.state.alert.alertTime} 
                             />
                         </div>
                     </div>
