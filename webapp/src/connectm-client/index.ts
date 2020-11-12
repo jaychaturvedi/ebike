@@ -30,7 +30,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 // const persistedState = loadFromLocalStorage()
 const store = createStore(AppReducer, composeWithDevTools(
-  applyMiddleware(sagaMiddleware, logger)
+  applyMiddleware(sagaMiddleware)
   // other store enhancers if any
 ));
 // store.subscribe(() => saveToLocalStorage(store.getState()))

@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { State } from "../redux/connectm-state";
 
 
-export type AlertGraphActions = "GET_ALERT_GRAPH" | "CLEAR_ALERT_GRAPH"
+export type AlertGraphActions = "GET_ALERT_GRAPH" 
 
 //////////////////////////////Get alert graph
 export interface AlertGraphPayload {
@@ -13,9 +13,16 @@ export interface AlertGraphPayload {
     timeStamp:string,
     alertCode:string
 }
+export interface ClearAlertGraphPayload {
+  alertTypeId: number
+}
 export interface IAlertGraphActions {
     type: AlertGraphActions,
     payload: AlertGraphPayload
+}
+export interface IClearAlertGraphActions {
+  type: "CLEAR_ALERT_GRAPH_DATA",
+  payload: ClearAlertGraphPayload
 }
 
 export function GraphAlerts(params: IAlertGraphActions): IAlertGraphActions {
@@ -24,32 +31,22 @@ export function GraphAlerts(params: IAlertGraphActions): IAlertGraphActions {
         payload: params.payload
     }
 }
-
-/////////////////////////////////Clear alert graph/////////////
-// export interface ClearAlertGraphPayload {
-//     alertName: string,
-// }
-
-// export interface IClearGraphActions {
-//     type: AlertGraphActions,
-//     payload: ClearAlertGraphPayload
-// }
-
-// export function ClearGraphAlerts(params: IClearGraphActions): IClearGraphActions {
-//     return {
-//         type: params.type,
-//         payload: params.payload
-//     }
-// }
-//////////////////////////////////////////////////////////////
+export function ClearGraphAlerts(params: IClearAlertGraphActions): IClearAlertGraphActions {
+  return {
+      type: params.type,
+      payload: params.payload
+  }
+}
 
 export interface ReduxAlertGraphActions {
     getAlertGraph: (params: IAlertGraphActions) => IAlertGraphActions,
+    clearAlertGraph: (params : IClearAlertGraphActions) => IClearAlertGraphActions
 }
 
 export function mapDispatchToProps(dispatch: Dispatch): ReduxAlertGraphActions {
     return {
         getAlertGraph: (params: IAlertGraphActions) => dispatch(GraphAlerts(params)),
+        clearAlertGraph: (params: IClearAlertGraphActions) => dispatch(ClearGraphAlerts(params)),
     }
 }
 

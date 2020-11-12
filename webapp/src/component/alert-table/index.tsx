@@ -102,7 +102,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
               fieldName: state.sortingKey,
               direction: state.isAsc ? "ascend" : "descend"
             },
-            filter: props.alerts.filter
+            filter: props.alerts.filter,
+            locationFilter: props.alerts.locationFilter,
+            timeFrameFilter: props.alerts.timeFrameFilter,
+            vehicleFilter: props.alerts.vehicleFilter
           }
         }
       )

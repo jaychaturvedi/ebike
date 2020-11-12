@@ -45,6 +45,5 @@ export function* clearDashboardList() {
 
 export async function getDashboard(params: IDashboardAction) {
   const response = await axios.get(process.env.REACT_APP_WEBAPIURL + '/getDashboard')
-  console.log("called dashboard saga", response.data);
   return response.data.body as TDashboardList[]
 }

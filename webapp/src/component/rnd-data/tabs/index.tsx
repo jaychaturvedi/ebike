@@ -35,7 +35,6 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
     }
 
     tabClicked = (tab: TAlertType) => {
-        console.log("tab clicked", tab)
         this.props.alertTabChanged({
             type: "UPDATE_ACTIVE_ALERT",
             payload: {
@@ -45,7 +44,10 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
                     pageSize: 10
                 },
                 sort: this.props.alerts.sort,
-                filter: this.props.alerts.filter
+                filter: this.props.alerts.filter,
+                locationFilter:  this.props.alerts.locationFilter,
+                timeFrameFilter:  this.props.alerts.timeFrameFilter,
+                vehicleFilter:  this.props.alerts.vehicleFilter
             }
         })
     }

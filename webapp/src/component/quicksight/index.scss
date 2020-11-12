@@ -12,6 +12,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
   }
 
   .dashboard-card-container {
@@ -24,7 +25,13 @@
     @media screen and (max-width: 1480px) {
       grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
     }
-
+    .ant-card-meta-avatar {
+      float: right;
+      padding-right: 0;
+    }
+    .ant-card-cover{
+      margin: 2px;
+    }
     .dashboard-card {
       border: 2px solid #3d487d;
       border-radius: 2px;
@@ -38,8 +45,9 @@
           border: none;
         }
       }
-      &:hover{
-        box-shadow: 0 2px 3px 0 grey, 0 2px 6px 0 grey;
+      &:hover {
+        border: 2px solid #00a2ff;
+        // box-shadow: 0 2px 3px 0 grey, 0 2px 6px 0 grey;
         // border: 2px solid #ccc;
       }
     }
@@ -65,11 +73,32 @@
     animation-timing-function: linear;
     animation-play-state: running;
   }
+//////////dashboard.tsx/////////////////////////
+  .myIframe {
+    border: none;
+  }
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-  // display: flex;
-  // justify-content: space-evenly;
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(46,54,69); 
+}
 
-  // .dashboard-container {
-  //   margin: auto;
-  // }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2E3674; 
+}
+
+:root{
+  scrollbar-color: rgb(46,54,69) transparent !important; //thumb and background of scroll bar
+  scrollbar-width: thin !important;
+
 }

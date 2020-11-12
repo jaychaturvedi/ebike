@@ -46,7 +46,10 @@ export type Store_AlertFilterChange = {
     payload: {
         alertType: TAlertType,
         pagination: TPagination,
-        filter: TFilter
+        filter: TFilter,
+        locationFilter: TFilter,
+        vehicleFilter: TFilter,
+        timeFrameFilter: TFilter
     }
 }
 
@@ -86,8 +89,6 @@ async function fetchDropdownFilters(params: IDropdownFilterActions) {
 export function* getAlertData(params: IAlertActions) {
   try {
       const data: TAlertsTableData = yield call(getAlerts, params)
-      console.log("my getAlertData", data, params);
-
       yield put({
           type: "STORE_ALERT_UPDATE",
           payload: {
@@ -103,11 +104,11 @@ export function* getAlertData(params: IAlertActions) {
 }
 
 async function getAlerts(params: IAlertActions) {
-    console.log("called saga", params);
+  console.log("getAlerts......", params);
+  
     let response = [];
-    if (params.payload.filter.value !== "") {
+    if (params.payload.filter.fieldName !== "all") {
         const request = await getFilteredAlertDetailsRequest(params);
-        console.log(request, "my request");
         response = await Promise.all([
           getFilteredSmartAlert(request!), 
           getFilteredBmsAlert(request!), 
@@ -118,7 +119,6 @@ async function getAlerts(params: IAlertActions) {
           getBmsAlert(params), 
           getMcAlert(params)])
     }
-    console.log("response in get alerts", response)
     const data: TAlertsTableData = {
         smart: response[0],
         bms: response[1],
@@ -154,57 +154,49 @@ export function* updateAlertFilterChange(params: IAlertActions) {
 }
 
 async function getFilteredAlertDetailsRequest(params: IAlertActions) {
-    let request: FilterAlertRequest
-    if (params.payload.filter.fieldName === "model") {
-        const key = (params.payload.filter.value === "Classic" || params.payload.filter.value === "Cargo") ? "model" : "subModel"
-        request = {
-            [key]: params.payload.filter.value,
-            alertType: params.payload.alertType,
-            pageNo: params.payload.pagination.pageNumber,
-            pageSize: params.payload.pagination.pageSize
-        }
-        return request;
+    let request: FilterAlertRequest = {
+      alertType: params.payload.alertType,
+      pageNo: params.payload.pagination.pageNumber,
+      pageSize: params.payload.pagination.pageSize
     }
-    if (params.payload.filter.fieldName === "location") {
-        const key = (params.payload.filter.value === "North"
-            || params.payload.filter.value === "South"
-            || params.payload.filter.value === "East"
-            || params.payload.filter.value === "West") ? "location" : "subLocation"
-        request = {
-            [key]: params.payload.filter.value,
-            alertType: params.payload.alertType,
-            pageNo: params.payload.pagination.pageNumber,
-            pageSize: params.payload.pagination.pageSize
-        }
-        return request;
+    if (params.payload.vehicleFilter.fieldName === "model") {
+        const key = (params.payload.vehicleFilter.value === "Classic" || params.payload.vehicleFilter.value === "Cargo") ? "model" : "subModel"
+        request = Object.assign(request,
+          {
+            [key]: params.payload.vehicleFilter.value
+          }
+        )
     }
-    if (params.payload.filter.fieldName === "timeFrame") {
-        request = {
-            timeFrame: params.payload.filter.value,
-            alertType: params.payload.alertType,
-            pageNo: params.payload.pagination.pageNumber,
-            pageSize: params.payload.pagination.pageSize
-        }
-        return request;
+    if (params.payload.locationFilter.fieldName === "location") {
+        const key = (params.payload.locationFilter.value === "North"
+            || params.payload.locationFilter.value === "South"
+            || params.payload.locationFilter.value === "East"
+            || params.payload.locationFilter.value === "West") ? "location" : "subLocation"
+        request = Object.assign(request,
+          {
+            [key]: params.payload.locationFilter.value
+          }
+        )
     }
-    if (params.payload.filter.fieldName === "DateRange") {
-        const splitDate = params.payload.filter.value.split(" to ")
+    if (params.payload.timeFrameFilter.fieldName === "timeFrame") {
+      request = Object.assign(request, {
+          timeFrame: params.payload.timeFrameFilter.value,
+      })
+    }
+    if (params.payload.timeFrameFilter.fieldName === "DateRange") {
+        const splitDate = params.payload.timeFrameFilter.value.split(" to ")
         const startDate = moment(splitDate[0].trim(), "DD/MM/YYYY").format("YYYY-MM-DD")
         const endDate = moment(splitDate[1].trim(), "DD/MM/YYYY").format("YYYY-MM-DD")
-        request = {
+        request = Object.assign(request, {
             startDate: startDate,
-            endDate: endDate,
-            alertType: params.payload.alertType,
-            pageNo: params.payload.pagination.pageNumber,
-            pageSize: params.payload.pagination.pageSize
-        }
-        return request;
+            endDate: endDate
+        })
     }
     if (params.payload.filter.fieldName === "search") {
         let key = "";
         const searchString = params.payload.filter.value
         const searchStringSub = searchString.slice(0, 3)
-        console.log("search string", searchString, "Search sub", searchStringSub)
+        // console.log("search string", searchString, "Search sub", searchStringSub)
         key = searchKeyField(searchStringSub)
         if (key.length > 0) {
             request = {
@@ -213,17 +205,15 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
                 pageNo: params.payload.pagination.pageNumber,
                 pageSize: params.payload.pagination.pageSize
             }
-            console.log(request);
-
             return request
         }
     }
+    console.log("getAlerts... request",request);
+    return request
 }
 
 
 async function getSmartAlert(params: IAlertActions) {
-    console.log('envvv', process.env.REACT_APP_WEBAPIURLC);
-
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "smart",
@@ -231,13 +221,10 @@ async function getSmartAlert(params: IAlertActions) {
             pageNo: params.payload.pagination.pageNumber
         }, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log("datat", response)
     return response.data.body as Alert
 }
 
 async function getBmsAlert(params: IAlertActions) {
-    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
-
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "bms",
@@ -260,7 +247,6 @@ async function getMcAlert(params: IAlertActions) {
 }
 
 async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
-    console.log('envvv', process.env.REACT_APP_WEBAPIURL);
     const smartFilter: FilterAlertRequest = {
         ...requestPayload,
         alertType: "smart"
@@ -269,7 +255,6 @@ async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
         smartFilter
         , { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log("my filtered data", response.data.body);
     return response.data.body
 }
 
@@ -281,7 +266,6 @@ async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         bmsFilter, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log("my filtered data", response.data.body);
     return response.data.body
 }
 
@@ -293,7 +277,6 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         mcFilter, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log("my filtered data", response.data.body);
     return response.data.body
 }
 

@@ -8,6 +8,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { Card, Divider, Select, Tooltip } from 'antd';
 import BackArrowButton from '../../assets/png/back-arrow-button.png'
 import { ReactComponent as RefreshIcon } from "../../assets/Refresh.svg"
+import { ReactComponent as RightArrow } from "../../assets/rightArrow.svg"
 import { Link } from 'react-router-dom';
 const { Option } = Select;
 const { Meta } = Card;
@@ -42,13 +43,14 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
         state.dataLoaded = true
       }
     }
-    console.log("inside dashboard state", state);
     return state
   }
 
   onCardClick = (record: any) => {
-    console.log(record)
-    this.props.history.push("/" + "mis" + "/" + record.dashboardId);
+    const a =this.state.dashboardList.filter( e=>{
+      return e.dashboardId === record.dashboardId
+    })
+    this.props.history.push("/" + "mis" + "/" + record.dashboardId+"?name="+a[0]?.dashboardName);
   }
   handleChange = (value: any) => {
     console.log(`selected ${value}`);
@@ -88,7 +90,7 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
             <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"} />
           </div>
         </div>
-        <Divider style={{ background: "grey", margin: "10px 0" }} />
+        {/* <Divider style={{ background: "grey", margin: "10px 0" }} /> */}
         <div className="dashboard-card-container">
           <div className="dashboard-container">
             <Card
@@ -106,7 +108,8 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
             >
               <Tooltip placement="bottom" color="#272b3c"
                 title={<span>{"Map View"}</span>} trigger="hover">
-                <Meta title={"Map View"} />
+                <Meta title={"Map View"} 
+                  avatar={<RightArrow width="24" height="24"/>}/>
               </Tooltip>
             </Card>
           </div>
@@ -121,8 +124,10 @@ class Dashboard extends PureComponent<DashboardProps, DashboardState> {
                   src={dashboard.dashboardImageUrl} style={{ height: 150 }} />}
               >
                 <Tooltip placement="bottom" color="#272b3c"
-                  title={<span>{dashboard.dashboardName}</span>} trigger="hover">
-                  <Meta title={dashboard.dashboardName} />
+                  title={<span>{dashboard.dashboardName}</span>} 
+                  trigger="hover">
+                  <Meta title={<span>{dashboard.dashboardName}</span>} 
+                  avatar={<RightArrow width="24" height="24"/>}/>
                 </Tooltip>
               </Card>
             </div>)

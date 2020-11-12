@@ -88,7 +88,6 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         state.minCellPos = minPos + 1;
         state.voltageDelta = (max - min)
         // console.log(arr1, arr2, min, max, minPos, maxPos, data[voltageDelta], "formatted");
-        console.log(state, "graph cell in func",props);
         return state
     }
     tooltipContent(tooltipProps: any) {
@@ -122,7 +121,6 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
     };
 
   render() {
-    console.log(this.state, "rendered test graph cell");
     return (
       <div className="connectm-AlertDetailGraph voltage-deviation">
         <div className={"connectm-header"}>

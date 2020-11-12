@@ -25,11 +25,12 @@ export async function homeScreen(frameId: string,) {
     ConnectmApi.getMyBike(frameId as string),
     ConnectmApi.getBikeLiveData(frameId as string)])
   const { co2sav, totdist: totalDistance, rats: ratings, petlsav: petrolSaved,
-    grnmls: greenMiles, costrcv: costRecovered ,ptrlt:petrolInLitre, calbnt:caloriesBurnt} = bikeStat //get bike status
+    grnmls: greenMiles, costrcv: costRecovered, ptrlt: petrolInLitre, calbnt: caloriesBurnt } = bikeStat //get bike status
   const { type } = myBike
   const { batchrgper: batteryCharge, rngcvr: rangeCovered,
     rngavail: rangeAvailable, ign: ignition, lc: locked, prom: promotion, noty: notification } = bikeLiveData //get bike live data
-  if (!bikeLiveData?.fid || !bikeStat?.fid || !myBike?.fid) throw new BikeError("No data available for frameId")
+  if (!bikeLiveData?.fid || !bikeStat?.fid || !myBike?.fid)
+    throw new BikeError("No data available for frameId")
   return {
     co2sav, totalDistance, ratings, petrolSaved, petrolInLitre, type, greenMiles, costRecovered,
     batteryCharge, rangeCovered, rangeAvailable, ignition, locked, promotion, notification,
@@ -39,15 +40,30 @@ export async function homeScreen(frameId: string,) {
 
 export async function verifyFrame(user: object, frameId: string) {
   const { uid, phone } = user as any
-  const [validateFrame, myBikeData] = await Promise.all([ConnectmApi.validatePhone(phone), ConnectmApi.getMyBike(frameId as string)])
+  const [validateFrame, myBikeData] = await Promise.all([
+    ConnectmApi.validatePhone(phone),
+    ConnectmApi.getMyBike(frameId as string)
+  ])
   const { fid: associatedFrameId } = validateFrame
-  if (associatedFrameId != frameId) { throw new BikeError("frameId is not registered with phone"); }
-  const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
-    bathltper: batteryHealthPer, vehid: vehicleId, model, type,
+  if (associatedFrameId != frameId) {
+    throw new BikeError("frameId is not registered with phone");
+  }
+  const {
+    fid,
+    mtrper: motorPer,
+    batchrgper: batteryChargePer,
+    batid: batteryId,
+    bathltper: batteryHealthPer,
+    vehid: vehicleId,
+    model,
+    type,
     servDate: serviceDate } = myBikeData//cross verify with mobile number
   if (!fid) throw new BikeError("frameId is not registered");
   //update frameId in new bike and user profile found from ValidatePhone API
-  const result = await Promise.all([Bike.createNew({ frameId, model, uid }), User.updateByUid(uid, { frameId })])
+  const result = await Promise.all([
+    Bike.createNew({ frameId, model, uid }), 
+    User.updateByUid(uid, { frameId })
+  ])
   return {
     uid, frameId, model, type, serviceDate, batteryChargePer, batteries: [{ id: batteryId }]
   };
@@ -61,8 +77,9 @@ export async function getRideHistory(frameId: string, startTime: string, endTime
   const history = result[0]
   const graphData = result[1]
   console.log(graphData);
-  
-  if (!history?.length || !graphData?.length || !history[0]?.fid || !graphData[0]?.fid) return { history: [], graphData: [] }
+
+  // if (!history?.length || !graphData?.length || !history[0]?.fid || !graphData[0]?.fid) 
+  //   return { history: [], graphData: [] }
   return { history, graphData }
 }
 

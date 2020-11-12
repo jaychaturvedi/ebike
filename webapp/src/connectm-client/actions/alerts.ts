@@ -9,7 +9,10 @@ export interface AlertTypePayload {
 export interface AlertPayload extends AlertTypePayload {
     pagination: TPagination,
     sort: TSort,
-    filter: TFilter
+    filter: TFilter,
+    locationFilter: TFilter,
+    vehicleFilter: TFilter,
+    timeFrameFilter: TFilter
 }
 
 export interface IAlertActions {

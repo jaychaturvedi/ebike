@@ -30,6 +30,9 @@ interface SubHeaderStates {
     dateRangeApplied: boolean
     searchText: string,
     applyFilter: TFilter,
+    locationFilter :TFilter,
+    vehicleFilter: TFilter,
+    timeFrameFilter :TFilter,
     dropdownFilters:TDropdownFilters,
     dropdownLoaded:boolean
 }
@@ -55,6 +58,18 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             applyFilter: {
                 fieldName: "all",
                 value: ""
+            },
+            locationFilter:{
+              fieldName: "all",
+              value: ""
+            },
+            vehicleFilter:{
+              fieldName: "all",
+              value: ""
+            },
+            timeFrameFilter:{
+              fieldName: "all",
+              value: ""
             },
             dropdownFilters: {
               vehicle: [{subModel:[],model:"no data"}],
@@ -92,16 +107,20 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         console.log('click', e);
         this.setState({
             selectedVehicle: e.key,
-            selectedCalender: "Time Frame",
-            selectedLocation: "Location",
+            // selectedCalender: "Time Frame",
+            // selectedLocation: "Location",
             allSelected: false,
             vehicleActive: true,
-            locationActive: false,
-            calenderActive: false,
+            // locationActive: false,
+            // calenderActive: false,
             searchText: "",
             applyFilter: {
                 fieldName: "model",
                 value: e.key
+            },
+            vehicleFilter:{
+              fieldName: "model",
+              value: e.key
             }
         })
     }
@@ -109,16 +128,20 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     handleLocationClick = (e: any) => {
         this.setState({
             selectedLocation: e.key,
-            selectedVehicle: "Vehicle",
-            selectedCalender: "Time Frame",
+            // selectedVehicle: "Vehicle",
+            // selectedCalender: "Time Frame",
             allSelected: false,
-            vehicleActive: false,
+            // vehicleActive: false,
             locationActive: true,
-            calenderActive: false,
+            // calenderActive: false,
             searchText: "",
             applyFilter: {
                 fieldName: "location",
                 value: String(e.key)
+            },
+            locationFilter:{
+              fieldName: "location",
+              value: String(e.key)
             }
         })
         console.log('click', this.state.applyFilter);
@@ -130,17 +153,22 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             case "1": {
                 this.setState({
                     selectedCalender: moment().format(this.dateFormatList[0]),
-                    selectedVehicle: "Vehicle",
-                    selectedLocation: "Location",
+                    // selectedVehicle: "Vehicle",
+                    // selectedLocation: "Location",
                     allSelected: false,
-                    vehicleActive: false,
-                    locationActive: false,
+                    // vehicleActive: false,
+                    // locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
+                    dateRangeApplied: false,
                     searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "As of Now"
+                    },
+                    timeFrameFilter:{
+                      fieldName: "timeFrame",
+                      value: "As of Now"
                     }
                 });
                 break;
@@ -149,18 +177,23 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 const startDate = moment().subtract(7, 'days').format(this.dateFormatList[0]);
                 const endDate = moment().format(this.dateFormatList[0])
                 this.setState({
-                    selectedCalender: `${startDate} to ${endDate}`,
-                    selectedVehicle: "Vehicle",
-                    selectedLocation: "Location",
+                    selectedCalender: "Last Week",
+                    // selectedVehicle: "Vehicle",
+                    // selectedLocation: "Location",
                     allSelected: false,
-                    vehicleActive: false,
-                    locationActive: false,
+                    // vehicleActive: false,
+                    // locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
+                    dateRangeApplied: false,
                     searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Last Week"
+                    },
+                    timeFrameFilter:{
+                      fieldName: "timeFrame",
+                      value: "Last Week"
                     }
                 });
                 break;
@@ -169,18 +202,23 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 const startDate = moment().subtract(1, 'months').format(this.dateFormatList[0]);
                 const endDate = moment().format(this.dateFormatList[0])
                 this.setState({
-                    selectedCalender: `${startDate} to ${endDate}`,
-                    selectedVehicle: "Vehicle",
-                    selectedLocation: "Location",
+                    selectedCalender: "Month Till Date",
+                    // selectedVehicle: "Vehicle",
+                    // selectedLocation: "Location",
                     allSelected: false,
-                    vehicleActive: false,
-                    locationActive: false,
+                    // vehicleActive: false,
+                    // locationActive: false,
                     calenderActive: true,
                     timeFrameVisible: false,
+                    dateRangeApplied: false,
                     searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Month Till Date"
+                    },
+                    timeFrameFilter:{
+                      fieldName: "timeFrame",
+                      value: "Month Till Date"
                     }
                 });
                 break;
@@ -189,14 +227,13 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     timeFrameVisibleChange = (open: boolean) => {
-        console.log(open)
         this.setState({
             timeFrameVisible: open
         })
     }
     onFromChange = (value: any, dateString: string) => {
-        console.log('Selected Time: ', value);
-        console.log('Formatted Selected Time: ', dateString)
+        // console.log('Selected Time: ', value);
+        // console.log('Formatted Selected Time: ', dateString)
         //////////////value = "Selected Time", dateString = "Formatted Selected Time"///////////////
         this.setState(
             {
@@ -208,8 +245,8 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         )
     }
     onToChange = (value: any, dateString: any) => {
-        console.log('Selected Time: ', value);
-        console.log('Formatted Selected Time: ', dateString)
+        // console.log('Selected Time: ', value);
+        // console.log('Formatted Selected Time: ', dateString)
         this.setState(
             {
                 timeFrame: {
@@ -220,29 +257,33 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         )
     }
     timeRangeApply = () => {
-        console.log("applying date", this.state.timeFrame, "moment", moment(new Date(), this.dateFormatList[0]))
+        // console.log("applying date", this.state.timeFrame, "moment", moment(new Date(), this.dateFormatList[0]))
         const dateRange = `${this.state.timeFrame!.starTime || moment().format(this.dateFormatList[0])} to ${this.state.timeFrame!.endTime || moment().format(this.dateFormatList[0])}`
         this.setState({
             selectedCalender: dateRange,
-            selectedVehicle: "Vehicle",
-            selectedLocation: "Location",
+            // selectedVehicle: "Vehicle",
+            // selectedLocation: "Location",
             allSelected: false,
-            vehicleActive: false,
-            locationActive: false,
+            // vehicleActive: false,
+            // locationActive: false,
             calenderActive: true,
             timeFrameVisible: false,
-            dateRangeApplied: false,
+            dateRangeApplied: true,
             searchText: "",
             applyFilter: {
                 fieldName: "DateRange",
                 value: dateRange
-            }
+            },
+            timeFrameFilter:{
+              fieldName:"DateRange",
+              value: dateRange
+            },
         })
     }
     dateFormatList = ['DD/MM/YYYY'];
 
     onApplyFilter = () => {
-        console.log(moment("2020-07-24 10:13:00").toDate())
+        // console.log(moment("2020-07-24 10:13:00").toDate())
         let filter: TFilter
         if (this.state.searchText.length > 0) {
             filter = {
@@ -254,8 +295,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             })
         } else {
             filter = this.state.applyFilter
-            console.log(filter, "my filter");
-
+            // console.log(filter, "my filter");
         }
         this.props.alertFilterChanged({
             type: "UPDATE_FILTER",
@@ -266,12 +306,19 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     pageSize: 10
                 },
                 sort: this.props.alerts.sort,
-                filter: filter
+                filter: filter,
+                locationFilter: this.state.locationFilter,
+                vehicleFilter: this.state.vehicleFilter,
+                timeFrameFilter: this.state.timeFrameFilter
             }
         })
     }
 
     onReset = () => {
+      const resetFilter = {
+        fieldName: "all",
+        value: ""
+      }
         this.setState({
             allSelected: true,
             selectedVehicle: "Vehicle",
@@ -286,8 +333,13 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 starTime: ""
             },
             dateRangeApplied: false,
-            searchText: ""
+            searchText: "",
+            applyFilter:  {...resetFilter},
+            locationFilter: {...resetFilter},
+            vehicleFilter: {...resetFilter},
+            timeFrameFilter: {...resetFilter}
         })
+        
         this.props.alertFilterChanged({
             type: "UPDATE_FILTER",
             payload: {
@@ -297,15 +349,19 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     pageSize: 10
                 },
                 sort: this.props.alerts.sort,
-                filter: {
-                    fieldName: "all",
-                    value: ""
-                }
+                filter: {...resetFilter},
+                locationFilter: {...resetFilter},
+                vehicleFilter: {...resetFilter},
+                timeFrameFilter: {...resetFilter}
             }
         })
     }
 
     onAll = () => {
+      const resetFilter = {
+        fieldName: "all",
+        value: ""
+      }
         this.setState({
             allSelected: true,
             selectedVehicle: "Vehicle",
@@ -320,15 +376,14 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 starTime: ""
             },
             dateRangeApplied: false,
-            applyFilter: {
-                fieldName: "all",
-                value: ""
-            }
+            applyFilter: {...resetFilter},
+            locationFilter: {...resetFilter},
+            vehicleFilter: {...resetFilter},
+            timeFrameFilter: {...resetFilter}
         });
     }
 
     onSearch = (e: any) => {
-        console.log("search", e.target)
         this.setState(
             {
                 ...this.state,
@@ -432,7 +487,12 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         return (
             <div className={"sub-header"}>
                 <div className={"sub-header-left"}>
-                    <Button className={`connectM-button ${this.state.allSelected ? "connectM-button-active" : ""}`} size={"middle"} type="text" onClick={this.onAll}>
+                    <Button className={`connectM-button ${this.state.allSelected 
+                      ? "connectM-button-active" 
+                      : ""}`} 
+                      size={"middle"}
+                      type="text" 
+                      onClick={this.onAll}>
                         All
                 </Button>
                     <Dropdown overlay={vehicleMenu} trigger={['click']}>

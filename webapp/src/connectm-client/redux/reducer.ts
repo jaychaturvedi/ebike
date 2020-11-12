@@ -87,6 +87,9 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
         alerts: {
           ...state.alerts,
           filter: (actionParams as Store_AlertFilterChange).payload.filter,
+          locationFilter: (actionParams as Store_AlertFilterChange).payload.locationFilter,
+          vehicleFilter: (actionParams as Store_AlertFilterChange).payload.vehicleFilter,
+          timeFrameFilter: (actionParams as Store_AlertFilterChange).payload.timeFrameFilter,
           pagination: (actionParams as Store_AlertFilterChange).payload.pagination
         }
       }
@@ -152,7 +155,6 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
       }
     }
     case "STORE_ALERT_GRAPH": {
-      console.log("in store alert", actionParams.payload.data);
       return {
         ...state,
         graphs: {

@@ -70,10 +70,9 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
           zone: state.zone
         }
       })
-      console.log("component googlemap state", props.mapMarkers);
+      // console.log("component googlemap state", props.mapMarkers);
       state.mapMarkers = props.mapMarkers
       // state.dataLoaded=props.mapMarkers.length?false:true
-      console.log("component googlemap state");
       state.dataLoaded = true
     }
     state.mapMarkers = props.mapMarkers
@@ -96,14 +95,12 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
   }
 
   handleLocationClick = (e: any) => {
-    console.log(e.key);
     this.setState({
       location: e.key,
       dataLoaded:false
     })
   }
   handleZoneClick= (e:any) =>{
-    console.log(e.key);
     this.setState({
       zone:e.key,
       dataLoaded:false
@@ -123,7 +120,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
           <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Kolkata</Typography.Text>
         </Menu.Item>
         <Menu.Item key="Bengaluru" >
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Bangalore</Typography.Text>
+          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Bengaluru</Typography.Text>
         </Menu.Item>
         <Menu.Item key="Hyderabad">
           <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Hyderabad</Typography.Text>
@@ -204,7 +201,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
                   frameId={element.frameId}
                   isActive={element.isActive}
                   lastActive={element.timestamp}
-                  color={element.isActive ? "#3D487D" : "#41A3C9"}
+                  color={ element.isActive? "#41A3C9" : "#3D487D"}
                 />
               )
             })}

@@ -51,7 +51,6 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
             state.bar2Name = props.bar2Name;
         }
         state.data = data
-        console.log(state.data, props.alertDate, "graph mount");
         return state
     }
 

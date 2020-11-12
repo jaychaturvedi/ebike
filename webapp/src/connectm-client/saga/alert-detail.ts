@@ -115,8 +115,6 @@ async function alertClearanceComment(params: IAlertDetailActions) {
 }
 
 async function getPastAlerts(params: IAlertDetailActions) {
-    console.log("in getPastAlerts", params.payload);
-
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/pastAlerts',
         {
             vehicleId: params.payload.vehicleID,

@@ -77,7 +77,6 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
             state.line1Name = props.line1Name;
         }
         state.data = data
-        console.log(state.data, props.data, "single line graph");
         return state
     }
 
@@ -117,7 +116,6 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
     };
 
   render() {
-    console.log(this.props.data, "graph data");
     return (
       <div className="connectm-AlertDetailGraph">
         <div className={"connectm-header"}>

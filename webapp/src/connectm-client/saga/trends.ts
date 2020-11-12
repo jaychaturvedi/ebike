@@ -1,7 +1,7 @@
 import { IAlertTrendActions, AlertTrendsActions, IAlertUpdateActions } from "../actions/trends"
 import { TtrendTop5Alert, TtrendTotalAlerts, TtrendLocationWise } from "../redux/models"
 import axios from "axios"
-import { put } from "redux-saga/effects"
+import { call, put } from "redux-saga/effects"
 export type Store_GetAlertTrends = {
     type: AlertTrendsActions,
     payload: {
@@ -27,6 +27,24 @@ export type TAlertsTrendData = {
     trendTotalAlert: TtrendTotalAlerts[]
 }
 
+export function* getAlertTrend(params: IAlertTrendActions) {
+  try {
+      const data: TAlertsTrendData = yield call(getAlertTrends, params)
+      yield put({
+          type: "STORE_GET_ALERT_TRENDS",
+          payload: {
+              trendTotalAlert: data.trendTotalAlert,
+              trendTop5Alert: data.trendTop5Alert,
+              trendLocationWise: data.trendLocationWise
+          }
+      } as Store_GetAlertTrends)
+      console.log(data, 'in index.ts')
+
+  } catch (error) {
+      console.log("get Alerts error", error)
+  }
+}
+
 export function* updateAlertTrend(params: IAlertUpdateActions) {
     yield put({
         type: "STORE_ALERT_UPDATE_TRENDS",
@@ -39,8 +57,7 @@ export function* updateAlertTrend(params: IAlertUpdateActions) {
     } as Store_UpdateALertTrends)
 }
 
-export async function getAlertTrends(params: IAlertTrendActions) {
-    console.log("called trend saga");
+async function getAlertTrends(params: IAlertTrendActions) {
     let response = [];
     response = await Promise.all([totalAlerts(params), top5Alerts(params), locationWiseAlerts(params)])
     const data: TAlertsTrendData = {
@@ -48,7 +65,7 @@ export async function getAlertTrends(params: IAlertTrendActions) {
         trendTop5Alert: response[1],
         trendLocationWise: response[2]
     }
-    console.log(params.payload, 'in getAlert')
+    // console.log(params.payload, 'in getAlert')
 
     return data
 }

@@ -34,7 +34,6 @@ class Login extends PureComponent<LoginProps, LoginStates> {
 
         signIn(value.username, value.password)
             .then(signedInObject => {
-                console.log(signedInObject)
                 if (signedInObject.success) {
                     this.props.usersAction({
                         type: "UPDATE_USER",
@@ -74,13 +73,11 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                         message: <span> <img src={Cross} height="20px" alt="cross" /> &nbsp;{WebContent.forgotPassword.error}</span>
                         })
                     }
-                    console.log(passwordInit)
                 })
         }
     }
 
     updateUserName = (event: any) => {
-        console.log(event.target.value)
         this.setState({
             username: event.target.value
         })

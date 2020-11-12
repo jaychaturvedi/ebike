@@ -28,10 +28,10 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
   }
 
   static getDerivedStateFromProps(props: QuickSightProps, state: QuickSightState) {
-    console.log("before dashboard state", state);
+    console.log(props.location.search.split('=')[1],"props location");
+    
     if (!state.dataLoaded) {
       const pathNames = props.location.pathname.split('/')
-      console.log(pathNames);
       props.QuickSightAction({
         type: "GET_QUICKSIGHT_EMBED_URL",
         payload: {
@@ -42,7 +42,6 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
       state.dataLoaded = true
     }
     state.quickSightUrl = props.quickSightUrl
-    console.log("inside dashboar state after", state);
     return state
   }
 
@@ -68,22 +67,22 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
     return (
       <div className='container-quicksight' >
         <div className="dashboard-header">
-          <div className="dashboard-text">
+          <div className="dashboard-text" style={{textTransform:"capitalize"}}>
             <Link to={"/mis"} className="link" >
               <img src={BackArrowButton} alt="back-arrow" className={"back-arrow-button"} />
             </Link>
-            {"DASHBOARDS"}
+            {this.props.location.search.split('=')[1]}
           </div>
           <div className="refresh-button" onClick={this.onRefresh}>
             <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"}/>
           </div>
         </div>
-        <Divider style={{ background: "grey", margin: "10px 0" }} />
+        {/* <Divider style={{ background: "grey", margin: "10px 0" }} /> */}
         <Iframe url={this.state.quickSightUrl}
           width="100%"
           height="90%"
           id="myId"
-          className="myClassname"
+          className="myIframe"
           position="relative" />
       </div>
     )

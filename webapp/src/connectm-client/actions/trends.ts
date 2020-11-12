@@ -62,7 +62,8 @@ export interface ReduxAlertTrendState {
     trendTotalAlert: State["trendTotalAlerts"],
     trendTop5Alert: State["trendTop5Alert"],
     trendLocationWise: State["trendLocationWise"],
-    trendsZoom: State["trendsZoom"]
+    trendsZoom: State["trendsZoom"],
+    alerts:State["alerts"]
 }
 
 export function mapStateToProps(state: State): ReduxAlertTrendState {
@@ -70,6 +71,7 @@ export function mapStateToProps(state: State): ReduxAlertTrendState {
         trendTop5Alert: state.trendTop5Alert,
         trendLocationWise: state.trendLocationWise,
         trendTotalAlert: state.trendTotalAlerts,
-        trendsZoom: state.trendsZoom
+        trendsZoom: state.trendsZoom,
+        alerts: state.alerts
     }
 }
