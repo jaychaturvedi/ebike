@@ -68,27 +68,27 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       zoom: 0,
       xAxis: 7,
       reload: true,
-      startDate: moment().subtract(7, 'd').format("YYYY-MM-DD HH:mm:ss"),
+      startDate: moment().subtract(6, 'd').format("YYYY-MM-DD HH:mm:ss"),
       endDate: moment().format("YYYY-MM-DD HH:mm:ss"),
       interval: 0,
       alertType:"smart"
     }
   }
-  componentDidMount(){
-    this.props.getAlertTrends({
-      type: "GET_ALERT_TRENDS",
-      payload: {
-        alertType: this.props.trendsAlertType,
-        startDate: this.state.startDate,
-        endDate: this.state.endDate,
-        trendsZoom: this.state.zoom
-      }
-    })
-  }
+  // componentDidMount(){
+  //   this.props.getAlertTrends({
+  //     type: "GET_ALERT_TRENDS",
+  //     payload: {
+  //       alertType: this.props.trendsAlertType,
+  //       startDate: this.state.startDate,
+  //       endDate: this.state.endDate,
+  //       trendsZoom: this.state.zoom
+  //     }
+  //   })
+  // }
 
   static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
     // console.log("GET_ALERT_TRENDS props",state, props.alerts.activeAlertTab,props.trendsAlertType);
-    if (state.alertType !==props.alerts.activeAlertTab) {
+    if (state.alertType !==props.alerts.activeAlertTab || state.reload) {
       props.getAlertTrends({
         type: "GET_ALERT_TRENDS",
         payload: {
@@ -125,19 +125,19 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     let dateTo
     let dateFrom
     if (e.key === "Last 30 Days") {
-      this.setState({ interval: 1 })
       dateTo = moment().format("YYYY-MM-DD HH:mm:ss");
       dateFrom = moment().subtract(30, 'd').format("YYYY-MM-DD HH:mm:ss");
+      this.setState({ interval: 1 })
     } else {
-      this.setState({ interval: 0 })
       dateTo = moment().format("YYYY-MM-DD HH:mm:ss");
-      dateFrom = moment().subtract(7, 'd').format("YYYY-MM-DD HH:mm:ss");
+      dateFrom = moment().subtract(6, 'd').format("YYYY-MM-DD HH:mm:ss");
+      this.setState({ interval: 0 })
     }
     this.setState({
       trendsPeriod: e.key,
       startDate: dateFrom,
       endDate: dateTo,
-      reload: !this.state.reload
+      reload: true
     })
   }
 

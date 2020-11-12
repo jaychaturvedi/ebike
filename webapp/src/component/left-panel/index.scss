@@ -23,7 +23,6 @@
 
     .tab-icons {
         &:hover {
-            border-right: 2px solid $ACTIVE !important;
             background-color: rgba($color: #4053B8, $alpha: 0.4) !important;
             cursor: pointer;
         }
