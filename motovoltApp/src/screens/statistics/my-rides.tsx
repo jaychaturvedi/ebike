@@ -146,6 +146,26 @@ class MyRides extends React.PureComponent<Props, State> {
     const invalidNextDate =
       Moment(this.state.focusDate).add(1, 'days').toDate().getTime() >
       new Date().getTime();
+    const graphData = Object.keys(this.props.graph.data).map(
+      (graph) => this.props.graph.data[graph],
+    );
+    let graphRange = '';
+    if (graphData.length) {
+      if (
+        Moment(graphData[0].date).format('MMMM') ===
+        Moment(graphData[graphData.length - 1].date).format('MMMM')
+      ) {
+        graphRange = `${Moment(graphData[0].date).date()} - ${Moment(
+          graphData[graphData.length - 1].date,
+        ).date()} ${Moment(graphData[0].date).format('MMMM')}`;
+      } else {
+        graphRange = `${Moment(graphData[0].date).date()}-${Moment(
+          graphData[0].date,
+        ).format('MMM')} to ${Moment(
+          graphData[graphData.length - 1].date,
+        ).date()}-${Moment(graphData[graphData.length - 1].date).format('MMM')}`;
+      }
+    }
     return (
       <View style={{flex: 1}}>
         <Header
@@ -244,7 +264,7 @@ class MyRides extends React.PureComponent<Props, State> {
                   fontSize: moderateScale(20),
                   color: Theme.TEXT_WHITE,
                 }}>
-                {this.props.graph.distance} km
+                {this.props.graph.distance} Km
               </Text>
             </View>
             <View
@@ -257,19 +277,18 @@ class MyRides extends React.PureComponent<Props, State> {
               }}>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {LanguageSelector.t('myRides.avgDistance')}&nbsp;
-                {this.props.graph.avgKmph} km
+                {this.props.graph.avgKmph} Km
               </Text>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
-                {this.props.graph.avgSpeed} kmph
+                {this.props.graph.avgSpeed} Kmph
               </Text>
             </View>
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
-              <Graph
-                data={Object.keys(this.props.graph.data).map(
-                  (graph) => this.props.graph.data[graph],
-                )}
-              />
+              <Graph data={graphData} />
+            </View>
+            <View style={{marginBottom: 15}}>
+              <Text style={{textAlign: 'center'}}>{graphRange}</Text>
             </View>
           </View>
           <View style={styles.ridesText}>
