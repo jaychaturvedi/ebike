@@ -30,10 +30,12 @@ interface MapState {
   customerId: string,
   refreshing: boolean,
   location: string,
-  zone: string
+  zone: string,
+  customer: string
 }
 const defaultCity="Kolkata"
 const defaultZone="All"
+const defaultCustomer="Zomato"
 const defaultProps = {
   center: { lat: 22, lng: 77 },
   zoom: 12
@@ -44,10 +46,11 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
     this.state = {
       mapMarkers: [],
       dataLoaded: false,
-      customerId: "CUS123456",
+      customerId: "C10001",
       refreshing: false,
       zone: "All",
-      location: "Kolkata"
+      location: "Kolkata",
+      customer:"Zomato"
     }
   }
 
@@ -85,7 +88,9 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       mapMarkers: [],
       refreshing: true,
       location:defaultCity,
-      zone:defaultZone
+      zone:defaultZone,
+      customer:defaultCustomer,
+      customerId:"C10001"
     })
     setTimeout(() => {
       this.setState({
@@ -106,11 +111,38 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       dataLoaded:false
     })
   }
+  handleCustomerClick = (e:any) =>{
+    this.setState({
+      customer:e.key,
+      dataLoaded:false
+    })
+    switch(e.key){
+      case "Zomato": {
+        this.setState({
+          customerId: "C10001",
+          dataLoaded:false
+        })
+        return
+      }
+      case "SS Medicals": {
+        this.setState({
+          customerId: "C10002",
+          dataLoaded:false
+        })
+        return
+      }
+      default:
+        return
+    }
+  }
   render() {
     const vehicle = (
-      <Menu >
+      <Menu onClick={this.handleCustomerClick}>
         <Menu.Item key="Zomato" >
           <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Zomato</Typography.Text>
+        </Menu.Item>
+        <Menu.Item key="SS Medicals" >
+          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>SS Medicals</Typography.Text>
         </Menu.Item>
       </Menu>
     );
@@ -162,7 +194,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
             </div>
             <Dropdown overlay={vehicle} trigger={['click']}>
               <div className="map-filter-dropdown" onClick={e => e.preventDefault()}>
-                Zomato <DownOutlined />
+                {this.state.customer} <DownOutlined />
               </div>
             </Dropdown>
             <Dropdown overlay={location} trigger={['click']}>
