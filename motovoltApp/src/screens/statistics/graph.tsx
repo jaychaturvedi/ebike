@@ -24,7 +24,6 @@ type Props = {
 
 type State = {
   data: any[];
-  fill: string;
   offset: number;
   scrollEnd: boolean;
   direction: string;
@@ -37,7 +36,6 @@ export default class Graph extends React.PureComponent<Props, State> {
       direction: '',
       scrollEnd: false,
       data: [],
-      fill: '#5372FF',
       offset: 0,
     };
   }
@@ -118,10 +116,10 @@ export default class Graph extends React.PureComponent<Props, State> {
         value: graph.value,
         date: graph.date,
         svg: {
-          fill:
-            index === this.props.data.length - 1
-              ? 'rgb(83,114,255,1)'
-              : 'rgb(83,114,255,0.4)',
+          fill: 'rgb(83,114,255,1)',
+          // index === this.props.data.length - 1
+          //   ? 'rgb(83,114,255,1)'
+          //   : 'rgb(83,114,255,0.4)',
         },
       })),
     ];
@@ -134,12 +132,12 @@ export default class Graph extends React.PureComponent<Props, State> {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View style={{width: '90%', height: "100%", flexDirection: 'row'}}>
+        <View style={{width: '90%', height: '100%', flexDirection: 'row'}}>
           <YAxis
-            max={maxY * 1.2}
-            min={-1}
+            max={maxY * 1.3}
+            min={-2}
             data={yData.slice(-7)}
-            formatLabel={(value, index) => `${value} KM`}
+            formatLabel={(value, index) => `${value} Km`}
             numberOfTicks={3}
             yAccessor={({item}) => item.value}
             svg={{fill: 'black', fontSize: 12}}
@@ -154,8 +152,6 @@ export default class Graph extends React.PureComponent<Props, State> {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  borderBottomWidth: 1,
-                  borderBottomColor: '#f2f3f5',
                 }}>
                 <Text>{LanguageSelector.t('myRides.noHistoryDataFound')}</Text>
               </View>
@@ -166,12 +162,12 @@ export default class Graph extends React.PureComponent<Props, State> {
                   width: '100%',
                 }}>
                 <BarChart
-                  yMin={-1}
-                  yMax={maxY * 1.2}
+                  yMin={-2}
+                  yMax={maxY * 1.3}
                   style={{height: moderateScale(150)}}
                   // data={this.state.data}
                   data={yData.slice(-7)}
-                  svg={{fill: this.state.fill}}
+                  // svg={{fill: this.state.fill}}
                   gridMin={2}
                   gridMax={2}
                   yAccessor={({item}) => item.value}
@@ -186,8 +182,6 @@ export default class Graph extends React.PureComponent<Props, State> {
                   spacingOuter={0.2}
                   scale={scale.scaleBand}
                   formatLabel={(value, index) => {
-                    console.log(yData.slice(-7));
-                    // console.log(this.state.data[index].date);
                     if (yData.slice(-7)[index].svg.fill === 'transparent')
                       return '';
                     return this.getDayString(
@@ -204,10 +198,6 @@ export default class Graph extends React.PureComponent<Props, State> {
             )}
           </View>
         </View>
-        {/* <Text>
-                    ScrollEnd : {this.state.scrollEnd ? "true" : "false"}</Text><Text>
-                    Direction : {this.state.direction}
-                </Text> */}
       </View>
     );
   }
