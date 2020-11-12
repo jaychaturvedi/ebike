@@ -134,8 +134,8 @@ export default class Graph extends React.PureComponent<Props, State> {
         }}>
         <View style={{width: '90%', height: '100%', flexDirection: 'row'}}>
           <YAxis
-            max={maxY * 1.2}
-            min={-1}
+            max={maxY * 1.3}
+            min={-2}
             data={yData.slice(-7)}
             formatLabel={(value, index) => `${value} Km`}
             numberOfTicks={3}
@@ -162,8 +162,8 @@ export default class Graph extends React.PureComponent<Props, State> {
                   width: '100%',
                 }}>
                 <BarChart
-                  yMin={-1}
-                  yMax={maxY * 1.2}
+                  yMin={-2}
+                  yMax={maxY * 1.3}
                   style={{height: moderateScale(150)}}
                   // data={this.state.data}
                   data={yData.slice(-7)}
