@@ -277,7 +277,7 @@ class MyRides extends React.PureComponent<Props, State> {
               }}>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {LanguageSelector.t('myRides.avgDistance')}&nbsp;
-                {this.props.graph.avgKmph} Km
+                {this.props.graph.avgKmph} Km/day
               </Text>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
@@ -288,7 +288,7 @@ class MyRides extends React.PureComponent<Props, State> {
               <Graph data={graphData} />
             </View>
             <View style={{marginBottom: 15}}>
-              <Text style={{textAlign: 'center'}}>{graphRange}</Text>
+              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>{graphRange}</Text>
             </View>
           </View>
           <View style={styles.ridesText}>

@@ -158,11 +158,12 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                         value: gData.dist,
                         date: gData.date
                     })),
-                    avgKmph: data.graphData.length ? Math.round(data.graphData[0].avgkmph || 0) : 0,
-                    avgSpeed: data.graphData.length ? Math.round(data.graphData[0].avgspd || 0) : 0,
-                    distance: data.graphData.length ? Math.round(data.graphData[0].dist || 0) : 0,
-                    co2SavingKg: data.graphData.length ? Math.round(data.graphData[0].co2sav || 0) : 0,
-                    greenMilesKm: data.graphData.length ? Math.round(data.graphData[0].grnmls || 0) : 0
+                    avgKmph: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.dist || 0) }, 0)/ data.graphData.length),
+                    avgSpeed: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.avgspd || 0) }, 0)/ data.graphData.length),
+                    topSpeed: Math.round(Math.max(...data.graphData.map((data: any) => data.speed))),
+                    distance: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.dist || 0) }, 0)),
+                    co2SavingKg: data.graphData.length ? Math.round(data.graphData[data.graphData.length - 1].co2sav || 0) : 0,
+                    greenMilesKm: data.graphData.length ? Math.round(data.graphData[data.graphData.length - 1]?.grnmls || 0) : 0
                 }
             } as Store_SetGraphdata);
         } else {

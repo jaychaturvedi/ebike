@@ -132,6 +132,7 @@ type TGraph = {
     distance: number,
     avgSpeed: number,
     avgKmph: number,
+    topSpeed: number,
     data: {
         [id: string]: {
             value: number,
@@ -264,6 +265,7 @@ export const ZeroGraph: TGraph = {
     greenMilesKm: 0,
     distance: 0,
     avgSpeed: 0,
+    topSpeed: 0,
     avgKmph: 0, data: {}
 }
 

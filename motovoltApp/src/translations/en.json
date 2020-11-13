@@ -145,6 +145,7 @@
         "duration": "Duration",
         "avgSpeed": "Avg. Speed",
         "maxSpeed": "Max. Speed",
+        "topSpeed": "Top Speed",
         "greenMiles": "Green Miles",
         "petrolSavings": "Petrol Savings",
         "rideScore": "Ride Score",
