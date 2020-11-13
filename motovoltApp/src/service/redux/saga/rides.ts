@@ -158,8 +158,8 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                         value: gData.dist,
                         date: gData.date
                     })),
-                    avgKmph: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.dist || 0) }, 0)/ data.graphData.length),
-                    avgSpeed: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.avgspd || 0) }, 0)/ data.graphData.length),
+                    avgKmph: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.dist || 0) }, 0)/ data.graphData.filter((data: any) => data.dist !== 0).length),
+                    avgSpeed: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.avgspd || 0) }, 0)/ data.graphData.filter((data: any) => data.avgspd !== 0).length),
                     topSpeed: Math.round(Math.max(...data.graphData.map((data: any) => data.speed))),
                     distance: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.dist || 0) }, 0)),
                     co2SavingKg: data.graphData.length ? Math.round(data.graphData[data.graphData.length - 1].co2sav || 0) : 0,
