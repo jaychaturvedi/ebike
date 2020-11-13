@@ -163,7 +163,9 @@ class MyRides extends React.PureComponent<Props, State> {
           graphData[0].date,
         ).format('MMM')} to ${Moment(
           graphData[graphData.length - 1].date,
-        ).date()}-${Moment(graphData[graphData.length - 1].date).format('MMM')}`;
+        ).date()}-${Moment(graphData[graphData.length - 1].date).format(
+          'MMM',
+        )}`;
       }
     }
     return (
@@ -264,7 +266,10 @@ class MyRides extends React.PureComponent<Props, State> {
                   fontSize: moderateScale(20),
                   color: Theme.TEXT_WHITE,
                 }}>
-                {this.props.graph.distance} Km
+                {Object.keys(this.props.graph.data).length > 0
+                  ? this.props.graph.distance
+                  : '--'}{' '}
+                Km
               </Text>
             </View>
             <View
@@ -277,18 +282,20 @@ class MyRides extends React.PureComponent<Props, State> {
               }}>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {LanguageSelector.t('myRides.avgDistance')}&nbsp;
-                {this.props.graph.avgKmph} Km/day
+                {Object.keys(this.props.graph.data).length > 0 ? this.props.graph.avgKmph : "--"} Km/day
               </Text>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
-                {this.props.graph.avgSpeed} Kmph
+                {Object.keys(this.props.graph.data).length > 0 ? this.props.graph.avgSpeed: "--"} Kmph
               </Text>
             </View>
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
               <Graph data={graphData} />
             </View>
             <View style={{marginBottom: 15}}>
-              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>{graphRange}</Text>
+              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
+                {graphRange}
+              </Text>
             </View>
           </View>
           <View style={styles.ridesText}>

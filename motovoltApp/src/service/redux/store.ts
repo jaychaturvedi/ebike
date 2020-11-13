@@ -266,7 +266,8 @@ export const ZeroGraph: TGraph = {
     distance: 0,
     avgSpeed: 0,
     topSpeed: 0,
-    avgKmph: 0, data: {}
+    avgKmph: 0, 
+    data: {}
 }
 
 export type TStore = {
