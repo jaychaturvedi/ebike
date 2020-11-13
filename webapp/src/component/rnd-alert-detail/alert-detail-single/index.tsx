@@ -16,7 +16,7 @@ import { alertLimpData } from '../../../connectm-client/redux/connectm-state';
 interface AlertDetailSingleProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
     alertType: TAlertType,
-    alertCleared: Function
+    setAlertCleared: Function
 }
 
 interface AlertDetailSingleStates {
@@ -77,7 +77,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
         //         alertName: this.state.alert.alertName
         //     }
         // })
-        this.props.alertCleared(true)
+        this.props.setAlertCleared(true)
         this.props.getPastAlerts({
             type: "GET_PAST_ALERTS",
             payload: {

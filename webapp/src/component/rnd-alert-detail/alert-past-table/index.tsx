@@ -25,7 +25,9 @@ interface AlertPastTableProps extends ReduxAlertDetailActions, ReduxAlertDetailS
   vehicleId: string,
   alertTypeId:number,
   alertCode:string,
-  alertTime:string
+  alertTime:string,
+  setAlertCleared : Function,
+  getAlertCleared : Function
 }
 
 interface AlertPastTableStates {
@@ -192,22 +194,31 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
       }
     })
     // let alertTypeId: number
+    console.log("Selected rowID",selectedRow, Number(record.alertId),this.props.getAlertCleared())
+    if( selectedRow === -1 && this.props.getAlertCleared()){
+      this.props.setAlertCleared(true)
+    }
     if (this.props.alertName !== undefined) {
       // alertTypeId = getAlertTypeId(this.props.alertName!.replace(/[^a-zA-Z0-9]/g, "").toLocaleLowerCase())
-      if (this.state.graphDataLoaded === false || this.props.alertTypeId !== this.state.selectedRowId) {
+      // if(this.state.selectedRowId !== record.alertId){
+      // if (this.state.graphDataLoaded === false || this.props.alertTypeId !== this.state.selectedRowId) {
         this.props.getPastAlertGraph({
           type: "GET_ALERT_GRAPH",
           payload: {
-            alertId: this.state.selectedRowId !== -1? this.props.alertId : record.alertId,
-            vehicleId: this.state.selectedRowId !== -1? this.props.vehicleId : record.vehicleId,
+            alertId: selectedRow === -1? this.props.alertId : record.alertId,
+            vehicleId: selectedRow === -1? this.props.vehicleId : record.vehicleId,
             alertName: this.props.alertName,
             alertTypeId: this.props.alertTypeId,
-            timeStamp:  this.state.selectedRowId !== -1?  this.props.alertTime : record.alertTime,
-            alertCode:  this.state.selectedRowId !== -1? this.props.alertCode : record.alertCode
+            timeStamp:  selectedRow === -1?  this.props.alertTime : record.alertTime,
+            alertCode:  selectedRow === -1? this.props.alertCode : record.alertCode
           }
         })
-      }
+      // }
       this.setState({ graphDataLoaded: !this.state.graphDataLoaded })
+    }
+
+    if(selectedRow !== -1 && this.props.getAlertCleared()){
+      this.props.setAlertCleared(false)
     }
   }
 
@@ -220,7 +231,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
 
   setRowClassName = (record: TPastAlertData, index: any) => {
     if (record.alertGraph) {
-      console.log("Selected rowID", Number(record.alertId), this.state.selectedRowId)
+      // console.log("Selected rowID", Number(record.alertId), this.state.selectedRowId)
       return 'past-alert-selected-row'
     }
     return index % 2 === 0 ? 'table-row-light' : 'table-row-dark'

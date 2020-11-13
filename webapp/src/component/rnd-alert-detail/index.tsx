@@ -65,11 +65,11 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return state
     }
 
-    alertCleared = (alertCleared: boolean) => {
+    setAlertCleared = (alertCleared: boolean) => {
         this.setState({ alertCleared: alertCleared })
     }
 
-    getAlertClearedState = (alertCleared: boolean): boolean => {
+    getAlertClearedState = (): boolean => {
         return this.state.alertCleared
     }
 
@@ -129,7 +129,7 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                         <AlertDetailSingle
                           alertId={this.state.alertId}
                           alertType={this.state.alertType}
-                          alertCleared={this.alertCleared}
+                          setAlertCleared={this.setAlertCleared}
                         />
                         <AlertGraph
                           alertName={this.state.alert.alertName}
@@ -166,6 +166,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
                               alertCode={this.state.alert.alertCode}
                               alertTypeId={this.state.alert.alertTypeId}
                               alertTime={this.state.alert.alertTime} 
+                              setAlertCleared={this.setAlertCleared}
+                              getAlertCleared={this.getAlertClearedState}
+
                             />
                         </div>
                     </div>
