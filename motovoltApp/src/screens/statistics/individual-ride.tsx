@@ -54,7 +54,9 @@ class IndividualRide extends React.PureComponent<Props, State> {
                   height: '100%',
                 }}>
                 <Text>
-                  {LanguageSelector.t('gps.noDataAvailable')}
+                  {this.props.ride.isStale
+                    ? LanguageSelector.t('gps.loading')
+                    : LanguageSelector.t('gps.noDataAvailable')}
                 </Text>
               </View>
             ) : (

@@ -127,6 +127,7 @@ type TSpeedometer = {
 }
 
 type TGraph = {
+    isStale: boolean;
     co2SavingKg: number,
     greenMilesKm: number,
     distance: number,
@@ -261,6 +262,7 @@ export const ZeroSpeedometer: TSpeedometer = {
 }
 
 export const ZeroGraph: TGraph = {
+    isStale: true,
     co2SavingKg: 0,
     greenMilesKm: 0,
     distance: 0,

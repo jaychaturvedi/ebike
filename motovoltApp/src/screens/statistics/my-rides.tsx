@@ -290,7 +290,7 @@ class MyRides extends React.PureComponent<Props, State> {
               </Text>
             </View>
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
-              <Graph data={graphData} />
+              <Graph data={graphData} loading={this.props.graph.isStale}/>
             </View>
             <View style={{marginBottom: 15}}>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
