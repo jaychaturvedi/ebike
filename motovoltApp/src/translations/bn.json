@@ -145,6 +145,7 @@
         "duration": "সময়কাল",
         "avgSpeed": "গড় গতি",
         "maxSpeed": "সর্বোচ্চ গতি",
+        "topSpeed": "শীর্ষ গতি",
         "greenMiles": "গ্রীন মাইলস",
         "petrolSavings": "পেট্রোল সঞ্চয়",
         "rideScore": "রিড স্কোর",
@@ -158,6 +159,7 @@
         "avgDistance": "অ্যাভগ. দূরত্ব",
         "yourRides": "আপনার রাইড",
         "mode": "মোড",
+        "loading": "লোড হচ্ছে",
         "noHistoryDataFound": "কোনও ইতিহাসের ডেটা পাওয়া যায় নি"
     },
     "myBike": {
@@ -198,6 +200,7 @@
         "gps": "GPS",
         "finalPosition": "শেষ পজিশন",
         "refresh": "রিফ্রেশ",
+        "loading": "লোড হচ্ছে",
         "noDataAvailable": "কোনও অবস্থানের ডেটা উপলব্ধ নেই",
         "ignitionStatus": "ইগনিশন স্থিতি",
         "on": "চালু",

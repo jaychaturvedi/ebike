@@ -145,6 +145,7 @@
         "duration": "Duration",
         "avgSpeed": "Avg. Speed",
         "maxSpeed": "Max. Speed",
+        "topSpeed": "Top Speed",
         "greenMiles": "Green Miles",
         "petrolSavings": "Petrol Savings",
         "rideScore": "Ride Score",
@@ -158,6 +159,7 @@
         "avgDistance": "Avg. Distance",
         "yourRides": "YOUR RIDES",
         "mode": "Mode",
+        "loading": "Loading...",
         "noHistoryDataFound": "No history data found"
     },
     "myBike": {
@@ -198,6 +200,7 @@
         "gps": "GPS",
         "finalPosition": "Final Position",
         "refresh": "Refresh",
+        "loading": "Loading...",
         "noDataAvailable": "No location data available",
         "ignitionStatus": "Ignition Status",
         "on": "ON",

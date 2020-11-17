@@ -98,7 +98,8 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 ride: {
                     ...ZeroRide,
-                    ...params.payload
+                    ...params.payload,
+                    isStale: false
                 },
             }
         case 'Store_SetRideHistory':
@@ -125,9 +126,11 @@ export default (store: TStore = Store, params: Action): TStore => {
             return {
                 ...store,
                 graph: {
+                    isStale: false,
                     avgKmph: params.payload.avgKmph,
                     avgSpeed: params.payload.avgSpeed,
                     distance: params.payload.distance,
+                    topSpeed: params.payload.topSpeed,
                     co2SavingKg: params.payload.co2SavingKg,
                     greenMilesKm: params.payload.greenMilesKm,
                     data: Object.assign({}, ...params.payload.data.map(graph => ({ [Math.random().toString()]: graph })))

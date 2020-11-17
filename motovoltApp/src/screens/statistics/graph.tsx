@@ -16,6 +16,7 @@ import {moderateScale} from 'react-native-size-matters';
 import LanguageSelector from '../../translations';
 
 type Props = {
+  loading: boolean;
   data: {
     value: number;
     date: string;
@@ -153,7 +154,7 @@ export default class Graph extends React.PureComponent<Props, State> {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Text>{LanguageSelector.t('myRides.noHistoryDataFound')}</Text>
+                <Text>{this.props.loading ? LanguageSelector.t('myRides.loading') : LanguageSelector.t('myRides.noHistoryDataFound')}</Text>
               </View>
             ) : (
               <View
