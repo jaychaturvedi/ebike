@@ -34,26 +34,39 @@ export function UpdateMarkers(params: IUpdateAction) {
     payload: params.payload
   }
 }
-////////////////////////////////////////////////////////////
+///////////////////////////GET DROPDOWN FILTERS IN MAP VIEW/////////////////////////////////
+export interface IMapViewFilterAction {
+  type: "GET_DROPDOWN_FILTERS"
+}
+
+export function MapViewFilters(params: IMapViewFilterAction) {
+  return {
+    type: params.type
+  }
+}
 
 export interface ReduxMapState {
-  mapMarkers: State["mapMarkers"]
+  mapMarkers: State["mapMarkers"],
+  mapViewDropDownFilters :State["mapViewDropDownFilters"]
 }
 
 export interface ReduxMapAction {
   getMapMarkers: (params: IMapMarkerAction) => IMapMarkerAction,
-  updateMapMarkers: (params: IUpdateAction) => IUpdateAction
+  updateMapMarkers: (params: IUpdateAction) => IUpdateAction,
+  getMapViewFilters: (params : IMapViewFilterAction) => IMapViewFilterAction
 }
 
 export function mapDispatchToProps(dispatch: Dispatch): ReduxMapAction {
   return {
     getMapMarkers: (params: IMapMarkerAction) => dispatch(Markers(params)),
-    updateMapMarkers: (params: IUpdateAction) => dispatch(UpdateMarkers(params))
+    updateMapMarkers: (params: IUpdateAction) => dispatch(UpdateMarkers(params)),
+    getMapViewFilters : (params: IMapViewFilterAction) => dispatch(MapViewFilters(params))
   }
 }
 
 export function mapStateToProps(state: State): ReduxMapState {
   return {
-    mapMarkers: state.mapMarkers
+    mapMarkers: state.mapMarkers,
+    mapViewDropDownFilters: state.mapViewDropDownFilters
   }
 }

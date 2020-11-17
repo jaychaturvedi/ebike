@@ -136,6 +136,12 @@ export default class WebAPI {
       return {vehicle,location}
     }
 
+    static async getMapViewDropdownFilters(){
+      const mapViewFilters = await get(createOptions('/mapviewdropdown', undefined))
+      //mapViewFilters is an array
+      return mapViewFilters
+    }
+
     ///////////////////////////////////////not using below routes//////////////////////////////
 
 

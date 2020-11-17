@@ -4,11 +4,9 @@ import serverless from "serverless-http";
 import userRoutes from './user/routes'
 import bikeRoutes from './bike/routes'
 import serviceRoutes from './service/routes'
-import supportRoutes from "./support/routes";
 import feedbackRoutes from "./feedback/routes";
 import ridesRoutes from "./rides/routes";
 import upgradeRoutes from "./upgrades/routes";
-import featuresRoutes from "./features/routes";
 import faqRoutes from './faq/routes'
 import cors from 'cors';
 import * as dotenv from "dotenv"

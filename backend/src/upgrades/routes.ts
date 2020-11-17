@@ -10,7 +10,12 @@ app.get('/',
         res.send(response)
     })
 )
-
+app.post('/',
+    expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
+      const response = createResponse("OK", Upgrades, undefined)
+      res.send(response)
+    })
+)
 app.get('/faq',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const response = createResponse("OK", Faq, undefined)

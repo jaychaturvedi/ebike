@@ -293,7 +293,11 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     }
   }
   /**Navigation */
-
+  customizeRenderEmpty = () => (
+    <div style={{ textAlign: 'center', fontSize:"18px" }} className={"my-ant-empty-normal"}>
+      <p>No alerts available at the moment</p>
+    </div>
+  );
   render() {
     let { modelClicked, alertClicked, timeClicked, severityClicked, openSinceClicked } = this.state;
     const columns: any = [
@@ -377,8 +381,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     return <>
       <div className="container" >
         <div className={'table-body'}>
-          <ConfigProvider renderEmpty={() => <Empty description="No Data"
-            image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
+          <ConfigProvider renderEmpty={this.customizeRenderEmpty}>
             <Table
               tableLayout={"auto"}
               bordered={false}

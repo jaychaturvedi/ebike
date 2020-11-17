@@ -376,6 +376,13 @@ app.get('/dropdownFilters',
     res.json(response)
   })
 )
+app.get('/mapViewFilters',
+  expressQAsync(async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const result = await WebAPI.getMapViewDropdownFilters()
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
 
 app.use(expressErrorHandler);
 

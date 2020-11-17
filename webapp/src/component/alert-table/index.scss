@@ -92,9 +92,11 @@ td.ant-table-column-sort {
     }
 
     //no data image
-    // .ant-empty.ant-empty-normal {
-    //     display: none;
-    // }
+    .ant-table-placeholder > td {
+      &:hover{
+        background-color: transparent !important;
+      }
+    }
 
     .pagination-footer {
         // border: 1px solid yellow;

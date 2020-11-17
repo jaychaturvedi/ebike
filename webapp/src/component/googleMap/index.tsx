@@ -31,7 +31,15 @@ interface MapState {
   refreshing: boolean,
   location: string,
   zone: string,
-  customer: string
+  customer: string,
+  customerFilters : any, //isArray
+  locationFilters : any, //isArray
+  regionFilters : any, //isArray,
+  defaultCenter:{
+    lat:number,
+    lng:number
+  },
+  zoom:number
 }
 const defaultCity="Kolkata"
 const defaultZone="All"
@@ -50,7 +58,12 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       refreshing: false,
       zone: "All",
       location: "Kolkata",
-      customer:"Zomato"
+      customer:"Zomato",
+      customerFilters:[],
+      locationFilters: [],
+      regionFilters: [],
+      defaultCenter:{ lat: 22, lng: 77 },
+      zoom:5
     }
   }
 
@@ -73,12 +86,23 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
           zone: state.zone
         }
       })
-      // console.log("component googlemap state", props.mapMarkers);
+      props.getMapViewFilters({
+        type:"GET_DROPDOWN_FILTERS"
+      })
+      state.customerFilters = props.mapViewDropDownFilters
+      state.locationFilters = props.mapViewDropDownFilters?.filter((item: any) => item.customer_id == state.customerId)[0]?.location_list
+      state.regionFilters = state.locationFilters?.filter((item:any)=> item.location_name == state.location)[0]?.region_list
+      console.log("component googlemap props", props.mapViewDropDownFilters);
+      console.log("component googlemap state", state.regionFilters);
+
       state.mapMarkers = props.mapMarkers
       // state.dataLoaded=props.mapMarkers.length?false:true
       state.dataLoaded = true
     }
     state.mapMarkers = props.mapMarkers
+    state.customerFilters = props.mapViewDropDownFilters
+    state.locationFilters = props.mapViewDropDownFilters?.filter((item: any) => item.customer_id == state.customerId)[0]?.location_list
+    state.regionFilters = state.locationFilters?.filter((item:any)=> item.location_name == state.location)[0]?.region_list
     return state
   }
 
@@ -100,10 +124,17 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
   }
 
   handleLocationClick = (e: any) => {
+    const result = this.state.locationFilters?.filter((item: any) => item.location_name == e.key)[0]
     this.setState({
       location: e.key,
-      dataLoaded:false
+      dataLoaded:false,
+      defaultCenter:{
+        lat:result.location_lat,
+        lng:result.location_lon
+      },
+      zoom:6
     })
+    
   }
   handleZoneClick= (e:any) =>{
     this.setState({
@@ -112,60 +143,48 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
     })
   }
   handleCustomerClick = (e:any) =>{
+    const result = this.state.customerFilters.filter((item: any) => item.customer_id == e.key)
+    console.log(result,e.key);
+    
     this.setState({
-      customer:e.key,
+      customer:result[0]?.customer_name,
       dataLoaded:false
     })
-    switch(e.key){
-      case "Zomato": {
-        this.setState({
-          customerId: "C10001",
-          dataLoaded:false
-        })
-        return
-      }
-      case "SS Medicals": {
-        this.setState({
-          customerId: "C10002",
-          dataLoaded:false
-        })
-        return
-      }
-      default:
-        return
-    }
+    this.setState({
+      customerId: e.key,
+      dataLoaded:false
+    })
   }
   render() {
-    const vehicle = (
+    const customer = (
       <Menu onClick={this.handleCustomerClick}>
-        <Menu.Item key="Zomato" >
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Zomato</Typography.Text>
-        </Menu.Item>
-        <Menu.Item key="SS Medicals" >
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>SS Medicals</Typography.Text>
-        </Menu.Item>
+        {
+          this.state.customerFilters?.map((item:any) => {
+            return <Menu.Item key={item.customer_id} >
+              <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{item.customer_name}</Typography.Text>
+            </Menu.Item>
+          })
+        }
       </Menu>
     );
     const location = (
       <Menu onClick={this.handleLocationClick} >
-        <Menu.Item key="Kolkata">
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Kolkata</Typography.Text>
-        </Menu.Item>
-        <Menu.Item key="Bengaluru" >
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Bengaluru</Typography.Text>
-        </Menu.Item>
-        <Menu.Item key="Hyderabad">
-          <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>Hyderabad</Typography.Text>
-        </Menu.Item>
+       {
+          this.state.locationFilters?.map((item:any) => {
+            return <Menu.Item key={item.location_name} >
+              <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{item.location_name}</Typography.Text>
+            </Menu.Item>
+          })
+        }
       </Menu>
     );
     const zones=["All","North","South","East", "West", "Centre"]
     const zone = (
       <Menu onClick={this.handleZoneClick}>
         {
-          zones.map(Zone => {
-            return <Menu.Item key={Zone} >
-              <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{Zone}</Typography.Text>
+          this.state.regionFilters?.map((item:any) => {
+            return <Menu.Item key={item.region_name} >
+              <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{item.region_name}</Typography.Text>
             </Menu.Item>
           })
         }
@@ -192,7 +211,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
               <img src={PersonIcon} alt="" />
               <img src={BuildingIcon} alt="" />
             </div>
-            <Dropdown overlay={vehicle} trigger={['click']}>
+            <Dropdown overlay={customer} trigger={['click']}>
               <div className="map-filter-dropdown" onClick={e => e.preventDefault()}>
                 {this.state.customer} <DownOutlined />
               </div>
@@ -219,11 +238,12 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
               key: GOOGLE_MAPS_APIKEY,
               language: 'en'
             }}
-            defaultCenter={defaultProps.center}
-            center={defaultProps.center}
+            defaultCenter={this.state.defaultCenter}
+            center={this.state.defaultCenter}
             // options={this.getMapOptions}
             yesIWantToUseGoogleMapApiInternals={true}
-            defaultZoom={5}
+            defaultZoom={this.state.zoom}
+            zoom={this.state.zoom}
           >
             {this.state.mapMarkers.map((element: TMapMarkers) => {
               return (
