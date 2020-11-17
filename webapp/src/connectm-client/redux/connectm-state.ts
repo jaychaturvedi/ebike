@@ -44,8 +44,9 @@ export interface State {
     },
     quickSightUrl:string,
     dashboardList:TDashboardList[],
-    mapMarkers:TMapMarkers[],
-    dropdownFilters:TDropdownFilters
+    mapMarkers:TMapMarkers[], // map markers in map view map
+    dropdownFilters:TDropdownFilters, ///dropdown filters in alerts page
+    mapViewDropDownFilters : any // dynamic Dropdown Filters in map view
 }
 
 const connectmState: State = {
@@ -98,7 +99,8 @@ const connectmState: State = {
     dropdownFilters:{
       location:[],
       vehicle:[]
-    }
+    },
+    mapViewDropDownFilters:[]
 }
 
 export default connectmState;

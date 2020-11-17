@@ -7,7 +7,7 @@ import { Store_UserUpdate } from "../saga/user";
 import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert, Store_UpdateSingleAlert } from "../saga/alert-detail";
 import { Store_QuickSightUrl, Clear_QuickSightUrl } from "../saga/quickSight";
 import { Store_DashboardList, Clear_DashboardList } from "../saga/dashboard"
-import { Store_MapMarkers } from "../saga/map"
+import { Store_MapMarkers, Store_MapViewFilters } from "../saga/map"
 
 type ActionParams = IUsersAction
   | Store_AlertUpdate
@@ -27,6 +27,7 @@ type ActionParams = IUsersAction
   | Clear_QuickSightUrl
   | Store_MapMarkers
   | Store_DropdownFilters
+  | Store_MapViewFilters
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
   switch (actionParams.type) {
@@ -214,6 +215,12 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
       return {
         ...state,
         dropdownFilters: (actionParams as Store_DropdownFilters).payload
+      }
+    }
+    case "STORE_MAPVIEWFILTERS":{
+      return{
+        ...state,
+        mapViewDropDownFilters :(actionParams as Store_MapViewFilters).payload.mapViewDropDownFilters
       }
     }
     default: {
