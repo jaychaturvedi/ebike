@@ -114,7 +114,9 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       location:defaultCity,
       zone:defaultZone,
       customer:defaultCustomer,
-      customerId:"C10001"
+      customerId:"C10001",
+      defaultCenter:{ lat: 22, lng: 77 },
+      zoom:5
     })
     setTimeout(() => {
       this.setState({
