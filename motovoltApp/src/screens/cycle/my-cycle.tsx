@@ -1,25 +1,32 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, ScrollView, RefreshControl } from 'react-native';
-import { moderateScale, scale } from 'react-native-size-matters';
-import RideMetric from '../../components/ride-metric';
-import VehicleInfo from '../../components/vehicle-info-battery';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
+import {moderateScale, scale} from 'react-native-size-matters';
 import Header from '../home/components/header';
-import Footer from '../home/components/footer';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { MyCycleStackParamList } from '../../navigation/cycle';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
-import Background from '../../components/background'
-import moment from 'moment';
-import { Dispatch } from 'redux';
-import { ReadBikeStat } from '../../service/redux/actions/saga/bike-actions';
-import LanguageSelector from '../../translations'
-import { ThemeContext } from '../../styles/theme/theme-context'
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MyCycleStackParamList} from '../../navigation/cycle';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
+import Background from '../../components/background';
+import {Dispatch} from 'redux';
+import {ReadBikeStat} from '../../service/redux/actions/saga/bike-actions';
+import LanguageSelector from '../../translations';
+import {ThemeContext} from '../../styles/theme/theme-context';
+import Tile from './tile';
+import {Icon} from 'native-base';
+import Moment from 'moment';
+
 type ReduxState = {
   bike: TStore['bike'];
-  readBikeStat: (params: ReadBikeStat) => void
+  readBikeStat: (params: ReadBikeStat) => void;
 };
 
 type MyCycleNavigationProp = StackNavigationProp<
@@ -33,94 +40,198 @@ interface Props extends ReduxState {
 }
 
 type State = {
-  refreshing: boolean
+  refreshing: boolean;
 };
 
 class MyCycle extends React.PureComponent<Props, State> {
-
   constructor(props: Props) {
     super(props);
     this.state = {
-      refreshing: false
+      refreshing: false,
     };
   }
 
-
   onRefresh() {
-    this.setState({ refreshing: true });
+    this.setState({refreshing: true});
     this.props.readBikeStat({
       type: 'ReadBikeStat',
       payload: {
-        bikeId: this.props.bike.id
-      }
-    })
-    this.setState({ refreshing: false });
+        bikeId: this.props.bike.id,
+      },
+    });
+    this.setState({refreshing: false});
+  }
+
+  getIcon(status: string) {
+    switch (status) {
+      case 'C':
+        return (
+          <Icon
+            type="FontAwesome"
+            name="exclamation-circle"
+            style={{width: 32, height: 32, color: '#FF1F00'}}
+          />
+        );
+      case 'W':
+        return (
+          <Icon
+            type="FontAwesome"
+            name="exclamation-circle"
+            style={{width: 32, height: 32, color: '#FFA800'}}
+          />
+        );
+      case 'H':
+      default:
+        return (
+          <Icon
+            type="FontAwesome"
+            name="check-circle"
+            style={{width: 32, height: 32, color: '#40A81B'}}
+          />
+        );
+    }
   }
 
   render() {
-    let Theme = this.context.theme //load theme context
+    let Theme = this.context.theme; //load theme context
+    const batteries = Object.keys(this.props.bike.batteries);
     return (
       <View style={styles.container}>
         <Background />
         <Header
-          title={LanguageSelector.t("myBike.myCycle")}
+          title={LanguageSelector.t('myBike.myCycle')}
           hasSubtitle
           subtitle={this.props.bike.name}
           hasTabs
           backgroundColor={Colors.HEADER_YELLOW}
         />
-        <ScrollView style={{ paddingHorizontal: moderateScale(15), flex: 1 }}
+        <ScrollView
+          style={{paddingHorizontal: moderateScale(15), flex: 1}}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
               onRefresh={this.onRefresh.bind(this)}
               title="Loading..."
             />
-          }
-        >
+          }>
           <View style={styles.cycle}>
             <Image
               source={require('../../assets/images/cycle.png')}
-              style={{ height: '80%', width: '100%' }}
+              style={{height: '80%', width: '100%'}}
               height={scale(200)}
               width={scale(300)}
             />
           </View>
-          <View style={{
-            ...styles.cycleName //change dark theme
-
-          }}>
-            <Text style={{ fontSize: 30, fontWeight: 'bold', color: Theme.TEXT_WHITE }} numberOfLines={1}>
+          <View
+            style={{
+              ...styles.cycleName, //change dark theme
+            }}>
+            <Text
+              style={{fontSize: 24, fontWeight: '400', color: Theme.TEXT_WHITE}}
+              numberOfLines={1}>
               {this.props.bike.name}
             </Text>
           </View>
           <View style={styles.metrics}>
-            <RideMetric
-              header1={LanguageSelector.t("myBike.health")}
-              header2={LanguageSelector.t("myBike.serviceDate")}
-              icon1={require('../../assets/icons/health_green.png')}
-              icon2={require('../../assets/icons/calendar_green.png')}
-              value1={`${this.props.bike.healthPer}`}
-              value2={`${moment(this.props.bike.serviceDate).format('DD/MM/YY')}`}
-              unit1="%"
-              unit2=""
-            />
-            <RideMetric
-              header1={LanguageSelector.t("myBike.motor")}
-              header2={LanguageSelector.t("myBike.battery")}
-              icon1={require('../../assets/icons/motor_icon.png')}
-              icon2={require('../../assets/icons/battery_green_icon.png')}
-              value1={`${this.props.bike.motorPer}`}
-              value2={`${this.props.bike.batteryHealthPer}`}
-              unit1="%"
-              unit2="%"
-            />
-            <VehicleInfo
-              header1={LanguageSelector.t("myBike.vechileId")}
-              header2={LanguageSelector.t("myBike.batteryId")}
-              value1={[this.props.bike.id]}
-              value2={Object.keys(this.props.bike.batteries)}
-            />
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <Tile
+                icon={
+                  <Image
+                    source={require('../../assets/icons/motor.png')}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      resizeMode: 'contain',
+                    }}
+                    width={40}
+                    height={40}
+                  />
+                }
+                textLine1={'Motor'}
+                textLine2={'Condition'}
+                statusIcon={this.getIcon('C')}
+              />
+              <Tile
+                icon={
+                  <Image
+                    source={require('../../assets/icons/battery.png')}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      resizeMode: 'contain',
+                    }}
+                    width={40}
+                    height={40}
+                  />
+                }
+                textLine1={'Battery'}
+                textLine2={'Condition'}
+                statusIcon={this.getIcon('H')}
+              />
+            </View>
+            <View style={{height: 24}} />
+            <View
+              style={{
+                backgroundColor: 'white',
+                paddingHorizontal: 24,
+                paddingVertical: 10,
+                borderRadius: 10,
+              }}>
+              <View
+                style={{
+                  paddingVertical: 24,
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                }}>
+                <Text style={{fontSize: 16, opacity: 0.7}}>Vehicle ID</Text>
+                <Text style={{fontSize: 16}}>{this.props.bike.id}</Text>
+              </View>
+              <View style={{borderWidth: 0.5, opacity: 0.2}} />
+              <View
+                style={{
+                  paddingVertical: 24,
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                }}>
+                <Text style={{fontSize: 16, opacity: 0.7}}>Battery ID</Text>
+                <View style={{flexDirection: 'row'}}>
+                  {batteries.length > 1 ? (
+                    <>
+                      <Text style={{fontSize: 16}}>{batteries[1]}</Text>
+                      <View
+                        style={{
+                          borderWidth: 0.5,
+                          opacity: 0.2,
+                          marginHorizontal: 8,
+                        }}
+                      />
+                    </>
+                  ) : null}
+                  {batteries.length > 0 ? (
+                    <Text style={{fontSize: 16}}>{batteries[0]}</Text>
+                  ) : null}
+                </View>
+              </View>
+              <View style={{borderWidth: 0.5, opacity: 0.2}} />
+              <View
+                style={{
+                  paddingVertical: 24,
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                }}>
+                <Text style={{fontSize: 16, opacity: 0.7}}>
+                  Next Service Due
+                </Text>
+                <Text style={{fontSize: 16}}>
+                  {Moment(this.props.bike.serviceDate).format('DD-MM-YYYY')}
+                </Text>
+              </View>
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -128,18 +239,20 @@ class MyCycle extends React.PureComponent<Props, State> {
   }
 }
 
-MyCycle.contextType = ThemeContext
+MyCycle.contextType = ThemeContext;
 
-export default connect((store: TStore) => {
-  return {
-    bike: store['bike'],
-  };
-},
+export default connect(
+  (store: TStore) => {
+    return {
+      bike: store['bike'],
+    };
+  },
   (dispatch: Dispatch) => {
     return {
-      readBikeStat: (params: ReadBikeStat) => dispatch(params)
+      readBikeStat: (params: ReadBikeStat) => dispatch(params),
     };
-  })(MyCycle);
+  },
+)(MyCycle);
 
 const styles = StyleSheet.create({
   container: {
