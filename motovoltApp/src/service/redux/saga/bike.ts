@@ -5,6 +5,7 @@ import {
 import * as BikeActions from "../actions/saga/bike-actions";
 import { Store_UpdateBike, Store_UpdateError, Store_UpdateNotification, Store_UpdateRide } from "../actions/store";
 import { config, request } from "./utils";
+import { UnknownError } from "../../server-error";
 
 export function* updateBike(params: BikeActions.UpdateBike) {
     try {
@@ -34,7 +35,7 @@ export function* updateBike(params: BikeActions.UpdateBike) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -61,7 +62,7 @@ export function* validateFrame(params: BikeActions.ValidateFrame) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataresponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -70,7 +71,7 @@ export function* validateFrame(params: BikeActions.ValidateFrame) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -128,7 +129,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: myBikeResopnse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -137,7 +138,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -162,7 +163,7 @@ export function* getLocation(params: BikeActions.ReadBikeLocation) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -171,7 +172,7 @@ export function* getLocation(params: BikeActions.ReadBikeLocation) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }

@@ -1,5 +1,5 @@
 import Amplify, { Auth, } from "aws-amplify";
-import ObjectId from "../object-id";
+import { UnknownError } from "../server-error";
 import { storeCredentials, fetchCredentials, resetCredentials } from '../secure-storage'
 
 Amplify.configure({
@@ -36,7 +36,7 @@ export async function signup(phoneNumber: string) {
             return {
                 success: false,
                 user: null,
-                message: err.message || "Unknown Error",
+                message: UnknownError,
                 username: '',
                 userConfirmed: false,
                 userSub: '',
@@ -48,7 +48,7 @@ export async function signup(phoneNumber: string) {
                 throw err;
             })
             .catch(async signInErr => {
-                console.log("************LOOK HERE 2***********")
+                console.log("************LOOK HERE 2***********", signInErr)
                 if (signInErr.code === "UserNotConfirmedException") {
                     await Auth.resendSignUp(phoneNumber);
                     return {
@@ -57,13 +57,23 @@ export async function signup(phoneNumber: string) {
                         username: '',
                         userConfirmed: false,
                         userSub: '',
-                        message: "User Not confirmed"
+                        message: "User registered but not confirmed"
+                    }
+                }
+                if(err.code === "UsernameExistsException"){
+                    return {
+                        success: false,
+                        user: null,
+                        username: '',
+                        userConfirmed: false,
+                        userSub: '',
+                        message: "User with given phone number already exists. Please login to continue."
                     }
                 }
                 return {
                     success: false,
                     user: null,
-                    message: err.message || "Unknown Error",
+                    message: UnknownError,
                     username: '',
                     userConfirmed: false,
                     userSub: '',
@@ -72,7 +82,7 @@ export async function signup(phoneNumber: string) {
                 return {
                     success: false,
                     user: null,
-                    message: err.message || "Unknown Error",
+                    message: UnknownError,
                     username: '',
                     userConfirmed: false,
                     userSub: '',
@@ -83,7 +93,7 @@ export async function signup(phoneNumber: string) {
         return {
             success: false,
             user: null,
-            message: err.message || "Unknown Error",
+            message: UnknownError,
             username: '',
             userConfirmed: false,
             userSub: '',
@@ -96,13 +106,13 @@ export async function resendSignUp(phoneNumber: string) {
         console.log(JSON.stringify(res));
         return {
             success: true,
-            message: "OTP Sent"
+            message: "We have sent the OTP to the mobile number provided."
         }
     }).catch(err => {
         console.log(err)
         return {
             success: false,
-            message: err.message || "Unknown Error",
+            message: UnknownError,
         }
     });
 }
@@ -117,7 +127,7 @@ export async function confirmSignUp(mobileNumber: string, code: string) {
     }).catch(err => {
         return {
             success: false,
-            message: err.message || "Unknown Error",
+            message: UnknownError,
         }
     })
 }
@@ -136,8 +146,9 @@ export function getUser() {
             message: null
         };
     }).catch(err => {
+        console.log(err);
         return {
-            message: err.message,
+            message: UnknownError,
             success: false,
             user: null
         }
@@ -156,7 +167,7 @@ export function initiateForgotPassword(username: string) {
             console.log(err);
             return {
                 success: false,
-                message: err.message
+                message: UnknownError
             }
         })
 }
@@ -170,9 +181,10 @@ export function forgotPassword(username: string, code: string, password: string)
                 message: "Password Reset Successfull"
             }
         }).catch(err => {
+            console.log(err)
             return {
                 success: false,
-                message: err.message
+                message: UnknownError
             }
         })
 }
@@ -190,7 +202,7 @@ export function signIn(username: string, password: string) {
     }).catch(err => {
         console.log("Error", err);
         return {
-            message: err.message,
+            message: UnknownError,
             success: false,
             user: null
         }
@@ -211,7 +223,7 @@ export async function getToken() {
         return {
             success: false,
             token: null,
-            message: "Error getting token"
+            message: UnknownError
         }
     }
 }
@@ -234,7 +246,7 @@ export function changePassword(mobileNumber: string, oldpassword: string, newpas
         console.log(err)
         return {
             success: false,
-            message: err.message
+            message: UnknownError
         }
     })
 }

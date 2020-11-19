@@ -4,6 +4,7 @@ import {
 import * as MenuActions from "../actions/saga/menu";
 import { Store_SetFAQ, Store_SetUpgrades, Store_UpdateError } from "../actions/store";
 import { config, request } from "./utils";
+import {UnknownError} from "../../server-error";
 
 export function* readFAQ(params: MenuActions.ReadFAQ) {
     try {
@@ -27,7 +28,7 @@ export function* readFAQ(params: MenuActions.ReadFAQ) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -36,7 +37,7 @@ export function* readFAQ(params: MenuActions.ReadFAQ) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -58,7 +59,7 @@ export function* readUpgrades(params: MenuActions.ReadUpgrades) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -67,7 +68,7 @@ export function* readUpgrades(params: MenuActions.ReadUpgrades) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }

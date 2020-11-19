@@ -6,6 +6,7 @@ import { Store_UpdateUser, Store_UpdateBike, Store_SetServices, Store_UpdateErro
 import { store } from "../../index";
 import { config, request } from './utils';
 import Moment from "moment";
+import {UnknownError} from "../../server-error";
 
 export function* reportIssue(params: ServiceActions.ReportIssue) {
     try {
@@ -25,7 +26,7 @@ export function* reportIssue(params: ServiceActions.ReportIssue) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataresponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -34,7 +35,7 @@ export function* reportIssue(params: ServiceActions.ReportIssue) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -72,7 +73,7 @@ export function* getServices(params: ServiceActions.ReadService) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataresponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -81,7 +82,7 @@ export function* getServices(params: ServiceActions.ReadService) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }

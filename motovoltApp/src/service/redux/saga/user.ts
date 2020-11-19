@@ -5,6 +5,7 @@ import * as UserActions from "../actions/saga/user";
 import { Store_UpdateUser, Store_UpdateBike, Store_UpdateError } from "../actions/store";
 import { store } from "../../index";
 import { config, request } from './utils';
+import {UnknownError} from "../../server-error";
 
 export function* readUser(params: UserActions.ReadUser) {
     try {
@@ -33,7 +34,7 @@ export function* readUser(params: UserActions.ReadUser) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataresponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -42,7 +43,7 @@ export function* readUser(params: UserActions.ReadUser) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -61,7 +62,7 @@ export async function getUser() {
         return {
             success: false,
             response: null,
-            message: error.message || "Unknown Error",
+            message: UnknownError,
         };
     }
 }
@@ -90,7 +91,7 @@ export function* updateUser(params: UserActions.UpdateUser) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataresponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -99,7 +100,7 @@ export function* updateUser(params: UserActions.UpdateUser) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }

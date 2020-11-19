@@ -159,14 +159,14 @@ class Login extends React.PureComponent<Props, State> {
                 !this.state.userName ||
                 !this.isValidPhone(this.state.userName)
               ) {
-                Toast.show('Enter valid mobile number');
+                Toast.show('The mobile number entered may be wrong!');
                 this.setState({
                   isValidPhone: false,
                 });
                 return;
               }
               if (!this.state.password || this.state.password.length < 8) {
-                Toast.show('Enter valid password');
+                Toast.show('Password should be entered in the required format');
                 this.setState({
                   isValidPassword: false,
                 });

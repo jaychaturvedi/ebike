@@ -318,28 +318,28 @@ class PersonalDetails extends React.PureComponent<Props, State> {
           <CTAButton
             onPress={() => {
               if (!this.state.name) {
-                Toast.show('Enter valid name');
+                Toast.show('Please enter your Name');
                 this.setState({
                   isValidName: false,
                 });
                 return;
               }
               if (!this.state.email || !this.validateEmail(this.state.email)) {
-                Toast.show('Enter valid email');
+                Toast.show('Please enter a valid email');
                 this.setState({
                   isValidEmail: false,
                 });
                 return;
               }
               if(!this.state.gender){
-                Toast.show("Select gender");
+                Toast.show("Please select gender");
                 this.setState({
                   isValidGender: false
                 })
                 return;
               }
               if(!this.state.age){
-                Toast.show("Select age");
+                Toast.show("Please select age");
                 this.setState({
                   isValidAge: false
                 })
@@ -347,7 +347,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
               }
               if (!this.validatePassword(this.state.password)) {
                 Toast.show(
-                  'Password should be 8 characters containing atleast 1 uppercase, 1 lowercase, 1 digit and a special character',
+                  'Password should be entered in the required format',
                 );
                 this.setState({
                   isValidPassword: false,
@@ -355,7 +355,7 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                 return;
               }
               if (this.state.password !== this.state.confirmPassword) {
-                Toast.show('Password and confirm password did not match');
+                Toast.show('Password and confirm password do not match. Please try again!');
                 this.setState({
                   isValidPassword: false,
                 });

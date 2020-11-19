@@ -5,6 +5,7 @@ import * as RideActions from "../actions/saga/rides";
 import { Store_UpdateRide, Store_SetRideHistory, Store_UpdateBike, Store_SetSpeedometer, Store_SetGraphdata, Store_UpdateError } from "../actions/store";
 import { config, request } from "./utils";
 import Moment from "moment";
+import { UnknownError } from "../../server-error";
 
 export function* startRide(params: RideActions.StartRide) {
     try {
@@ -23,7 +24,7 @@ export function* startRide(params: RideActions.StartRide) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -32,7 +33,7 @@ export function* startRide(params: RideActions.StartRide) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -67,7 +68,7 @@ export function* endRide(params: RideActions.EndRide) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -76,7 +77,7 @@ export function* endRide(params: RideActions.EndRide) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -105,7 +106,7 @@ export function* rateRide(params: RideActions.SubmitRide) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -114,7 +115,7 @@ export function* rateRide(params: RideActions.SubmitRide) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -158,8 +159,8 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
                         value: gData.dist,
                         date: gData.date
                     })),
-                    avgKmph: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.dist || 0) }, 0)/ data.graphData.filter((data: any) => data.dist !== 0).length),
-                    avgSpeed: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.avgspd || 0) }, 0)/ data.graphData.filter((data: any) => data.avgspd !== 0).length),
+                    avgKmph: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.dist || 0) }, 0) / data.graphData.filter((data: any) => data.dist !== 0).length),
+                    avgSpeed: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.avgspd || 0) }, 0) / data.graphData.filter((data: any) => data.avgspd !== 0).length),
                     topSpeed: Math.round(Math.max(...data.graphData.map((data: any) => data.speed))),
                     distance: Math.round(data.graphData.reduce((total: number, current: any) => { return total + (current.dist || 0) }, 0)),
                     co2SavingKg: data.graphData.length ? Math.round(data.graphData[data.graphData.length - 1].co2sav || 0) : 0,
@@ -170,7 +171,7 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -179,7 +180,7 @@ export function* getRideHistory(params: RideActions.ReadRideHistory) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(error, Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -212,7 +213,7 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -221,7 +222,7 @@ export function* getCurrentRide(params: RideActions.ReadCurrentRideData) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
@@ -259,7 +260,7 @@ export function* getRide(params: RideActions.ReadRideData) {
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -268,7 +269,7 @@ export function* getRide(params: RideActions.ReadRideData) {
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }
