@@ -11,16 +11,16 @@ Amplify.configure({
 })
 
 export async function signup(phoneNumber: string) {
-
     console.log("Got here in sigup", phoneNumber)
     await signout();
     await storeCredentials(phoneNumber, "DUMMY_PASSWORD");
     const password = `${phoneNumber}motovOlt@`
+    console.log("Trying signup")
     return Auth.signUp({
         username: phoneNumber,
         password: password,
     }).then(async (res) => {
-        console.log(JSON.stringify(res));
+        console.log("Signup sucess", JSON.stringify(res))
         return {
             success: true,
             user: res.user,
@@ -30,8 +30,7 @@ export async function signup(phoneNumber: string) {
             message: "User created"
         }
     }).catch(err => {
-        console.log("************LOOK HERE ***********")
-        console.log(err)
+        console.log("Signup failed", JSON.stringify(err));
         if (err.code !== 'UsernameExistsException') {
             return {
                 success: false,
@@ -42,14 +41,16 @@ export async function signup(phoneNumber: string) {
                 userSub: '',
             }
         }
+        console.log("Signing in user")
         return Auth.signIn({ username: phoneNumber, password })
             .then(async user => {
-                console.log("Signup", await getToken())
+                console.log("Signin sucess");
                 throw err;
             })
             .catch(async signInErr => {
-                console.log("************LOOK HERE 2***********", signInErr)
+                console.log("Error after signin", signInErr);
                 if (signInErr.code === "UserNotConfirmedException") {
+                    console.log("User not confirmed")
                     await Auth.resendSignUp(phoneNumber);
                     return {
                         success: true,
@@ -60,7 +61,8 @@ export async function signup(phoneNumber: string) {
                         message: "User registered but not confirmed"
                     }
                 }
-                if(err.code === "UsernameExistsException"){
+                if (err.code === "UsernameExistsException") {
+                    console.log("User exists")
                     return {
                         success: false,
                         user: null,
@@ -70,6 +72,7 @@ export async function signup(phoneNumber: string) {
                         message: "User with given phone number already exists. Please login to continue."
                     }
                 }
+                console.log("Unknown error", signInErr)
                 return {
                     success: false,
                     user: null,
@@ -79,6 +82,7 @@ export async function signup(phoneNumber: string) {
                     userSub: '',
                 }
             }).catch(err => {
+                console.log("Erorr signining in", err)
                 return {
                     success: false,
                     user: null,
@@ -89,7 +93,7 @@ export async function signup(phoneNumber: string) {
                 }
             })
     }).catch(err => {
-        console.log("Hetete*******************************")
+        console.log("Error signinup", err)
         return {
             success: false,
             user: null,
@@ -110,6 +114,12 @@ export async function resendSignUp(phoneNumber: string) {
         }
     }).catch(err => {
         console.log(err)
+        if (err.code === "LimitExceededException") {
+            return {
+                success: false,
+                message: err.message,
+            }
+        }
         return {
             success: false,
             message: UnknownError,
@@ -237,6 +247,7 @@ export function changePassword(mobileNumber: string, oldpassword: string, newpas
                     await storeCredentials(mobileNumber, newpassword);
                     console.log(await fetchCredentials())
                     return {
+                        message: "",
                         success: true
                     }
                 })

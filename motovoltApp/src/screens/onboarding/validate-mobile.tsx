@@ -12,30 +12,20 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {OnboardingStackParamList} from '../../navigation/onboarding';
 import Input from '../onboarding/components/input';
+import {
+  confirmSignUp,
+  resendSignUp,
+  signUp,
+} from '../../service/api/authentication';
 import {TStore} from '../../service/redux/store';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
-import {
-  SignIn,
-  SignUp,
-  ConfirmSignUp,
-  ResendSignUp,
-} from '../../service/redux/actions/saga/authentication-actions';
-import {
-  Store_UpdateOnboarding,
-  Store_ResetOnboarding,
-  Store_UpdateUser,
-} from '../../service/redux/actions/store';
+import {Store_UpdateUser} from '../../service/redux/actions/store';
 import Toast from 'react-native-simple-toast';
 import OTP from './otp';
+import {MaterialIndicator} from 'react-native-indicators';
 
 type ReduxState = {
-  signUp: (params: SignUp) => void;
-  signIn: (params: SignIn) => void;
-  confirmSignUp: (params: ConfirmSignUp) => void;
-  resendSignUp: (params: ResendSignUp) => void;
-  updateOnboarding: (params: Store_UpdateOnboarding) => void;
-  resetOnboarding: (params: Store_ResetOnboarding) => void;
   updateUser: (params: Store_UpdateUser) => void;
   onboarding: TStore['onboarding'];
 };
@@ -51,28 +41,25 @@ interface Props extends ReduxState {
 }
 
 type State = {
+  loading: boolean;
   mobile: string;
   isValid: boolean;
   showOtp: boolean;
   signupSuccess: boolean;
+  otpValidated: boolean;
 };
 
 class ValidateMobile extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      loading: false,
       mobile: '',
       isValid: true,
       showOtp: false,
       signupSuccess: false,
+      otpValidated: false,
     };
-  }
-
-  componentDidMount() {
-    this.props.resetOnboarding({
-      type: 'Store_ResetOnboarding',
-      payload: {},
-    });
   }
 
   onSuccess = () => {
@@ -101,47 +88,56 @@ class ValidateMobile extends React.PureComponent<Props, State> {
   };
 
   onOtpFilled = (code: string) => {
-    this.props.confirmSignUp({
+    this.setState({
+      loading: true,
+    });
+    confirmSignUp({
       type: 'ConfirmSignUp',
       payload: {
         mobileNumber: this.state.mobile,
         code: code,
       },
+    }).then((response) => {
+      if (!response.success) Toast.show(response.message || '');
+      this.setState({
+        loading: false,
+        otpValidated: response.success,
+      });
     });
   };
 
   onOtpResend = () => {
-    this.props.resendSignUp({
+    this.setState({
+      loading: true,
+    });
+    resendSignUp({
       type: 'ResendSignUp',
       payload: {
         mobileNumber: this.state.mobile,
       },
+    }).then((response) => {
+      if (!response.success) Toast.show(response.message || '');
+      else Toast.show('We have sent the OTP to the mobile number provided.');
+      this.setState({
+        loading: false,
+      });
     });
   };
 
   render() {
     console.log(this.state, this.props);
-    if (this.props.onboarding.errorMessage) {
-      Toast.show(this.props.onboarding.errorMessage);
-      this.props.updateOnboarding({
-        type: 'Store_UpdateOnboarding',
-        payload: {
-          errorMessage: '',
-        },
-      });
+    if (this.state.loading) {
+      return <MaterialIndicator color="black" />;
     }
-    if (
-      this.props.onboarding.confirmSignUpSuccess &&
-      !this.state.signupSuccess
-    ) {
+    if (this.state.otpValidated) {
       setTimeout(this.onSuccess, 1000);
     }
-    return this.props.onboarding.signUpSuccess ? (
+    return this.state.signupSuccess ? (
       <OTP
         onFilled={this.onOtpFilled}
         onResend={this.onOtpResend}
-        success={Boolean(this.props.onboarding.confirmSignUpSuccess)}
-        errored={Boolean(this.props.onboarding.errorMessage)}
+        success={Boolean(this.state.otpValidated)}
+        errored={false}
         successMessage={'Mobile Verified'}
       />
     ) : (
@@ -193,9 +189,19 @@ class ValidateMobile extends React.PureComponent<Props, State> {
                 });
                 return;
               }
-              this.props.signUp({
+              this.setState({
+                loading: true,
+              });
+              signUp({
                 type: 'SignUp',
                 payload: {mobileNumber: this.state.mobile},
+              }).then((response) => {
+                if (!response.success) Toast.show(response.message || '');
+                this.setState({
+                  loading: false,
+                  showOtp: response.success,
+                  signupSuccess: response.success,
+                });
               });
             }}
           />
@@ -213,12 +219,6 @@ export default connect(
   },
   (dispatch: Dispatch) => {
     return {
-      signUp: (params: SignUp) => dispatch(params),
-      signIn: (params: SignIn) => dispatch(params),
-      confirmSignUp: (params: ConfirmSignUp) => dispatch(params),
-      resendSignUp: (params: ResendSignUp) => dispatch(params),
-      updateOnboarding: (params: Store_UpdateOnboarding) => dispatch(params),
-      resetOnboarding: (params: Store_ResetOnboarding) => dispatch(params),
       updateUser: (params: Store_UpdateUser) => dispatch(params),
     };
   },

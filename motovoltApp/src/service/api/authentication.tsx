@@ -1,6 +1,6 @@
 import {store} from '../';
 import * as Authentication from '../authentication';
-import {Store_UpdateUser} from '../redux/actions/store';
+import {Store_Reset, Store_UpdateUser} from '../redux/actions/store';
 import * as AuthenticationActions from '../redux/actions/saga/authentication-actions';
 import * as User from '../redux/saga/user';
 
@@ -34,4 +34,67 @@ export async function signIn(
     },
   } as Store_UpdateUser);
   return {success: true};
+}
+
+export async function signUp(
+  params: AuthenticationActions.SignUp,
+): Promise<Response> {
+  const response = await Authentication.signup(params.payload.mobileNumber);
+  return {success: response.success, message: response.message};
+}
+
+export async function resendSignUp(params: AuthenticationActions.ResendSignUp) {
+  const response = await Authentication.resendSignUp(
+    params.payload.mobileNumber,
+  );
+  return {success: response.success, message: response.message};
+}
+
+export async function confirmSignUp(
+  params: AuthenticationActions.ConfirmSignUp,
+) {
+  const response = await Authentication.confirmSignUp(
+    params.payload.mobileNumber,
+    params.payload.code,
+  );
+  return {success: response.success, message: response.message};
+}
+
+export async function signOut(params: AuthenticationActions.SignOut) {
+  await Authentication.signout();
+  store.dispatch({
+    type: 'Store_Reset',
+    payload: {},
+  } as Store_Reset);
+}
+
+export async function initForgotPassword(
+  params: AuthenticationActions.InitiateForgotPassword,
+) {
+  const response = await Authentication.initiateForgotPassword(
+    params.payload.mobileNumber,
+  );
+  return {success: response.success, message: response.message};
+}
+
+export async function completeForgotPassword(
+  params: AuthenticationActions.CompleteForgotPassword,
+) {
+  const response = await Authentication.forgotPassword(
+    params.payload.mobileNumber,
+    params.payload.code,
+    params.payload.password,
+  );
+  return {success: response.success, message: response.message};
+}
+
+export async function changePassword(
+  params: AuthenticationActions.ChangePassword,
+) {
+  const response = await Authentication.changePassword(
+    params.payload.mobileNumber,
+    params.payload.oldPassword,
+    params.payload.newPassword,
+  );
+  return {success: response.success, message: response.message};
 }

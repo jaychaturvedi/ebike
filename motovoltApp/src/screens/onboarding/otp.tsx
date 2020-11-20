@@ -54,9 +54,6 @@ export default class OTPInput extends React.PureComponent<Props, State> {
             code={this.state.code}
             onCodeChanged={(code) => {
               this.setState({code});
-              // if (code.length === 6) {
-              //   this.props.onFilled(code);
-              // }
             }}
             ref={this.state.ref}
             autoFocusOnLoad
