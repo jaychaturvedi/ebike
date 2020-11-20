@@ -82,6 +82,16 @@ export async function signup(phoneNumber: string) {
                     userSub: '',
                 }
             }).catch(err => {
+                if (err.code === "LimitExceededException") {
+                    return {
+                        success: false,
+                        user: null,
+                        username: '',
+                        userConfirmed: false,
+                        userSub: '',
+                        message: "Attempt limit exceeded, please try after some time."
+                    }
+                }
                 console.log("Erorr signining in", err)
                 return {
                     success: false,
