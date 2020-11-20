@@ -122,7 +122,10 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     batteries: Object.assign({}, ...data.batteries.map((battery: any) => { return { [battery.id]: battery } })),
                     serviceDate: data.serviceDate,
                     warrantyTill: data.warrantyValidTill,
-                    purchaseDate: data.purchaseDate
+                    purchaseDate: data.purchaseDate,
+                    healthState: data.hltStat || "",
+                    motorState: data.mtrStat || "",
+                    batteryState: data.batStat || "",                 
                 }
             } as Store_UpdateBike);
         } else {

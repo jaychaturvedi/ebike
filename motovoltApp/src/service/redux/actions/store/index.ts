@@ -60,6 +60,9 @@ export type Store_UpdateBike = {
         id: string,
         modal?: string,
         name?: string,
+        healthState?: string,
+        motorState?: string;
+        batteryState?: string,
         purchaseDate?: string,
         warrantyTill?: string,
         healthPer?: number,

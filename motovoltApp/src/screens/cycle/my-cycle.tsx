@@ -154,7 +154,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                 }
                 textLine1={'Motor'}
                 textLine2={'Condition'}
-                statusIcon={this.getIcon('C')}
+                statusIcon={this.getIcon(this.props.bike.motorState)}
               />
               <Tile
                 icon={
@@ -171,7 +171,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                 }
                 textLine1={'Battery'}
                 textLine2={'Condition'}
-                statusIcon={this.getIcon('H')}
+                statusIcon={this.getIcon(this.props.bike.batteryState)}
               />
             </View>
             <View style={{height: 24}} />
