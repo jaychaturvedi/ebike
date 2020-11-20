@@ -232,6 +232,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                 </Text>
               </View>
             </View>
+            <View style={{height: 24}} />
           </View>
         </ScrollView>
       </View>

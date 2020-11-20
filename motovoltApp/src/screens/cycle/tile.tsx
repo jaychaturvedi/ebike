@@ -26,8 +26,13 @@ export default class Tile extends React.PureComponent<Props, State> {
           borderRadius: 10,
           width: '48%',
         }}>
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-          {this.props.icon}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <View style={{height: 40, width:40}}>{this.props.icon}</View>
           <View style={{marginLeft: 8}}>
             <Text
               style={{
