@@ -1,7 +1,7 @@
 import axios from "axios"
 import { call, put } from "redux-saga/effects"
 import { IMapMarkerAction, IMapViewFilterAction } from "../actions/map"
-import { TMapMarkers } from "../redux/models"
+import { TMapMarkers, TMapViewFilters } from "../redux/models"
 
 export type Store_MapMarkers = {
   type: "STORE_MAPMARKERS",
@@ -37,10 +37,9 @@ async function getMarkersForCustomer(params: IMapMarkerAction) {
     "?"+"location="+params.payload.location+"&zone="+params.payload.zone)
   return response.data.body as TMapMarkers[]
 }
-
 ///////////////////////////GET DROPDOWN FILTERS IN MAP VIEW/////////////////////////////////
 export function* getMapViewFilters(params: IMapViewFilterAction){
-  const data:any = yield call(getMapViewDropDownFilters, params)
+  const data: TMapViewFilters = yield call(getMapViewDropDownFilters, params)
   yield put({
     type: "STORE_MAPVIEWFILTERS",
     payload: {

@@ -62,8 +62,8 @@ async function getAlertTrends(params: IAlertTrendActions) {
     response = await Promise.all([totalAlerts(params), top5Alerts(params), locationWiseAlerts(params)])
     const data: TAlertsTrendData = {
         trendTotalAlert: response[0],
-        trendTop5Alert: response[1],
-        trendLocationWise: response[2]
+        trendTop5Alert: Object.assign({lines: {}, data: []}, response[1]),
+        trendLocationWise:Object.assign({lines: {}, data: []}, response[2])
     }
     // console.log(params.payload, 'in getAlert')
 

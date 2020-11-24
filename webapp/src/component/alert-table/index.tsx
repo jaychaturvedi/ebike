@@ -60,8 +60,10 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   constructor(props: AlertProps) {
     super(props);
     this.state = {
-      current: 1,
-      pageSize: 10,
+      // current: 1,
+      // pageSize: 10,
+      pageSize : props.alerts.pagination.pageSize,
+      current : props.alerts.pagination.pageNumber,
       total: 0,
       data: [],
       isAsc: false,
@@ -412,7 +414,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     <div className={'spacer'}></div>
           <span className={'nav-button'}>
             <pre className="pages-available">
-              {this.state.pageSize * (this.state.current - 1) + 1} -&nbsp;
+              {this.state.total?(this.state.pageSize * (this.state.current - 1) + 1):0} -&nbsp;
                         {this.state.pageSize * this.state.current > this.state.total
                 ? this.state.total : this.state.pageSize * this.state.current}
                           &nbsp;of {this.state.total}</pre>

@@ -48,13 +48,14 @@ export function getAlertTypeId(alertName: string) {
     }
 }
 
-// 1	Voltages Deviation
-// 2	Vehicle Idle / Inactive
-// 3	High Operating Temperature
-// 4	Unit Over Voltage - L1
-// 5	High Charging Temperature - L1
-// 6	Charge Over Current - L1
-// 7	High SOC - L1
-// 8	Excessive Temperature Difference L1
-// 9	Hall Sensor Fault
-// 10 Capacity Deterioration
+// 1	Voltages Deviation = CellBatteryGraph
+// 2	Vehicle Idle / Inactive = BarGraph
+// 3	High Operating Temperature = DoubleLineGraph
+// 4	Unit Over Voltage - L1 = SingleLineGraph
+// 5	High Charging Temperature - L1 = DualAxisLineGraph
+// 6	Charge Over Current - L1 = SingleLineGraph
+// 7	High SOC - L1 = SingleLineGraph
+// 8	Excessive Temperature Difference L1 = SingleLineGraph
+// 9	Hall Sensor Fault = SingleLineGraph
+// 10 Capacity Deterioration = DoubleLineGraph
+// 999 Single Line Graph 

@@ -13,9 +13,13 @@ export async function getMyBike(frameId: string) {
     servDate: serviceDate, warrantyValidTill, purchaseDate } = result[0]
   if (!fid) throw new BikeError("No data available for devices");
   const { bikeName } = result[1]
+  const hltStat = result[0]?.hltStat||""
+  const batStat = result[0]?.batStat||""
+  const mtrStat = result[0]?.mtrStat||""
   return {
     bikeName, motorPer, batteryChargePer, batteryHealthPer, model, type,
-    batteries: [{ id: batteryId }], vehicleId, serviceDate, warrantyValidTill, purchaseDate
+    batteries: [{ id: batteryId }], vehicleId, serviceDate, warrantyValidTill, purchaseDate,
+    hltStat, batStat, mtrStat
   }
 }
 

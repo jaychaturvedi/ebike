@@ -156,6 +156,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
           title="Charging Temperature Trend"
           dataKey="timeDate"
           L1={true}
+          L1Value={30}
           line1Key="current"
           line2Key="chargingTemp"
           line1Name='Current'
@@ -256,20 +257,42 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
       }
       case 999: {
         return <SingleLineGraph 
-          title={this.props.alertName!}
-          dataKey="timeDate"
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+          dataKey="xAxisValue"
           L1={false}
-          line1Key="value" 
-          line1Name={this.state.data?.length?this.state.data[0]["param"]:"common alerts"}
+          // L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          line1Key="primaryValue" 
+          line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
           line1StrokeColor="#4aa7cf" 
           refColor="#e3e6e8"
-          xAxisLabel="Time"
-          yAxisLabel={this.state.data?.length?this.state.data[0]["param"]:"Y Axis"}
+          xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+          yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
           data={this.state.data} 
           alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
+      // case 999:{
+      //   return <DualAxisLineGraph
+      //     title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+      //     dataKey="timeDate"
+      //     L1={true}
+      //     L1Value={this.props.graphs[this.state.alertTypeId!]?.threshold}
+      //     line1Key="value1"
+      //     line2Key="value2"
+      //     line1Name={this.state.data?.length?this.state.data[0]["param1"]:"common alerts"}
+      //     line2Name={this.state.data?.length?this.state.data[0]["param2"]:"common alerts"}
+      //     line1StrokeColor="#D48D4F"
+      //     line2StrokeColor="#4aa7cf"
+      //     refColor="green"
+      //     xAxisLabel="Time"
+      //     yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.yAxisLabel1}
+      //     rightYaxisLabel={this.props.graphs[this.state.alertTypeId!]?.yAxisLabel2} 
+      //     data={this.state.data}
+      //     alertDate={this.state.alertTime}
+      //     alertCleared={this.props.alertCleared}
+      //   />
+      // }
       default: {
         return <div>No graph available for alert name</div>
       }

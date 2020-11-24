@@ -10,8 +10,8 @@ import moment from 'moment';
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
     // console.log(payload?.timeDate, "payyload", moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss"));
-    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm")
-    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
+    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm:ss")
+    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss")
     if (TimeDate === AlertDate) {
       console.log("notch",payload?.timeDate,props?.alertDate);
         return (
@@ -27,7 +27,8 @@ interface DualAxisGraphProps {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: boolean, alertDate?: string,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string, rightYaxis?: boolean, rightYaxisLabel?: string,
-    alertCleared?: boolean
+    alertCleared?: boolean,
+    L1Value: number
 }
 
 interface DualAxisGraphStates {
@@ -59,7 +60,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         let data = state.data
         if (props.data !== undefined) {
             data = props.data;
-            state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
+            state.L1Value = props.data.length > 0 && props.L1 ? props.L1Value : 0;
             state.xAxisLabel = props.xAxisLabel;
             state.yAxisLabel = props.yAxisLabel;
             state.rightYaxisLabel = props.rightYaxisLabel
@@ -104,7 +105,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         const { active } = obj;
         if (active) {
             return (
-                <div className="custom-tooltip" style={style}>
+                <div className="custom-tooltip" style={{...style, fontSize:"14px"}}>
                     <p className="label">{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
                     <p className="label">{`Temperature: ${payload[1]?.value}`}</p>
 

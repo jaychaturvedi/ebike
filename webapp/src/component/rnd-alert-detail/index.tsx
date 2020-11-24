@@ -120,7 +120,9 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
         return (
             <div className="connectm-AlertDetail">
                 <div className={"connectm-breadcrum"}>
-                    <Link to={"/alerts"} className="link" onClick={this.goToAlert}>
+                    <Link to={"/alerts"} className="link" 
+                    // onClick={this.goToAlert}
+                    >
                         <img src={BackArrowButton} alt="back-arrow" className={"back-arrow-button"} />
                     </Link>
                 </div>

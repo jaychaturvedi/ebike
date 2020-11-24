@@ -36,7 +36,7 @@ export function UpdateMarkers(params: IUpdateAction) {
 }
 ///////////////////////////GET DROPDOWN FILTERS IN MAP VIEW/////////////////////////////////
 export interface IMapViewFilterAction {
-  type: "GET_DROPDOWN_FILTERS"
+  type: "GET_MAPVIEW_DROPDOWN_FILTERS"
 }
 
 export function MapViewFilters(params: IMapViewFilterAction) {
