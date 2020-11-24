@@ -7,7 +7,7 @@ import * as Authentication from "../../authentication";
 import * as User from "../saga/user";
 import * as AuthenticationActions from "../actions/saga/authentication-actions";
 import { Store_UpdateOnboarding, Store_UpdateUser, Store_Reset, Store_UpdateError } from "../actions/store";
-
+import {UnknownError} from '../../server-error';
 
 //Onboarding
 export function* signIn(params: AuthenticationActions.SignIn) {

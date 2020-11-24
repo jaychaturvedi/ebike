@@ -70,6 +70,9 @@ export type TBike = {
     healthPer: number,
     serviceDate: string,
     motorPer: number,
+    healthState: string,
+    motorState: string;
+    batteryState: string,
     type: null | "CELLULAR" | "BLE",
     co2SavingKg: number,
     totalDistanceKm: number,
@@ -213,6 +216,9 @@ export const ZeroBike: TBike = {
     id: "",
     modal: "",
     name: "",
+    healthState: "",
+    motorState: "",
+    batteryState: "",
     purchaseDate: "",
     warrantyTill: "",
     healthPer: 0,
@@ -268,7 +274,7 @@ export const ZeroGraph: TGraph = {
     distance: 0,
     avgSpeed: 0,
     topSpeed: 0,
-    avgKmph: 0, 
+    avgKmph: 0,
     data: {}
 }
 

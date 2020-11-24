@@ -96,7 +96,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
         mobileNumber: this.state.mobile,
       },
     });
-    Toast.show('OTP Sent');
+    Toast.show('We have sent the OTP to the mobile number provided.');
   };
 
   isValidPhone(text: string) {
@@ -146,7 +146,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
             backgroundColor={Colors.NAVY_BLUE}
             onPress={() => {
               if (!this.state.mobile || !this.isValidPhone(this.state.mobile)) {
-                Toast.show('Enter valid mobile number');
+                Toast.show('The mobile number entered may be wrong!');
                 this.setState({
                   isValid: false,
                 });

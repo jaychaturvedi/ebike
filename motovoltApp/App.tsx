@@ -87,7 +87,7 @@ class App extends React.PureComponent<Props, State> {
             console.log('Response ', response);
             const user = await getUser();
             if (!user.success) {
-              Toast.show('Error connecting to server');
+              Toast.show('We couldn’t connect to the server. Please retry.');
               return;
             }
             console.log('Initial User : ', user);

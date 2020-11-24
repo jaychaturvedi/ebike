@@ -1,0 +1,1 @@
+export const UnknownError = "We encountered an unexpected error while connecting to server. Please retry.";

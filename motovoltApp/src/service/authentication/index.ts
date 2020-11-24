@@ -1,5 +1,5 @@
 import Amplify, { Auth, } from "aws-amplify";
-import ObjectId from "../object-id";
+import { UnknownError } from "../server-error";
 import { storeCredentials, fetchCredentials, resetCredentials } from '../secure-storage'
 
 Amplify.configure({
@@ -11,16 +11,16 @@ Amplify.configure({
 })
 
 export async function signup(phoneNumber: string) {
-
     console.log("Got here in sigup", phoneNumber)
     await signout();
     await storeCredentials(phoneNumber, "DUMMY_PASSWORD");
     const password = `${phoneNumber}motovOlt@`
+    console.log("Trying signup")
     return Auth.signUp({
         username: phoneNumber,
         password: password,
     }).then(async (res) => {
-        console.log(JSON.stringify(res));
+        console.log("Signup sucess", JSON.stringify(res))
         return {
             success: true,
             user: res.user,
@@ -30,26 +30,27 @@ export async function signup(phoneNumber: string) {
             message: "User created"
         }
     }).catch(err => {
-        console.log("************LOOK HERE ***********")
-        console.log(err)
+        console.log("Signup failed", JSON.stringify(err));
         if (err.code !== 'UsernameExistsException') {
             return {
                 success: false,
                 user: null,
-                message: err.message || "Unknown Error",
+                message: UnknownError,
                 username: '',
                 userConfirmed: false,
                 userSub: '',
             }
         }
+        console.log("Signing in user")
         return Auth.signIn({ username: phoneNumber, password })
             .then(async user => {
-                console.log("Signup", await getToken())
+                console.log("Signin sucess");
                 throw err;
             })
             .catch(async signInErr => {
-                console.log("************LOOK HERE 2***********")
+                console.log("Error after signin", signInErr);
                 if (signInErr.code === "UserNotConfirmedException") {
+                    console.log("User not confirmed")
                     await Auth.resendSignUp(phoneNumber);
                     return {
                         success: true,
@@ -57,33 +58,56 @@ export async function signup(phoneNumber: string) {
                         username: '',
                         userConfirmed: false,
                         userSub: '',
-                        message: "User Not confirmed"
+                        message: "User registered but not confirmed"
                     }
                 }
+                if (err.code === "UsernameExistsException") {
+                    console.log("User exists")
+                    return {
+                        success: false,
+                        user: null,
+                        username: '',
+                        userConfirmed: false,
+                        userSub: '',
+                        message: "User with given phone number already exists. Please login to continue."
+                    }
+                }
+                console.log("Unknown error", signInErr)
                 return {
                     success: false,
                     user: null,
-                    message: err.message || "Unknown Error",
+                    message: UnknownError,
                     username: '',
                     userConfirmed: false,
                     userSub: '',
                 }
             }).catch(err => {
+                if (err.code === "LimitExceededException") {
+                    return {
+                        success: false,
+                        user: null,
+                        username: '',
+                        userConfirmed: false,
+                        userSub: '',
+                        message: "Attempt limit exceeded, please try after some time."
+                    }
+                }
+                console.log("Erorr signining in", err)
                 return {
                     success: false,
                     user: null,
-                    message: err.message || "Unknown Error",
+                    message: UnknownError,
                     username: '',
                     userConfirmed: false,
                     userSub: '',
                 }
             })
     }).catch(err => {
-        console.log("Hetete*******************************")
+        console.log("Error signinup", err)
         return {
             success: false,
             user: null,
-            message: err.message || "Unknown Error",
+            message: UnknownError,
             username: '',
             userConfirmed: false,
             userSub: '',
@@ -96,13 +120,19 @@ export async function resendSignUp(phoneNumber: string) {
         console.log(JSON.stringify(res));
         return {
             success: true,
-            message: "OTP Sent"
+            message: "We have sent the OTP to the mobile number provided."
         }
     }).catch(err => {
         console.log(err)
+        if (err.code === "LimitExceededException") {
+            return {
+                success: false,
+                message: err.message,
+            }
+        }
         return {
             success: false,
-            message: err.message || "Unknown Error",
+            message: UnknownError,
         }
     });
 }
@@ -117,7 +147,7 @@ export async function confirmSignUp(mobileNumber: string, code: string) {
     }).catch(err => {
         return {
             success: false,
-            message: err.message || "Unknown Error",
+            message: UnknownError,
         }
     })
 }
@@ -136,8 +166,9 @@ export function getUser() {
             message: null
         };
     }).catch(err => {
+        console.log(err);
         return {
-            message: err.message,
+            message: UnknownError,
             success: false,
             user: null
         }
@@ -156,7 +187,7 @@ export function initiateForgotPassword(username: string) {
             console.log(err);
             return {
                 success: false,
-                message: err.message
+                message: UnknownError
             }
         })
 }
@@ -170,9 +201,10 @@ export function forgotPassword(username: string, code: string, password: string)
                 message: "Password Reset Successfull"
             }
         }).catch(err => {
+            console.log(err)
             return {
                 success: false,
-                message: err.message
+                message: UnknownError
             }
         })
 }
@@ -190,7 +222,7 @@ export function signIn(username: string, password: string) {
     }).catch(err => {
         console.log("Error", err);
         return {
-            message: err.message,
+            message: UnknownError,
             success: false,
             user: null
         }
@@ -211,7 +243,7 @@ export async function getToken() {
         return {
             success: false,
             token: null,
-            message: "Error getting token"
+            message: UnknownError
         }
     }
 }
@@ -225,6 +257,7 @@ export function changePassword(mobileNumber: string, oldpassword: string, newpas
                     await storeCredentials(mobileNumber, newpassword);
                     console.log(await fetchCredentials())
                     return {
+                        message: "",
                         success: true
                     }
                 })
@@ -234,7 +267,7 @@ export function changePassword(mobileNumber: string, oldpassword: string, newpas
         console.log(err)
         return {
             success: false,
-            message: err.message
+            message: UnknownError
         }
     })
 }

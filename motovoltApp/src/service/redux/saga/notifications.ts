@@ -6,6 +6,7 @@ import {
 import * as NotificationActions from "../actions/saga/notification-actions";
 import { Store_UpdateError, Store_UpdateNotification } from "../actions/store";
 import { config, request } from "./utils";
+import {UnknownError} from "../../server-error";
 
 
 export function* getNotification(params: NotificationActions.ReadNotifications) {
@@ -36,7 +37,7 @@ export function* getNotification(params: NotificationActions.ReadNotifications) 
             yield put({
                 type: 'Store_UpdateError',
                 payload: {
-                    error: dataResponse.message
+                    error: UnknownError
                 }
             } as Store_UpdateError)
         }
@@ -45,7 +46,7 @@ export function* getNotification(params: NotificationActions.ReadNotifications) 
         yield put({
             type: 'Store_UpdateError',
             payload: {
-                error: JSON.stringify(Object.getOwnPropertyNames(error))
+                error: UnknownError
             }
         } as Store_UpdateError)
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, Image} from 'react-native';
 import Footer from '../home/components/footer';
 import Header from '../home/components/header';
 import Colors from '../../styles/colors';
@@ -15,7 +15,8 @@ import {
 import {TStore, TNotification} from 'src/service/redux/store';
 import {Store_UpdateNotification} from 'src/service/redux/actions/store';
 import LanguageSelector from '../../translations';
-import Moment from "moment";
+import Moment from 'moment';
+import {Text} from 'native-base';
 
 interface ReduxState {
   updateNotifications: (params: Store_UpdateNotification) => void;
@@ -73,10 +74,11 @@ class Notifications extends React.PureComponent<Props, {}> {
     const dayWise: {[date: string]: TNotification[]} = {};
     Object.keys(this.props.notifications.data).forEach((item) => {
       dayWise[this.props.notifications.data[item].date] = [
-        ...dayWise[this.props.notifications.data[item].date] ?? [],
+        ...(dayWise[this.props.notifications.data[item].date] ?? []),
         this.props.notifications.data[item],
       ];
     });
+    const isEmpty = !Object.keys(this.props.notifications.data).length;
     return (
       <View
         style={{
@@ -87,9 +89,9 @@ class Notifications extends React.PureComponent<Props, {}> {
         <Header
           backgroundColor={Colors.HEADER_YELLOW}
           hasBackButton
-          hasSubtitle
+          hasSubtitle={false}
           title={LanguageSelector.t('notifications')}
-          subtitle={this.props.bike.name}
+          // subtitle={this.props.bike.name}
           onBackClick={() => {
             this.props.updateNotifications({
               type: 'Store_UpdateNotification',
@@ -99,26 +101,45 @@ class Notifications extends React.PureComponent<Props, {}> {
             });
           }}
         />
-        <ScrollView style={{flex: 1, paddingVertical: 16}}>
-          {
-            Object.keys(dayWise).map(day => {
-              return <Timeline
-              title={`${Moment(day).format("DD-MM-YYYY")} ${this.getDay(new Date(day).getDay())}`}
-              data={dayWise[day].map(
-                (notification) => {
-                  return {
-                    description: notification.body,
-                    hasFollow: false,
-                    time: notification.time,
-                    title: notification.title,
-                    viewed: notification.isStale,
-                  };
-                },
-              )}
+        {isEmpty ? (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              flex: 1,
+            }}>
+            <Image
+              source={require('../../assets/images/empty_notifications.png')}
+              style={{width: '100%', height: '100%', marginBottom: 54}}
+              width={82}
+              height={82}
             />
-            })
-          }
-        </ScrollView>
+            <Text style={{fontSize: 23, fontWeight: "500"}}>
+              No notifications
+            </Text>
+          </View>
+        ) : (
+          <ScrollView style={{flex: 1, paddingVertical: 16}}>
+            {Object.keys(dayWise).map((day) => {
+              return (
+                <Timeline
+                  title={`${Moment(day).format('DD-MM-YYYY')} ${this.getDay(
+                    new Date(day).getDay(),
+                  )}`}
+                  data={dayWise[day].map((notification) => {
+                    return {
+                      description: notification.body,
+                      hasFollow: false,
+                      time: notification.time,
+                      title: notification.title,
+                      viewed: notification.isStale,
+                    };
+                  })}
+                />
+              );
+            })}
+          </ScrollView>
+        )}
       </View>
     );
   }

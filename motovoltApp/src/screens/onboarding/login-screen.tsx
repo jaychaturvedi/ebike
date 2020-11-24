@@ -16,19 +16,12 @@ import {RouteProp} from '@react-navigation/native';
 import {OnboardingStackParamList} from '../../navigation/onboarding';
 import {TStore} from '../../service/redux/store';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
-import {SignIn} from '../../service/redux/actions/saga/authentication-actions';
-import {
-  Store_UpdateOnboarding,
-  Store_ResetOnboarding,
-} from '../../service/redux/actions/store';
 import Toast from 'react-native-simple-toast';
+import {signIn} from '../../service/api/authentication';
+import {MaterialIndicator} from 'react-native-indicators';
 
 type ReduxState = {
-  signIn: (params: SignIn) => void;
   onboarding: TStore['onboarding'];
-  updateOnboarding: (params: Store_UpdateOnboarding) => void;
-  resetOnboarding: (params: Store_ResetOnboarding) => void;
 };
 
 type LoginNavigationProp = StackNavigationProp<
@@ -46,6 +39,7 @@ type State = {
   password: string;
   isValidPhone: boolean;
   isValidPassword: boolean;
+  loading: boolean;
 };
 
 const styles = StyleSheet.create({
@@ -75,6 +69,7 @@ class Login extends React.PureComponent<Props, State> {
       password: '',
       isValidPhone: true,
       isValidPassword: true,
+      loading: false,
     };
   }
 
@@ -89,12 +84,8 @@ class Login extends React.PureComponent<Props, State> {
   }
 
   render() {
-    if (this.props.onboarding.errorMessage) {
-      Toast.show(this.props.onboarding.errorMessage);
-      this.props.resetOnboarding({
-        type: 'Store_ResetOnboarding',
-        payload: {},
-      });
+    if (this.state.loading) {
+      return <MaterialIndicator color="black" />;
     }
     return (
       <KeyboardAvoidingView
@@ -159,25 +150,31 @@ class Login extends React.PureComponent<Props, State> {
                 !this.state.userName ||
                 !this.isValidPhone(this.state.userName)
               ) {
-                Toast.show('Enter valid mobile number');
+                Toast.show('The mobile number entered may be wrong!');
                 this.setState({
                   isValidPhone: false,
                 });
                 return;
               }
               if (!this.state.password || this.state.password.length < 8) {
-                Toast.show('Enter valid password');
+                Toast.show('Password should be entered in the required format');
                 this.setState({
                   isValidPassword: false,
                 });
                 return;
               }
-              this.props.signIn({
+              this.setState({loading: true});
+              signIn({
                 type: 'SignIn',
                 payload: {
                   mobileNumber: this.state.userName,
                   password: this.state.password,
                 },
+              }).then((response) => {
+                if (!response.success) {
+                  this.setState({loading: false});
+                  Toast.show(response.message!);
+                }
               });
             }}
           />
@@ -187,17 +184,8 @@ class Login extends React.PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  (store: TStore) => {
-    return {
-      onboarding: store['onboarding'],
-    };
-  },
-  (dispatch: Dispatch) => {
-    return {
-      signIn: (params: SignIn) => dispatch(params),
-      updateOnboarding: (params: Store_UpdateOnboarding) => dispatch(params),
-      resetOnboarding: (params: Store_ResetOnboarding) => dispatch(params),
-    };
-  },
-)(Login);
+export default connect((store: TStore) => {
+  return {
+    onboarding: store['onboarding'],
+  };
+})(Login);
