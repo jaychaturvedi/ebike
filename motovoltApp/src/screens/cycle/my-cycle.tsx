@@ -276,5 +276,10 @@ const styles = StyleSheet.create({
   metrics: {
     flex: 1,
     marginTop: moderateScale(20),
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: {height: 1, width: 1},
+    elevation: 3,
   },
 });
