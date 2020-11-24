@@ -349,8 +349,11 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
       </div>
       <div className="connectm-AlertPastTable">
         <div className={'table-body'}>
-          <ConfigProvider renderEmpty={() => <Empty description="No Data"
-            image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#ffffff' }} />}>
+          <ConfigProvider renderEmpty={() => (
+            <div style={{ textAlign: 'center', fontSize: "18px" }} className={"my-ant-empty-normal"}>
+              <p>No past alerts available at the moment</p>
+            </div>
+          )}>
             <Table
               tableLayout={"fixed"}
               bordered={false}

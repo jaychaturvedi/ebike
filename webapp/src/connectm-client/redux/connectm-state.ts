@@ -1,6 +1,6 @@
 import {
     AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
-    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User, TDashboardList, TMapMarkers, TDropdownFilters
+    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User, TDashboardList, TMapMarkers, TDropdownFilters, TMapViewFilters
 } from "./models";
 
 export interface State {
@@ -46,7 +46,7 @@ export interface State {
     dashboardList:TDashboardList[],
     mapMarkers:TMapMarkers[], // map markers in map view map
     dropdownFilters:TDropdownFilters, ///dropdown filters in alerts page
-    mapViewDropDownFilters : any // dynamic Dropdown Filters in map view
+    mapViewDropDownFilters : TMapViewFilters // dynamic Dropdown Filters in map view
 }
 
 const connectmState: State = {
@@ -100,7 +100,7 @@ const connectmState: State = {
       location:[],
       vehicle:[]
     },
-    mapViewDropDownFilters:[]
+    mapViewDropDownFilters:{customer:[],location:[],region:[]}
 }
 
 export default connectmState;
@@ -119,7 +119,8 @@ export function alertInsightsLimpData() {
 
 export function alertLimpData() {
     const alert: AlertData = {
-        Severity: -1,
+        Severity: "-1",
+        customerName:"N/A",
         alertId: -1,
         alertName: "N/A",
         alertTime: "N/A",

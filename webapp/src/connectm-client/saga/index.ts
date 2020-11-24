@@ -152,7 +152,7 @@ function* actionWatcher() {
     yield takeLatest("CLEAR_DASHBOARD_LIST", Dashboard.clearDashboardList)
     yield takeLatest("CLEAR_QUICKSIGHT_EMBED_URL", clearQuickSightUrl)
     yield takeLatest("GET_MAP_MARKERS", Map.getMapMarkers)
-    yield takeLatest("GET_DROPDOWN_FILTERS", Map.getMapViewFilters)
+    yield takeLatest("GET_MAPVIEW_DROPDOWN_FILTERS", Map.getMapViewFilters)
 
 }
 

@@ -104,8 +104,6 @@ export function* getAlertData(params: IAlertActions) {
 }
 
 async function getAlerts(params: IAlertActions) {
-  console.log("getAlerts......", params);
-  
     let response = [];
     if (params.payload.filter.fieldName !== "all") {
         const request = await getFilteredAlertDetailsRequest(params);
@@ -120,10 +118,11 @@ async function getAlerts(params: IAlertActions) {
           getMcAlert(params)])
     }
     const data: TAlertsTableData = {
-        smart: response[0],
-        bms: response[1],
-        mc: response[2]
+      smart:  Object.assign({dataCount: 0, data: []}, response[0]),
+      bms:  Object.assign({dataCount: 0, data: []}, response[1]),
+      mc: Object.assign({dataCount: 0, data: []}, response[2]),
     }
+    console.log("getAlerts data......", data);
     return data
 }
 
@@ -208,7 +207,6 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
             return request
         }
     }
-    console.log("getAlerts... request",request);
     return request
 }
 
@@ -255,7 +253,7 @@ async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
         smartFilter
         , { headers: { 'Content-Type': 'application/json' } }
     )
-    return response.data.body
+    return response.data.body as Alert
 }
 
 async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
@@ -266,7 +264,7 @@ async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         bmsFilter, { headers: { 'Content-Type': 'application/json' } }
     )
-    return response.data.body
+    return response.data.body as Alert
 }
 
 async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
@@ -277,7 +275,7 @@ async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         mcFilter, { headers: { 'Content-Type': 'application/json' } }
     )
-    return response.data.body
+    return response.data.body as Alert
 }
 
 

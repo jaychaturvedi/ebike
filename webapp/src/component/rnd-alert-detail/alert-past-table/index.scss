@@ -126,6 +126,12 @@
         width: 100%;
         overflow: auto !important;
         background: #3b4473;
+         //no data image
+        .ant-table-placeholder > td {
+          &:hover{
+            background-color: transparent !important;
+          }
+        }
     }
     .ant-table-cell-scrollbar {
         -webkit-box-shadow: none !important;

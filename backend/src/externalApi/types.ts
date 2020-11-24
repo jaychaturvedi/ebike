@@ -116,6 +116,9 @@ export type TMyBike = {
     servDate: string; //service date
     purchaseDate: string;
     warrantyValidTill: string;
+    hltStat:string;
+    mtrStat:string;
+    batStat:string;
     st: string;
     ec: string;
     em: string;

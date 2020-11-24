@@ -21,6 +21,11 @@ export interface TDropdownFilters{
   location:TLocation[]
 }
 
+export interface TMapViewFilters {
+  region: [],
+  customer: [],
+  location:[]
+}
 
 
 ////////////////////////////////////MAP MARKERS/////////////////////////////////
@@ -47,6 +52,7 @@ export interface User {
 }
 ////////////////////////////////////Alerts//////////////////////////////////////
 export interface AlertData {
+  customerName: string,
   alertTypeId: number;
   frameId: string;
   batteryId: string;
@@ -61,7 +67,7 @@ export interface AlertData {
   alertName: string;
   alertCode: string;
   alertType:string;
-  Severity: number;// 1 means RED, 2 means Orange, 3 means Yellow
+  Severity: string;// 1 means RED, 2 means Orange, 3 means Yellow
 }
 
 export interface Alert {

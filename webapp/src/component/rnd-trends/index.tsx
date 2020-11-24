@@ -5,7 +5,7 @@ import { TtrendTotalAlerts, TtrendLocationWise, TtrendTop5Alert } from "../../co
 import React, { PureComponent } from 'react';
 import moment from "moment";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, Brush, Tooltip,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, Tooltip,
 } from 'recharts';
 import { ReduxAlertTrendActions, ReduxAlertTrendState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/trends"
 import { connect } from 'react-redux';
@@ -101,18 +101,18 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       state.reload = false;
     }
     state.alertType=props.alerts.activeAlertTab
-    state.totalAlerts = props.trendTotalAlert.sort((a: any, b: any): any => {
+    state.totalAlerts = props?.trendTotalAlert?.sort((a: any, b: any): any => {
       return a["date"] > b["date"] ? b["date"] : a["date"]
     })
     state.top5Alerts = {
-      lines: props.trendTop5Alert.lines,
-      data: props.trendTop5Alert.data.sort((a: any, b: any): any => {
+      lines: props?.trendTop5Alert?.lines,
+      data: props?.trendTop5Alert?.data!.sort((a: any, b: any): any => {
         return a["date"] > b["date"] ? b["date"] : a["date"]
       })
     }
     state.locationWiseAlerts = {
-      lines: props.trendLocationWise.lines,
-      data: props.trendLocationWise.data.sort((a: any, b: any): any => {
+      lines: props?.trendLocationWise?.lines,
+      data: props.trendLocationWise?.data!.sort((a: any, b: any): any => {
         return a["date"] - b["date"] ? b["date"] : a["date"]
       })
     }
@@ -182,7 +182,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
   CustomTooltip = (obj: any) => {
     const { label, payload, active } = obj;
     if (!active || !label || !payload) return label;
-    const style = { top: obj?.viewBox.y - 30, color: "#5FBDE0", zIndex: 10 };
+    const style = { top: obj?.viewBox.y - 25, color: "#white", zIndex: 20 };
     // console.log(payload);
     
     if (active) {
@@ -198,8 +198,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
           {
             payload?.length 
             ? payload.map((element: any) => {
-              return <p className="label" style={{color:element.color}}>
-                {/* {`${element?.name}`} : */}
+              return <p className="label">
+                {`${element?.name}`} :
                  <b>{`${element?.value}`}</b></p>
             }) 
             : ""
@@ -228,7 +228,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       <ResponsiveContainer width="100%" height="28%">
         <LineChart
           margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
-          syncId="anyId"
           data={this.state.totalAlerts}
         >
           <CartesianGrid
@@ -263,15 +262,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               strokeWidth={2}
               dot={false}
             />}
-          <Brush
-            padding={{ bottom: 10 }}
-            // dataKey='loc1count'
-            fill="#131731"
-            height={15}
-            stroke="#3C4473"
-            startIndex={0}
-            endIndex={0}
-          />
         </LineChart>
       </ResponsiveContainer>
 
@@ -283,7 +273,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         <LineChart
           data={this.state.top5Alerts.data}
           margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
-          syncId="anyId"
         >
           <CartesianGrid strokeDasharray="3 4 5 2" stroke="#515151" />
           <XAxis
@@ -373,7 +362,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         <LineChart
           data={this.state.locationWiseAlerts.data}
           margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
-          syncId="anyId"
         >
           <CartesianGrid
             strokeDasharray="3 4 5 2"

@@ -13,7 +13,9 @@ class Location extends PureComponent<TimeRendererProps, TimeRendererStates> {
     render() {
         return (
             <span >
-                {this.props.text[0].toUpperCase() + this.props.text.slice(1)}
+                {this.props?.text?.length
+                 ? this.props?.text[0]?.toUpperCase() + this.props?.text.slice(1)
+                : ""}
             </span>
         )
     }
