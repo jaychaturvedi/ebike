@@ -119,6 +119,7 @@ app.post('/locationWise',
 app.post('/dashFilter',
   [body('alertType', "alertType is too short").optional().isString().isLength({ min: 1 }),
   body("alertName", "alertName is invalid").optional().isString(),
+  body("vehicleID", "vehicleID is invalid").optional().isString(),
   body("startDate", "startDate is invalid").optional().isString(),
   body("endDate", "endDate is invalid").optional().isString(),
   body("model", "model is invalid").optional().isString(),
@@ -133,11 +134,11 @@ app.post('/dashFilter',
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
-    const { alertType, startDate, endDate, vehicleId, alertName, model, subModel,
+    const { alertType, startDate, endDate, vehicleID, alertName, model, subModel,
       location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize } = req.body
 
     const result = await WebAPI.dashFilter({
-      alertType, startDate, endDate, vehicleID: vehicleId,
+      alertType, startDate, endDate, vehicleID,
       alertName, model, subModel, location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize
     })
     const response = createResponse("OK", result, undefined)
