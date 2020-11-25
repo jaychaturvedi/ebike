@@ -189,7 +189,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                   flexDirection: 'row',
                 }}>
                 <Text style={{fontSize: 16, opacity: 0.7}}>Vehicle ID</Text>
-                <Text style={{fontSize: 16}}>{this.props.bike.id}</Text>
+                <Text style={{fontSize: 16, fontWeight: '500'}}>{this.props.bike.id}</Text>
               </View>
               <View style={{borderWidth: 0.5, opacity: 0.2}} />
               <View
@@ -202,7 +202,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                 <View style={{flexDirection: 'row'}}>
                   {batteries.length > 1 ? (
                     <>
-                      <Text style={{fontSize: 16}}>{batteries[1]}</Text>
+                      <Text style={{fontSize: 16, fontWeight: '500'}}>{batteries[1]}</Text>
                       <View
                         style={{
                           borderWidth: 0.5,
@@ -213,7 +213,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                     </>
                   ) : null}
                   {batteries.length > 0 ? (
-                    <Text style={{fontSize: 16}}>{batteries[0]}</Text>
+                    <Text style={{fontSize: 16, fontWeight: '500'}}>{batteries[0]}</Text>
                   ) : null}
                 </View>
               </View>
@@ -227,7 +227,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                 <Text style={{fontSize: 16, opacity: 0.7}}>
                   Next Service Due
                 </Text>
-                <Text style={{fontSize: 16}}>
+                <Text style={{fontSize: 16, fontWeight: '500'}}>
                   {Moment(this.props.bike.serviceDate).format('DD-MM-YYYY')}
                 </Text>
               </View>
@@ -276,5 +276,10 @@ const styles = StyleSheet.create({
   metrics: {
     flex: 1,
     marginTop: moderateScale(20),
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: {height: 1, width: 1},
+    elevation: 3,
   },
 });

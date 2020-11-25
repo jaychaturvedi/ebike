@@ -110,7 +110,7 @@ class Notifications extends React.PureComponent<Props, {}> {
             }}>
             <Image
               source={require('../../assets/images/empty_notifications.png')}
-              style={{width: '100%', height: '100%', marginBottom: 54}}
+              style={{width: 82, height: 82, marginBottom: 54}}
               width={82}
               height={82}
             />
