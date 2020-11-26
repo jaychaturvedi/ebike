@@ -390,6 +390,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleFilter: {...resetFilter},
             timeFrameFilter: {...resetFilter},
             searchFilter: {fieldName:"all", value:"", isVehicle:false},
+            searchText:""
         });
     }
 
@@ -414,6 +415,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     handleSearchOptionClick =(value:string, option:any)=>{
         this.setState({
           searchText:value,
+          allSelected: false,
           searchFilter:{
             fieldName:"search",
             value:value,
@@ -610,7 +612,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                             onChange={this.onSearch}
                             className={`${this.state.searchText.length > 0 ? "search-background-color-active" : "search-background-color"}`}
                             value={this.state.searchText}
-                            placeholder="Search By Vehicle ID"
+                            placeholder="Vehicle ID Or Alert Name.."
                             style={{ textAlign: 'left' }}
                             prefix={<SearchOutlined style={{color:"red"}}/>} />
                         }
