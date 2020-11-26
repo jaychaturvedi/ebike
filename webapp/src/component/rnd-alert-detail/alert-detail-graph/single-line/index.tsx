@@ -9,11 +9,11 @@ import moment from 'moment';
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm")
+    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
     const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
     // console.log(moment(payload?.timeDate).format("DD/MM/YYYY hh:mm:ss"), "payyyyload",  moment(props.alertDate).format("DD/MM/YYYY hh:mm:ss"));
     if (TimeDate === AlertDate) {
-      console.log("notch",payload?.timeDate,props?.alertDate);
+      console.log("notch",payload,props?.alertDate);
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />
@@ -35,7 +35,8 @@ interface AlertDetailGraphProps {
     line1Key?: string; 
     title: string; 
     alertCleared?: boolean; 
-    alertDate?: string
+    alertDate?: string;
+    L1Value?:number;
 }
 
 interface AlertDetailGraphStates {
@@ -69,7 +70,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
         let data = state.data
         if (props.data !== undefined && props.data !== null) {
             data = props.data;
-            state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
+            state.L1Value = props.L1Value! ?props.L1Value!:0;
             state.xAxisLabel = props.xAxisLabel;
             state.yAxisLabel = props.yAxisLabel;
             state.refColor = props.refColor;
@@ -95,7 +96,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
     }
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Time"
-            ? this.state.data[0]?.timeDate === label
+            ? this.state.data[0]?.xAxisValue === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")
             : label

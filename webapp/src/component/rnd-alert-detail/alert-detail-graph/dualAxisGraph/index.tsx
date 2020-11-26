@@ -10,10 +10,10 @@ import moment from 'moment';
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
     // console.log(payload?.timeDate, "payyload", moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss"));
-    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm:ss")
-    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss")
+    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
+    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
     if (TimeDate === AlertDate) {
-      console.log("notch",payload?.timeDate,props?.alertDate);
+      console.log("notch",payload?.xAxisValue,props?.alertDate);
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />
@@ -90,7 +90,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
     }
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Time"
-            ? this.state.data[0]?.timeDate === label
+            ? this.state.data[0]?.xAxisValue === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")
             : label
@@ -155,7 +155,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                             </YAxis>
                             <Brush dataKey={this.state.dataKey} fill="#131731" height={12} stroke="#3C4473" startIndex={0} endIndex={0} />
                             {!this.props.alertCleared ?
-                                this.state.L1Value ? <ReferenceLine y={this.state.L1Value} yAxisId="right" strokeWidth={1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                                this.state.L1Value ? <ReferenceLine y={this.state.L1Value} yAxisId="left" strokeWidth={1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
                                     isFront={true} >
                                     <Label position={'insideBottomLeft'} fill="#ffffff"
                                         style={{
@@ -167,14 +167,14 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                             {!this.props.alertCleared ?
                                 <Line yAxisId="left" name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
                                     stroke={this.props.line1StrokeColor} strokeWidth={3}
-                                    dot={false}
-                                // dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} 
+                                    // dot={false}
+                                dot={<CustomizedDot L1={this.props.L1Value} alertDate={this.props.alertDate} /> } 
                                 />
                                 : ''}
                             {!this.props.alertCleared ?
                                 <Line yAxisId="right" name={this.state.line2Name} type="monotone" dataKey={this.state.line2Key as string}
                                     stroke={this.props.line2StrokeColor} strokeWidth={3}
-                                    dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} />
+                                    dot={this.props.L1Value ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} />
                                 : ''}
                         </LineChart>
                     </ResponsiveContainer>

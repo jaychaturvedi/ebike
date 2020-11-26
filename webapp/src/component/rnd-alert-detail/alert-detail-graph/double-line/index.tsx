@@ -8,10 +8,10 @@ import moment from 'moment';
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm")
+    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
     const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
     if (TimeDate === AlertDate) {
-      console.log("notch",payload?.timeDate,props?.alertDate);
+      console.log("notch",payload?.xAxisValue,props?.alertDate);
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />
@@ -22,7 +22,7 @@ const CustomizedDot = (props: any) => {
 };
 
 interface DoubleLineGraphProps {
-    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: boolean, L2?: boolean, alertDate?: string,
+    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number, alertDate?: string,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string, alertCleared?: boolean,
 }
@@ -84,7 +84,7 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
     }
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Time"
-            ? this.state.data[0]?.timeDate === label
+            ? this.state.data[0]?.xAxisValue === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")
             : label
