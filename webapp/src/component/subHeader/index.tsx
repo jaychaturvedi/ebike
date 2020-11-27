@@ -1,6 +1,6 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { Menu, Dropdown, DatePicker, Button, Input, Typography } from 'antd';
+import { Menu, Dropdown, DatePicker, Button, Input, Typography, AutoComplete } from 'antd';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { ReactComponent as Vehicle } from "../../assets/vehicle_icon.svg"
 import { ReactComponent as CargoVehicle } from "../../assets/cargo_vehicle_icon.svg"
@@ -10,7 +10,7 @@ import { ReactComponent as Calender } from "../../assets/calendar_icon.svg"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
 import { connect } from 'react-redux'
 import moment from 'moment';
-import { TDropdownFilters, TFilter } from '../../connectm-client/redux/models';
+import { TDropdownFilters, TFilter, TSearchFilter, TSearchOptions } from '../../connectm-client/redux/models';
 
 interface SubHeaderProps extends ReduxAlertActions, ReduxAlertState { }
 
@@ -33,8 +33,11 @@ interface SubHeaderStates {
     locationFilter :TFilter,
     vehicleFilter: TFilter,
     timeFrameFilter :TFilter,
+    searchFilter: TSearchFilter,
     dropdownFilters:TDropdownFilters,
     dropdownLoaded:boolean
+    suggestions: any,
+    searchOptions: TSearchOptions[],
 }
 
 class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
@@ -71,11 +74,18 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
               fieldName: "all",
               value: ""
             },
+            searchFilter:{
+              fieldName: "all",
+              value: "",
+              isVehicle:true
+            },
             dropdownFilters: {
               vehicle: [{subModel:[],model:"no data"}],
               location: [{subLocation:[],location:"no data"}]
             },
-            dropdownLoaded:false
+            dropdownLoaded:false,
+            suggestions:[],
+            searchOptions: [],
         }
     }
      
@@ -100,6 +110,17 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
       console.log("component subheader states and props", state, props.dropdownFilters);
     }
     state.dropdownFilters=props.dropdownFilters
+    const options = props.searchOptions
+    let mySearchSuggestions: any = []
+    if (options && state.searchText != "") {
+      state.searchOptions = options
+      options.map((row) => {
+        mySearchSuggestions.push({ value: row.frameId, isVehicle:row.isVehicle })
+      })
+      state.suggestions = mySearchSuggestions
+    }
+    else state.suggestions = []
+    console.log(state.suggestions, "my search options");
     return state
   }
 
@@ -113,7 +134,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleActive: true,
             // locationActive: false,
             // calenderActive: false,
-            searchText: "",
             applyFilter: {
                 fieldName: "model",
                 value: e.key
@@ -134,7 +154,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             // vehicleActive: false,
             locationActive: true,
             // calenderActive: false,
-            searchText: "",
             applyFilter: {
                 fieldName: "location",
                 value: String(e.key)
@@ -161,7 +180,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     calenderActive: true,
                     timeFrameVisible: false,
                     dateRangeApplied: false,
-                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "As of Now"
@@ -186,7 +204,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     calenderActive: true,
                     timeFrameVisible: false,
                     dateRangeApplied: false,
-                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Last Week"
@@ -211,7 +228,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                     calenderActive: true,
                     timeFrameVisible: false,
                     dateRangeApplied: false,
-                    searchText: "",
                     applyFilter: {
                         fieldName: "timeFrame",
                         value: "Month Till Date"
@@ -269,7 +285,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             calenderActive: true,
             timeFrameVisible: false,
             dateRangeApplied: true,
-            searchText: "",
             applyFilter: {
                 fieldName: "DateRange",
                 value: dateRange
@@ -285,18 +300,9 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     onApplyFilter = () => {
         // console.log(moment("2020-07-24 10:13:00").toDate())
         let filter: TFilter
-        if (this.state.searchText.length > 0) {
-            filter = {
-                fieldName: "search",
-                value: this.state.searchText
-            }
-            this.setState({
-                allSelected: !this.state.allSelected
-            })
-        } else {
-            filter = this.state.applyFilter
+        filter = this.state.applyFilter
+        console.log(this.state.searchFilter,"apply filter");
             // console.log(filter, "my filter");
-        }
         this.props.alertFilterChanged({
             type: "UPDATE_FILTER",
             payload: {
@@ -309,7 +315,8 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 filter: filter,
                 locationFilter: this.state.locationFilter,
                 vehicleFilter: this.state.vehicleFilter,
-                timeFrameFilter: this.state.timeFrameFilter
+                timeFrameFilter: this.state.timeFrameFilter,
+                searchFilter: this.state.searchFilter,
             }
         })
     }
@@ -337,7 +344,8 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             applyFilter:  {...resetFilter},
             locationFilter: {...resetFilter},
             vehicleFilter: {...resetFilter},
-            timeFrameFilter: {...resetFilter}
+            timeFrameFilter: {...resetFilter},
+            searchFilter: {fieldName:"all", value:"", isVehicle:false},
         })
         
         this.props.alertFilterChanged({
@@ -352,7 +360,8 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 filter: {...resetFilter},
                 locationFilter: {...resetFilter},
                 vehicleFilter: {...resetFilter},
-                timeFrameFilter: {...resetFilter}
+                timeFrameFilter: {...resetFilter},
+                searchFilter: {fieldName:"all", value:"", isVehicle:false},
             }
         })
     }
@@ -379,17 +388,43 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             applyFilter: {...resetFilter},
             locationFilter: {...resetFilter},
             vehicleFilter: {...resetFilter},
-            timeFrameFilter: {...resetFilter}
+            timeFrameFilter: {...resetFilter},
+            searchFilter: {fieldName:"all", value:"", isVehicle:false},
         });
     }
 
     onSearch = (e: any) => {
-        this.setState(
-            {
-                ...this.state,
-                searchText: e.target.value
-            }
-        )
+      console.log("search", e.target)
+      this.setState(
+          {
+              ...this.state,
+              searchText: e.target.value
+          }
+      )
+      this.props.getSearchOptions({
+          type: "GET_SEARCH_OPTIONS",
+          payload: {
+              frameId: e.target.value,
+              pageNo: 1,
+              pageSize: 10
+          }
+      })
+    }
+
+    handleSearchOptionClick =(value:string, option:any)=>{
+        this.setState({
+          searchText:value,
+          searchFilter:{
+            fieldName:"search",
+            value:value,
+            isVehicle: option?.isVehicle
+          },
+          applyFilter:{
+            fieldName:"search",
+            value:value,
+          }
+        })
+        console.log(this.state.searchFilter);
     }
     // componentWillMount(){
     //   this.props.getDropdownFilters({
@@ -560,14 +595,26 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                         </div>
                     </Dropdown>
                     <div style={{ width: "27%" }} className={`${this.state.searchText.length > 0 ? "search-background-color-active" : "search-background-color"}`}>
-                        <Input
+                      <AutoComplete
+                        style={{
+                          width: "100%",
+                        }}
+                        options={this.state.suggestions}
+                        dropdownClassName="autocomplete-dropdown"
+                        onSelect={this.handleSearchOptionClick}
+                        backfill={true}
+                        value={this.state.searchText}
+                        // notFoundContent={"no option available"}
+                        children={
+                          <Input size="large"
                             onChange={this.onSearch}
+                            className={`${this.state.searchText.length > 0 ? "search-background-color-active" : "search-background-color"}`}
                             value={this.state.searchText}
                             placeholder="Search By Vehicle ID"
-                            prefix={<SearchOutlined />}
-                            maxLength={50}
-                            className={"search-background-color"}
-                        />
+                            style={{ textAlign: 'left' }}
+                            prefix={<SearchOutlined style={{color:"red"}}/>} />
+                        }
+                      />
                     </div>
                 </div>
                 <div className={"sub-header-right"}>

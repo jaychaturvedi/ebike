@@ -1,5 +1,5 @@
 import { IAlertActions, IDropdownFilterActions } from "../actions/alerts";
-import { TAlertType, TSort, TPagination, TFilter, Alert, TDropdownFilters } from "../redux/models"
+import { TAlertType, TSort, TPagination, TFilter, Alert, TDropdownFilters, TSearchFilter } from "../redux/models"
 import { call, put } from "redux-saga/effects";
 import moment from "moment";
 import axios from "axios"
@@ -49,7 +49,8 @@ export type Store_AlertFilterChange = {
         filter: TFilter,
         locationFilter: TFilter,
         vehicleFilter: TFilter,
-        timeFrameFilter: TFilter
+        timeFrameFilter: TFilter,
+        searchFilter: TSearchFilter,
     }
 }
 
@@ -191,22 +192,15 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
             endDate: endDate
         })
     }
-    if (params.payload.filter.fieldName === "search") {
-        let key = "";
-        const searchString = params.payload.filter.value
-        const searchStringSub = searchString.slice(0, 3)
-        // console.log("search string", searchString, "Search sub", searchStringSub)
-        key = searchKeyField(searchStringSub)
-        if (key.length > 0) {
-            request = {
-                [key]: params.payload.filter.value,
-                alertType: params.payload.alertType,
-                pageNo: params.payload.pagination.pageNumber,
-                pageSize: params.payload.pagination.pageSize
-            }
-            return request
-        }
+    if (params.payload.searchFilter.fieldName === "search") {
+        const key = params.payload.searchFilter.isVehicle? "vehicleID":"alertName"
+        request = Object.assign(request,
+          {
+            [key]: params.payload.searchFilter.value
+          }
+        )
     }
+    console.log("my saga filter call", params.payload.searchFilter);
     return request
 }
 

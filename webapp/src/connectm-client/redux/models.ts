@@ -1,6 +1,8 @@
 export type TAlertType = "smart" | "bms" | "mc"
 export type TSort = { fieldName: string, direction: 'descend' | 'ascend' }
 export type TFilter = { fieldName: string, value: string }
+export type TSearchFilter = { fieldName: string, value: string, isVehicle:boolean }
+export type TSearchOptions = { frameId: string, isVehicle: boolean }
 export type TPagination = {
     pageNumber: number,
     pageSize: number,

@@ -16,6 +16,8 @@ import { TAlertInsights, TPastAlert } from "../redux/models";
 import { getQuickSightUrl, clearQuickSightUrl } from "./quickSight";
 import * as Dashboard from './dashboard'
 import * as Map from './map'
+import * as Search from "./search";
+export const yantraBaseUrl ="https://a15um0si4f.execute-api.us-east-2.amazonaws.com/yantra-dynamic"
 
 function* getAlertInsights(params: IAlertDetailActions) {
     try {
@@ -153,7 +155,7 @@ function* actionWatcher() {
     yield takeLatest("CLEAR_QUICKSIGHT_EMBED_URL", clearQuickSightUrl)
     yield takeLatest("GET_MAP_MARKERS", Map.getMapMarkers)
     yield takeLatest("GET_MAPVIEW_DROPDOWN_FILTERS", Map.getMapViewFilters)
-
+    yield takeLatest("GET_SEARCH_OPTIONS", Search.getSearchOptions)
 }
 
 export default function* rootSaga() {

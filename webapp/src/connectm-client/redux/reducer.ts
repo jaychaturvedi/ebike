@@ -8,6 +8,7 @@ import { Store_AlertInsights, Store_PastAlert, Store_UpdatePastAlert, Store_Upda
 import { Store_QuickSightUrl, Clear_QuickSightUrl } from "../saga/quickSight";
 import { Store_DashboardList, Clear_DashboardList } from "../saga/dashboard"
 import { Store_MapMarkers, Store_MapViewFilters } from "../saga/map"
+import { Store_SearchOptions } from "../saga/search";
 
 type ActionParams = IUsersAction
   | Store_AlertUpdate
@@ -28,6 +29,7 @@ type ActionParams = IUsersAction
   | Store_MapMarkers
   | Store_DropdownFilters
   | Store_MapViewFilters
+  | Store_SearchOptions
 
 const AppReducer = (state: State = connectmState, actionParams: ActionParams) => {
   switch (actionParams.type) {
@@ -91,6 +93,7 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
           locationFilter: (actionParams as Store_AlertFilterChange).payload.locationFilter,
           vehicleFilter: (actionParams as Store_AlertFilterChange).payload.vehicleFilter,
           timeFrameFilter: (actionParams as Store_AlertFilterChange).payload.timeFrameFilter,
+          searchFilter: (actionParams as Store_AlertFilterChange).payload.searchFilter,
           pagination: (actionParams as Store_AlertFilterChange).payload.pagination
         }
       }
@@ -221,6 +224,12 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
       return{
         ...state,
         mapViewDropDownFilters :(actionParams as Store_MapViewFilters).payload.mapViewDropDownFilters
+      }
+    }
+    case "STORE_SEARCH_OPTIONS": {
+      return {
+          ...state,
+          searchOptions: (actionParams as Store_SearchOptions).payload.searchOptions
       }
     }
     default: {

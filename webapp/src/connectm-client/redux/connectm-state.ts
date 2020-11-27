@@ -1,6 +1,7 @@
 import {
     AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
-    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User, TDashboardList, TMapMarkers, TDropdownFilters, TMapViewFilters
+    TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User,
+     TDashboardList, TMapMarkers, TDropdownFilters, TMapViewFilters, TSearchOptions, TSearchFilter
 } from "./models";
 
 export interface State {
@@ -24,6 +25,7 @@ export interface State {
         locationFilter: TFilter,
         vehicleFilter: TFilter,
         timeFrameFilter: TFilter,
+        searchFilter: TSearchFilter,
         activeAlertTab: TAlertType
     },
     trendTotalAlerts: TtrendTotalAlerts[],
@@ -46,7 +48,8 @@ export interface State {
     dashboardList:TDashboardList[],
     mapMarkers:TMapMarkers[], // map markers in map view map
     dropdownFilters:TDropdownFilters, ///dropdown filters in alerts page
-    mapViewDropDownFilters : TMapViewFilters // dynamic Dropdown Filters in map view
+    mapViewDropDownFilters : TMapViewFilters, // dynamic Dropdown Filters in map view
+    searchOptions: TSearchOptions[],
 }
 
 const connectmState: State = {
@@ -73,6 +76,7 @@ const connectmState: State = {
         locationFilter: { fieldName: "all", value: "" },
         vehicleFilter: { fieldName: "all", value: "" },
         timeFrameFilter: { fieldName: "all", value: "" },
+        searchFilter: { fieldName: "all", value: "", isVehicle:false },
         activeAlertTab: "smart"
     },
     trendTotalAlerts: [],
@@ -100,7 +104,8 @@ const connectmState: State = {
       location:[],
       vehicle:[]
     },
-    mapViewDropDownFilters:{customer:[],location:[],region:[]}
+    mapViewDropDownFilters:{customer:[],location:[],region:[]},
+    searchOptions: [],
 }
 
 export default connectmState;

@@ -107,7 +107,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             filter: props.alerts.filter,
             locationFilter: props.alerts.locationFilter,
             timeFrameFilter: props.alerts.timeFrameFilter,
-            vehicleFilter: props.alerts.vehicleFilter
+            vehicleFilter: props.alerts.vehicleFilter,
+            searchFilter: props.alerts.searchFilter,
           }
         }
       )
