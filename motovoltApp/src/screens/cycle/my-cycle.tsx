@@ -181,6 +181,11 @@ class MyCycle extends React.PureComponent<Props, State> {
                 paddingHorizontal: 24,
                 paddingVertical: 10,
                 borderRadius: 10,
+                shadowOpacity: 0.25,
+                shadowRadius: 1,
+                shadowColor: 'black',
+                shadowOffset: {height: 1, width: 1},
+                elevation: 3  
               }}>
               <View
                 style={{
