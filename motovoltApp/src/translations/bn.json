@@ -165,14 +165,16 @@
     "myBike": {
         "myCycle": "আমার চক্র",
         "health": "স্বাস্থ্য",
-        "serviceDate": "পরিষেবা তারিখ",
+        "condition": "শর্ত",
+        "nextServiceDate": "পরবর্তী পরিষেবার তারিখ",
         "motor": "মোটর",
         "battery": "ব্যাটারি",
-        "vechileId": "ভেচাইল আইডি",
+        "vehicleId": "ভেচাইল আইডি",
         "batteryId": "ব্যাটারি আইডি"
     },
     "morePremium": {
         "more": "আরও",
+        "viewService": "পরিষেবা দেখুন",
         "greenMiles": "গ্রীন মাইলস",
         "calories": "ক্যালরিস",
         "batteryAnalytics": "ব্যাটারি বিশ্লেষক",
@@ -265,6 +267,7 @@
         "successSubTitle": "আপনার নতুন বাইক যুক্ত করতে চালিয়ে ক্লিক করুন।"
     },
     "notifications": "বিজ্ঞপ্তি",
+    "noNotifications": "বিজ্ঞপ্তি নেই",
     "comingSoonTitle": "শীঘ্রই আসছে",
     "comingSoonSubTitle": "আমরা এই মুহুর্তে এই বৈশিষ্ট্যটিতে কাজ করছি। এটি শেষ হয়ে গেলে আমরা আপনাকে অবহিত করব"
 }
