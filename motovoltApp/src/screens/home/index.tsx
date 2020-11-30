@@ -69,7 +69,9 @@ class Home extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         <Background />
         <Header
-          title={`${LanguageSelector.t('home.hello')} ${this.props.user.name || ""}`}
+          title={`${LanguageSelector.t('home.hello')} ${
+            this.props.user.name || ''
+          }`}
           backgroundColor={Colors.HEADER_YELLOW}
           hasTabs
           onPromotionClick={() => {}}
@@ -85,7 +87,7 @@ class Home extends React.PureComponent<Props, State> {
           }>
           <View
             style={{
-              marginVertical: verticalScale(20),
+              marginTop: verticalScale(20),
               paddingHorizontal: scale(20),
             }}>
             <Metrics
@@ -96,24 +98,31 @@ class Home extends React.PureComponent<Props, State> {
           </View>
           <View
             style={{
-              height: 250,
+              position: "relative",
+              top: 0,
+              height: 300,
               width: '100%',
               flexDirection: 'row',
+              justifyContent:"center",
               paddingHorizontal: scale(10),
             }}>
             <View
               style={{
-                right: scale(100),
-                width: '70%',
+                width: '100%',
+                height:"100%",
+                display:"flex",
+                justifyContent:"center",
+                alignItems:"center",
               }}>
               <Image
-                source={require('../../assets/images/cycle.png')}
-                style={{height: '100%', aspectRatio: 1.8}}
+                source={require('../../assets/images/new-bike.png')}
+                style={{height: '100%', width: '100%', aspectRatio: 1}}
               />
             </View>
             <View
               style={{
                 position: 'absolute',
+                zIndex: 1,
                 right: 15,
                 flexDirection: 'column',
                 alignItems: 'flex-end',

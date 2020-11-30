@@ -115,7 +115,7 @@ class Notifications extends React.PureComponent<Props, {}> {
               height={82}
             />
             <Text style={{fontSize: 23, fontWeight: "500"}}>
-              No notifications
+              {LanguageSelector.t('noNotifications')}
             </Text>
           </View>
         ) : (

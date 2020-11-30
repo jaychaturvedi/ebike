@@ -116,9 +116,9 @@ class MyCycle extends React.PureComponent<Props, State> {
           }>
           <View style={styles.cycle}>
             <Image
-              source={require('../../assets/images/cycle.png')}
-              style={{height: '80%', width: '100%'}}
-              height={scale(200)}
+              source={require('../../assets/images/new-bike.png')}
+              style={{height: '100%', width: '100%', aspectRatio: 1}}
+              height={scale(300)}
               width={scale(300)}
             />
           </View>
@@ -152,8 +152,8 @@ class MyCycle extends React.PureComponent<Props, State> {
                     height={40}
                   />
                 }
-                textLine1={'Motor'}
-                textLine2={'Condition'}
+                textLine1={LanguageSelector.t('myBike.motor')}
+                textLine2={LanguageSelector.t('myBike.condition')}
                 statusIcon={this.getIcon(this.props.bike.motorState)}
               />
               <Tile
@@ -169,8 +169,8 @@ class MyCycle extends React.PureComponent<Props, State> {
                     height={40}
                   />
                 }
-                textLine1={'Battery'}
-                textLine2={'Condition'}
+                textLine1={LanguageSelector.t('myBike.battery')}
+                textLine2={LanguageSelector.t('myBike.condition')}
                 statusIcon={this.getIcon(this.props.bike.batteryState)}
               />
             </View>
@@ -181,6 +181,11 @@ class MyCycle extends React.PureComponent<Props, State> {
                 paddingHorizontal: 24,
                 paddingVertical: 10,
                 borderRadius: 10,
+                shadowOpacity: 0.25,
+                shadowRadius: 1,
+                shadowColor: 'black',
+                shadowOffset: {height: 1, width: 1},
+                elevation: 3,
               }}>
               <View
                 style={{
@@ -188,8 +193,12 @@ class MyCycle extends React.PureComponent<Props, State> {
                   justifyContent: 'space-between',
                   flexDirection: 'row',
                 }}>
-                <Text style={{fontSize: 16, opacity: 0.7}}>Vehicle ID</Text>
-                <Text style={{fontSize: 16, fontWeight: '500'}}>{this.props.bike.id}</Text>
+                <Text style={{fontSize: 16, opacity: 0.7}}>
+                  {LanguageSelector.t('myBike.vehicleId')}
+                </Text>
+                <Text style={{fontSize: 16, fontWeight: '500'}}>
+                  {this.props.bike.id}
+                </Text>
               </View>
               <View style={{borderWidth: 0.5, opacity: 0.2}} />
               <View
@@ -198,11 +207,15 @@ class MyCycle extends React.PureComponent<Props, State> {
                   justifyContent: 'space-between',
                   flexDirection: 'row',
                 }}>
-                <Text style={{fontSize: 16, opacity: 0.7}}>Battery ID</Text>
+                <Text style={{fontSize: 16, opacity: 0.7}}>
+                  {LanguageSelector.t('myBike.batteryId')}
+                </Text>
                 <View style={{flexDirection: 'row'}}>
                   {batteries.length > 1 ? (
                     <>
-                      <Text style={{fontSize: 16, fontWeight: '500'}}>{batteries[1]}</Text>
+                      <Text style={{fontSize: 16, fontWeight: '500'}}>
+                        {batteries[1]}
+                      </Text>
                       <View
                         style={{
                           borderWidth: 0.5,
@@ -213,7 +226,9 @@ class MyCycle extends React.PureComponent<Props, State> {
                     </>
                   ) : null}
                   {batteries.length > 0 ? (
-                    <Text style={{fontSize: 16, fontWeight: '500'}}>{batteries[0]}</Text>
+                    <Text style={{fontSize: 16, fontWeight: '500'}}>
+                      {batteries[0]}
+                    </Text>
                   ) : null}
                 </View>
               </View>
@@ -225,7 +240,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                   flexDirection: 'row',
                 }}>
                 <Text style={{fontSize: 16, opacity: 0.7}}>
-                  Next Service Due
+                  {LanguageSelector.t('myBike.nextServiceDate')}
                 </Text>
                 <Text style={{fontSize: 16, fontWeight: '500'}}>
                   {Moment(this.props.bike.serviceDate).format('DD-MM-YYYY')}

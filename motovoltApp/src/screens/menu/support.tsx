@@ -84,7 +84,7 @@ class Support extends React.PureComponent<Props, State> {
                 textDecorationLine: 'underline',
               }}
               onPress={() => console.log('View service')}>
-              View service
+              {LanguageSelector.t("morePremium.viewService")}
             </Text>
           </View>
           <View style={{ ...styles.support, backgroundColor: Theme.BACKGROUND }}>

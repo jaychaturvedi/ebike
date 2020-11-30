@@ -165,14 +165,16 @@
     "myBike": {
         "myCycle": "My Cycle",
         "health": "Health",
-        "serviceDate": "Service Date",
+        "nextServiceDate": "Next Service Date",
+        "condition": "Condition",
         "motor": "Motor",
         "battery": "Battery",
-        "vechileId": "Vechile ID",
+        "vehicleId": "Vehicle ID",
         "batteryId": "Battery ID"
     },
     "morePremium": {
         "more": "More",
+        "viewService": "View Service",
         "greenMiles": "Green Miles",
         "calories": "Calories",
         "batteryAnalytics": "Battery Analytics",
@@ -265,6 +267,7 @@
         "successSubTitle": "Click continue to add your new bike."
     },
     "notifications": "Notifications",
+    "noNotifications": "No notifications",
     "comingSoonTitle": "Coming Soon",
     "comingSoonSubTitle": "We are working on this feature at the moment. We will notify you once its out"
 }

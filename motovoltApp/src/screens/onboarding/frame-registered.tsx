@@ -73,8 +73,9 @@ const styles = StyleSheet.create({
   },
   image: {
     marginBottom: verticalScale(16),
-    height: verticalScale(200),
+    height: verticalScale(250),
     width: '100%',
+    aspectRatio: 1
   },
 });
 
@@ -102,7 +103,7 @@ class RegisterBike extends React.PureComponent<Props, State> {
           style={styles.logo}
         />
         <Image
-          source={require('../../assets/images/cycle_with_headlight.png')}
+          source={require('../../assets/images/new-bike.png')}
           style={styles.image}
         />
         <Text style={styles.msg}>Welcome to the Motovolt family!</Text>

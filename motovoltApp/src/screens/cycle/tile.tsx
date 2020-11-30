@@ -25,6 +25,11 @@ export default class Tile extends React.PureComponent<Props, State> {
           paddingVertical: 28,
           borderRadius: 10,
           width: '48%',
+          shadowOpacity: 0.25,
+          shadowRadius: 1,
+          shadowColor: 'black',
+          shadowOffset: {height: 1, width: 1},
+          elevation: 3  
         }}>
         <View
           style={{
