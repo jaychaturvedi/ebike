@@ -116,9 +116,9 @@ class MyCycle extends React.PureComponent<Props, State> {
           }>
           <View style={styles.cycle}>
             <Image
-              source={require('../../assets/images/cycle.png')}
-              style={{height: '80%', width: '100%'}}
-              height={scale(200)}
+              source={require('../../assets/images/new-bike.png')}
+              style={{height: '100%', width: '100%', aspectRatio: 1}}
+              height={scale(300)}
               width={scale(300)}
             />
           </View>
@@ -185,7 +185,7 @@ class MyCycle extends React.PureComponent<Props, State> {
                 shadowRadius: 1,
                 shadowColor: 'black',
                 shadowOffset: {height: 1, width: 1},
-                elevation: 3  
+                elevation: 3,
               }}>
               <View
                 style={{
@@ -193,8 +193,12 @@ class MyCycle extends React.PureComponent<Props, State> {
                   justifyContent: 'space-between',
                   flexDirection: 'row',
                 }}>
-                <Text style={{fontSize: 16, opacity: 0.7}}>{LanguageSelector.t('myBike.vehicleId')}</Text>
-                <Text style={{fontSize: 16, fontWeight: '500'}}>{this.props.bike.id}</Text>
+                <Text style={{fontSize: 16, opacity: 0.7}}>
+                  {LanguageSelector.t('myBike.vehicleId')}
+                </Text>
+                <Text style={{fontSize: 16, fontWeight: '500'}}>
+                  {this.props.bike.id}
+                </Text>
               </View>
               <View style={{borderWidth: 0.5, opacity: 0.2}} />
               <View
@@ -203,11 +207,15 @@ class MyCycle extends React.PureComponent<Props, State> {
                   justifyContent: 'space-between',
                   flexDirection: 'row',
                 }}>
-                <Text style={{fontSize: 16, opacity: 0.7}}>{LanguageSelector.t('myBike.batteryId')}</Text>
+                <Text style={{fontSize: 16, opacity: 0.7}}>
+                  {LanguageSelector.t('myBike.batteryId')}
+                </Text>
                 <View style={{flexDirection: 'row'}}>
                   {batteries.length > 1 ? (
                     <>
-                      <Text style={{fontSize: 16, fontWeight: '500'}}>{batteries[1]}</Text>
+                      <Text style={{fontSize: 16, fontWeight: '500'}}>
+                        {batteries[1]}
+                      </Text>
                       <View
                         style={{
                           borderWidth: 0.5,
@@ -218,7 +226,9 @@ class MyCycle extends React.PureComponent<Props, State> {
                     </>
                   ) : null}
                   {batteries.length > 0 ? (
-                    <Text style={{fontSize: 16, fontWeight: '500'}}>{batteries[0]}</Text>
+                    <Text style={{fontSize: 16, fontWeight: '500'}}>
+                      {batteries[0]}
+                    </Text>
                   ) : null}
                 </View>
               </View>

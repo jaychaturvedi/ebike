@@ -72,11 +72,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   image: {
-    width: '150%',
-    height: '70%',
-    position: 'absolute',
-    right: '0%',
-    resizeMode: 'stretch',
+    // width: "100%",
+    // width: '150%',
+    // flex: 1,
+    height: '100%',
+    aspectRatio: 1,
+    // position: 'absolute',
+    // right: '0%',
+    // resizeMode: 'stretch',
     opacity: 0.5,
   },
 });
@@ -307,10 +310,11 @@ class PersonalDetails extends React.PureComponent<Props, State> {
           style={{
             width: '100%',
             flex: 1,
+            aspectRatio: 1,
             justifyContent: 'center',
           }}>
           <Image
-            source={require('../../assets/images/cycle_with_headlight.png')}
+            source={require('../../assets/images/new-bike.png')}
             style={styles.image}
           />
         </View>
