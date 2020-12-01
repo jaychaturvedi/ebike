@@ -1,5 +1,6 @@
 import FaqModel, { TFaq } from "./model"
 import { BadRequestError } from "../error"
+import FaqQnA from "../faqQnA/model"
 
 export default class Faq {
 
@@ -10,7 +11,18 @@ export default class Faq {
     }
 
     static async findAll() {
-        const faqs = await FaqModel.findAll()
+        const faqs = await FaqModel.findAll({
+          attributes: {exclude: ['updatedAt', 'createdAt']},
+          order: [['id','ASC']],
+          where:{active: true},
+          include: [{
+            model: FaqQnA,
+            attributes: {exclude: ['updatedAt', 'createdAt', 'faqId']},
+            separate:true,
+            order: [['id','asc']],
+            // required: true,
+           }]
+        })
         return faqs
     }
 
@@ -31,9 +43,9 @@ export default class Faq {
     }
 
     static async update(faq: TFaq) {
-        await Faq.findWhere({ id: faq.id, name: faq.name })
+        await Faq.findWhere({ id: faq.id})
         const [isUpdated, [result]] = await FaqModel.update(faq, {
-            where: { id: faq.id, name: faq.name },
+            where: { id: faq.id },
             returning: true
         })
         if (!isUpdated) throw new BadRequestError("No data to update")
