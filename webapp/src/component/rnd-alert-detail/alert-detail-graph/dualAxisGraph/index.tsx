@@ -34,7 +34,10 @@ interface DualAxisGraphProps {
 interface DualAxisGraphStates {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1Value: number,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
-    dataKey?: string, line1Key?: string, line2Key?: string, title?: string, rightYaxis?: boolean, rightYaxisLabel?: string,
+    dataKey?: string, line1Key?: string, line2Key?: string, title?: string, 
+    rightYaxis?: boolean, 
+    rightYaxisLabel?: string,
+    lineTooltipType: string,
 }
 class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphStates> {
     constructor(props: DualAxisGraphStates) {
@@ -51,7 +54,8 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
             line1Name: 'legend 1',
             line2Name: 'legend 2',
             line1Key: "b",
-            line2Key: "c"
+            line2Key: "c",
+            lineTooltipType:"",
         }
     }
 
@@ -91,30 +95,27 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Time"
             ? this.state.data[0]?.xAxisValue === label
-                ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
-                : moment(`${label}`).format("hh:mm a")
+                ? moment.utc(`${label}`).local().format("hh:mm a DD/MM/YYYY")
+                : moment.utc(`${label}`).local().format("hh:mm a")
             : label
     }
     CustomTooltip = (obj: any) => {
-        const { payload } = obj;
-        const style = {
-            top: obj.viewBox.y - 5,
-            color: "#5FBDE0",
-            zIndex: 10
-        };
-        const { active } = obj;
-        if (active) {
-            return (
-                <div className="custom-tooltip" style={{...style, fontSize:"14px"}}>
-                    <p className="label">{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
-                    <p className="label">{`Temperature: ${payload[1]?.value}`}</p>
-
-                </div>
-            );
-        }
-        return null;
-
+      const { label, payload, active } = obj;
+      const style = { top: obj?.viewBox.y - 20, color: "#white", zIndex: 20, fontSize: "12px" };
+      if (!active || !label || payload?.length === 0 ||
+        !payload || this.state.lineTooltipType === "") return null;
+      const formatType = this.props.xAxisLabel === "Days" ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm:ss a"
+      const line = payload.filter((item: any) => { return item.dataKey === this.state.lineTooltipType })
+      const localAlertTime = moment.utc(line[0]?.payload?.xAxisValue).local().format(formatType)
+      if (line?.length === 0) return null
+      return (
+        <div className="custom-tooltip" style={style}>
+          <p className="label">{line[0]?.name} : {line[0]?.value}</p>
+          <p className="label">{this.props.xAxisLabel} : {`${localAlertTime}`}</p>
+        </div>
+      );
     };
+
     render() {
         return (
             <div className="connectm-AlertDetailGraph">
@@ -122,63 +123,140 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
                     <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} className="alert-graph-container" >
-                    <ResponsiveContainer width="95%" height="95%">
-                        <LineChart data={this.state.data} margin={{ top: 10, right: -10, left: -15, bottom: 0, }}>
-                            <Tooltip content={this.CustomTooltip} cursor={{ fill: "transparent", top: 0, }} />
-                            <Legend wrapperStyle={{ top: 0, left: 30 }} verticalAlign="top" layout="horizontal" iconType="circle" iconSize={10} />
-                            <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
-                            <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
-                                tick={{ fill: 'white' }} stroke='#ffffff' interval={"preserveStartEnd"} padding={{ left: 30, right: 20 }}>
-                                <Label
-                                    value={this.state.xAxisLabel}
-                                    position={"centerBottom"}
-                                    offset={-22}
-                                    style={{ padding: 5 }}
-                                    content={props => { return this.DynamicLabel(props) }}
-                                    className="rechars-xaxis-label" />
-                            </XAxis>
-                            <YAxis tick={{ fill: 'white' }} yAxisId="left" stroke='#ffffff' dataKey={this.state.line1Key as string}>
-                                <Label angle={270} position='left' offset={-30} fill="#ffffff"
-                                    style={{
-                                        fontSize: '12px', textAnchor: 'middle'
-                                    }} value={this.state.yAxisLabel} className="recharts-yaxis-label">
-                                </Label>
-                            </YAxis>
-                            <YAxis tick={{ fill: 'white' }} yAxisId="right" stroke='#ffffff' orientation="right"
-                                dataKey={this.state.line2Key as string} >
-                                <Label angle={270} position='right' offset={-30} fill="#ffffff"
-                                    style={{
-                                        fontSize: '12px', textAnchor: 'middle'
-                                    }} value={this.state.rightYaxisLabel} className="recharts-yaxis-label">
-                                </Label>
-                            </YAxis>
-                            <Brush dataKey={this.state.dataKey} fill="#131731" height={12} stroke="#3C4473" startIndex={0} endIndex={0} />
-                            {!this.props.alertCleared ?
-                                this.state.L1Value ? <ReferenceLine y={this.state.L1Value} yAxisId="left" strokeWidth={1} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
-                                    isFront={true} >
-                                    <Label position={'insideBottomLeft'} fill="#ffffff"
-                                        style={{
-                                            fontSize: '8px', textAnchor: 'center'
-                                        }} value="L1">
-                                    </Label>
-                                </ReferenceLine> : ''
-                                : ''}
-                            {!this.props.alertCleared ?
-                                <Line yAxisId="left" name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
-                                    stroke={this.props.line1StrokeColor} strokeWidth={3}
-                                    // dot={false}
-                                dot={<CustomizedDot L1={this.props.L1Value} alertDate={this.props.alertDate} /> } 
-                                />
-                                : ''}
-                            {!this.props.alertCleared ?
-                                <Line yAxisId="right" name={this.state.line2Name} type="monotone" dataKey={this.state.line2Key as string}
-                                    stroke={this.props.line2StrokeColor} strokeWidth={3}
-                                    dot={this.props.L1Value ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} />
-                                : ''}
-                        </LineChart>
-                    </ResponsiveContainer>
-                </div>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              height: '100%',
+              width: '100%'
+            }}
+              className="alert-graph-container" >
+              <ResponsiveContainer width="95%" height="95%">
+                <LineChart
+                  data={this.state.data}
+                  margin={{ top: 10, right: -10, left: -15, bottom: 0, }}>
+                  <Tooltip
+                    content={this.CustomTooltip}
+                    cursor={{ fill: "transparent", top: 0, }} />
+                  <Legend
+                    wrapperStyle={{ top: 0, left: 30 }}
+                    verticalAlign="top"
+                    layout="horizontal"
+                    iconType="circle"
+                    iconSize={10} />
+                  <CartesianGrid
+                    strokeDasharray="3 3 5 2"
+                    stroke="#515151" />
+                  <XAxis
+                    dataKey={this.state.dataKey}
+                    height={35}
+                    tickFormatter={(label) => this.formatDate(label)}
+                    tick={{ fill: 'white' }}
+                    stroke='#ffffff'
+                    interval={"preserveStartEnd"}
+                    padding={{ left: 30, right: 20 }}>
+                    <Label
+                      value={this.state.xAxisLabel}
+                      position={"centerBottom"}
+                      offset={-22}
+                      style={{ padding: 5 }}
+                      content={props => { return this.DynamicLabel(props) }}
+                      className="rechars-xaxis-label" />
+                  </XAxis>
+                  <YAxis
+                    tick={{ fill: 'white' }}
+                    yAxisId="left"
+                    stroke='#ffffff'
+                    dataKey={this.state.line1Key as string}>
+                    <Label
+                      angle={270}
+                      position='left'
+                      offset={-30}
+                      fill="#ffffff"
+                      style={{
+                        fontSize: '12px', textAnchor: 'middle'
+                      }}
+                      value={this.state.yAxisLabel} className="recharts-yaxis-label">
+                    </Label>
+                  </YAxis>
+                  <YAxis
+                    tick={{ fill: 'white' }}
+                    yAxisId="right"
+                    stroke='#ffffff'
+                    orientation="right"
+                    dataKey={this.state.line2Key as string} >
+                    <Label
+                      angle={270}
+                      position='right'
+                      offset={-30}
+                      fill="#ffffff"
+                      style={{
+                        fontSize: '12px', textAnchor: 'middle'
+                      }}
+                      value={this.state.rightYaxisLabel}
+                      className="recharts-yaxis-label">
+                    </Label>
+                  </YAxis>
+                  <Brush
+                    dataKey={this.state.dataKey}
+                    fill="#131731"
+                    height={12}
+                    stroke="#3C4473"
+                    startIndex={0}
+                    endIndex={0} />
+                  {!this.props.alertCleared ?
+                    this.state.L1Value ?
+                      <ReferenceLine
+                        y={this.state.L1Value}
+                        yAxisId="left"
+                        strokeWidth={1}
+                        stroke={this.props.refColor}
+                        strokeDasharray="3 3 5 2"
+                        isFront={true} >
+                        <Label position={'insideBottomLeft'} fill="#ffffff"
+                          style={{
+                            fontSize: '8px', textAnchor: 'center'
+                          }} value="L1">
+                        </Label>
+                      </ReferenceLine> : ''
+                    : ''}
+                  {!this.props.alertCleared ?
+                    <Line
+                      yAxisId="left"
+                      name={this.state.line1Name}
+                      type="monotone"
+                      dataKey={this.state.line1Key as string}
+                      stroke={this.props.line1StrokeColor} strokeWidth={3}
+                      // dot={false}
+                      dot={<CustomizedDot 
+                        L1={this.props.L1Value} 
+                        alertDate={this.props.alertDate} 
+                      />}
+                      activeDot={{
+                        onMouseOver: (e: any) => this.setState({lineTooltipType: this.state.line1Key!}),
+                        onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+                      }}
+                    />
+                    : ''}
+                  {!this.props.alertCleared ?
+                    <Line
+                      yAxisId="right"
+                      name={this.state.line2Name}
+                      type="monotone"
+                      dataKey={this.state.line2Key as string}
+                      stroke={this.props.line2StrokeColor}
+                      strokeWidth={3}
+                      dot={this.props.L1Value
+                        ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} />
+                        : false} 
+                      activeDot={{
+                        onMouseOver: (e: any) => this.setState({lineTooltipType: this.state.line2Key!}),
+                        onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+                      }}
+                    />
+                    : ''}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
 
             </div >
         )

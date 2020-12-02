@@ -27,7 +27,8 @@ interface RandDTrendsStates {
   clickCount: number,
   zoom: number,
   interval: number,
-  alertType:"smart"|"bms"|"mc"
+  alertType:"smart"|"bms"|"mc",
+  lineTooltipType: string,
 }
 // let data: object[] = []
 // for (let i = 1; i <= 31; i++) {
@@ -36,6 +37,29 @@ interface RandDTrendsStates {
 // const re = data.sort((a: any, b: any): any => {
 //     return a["date"] > b["date"]
 // })
+
+class CustomizedDot extends React.PureComponent<any> {
+  render() {
+    const { cx, cy, value } = this.props;
+
+    if (!value) {
+      return null;
+    }
+
+    return (
+      <svg
+        x={cx - 5}
+        y={cy - 5}
+        width={10}
+        height={10}
+        viewBox="0 0 10 10"
+        fill="#ff7385"
+      >
+        <rect width="10" height="10" />
+      </svg>
+    );
+  }
+}
 
 class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
   constructor(props: RandDTrendsProps) {
@@ -71,7 +95,8 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       startDate: moment().subtract(6, 'd').format("YYYY-MM-DD HH:mm:ss"),
       endDate: moment().format("YYYY-MM-DD HH:mm:ss"),
       interval: 0,
-      alertType:"smart"
+      alertType:"smart",
+      lineTooltipType:""
     }
   }
   // componentDidMount(){
@@ -181,33 +206,18 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
 
   CustomTooltip = (obj: any) => {
     const { label, payload, active } = obj;
-    if (!active || !label || !payload) return label;
-    const style = { top: obj?.viewBox.y - 25, color: "#white", zIndex: 20 };
+    const style = { top: obj?.viewBox.y - 20, color: "#white", zIndex: 20,  };
     // console.log(payload);
-    
-    if (active) {
-      if(payload[0]?.name==="Total Alerts"){
-        return (
-          <div className="custom-tooltip" style={style}>
-              <p className="label"><b>{`${payload[0]?.value}`}</b></p>
-          </div>
-      );
-      }
-      else return (
-        <div className="custom-tooltip" style={style}>
-          {
-            payload?.length 
-            ? payload.map((element: any) => {
-              return <p className="label">
-                {`${element?.name}`} :
-                 <b>{`${element?.value}`}</b></p>
-            }) 
-            : ""
-          }
-        </div>
-      );
-    }
-    return null;
+    if (!active || !label || payload?.length === 0 ||
+      !payload || this.state.lineTooltipType == "") return null;
+    const line = payload.filter((item: any) => { return item.dataKey === this.state.lineTooltipType })
+    if(line?.length == 0) return null
+    console.log(line);
+    return (
+      <div className="custom-tooltip" style={{...style, fontSize:10}}>
+        <p className="label">{line[0]?.name} : <b>{line[0]?.value}</b></p>
+      </div>
+    );
   };
 
   render() {
@@ -261,6 +271,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               stroke="#7BE9F4"
               strokeWidth={2}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }}
             />}
         </LineChart>
       </ResponsiveContainer>
@@ -306,6 +320,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               stroke="#EB8E27"
               strokeWidth={2}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "alert1count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }}            
             />
           }
           {this.state.top5Alerts.lines?.alert2 &&
@@ -319,6 +337,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               animationEasing={'ease-in-out'}
               animationDuration={100}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "alert2count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }}  
             />
           }
           {this.state.top5Alerts.lines?.alert3 &&
@@ -329,6 +351,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               stroke="#5280EF"
               strokeWidth={2}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "alert3count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }}  
             />
           }
           {this.state.top5Alerts.lines?.alert4 &&
@@ -339,6 +365,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               stroke="#89ED72"
               strokeWidth={2}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "alert4count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }} 
             />
           }
           {this.state.top5Alerts.lines?.alert5 &&
@@ -349,6 +379,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               stroke="#B7413E"
               strokeWidth={2}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "alert5count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }} 
             />
           }
         </LineChart>
@@ -397,6 +431,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               stroke="#EB8E27"
               strokeWidth={2}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "loc1count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }} 
             />
           }
           {this.state.locationWiseAlerts.lines?.loc2 &&
@@ -407,6 +445,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               stroke="#80F0FA"
               strokeWidth={2}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "loc2count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }} 
             />
           }
           {this.state.locationWiseAlerts.lines?.loc3 &&
@@ -417,6 +459,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
               stroke="#89ED6F"
               strokeWidth={2}
               dot={false}
+              activeDot={{
+                onMouseOver: (e: any) => this.setState({lineTooltipType: "loc3count"}),
+                onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+              }} 
             />
           }
         </LineChart>
