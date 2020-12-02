@@ -47,9 +47,9 @@ Faq.hasMany(FaqQnA, {
   sourceKey: 'id',
 });
 
-Faq.sync({force:true}).then(()=>{console.log("success");
-}).catch((e)=>{
-  console.log(e);
-})
+// Faq.sync({force:true}).then(()=>{console.log("success");
+// }).catch((e)=>{
+//   console.log(e);
+// })
 
 export default Faq

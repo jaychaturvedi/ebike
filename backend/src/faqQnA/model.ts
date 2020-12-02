@@ -25,26 +25,26 @@ let FaqQnA: TFaqQnAModel<TFaqQnA & Model> = <TFaqQnAModel<TFaqQnA & Model>>db.de
     Answer: {
       type: Sequelize.STRING(1500)
     },
-    // faqId: {
-    //   type: Sequelize.INTEGER,
-    //   allowNull: true,
-    //   onDelete: 'CASCADE',
-    //   references: {
-    //     model: 'faqCategory',
-    //     key: 'id',
-    //   }
-    // },
+    faqId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'faqCategory',
+        key: 'id',
+      }
+    },
   },
   {
     freezeTableName: true
   }
 );
 
-FaqQnA.sync({ force: true }).then(() => {
-  console.log("success");
-}).catch((e) => {
-  console.log(e);
-})
+// FaqQnA.sync({ force: true }).then(() => {
+//   console.log("success");
+// }).catch((e) => {
+//   console.log(e);
+// })
 
 export default FaqQnA
 

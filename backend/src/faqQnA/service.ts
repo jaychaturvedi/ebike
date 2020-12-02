@@ -11,11 +11,11 @@ export default class FaqQnA {
 
   static async createNew(upgrade: TFaqQnA) {
     let newUpgrade
-    try{
+    // try{
       newUpgrade = await FaqModel.create(upgrade)
-    } catch(e){
-      throw new SupportError("You are trying to create duplicate records")
-    }
+    // } catch(e){
+    //   throw new SupportError("You are trying to create duplicate records")
+    // }
     if (!newUpgrade) throw new SupportError("Error while creating")
     return newUpgrade;
   }

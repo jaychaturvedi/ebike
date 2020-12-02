@@ -27,26 +27,17 @@ let Upgrades: TUpgradeModel<TUpgrade & Model> = <TUpgradeModel<TUpgrade & Model>
     },
     price: {
       type: Sequelize.INTEGER,
-    },
-    // uid: {
-    //   type: Sequelize.STRING,
-    //   allowNull: false,
-    //   onDelete: 'CASCADE',
-    //   references: {
-    //     model: 'users',
-    //     key: 'uid',
-    //   }
-    // },
+    }
   },
   {
     // sync: {force: true},
     freezeTableName: true,
   }
 );
-Upgrades.sync({force:true}).then(()=>{console.log("success");
-}).catch((e)=>{
-  console.log(e);
-})
+// Upgrades.sync({force:true}).then(()=>{console.log("success");
+// }).catch((e)=>{
+//   console.log(e);
+// })
 // Issues.belongsTo(Ride, { foreignKey: 'rideId', targetKey: 'rideId', constraints: false, onDelete: 'CASCADE' })
 export default Upgrades
 
