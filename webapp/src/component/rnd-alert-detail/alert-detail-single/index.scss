@@ -34,6 +34,9 @@
             @media screen and (min-width: 1600px) {
                 font-size: 16px;
             }
+            font-size: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
             .detail-link {
                 color: #ffffff;
                 text-decoration: underline;

@@ -130,6 +130,10 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                     <div className={"single-cell-left"}>Alert Name:</div>
                     <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A" : this.state.alert.alertName}</div>
                 </div>
+                <div className={"single-row"} >
+                    <div className={"single-cell-left"} style={{paddingLeft: "20%"}}>Customer Name:</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A" : this.state.alert.customerName}</div>
+                </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Alert Time:</div>
                     <div className={"single-cell-right"}>{formatTime(this.state.alert.alertTime)}</div>
@@ -147,27 +151,27 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Vehicle ID:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.frameId}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.frameId}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Model:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.model}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.model}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Mfg Date:</div>
-                    <div className={"single-cell-right"}>{formatDate(this.state.alert.mfgDate)}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":formatDate(this.state.alert.mfgDate)}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Battery ID:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.batteryId}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.batteryId}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Customer ID:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.customerId}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.customerId}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Location:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.location}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.location}</div>
                 </div>
             </div>
         )

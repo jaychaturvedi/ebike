@@ -12,7 +12,7 @@ app.get('/',
   })
 )
 
-app.post('/init',
+app.get('/init',
   expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
     const allUpgrades = await initNewUpgradeList()
     console.log(allUpgrades);

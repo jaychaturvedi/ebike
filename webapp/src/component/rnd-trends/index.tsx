@@ -17,7 +17,7 @@ interface RandDTrendsProps extends ReduxAlertTrendActions, ReduxAlertTrendState 
 
 interface RandDTrendsStates {
   trendsPeriod: string,
-  totalAlerts: TtrendTotalAlerts[],
+  totalAlerts: TtrendTotalAlerts,
   top5Alerts: TtrendTop5Alert,
   locationWiseAlerts: TtrendLocationWise,
   xAxis: number
@@ -67,10 +67,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     this.state = {
       clickCount: 0,
       trendsPeriod: "Last 7 Days",
-      totalAlerts: [{
+      totalAlerts: {data:[{
         date: "2020-10-15",
         count: 1
-      }],
+      }]},
       locationWiseAlerts: {
         lines: {
           loc1: "Bengaluru",
@@ -126,18 +126,18 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       state.reload = false;
     }
     state.alertType=props.alerts.activeAlertTab
-    state.totalAlerts = props?.trendTotalAlert?.sort((a: any, b: any): any => {
+    state.totalAlerts.data = props?.trendTotalAlert?.data?.sort((a: any, b: any): any => {
       return a["date"] > b["date"] ? b["date"] : a["date"]
     })
     state.top5Alerts = {
       lines: props?.trendTop5Alert?.lines,
-      data: props?.trendTop5Alert?.data!.sort((a: any, b: any): any => {
+      data: props?.trendTop5Alert?.data?.sort((a: any, b: any): any => {
         return a["date"] > b["date"] ? b["date"] : a["date"]
       })
     }
     state.locationWiseAlerts = {
       lines: props?.trendLocationWise?.lines,
-      data: props.trendLocationWise?.data!.sort((a: any, b: any): any => {
+      data: props.trendLocationWise?.data?.sort((a: any, b: any): any => {
         return a["date"] - b["date"] ? b["date"] : a["date"]
       })
     }
@@ -176,33 +176,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     }
     else return moment(`${label}`).format('DD')
   }
-  handleZoom = () => {
-    const { clickCount, totalAlerts } = this.state
-    let trendsZoom = this.state.zoom
-    // console.log("im clicked");
-    if (clickCount === 0) {
-      // this.setState({ zoom: 4, clickCount: clickCount + 1 })
-      trendsZoom = 4
-    }
-    if (clickCount === 1) {
-      // this.setState({ zoom: 2, clickCount: clickCount + 1 })
-      trendsZoom = 2
-    }
-    if (clickCount === 2) {
-      // this.setState({ zoom: 0, clickCount: 0 })
-      trendsZoom = 0
-    }
-    this.setState({ totalAlerts: { ...totalAlerts } })
-    this.props.updateAlertTrends({
-      type: "UPDATE_ALERT_TRENDS",
-      payload: {
-        trendLocationWise: this.state.locationWiseAlerts,
-        trendTop5Alert: this.state.top5Alerts,
-        trendTotalAlert: this.state.totalAlerts,
-        trendsZoom: trendsZoom
-      }
-    })
-  }
 
   CustomTooltip = (obj: any) => {
     const { label, payload, active } = obj;
@@ -210,7 +183,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     // console.log(payload);
     if (!active || !label || payload?.length === 0 ||
       !payload || this.state.lineTooltipType == "") return null;
-    const line = payload.filter((item: any) => { return item.dataKey === this.state.lineTooltipType })
+    const line = payload?.filter((item: any) => { return item?.dataKey === this.state.lineTooltipType })
     if(line?.length == 0) return null
     console.log(line);
     return (
@@ -235,10 +208,10 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
         </Typography.Text>
       </div>
 
-      <ResponsiveContainer width="100%" height="28%">
+      <ResponsiveContainer width="100%" height="28%" className="total-recharts">
         <LineChart
           margin={{ top: 10, right: 10, left: -30, bottom: 0 }}
-          data={this.state.totalAlerts}
+          data={this.state.totalAlerts?.data}
         >
           <CartesianGrid
             strokeDasharray="3 4 5 2"
@@ -263,7 +236,7 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
             tick={{ fill: 'white' }}
             stroke='#131731'
           />
-          {this.state.totalAlerts?.length &&
+          {this.state.totalAlerts?.data?.length &&
             <Line
               name="Total Alerts"
               type="monotone"

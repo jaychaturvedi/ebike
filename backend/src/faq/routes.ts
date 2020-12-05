@@ -20,8 +20,20 @@ function compare(a: any, b: any) {
 app.get('/',
     expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
         const faqs = await Faq.findAll()
-        // const sortedFaqs = faqs.sort(compare);
-        const response = createResponse("OK", { sections: faqs }, undefined)
+        let faq :any= []
+        const sortedFaqs = faqs.map((item:any)=>{
+          console.log(item);       
+          faq.push({
+            "id":item.id,
+            "name":item.name,
+            "icon":item.icon,
+            "active":item.active,
+            "faq":item.faqs
+          }) 
+        });         
+         console.log("faq array",faq);       
+
+        const response = createResponse("OK", { sections: faq }, undefined)
         res.send(response)
     })
 )

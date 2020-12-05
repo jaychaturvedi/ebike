@@ -114,8 +114,8 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     let mySearchSuggestions: any = []
     if (options && state.searchText != "") {
       state.searchOptions = options
-      options.map((row) => {
-        mySearchSuggestions.push({ value: row.frameId, isVehicle:row.isVehicle })
+      options?.map((row) => {
+        mySearchSuggestions.push({ value: row?.frameId, isVehicle:row?.isVehicle })
       })
       state.suggestions = mySearchSuggestions
     }

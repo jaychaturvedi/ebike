@@ -29,7 +29,7 @@ export default class WebAPI {
 
     static async totalAlerts(alertType: string, startDate: string, endDate: string) {
         const options = createOptions('/trendtotalerts', { alertType, startDate, endDate })
-        const fetchedData: TTotalAlert = await post(options)
+        const fetchedData = await post(options)
         return fetchedData
     }
 

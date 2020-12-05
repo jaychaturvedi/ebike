@@ -112,7 +112,6 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
   })
 }
 
-// let idToken = "eyJraWQiOiJwY2t2ZFZleEFaQTJyQXdzbU1iYVY4YTk0NU05RHBkSUtOdVNNUWRMVlJzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIwYmM5MjRmOS0xMGNmLTQ4ZjEtODJiNS00YTY3MjM2MjU0ZTMiLCJhdWQiOiIzdDBhcGNibWxuMW5zOGdwOTcwajBscWp2ZyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJldmVudF9pZCI6IjVkMGMwMGI5LTczMDctNDU2OS05ZTkwLWMyMjY1NDVlYWNjOSIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjAzMTkxMTIzLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0yLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMl80eXFUOWZkUXMiLCJjb2duaXRvOnVzZXJuYW1lIjoiMGJjOTI0ZjktMTBjZi00OGYxLTgyYjUtNGE2NzIzNjI1NGUzIiwiZXhwIjoxNjAzMTk0NzIzLCJjdXN0b206cm9sZSI6IkFETUlOIiwiaWF0IjoxNjAzMTkxMTIzLCJlbWFpbCI6InNvbnVAemVscC5pbyJ9.MXN15W8ctBi7Tx3b3A2r8JwuPDp5bMPtLY5qLJyc4gnjW0PmxhvbLh6XIz52CtZ0oBNOqAptRtcwmdFad5wIMl5QAow_gOhoD19vT8ykUdoE0UmrR-EaC_zl3b7mNaOawPiWh03RV8VmummklxbkkaI4gav2oCw9LW3D0pNvHQk8T8OyIQsBJoaHsiCpD_guCMCFR2g1-bwZedzBoOLVnzS2UhZggmac1jqrtwOXFKAvN2v_rPD98cGaI1rM4N6SEkVpm8iqLJGL0BFN3ma-h6YKKGCl4NB0oJf8q7IgKeoarF1fELp3IT8fHsNVmlUQ4VlqWfMacPd0mxdVrhzZCg"
 // getQuickSightUrl(idToken, "sonu@zelp.io")
 export async function getEmbedUrl(idToken: string, email: string, dashboardId: string) {
   const result = await getQuickSightUrl(idToken, email, dashboardId)
@@ -124,5 +123,4 @@ export async function getEmbedUrl(idToken: string, email: string, dashboardId: s
 /*
 1. user pool  --  application user details
 2. identity pool -- quicksight
-
 */

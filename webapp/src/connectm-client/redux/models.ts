@@ -80,8 +80,10 @@ export interface Alert {
 
 ///////////////////////////////Trends///////////////////////////////////////////
 export interface TtrendTotalAlerts {
+  data:{
     date: string,
     count: number
+  }[]
 }
 
 export interface TtrendTop5Alert {

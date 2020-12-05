@@ -40,11 +40,5 @@ let FaqQnA: TFaqQnAModel<TFaqQnA & Model> = <TFaqQnAModel<TFaqQnA & Model>>db.de
   }
 );
 
-// FaqQnA.sync({ force: true }).then(() => {
-//   console.log("success");
-// }).catch((e) => {
-//   console.log(e);
-// })
-
 export default FaqQnA
 
