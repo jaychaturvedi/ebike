@@ -1,6 +1,6 @@
 {
   "name": "motovoltApp",
-  "version": "0.9.18",
+  "version": "0.9.19",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -59,6 +59,7 @@
     "react-native-swipe-verify": "^0.1.6",
     "react-native-swiper": "^1.6.0",
     "react-native-timeline-flatlist": "^0.7.3",
+    "react-native-unordered-list": "^1.0.4",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
