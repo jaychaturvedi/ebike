@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   Dimensions,
+  Platform,
 } from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import ProfileImage from '../../components/profile';
@@ -24,6 +25,7 @@ import {Dispatch} from 'redux';
 import {SignOut} from '../../service/redux/actions/saga/authentication-actions';
 import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
+import {mYellowMessengerModule} from '../../components/yellow-messenger';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -228,7 +230,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                     onPress={() => {
                       switch (feature.feature) {
                         case LanguageSelector.t('morePremium.support'):
-                          this.props.navigation.navigate('Support', {});
+                          if (Platform.OS === 'android') {
+                            mYellowMessengerModule.invokeChatBot();
+                          } else this.props.navigation.navigate('Support', {});
                           break;
                         case LanguageSelector.t('morePremium.faqs'):
                           this.props.navigation.navigate('Faq', {});
