@@ -82,8 +82,12 @@ app.post('/totalAlerts',
     res: Express.Response,
     next: Express.NextFunction) => {
     const { alertType, startDate, endDate } = req.body
-    const updated = await WebAPI.totalAlerts(alertType, startDate, endDate)
-    const response = createResponse("OK", updated, undefined)
+    const totalAlerts = await WebAPI.totalAlerts(alertType, startDate, endDate)
+    const response = createResponse("OK", {data:totalAlerts}, undefined)
+    const errorMessage = {
+      "errorMessage":"request timed out after 30seconds"
+    }
+    console.log(totalAlerts);
     res.json(response)
   })
 )

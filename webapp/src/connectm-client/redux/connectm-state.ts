@@ -28,7 +28,7 @@ export interface State {
         searchFilter: TSearchFilter,
         activeAlertTab: TAlertType
     },
-    trendTotalAlerts: TtrendTotalAlerts[],
+    trendTotalAlerts: TtrendTotalAlerts,
     trendTop5Alert: TtrendTop5Alert,
     trendLocationWise: TtrendLocationWise,
     alertInsights: TAlertInsights,
@@ -79,7 +79,7 @@ const connectmState: State = {
         searchFilter: { fieldName: "all", value: "", isVehicle:false },
         activeAlertTab: "smart"
     },
-    trendTotalAlerts: [],
+    trendTotalAlerts: { data: [] },
     trendTop5Alert: { data: [], lines: {} },
     trendLocationWise: { data: [], lines: {} },
     alertInsights: alertInsightsLimpData(),

@@ -74,7 +74,7 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
             }
             state.alertTypeId = props.alertTypeId
         }
-        // console.log("component alert detail graph props and state", props,state);
+        console.log("component alert detail graph props and state", props,state);
         ///////// props.graphs[state.alertTypeId!] is storing graph data as { alertTime:"", data:[]}/////////
         state.data = props.graphs[state.alertTypeId!]?.data
         state.alertTime = props.graphs[state.alertTypeId!]?.alertTime
@@ -116,36 +116,37 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
       }
       case 3: {
         return <DoubleLineGraph
-          dataKey="timeDate"
+          dataKey="xAxisValue"
           data={this.state.data}
-          L1={true}
-          L2={true}
-          title="Battery Temperature:"
-          line1Key="chrgTemp"
-          line2Key="abintTemp"
-          line1Name='Charging Temp'
-          line2Name='Ambient Temp'
+          L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          L2={this.props.graphs[this.state.alertTypeId!]?.secondaryLimit}
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+          line1Key="primaryValue" 
+          line2Key="secondaryValue"
+          line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
+          line2Name={this.props.graphs[this.state.alertTypeId!]?.secondaryLegend}
           line1StrokeColor="#4aa7cf"
           line2StrokeColor="#f3cd58"
           refColor="green"
-          xAxisLabel="Time"
-          yAxisLabel="Temperature (`C)" 
+          xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+          yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
           alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
       case 4: {
-        return <SingleLineGraph
-          data={this.state.data}
-          dataKey="timeDate"
-          L1={true}
-          title="Battery Voltage Trend"
-          line1Key="batteryPackVoltage"
-          line1Name='Battery Pack Voltage'
-          refColor="green"
-          line1StrokeColor="#4aa7cf"
-          xAxisLabel="Time"
-          yAxisLabel="Voltage"
+        return <SingleLineGraph 
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+          dataKey="xAxisValue"
+          L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit? true :false}
+          L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          line1Key="primaryValue" 
+          line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
+          line1StrokeColor="#4aa7cf" 
+          refColor="#e3e6e8"
+          xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+          yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
+          data={this.state.data} 
           alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
@@ -153,68 +154,71 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
       //High charging temperature l1
       case 5: {
         return <DualAxisLineGraph
-          title="Charging Temperature Trend"
-          dataKey="timeDate"
-          L1={true}
-          L1Value={30}
-          line1Key="current"
-          line2Key="chargingTemp"
-          line1Name='Current'
-          line2Name='Charging Temperature (T1 or T2)'
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+          dataKey="xAxisValue"
+          L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit? true :false}
+          L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          line1Key="primaryValue"
+          line2Key="secondaryValue"
+          line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
+          line2Name={this.props.graphs[this.state.alertTypeId!]?.secondaryLegend}
           line1StrokeColor="#D48D4F"
           line2StrokeColor="#4aa7cf"
           refColor="green"
-          xAxisLabel="Time"
-          yAxisLabel="Temperature `C"
-          rightYaxisLabel="Current (A)" 
+          xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+          yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
+          rightYaxisLabel={this.props.graphs[this.state.alertTypeId!]?.secondaryYAxis} 
           data={this.state.data}
           alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
       case 6: {
-        return <SingleLineGraph
-          title="Charging Current Trend"
-          dataKey="timeDate" 
-          L1={true}
-          line1Key="chargOverCurnt"
-          line1Name='Charge Over Current'
-          line1StrokeColor="#4aa7cf"
+        return <SingleLineGraph 
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+          dataKey="xAxisValue"
+          L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit? true :false}
+          L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          line1Key="primaryValue" 
+          line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
+          line1StrokeColor="#4aa7cf" 
           refColor="#e3e6e8"
-          xAxisLabel="Time"
-          yAxisLabel="Current (A)"
-          data={this.state.data}
+          xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+          yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
+          data={this.state.data} 
           alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
       case 7: {
         return <SingleLineGraph 
-          title="Soc Trend"
-          dataKey="timeDate"
-          L1={true}
-          line1Key="soc"
-          line1Name="Soc"
-          line1StrokeColor="#4aa7cf"
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+          dataKey="xAxisValue"
+          L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit? true :false}
+          L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          line1Key="primaryValue" 
+          line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
+          line1StrokeColor="#4aa7cf" 
           refColor="#e3e6e8"
-          xAxisLabel="Time"
-          yAxisLabel="SOC"
-          data={this.state.data}
+          xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+          yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
+          data={this.state.data} 
           alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
         />
       }
       case 8: {
         return <SingleLineGraph 
-          title="Battery Temperature Difference Trend" 
-          dataKey="timeDate" 
-          L1={true}
-          line1Key="deltaTemp" 
-          line1Name="Delta Temperature (T1-T2)" 
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+          dataKey="xAxisValue"
+          L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit? true :false}
+          L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          line1Key="primaryValue" 
+          line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
           line1StrokeColor="#4aa7cf" 
           refColor="#e3e6e8"
-          xAxisLabel="Time" 
-          yAxisLabel="Temperature (`C)" 
+          xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+          yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
           data={this.state.data} 
           alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
@@ -222,15 +226,16 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
       }
       case 9: {
         return <SingleLineGraph 
-          title="Speed Trend"
-          dataKey="timeDate" 
-          L1={false} 
-          line1Key="speed" 
-          line1Name="Average Speed" 
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+          dataKey="xAxisValue"
+          L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit? true :false}
+          L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          line1Key="primaryValue" 
+          line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
           line1StrokeColor="#4aa7cf" 
-          refColor="#e3e6e8" 
-          xAxisLabel="Time" 
-          yAxisLabel="Speed (Km)" 
+          refColor="#e3e6e8"
+          xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+          yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
           data={this.state.data} 
           alertDate={this.state.alertTime}
           alertCleared={this.props.alertCleared}
@@ -238,29 +243,30 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
       }
       case 10: {
         return <DoubleLineGraph 
-          title="Low Mileage"
-          dataKey="nocycles" 
-          L1={false} 
-          L2={false} 
-          line1Key="amilage" 
-          line2Key="smilage" 
-          line1Name='Specified Mileage'
-          line2Name='Actual Mileage' 
-          line1StrokeColor="#79a45b" 
-          line2StrokeColor="#4aa7cf" 
-          refColor="green" 
-          xAxisLabel="No of Cycles" 
-          yAxisLabel="Mileage (Km)" 
-          data={this.state.data} 
-          alertDate={this.state.alertTime}
-          alertCleared={this.props.alertCleared} />
+        dataKey="xAxisValue"
+        data={this.state.data}
+        L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+        L2={this.props.graphs[this.state.alertTypeId!]?.secondaryLimit}
+        title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
+        line1Key="primaryValue" 
+        line2Key="secondaryValue"
+        line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
+        line2Name={this.props.graphs[this.state.alertTypeId!]?.secondaryLegend}
+        line1StrokeColor="#4aa7cf"
+        line2StrokeColor="#f3cd58"
+        refColor="green"
+        xAxisLabel={this.props.graphs[this.state.alertTypeId!]?.xAxis}
+        yAxisLabel={this.props.graphs[this.state.alertTypeId!]?.primaryYAxis}
+        alertDate={this.state.alertTime}
+        alertCleared={this.props.alertCleared}
+        />
       }
       case 999: {
         return <SingleLineGraph 
           title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
           dataKey="xAxisValue"
-          L1={false}
-          // L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
+          L1={this.props.graphs[this.state.alertTypeId!]?.primaryLimit? true :false}
+          L1Value={this.props.graphs[this.state.alertTypeId!]?.primaryLimit}
           line1Key="primaryValue" 
           line1Name={this.props.graphs[this.state.alertTypeId!]?.primaryLegend}
           line1StrokeColor="#4aa7cf" 

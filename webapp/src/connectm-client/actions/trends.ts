@@ -18,7 +18,7 @@ export interface AlertTrendsPayload {
 export interface UpdateTrendsPayload {
     trendTop5Alert: TtrendTop5Alert,
     trendLocationWise: TtrendLocationWise,
-    trendTotalAlert: TtrendTotalAlerts[],
+    trendTotalAlert: TtrendTotalAlerts,
     trendsZoom: number
 }
 

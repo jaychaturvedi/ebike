@@ -8,10 +8,10 @@ import moment from 'moment';
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm")
+    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
     const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
     if (TimeDate === AlertDate) {
-      console.log("notch",payload?.timeDate,props?.alertDate);
+      console.log("notch",payload?.xAxisValue,props?.alertDate);
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />
@@ -22,7 +22,7 @@ const CustomizedDot = (props: any) => {
 };
 
 interface DoubleLineGraphProps {
-    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: boolean, L2?: boolean, alertDate?: string,
+    data: any; line1StrokeColor?: string; line2StrokeColor?: string, L1?: number, L2?: number, alertDate?: string,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
     dataKey?: string, line1Key?: string, line2Key?: string, title?: string, alertCleared?: boolean,
 }
@@ -30,7 +30,8 @@ interface DoubleLineGraphProps {
 interface DoubleLineGraphStates {
     data: any; line1StrokeColor?: string; line2StrokeColor?: string,
     xAxisLabel?: string, yAxisLabel?: string, line1Name?: string, line2Name?: string, refColor?: string,
-    dataKey?: string, line1Key?: string, line2Key?: string, title?: string, L1Value: number, L2Value: number
+    dataKey?: string, line1Key?: string, line2Key?: string, title?: string, L1Value: number, L2Value: number,
+    lineTooltipType: string,
 }
 class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGraphStates> {
     constructor(props: DoubleLineGraphStates) {
@@ -47,7 +48,8 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
             line1Name: 'legend 1',
             line2Name: 'legend 2',
             line1Key: "b",
-            line2Key: "c"
+            line2Key: "c",
+            lineTooltipType: "",
         }
     }
 
@@ -55,8 +57,8 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
         let data = state.data
         if (props.data !== undefined && props.data !== null) {
             data = props.data;
-            state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
-            state.L2Value = props.data.length > 0 && props.L1 ? data[0].L2 : 0;
+            state.L1Value = props.data.length > 0 && props.L1 ? props.L1! : 0;
+            state.L2Value = props.data.length > 0 && props.L1 ? props.L2! : 0;
             state.xAxisLabel = props.xAxisLabel;
             state.yAxisLabel = props.yAxisLabel;
             state.refColor = props.refColor;
@@ -84,26 +86,28 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
     }
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Time"
-            ? this.state.data[0]?.timeDate === label
+            ? this.state.data[0]?.xAxisValue === label
                 ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
                 : moment(`${label}`).format("hh:mm a")
             : label
     }
 
-    CustomTooltip = (obj: any) => {
-        const { label, payload, active } = obj;
-        if (!active || !label || !payload || this.props.data === undefined) return label;
-        const style = { top: obj?.viewBox.y - 30, color: "#5FBDE0", zIndex: 10 };
-        if (active) {
-            return (
-                <div className="custom-tooltip" style={style}>
-                    <p className="label">{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
-                    <p className="label">{`${payload[1]?.name}: ${payload[1]?.value}`}</p>
-                </div>
-            );
-        }
-        return null;
-    };
+  CustomTooltip = (obj: any) => {
+    const { label, payload, active } = obj;
+    const style = { top: obj?.viewBox.y - 20, color: "#white", zIndex: 20, fontSize: "12px" };
+    if (!active || !label || payload?.length === 0 ||
+      !payload || this.state.lineTooltipType === "") return null;
+    const formatType = this.props.xAxisLabel === "Days" ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm:ss a"
+    const line = payload.filter((item: any) => { return item.dataKey === this.state.lineTooltipType })
+    const localAlertTime = moment.utc(line[0]?.payload?.xAxisValue).local().format(formatType)
+    if (line?.length === 0) return null
+    return (
+      <div className="custom-tooltip" style={style}>
+        <p className="label">{line[0]?.name} : {line[0]?.value}</p>
+        <p className="label">{this.props.xAxisLabel} : {`${localAlertTime}`}</p>
+      </div>
+    );
+  };
 
 
     render() {
@@ -113,14 +117,25 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                     <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
                 </div>
                 {/* <LineGraph/> */}
-                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} className="alert-graph-container">
+                <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} 
+                  className="alert-graph-container">
                     <ResponsiveContainer width="95%" height="95%">
-                        <LineChart data={this.state.data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                            <Tooltip content={this.CustomTooltip} cursor={{ fill: "transparent", top: 0, }} />
-                            <Legend wrapperStyle={{ top: 0, left: 30 }} verticalAlign="top" layout="horizontal" iconType="circle" iconSize={10} />
+                        <LineChart 
+                          data={this.state.data} 
+                          margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                            <Tooltip 
+                              content={this.CustomTooltip} 
+                              cursor={{ fill: "transparent", top: 0, }} />
+                            <Legend 
+                              wrapperStyle={{ top: 0, left: 30 }} 
+                              verticalAlign="top" 
+                              layout="horizontal" 
+                              iconType="circle" 
+                              iconSize={10} />
                             <CartesianGrid strokeDasharray="3 3 5 2" stroke="#515151" />
                             {!this.props.alertCleared &&
-                                this.state.L1Value ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
+                                this.state.L1Value 
+                                ? <ReferenceLine y={this.state.L1Value} stroke={this.props.refColor} strokeDasharray="3 3 5 2"
                                     isFront={true} >
                                     <Label position={'insideBottomLeft'} fill="#ffffff"
                                         style={{
@@ -149,10 +164,12 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     style={{ padding: 5 }}
                                     content={props => { return this.DynamicLabel(props) }} />
                             </XAxis>
-                            <YAxis tick={{ fill: 'white' }}
+                            <YAxis 
+                                tick={{ fill: 'white' }}
                                 ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]}
                                 interval={"preserveStartEnd"}
-                                padding={{ top: 10, bottom: 10 }} stroke='#ffffff'>
+                                padding={{ top: 10, bottom: 10 }} 
+                                stroke='#ffffff'>
                                 <Label angle={270} position='left' offset={-20} fill="#ffffff"
                                     style={{
                                         fontSize: '12px', textAnchor: 'middle'
@@ -167,14 +184,34 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                 startIndex={0}
                                 endIndex={0} />
                             {!this.props.alertCleared ?
-                                <Line name={this.state.line1Name} type="monotone" dataKey={this.state.line1Key as string}
-                                    stroke={this.props.line1StrokeColor} strokeWidth={3}
-                                    dot={this.props.L1 ? <CustomizedDot L1={this.state.L1Value} alertDate={this.props.alertDate} /> : false} />
+                                <Line 
+                                  name={this.state.line1Name} 
+                                  type="monotone" 
+                                  dataKey={this.state.line1Key as string}
+                                  stroke={this.props.line1StrokeColor} strokeWidth={3}
+                                  dot={<CustomizedDot 
+                                    L1={this.props.L1} 
+                                    alertDate={this.props.alertDate} />} 
+                                  activeDot={{
+                                    onMouseOver: (e: any) => this.setState({lineTooltipType: "primaryValue"}),
+                                    onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+                                  }}
+                                  />
                                 : ''}
                             {!this.props.alertCleared ?
-                                <Line name={this.state.line2Name} type="monotone" dataKey={this.state.line2Key as string}
-                                    stroke={this.props.line2StrokeColor} strokeWidth={3}
-                                    dot={this.props.L2 ? <CustomizedDot L1={this.state.L2Value} alertDate={this.props.alertDate} /> : false} />
+                                <Line 
+                                  name={this.state.line2Name} 
+                                  type="monotone" 
+                                  dataKey={this.state.line2Key as string}
+                                  stroke={this.props.line2StrokeColor} strokeWidth={3}
+                                  dot={<CustomizedDot 
+                                    L1={this.state.L2Value} 
+                                    alertDate={this.props.alertDate} />}
+                                    activeDot={{
+                                      onMouseOver: (e: any) => this.setState({lineTooltipType: "secondaryValue"}),
+                                      onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+                                    }} 
+                                  />
                                 : ''}
 
                         </LineChart>
