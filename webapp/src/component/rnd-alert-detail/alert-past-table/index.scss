@@ -7,12 +7,11 @@
     align-items: center;
     height: 62px;
     padding-top: 24px;
-    @media screen and (min-width: 1600px) {
-        .past-alerts-text {
-            font-size: 18px;
-            font-weight: 700;
-        }
+    .past-alerts-text {
+        font-size: 18px;
+        font-weight: 700;
     }
+    
     .pagination-footer {
         // border: 1px solid yellow;
         padding-top: 1%;
@@ -56,9 +55,6 @@
                 color: black;
             }
         }
-
-        // .select-button>div>span {
-        //     }
 
         .spacer {
             width: 30px;
@@ -138,26 +134,12 @@
         box-shadow: none !important;
     }
 
-    @media screen and (min-width: 1600px) {
+    @media screen and (min-width: 1450px) {
         .ant-table-thead > tr > th,
         .ant-table-tbody > tr > td {
             padding: 20px 2px;
         }
     }
-
-    // .table-body {
-    // display: block !important;
-    // max-height: 350px;
-
-    //use media screen size to set height
-    // height: 10vh !important; //change table height here
-    // for test scrren
-    // height: 100%;
-
-    // overflow-y: hidden;
-    /* Trigger vertical scroll    */
-    // overflow-x: auto;
-    // }
 
     .ant-table table {
         // height: calc(100% - 25px);

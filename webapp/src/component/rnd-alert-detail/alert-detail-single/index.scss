@@ -8,11 +8,12 @@
     border-radius: 10px;
     padding: 10px;
     display: flex;
-    font-size: 12px;
+    font-size: 14px;
     flex-direction: column;
     justify-content: space-between;
-    @media screen and (min-width: 1600px) {
+    @media screen and (min-width: 1450px) {
         width: 370px;
+        font-size: 16px;
     }
     .single-row {
         display: flex;
@@ -21,9 +22,6 @@
         .single-cell-left {
             width: 40%;
             font-weight: 700;
-            @media screen and (min-width: 1600px) {
-                font-size: 16px;
-            }
             display: flex;
             justify-content: flex-end;
             padding-right: 4%;
@@ -31,10 +29,6 @@
         .single-cell-right {
             width: 60%;
             font-weight: 400;
-            @media screen and (min-width: 1600px) {
-                font-size: 16px;
-            }
-            font-size: 16px;
             overflow: hidden;
             text-overflow: ellipsis;
             .detail-link {
@@ -55,18 +49,18 @@
             height: 25px;
             padding: 5px;
             padding-top: 3px;
-            font-size: 12px;
+            // font-size: 12px;
             // margin-left: 2.5%;
             // overflow: hidden;
             margin-left: 5%;
             border-radius: 10px;
             .ant-typography.clear-alert-text {
-                font-size: 14px;
+                // font-size: 14px;
                 color: black !important;
             }
-            @media screen and (min-width: 1600px) {
-                width: 140px;
-                height: 40px;
+            width: 140px;
+            height: 40px;
+            @media screen and (min-width: 1450px) {
                 .ant-typography.clear-alert-text {
                     font-size: 16px;
                 }

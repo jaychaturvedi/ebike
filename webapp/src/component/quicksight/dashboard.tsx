@@ -13,7 +13,7 @@ interface QuickSightProps extends RouteComponentProps, ReduxQuickSightAction, Re
 interface QuickSightState {
   quickSightUrl: string,
   dataLoaded: boolean,
-  refreshing:boolean
+  refreshing: boolean
 }
 
 
@@ -23,13 +23,15 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
     this.state = {
       quickSightUrl: "",
       dataLoaded: false,
-      refreshing:false
+      refreshing: false
     }
   }
 
   static getDerivedStateFromProps(props: QuickSightProps, state: QuickSightState) {
-    console.log(props.location.search.split('=')[1],"props location");
-    
+    console.log(props.location.search.split('=')[1], "props location");
+    const filteredDashboard = "&VehicleID=" + localStorage.getItem("VehicleID")+
+      "&FromDate=" + localStorage.getItem("FromDate") +
+      "&ToDate=" + localStorage.getItem("ToDate")
     if (!state.dataLoaded) {
       const pathNames = props.location.pathname.split('/')
       props.QuickSightAction({
@@ -38,10 +40,17 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
           dashboardId: pathNames[2]
         }
       })
-      state.quickSightUrl = props.quickSightUrl
+      // state.quickSightUrl = props.quickSightUrl
+      // console.log("filtered dashboard", filteredDashboard, localStorage.getItem("dashboardFilters"));
       state.dataLoaded = true
     }
-    state.quickSightUrl = props.quickSightUrl
+    const filterActive = localStorage.getItem("dashboardFilters")
+    if (filterActive === "true" && props.quickSightUrl) {
+      state.quickSightUrl = props.quickSightUrl +filteredDashboard
+    }
+    else {
+      state.quickSightUrl = props.quickSightUrl
+    }
     return state
   }
 
@@ -49,9 +58,13 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
     this.props.ClearQuickSightAction({
       type: "CLEAR_QUICKSIGHT_EMBED_URL"
     })
+    localStorage.setItem("dashboardFilters", "false")
   }
 
   onRefresh = () => {
+    this.props.ClearQuickSightAction({
+      type: "CLEAR_QUICKSIGHT_EMBED_URL"
+    })
     this.setState({
       refreshing: true,
       dataLoaded: false,
@@ -60,30 +73,31 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
       this.setState({
         refreshing: false
       })
-    }, 1500)  
+    }, 1500)
+    localStorage.setItem("dashboardFilters", "false")
   }
 
   render() {
     return (
       <div className='container-quicksight' >
         <div className="dashboard-header">
-          <div className="dashboard-text" style={{textTransform:"capitalize"}}>
+          <div className="dashboard-text" style={{ textTransform: "capitalize" }}>
             <Link to={"/mis"} className="link" >
               <img src={BackArrowButton} alt="back-arrow" className={"back-arrow-button"} />
             </Link>
             {this.props.location.search.split('=')[1]}
           </div>
           <div className="refresh-button" onClick={this.onRefresh}>
-            <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"}/>
+            <RefreshIcon width="24" height="24" className={this.state.refreshing ? "refresh-start" : "refresh-end"} />
           </div>
         </div>
         {/* <Divider style={{ background: "grey", margin: "10px 0" }} /> */}
-        <Iframe url={this.state.quickSightUrl}
+       { this.state.dataLoaded && <Iframe url={this.state.quickSightUrl}
           width="100%"
           height="90%"
           id="myId"
           className="myIframe"
-          position="relative" />
+          position="relative" />}
       </div>
     )
   }
