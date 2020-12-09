@@ -199,11 +199,11 @@ class MoreMenu extends React.PureComponent<Props, State> {
               value2={String(this.props.bike.caloriesBurnt)}
             />
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.upgrade}
             onPress={() => this.props.navigation.navigate('Upgrade', {})}>
             <Upgrade />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View
             style={{
               ...styles.features,
