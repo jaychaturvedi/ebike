@@ -148,11 +148,6 @@ class GPSLui extends React.PureComponent<Props, State> {
           </View>
           <View style={styles.footerAddress}>
             <View>
-              <Text style={{fontSize: scale(12), maxWidth: '100%'}} numberOfLines={2}>
-                {this.props.bike.address}
-              </Text>
-            </View>
-            <View>
               <Text
                 style={{fontSize: scale(12), textAlign: 'right', marginTop: 8}}>
                 {`${LanguageSelector.t('gps.ignitionStatus')} : ${
@@ -160,6 +155,13 @@ class GPSLui extends React.PureComponent<Props, State> {
                     ? LanguageSelector.t('gps.on')
                     : LanguageSelector.t('gps.off')
                 }`}
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={{fontSize: scale(12), maxWidth: '100%', marginTop: 8}}
+                numberOfLines={2}>
+                {this.props.bike.address}
               </Text>
             </View>
           </View>
@@ -209,6 +211,6 @@ const styles = StyleSheet.create({
   footerAddress: {
     justifyContent: 'space-between',
     flexDirection: 'column',
-    paddingTop: moderateScale(10),
+    paddingBottom: moderateScale(10),
   },
 });
