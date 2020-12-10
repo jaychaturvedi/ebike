@@ -32,7 +32,6 @@ export async function getToken() {
     try {
         const session = await Auth.currentSession()
         const token = session.getIdToken()
-        console.log("TOken : ", token)
         return {
             success: true,
             token: token.getJwtToken(),

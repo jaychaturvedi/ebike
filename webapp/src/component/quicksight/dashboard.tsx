@@ -40,15 +40,16 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
           dashboardId: pathNames[2]
         }
       })
-      state.quickSightUrl = props.quickSightUrl
-      console.log("filtered dashboard", filteredDashboard, localStorage.getItem("dashboardFilters"));
-      state.quickSightUrl = filteredDashboard
+      // state.quickSightUrl = props.quickSightUrl
+      // console.log("filtered dashboard", filteredDashboard, localStorage.getItem("dashboardFilters"));
       state.dataLoaded = true
     }
     const filterActive = localStorage.getItem("dashboardFilters")
-    state.quickSightUrl = props.quickSightUrl
-    if (filterActive === "true") {
-      state.quickSightUrl += filteredDashboard
+    if (filterActive === "true" && props.quickSightUrl) {
+      state.quickSightUrl = props.quickSightUrl +filteredDashboard
+    }
+    else {
+      state.quickSightUrl = props.quickSightUrl
     }
     return state
   }
@@ -61,6 +62,9 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
   }
 
   onRefresh = () => {
+    this.props.ClearQuickSightAction({
+      type: "CLEAR_QUICKSIGHT_EMBED_URL"
+    })
     this.setState({
       refreshing: true,
       dataLoaded: false,
@@ -88,12 +92,12 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
           </div>
         </div>
         {/* <Divider style={{ background: "grey", margin: "10px 0" }} /> */}
-        <Iframe url={this.state.quickSightUrl}
+       { this.state.dataLoaded && <Iframe url={this.state.quickSightUrl}
           width="100%"
           height="90%"
           id="myId"
           className="myIframe"
-          position="relative" />
+          position="relative" />}
       </div>
     )
   }

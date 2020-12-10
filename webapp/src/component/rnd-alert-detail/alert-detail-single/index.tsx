@@ -176,10 +176,10 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                     <div className={"single-cell-right"} style={{cursor:"pointer"}} 
                     onClick={this.openMisDashboard}><u>{this.state.alertCleared ? "N/A":this.state.alert.batteryId}</u></div>
                 </div>
-                <div className={"single-row"}>
+                {/* <div className={"single-row"}>
                     <div className={"single-cell-left"}>Customer ID:</div>
                     <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.customerId}</div>
-                </div>
+                </div> */}
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Location:</div>
                     <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.location}</div>

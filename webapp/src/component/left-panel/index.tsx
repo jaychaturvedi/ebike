@@ -56,6 +56,7 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
   }
 
     alertsClicked = (navigateTo: string) => {
+      localStorage.removeItem("dashboardFilters")
         this.setState({
             ...this.state,
             logoClicked: false,
