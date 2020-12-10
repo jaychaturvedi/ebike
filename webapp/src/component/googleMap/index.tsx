@@ -92,14 +92,22 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       state.customerFilters = props.mapViewDropDownFilters.customer
       state.locationFilters = props.mapViewDropDownFilters.location
       state.regionFilters = props.mapViewDropDownFilters.region
-      console.log("component googlemap props", props.mapViewDropDownFilters);
-      console.log("component googlemap state", state.regionFilters);
-
-      state.mapMarkers = props.mapMarkers
+      // state.mapMarkers = props.mapMarkers
       // state.dataLoaded=props.mapMarkers.length?false:true
       state.dataLoaded = true
     }
     state.mapMarkers = props.mapMarkers
+    if(props.mapMarkers.length <= 0 && state.dataLoaded){
+      state.defaultCenter ={ lat: 22, lng: 77 }
+      state.zoom= 5
+    }
+    if(props.mapMarkers.length > 0 && state.dataLoaded){
+      const result = state.locationFilters?.filter((item: any) => item.locationName == state.location)[0]
+      state.defaultCenter={
+        lat:result.lat,
+        lng:result.lon}
+      state.zoom=6
+    }
     state.customerFilters = props.mapViewDropDownFilters.customer
     state.locationFilters = props.mapViewDropDownFilters.location
     state.regionFilters = props.mapViewDropDownFilters.region
@@ -240,11 +248,11 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
               key: GOOGLE_MAPS_APIKEY,
               language: 'en'
             }}
-            defaultCenter={this.state.defaultCenter}
+            // defaultCenter={this.state.defaultCenter}
             center={this.state.defaultCenter}
             // options={this.getMapOptions}
             yesIWantToUseGoogleMapApiInternals={true}
-            defaultZoom={this.state.zoom}
+            // defaultZoom={this.state.zoom}
             zoom={this.state.zoom}
           >
             {this.state.mapMarkers.map((element: TMapMarkers) => {

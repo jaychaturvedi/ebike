@@ -87,11 +87,11 @@ class AlertGraph extends PureComponent<AlertGraphProps, AlertGraphStates> {
       case 1: {
         return <CellBatteryGraph
           data={this.state.data}
-          title="12 Cell Battery Pack Info:"
+          title={this.props.graphs[this.state.alertTypeId!]?.graphTitle}
           dataKey="name"
           barDataKey="value"
-          minL1={3.731}
-          maxL2={3.881}
+          minL1={3.051}
+          maxL2={3.885}
           alertCleared={this.props.alertCleared}
         />
       }

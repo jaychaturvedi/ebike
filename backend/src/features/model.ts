@@ -30,7 +30,6 @@ let Upgrades: TUpgradeModel<TUpgrade & Model> = <TUpgradeModel<TUpgrade & Model>
     }
   },
   {
-    // sync: {force: true},
     freezeTableName: true,
   }
 );
