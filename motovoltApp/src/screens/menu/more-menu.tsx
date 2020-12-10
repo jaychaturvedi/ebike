@@ -24,6 +24,13 @@ import {Dispatch} from 'redux';
 import {SignOut} from '../../service/redux/actions/saga/authentication-actions';
 import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
+import GreenMilesIcon from '../../assets/svg/green_miles_green_icon';
+import CaloriesRedIcon from '../../assets/svg/calories_red_icon';
+import FAQIcon from '../../assets/svg/faq_icon';
+import SupportIcon from '../../assets/svg/support_icon';
+import LanguageIcon from '../../assets/svg/languages_icon';
+import SwapIcon from '../../assets/svg/swap';
+import LogoutIcon from '../../assets/svg/logout_icon';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -76,7 +83,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
         // },
         {
           feature: LanguageSelector.t('morePremium.faqs'),
-          icon: require('../../assets/icons/faq_icon.png'),
+          icon: FAQIcon,
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
@@ -88,13 +95,13 @@ class MoreMenu extends React.PureComponent<Props, State> {
         // },
         {
           feature: LanguageSelector.t('morePremium.support'),
-          icon: require('../../assets/icons/support_icon.png'),
+          icon: SupportIcon,
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
         {
           feature: LanguageSelector.t('morePremium.language'),
-          icon: require('../../assets/icons/languages_icon.png'),
+          icon: LanguageIcon,
           onPress: () => console.log('Feature pressed'),
           badge: (
             <Text
@@ -108,7 +115,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
         },
         {
           feature: LanguageSelector.t('morePremium.swap'),
-          icon: require('../../assets/icons/swap.png'),
+          icon: SwapIcon,
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
@@ -132,7 +139,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
         // },
         {
           feature: LanguageSelector.t('morePremium.logOut'),
-          icon: require('../../assets/icons/logout_icon.png'),
+          icon: LogoutIcon,
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
@@ -193,8 +200,8 @@ class MoreMenu extends React.PureComponent<Props, State> {
               header2={LanguageSelector.t('morePremium.calories')}
               unit1="Km"
               unit2=""
-              icon1={require('../../assets/icons/green_miles_green_icon.png')}
-              icon2={require('../../assets/icons/calories_red_icon.png')}
+              icon1={GreenMilesIcon}
+              icon2={CaloriesRedIcon}
               value1={String(this.props.bike.greenMilesKm)}
               value2={String(this.props.bike.caloriesBurnt)}
             />

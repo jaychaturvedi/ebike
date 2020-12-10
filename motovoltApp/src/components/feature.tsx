@@ -1,10 +1,11 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Image, Text} from 'react-native';
 import {moderateScale, scale} from 'react-native-size-matters';
+import {SvgProps} from 'react-native-svg';
 import {ThemeContext} from '../styles/theme/theme-context';
 
 type Props = {
-  icon: any;
+  icon: React.FC<SvgProps>;
   feature: string;
   premium: boolean;
   badge?: React.ReactNode;
@@ -37,7 +38,7 @@ export default class Feature extends React.PureComponent<Props, State> {
           ) : null}
         </View>
         <View style={styles.icon}>
-          <Image source={this.props.icon} />
+          <this.props.icon height={40} width={40} />
         </View>
         <View style={styles.name}>
           <Text numberOfLines={1} style={{color: Theme.TEXT_WHITE}}>

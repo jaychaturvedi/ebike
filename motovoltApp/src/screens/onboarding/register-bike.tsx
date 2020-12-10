@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
-import { scale, verticalScale } from '../../styles/size-matters';
+import {View, Image, StyleSheet, Text} from 'react-native';
+import {scale, verticalScale} from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import CTAButton from '../../components/cta-button';
 import CTAHeader from './components/header';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { RegistartionStackParamList } from '../../navigation/registration';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {RegistartionStackParamList} from '../../navigation/registration';
 
 type RegisterBikeNavigationProp = StackNavigationProp<
   RegistartionStackParamList,
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(16),
     height: verticalScale(200),
     width: scale(300),
+    resizeMode: 'contain',
   },
 });
 
@@ -56,11 +57,9 @@ export default class RegisterBike extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <CTAHeader
-          title="Register your bike"
-        />
+        <CTAHeader title="Register your bike" />
         <Image
-          source={require('../../assets/images/cycle.png')}
+          source={require('../../assets/images/new-bike.png')}
           style={styles.image}
         />
         <Text style={styles.msg}>To register your Motovolt cycle, SCAN</Text>

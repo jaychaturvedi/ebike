@@ -35,6 +35,8 @@ import {
 import Graph from './graph';
 import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
+import GreenMilesIcon from '../../assets/svg/green_miles_icon';
+import CO2SavingIcon from '../../assets/svg/CO2e_savings';
 
 type ReduxState = {
   rides: TStore['rides'];
@@ -246,8 +248,8 @@ class MyRides extends React.PureComponent<Props, State> {
             header2={LanguageSelector.t('myRides.greenMiles')}
             unit1="Kg"
             unit2="Km"
-            icon1={require('../../assets/icons/CO2e_savings.png')}
-            icon2={require('../../assets/icons/green_miles_icon.png')}
+            icon1={CO2SavingIcon}
+            icon2={GreenMilesIcon}
             value1={String(this.props.graph.co2SavingKg ?? 0)}
             value2={String(this.props.graph.greenMilesKm ?? 0)}
           />
@@ -282,15 +284,21 @@ class MyRides extends React.PureComponent<Props, State> {
               }}>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {LanguageSelector.t('myRides.avgDistance')}&nbsp;
-                {Object.keys(this.props.graph.data).length > 0 ? this.props.graph.avgKmph : "--"} Km/day
+                {Object.keys(this.props.graph.data).length > 0
+                  ? this.props.graph.avgKmph
+                  : '--'}{' '}
+                Km/day
               </Text>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
-                {Object.keys(this.props.graph.data).length > 0 ? this.props.graph.avgSpeed: "--"} Kmph
+                {Object.keys(this.props.graph.data).length > 0
+                  ? this.props.graph.avgSpeed
+                  : '--'}{' '}
+                Kmph
               </Text>
             </View>
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
-              <Graph data={graphData} loading={this.props.graph.isStale}/>
+              <Graph data={graphData} loading={this.props.graph.isStale} />
             </View>
             <View style={{marginBottom: 15}}>
               <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>

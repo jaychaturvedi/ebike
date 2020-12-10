@@ -8,6 +8,12 @@ import Moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LanguageSelector from '../translations';
 import {ThemeContext} from '../styles/theme/theme-context';
+import SunIcon from '../assets/svg/Sun_icon';
+import MoonIcon from '../assets/svg/Moon_icon';
+import TotalDistanceIcon from '../assets/svg/total_distance_icon';
+import AvgSpeedIcon from '../assets/svg/Avg_speed';
+import StarIcon from '../assets/svg/star_icon';
+import SouceDestinationIcon from '../assets/svg/source_to_destination_arrow';
 
 type Props = {
   fromTime: string;
@@ -48,14 +54,11 @@ export default class RideCard extends React.PureComponent<Props, State> {
         <View style={styles.leftContainer}>
           <View style={{flexDirection: 'row', height: moderateScale(30)}}>
             <View style={{height: '100%'}}>
-              <Image
-                source={
-                  this.state.isMorning
-                    ? require('../assets/icons/sun_icon.png')
-                    : require('../assets/icons/moon_icon.png')
-                }
-                style={{height: 16, aspectRatio: 1}}
-              />
+              {this.state.isMorning ? (
+                <SunIcon height={16} width={16} />
+              ) : (
+                <MoonIcon height={16} width={16} />
+              )}
             </View>
             <Text style={{...styles.headerText, color: Theme.TEXT_WHITE}}>
               {' '}
@@ -65,7 +68,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
           </View>
           <View style={{flexDirection: 'row'}}>
             <View style={{paddingTop: moderateScale(2)}}>
-              <Image source={require('../assets/icons/arrow.png')} />
+              <SouceDestinationIcon width={7} height={25} />
             </View>
             <View>
               <Text
@@ -89,9 +92,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
             <ProgressBar progress={this.props.progress} />
             <View style={styles.footerGroup}>
               <View style={{flexDirection: 'row'}}>
-                <Image
-                  source={require('../assets/icons/total_distance_icon_small.png')}
-                />
+                <TotalDistanceIcon width={20} height={20} />
                 <Text
                   style={{
                     fontSize: scale(12),
@@ -102,15 +103,13 @@ export default class RideCard extends React.PureComponent<Props, State> {
                 </Text>
               </View>
               <View style={{flexDirection: 'row'}}>
-                <Image
-                  source={require('../assets/icons/average_speed_small_icon.png')}
-                />
+                <AvgSpeedIcon width={20} height={20} />
                 <Text style={{fontSize: scale(12), color: Theme.TEXT_WHITE}}>
                   &nbsp;{this.props.speed} Kmph
                 </Text>
               </View>
               <View style={{flexDirection: 'row'}}>
-                <Image source={require('../assets/icons/star_icon.png')} />
+                <StarIcon width={20} height={20} />
                 <Text style={{fontSize: scale(12), color: Theme.TEXT_WHITE}}>
                   &nbsp;{this.props.rating}
                 </Text>
