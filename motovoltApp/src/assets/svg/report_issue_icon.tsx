@@ -31,7 +31,6 @@ function SvgComponent(props: SvgProps) {
             transform="translate(39.865 41)"
             fill="#f8f8fc"
             fontSize={14}
-            fontFamily="Roboto-Bold, Roboto"
             fontWeight={700}>
             <TSpan x={-1.904} y={0}>
               {'!'}
