@@ -132,7 +132,7 @@ class IndividualRide extends React.PureComponent<Props, State> {
               header1={LanguageSelector.t('myRides.greenMiles')}
               header2={LanguageSelector.t('myRides.caloriesBurnt')}
               icon1={GreenMilesIcon}
-              icon2={PetrolSavingsIcon}
+              icon2={CaloriesIcon}
               value1={String(this.props.ride.greenMilesKm)}
               value2={String(this.props.ride.caloriesBurnt)}
               unit1="Km"
@@ -141,8 +141,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.petrolSavings')}
               header2={LanguageSelector.t('myRides.rideScore')}
-              icon1={StarIcon}
-              icon2={CaloriesIcon}
+              icon1={PetrolSavingsIcon}
+              icon2={StarIcon}
               value1={String(this.props.ride.petrolSavingsInr)}
               value2={String(this.props.ride.score)}
               unit1="INR"
