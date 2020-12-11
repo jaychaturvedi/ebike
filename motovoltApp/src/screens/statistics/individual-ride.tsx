@@ -15,6 +15,14 @@ import {connect} from 'react-redux';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
+import TotalDistanceIcon from '../../assets/svg/total_distance_icon';
+import ChargeTimeIcon from '../../assets/svg/charge_time_remaining';
+import AvgSpeedIcon from '../../assets/svg/Avg_speed';
+import MaxSpeedIcon from '../../assets/svg/Max_speed';
+import GreenMilesIcon from '../../assets/svg/green_miles_icon';
+import PetrolSavingsIcon from '../../assets/svg/inr_icon';
+import StarIcon from '../../assets/svg/star_icon';
+import CaloriesIcon from '../../assets/svg/calories_icon_blue';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -103,8 +111,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.distance')}
               header2={LanguageSelector.t('myRides.duration')}
-              icon1={require('../../assets/icons/total_distance_icon.png')}
-              icon2={require('../../assets/icons/charge_time_remaining.png')}
+              icon1={TotalDistanceIcon}
+              icon2={ChargeTimeIcon}
               value1={String(this.props.ride.totalDistanceKm)}
               value2={String(this.props.ride.durationSec)}
               unit1="Km"
@@ -113,8 +121,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.avgSpeed')}
               header2={LanguageSelector.t('myRides.maxSpeed')}
-              icon1={require('../../assets/icons/average_speed_icon.png')}
-              icon2={require('../../assets/icons/max_speed_icon.png')}
+              icon1={AvgSpeedIcon}
+              icon2={MaxSpeedIcon}
               value1={String(this.props.ride.avgSpeedKmph)}
               value2={String(this.props.ride.maxSpeedKmph)}
               unit1="Kmph"
@@ -123,8 +131,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.greenMiles')}
               header2={LanguageSelector.t('myRides.caloriesBurnt')}
-              icon1={require('../../assets/icons/green_miles_icon.png')}
-              icon2={require('../../assets/icons/calories_icon_blue.png')}
+              icon1={GreenMilesIcon}
+              icon2={PetrolSavingsIcon}
               value1={String(this.props.ride.greenMilesKm)}
               value2={String(this.props.ride.caloriesBurnt)}
               unit1="Km"
@@ -133,8 +141,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.petrolSavings')}
               header2={LanguageSelector.t('myRides.rideScore')}
-              icon1={require('../../assets/icons/inr_icon.png')}
-              icon2={require('../../assets/icons/star_icon_large.png')}
+              icon1={StarIcon}
+              icon2={CaloriesIcon}
               value1={String(this.props.ride.petrolSavingsInr)}
               value2={String(this.props.ride.score)}
               unit1="INR"
