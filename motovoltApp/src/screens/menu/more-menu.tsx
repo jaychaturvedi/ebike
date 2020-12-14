@@ -31,6 +31,7 @@ import SupportIcon from '../../assets/svg/support_icon';
 import LanguageIcon from '../../assets/svg/languages_icon';
 import SwapIcon from '../../assets/svg/swap';
 import LogoutIcon from '../../assets/svg/logout_icon';
+import PencilEditIcon from '../../assets/svg/pencil-edit-button';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -141,7 +142,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
           feature: LanguageSelector.t('morePremium.logOut'),
           icon: LogoutIcon,
           onPress: () => console.log('Feature pressed'),
-          premium: false,
+          premium: true,
         },
         // {
         //   feature: "Theme",
@@ -181,9 +182,10 @@ class MoreMenu extends React.PureComponent<Props, State> {
                   textAlign: 'center',
                 }}
                 onPress={() => this.props.navigation.navigate('Profile', {})}>
-                <Image
+                {/* <Image
                   source={require('../../assets/icons/pencil-edit-button.png')}
-                />
+                /> */}
+                <PencilEditIcon />
               </Text>
             </Text>
             <Text style={{textAlign: 'center', color: Theme.TEXT_WHITE}}>

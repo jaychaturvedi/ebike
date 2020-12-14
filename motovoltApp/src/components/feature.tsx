@@ -3,6 +3,7 @@ import {View, StyleSheet, TouchableOpacity, Image, Text} from 'react-native';
 import {moderateScale, scale} from 'react-native-size-matters';
 import {SvgProps} from 'react-native-svg';
 import {ThemeContext} from '../styles/theme/theme-context';
+import PremiumIcon from '../assets/svg/premium_icon';
 
 type Props = {
   icon: React.FC<SvgProps>;
@@ -33,9 +34,7 @@ export default class Feature extends React.PureComponent<Props, State> {
           {this.props.badge}
         </View>
         <View style={styles.premium}>
-          {this.props.premium ? (
-            <Image source={require('../assets/icons/premium_icon.png')} />
-          ) : null}
+          {this.props.premium ? <PremiumIcon /> : null}
         </View>
         <View style={styles.icon}>
           <this.props.icon height={40} width={65} />
