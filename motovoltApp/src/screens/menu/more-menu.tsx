@@ -142,7 +142,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
           feature: LanguageSelector.t('morePremium.logOut'),
           icon: LogoutIcon,
           onPress: () => console.log('Feature pressed'),
-          premium: true,
+          premium: false,
         },
         // {
         //   feature: "Theme",
