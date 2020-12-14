@@ -38,7 +38,7 @@ export default class Feature extends React.PureComponent<Props, State> {
           ) : null}
         </View>
         <View style={styles.icon}>
-          <this.props.icon height={40} width={40} />
+          <this.props.icon height={40} width={65} />
         </View>
         <View style={styles.name}>
           <Text numberOfLines={1} style={{color: Theme.TEXT_WHITE}}>
