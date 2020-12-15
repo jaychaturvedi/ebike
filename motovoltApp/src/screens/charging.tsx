@@ -33,7 +33,7 @@ export default function Charging() {
           alignItems: 'center',
         }}>
         <AnimatedCircularProgress
-          size={scale(318)}
+          size={scale(340)}
           width={scale(9)}
           fill={360}
           arcSweepAngle={360}
@@ -43,27 +43,27 @@ export default function Charging() {
           {(fill) => {
             return (
               <AnimatedCircularProgress
-                size={scale(300)}
+                size={scale(324)}
                 width={scale(12)}
                 backgroundWidth={scale(20)}
-                fill={360}
-                arcSweepAngle={120}
-                rotation={360}
+                fill={20}
+                backgroundColor="rgba(0,0,0,0.1)"
+                rotation={0}
                 tintColor="#FFBB01"
                 lineCap="round">
                 {(fill) => {
                   return (
                     <LinearGradient
                       style={{
-                        height: scale(270),
-                        width: scale(270),
-                        borderRadius: scale(270) / 2,
+                        height: scale(300),
+                        width: scale(300),
+                        borderRadius: scale(300) / 2,
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}
                       start={{x: 0.5, y: 0}}
                       end={{x: 0.5, y: 1}}
-                      colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.3)']}>
+                      colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.05)']}>
                       <View
                         style={{
                           flexDirection: 'row',
