@@ -19,17 +19,17 @@
     align-items: center;
   }
 
-  .top-graph-container {
-    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n + 2) {
-      display: none;
-    }
-  }
+  // .top-graph-container {
+  //   .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n + 2) {
+  //     display: none;
+  //   }
+  // }
 
-  .bottom-graph-container {
-    .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n + 6) {
-      display: none;
-    }
-  }
+  // .bottom-graph-container {
+  //   .recharts-xAxis .recharts-cartesian-axis-tick:nth-last-child(-n + 6) {
+  //     display: none;
+  //   }
+  // }
 
   .recharts-responsive-container {
     display: flex;
@@ -54,7 +54,11 @@
   }
   .recharts-text.recharts-cartesian-axis-tick-value {
     font-size: 11px;
-    font-weight: 700;
+    // font-weight: 700;
+  }
+  .recharts-text.recharts-label {
+    font-size: 11px;
+    font-weight: normal;
   }
 }
 
@@ -79,16 +83,18 @@
   .normal-operating-voltage-text {
     font-size: 12px;
     text-align: center;
-    margin: 16px;
+    margin-right: 16px;
     overflow: hidden;
+    width: 64px;
+    height: 80%;
+    margin-top: 50px;
   }
 
-  .voltage-deviation-bottom,
   .voltage-deviation-top {
     display: flex;
     justify-content: center;
-    height: 50%;
-    width: 95%;
+    height: 80%;
+    width: 92%;
     flex-direction: row;
     align-items: center;
   }

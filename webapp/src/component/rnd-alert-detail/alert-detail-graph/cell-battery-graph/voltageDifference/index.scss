@@ -1,5 +1,14 @@
 @import "../../../../../global.scss";
 
-.voltage-difference-text {
-    color: $ACTIVE !important;
+.voltage-difference-stats-container{
+  // display: 'flex', justifyContent: 'center', maxHeight: "15%" 
+  display: flex;
+  justify-content: center;
+  max-height: 15%;
+  padding-bottom: 16px;
+
+    .voltage-difference-text {
+        color: $ACTIVE !important;
+    }
+
 }
