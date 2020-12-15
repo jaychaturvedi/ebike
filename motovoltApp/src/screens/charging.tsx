@@ -6,6 +6,7 @@ import ChargingStatusCharging from '../assets/svg/charging-status-charging';
 import ChargingStatusCharged from '../assets/svg/charging-status-charged';
 import ChargingTime from '../assets/svg/charging_time';
 import {scale, verticalScale} from '../styles/size-matters';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
 
 const {width, height} = Dimensions.get('window');
 
@@ -31,53 +32,92 @@ export default function Charging() {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <LinearGradient
-          style={{
-            height: scale(270),
-            width: scale(270),
-            borderRadius: scale(270) / 2,
-            justifyContent: 'center',
-            alignItems: 'center',
+        <AnimatedCircularProgress
+          size={scale(318)}
+          width={scale(9)}
+          fill={360}
+          arcSweepAngle={360}
+          rotation={360}
+          tintColor="rgba(196, 196, 196, 0.1)"
+          lineCap="round">
+          {(fill) => {
+            return (
+              <AnimatedCircularProgress
+                size={scale(300)}
+                width={scale(12)}
+                backgroundWidth={scale(20)}
+                fill={360}
+                arcSweepAngle={120}
+                rotation={360}
+                tintColor="#FFBB01"
+                lineCap="round">
+                {(fill) => {
+                  return (
+                    <LinearGradient
+                      style={{
+                        height: scale(270),
+                        width: scale(270),
+                        borderRadius: scale(270) / 2,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                      start={{x: 0.5, y: 0}}
+                      end={{x: 0.5, y: 1}}
+                      colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.3)']}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-around',
+                          width: '100%',
+                        }}>
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={{color: 'white', fontSize: 58}}>74</Text>
+                          <Text style={{color: 'white', fontSize: 24}}>%</Text>
+                        </View>
+                        <View>
+                          <ChargingStatusCharging />
+                        </View>
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={{color: 'white', fontSize: 58}}>21</Text>
+                          <Text style={{color: 'white', fontSize: 24}}>
+                            Kms
+                          </Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          position: 'absolute',
+                          bottom: 20,
+                          alignItems: 'center',
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: 13,
+                            color: '#FFFFFF',
+                            opacity: 0.6,
+                          }}>
+                          Charge Cycle
+                        </Text>
+                        <Text
+                          style={{fontSize: 13, color: 'white', marginTop: 3}}>
+                          425
+                        </Text>
+                      </View>
+                    </LinearGradient>
+                  );
+                }}
+              </AnimatedCircularProgress>
+            );
           }}
-          start={{x: 0.5, y: 0}}
-          end={{x: 0.5, y: 1}}
-          colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.3)']}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              width: '100%',
-            }}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{color: 'white', fontSize: 58}}>74</Text>
-              <Text style={{color: 'white', fontSize: 24}}>%</Text>
-            </View>
-            <View>
-              <ChargingStatusCharging />
-            </View>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{color: 'white', fontSize: 58}}>21</Text>
-              <Text style={{color: 'white', fontSize: 24}}>Kms</Text>
-            </View>
-          </View>
-          <View
-            style={{position: 'absolute', bottom: 20, alignItems: 'center'}}>
-            <Text style={{fontSize: 13, color: '#FFFFFF', opacity: 0.6}}>
-              Charge Cycle
-            </Text>
-            <Text style={{fontSize: 13, color: 'white', marginTop: 3}}>
-              425
-            </Text>
-          </View>
-        </LinearGradient>
+        </AnimatedCircularProgress>
         <View style={{marginTop: 27}}>
           <Text
             style={{
