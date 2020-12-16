@@ -118,6 +118,9 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     name: data.bikeName,
                     motorPer: Math.round(data.motorPer || 0),
                     batteryHealthPer: Math.round(data.batteryChargePer || 0),
+                    batteryChargeCycle: data.batChargeCount || 0,
+                    chargingDistance: data.chargingDist || 0,
+                    chargingEta: data.chargingEta || 0,
                     healthPer: Math.round(data.batteryHealthPer || 0),
                     batteries: Object.assign({}, ...data.batteries.map((battery: any) => { return { [battery.id]: battery } })),
                     serviceDate: data.serviceDate,
@@ -125,7 +128,7 @@ export function* getBikeStat(params: BikeActions.ReadBikeStat) {
                     purchaseDate: data.purchaseDate,
                     healthState: data.hltStat || "",
                     motorState: data.mtrStat || "",
-                    batteryState: data.batStat || "",                 
+                    batteryState: data.batStat || "",
                 }
             } as Store_UpdateBike);
         } else {
