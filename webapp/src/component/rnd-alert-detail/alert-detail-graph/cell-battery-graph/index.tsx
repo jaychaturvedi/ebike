@@ -129,7 +129,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         <div style={{ display: 'flex', justifyContent: 'space-between', height: '100%', 
         width: '95%', flexDirection: 'column', alignItems: 'center' }} className="graph-and-difference-container" >
           <div className="voltage-deviation-top" >
-            <span className="normal-operating-voltage-text">Normal<br />Oprating<br />Voltage<br />
+            <span className="normal-operating-voltage-text">Normal<br />Operating<br />Voltage<br />
                         Range</span>
             <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
               <BarChart
