@@ -10,16 +10,19 @@ export async function getMyBike(frameId: string) {
   const result = await Promise.all([ConnectmApi.getMyBike(frameId as string), Bike.findOne({ frameId })])
   const { fid, mtrper: motorPer, batchrgper: batteryChargePer, batid: batteryId,
     bathltper: batteryHealthPer, vehid: vehicleId, model, type,
-    servDate: serviceDate, warrantyValidTill, purchaseDate } = result[0]
+    servDate: serviceDate, warrantyValidTill, purchaseDate, chargingEta,
+    chargingDist,batChargeCount } = result[0]
   if (!fid) throw new BikeError("No data available for devices");
   const { bikeName } = result[1]
   const hltStat = result[0]?.hltStat||""
   const batStat = result[0]?.batStat||""
   const mtrStat = result[0]?.mtrStat||""
+  console.log(result);
+  
   return {
     bikeName, motorPer, batteryChargePer, batteryHealthPer, model, type,
     batteries: [{ id: batteryId }], vehicleId, serviceDate, warrantyValidTill, purchaseDate,
-    hltStat, batStat, mtrStat
+    hltStat, batStat, mtrStat, chargingEta,chargingDist,batChargeCount 
   }
 }
 
