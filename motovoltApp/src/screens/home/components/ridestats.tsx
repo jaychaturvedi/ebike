@@ -1,10 +1,15 @@
 import React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
-import {Icon} from 'native-base';
 import RideStat from './ridestat-tile';
 import {scale, verticalScale} from '../../../styles/size-matters';
 import LanguageSelector from '../../../translations';
 import {ThemeContext} from '../../../styles/theme/theme-context';
+import TotalDistanceIcon from '../../../assets/svg/total_distance_icon';
+import StarIcon from '../../../assets/svg/star_icon';
+import GreenMilesIcon from '../../../assets/svg/green_miles_icon';
+import PetrolSavingsIcon from '../../../assets/svg/petrol_savings_icon';
+import INRIcon from '../../../assets/svg/inr_icon';
+import CO2SavingIcon from '../../../assets/svg/CO2e_savings';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +17,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: scale(20),
   },
-  title: {fontSize: 18, },
+  title: {fontSize: 18},
   row: {
     marginVertical: verticalScale(10),
     display: 'flex',
@@ -49,9 +54,9 @@ export default class RidestatSection extends React.Component<Props, {}> {
           <View style={styles.row}>
             <RideStat
               icon={
-                <Image
-                  style={styles.icon}
-                  source={require('../../../assets/icons/CO2e_savings.png')}
+                <CO2SavingIcon
+                  width={styles.icon.width}
+                  height={styles.icon.height}
                 />
               }
               value={props.co2Saving}
@@ -60,9 +65,9 @@ export default class RidestatSection extends React.Component<Props, {}> {
             />
             <RideStat
               icon={
-                <Image
-                  style={styles.icon}
-                  source={require('../../../assets/icons/total_distance.png')}
+                <TotalDistanceIcon
+                  width={styles.icon.width}
+                  height={styles.icon.height}
                 />
               }
               value={props.totalDistance}
@@ -71,9 +76,9 @@ export default class RidestatSection extends React.Component<Props, {}> {
             />
             <RideStat
               icon={
-                <Image
-                  style={styles.icon}
-                  source={require('../../../assets/icons/star.png')}
+                <StarIcon
+                  width={styles.icon.width}
+                  height={styles.icon.height}
                 />
               }
               value={props.avgRidescore}
@@ -84,9 +89,9 @@ export default class RidestatSection extends React.Component<Props, {}> {
           <View style={styles.row}>
             <RideStat
               icon={
-                <Image
-                  style={styles.icon}
-                  source={require('../../../assets/icons/green_miles.png')}
+                <GreenMilesIcon
+                  width={styles.icon.width}
+                  height={styles.icon.height}
                 />
               }
               value={props.greenMiles}
@@ -95,9 +100,9 @@ export default class RidestatSection extends React.Component<Props, {}> {
             />
             <RideStat
               icon={
-                <Image
-                  style={styles.icon}
-                  source={require('../../../assets/icons/petrol_savings.png')}
+                <PetrolSavingsIcon
+                  width={styles.icon.width}
+                  height={styles.icon.height}
                 />
               }
               value={props.petrolSavings}
@@ -106,9 +111,9 @@ export default class RidestatSection extends React.Component<Props, {}> {
             />
             <RideStat
               icon={
-                <Image
-                  style={styles.icon}
-                  source={require('../../../assets/icons/inr.png')}
+                <INRIcon
+                  width={styles.icon.width}
+                  height={styles.icon.height}
                 />
               }
               value={props.costRecovered}

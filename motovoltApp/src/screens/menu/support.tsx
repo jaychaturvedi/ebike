@@ -1,35 +1,33 @@
 import React from 'react';
-import { View, StyleSheet, Text, Linking, Platform } from 'react-native';
-import Tile from '../../components/tile';
-import { moderateScale } from 'react-native-size-matters';
+import {View, StyleSheet, Text, Linking, Platform} from 'react-native';
+import Tile from '../../components/support-tile';
+import {moderateScale} from 'react-native-size-matters';
 import Header from '../home/components/header';
 import Colors from '../../styles/colors';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { MenuStackParamList } from '../../navigation/menu';
-import { TStore } from '../../service/redux/store';
-import { connect } from 'react-redux';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MenuStackParamList} from '../../navigation/menu';
+import {TStore} from '../../service/redux/store';
+import {connect} from 'react-redux';
 import LanguageSelector from '../../translations';
-import { ThemeContext } from '../../styles/theme/theme-context';
+import {ThemeContext} from '../../styles/theme/theme-context';
+import ReportIssueIcon from '../../assets/svg/report_issue_icon';
+import BookIssueIcon from '../../assets/svg/book_service_icon';
 
-type SupportNavigationProp = StackNavigationProp<
-  MenuStackParamList,
-  'Support'
->;
+type SupportNavigationProp = StackNavigationProp<MenuStackParamList, 'Support'>;
 
 interface ReduxState {
-  bike: TStore['bike']
+  bike: TStore['bike'];
 }
 
 interface Props extends ReduxState {
-  navigation: SupportNavigationProp,
-  route: RouteProp<MenuStackParamList, 'Support'>
-};
+  navigation: SupportNavigationProp;
+  route: RouteProp<MenuStackParamList, 'Support'>;
+}
 
 type State = {};
 
 class Support extends React.PureComponent<Props, State> {
-
   constructor(props: Props) {
     super(props);
   }
@@ -39,31 +37,32 @@ class Support extends React.PureComponent<Props, State> {
 
     if (Platform.OS === 'android') {
       phoneNumber = 'tel:${1234567890}';
-    }
-    else {
+    } else {
       phoneNumber = 'telprompt:${1234567890}';
     }
 
     Linking.canOpenURL(phoneNumber)
       .then((supported) => {
         if (!supported) {
-          console.log('Can\'t handle url: ' + phoneNumber);
+          console.log("Can't handle url: " + phoneNumber);
         } else {
           return Linking.openURL(phoneNumber)
-            .then((data) => console.error("then", data))
-            .catch((err) => { throw err; });
+            .then((data) => console.error('then', data))
+            .catch((err) => {
+              throw err;
+            });
         }
       })
       .catch((err) => console.log('An error occurred', err));
-  }
+  };
 
   render() {
-    let Theme = this.context.theme //load theme context
+    let Theme = this.context.theme; //load theme context
     return (
-      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
+      <View style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
         <Header
           hasBackButton
-          title={LanguageSelector.t("morePremium.support")}
+          title={LanguageSelector.t('morePremium.support')}
           hasSubtitle
           subtitle={this.props.bike.name}
           backgroundColor={Theme.HEADER_YELLOW}
@@ -76,7 +75,10 @@ class Support extends React.PureComponent<Props, State> {
             paddingVertical: moderateScale(20),
           }}>
           <View style={styles.header}>
-            <Text style={{ fontSize: moderateScale(16), color: Theme.TEXT_WHITE }}>{LanguageSelector.t("morePremium.helpWithIssues")}</Text>
+            <Text
+              style={{fontSize: moderateScale(16), color: Theme.TEXT_WHITE}}>
+              {LanguageSelector.t('morePremium.helpWithIssues')}
+            </Text>
             <Text
               style={{
                 fontSize: moderateScale(13),
@@ -84,10 +86,10 @@ class Support extends React.PureComponent<Props, State> {
                 textDecorationLine: 'underline',
               }}
               onPress={() => console.log('View service')}>
-              {LanguageSelector.t("morePremium.viewService")}
+              {LanguageSelector.t('morePremium.viewService')}
             </Text>
           </View>
-          <View style={{ ...styles.support, backgroundColor: Theme.BACKGROUND }}>
+          <View style={{...styles.support, backgroundColor: Theme.BACKGROUND}}>
             {/* <Tile
               feature={LanguageSelector.t("morePremium.callUs")}
               icon={require('../../assets/icons/icons1.5x/call.png')}
@@ -102,15 +104,18 @@ class Support extends React.PureComponent<Props, State> {
               height={moderateScale(110)}
             /> */}
             <Tile
-              feature={LanguageSelector.t("morePremium.reportAnIssue")}
-              icon={require('../../assets/icons/icons1.5x/report-issue.png')}
+              feature={LanguageSelector.t('morePremium.reportAnIssue')}
+              icon={<ReportIssueIcon />}
               onPress={() => this.props.navigation.navigate('ReportIssue', {})}
               height={moderateScale(110)}
             />
+
             <Tile
-              feature={LanguageSelector.t("morePremium.bookService")}
-              icon={require('../../assets/icons/icons1.5x/book-service.png')}
-              onPress={() => this.props.navigation.navigate('SupportService', {})}
+              feature={LanguageSelector.t('morePremium.bookService')}
+              icon={<BookIssueIcon />}
+              onPress={() =>
+                this.props.navigation.navigate('SupportService', {})
+              }
               height={moderateScale(110)}
               premium
             />
@@ -128,16 +133,13 @@ class Support extends React.PureComponent<Props, State> {
   }
 }
 
-Support.contextType = ThemeContext
+Support.contextType = ThemeContext;
 
-
-export default connect(
-  (store: TStore) => {
-    return {
-      bike: store['bike']
-    };
-  },
-)(Support);
+export default connect((store: TStore) => {
+  return {
+    bike: store['bike'],
+  };
+})(Support);
 
 const styles = StyleSheet.create({
   container: {

@@ -22,6 +22,7 @@ import {Dispatch} from 'redux';
 import {ReadBikeLocation} from 'src/service/redux/actions/saga';
 import Moment from 'moment';
 import LanguageSelector from '../../translations';
+import LocationPin from '../../assets/svg/location_pin';
 
 type HomeNavigationProp = StackNavigationProp<HomeStackParamList, 'Gps'>;
 
@@ -97,8 +98,9 @@ class GPSLui extends React.PureComponent<Props, State> {
             <View style={{width: '20%'}}>
               {/* Marker Image */}
               <View style={styles.markerImage}>
-                <Image
-                  source={require('../../assets/icons/location_pin.png')}></Image>
+                <LocationPin />
+                {/* <Image
+                  source={require('../../assets/icons/location_pin.png')}></Image> */}
               </View>
             </View>
             <View style={{width: '60%'}}>
