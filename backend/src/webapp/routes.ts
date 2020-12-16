@@ -388,7 +388,17 @@ app.get('/mapViewFilters',
     res.json(response)
   })
 )
-
+app.post('/regionfilter',
+[body('customerId', "customerId is too short").isString(),
+body('location', "location is too short").isString(),
+body('region', "region is too short").isString(), validate],
+  expressQAsync(async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const {customerId, location, region} = req.body
+    const result = await WebAPI.mapZoneCordinates(customerId, location, region)
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
 app.use(expressErrorHandler);
 
 

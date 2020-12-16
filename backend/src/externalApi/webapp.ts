@@ -141,7 +141,15 @@ export default class WebAPI {
       //mapViewFilters is an array
       return mapViewFilters
     }
-
+    static async mapZoneCordinates(customerId: string, location: string, region:string) {
+      const options = createOptions('/regionfilter', {
+        customerId,
+        location,
+        region
+      })
+      const fetchedData = await post(options)
+      return fetchedData
+  }
     ///////////////////////////////////////not using below routes//////////////////////////////
 
 

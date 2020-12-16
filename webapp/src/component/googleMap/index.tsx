@@ -14,6 +14,7 @@ import PersonIcon from "../../assets/png/personIcon.png"
 import MenuIcon from "../../assets/png/menuIcon.png"
 import BuildingIcon from "../../assets/png/buildingIcon.png"
 import { DownOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 
 
@@ -39,7 +40,12 @@ interface MapState {
     lat:number,
     lng:number
   },
-  zoom:number
+  zoom:number,
+  zoneSelected:boolean,
+  zoneCoordinates:{
+    lat:number,
+    lon:number
+  }
 }
 const defaultCity="Kolkata"
 const defaultZone="All"
@@ -63,7 +69,11 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       locationFilters: [],
       regionFilters: [],
       defaultCenter:{ lat: 22, lng: 77 },
-      zoom:5
+      zoom:5,
+      zoneSelected:false,
+      zoneCoordinates:{
+        lat: 22, lon: 77
+      }
     }
   }
 
@@ -108,6 +118,12 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         lng:result.lon}
       state.zoom=6
     }
+    if(props.mapMarkers.length > 0 && state.dataLoaded && state.zoneSelected){
+      state.defaultCenter={
+        lat:state.zoneCoordinates.lat,
+        lng:state.zoneCoordinates.lon}
+      state.zoom=12
+    }
     state.customerFilters = props.mapViewDropDownFilters.customer
     state.locationFilters = props.mapViewDropDownFilters.location
     state.regionFilters = props.mapViewDropDownFilters.region
@@ -121,6 +137,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       refreshing: true,
       location:defaultCity,
       zone:defaultZone,
+      zoneSelected:false,
       customer:defaultCustomer,
       customerId:"C10001",
       defaultCenter:{ lat: 22, lng: 77 },
@@ -142,27 +159,60 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         lat:result.lat,
         lng:result.lon
       },
-      zoom:6
+      zoom:6,
+      zone:defaultZone,
+      zoneSelected:false,
     })
     
   }
-  handleZoneClick= (e:any) =>{
-    this.setState({
-      zone:e.key,
-      dataLoaded:false
-    })
+  handleZoneClick= async (e:any) =>{
+
+    const response = await axios.post("http://localhost:5000/webapp" + '/regionfilter',
+      {
+        "customerId": this.state.customerId,
+        "location":this.state.location,
+        "region":e.key
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    console.log("get region",response.data);
+    const {lat,lon}= response.data.body
+    // if(this.props.mapMarkers.length > 0 && this.state.dataLoaded && lat && lon){
+      this.setState({
+        zone:e.key,
+        dataLoaded:false,
+        zoneSelected:true,
+        zoneCoordinates:{
+          lat:response.data.body.lat || 22,
+          lon:response.data.body.lon || 77,
+        }
+      })
+    // }
+    // else this.setState({
+    //   zone:e.key,
+    //   dataLoaded:false,
+    //   zoneSelected:false,
+    //   zoneCoordinates:{
+    //     lat:22,
+    //     lon:77,
+    //   }
+    // })
+
+
+
   }
   handleCustomerClick = (e:any) =>{
     const result = this.state.customerFilters.filter((item: any) => item.customerId == e.key)
-    console.log(result,e.key);
-    
     this.setState({
       customer:result[0]?.customerName,
-      dataLoaded:false
-    })
-    this.setState({
       customerId: e.key,
-      dataLoaded:false
+      dataLoaded:false,
+      zone:defaultZone,
+      zoneSelected:false,
     })
   }
   render() {

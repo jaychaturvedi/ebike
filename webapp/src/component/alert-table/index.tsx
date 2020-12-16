@@ -119,6 +119,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     state.total = props.alerts.activeAlertTab === 'smart'
       ? props.alerts.smartCount : props.alerts.activeAlertTab === 'bms'
         ? props.alerts.bmsCount : props.alerts.mcCount
+        console.log("alert typee", props.alerts );
+        
     state.pageSize = props.alerts.pagination.pageSize
     state.current = props.alerts.pagination.pageNumber
     state.data = state.handleSort(Object.values(props.alerts[state.alertType]), props.alerts.sort) as AlertModel[]
