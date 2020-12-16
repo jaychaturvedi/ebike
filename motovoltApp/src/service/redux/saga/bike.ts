@@ -4,7 +4,7 @@ import {
 } from "redux-saga/effects";
 import * as BikeActions from "../actions/saga/bike-actions";
 import { Store_UpdateBike, Store_UpdateError, Store_UpdateNotification, Store_UpdateRide } from "../actions/store";
-import { config, request } from "./utils";
+import { config, request, yantraRequest } from "./utils";
 import { UnknownError } from "../../server-error";
 
 export function* updateBike(params: BikeActions.UpdateBike) {
@@ -162,6 +162,41 @@ export function* getLocation(params: BikeActions.ReadBikeLocation) {
                     long: data.longitude,
                     lastLocationKnownTime: data.lastused,
                     address: data.address,
+                }
+            } as Store_UpdateBike);
+            // Update redux with ride details
+        } else {
+            yield put({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: UnknownError
+                }
+            } as Store_UpdateError)
+        }
+    } catch (error) {
+        console.log(error)
+        yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: UnknownError
+            }
+        } as Store_UpdateError)
+    }
+}
+
+
+export function* getChargingStatus(params: BikeActions.ReadChargingStatus) {
+    try {
+        const dataResponse = yield yantraRequest(`${config.yantraBaseUrl}/yantra/batterystatus`, "POST", {
+            "frameid": params.payload.bikeId
+        });
+        if (dataResponse.success) {
+            const data = dataResponse.response.body;
+            yield put({
+                type: "Store_UpdateBike",
+                payload: {
+                    batteryCharging: data.chargingStatus === 1,
+                    batteryChargePer: data.batStatus || 0
                 }
             } as Store_UpdateBike);
             // Update redux with ride details

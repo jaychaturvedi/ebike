@@ -12,12 +12,15 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import Notifications from '../screens/common/notifications';
 import {Store_UpdateNotification} from 'src/service/redux/actions/store';
+import {ReadChargingStatus} from 'src/service/redux/actions/saga/bike-actions';
 import Charging from '../screens/charging';
+import moment from 'moment';
 
 type ReduxState = {
   bike: TStore['bike'];
   notifications: TStore['notifications'];
   updateNotifications: (params: Store_UpdateNotification) => void;
+  readChargingStatus: (params: ReadChargingStatus) => void;
 };
 
 interface Props extends ReduxState {}
@@ -27,6 +30,7 @@ type State = {
   lockVerified?: boolean;
   hideFooter?: boolean;
   showChargingScreen: boolean;
+  batteryStatusInterval: number;
 };
 
 class FooterNavigation extends React.PureComponent<Props, State> {
@@ -37,7 +41,33 @@ class FooterNavigation extends React.PureComponent<Props, State> {
       showChargingScreen: false,
       lockVerified: undefined,
       hideFooter: undefined,
+      batteryStatusInterval: 0,
     };
+  }
+
+  startTimer() {
+    this.setState({
+      batteryStatusInterval: setInterval(() => {
+        this.props.readChargingStatus({
+          type: 'ReadChargingStatus',
+          payload: {
+            bikeId: this.props.bike.id,
+          },
+        });
+      }, 30000),
+    });
+  }
+
+  stopTimer() {
+    clearInterval(this.state.batteryStatusInterval);
+  }
+
+  componentDidMount() {
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    this.stopTimer();
   }
 
   updateNotification() {
@@ -69,20 +99,25 @@ class FooterNavigation extends React.PureComponent<Props, State> {
   }
 
   render() {
+    const temp =
+      ((100 - this.props.bike.batteryChargePer) *
+        (this.props.bike.chargingEta * 60 * 60)) /
+      100;
     if (this.state.showChargingScreen)
       return (
         <Charging
-          chargeCycle={420}
-          chargePercentage={82}
-          charged={true}
-          charging
-          kms={32}
+          chargeCycle={this.props.bike.batteryChargeCycle}
+          chargePercentage={Math.round(this.props.bike.batteryChargePer)}
+          kms={Math.round(
+            (this.props.bike.chargingDistance / 100) *
+              this.props.bike.batteryChargePer,
+          )}
           onClose={() => {
             this.setState({
               showChargingScreen: false,
             });
           }}
-          timeRemaining={'00:00:00'}
+          timeRemaining={moment.utc(temp * 1000).format('HH:mm:ss')}
         />
       );
     return (
@@ -108,8 +143,8 @@ class FooterNavigation extends React.PureComponent<Props, State> {
         </View>
         {!this.state.hideFooter && (
           <FooterNav
-            charging={true}
-            chargePercentage={100}
+            charging={this.props.bike.batteryCharging}
+            chargePercentage={Math.round(this.props.bike.batteryChargePer)}
             locked
             onItemSelect={(item) => {
               this.updateNotification();
@@ -148,6 +183,7 @@ export default connect(
     return {
       updateNotifications: (params: Store_UpdateNotification) =>
         dispatch(params),
+      readChargingStatus: (params: ReadChargingStatus) => dispatch(params),
     };
   },
 )(FooterNavigation);

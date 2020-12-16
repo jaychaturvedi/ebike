@@ -26,3 +26,10 @@ export type UpdateBike = {
         name: string
     }
 }
+
+export type ReadChargingStatus = {
+    type: "ReadChargingStatus",
+    payload: {
+        bikeId: string,
+    }
+}

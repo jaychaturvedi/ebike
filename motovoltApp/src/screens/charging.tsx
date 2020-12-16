@@ -18,8 +18,6 @@ type ChargingProps = {
   chargeCycle: number;
   kms: number;
   timeRemaining: string;
-  charging: boolean;
-  charged: boolean;
   onClose: () => void;
 };
 
@@ -102,7 +100,7 @@ export default function Charging(props: ChargingProps) {
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
-                            {props.charging ? (
+                            {props.chargePercentage !== 100 ? (
                               <ChargingStatusCharging />
                             ) : (
                               <ChargingStatusCharged />
@@ -152,7 +150,7 @@ export default function Charging(props: ChargingProps) {
               );
             }}
           </AnimatedCircularProgress>
-          {props.charged && (
+          {props.chargePercentage === 100 && (
             <View style={{marginTop: 27}}>
               <Text
                 style={{
@@ -176,7 +174,7 @@ export default function Charging(props: ChargingProps) {
               </Text>
             </View>
           )}
-          {!props.charged && (
+          {props.chargePercentage !== 100 && (
             <View
               style={{
                 marginTop: 27,

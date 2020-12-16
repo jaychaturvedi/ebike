@@ -69,6 +69,7 @@ export type Store_UpdateBike = {
         serviceDate?: string,
         motorPer?: number,
         petrolInLitre?: number,
+        batteryCharging?: boolean,
         batteryChargeCycle?: number,
         chargingDistance?: number,
         chargingEta?: number,    
