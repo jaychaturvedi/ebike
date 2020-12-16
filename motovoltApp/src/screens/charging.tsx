@@ -214,7 +214,7 @@ export default function Charging(props: ChargingProps) {
             height: 64,
             backgroundColor: 'rgba(0,0,0,0.3)',
           }}
-          onPress={() => {}}>
+          onPress={props.onClose}>
           <View
             style={{
               width: '100%',

@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
-import { Footer } from 'native-base';
-import { scale } from '../../../../styles/size-matters';
+import {StyleSheet, View, Text, Image} from 'react-native';
+import {Footer} from 'native-base';
+import {scale} from '../../../../styles/size-matters';
 import Colors from '../../../../styles/colors';
 import Tab from './tab';
 import RNSwipeVerify from './swipe';
@@ -21,7 +21,10 @@ type Props = {
   lockOnlyVisible: boolean;
   locked: boolean;
   selectedItem: TFooterItem;
+  charging: boolean;
+  chargePercentage: number;
   onLockClick?: () => void;
+  onChargeClick: () => void;
   onItemSelect: (item: TFooterItem) => void;
   onLockVerified: (verified: boolean) => void;
 };
@@ -30,7 +33,7 @@ type State = {
   selectedItem: TFooterItem;
   verifyMode: boolean;
   lockedIcon: boolean;
-  rideId: string,
+  rideId: string;
 };
 
 export default class FooterNav extends React.PureComponent<Props, State> {
@@ -40,7 +43,7 @@ export default class FooterNav extends React.PureComponent<Props, State> {
       selectedItem: 'home',
       verifyMode: false,
       lockedIcon: false,
-      rideId: ''
+      rideId: '',
     };
   }
 
@@ -52,8 +55,8 @@ export default class FooterNav extends React.PureComponent<Props, State> {
   };
 
   onLockClick = () => {
-    console.log("Lock clicked")
-    this.setState({ verifyMode: !this.state.verifyMode });
+    console.log('Lock clicked');
+    this.setState({verifyMode: !this.state.verifyMode});
   };
 
   onVerfied = () => {
@@ -61,42 +64,55 @@ export default class FooterNav extends React.PureComponent<Props, State> {
       lockedIcon: !this.state.lockedIcon,
       verifyMode: false,
     });
-    console.log("Verified : ", this.state.lockedIcon);
+    console.log('Verified : ', this.state.lockedIcon);
     this.props.onLockVerified(!this.state.lockedIcon);
   };
 
+  static getDerivedStateFromProps(props: Props, state: State) {
+    if (props.charging && state.verifyMode) {
+      state.verifyMode = false;
+    }
+    return state;
+  }
+
   render() {
     return (
-      <Footer style={{ height: 56 }}>
+      <Footer style={{height: 64}}>
         {!this.state.verifyMode && (
           <Tab
+            charging={this.props.charging}
+            chargePercentage={this.props.chargePercentage}
             lockOnlyVisible={this.state.lockedIcon}
             locked={this.state.lockedIcon}
             onItemSelect={this.onItemSelect}
             onLockClick={this.onLockClick}
+            onChargeClick={this.props.onChargeClick}
             selectedItem={this.state.selectedItem}
           />
         )}
         {this.state.verifyMode && (
-          <View style={{ height: 56, width: '100%' }}>
+          <View style={{height: 64, width: '100%'}}>
             <RNSwipeVerify
-              buttonSize={56}
+              buttonSize={64}
               onVerified={this.onVerfied}
-              okButton={{ visible: false, duration: 0 }}
+              okButton={{visible: false, duration: 0}}
               icon={
-                <View style={{ height: '100%', width: 80 }}>
+                <View style={{height: '100%', width: 80}}>
                   <LockButton
+                    onChargeClick={() => {}}
+                    charging={false}
+                    chargePercentage={0}
                     disabled={true}
                     locked={this.state.lockedIcon}
-                    onClick={() => { }}
+                    onClick={() => {}}
                   />
                 </View>
               }>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ fontSize: 18, color: Colors.BLACK }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{fontSize: 18, color: Colors.BLACK}}>
                   {this.state.lockedIcon
-                    ? LanguageSelector.t("home.swipeToUnlock")
-                    : LanguageSelector.t("home.swipeToLock")}
+                    ? LanguageSelector.t('home.swipeToUnlock')
+                    : LanguageSelector.t('home.swipeToLock')}
                 </Text>
                 <Image
                   source={require('../../../../assets/icons/swipe_right_arrow.png')}

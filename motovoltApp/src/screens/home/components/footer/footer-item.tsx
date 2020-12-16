@@ -40,6 +40,7 @@ export default class FooterItem extends React.Component<Props, {}> {
           style={{
             backgroundColor: Theme.WHITE,
             elevation: 0,
+            flex:1
           }}
           onPress={props.onPress}>
           {props.visible && props.icon}

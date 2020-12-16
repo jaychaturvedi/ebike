@@ -12,8 +12,10 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import Notifications from '../screens/common/notifications';
 import {Store_UpdateNotification} from 'src/service/redux/actions/store';
+import Charging from '../screens/charging';
 
 type ReduxState = {
+  bike: TStore['bike'];
   notifications: TStore['notifications'];
   updateNotifications: (params: Store_UpdateNotification) => void;
 };
@@ -24,6 +26,7 @@ type State = {
   screen: TFooterItem;
   lockVerified?: boolean;
   hideFooter?: boolean;
+  showChargingScreen: boolean;
 };
 
 class FooterNavigation extends React.PureComponent<Props, State> {
@@ -31,6 +34,7 @@ class FooterNavigation extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       screen: 'home',
+      showChargingScreen: false,
       lockVerified: undefined,
       hideFooter: undefined,
     };
@@ -65,6 +69,22 @@ class FooterNavigation extends React.PureComponent<Props, State> {
   }
 
   render() {
+    if (this.state.showChargingScreen)
+      return (
+        <Charging
+          chargeCycle={420}
+          chargePercentage={82}
+          charged={true}
+          charging
+          kms={32}
+          onClose={() => {
+            this.setState({
+              showChargingScreen: false,
+            });
+          }}
+          timeRemaining={'00:00:00'}
+        />
+      );
     return (
       <View style={styles.container}>
         <View style={{...styles.screen}}>
@@ -88,10 +108,17 @@ class FooterNavigation extends React.PureComponent<Props, State> {
         </View>
         {!this.state.hideFooter && (
           <FooterNav
+            charging={true}
+            chargePercentage={100}
             locked
             onItemSelect={(item) => {
               this.updateNotification();
               this.setState({screen: item, lockVerified: undefined});
+            }}
+            onChargeClick={() => {
+              this.setState({
+                showChargingScreen: true,
+              });
             }}
             onLockClick={() => console.log('Lock clicked')}
             selectedItem={this.state.screen}
@@ -114,6 +141,7 @@ export default connect(
   (store: TStore) => {
     return {
       notifications: store['notifications'],
+      bike: store['bike'],
     };
   },
   (dispatch: Dispatch) => {
