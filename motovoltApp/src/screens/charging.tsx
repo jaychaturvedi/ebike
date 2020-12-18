@@ -27,17 +27,16 @@ export default function Charging(props: ChargingProps) {
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
         justifyContent: 'center',
         alignItems: 'center',
       }}>
+      <ChargingStatusBG
+        style={{position: 'absolute'}}
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+      />
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ChargingStatusBG
-          style={{position: 'absolute'}}
-          width={width}
-          height={height}
-          viewBox={`0 0 ${width} ${height}`}
-        />
         <View
           style={{
             justifyContent: 'center',
@@ -198,32 +197,25 @@ export default function Charging(props: ChargingProps) {
           )}
         </View>
       </View>
-      <Footer
+      <TouchableOpacity
         style={{
-          backgroundColor: 'transparent',
-          borderTopWidth: 0,
-          height: 96,
-        }}>
-        <TouchableOpacity
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+          width: 90,
+          height: 64,
+          backgroundColor: 'rgba(0,0,0,0.3)',
+        }}
+        onPress={props.onClose}>
+        <View
           style={{
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            width: 90,
-            height: 64,
-            backgroundColor: 'rgba(0,0,0,0.3)',
-          }}
-          onPress={props.onClose}>
-          <View
-            style={{
-              width: '100%',
-              height: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <CloseCharging style={{margin: 'auto'}} />
-          </View>
-        </TouchableOpacity>
-      </Footer>
+            width: '100%',
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <CloseCharging style={{margin: 'auto'}} />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
