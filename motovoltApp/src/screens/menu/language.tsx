@@ -32,7 +32,7 @@ export default class SelectLanguage extends React.PureComponent<Props, {}> {
     return (
       <View style={{height: '100%', width: '100%'}}>
         <Header
-          title="Language"
+          title={LanguageSelector.t('morePremium.language')}
           backgroundColor={Colors.HEADER_YELLOW}
           hasBackButton
           onBackClick={() => this.props.navigation.replace('MenuScreen', {})}

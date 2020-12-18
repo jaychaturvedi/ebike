@@ -159,14 +159,14 @@ class RideOn extends React.PureComponent<Props, State> {
   componentWillUnmount() {
     console.log('Ride off');
     this.stopTimer();
-    this.props.endRide({
-      type: 'EndRide',
-      payload: {
-        rideId: this.state.rideId,
-        bikeId: this.props.bike.id,
-        endDate: Moment().format('YYYY-MM-DD HH:mm:ss'),
-      },
-    });
+    // this.props.endRide({
+    //   type: 'EndRide',
+    //   payload: {
+    //     rideId: this.state.rideId,
+    //     bikeId: this.props.bike.id,
+    //     endDate: Moment().format('YYYY-MM-DD HH:mm:ss'),
+    //   },
+    // });
   }
 
   render() {

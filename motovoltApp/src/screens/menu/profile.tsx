@@ -69,9 +69,9 @@ class Profile extends React.PureComponent<Props, State> {
             data={[{ key: LanguageSelector.t("profile.email"), value: this.props.user.email }]}
           />
 
-          <View style={{ ...familyUserStyle.container, ...styles.profileInfo, backgroundColor: Theme.BACKGROUND_LIGHT }}>
+          {/* <View style={{ ...familyUserStyle.container, ...styles.profileInfo, backgroundColor: Theme.BACKGROUND_LIGHT }}>
             <Text style={{ ...familyUserStyle.title, color: Theme.TEXT_WHITE }}>{LanguageSelector.t("profile.family")}</Text>
-            {/* <View style={familyUserStyle.singleInfo}>
+            <View style={familyUserStyle.singleInfo}>
               <View style={familyUserStyle.singleInfoLeft}>
                 <Image
                   source={{}}
@@ -83,7 +83,7 @@ class Profile extends React.PureComponent<Props, State> {
                   <Text style={familyUserStyle.relation}> (Wife)</Text>
                 </Text>
               </View>
-            </View> */}
+            </View>
             <TouchableOpacity style={familyUserStyle.addNewContainer}>
               <Image
                 source={require('../../assets/icons/add_new.png')}
@@ -91,7 +91,7 @@ class Profile extends React.PureComponent<Props, State> {
               />
               <Text style={{ ...familyUserStyle.addNewText, color: Theme.TEXT_WHITE }}>{'      '}{LanguageSelector.t("profile.addUser")}</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <Text style={{ ...styles.title, color: Theme.TEXT_WHITE }}>{LanguageSelector.t("profile.vehicleDetails")}</Text>
 
@@ -107,7 +107,7 @@ class Profile extends React.PureComponent<Props, State> {
               { key: LanguageSelector.t("profile.warrantyValidTill"), value: Moment(this.props.bike.warrantyTill).format("DD-MM-YYYY") },
             ]}
           />
-          <DottedButton text={LanguageSelector.t("profile.addNewCycle")} onPress={() => { }} />
+          {/* <DottedButton text={LanguageSelector.t("profile.addNewCycle")} onPress={() => { }} /> */}
 
           <Text style={{ ...styles.title, color: Theme.TEXT_WHITE }}>{LanguageSelector.t("profile.batteryDetails")}</Text>
 
@@ -125,7 +125,7 @@ class Profile extends React.PureComponent<Props, State> {
             ]}
           />
 
-          <DottedButton text={LanguageSelector.t("profile.addNewBattery")} onPress={() => { }} />
+          {/* <DottedButton text={LanguageSelector.t("profile.addNewBattery")} onPress={() => { }} /> */}
         </ScrollView>
       </View>
     );

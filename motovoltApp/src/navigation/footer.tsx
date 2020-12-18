@@ -12,28 +12,60 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import Notifications from '../screens/common/notifications';
 import {Store_UpdateNotification} from 'src/service/redux/actions/store';
+import {ReadChargingStatus} from 'src/service/redux/actions/saga/bike-actions';
+import Charging from '../screens/charging';
+import moment from 'moment';
 
 type ReduxState = {
+  bike: TStore['bike'];
   notifications: TStore['notifications'];
   updateNotifications: (params: Store_UpdateNotification) => void;
+  readChargingStatus: (params: ReadChargingStatus) => void;
 };
 
 interface Props extends ReduxState {}
 
 type State = {
   screen: TFooterItem;
-  lockVerified?: boolean;
+  riding: boolean;
   hideFooter?: boolean;
+  showChargingScreen: boolean;
 };
 
 class FooterNavigation extends React.PureComponent<Props, State> {
+  batteryStatusInterval = 0;
+
   constructor(props: Props) {
     super(props);
     this.state = {
       screen: 'home',
-      lockVerified: undefined,
+      riding: false,
+      showChargingScreen: false,
       hideFooter: undefined,
     };
+  }
+
+  startTimer() {
+    this.batteryStatusInterval = setInterval(() => {
+      this.props.readChargingStatus({
+        type: 'ReadChargingStatus',
+        payload: {
+          bikeId: this.props.bike.id,
+        },
+      });
+    }, 10000);
+  }
+
+  stopTimer() {
+    clearInterval(this.batteryStatusInterval);
+  }
+
+  componentDidMount() {
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    this.stopTimer();
   }
 
   updateNotification() {
@@ -64,45 +96,71 @@ class FooterNavigation extends React.PureComponent<Props, State> {
     }
   }
 
+  static getDerivedStateFromProps(props: Props, state: State) {
+    if (props.bike.batteryCharging && state.riding) {
+      state.riding = false;
+    }
+    return state;
+  }
+
   render() {
+    const temp =
+      ((100 - this.props.bike.batteryChargePer) *
+        (this.props.bike.chargingEta * 60 * 60)) /
+      100;
+
+    if (this.state.showChargingScreen)
+      return (
+        <Charging
+          chargeCycle={this.props.bike.batteryChargeCycle}
+          chargePercentage={Math.round(this.props.bike.batteryChargePer)}
+          kms={Math.round(
+            (this.props.bike.chargingDistance / 100) *
+              this.props.bike.batteryChargePer,
+          )}
+          onClose={() => {
+            this.setState({
+              showChargingScreen: false,
+            });
+          }}
+          timeRemaining={moment.utc(temp * 1000).format('HH:mm:ss')}
+        />
+      );
     return (
       <View style={styles.container}>
         <View style={{...styles.screen}}>
           {this.props.notifications.showNotifications ? (
             <Notifications />
-          ) : this.state.lockVerified === true ? (
+          ) : this.state.riding ? (
             <RideOn />
-          ) : this.state.lockVerified === false ? (
-            <RateRide
-              onComplete={() => {
-                this.setState({
-                  screen: 'home',
-                  lockVerified: undefined,
-                  hideFooter: false,
-                });
-              }}
-            />
           ) : (
             this.renderScreen(this.state.screen)
           )}
         </View>
         {!this.state.hideFooter && (
           <FooterNav
-            locked
+            charging={this.props.bike.batteryCharging}
+            chargePercentage={Math.round(this.props.bike.batteryChargePer)}
+            riding={this.state.riding}
             onItemSelect={(item) => {
               this.updateNotification();
-              this.setState({screen: item, lockVerified: undefined});
+              this.setState({screen: item});
             }}
-            onLockClick={() => console.log('Lock clicked')}
+            onChargeClick={() => {
+              this.setState({
+                showChargingScreen: true,
+              });
+            }}
+            onLockClick={() => {
+              this.setState({
+                riding: !this.state.riding,
+              });
+            }}
             selectedItem={this.state.screen}
-            lockOnlyVisible={
-              this.state.lockVerified !== undefined
-                ? this.state.lockVerified
-                : false
-            }
-            onLockVerified={(verified) =>
-              this.setState({lockVerified: verified, hideFooter: !verified})
-            }
+            lockOnlyVisible={this.state.riding}
+            // onLockVerified={(verified) =>
+            //   this.setState({lockVerified: verified, hideFooter: !verified})
+            // }
           />
         )}
       </View>
@@ -114,12 +172,14 @@ export default connect(
   (store: TStore) => {
     return {
       notifications: store['notifications'],
+      bike: store['bike'],
     };
   },
   (dispatch: Dispatch) => {
     return {
       updateNotifications: (params: Store_UpdateNotification) =>
         dispatch(params),
+      readChargingStatus: (params: ReadChargingStatus) => dispatch(params),
     };
   },
 )(FooterNavigation);

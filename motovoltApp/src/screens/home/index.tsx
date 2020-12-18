@@ -92,9 +92,9 @@ class Home extends React.PureComponent<Props, State> {
               paddingHorizontal: scale(20),
             }}>
             <Metrics
-              batteryCharge={this.props.bike.batteryChargePer.toString()}
-              rangeAvailable={this.props.bike.rangeAvailableKm.toString()}
-              rangeCovered={this.props.bike.rangeCoveredKm.toString()}
+              batteryCharge={String(this.props.bike.batteryChargePer)}
+              rangeAvailable={String(this.props.bike.rangeAvailableKm)}
+              rangeCovered={String(this.props.bike.rangeCoveredKm)}
             />
           </View>
           <View

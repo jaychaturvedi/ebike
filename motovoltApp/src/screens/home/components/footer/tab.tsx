@@ -16,10 +16,14 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  charging: boolean;
+  chargePercentage: number;
   lockOnlyVisible: boolean;
-  locked: boolean;
+  // locked: boolean;
+  riding: boolean;
   selectedItem: TFooterItem;
   onLockClick: () => void;
+  onChargeClick: () => void;
   onItemSelect: (item: TFooterItem) => void;
 };
 
@@ -27,7 +31,7 @@ export default class Tab extends React.PureComponent<Props, {}> {
   render() {
     let Theme = this.context.theme; //load theme
     return (
-      <FooterTab style={{...styles.footerTab }}>
+      <FooterTab style={{...styles.footerTab}}>
         <FooterItem
           visible={!this.props.lockOnlyVisible}
           icon={
@@ -65,8 +69,11 @@ export default class Tab extends React.PureComponent<Props, {}> {
           selected={this.props.selectedItem === 'chart'}
         />
         <LockButton
+          onChargeClick={this.props.onChargeClick}
+          charging={this.props.charging}
+          chargePercentage={this.props.chargePercentage}
           disabled={false}
-          locked={this.props.locked}
+          riding={this.props.riding}
           onClick={this.props.onLockClick}
         />
         <FooterItem

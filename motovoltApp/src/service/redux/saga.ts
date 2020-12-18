@@ -37,6 +37,7 @@ function* actionWatcher() {
     yield takeLatest("UpdateBike", Bike.updateBike);
     yield takeLatest("ReadBikeStat", Bike.getBikeStat);
     yield takeLatest("ReadBikeLocation", Bike.getLocation);
+    yield takeLatest("ReadChargingStatus", Bike.getChargingStatus);
 
     yield takeLatest("ReadRideHistory", Rides.getRideHistory);
     yield takeLatest("StartRide", Rides.startRide);
