@@ -1,7 +1,7 @@
 import React from 'react';
-import './marker.scss';
+import './index.scss';
 import { Popover, Button } from 'antd';
-import {formatTime} from "../../connectm-client/util/time-formater"
+import {formatTime} from "../../../connectm-client/util/time-formater"
 
 const content = (props: any) => (
   <div style={{fontSize:"13px"}} className={`map-marker-tooltip ${props.isActive ? "isActive" : "isInActive"}`}>

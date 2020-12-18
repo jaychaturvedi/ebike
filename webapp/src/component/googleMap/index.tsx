@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
-import Marker from './marker';
+import React from 'react';
 import { TMapMarkers } from '../../connectm-client/redux/models'
 import { ReduxMapAction, ReduxMapState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/map"
 import BackArrowButton from '../../assets/png/back-arrow-button.png'
 import { connect } from 'react-redux'
-import { Divider, Dropdown, Menu, Typography } from 'antd';
+import { Dropdown, Menu, Typography } from 'antd';
 import './index.scss'
 import { Link } from 'react-router-dom';
 import { ReactComponent as RefreshIcon } from "../../assets/Refresh.svg"
@@ -15,8 +13,7 @@ import MenuIcon from "../../assets/png/menuIcon.png"
 import BuildingIcon from "../../assets/png/buildingIcon.png"
 import { DownOutlined } from '@ant-design/icons';
 import axios from 'axios';
-
-
+import GoogleMap from './map';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAWO4UI7QPRc__8NUnNwNgicm2K4cdkCuY';
 
@@ -116,7 +113,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       state.defaultCenter={
         lat:result.lat,
         lng:result.lon}
-      state.zoom=6
+      state.zoom=7
     }
     if(props.mapMarkers.length > 0 && state.dataLoaded && state.zoneSelected){
       state.defaultCenter={
@@ -159,7 +156,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         lat:result.lat,
         lng:result.lon
       },
-      zoom:6,
+      zoom:7,
       zone:defaultZone,
       zoneSelected:false,
     })
@@ -167,7 +164,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
   }
   handleZoneClick= async (e:any) =>{
 
-    const response = await axios.post("http://localhost:5000/webapp" + '/regionfilter',
+    const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/regionfilter',
       {
         "customerId": this.state.customerId,
         "location":this.state.location,
@@ -293,7 +290,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         </div>
         {/* <Divider style={{ background: "grey", margin: "10px 0" }} /> */}
         {this.state.dataLoaded && <div className="google-map-container">
-          <GoogleMapReact
+          {/* <GoogleMapReact
             bootstrapURLKeys={{
               key: GOOGLE_MAPS_APIKEY,
               language: 'en'
@@ -317,7 +314,12 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
                 />
               )
             })}
-          </GoogleMapReact>
+          </GoogleMapReact> */}
+          <GoogleMap
+            center={this.state.defaultCenter}
+            zoom={this.state.zoom}
+            mapMarkers={this.state.mapMarkers}
+          />
         </div>
         }
       </div>

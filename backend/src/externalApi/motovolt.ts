@@ -84,7 +84,7 @@ export default class ConnectmApi {
         const options = createOptions('/getmycycle', {
             frameid: frameId
         })
-        const fetchedData: TMyBike = await post(options)
+        const fetchedData:any = await post(options)
         return fetchedData
     }
 

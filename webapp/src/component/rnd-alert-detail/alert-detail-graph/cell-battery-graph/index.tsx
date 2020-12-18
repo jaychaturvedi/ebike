@@ -7,18 +7,18 @@ import {
 import VoltageDifference from './voltageDifference';
 
 const volatgeDeviationData = {
-    "Cell-1": 3.0001,
-    "Cell-2": 3.001,
-    "Cell-3": 3.001,
-    "Cell-4": 3.001,
-    "Cell-5": 3.001,
-    "Cell-6": 3.001,
-    "Cell-7": 3.001,
-    "Cell-8": 3.001,
-    "Cell-9": 3.001,
-    "Cell-10": 3.001,
-    "Cell-11": 3.001,
-    "Cell-12": 3.001,
+    "Cell-1": 2.125,
+    "Cell-2": 2.125,
+    "Cell-3": 2.125,
+    "Cell-4": 2.125,
+    "Cell-5": 2.125,
+    "Cell-6": 2.125,
+    "Cell-7": 2.125,
+    "Cell-8": 2.125,
+    "Cell-9": 2.125,
+    "Cell-10": 2.125,
+    "Cell-11": 2.125,
+    "Cell-12": 2.125,
     "volatgeDiffer": 0
 }
 
