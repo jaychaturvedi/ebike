@@ -5,6 +5,8 @@ import Colors from '../../../../styles/colors';
 import {ThemeContext} from '../../../../styles/theme/theme-context';
 import ChargingStatusCharging from '../../../../assets/svg/charging-status-charging-small';
 import ChargingStatusCharged from '../../../../assets/svg/charging-status-charged-small';
+import StartIcon from '../../../../assets/svg/start';
+import StopIcon from '../../../../assets/svg/stop';
 
 const styles = StyleSheet.create({
   lock: {
@@ -20,7 +22,7 @@ type Props = {
   onChargeClick: () => void;
   charging: boolean;
   chargePercentage: number;
-  locked: boolean;
+  riding: boolean;
   disabled: boolean;
 };
 
@@ -72,18 +74,8 @@ export default class LockButton extends React.Component<Props, {}> {
         style={styles.lock}
         onPress={props.onClick}
         disabled={props.disabled}>
-        {props.locked && (
-          <Image
-            source={require('../../../../assets/icons/lock_icon.png')}
-            style={{height: '100%', width: '100%'}}
-          />
-        )}
-        {!props.locked && (
-          <Image
-            source={require('../../../../assets/icons/unlock_icon.png')}
-            style={{height: '100%', width: '100%'}}
-          />
-        )}
+        {props.riding && <StopIcon height={54} />}
+        {!props.riding && <StartIcon height={54} />}
       </Button>
     );
   }

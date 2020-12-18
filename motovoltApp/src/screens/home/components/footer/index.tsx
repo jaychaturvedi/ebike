@@ -19,21 +19,22 @@ const styles = StyleSheet.create({
 
 type Props = {
   lockOnlyVisible: boolean;
-  locked: boolean;
+  // locked: boolean;
+  riding: boolean;
   selectedItem: TFooterItem;
   charging: boolean;
   chargePercentage: number;
-  onLockClick?: () => void;
+  onLockClick: () => void;
   onChargeClick: () => void;
   onItemSelect: (item: TFooterItem) => void;
-  onLockVerified: (verified: boolean) => void;
+  // onLockVerified: (verified: boolean) => void;
 };
 
 type State = {
   selectedItem: TFooterItem;
-  verifyMode: boolean;
+  // verifyMode: boolean;
   lockedIcon: boolean;
-  rideId: string;
+  // rideId: string;
 };
 
 export default class FooterNav extends React.PureComponent<Props, State> {
@@ -41,9 +42,9 @@ export default class FooterNav extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       selectedItem: 'home',
-      verifyMode: false,
+      // verifyMode: false,
       lockedIcon: false,
-      rideId: '',
+      // rideId: '',
     };
   }
 
@@ -55,42 +56,39 @@ export default class FooterNav extends React.PureComponent<Props, State> {
   };
 
   onLockClick = () => {
+    this.props.onLockClick();
     console.log('Lock clicked');
-    this.setState({verifyMode: !this.state.verifyMode});
   };
 
   onVerfied = () => {
     this.setState({
       lockedIcon: !this.state.lockedIcon,
-      verifyMode: false,
     });
-    console.log('Verified : ', this.state.lockedIcon);
-    this.props.onLockVerified(!this.state.lockedIcon);
   };
 
-  static getDerivedStateFromProps(props: Props, state: State) {
-    if (props.charging && state.verifyMode) {
-      state.verifyMode = false;
-    }
-    return state;
-  }
+  // static getDerivedStateFromProps(props: Props, state: State) {
+  //   // if (props.charging && state.verifyMode) {
+  //   //   state.verifyMode = false;
+  //   // }
+  //   return state;
+  // }
 
   render() {
     return (
       <Footer style={{height: 64}}>
-        {!this.state.verifyMode && (
-          <Tab
-            charging={this.props.charging}
-            chargePercentage={this.props.chargePercentage}
-            lockOnlyVisible={this.state.lockedIcon}
-            locked={this.state.lockedIcon}
-            onItemSelect={this.onItemSelect}
-            onLockClick={this.onLockClick}
-            onChargeClick={this.props.onChargeClick}
-            selectedItem={this.state.selectedItem}
-          />
-        )}
-        {this.state.verifyMode && (
+        {/* {!this.state.verifyMode && ( */}
+        <Tab
+          charging={this.props.charging}
+          chargePercentage={this.props.chargePercentage}
+          lockOnlyVisible={this.props.riding}
+          riding={this.props.riding}
+          onItemSelect={this.onItemSelect}
+          onLockClick={this.onLockClick}
+          onChargeClick={this.props.onChargeClick}
+          selectedItem={this.state.selectedItem}
+        />
+        {/* )} */}
+        {/* {this.state.verifyMode && (
           <View style={{height: 64, width: '100%'}}>
             <RNSwipeVerify
               buttonSize={64}
@@ -121,7 +119,7 @@ export default class FooterNav extends React.PureComponent<Props, State> {
               </View>
             </RNSwipeVerify>
           </View>
-        )}
+        )} */}
       </Footer>
     );
   }

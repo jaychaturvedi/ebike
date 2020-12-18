@@ -27,7 +27,7 @@ interface Props extends ReduxState {}
 
 type State = {
   screen: TFooterItem;
-  lockVerified?: boolean;
+  riding: boolean;
   hideFooter?: boolean;
   showChargingScreen: boolean;
 };
@@ -39,8 +39,8 @@ class FooterNavigation extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       screen: 'home',
+      riding: false,
       showChargingScreen: false,
-      lockVerified: undefined,
       hideFooter: undefined,
     };
   }
@@ -96,11 +96,19 @@ class FooterNavigation extends React.PureComponent<Props, State> {
     }
   }
 
+  static getDerivedStateFromProps(props: Props, state: State) {
+    if (props.bike.batteryCharging && state.riding) {
+      state.riding = false;
+    }
+    return state;
+  }
+
   render() {
     const temp =
       ((100 - this.props.bike.batteryChargePer) *
         (this.props.bike.chargingEta * 60 * 60)) /
       100;
+
     if (this.state.showChargingScreen)
       return (
         <Charging
@@ -123,18 +131,8 @@ class FooterNavigation extends React.PureComponent<Props, State> {
         <View style={{...styles.screen}}>
           {this.props.notifications.showNotifications ? (
             <Notifications />
-          ) : this.state.lockVerified === true ? (
+          ) : this.state.riding ? (
             <RideOn />
-          ) : this.state.lockVerified === false ? (
-            <RateRide
-              onComplete={() => {
-                this.setState({
-                  screen: 'home',
-                  lockVerified: undefined,
-                  hideFooter: false,
-                });
-              }}
-            />
           ) : (
             this.renderScreen(this.state.screen)
           )}
@@ -143,26 +141,26 @@ class FooterNavigation extends React.PureComponent<Props, State> {
           <FooterNav
             charging={this.props.bike.batteryCharging}
             chargePercentage={Math.round(this.props.bike.batteryChargePer)}
-            locked
+            riding={this.state.riding}
             onItemSelect={(item) => {
               this.updateNotification();
-              this.setState({screen: item, lockVerified: undefined});
+              this.setState({screen: item});
             }}
             onChargeClick={() => {
               this.setState({
                 showChargingScreen: true,
               });
             }}
-            onLockClick={() => console.log('Lock clicked')}
+            onLockClick={() => {
+              this.setState({
+                riding: !this.state.riding,
+              });
+            }}
             selectedItem={this.state.screen}
-            lockOnlyVisible={
-              this.state.lockVerified !== undefined
-                ? this.state.lockVerified
-                : false
-            }
-            onLockVerified={(verified) =>
-              this.setState({lockVerified: verified, hideFooter: !verified})
-            }
+            lockOnlyVisible={this.state.riding}
+            // onLockVerified={(verified) =>
+            //   this.setState({lockVerified: verified, hideFooter: !verified})
+            // }
           />
         )}
       </View>

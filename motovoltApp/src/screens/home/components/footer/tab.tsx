@@ -19,7 +19,8 @@ type Props = {
   charging: boolean;
   chargePercentage: number;
   lockOnlyVisible: boolean;
-  locked: boolean;
+  // locked: boolean;
+  riding: boolean;
   selectedItem: TFooterItem;
   onLockClick: () => void;
   onChargeClick: () => void;
@@ -72,7 +73,7 @@ export default class Tab extends React.PureComponent<Props, {}> {
           charging={this.props.charging}
           chargePercentage={this.props.chargePercentage}
           disabled={false}
-          locked={this.props.locked}
+          riding={this.props.riding}
           onClick={this.props.onLockClick}
         />
         <FooterItem
