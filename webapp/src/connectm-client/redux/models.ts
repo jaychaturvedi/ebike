@@ -36,7 +36,8 @@ export interface TMapMarkers{
   lng:number;
   frameId:string;
   timestamp:string;
-  isActive:boolean
+  isActive:boolean;
+  customerName:string;
 }
 
 /////////////////////////////////////QUICKSIGHT DASHBOARD///////////////////////

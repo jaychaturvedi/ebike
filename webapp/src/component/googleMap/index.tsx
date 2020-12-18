@@ -30,23 +30,23 @@ interface MapState {
   location: string,
   zone: string,
   customer: string,
-  customerFilters : any, //isArray
-  locationFilters : any, //isArray
-  regionFilters : any, //isArray,
-  defaultCenter:{
-    lat:number,
-    lng:number
+  customerFilters: any, //isArray
+  locationFilters: any, //isArray
+  regionFilters: any, //isArray,
+  defaultCenter: {
+    lat: number,
+    lng: number
   },
-  zoom:number,
-  zoneSelected:boolean,
-  zoneCoordinates:{
-    lat:number,
-    lon:number
+  zoom: number,
+  zoneSelected: boolean,
+  zoneCoordinates: {
+    lat: number,
+    lon: number
   }
 }
-const defaultCity="Kolkata"
-const defaultZone="All"
-const defaultCustomer="Zomato"
+const defaultCity = "Kolkata"
+const defaultZone = "All"
+const defaultCustomer = "Zomato"
 const defaultProps = {
   center: { lat: 22, lng: 77 },
   zoom: 12
@@ -61,14 +61,14 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       refreshing: false,
       zone: "All",
       location: "Kolkata",
-      customer:"Zomato",
-      customerFilters:[],
+      customer: "Zomato",
+      customerFilters: [],
       locationFilters: [],
       regionFilters: [],
-      defaultCenter:{ lat: 22, lng: 77 },
-      zoom:5,
-      zoneSelected:false,
-      zoneCoordinates:{
+      defaultCenter: { lat: 22, lng: 77 },
+      zoom: 5,
+      zoneSelected: false,
+      zoneCoordinates: {
         lat: 22, lon: 77
       }
     }
@@ -94,7 +94,7 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         }
       })
       props.getMapViewFilters({
-        type:"GET_MAPVIEW_DROPDOWN_FILTERS"
+        type: "GET_MAPVIEW_DROPDOWN_FILTERS"
       })
       state.customerFilters = props.mapViewDropDownFilters.customer
       state.locationFilters = props.mapViewDropDownFilters.location
@@ -104,22 +104,24 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       state.dataLoaded = true
     }
     state.mapMarkers = props.mapMarkers
-    if(props.mapMarkers.length <= 0 && state.dataLoaded){
-      state.defaultCenter ={ lat: 22, lng: 77 }
-      state.zoom= 5
+    if (props.mapMarkers.length <= 0 && state.dataLoaded) {
+      state.defaultCenter = { lat: 22, lng: 77 }
+      state.zoom = 5
     }
-    if(props.mapMarkers.length > 0 && state.dataLoaded){
+    if (props.mapMarkers.length > 0 && state.dataLoaded) {
       const result = state.locationFilters?.filter((item: any) => item.locationName == state.location)[0]
-      state.defaultCenter={
-        lat:result.lat,
-        lng:result.lon}
-      state.zoom=7
+      state.defaultCenter = {
+        lat: result?.lat || 22,
+        lng: result?.lon || 77
+      }
+      state.zoom = 7
     }
-    if(props.mapMarkers.length > 0 && state.dataLoaded && state.zoneSelected){
-      state.defaultCenter={
-        lat:state.zoneCoordinates.lat,
-        lng:state.zoneCoordinates.lon}
-      state.zoom=12
+    if (props.mapMarkers.length > 0 && state.dataLoaded && state.zoneSelected) {
+      state.defaultCenter = {
+        lat: state.zoneCoordinates.lat,
+        lng: state.zoneCoordinates.lon
+      }
+      state.zoom = 12
     }
     state.customerFilters = props.mapViewDropDownFilters.customer
     state.locationFilters = props.mapViewDropDownFilters.location
@@ -132,13 +134,13 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
       dataLoaded: false,
       mapMarkers: [],
       refreshing: true,
-      location:defaultCity,
-      zone:defaultZone,
-      zoneSelected:false,
-      customer:defaultCustomer,
-      customerId:"C10001",
-      defaultCenter:{ lat: 22, lng: 77 },
-      zoom:5
+      location: defaultCity,
+      zone: defaultZone,
+      zoneSelected: false,
+      customer: defaultCustomer,
+      customerId: "C10001",
+      defaultCenter: { lat: 22, lng: 77 },
+      zoom: 5
     })
     setTimeout(() => {
       this.setState({
@@ -151,24 +153,24 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
     const result = this.state.locationFilters?.filter((item: any) => item.locationName == e.key)[0]
     this.setState({
       location: e.key,
-      dataLoaded:false,
-      defaultCenter:{
-        lat:result.lat,
-        lng:result.lon
+      dataLoaded: false,
+      defaultCenter: {
+        lat: result.lat,
+        lng: result.lon
       },
-      zoom:7,
-      zone:defaultZone,
-      zoneSelected:false,
+      zoom: 7,
+      zone: defaultZone,
+      zoneSelected: false,
     })
-    
+
   }
-  handleZoneClick= async (e:any) =>{
+  handleZoneClick = async (e: any) => {
 
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/regionfilter',
       {
         "customerId": this.state.customerId,
-        "location":this.state.location,
-        "region":e.key
+        "location": this.state.location,
+        "region": e.key
       },
       {
         headers: {
@@ -176,18 +178,18 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         }
       }
     )
-    console.log("get region",response.data);
-    const {lat,lon}= response.data.body
+    console.log("get region", response.data);
+    const { lat, lon } = response.data.body
     // if(this.props.mapMarkers.length > 0 && this.state.dataLoaded && lat && lon){
-      this.setState({
-        zone:e.key,
-        dataLoaded:false,
-        zoneSelected:true,
-        zoneCoordinates:{
-          lat:response.data.body.lat || 22,
-          lon:response.data.body.lon || 77,
-        }
-      })
+    this.setState({
+      zone: e.key,
+      dataLoaded: false,
+      zoneSelected: true,
+      zoneCoordinates: {
+        lat: response.data.body.lat || 22,
+        lon: response.data.body.lon || 77,
+      }
+    })
     // }
     // else this.setState({
     //   zone:e.key,
@@ -202,21 +204,21 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
 
 
   }
-  handleCustomerClick = (e:any) =>{
+  handleCustomerClick = (e: any) => {
     const result = this.state.customerFilters.filter((item: any) => item.customerId == e.key)
     this.setState({
-      customer:result[0]?.customerName,
+      customer: result[0]?.customerName,
       customerId: e.key,
-      dataLoaded:false,
-      zone:defaultZone,
-      zoneSelected:false,
+      dataLoaded: false,
+      zone: defaultZone,
+      zoneSelected: false,
     })
   }
   render() {
     const customer = (
       <Menu onClick={this.handleCustomerClick}>
         {
-          this.state.customerFilters?.map((item:any) => {
+          this.state.customerFilters?.map((item: any) => {
             return <Menu.Item key={item.customerId} >
               <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{item.customerName}</Typography.Text>
             </Menu.Item>
@@ -226,8 +228,8 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
     );
     const location = (
       <Menu onClick={this.handleLocationClick} >
-       {
-          this.state.locationFilters?.map((item:any) => {
+        {
+          this.state.locationFilters?.map((item: any) => {
             return <Menu.Item key={item.locationName} >
               <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{item.locationName}</Typography.Text>
             </Menu.Item>
@@ -235,11 +237,11 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         }
       </Menu>
     );
-    const zones=["All","North","South","East", "West", "Centre"]
+    const zones = ["All", "North", "South", "East", "West", "Centre"]
     const zone = (
       <Menu onClick={this.handleZoneClick}>
         {
-          this.state.regionFilters?.map((item:any) => {
+          this.state.regionFilters?.map((item: any) => {
             return <Menu.Item key={item.regionName} >
               <Typography.Text strong style={{ color: "#ffffff", marginLeft: "10%" }}>{item.regionName}</Typography.Text>
             </Menu.Item>
