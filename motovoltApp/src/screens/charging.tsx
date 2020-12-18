@@ -56,7 +56,7 @@ export default function Charging(props: ChargingProps) {
                   size={scale(298)}
                   width={scale(12)}
                   backgroundWidth={scale(20)}
-                  fill={20}
+                  fill={props.chargePercentage}
                   backgroundColor="rgba(0,0,0,0.1)"
                   rotation={0}
                   tintColor="#FFBB01"
