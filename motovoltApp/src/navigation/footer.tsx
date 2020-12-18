@@ -30,10 +30,11 @@ type State = {
   lockVerified?: boolean;
   hideFooter?: boolean;
   showChargingScreen: boolean;
-  batteryStatusInterval: number;
 };
 
 class FooterNavigation extends React.PureComponent<Props, State> {
+  batteryStatusInterval = 0;
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -41,25 +42,22 @@ class FooterNavigation extends React.PureComponent<Props, State> {
       showChargingScreen: false,
       lockVerified: undefined,
       hideFooter: undefined,
-      batteryStatusInterval: 0,
     };
   }
 
   startTimer() {
-    this.setState({
-      batteryStatusInterval: setInterval(() => {
-        this.props.readChargingStatus({
-          type: 'ReadChargingStatus',
-          payload: {
-            bikeId: this.props.bike.id,
-          },
-        });
-      }, 30000),
-    });
+    this.batteryStatusInterval = setInterval(() => {
+      this.props.readChargingStatus({
+        type: 'ReadChargingStatus',
+        payload: {
+          bikeId: this.props.bike.id,
+        },
+      });
+    }, 10000);
   }
 
   stopTimer() {
-    clearInterval(this.state.batteryStatusInterval);
+    clearInterval(this.batteryStatusInterval);
   }
 
   componentDidMount() {

@@ -81,13 +81,13 @@ export default class ProfileInfo extends React.PureComponent<Props, {}> {
         {this.props.hasTitle && (
           <View style={{ justifyContent: 'space-between', flexDirection: 'row', }}>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ ...styles.title, color: Theme.TEXT_WHITE }}>{this.props.title}</Text>
+              {/* <Text style={{ ...styles.title, color: Theme.TEXT_WHITE }}>{this.props.title}</Text>
               <TouchableOpacity onPress={() => console.log('Pencil pressed')}>
                 <Image
                   style={styles.title}
                   source={require('../../../assets/icons/pencil-edit-button.png')}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             <Text
               style={{
