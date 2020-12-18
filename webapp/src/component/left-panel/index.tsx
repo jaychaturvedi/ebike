@@ -111,7 +111,11 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                         <ReactLogo width="44" height="48" />
                     </div>
                     {["DEVELOPER", "ADMIN"].includes(this.state.userRole) &&
-                    <div className={`tab-icons ${this.state.alertsClicked && ["DEVELOPER", "ADMIN"].includes(this.state.userRole) ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("alerts")}>
+                    <div 
+                    className={`tab-icons ${this.state.alertsClicked 
+                    && ["DEVELOPER", "ADMIN"].includes(this.state.userRole) 
+                    ? "option-clicked" : ""}`} 
+                    onClick={() => this.alertsClicked("alerts")}>
                         <Alerts width="40" height="40" />
                         <Typography.Text style={{ color: 'white' }}>Alerts</Typography.Text>
                     </div>
