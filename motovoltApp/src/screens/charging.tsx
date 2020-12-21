@@ -1,6 +1,10 @@
 import React from 'react';
-import {Text, View, Dimensions, StyleSheet} from 'react-native';
-import {Footer} from 'native-base';
+import {
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ChargingStatusBG from '../assets/svg/charging-status-bg';
 import ChargingStatusCharging from '../assets/svg/charging-status-charging';
@@ -9,7 +13,6 @@ import CloseCharging from '../assets/svg/close-charging';
 import ChargingTime from '../assets/svg/charging_time';
 import {scale, verticalScale} from '../styles/size-matters';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const {width, height} = Dimensions.get('window');
 
@@ -36,7 +39,12 @@ export default function Charging(props: ChargingProps) {
         height={height}
         viewBox={`0 0 ${width} ${height}`}
       />
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <View
           style={{
             justifyContent: 'center',
