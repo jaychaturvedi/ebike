@@ -15,6 +15,9 @@
         width: 370px;
         font-size: 16px;
     }
+    @media screen and (max-width: 1400px) {
+      font-size: 12px;
+    }
     .single-row {
         display: flex;
         flex-direction: row;
@@ -65,6 +68,11 @@
                     font-size: 16px;
                 }
             }
+            @media screen and (max-width: 1400px) {
+              .ant-typography.clear-alert-text {
+                  font-size: 14px;
+              }
+          }
         }
     }
 }

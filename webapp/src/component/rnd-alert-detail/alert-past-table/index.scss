@@ -140,6 +140,14 @@
             padding: 20px 2px;
         }
     }
+    @media screen and (max-width: 1400px) {
+      .ant-table-thead > tr > th {
+          font-size: 14px;
+      }
+      .ant-table-tbody > tr > td{
+        font-size: 12px;
+      }
+  }
 
     .ant-table table {
         // height: calc(100% - 25px);
@@ -223,30 +231,3 @@ th {
     // padding: 2px;
     margin-left: 10px;
 }
-
-// .ant-select.ant-select-arrow {
-//     transform: rotate(0deg);
-//     transition: transform 1ms linear;
-//     // display: flex;// justify-content: center;
-//     // padding: 2px;
-//     float: right;
-//     margin-left: 10px;
-// }
-
-// .ant-select.open.ant-select-arrow {
-//     transform: rotate(180deg);
-//     transition: transform 1ms linear;
-//     display: flex;
-//     justify-content: center;
-//     // padding: 2px;
-//     float: right;
-//     margin-left: 10px;
-// }
-
-// .alert-down-circle-static>g>circle {
-//     fill: '#3C4473';
-//     float: right;
-//     display: flex;
-//     justify-content: center;
-//     margin-left: 10px;
-// }

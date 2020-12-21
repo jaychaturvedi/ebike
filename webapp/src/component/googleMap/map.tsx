@@ -1,50 +1,52 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import useSwr from "swr";
 import GoogleMapReact from "google-map-react";
 import useSupercluster from "use-supercluster";
 import axios from 'axios';
 import { TMapMarkers } from "../../connectm-client/redux/models";
+import Marker from "./marker";
 
 interface GoogleMapState {
   mapMarkers: TMapMarkers[],
-  center:{
-    lat:number,
-    lng:number
+  center: {
+    lat: number,
+    lng: number
   },
-  zoom:number,
-  // zoneSelected:boolean,
-  // zoneCoordinates?:{
-  //   lat:number,
-  //   lon:number
-  // }
+  zoom: number
 }
-const fetcher = (async (...args: any) => {
-  console.log("useswr", args)
-  const response = await fetch(args as any)
-  return await response.json()
-});
 
 const ClusterMarker = ({ children }: any) => children;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAWO4UI7QPRc__8NUnNwNgicm2K4cdkCuY';
 
-export default function GoogleMap(props:GoogleMapState) {
-  const mapRef: any = useRef();
+export default function GoogleMap(props: GoogleMapState) {
+  const mapRef: any = useRef(null);
   const [bounds, setBounds] = useState(null);
-  const [zoom, setZoom] = useState(10);
+  const [zoom, setZoom] = useState(7);
+  
+  useEffect(() => {
+    setZoom(zoom)
 
-  const url =
-    "https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2019-10";
-  const { data, error } = useSwr(url, { fetcher });
-  console.log("mppdata", data);
-  const crimes = data && !error ? data.slice(0, 2000) : [];
-  const points = crimes.map((crime: any) => ({
+  }, [props.zoom, props.center])
+
+  // const url =
+  //   "https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2019-10";
+  // const { data, error } = useSwr(url, { fetcher });
+  // console.log("mppdata", data);
+  // const crimes = data && !error ? data.slice(0, 200) : [];
+  const points = props.mapMarkers.map((motobike: TMapMarkers) => ({
     type: "Feature",
-    properties: { cluster: false, crimeId: crime.id, category: crime.category },
+    properties: {
+      cluster: false,
+      frameId: motobike.frameId,
+      timestamp: motobike.timestamp,
+      isActive: motobike.isActive,
+      customerName: motobike.customerName
+    },
     geometry: {
       type: "Point",
       coordinates: [
-        parseFloat(crime.location.longitude),
-        parseFloat(crime.location.latitude)
+        parseFloat(motobike.lng as any),
+        parseFloat(motobike.lat as any)
       ]
     }
   }));
@@ -53,15 +55,16 @@ export default function GoogleMap(props:GoogleMapState) {
     points,
     bounds,
     zoom,
-    options: { radius: 75, maxZoom: 20 }
+    options: { radius: 75, maxZoom: 19, minPoints:25 }
   });
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: GOOGLE_MAPS_APIKEY }}
-        defaultCenter={{ lat: 52.6376, lng: -1.135171 }}
-        defaultZoom={10}
+        defaultCenter={{ lat: 22, lng: 77} }
+        center={props.center}
+        zoom={props.zoom}
         yesIWantToUseGoogleMapApiInternals={true}
         onGoogleApiLoaded={({ map }) => {
           mapRef.current = map;
@@ -80,7 +83,12 @@ export default function GoogleMap(props:GoogleMapState) {
           const [longitude, latitude] = cluster.geometry.coordinates;
           const {
             cluster: isCluster,
-            point_count: pointCount
+            point_count: pointCount,
+            frameId,
+            timestamp,
+            isActive,
+            customerName
+
           } = cluster.properties;
 
           if (isCluster) {
@@ -93,34 +101,35 @@ export default function GoogleMap(props:GoogleMapState) {
                 <div
                   className="cluster-marker"
                   style={{
-                    width: `${10 + (pointCount / points.length) * 20}px`,
-                    height: `${10 + (pointCount / points.length) * 20}px`
+                    width: `${10 + (pointCount / points.length) * 40}px`,
+                    height: `${10 + (pointCount / points.length) * 40}px`
                   }}
                   onClick={() => {
                     const expansionZoom = Math.min(
                       supercluster.getClusterExpansionZoom(cluster.id),
-                      20
+                      19
                     );
                     mapRef?.current.setZoom(expansionZoom);
                     mapRef?.current.panTo({ lat: latitude, lng: longitude });
                   }}
-                  >
-                  {pointCount}
+                >
+                 <b>{pointCount}</b>
                 </div>
               </ClusterMarker>
             );
           }
 
           return (
-            <ClusterMarker
-              key={`crime-${cluster.properties.crimeId}`}
+            <Marker
+              key={`frameId-${frameId}`}
               lat={latitude}
               lng={longitude}
-            >
-              <button className="crime-marker">
-                <img src="/custody.svg" alt="crime doesn't pay" />
-              </button>
-            </ClusterMarker>
+              frameId={frameId}
+              isActive={isActive}
+              timestamp={timestamp}
+              customerName={customerName}
+              color={isActive ? "#41A3C9" : "#3D487D"}
+            />
           );
         })}
       </GoogleMapReact>
