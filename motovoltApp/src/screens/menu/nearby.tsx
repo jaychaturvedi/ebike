@@ -23,9 +23,19 @@ import Geolocation from '@react-native-community/geolocation';
 import {showLocation} from 'react-native-map-link';
 import {getNearByServices} from '../../service/redux/saga/service';
 import Toast from 'react-native-simple-toast';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MenuStackParamList} from '../../navigation/menu';
+
+type MoreMenuNavigationProp = StackNavigationProp<
+  MenuStackParamList,
+  'Language'
+>;
 
 interface Props {
   nearbyServices?: TStore['nearbyServices'];
+  navigation: MoreMenuNavigationProp;
+  route: RouteProp<MenuStackParamList, 'ServiceStation'>;
 }
 
 type State = {
@@ -38,6 +48,7 @@ type State = {
 function Tile(props: {
   distance: number;
   address: string;
+  status: string;
   onDial: () => void;
   onRoute: () => void;
 }) {
@@ -56,7 +67,7 @@ function Tile(props: {
       <Marker height={54} width={40} />
       <View style={{marginLeft: 24, flex: 1}}>
         <Text style={{fontSize: 22, marginVertical: 2}} numberOfLines={1}>
-          0.6Km
+          {Number(props.distance).toFixed(2)}Km
         </Text>
         <Text
           style={{
@@ -65,7 +76,7 @@ function Tile(props: {
             marginVertical: 2,
           }}
           numberOfLines={1}>
-          Sogo electrio mobility LLC
+          {props.address}
         </Text>
         <Text
           style={{
@@ -74,7 +85,7 @@ function Tile(props: {
             marginVertical: 2,
           }}
           numberOfLines={1}>
-          Open
+          {props.status}
         </Text>
       </View>
       <TouchableOpacity onPress={props.onDial}>
@@ -107,12 +118,16 @@ class Nearby extends React.PureComponent<Props, State> {
             distance: 20,
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
+            // latitude: 12.8923272,
+            // longitude: 77.5963663,
           },
         }).then((response) => {
           this.setState({
             locationFetchedStatus: 'SUCCESS',
             latitude: location.coords.latitude,
-            longitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            // latitude: 12.8923272,
+            // longitude: 77.5963663,
             loading: false,
           });
         });
@@ -152,11 +167,11 @@ class Nearby extends React.PureComponent<Props, State> {
 
   openMap = (lat: number, lon: number) => {
     showLocation({
-      latitude: this.state.latitude,
-      longitude: this.state.longitude,
+      latitude: lat,
+      longitude: lon,
       alwaysIncludeGoogle: true,
-      sourceLatitude: lat,
-      sourceLongitude: lon,
+      sourceLatitude: this.state.latitude,
+      sourceLongitude: this.state.longitude,
     }).then(
       () => {},
       (reason) => {},
@@ -170,7 +185,7 @@ class Nearby extends React.PureComponent<Props, State> {
           title={'Nearby Service Stations'}
           hasBackButton
           backgroundColor={Colors.HEADER_YELLOW}
-          onBackClick={() => {}}
+          onBackClick={() => this.props.navigation.replace('MenuScreen', {})}
         />
         <View style={styles.mapView}>
           {this.state.loading ? (
@@ -195,30 +210,29 @@ class Nearby extends React.PureComponent<Props, State> {
               followsUserLocation
               showsMyLocationButton
               showsUserLocation
-              location={[
-                {
-                  latitude: 7.1,
-                  longitude: 7.1,
-                },
-              ]}
+              location={
+                this.props.nearbyServices?.map((station) => ({
+                  latitude: station.lat,
+                  longitude: station.lon,
+                })) || []
+              }
             />
           )}
         </View>
         {!this.state.loading && (
           <View style={styles.footerView}>
             <ScrollView>
-              <Tile
-                address={'Madiwala'}
-                distance={5}
-                onDial={() => this.dialCall('8095139674')}
-                onRoute={() => this.openMap(37.7, 37.7)}
-              />
-              <Tile
-                address={'Madiwala'}
-                distance={5}
-                onDial={() => this.dialCall('8095139674')}
-                onRoute={() => this.openMap(37.7, 37.7)}
-              />
+              {this.props.nearbyServices?.map((station) => {
+                return (
+                  <Tile
+                    address={`${station.stationName}, ${station.addressLine1}, ${station.addressLine2}, ${station.addressLine3}`}
+                    distance={station.dist}
+                    status={station.status}
+                    onDial={() => this.dialCall(station.phoneNo)}
+                    onRoute={() => this.openMap(station.lat, station.lon)}
+                  />
+                );
+              })}
             </ScrollView>
           </View>
         )}

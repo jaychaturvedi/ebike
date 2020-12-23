@@ -249,6 +249,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                         case LanguageSelector.t('morePremium.language'):
                           this.props.navigation.navigate('Language', {});
                           break;
+                        case LanguageSelector.t('morePremium.swap'):
+                          this.props.navigation.navigate('ServiceStation', {});
+                          return;
                         // case "Theme":
                         //   this.props.navigation.navigate('Theme', {});
                         //   break;

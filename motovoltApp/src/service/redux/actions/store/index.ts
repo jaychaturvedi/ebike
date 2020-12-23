@@ -262,7 +262,9 @@ export type Store_SetNearByServices = {
         pincode: string,
         phoneNo: string,
         lat: number,
-        lon: number
+        lon: number,
+        status: string,
+        dist: number,
     }[]
 }
 

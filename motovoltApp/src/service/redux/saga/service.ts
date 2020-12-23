@@ -114,7 +114,9 @@ export async function getNearByServices(params: ServiceActions.ReadNearByService
                         pincode: record.pincode,
                         phoneNo: record.phoneNo,
                         lat: record.lat,
-                        lon: record.lon
+                        lon: record.lon,
+                        status: record.status,
+                        dist: record.dist,
                     }
                 })
             } as Store_SetNearByServices)

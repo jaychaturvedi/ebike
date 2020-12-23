@@ -184,7 +184,9 @@ type NearByService = {
     pincode: string,
     phoneNo: string,
     lat: number,
-    lon: number
+    lon: number,
+    status: string,
+    dist: number,
 }
 
 export const ZeroOnboarding: TOnboarding = {
