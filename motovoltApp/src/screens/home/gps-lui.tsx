@@ -84,12 +84,21 @@ class GPSLui extends React.PureComponent<Props, State> {
             </View>
           ) : (
             <Map
-              location={[
+              initialLocation={{
+                latitude: this.props.bike.lat,
+                longitude: this.props.bike.long,
+              }}
+              markerLocations={[
                 {
                   latitude: this.props.bike.lat,
                   longitude: this.props.bike.long,
+                  marker: (
+                    <Image
+                      source={require('../../assets/icons/location_pin.png')}></Image>
+                  ),
                 },
               ]}
+              pathLocations={[]}
             />
           )}
         </View>

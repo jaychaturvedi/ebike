@@ -7,6 +7,7 @@ import {
   Platform,
   Linking,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {Text} from 'native-base';
 import {moderateScale} from 'react-native-size-matters';
@@ -115,19 +116,15 @@ class Nearby extends React.PureComponent<Props, State> {
         getNearByServices({
           type: 'ReadNearByService',
           payload: {
-            distance: 20,
+            distance: 10,
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            // latitude: 12.8923272,
-            // longitude: 77.5963663,
           },
         }).then((response) => {
           this.setState({
             locationFetchedStatus: 'SUCCESS',
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            // latitude: 12.8923272,
-            // longitude: 77.5963663,
             loading: false,
           });
         });
@@ -143,6 +140,7 @@ class Nearby extends React.PureComponent<Props, State> {
 
   dialCall = (phone: string) => {
     let phoneNumber = '';
+    console.log('Phone', phone);
 
     if (Platform.OS === 'android') {
       phoneNumber = 'tel:${' + phone + '}';
@@ -166,16 +164,27 @@ class Nearby extends React.PureComponent<Props, State> {
   };
 
   openMap = (lat: number, lon: number) => {
-    showLocation({
-      latitude: lat,
-      longitude: lon,
-      alwaysIncludeGoogle: true,
-      sourceLatitude: this.state.latitude,
-      sourceLongitude: this.state.longitude,
-    }).then(
-      () => {},
-      (reason) => {},
-    );
+    console.log('State', JSON.stringify(this.state), lat, lon);
+    var url = `https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=${lat},${lon}`;
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (!supported) {
+          console.log("Can't handle url: " + url);
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch((err) => console.error('An error occurred', err));
+    // showLocation({
+    //   latitude: lat,
+    //   longitude: lon,
+    //   alwaysIncludeGoogle: true,
+    //   sourceLatitude: this.state.latitude,
+    //   sourceLongitude: this.state.longitude,
+    // }).then(
+    //   () => {},
+    //   (reason) => {},
+    // );
   };
 
   render() {
@@ -210,11 +219,19 @@ class Nearby extends React.PureComponent<Props, State> {
               followsUserLocation
               showsMyLocationButton
               showsUserLocation
-              location={
-                this.props.nearbyServices?.map((station) => ({
-                  latitude: station.lat,
-                  longitude: station.lon,
-                })) || []
+              initialLocation={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+              }}
+              pathLocations={[]}
+              markerLocations={
+                this.props.nearbyServices?.map((service) => {
+                  return {
+                    latitude: service.lat,
+                    longitude: service.lon,
+                    marker: <Marker />,
+                  };
+                }) || []
               }
             />
           )}
@@ -223,6 +240,7 @@ class Nearby extends React.PureComponent<Props, State> {
           <View style={styles.footerView}>
             <ScrollView>
               {this.props.nearbyServices?.map((station) => {
+                console.log('Tile', JSON.stringify(station));
                 return (
                   <Tile
                     address={`${station.stationName}, ${station.addressLine1}, ${station.addressLine2}, ${station.addressLine3}`}

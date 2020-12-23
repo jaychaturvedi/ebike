@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   GestureResponderEvent,
   Modal,
+  Image,
 } from 'react-native';
 import Button from '../../components/cta-button';
 import Rating from '../../components/rating';
@@ -90,7 +91,52 @@ class RateRide extends React.PureComponent<Props, State> {
             </View>
           ) : (
             <Map
-              location={this.props.ride.path.map((point) => {
+              initialLocation={{
+                latitude: this.props.ride.path.length
+                  ? this.props.ride.path[0].lat
+                  : 0,
+                longitude: this.props.ride.path.length
+                  ? this.props.ride.path[0].long
+                  : 0,
+              }}
+              markerLocations={
+                this.props.ride.path
+                  .map((point, index, points) => {
+                    if (index === 0) {
+                      return {
+                        latitude: point.lat,
+                        longitude: point.long,
+                        marker: (
+                          <View
+                            style={{
+                              width: 16,
+                              height: 16,
+                              borderRadius: 8,
+                              borderColor: 'black',
+                              backgroundColor: 'white',
+                              borderWidth: 4,
+                            }}
+                          />
+                        ),
+                      };
+                    }
+                    if (index === points.length - 1) {
+                      return {
+                        latitude: point.lat,
+                        longitude: point.long,
+                        marker: (
+                          <View>
+                            <Image
+                              source={require('../../assets/icons/location_pin.png')}
+                            />
+                          </View>
+                        ),
+                      };
+                    }
+                  })
+                  .filter((point) => point!) as any
+              }
+              pathLocations={this.props.ride.path.map((point) => {
                 return {
                   latitude: point.lat,
                   longitude: point.long,

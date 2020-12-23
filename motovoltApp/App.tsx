@@ -30,6 +30,9 @@ import {
 import {StyleSheet, Text, View} from 'react-native';
 import {ReadUser} from 'src/service/redux/actions/saga/user';
 import Toast from 'react-native-simple-toast';
+import Near from './src/screens/menu/nearby';
+// import NearBy from 'src/screens/menu/nearby';
+// import NearBy from 'src/screens/menu/nearby';
 
 declare const global: {HermesInternal: null | {}};
 
@@ -136,15 +139,15 @@ class App extends React.PureComponent<Props, State> {
 
   render() {
     console.log('In app', this.props);
-    if (this.props.error) {
-      Toast.show(this.props.error);
-      this.props.resetError({
-        type: 'Store_UpdateError',
-        payload: {
-          error: null,
-        },
-      });
-    }
+    // if (this.props.error) {
+    //   Toast.show(this.props.error);
+    //   this.props.resetError({
+    //     type: 'Store_UpdateError',
+    //     payload: {
+    //       error: null,
+    //     },
+    //   });
+    // }
     if (!this.props.user.isLoggedIn) return <Onboarding />;
     if (this.props.user.isBikeRegistered) return <FooterNavigation />;
     return <Registration />;
