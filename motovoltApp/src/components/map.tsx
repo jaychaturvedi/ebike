@@ -17,6 +17,9 @@ type location = {
 };
 
 type Props = {
+  showsUserLocation?: boolean;
+  showsMyLocationButton?: boolean;
+  followsUserLocation?: boolean;
   location: location[];
 };
 
@@ -36,6 +39,8 @@ export default class Map extends React.PureComponent<Props, State> {
         zoomTapEnabled
         zoomControlEnabled
         provider={PROVIDER_GOOGLE}
+        showsMyLocationButton={this.props.showsMyLocationButton}
+        showsUserLocation={this.props.showsUserLocation}
         initialRegion={{
           latitude: this.props.location.length
             ? this.props.location[0].latitude
@@ -47,6 +52,7 @@ export default class Map extends React.PureComponent<Props, State> {
           longitudeDelta: LONGITUDE_DELTA,
         }}
         style={StyleSheet.absoluteFill}
+        followsUserLocation={this.props.followsUserLocation}
         ref={(c) => {
           this.mapView = c;
         }}>

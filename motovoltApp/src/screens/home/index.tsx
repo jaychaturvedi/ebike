@@ -15,7 +15,6 @@ import {ReadBikeStat} from '../../service/redux/actions/saga/bike-actions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {HomeStackParamList} from '../../navigation/home';
-import Map from '../../components/map';
 import GPSIcon from '../../assets/svg/GPS_tracker';
 import LanguageSelector from '../../translations';
 import {downloadFirmware} from '../../service/firmware/update';

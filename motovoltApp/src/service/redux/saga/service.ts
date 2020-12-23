@@ -2,11 +2,11 @@ import {
     put,
 } from "redux-saga/effects";
 import * as ServiceActions from "../actions/saga/service-actions";
-import { Store_UpdateUser, Store_UpdateBike, Store_SetServices, Store_UpdateError } from "../actions/store";
+import { Store_UpdateUser, Store_UpdateBike, Store_SetServices, Store_UpdateError, Store_SetNearByServices } from "../actions/store";
 import { store } from "../../index";
-import { config, request } from './utils';
+import { config, request, yantraRequest } from './utils';
 import Moment from "moment";
-import {UnknownError} from "../../server-error";
+import { UnknownError } from "../../server-error";
 
 export function* reportIssue(params: ServiceActions.ReportIssue) {
     try {
@@ -80,6 +80,55 @@ export function* getServices(params: ServiceActions.ReadService) {
     } catch (error) {
         console.log(error);
         yield put({
+            type: 'Store_UpdateError',
+            payload: {
+                error: UnknownError
+            }
+        } as Store_UpdateError)
+    }
+}
+
+export async function getNearByServices(params: ServiceActions.ReadNearByService) {
+    try {
+        const dataresponse = await yantraRequest(`${config.yantraBaseUrl}/yantra/getserprvbygeoloc`,
+            "POST", {
+            "lat": params.payload.latitude,
+            "lon": params.payload.longitude,
+            "dist": params.payload.distance
+        });
+        console.log(dataresponse)
+        if (dataresponse.success) {
+            const data = dataresponse.response!.body;
+            store.dispatch({
+                type: 'Store_SetNearByServices',
+                payload: data.map((record: any) => {
+                    return {
+                        locMasterId: record.locMasterId,
+                        locName: record.locName,
+                        serviceProviderId: record.serviceProviderId,
+                        stationName: record.stationName,
+                        serviceProviderType: record.serviceProviderType,
+                        addressLine1: record.addressLine1,
+                        addressLine2: record.addressLine2,
+                        addressLine3: record.addressLine3,
+                        pincode: record.pincode,
+                        phoneNo: record.phoneNo,
+                        lat: record.lat,
+                        lon: record.lon
+                    }
+                })
+            } as Store_SetNearByServices)
+        } else {
+            store.dispatch({
+                type: 'Store_UpdateError',
+                payload: {
+                    error: UnknownError
+                }
+            } as Store_UpdateError)
+        }
+    } catch (error) {
+        console.log(error);
+        store.dispatch({
             type: 'Store_UpdateError',
             payload: {
                 error: UnknownError

@@ -72,7 +72,7 @@ export type Store_UpdateBike = {
         batteryCharging?: boolean,
         batteryChargeCycle?: number,
         chargingDistance?: number,
-        chargingEta?: number,    
+        chargingEta?: number,
         batteryHealthPer?: number,
         type?: "CELLULAR" | "BLE" | null,
         batteries?: {
@@ -248,6 +248,24 @@ export type Store_SetUpgrades = {
     }
 }
 
+export type Store_SetNearByServices = {
+    type: 'Store_SetNearByServices',
+    payload: {
+        locMasterId: number,
+        locName: string,
+        serviceProviderId: number,
+        stationName: string,
+        serviceProviderType: string,
+        addressLine1: string,
+        addressLine2: string,
+        addressLine3: string,
+        pincode: string,
+        phoneNo: string,
+        lat: number,
+        lon: number
+    }[]
+}
+
 export type Store_Reset = {
     type: "Store_Reset",
     payload: {}
@@ -265,6 +283,11 @@ export type Store_ResetRide = {
 
 export type Store_ResetStats = {
     type: "Store_ResetStats",
+    payload: {}
+}
+
+export type Store_ResetNearByServices = {
+    type: "Store_ResetNearByServices",
     payload: {}
 }
 
@@ -287,5 +310,7 @@ type Action = Store_UpdateUser
     | Store_UpdateError
     | Store_ResetRide
     | Store_ResetStats
+    | Store_SetNearByServices
+    | Store_ResetNearByServices;
 
 export default Action;
