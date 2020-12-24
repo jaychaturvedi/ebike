@@ -146,7 +146,14 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     return sortedData
   };
 
-  renderClass = () => {
+  renderClass = (tabClicked:boolean) => {
+    if(!tabClicked){
+      this.setState({
+        isAsc: true,
+        classname: 'alert-down-circle'
+      })
+    }
+    else 
     this.setState({
       isAsc: !this.state.isAsc,
       classname: !this.state.isAsc? 'alert-down-circle' :'alert-down-circle open',
@@ -154,13 +161,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   }
 
   handleClickAlert = (event: any) => {
-    if(this.state.sortingKey!=="alertName"){
-      this.setState({
-        isAsc: true,
-        classname: 'alert-down-circle'
-      })
-    }
-    else this.renderClass()
+    this.renderClass(this.state.alertClicked)
     this.setState({
       alertClicked: true,
       modelClicked: false,
@@ -173,13 +174,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   }
 
   handleClickModel = (event: any) => {
-    if(this.state.sortingKey!=="model"){
-      this.setState({
-        isAsc: true,
-        classname: 'alert-down-circle'
-      })
-    }
-    else this.renderClass()
+    this.renderClass(this.state.modelClicked)
     this.setState({
       alertClicked: false,
       modelClicked: true,
@@ -192,13 +187,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   }
 
   handleClickTime = (event: any) => {
-    if(this.state.sortingKey!=="alertTime"){
-      this.setState({
-        isAsc: true,
-        classname: 'alert-down-circle'
-      })
-    }
-    else this.renderClass()
+    this.renderClass(this.state.timeClicked)
     this.setState({
       alertClicked: false,
       modelClicked: false,
@@ -211,13 +200,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   }
 
   handleClickOpenSince = (event: any) => {
-    if(this.state.sortingKey!=="openSince"){
-      this.setState({
-        isAsc: true,
-        classname: 'alert-down-circle'
-      })
-    }
-    else this.renderClass()
+    this.renderClass(this.state.openSinceClicked)
     this.setState({
       alertClicked: false,
       modelClicked: false,
@@ -230,13 +213,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   }
 
   handleClickSeverity = (event: any) => {
-    if(this.state.sortingKey!=="Severity"){
-      this.setState({
-        isAsc: true,
-        classname: 'alert-down-circle'
-      })
-    }
-    else this.renderClass()
+    this.renderClass(this.state.severityClicked)
     this.setState({
       alertClicked: false,
       modelClicked: false,
