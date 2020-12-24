@@ -67,9 +67,9 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
       // current : props.alerts.pagination.pageNumber,
       total: 0,
       data: [],
-      isAsc: false,
+      isAsc: true,
       sortingKey: 'alertTime',
-      isDesc: true,
+      isDesc: false,
       classname: 'alert-down-circle',
       sortDirections: 'ascend',
       loading: false,
@@ -131,14 +131,16 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     state.pageSize = props.alerts.pagination.pageSize
     state.current = props.alerts.pagination.pageNumber
     state.tableLoading = false
-    state.data = state.handleSort(Object.values(props.alerts[state.alertType]), props.alerts.sort) as AlertModel[]
+    // state.data = state.handleSort(Object.values(props.alerts[state.alertType]), props.alerts.sort) as AlertModel[]
+    state.data= props.alerts.alertData[state.alertType]
+
     return state;
   }
   /**Sorting */
   handleSort = (arr: any, sort: TSort) => {
     if (!sort.fieldName) { return arr }
     let sortedData = arr.sort((a: any, b: any) => {
-      return a[sort.fieldName].localeCompare(b[sort.fieldName])
+      return a[sort.fieldName]?.localeCompare(b[sort.fieldName])
     });
     if (sort.direction === "descend") {
       return sortedData.reverse()

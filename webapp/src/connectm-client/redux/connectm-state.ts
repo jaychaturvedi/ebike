@@ -16,6 +16,11 @@ export interface State {
         mc: {
             [alertId: string]: AlertData
         },
+        alertData:{
+          "smart":AlertData[],
+          "bms":AlertData[],
+          "mc":AlertData[]
+        },
         smartCount: number,
         bmsCount: number,
         mcCount: number,
@@ -61,6 +66,11 @@ const connectmState: State = {
         smart: {},
         bms: {},
         mc: {},
+        alertData:{
+          "smart":[],
+          "bms":[],
+          "mc":[]
+        },
         smartCount: 0,
         bmsCount: 0,
         mcCount: 0,
@@ -70,7 +80,7 @@ const connectmState: State = {
         },
         sort: {
             fieldName: "Time",
-            direction: 'descend'
+            direction: 'ascend'
         },
         filter: { fieldName: "all", value: "" },
         locationFilter: { fieldName: "all", value: "" },
