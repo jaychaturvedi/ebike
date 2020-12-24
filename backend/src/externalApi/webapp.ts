@@ -18,13 +18,14 @@ function createOptions(url: string, body: any,) {
 }
 
 export default class WebAPI {
-    static async mainAlerts(alertType: string, pageNo: number, pageSize: number) {
+    static async mainAlerts(alertType: string, pageNo: number, pageSize: number,
+      sortDirection:string, sortKey:string) {
         console.log("Start Yantrs Time", new Date())
-        const options = createOptions('/allalerts', { alertType, pageNo, pageSize })
+        const options = createOptions('/allalerts', 
+        { alertType, pageNo, pageSize, sortDirection, sortKey})
         const fetchedData: TDashboard = await post(options)
         console.log("End Yantra time", new Date)
         return fetchedData
-
     }
 
     static async totalAlerts(alertType: string, startDate: string, endDate: string) {

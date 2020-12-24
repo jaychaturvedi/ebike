@@ -20,7 +20,9 @@ type FilterAlertRequest = {
     timeFrame?: string,
     alertType: TAlertType,
     pageNo: number,
-    pageSize: number
+    pageSize: number,
+    sortDirection:"asc"|"desc"
+    sortKey:string
 }
 
 export type Store_AlertUpdate = {
@@ -105,6 +107,8 @@ export function* getAlertData(params: IAlertActions) {
 }
 
 async function getAlerts(params: IAlertActions) {
+  console.log("getAlerts data......", params);
+
     let response = [];
     if (params.payload.filter.fieldName !== "all") {
         const request = await getFilteredAlertDetailsRequest(params);
@@ -123,7 +127,6 @@ async function getAlerts(params: IAlertActions) {
       bms:  Object.assign({dataCount: 0, data: []}, response[1]),
       mc: Object.assign({dataCount: 0, data: []}, response[2]),
     }
-    console.log("getAlerts data......", data);
     return data
 }
 
@@ -157,7 +160,9 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
     let request: FilterAlertRequest = {
       alertType: params.payload.alertType,
       pageNo: params.payload.pagination.pageNumber,
-      pageSize: params.payload.pagination.pageSize
+      pageSize: params.payload.pagination.pageSize,
+      sortDirection:params.payload.sort.direction==="descend"?"desc":"asc",
+      sortKey:params.payload.sort.fieldName
     }
     if (params.payload.vehicleFilter.fieldName === "model") {
         const key = (params.payload.vehicleFilter.value === "Classic" || params.payload.vehicleFilter.value === "Cargo") ? "model" : "subModel"
@@ -210,7 +215,9 @@ async function getSmartAlert(params: IAlertActions) {
         {
             alertType: "smart",
             pageSize: params.payload.pagination.pageSize,
-            pageNo: params.payload.pagination.pageNumber
+            pageNo: params.payload.pagination.pageNumber,
+            sortDirection:params.payload.sort.direction==="descend"?"desc":"asc",
+            sortKey:params.payload.sort.fieldName
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as Alert
@@ -221,7 +228,9 @@ async function getBmsAlert(params: IAlertActions) {
         {
             alertType: "bms",
             pageSize: params.payload.pagination.pageSize,
-            pageNo: params.payload.pagination.pageNumber
+            pageNo: params.payload.pagination.pageNumber,
+            sortDirection:params.payload.sort.direction==="descend"?"desc":"asc",
+            sortKey:params.payload.sort.fieldName
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as Alert
@@ -232,7 +241,9 @@ async function getMcAlert(params: IAlertActions) {
         {
             alertType: "mc",
             pageSize: params.payload.pagination.pageSize,
-            pageNo: params.payload.pagination.pageNumber
+            pageNo: params.payload.pagination.pageNumber,
+            sortDirection:params.payload.sort.direction==="descend"?"desc":"asc",
+            sortKey:params.payload.sort.fieldName
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as Alert
