@@ -224,7 +224,8 @@ export type TDashboardFilter = {
     timeFrame?: string;
     pageNo?: number;
     pageSize?: number;
-
+    sortDirection:string;
+    sortKey:string;
 }
 
 export type TAdditionalInsight = {

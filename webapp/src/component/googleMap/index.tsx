@@ -292,31 +292,6 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         </div>
         {/* <Divider style={{ background: "grey", margin: "10px 0" }} /> */}
         {this.state.dataLoaded && <div className="google-map-container">
-          {/* <GoogleMapReact
-            bootstrapURLKeys={{
-              key: GOOGLE_MAPS_APIKEY,
-              language: 'en'
-            }}
-            // defaultCenter={this.state.defaultCenter}
-            center={this.state.defaultCenter}
-            // options={this.getMapOptions}
-            yesIWantToUseGoogleMapApiInternals={true}
-            // defaultZoom={this.state.zoom}
-            zoom={this.state.zoom}
-          >
-            {this.state.mapMarkers.map((element: TMapMarkers) => {
-              return (
-                <Marker
-                  lat={element.lat}
-                  lng={element.lng}
-                  frameId={element.frameId}
-                  isActive={element.isActive}
-                  lastActive={element.timestamp}
-                  color={ element.isActive? "#41A3C9" : "#3D487D"}
-                />
-              )
-            })}
-          </GoogleMapReact> */}
           <GoogleMap
             center={this.state.defaultCenter}
             zoom={this.state.zoom}
