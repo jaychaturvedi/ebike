@@ -32,6 +32,7 @@ import LanguageIcon from '../../assets/svg/languages_icon';
 import SwapIcon from '../../assets/svg/swap';
 import LogoutIcon from '../../assets/svg/logout_icon';
 import PencilEditIcon from '../../assets/svg/pencil-edit-button';
+import ServiceStations from "../../assets/svg/service_stations";
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -115,8 +116,8 @@ class MoreMenu extends React.PureComponent<Props, State> {
           premium: false,
         },
         {
-          feature: LanguageSelector.t('morePremium.swap'),
-          icon: SwapIcon,
+          feature: LanguageSelector.t('morePremium.serviceStation'),
+          icon: ServiceStations,
           onPress: () => console.log('Feature pressed'),
           premium: false,
         },
@@ -249,7 +250,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
                         case LanguageSelector.t('morePremium.language'):
                           this.props.navigation.navigate('Language', {});
                           break;
-                        case LanguageSelector.t('morePremium.swap'):
+                        case LanguageSelector.t('morePremium.serviceStation'):
                           this.props.navigation.navigate('ServiceStation', {});
                           return;
                         // case "Theme":
