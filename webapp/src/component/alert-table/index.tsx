@@ -53,17 +53,18 @@ interface AlertStates {
   alertType: TAlertType;
   dataLoaded: boolean;
   handleSort: (arr: any, sort: TSort) => any;
-  filterField: TFilter
+  filterField: TFilter,
+  tableLoading:boolean
 }
 
 class AlertTable extends React.Component<AlertProps, AlertStates> {
   constructor(props: AlertProps) {
     super(props);
     this.state = {
-      // current: 1,
-      // pageSize: 10,
-      pageSize : props.alerts.pagination.pageSize,
-      current : props.alerts.pagination.pageNumber,
+      current: 1,
+      pageSize: 10,
+      // pageSize : props.alerts.pagination.pageSize,
+      // current : props.alerts.pagination.pageNumber,
       total: 0,
       data: [],
       isAsc: false,
@@ -83,22 +84,28 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
       filterField: {
         fieldName: "all",
         value: ""
-      }
+      },
+      tableLoading:true,
     }
   }
 
   static getDerivedStateFromProps(props: AlertProps, state: AlertStates) {
+    state.tableLoading = true
     if ((state.alertType !== props.alerts.activeAlertTab)
       || state.dataLoaded === false
-      || (state.filterField.value !== props.alerts.filter.value)) {
+      || (state.filterField.value !== props.alerts.filter.value 
+      ||  state.current!==props.alerts.pagination.pageNumber 
+      ||  state.pageSize !== props.alerts.pagination.pageSize)) {
+        console.log("page number",state.current,props.alerts.pagination.pageNumber,
+        props.alerts.pagination.pageSize,state.pageSize);
       props.getAlerts(
         {
           type: "GET_ALERTS",
           payload: {
             alertType: props.alerts.activeAlertTab,
             pagination: {
-              pageNumber: state.current,
-              pageSize: state.pageSize
+              pageNumber: props.alerts.pagination.pageNumber,
+              pageSize: props.alerts.pagination.pageSize
             },
             sort: {
               fieldName: state.sortingKey,
@@ -123,6 +130,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         
     state.pageSize = props.alerts.pagination.pageSize
     state.current = props.alerts.pagination.pageNumber
+    state.tableLoading = false
     state.data = state.handleSort(Object.values(props.alerts[state.alertType]), props.alerts.sort) as AlertModel[]
     return state;
   }
@@ -249,6 +257,24 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   handleSelect = (event: any) => {
     this.setState({ sortingKey: '' })
     const { pageSize, current } = this.state
+    console.log("page change",event);
+    
+    this.props.alertTabChanged({
+      type: "UPDATE_ACTIVE_ALERT",
+      payload: {
+        alertType: this.props.alerts.activeAlertTab,
+        pagination: {
+          pageNumber: 1,
+          pageSize: Number(event)
+        },
+        sort: this.props.alerts.sort,
+        filter: this.props.alerts.filter,
+        locationFilter: this.props.alerts.locationFilter,
+        timeFrameFilter: this.props.alerts.timeFrameFilter,
+        vehicleFilter: this.props.alerts.vehicleFilter,
+        searchFilter: this.props.alerts.searchFilter,
+      }
+    })
     this.setState({ 
       pageSize: Number(event), 
       current: 1, 
@@ -259,31 +285,51 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   handleNav = (name: any, e: any) => {
     e.preventDefault()
     let { current, total, pageSize } = this.state
-    const from = current * pageSize
-    const last = Math.floor(total / pageSize)
+    let newPageNumber :number=1
+    let from = current * pageSize
+    let last = Math.floor(total / pageSize)
     if (name === "next" && from < total) {
-      this.setState({
-        current: ++current,
-        dataLoaded: false
-      })
+      newPageNumber=++current
+      // this.setState({
+      //   current: newPageNumber,
+      //   dataLoaded: false
+      // })
     }
     if (name === "prev" && current !== 1) {
-      this.setState({
-        current: --current,
-        dataLoaded: false
-      })
+      newPageNumber=--current
+      // this.setState({
+      //   current: --current,
+      //   dataLoaded: false
+      // })
     }
     if (name === "first") {
-      this.setState({
-        current: 1,
-        dataLoaded: false
-      })
+      newPageNumber=1
+      // this.setState({
+      //   current: 1,
+      //   dataLoaded: false
+      // })
     }
     if (name === "last") {
-      (total % pageSize > 0) ?
-        this.setState({ current: last + 1, dataLoaded: false }) :
-        this.setState({ current: last, dataLoaded: false })
+      newPageNumber = (total % pageSize > 0) ?(last+1): last;
+        // this.setState({ current: newPageNumber, dataLoaded: false })
     }
+    this.props.alertTabChanged({
+      type: "UPDATE_ACTIVE_ALERT",
+      payload: {
+        alertType: this.props.alerts.activeAlertTab,
+        pagination: {
+          pageNumber: newPageNumber,
+          pageSize: this.props.alerts.pagination.pageSize
+        },
+        sort: this.props.alerts.sort,
+        filter: this.props.alerts.filter,
+        locationFilter: this.props.alerts.locationFilter,
+        timeFrameFilter: this.props.alerts.timeFrameFilter,
+        vehicleFilter: this.props.alerts.vehicleFilter,
+        searchFilter: this.props.alerts.searchFilter,
+      }
+    })
+    this.setState({dataLoaded:false})
   }
   /**Pagination */
 
@@ -398,7 +444,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
               dataSource={this.state.data}
               pagination={false}
               loading={{
-                spinning: false,
+                spinning: this.state.tableLoading,
                 indicator: <div className="loader-gif"><img src={GifLoader} alt="loading..." /></div>,
               }}
               onRow={this.onRow}
