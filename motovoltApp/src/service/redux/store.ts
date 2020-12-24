@@ -82,7 +82,7 @@ export type TBike = {
     batteryCharging: boolean,
     batteryChargeCycle: number,
     chargingDistance: number,
-    chargingEta: number,    
+    chargingEta: number,
     petrolInLitre: number,
     avgRideScore: number,
     greenMilesKm: number,
@@ -172,6 +172,23 @@ type TUpgrades = {
     }[]
 }
 
+type NearByService = {
+    locMasterId: number,
+    locName: string,
+    serviceProviderId: number,
+    stationName: string,
+    serviceProviderType: string,
+    addressLine1: string,
+    addressLine2: string,
+    addressLine3: string,
+    pincode: string,
+    phoneNo: string,
+    lat: number,
+    lon: number,
+    status: string,
+    dist: number,
+}
+
 export const ZeroOnboarding: TOnboarding = {
     confirmSignUpSuccess: null,
     signUpSuccess: null,
@@ -240,7 +257,7 @@ export const ZeroBike: TBike = {
     batteryCharging: false,
     batteryChargeCycle: 0,
     chargingDistance: 0,
-    chargingEta: 0,    
+    chargingEta: 0,
     batteryChargePer: 0,
     batteryHealthPer: 0,
     caloriesBurnt: 0,
@@ -305,6 +322,7 @@ export type TStore = {
         open: number,
         closed: number
     },
+    nearbyServices: NearByService[];
     speedometer: TSpeedometer,
     rides: { [id: string]: TRide },
     ble: TBLE,
@@ -321,6 +339,7 @@ const ZeroState: TStore = {
     notifications: { isPresent: false, showNotifications: false, data: {} },
     rides: {},
     graph: ZeroGraph,
+    nearbyServices: [],
     speedometer: ZeroSpeedometer,
     services: { services: {}, open: 0, closed: 0 },
     ble: ZeroBLE,

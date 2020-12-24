@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {View, StyleSheet, Text, ScrollView, Image} from 'react-native';
 import {moderateScale, verticalScale} from 'react-native-size-matters';
 import TipCard from '../../components/tip-card';
 import Swiper from 'react-native-swiper';
@@ -69,7 +69,52 @@ class IndividualRide extends React.PureComponent<Props, State> {
               </View>
             ) : (
               <Map
-                location={this.props.ride.path.map((point) => {
+                initialLocation={{
+                  latitude: this.props.ride.path.length
+                    ? this.props.ride.path[0].lat
+                    : 0,
+                  longitude: this.props.ride.path.length
+                    ? this.props.ride.path[0].long
+                    : 0,
+                }}
+                markerLocations={
+                  this.props.ride.path
+                    .map((point, index, points) => {
+                      if (index === 0) {
+                        return {
+                          latitude: point.lat,
+                          longitude: point.long,
+                          marker: (
+                            <View
+                              style={{
+                                width: 16,
+                                height: 16,
+                                borderRadius: 8,
+                                borderColor: 'black',
+                                backgroundColor: 'white',
+                                borderWidth: 4,
+                              }}
+                            />
+                          ),
+                        };
+                      }
+                      if (index === points.length - 1) {
+                        return {
+                          latitude: point.lat,
+                          longitude: point.long,
+                          marker: (
+                            <View>
+                              <Image
+                                source={require('../../assets/icons/location_pin.png')}
+                              />
+                            </View>
+                          ),
+                        };
+                      }
+                    })
+                    .filter((point) => point!) as any
+                }
+                pathLocations={this.props.ride.path.map((point) => {
                   return {
                     latitude: point.lat,
                     longitude: point.long,

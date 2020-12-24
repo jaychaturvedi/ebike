@@ -14,10 +14,16 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyAWO4UI7QPRc__8NUnNwNgicm2K4cdkCuY';
 type location = {
   latitude: number;
   longitude: number;
+  marker?: any;
 };
 
 type Props = {
-  location: location[];
+  showsUserLocation?: boolean;
+  showsMyLocationButton?: boolean;
+  followsUserLocation?: boolean;
+  initialLocation: location;
+  markerLocations: location[];
+  pathLocations: location[];
 };
 
 type State = {};
@@ -36,60 +42,65 @@ export default class Map extends React.PureComponent<Props, State> {
         zoomTapEnabled
         zoomControlEnabled
         provider={PROVIDER_GOOGLE}
+        showsMyLocationButton={this.props.showsMyLocationButton}
+        showsUserLocation={this.props.showsUserLocation}
         initialRegion={{
-          latitude: this.props.location.length
-            ? this.props.location[0].latitude
-            : 0,
-          longitude: this.props.location.length
-            ? this.props.location[0].longitude
-            : 0,
+          latitude: this.props.initialLocation.latitude,
+          longitude: this.props.initialLocation.longitude,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
         style={StyleSheet.absoluteFill}
+        followsUserLocation={this.props.followsUserLocation}
         ref={(c) => {
           this.mapView = c;
         }}>
-        {this.props.location.map((coordinate, index) => {
-          if (index === this.props.location.length - 1)
+        {this.props.markerLocations.map((coordinate, index) => {
+          if (coordinate.marker)
             return (
               <Marker
                 key={Math.random().toString()}
-                coordinate={coordinate}
-                image={require('../assets/icons/location_pin.png')}
+                coordinate={{
+                  latitude: coordinate.latitude,
+                  longitude: coordinate.longitude,
+                }}
+                // image={require('../assets/icons/location_pin.png')}
+                children={coordinate.marker}
               />
             );
-          if (index === 0) {
-            return (
-              <Marker
-                coordinate={coordinate}
-                key={Math.random().toString()}
-                children={
-                  <View
-                    style={{
-                      width: 16,
-                      height: 16,
-                      borderRadius: 8,
-                      borderColor: 'black',
-                      backgroundColor: 'white',
-                      borderWidth: 4,
-                    }}
-                  />
-                }
-              />
-            );
-          }
+          // if (index === 0) {
+          //   return (
+          //     <Marker
+          //       coordinate={coordinate}
+          //       key={Math.random().toString()}
+          //       children={
+          //         <View
+          //           style={{
+          //             width: 16,
+          //             height: 16,
+          //             borderRadius: 8,
+          //             borderColor: 'black',
+          //             backgroundColor: 'white',
+          //             borderWidth: 4,
+          //           }}
+          //         />
+          //       }
+          //     />
+          //   );
+          // }
         })}
-        {this.props.location.length >= 2 && (
+        {this.props.pathLocations.length >= 2 && (
           <MapViewDirections
-            origin={this.props.location[0]}
+            origin={this.props.pathLocations[0]}
             waypoints={
-              this.props.location.length > 2
-                ? this.props.location.slice(1, -1)
+              this.props.pathLocations.length > 2
+                ? this.props.pathLocations.slice(1, -1)
                 : []
             }
             // waypoints={this.props.location.slice(1, -1)}
-            destination={this.props.location[this.props.location.length - 1]}
+            destination={
+              this.props.pathLocations[this.props.pathLocations.length - 1]
+            }
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
             strokeColor="hotpink"

@@ -147,6 +147,16 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 upgrades: params.payload
             }
+        case "Store_SetNearByServices":
+            return {
+                ...store,
+                nearbyServices: params.payload
+            }
+        case 'Store_ResetNearByServices':
+            return {
+                ...store,
+                nearbyServices: []
+            }
         default: return store;
     }
 }
