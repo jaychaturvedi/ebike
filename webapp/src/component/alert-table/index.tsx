@@ -96,8 +96,6 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
       || (state.filterField.value !== props.alerts.filter.value 
       ||  state.current!==props.alerts.pagination.pageNumber 
       ||  state.pageSize !== props.alerts.pagination.pageSize)) {
-        console.log("page number",state.current,props.alerts.pagination.pageNumber,
-        props.alerts.pagination.pageSize,state.pageSize);
       props.getAlerts(
         {
           type: "GET_ALERTS",
@@ -149,111 +147,106 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   };
 
   renderClass = () => {
-    const { isAsc, isDesc } = this.state
-    if (isAsc) {
-      this.setState({
-        isAsc: !this.state.isAsc,
-        isDesc: !this.state.isDesc,
-        classname: 'alert-down-circle',
-      });
-    }
-    if (isDesc) {
-      this.setState({
-        isAsc: !this.state.isAsc,
-        isDesc: !this.state.isDesc,
-        classname: 'alert-down-circle open',
-      });
-    }
+    this.setState({
+      isAsc: !this.state.isAsc,
+      classname: !this.state.isAsc? 'alert-down-circle' :'alert-down-circle open',
+    });
   }
 
   handleClickAlert = (event: any) => {
-    event?.stopPropagation()
-    const { alertClicked } = this.state
-    if (!alertClicked) {
+    if(this.state.sortingKey!=="alertName"){
       this.setState({
-        alertClicked: true,
-        modelClicked: false,
-        timeClicked: false,
-        openSinceClicked: false,
-        severityClicked: false,
-        dataLoaded: false
+        isAsc: true,
+        classname: 'alert-down-circle'
       })
     }
-    this.setState({ sortingKey: "alertName", dataLoaded: false })
-    this.renderClass()
+    else this.renderClass()
+    this.setState({
+      alertClicked: true,
+      modelClicked: false,
+      timeClicked: false,
+      openSinceClicked: false,
+      severityClicked: false,
+      dataLoaded: false,
+      sortingKey: "alertName",
+    })
   }
 
   handleClickModel = (event: any) => {
-    event?.stopPropagation()
-    const { modelClicked } = this.state
-    if (!modelClicked) {
+    if(this.state.sortingKey!=="model"){
       this.setState({
-        alertClicked: false,
-        modelClicked: true,
-        timeClicked: false,
-        openSinceClicked: false,
-        severityClicked: false,
-        dataLoaded: false
+        isAsc: true,
+        classname: 'alert-down-circle'
       })
     }
-    this.renderClass()
-    this.setState({ sortingKey: "model", dataLoaded: false })
+    else this.renderClass()
+    this.setState({
+      alertClicked: false,
+      modelClicked: true,
+      timeClicked: false,
+      openSinceClicked: false,
+      severityClicked: false,
+      dataLoaded: false,
+      sortingKey: "model"
+    })
   }
 
   handleClickTime = (event: any) => {
-    const { timeClicked } = this.state
-    if (!timeClicked) {
+    if(this.state.sortingKey!=="alertTime"){
       this.setState({
-        alertClicked: false,
-        modelClicked: false,
-        timeClicked: true,
-        openSinceClicked: false,
-        severityClicked: false,
-        dataLoaded: false
+        isAsc: true,
+        classname: 'alert-down-circle'
       })
     }
-    this.renderClass()
-    this.setState({ sortingKey: "alertTime", dataLoaded: false })
+    else this.renderClass()
+    this.setState({
+      alertClicked: false,
+      modelClicked: false,
+      timeClicked: true,
+      openSinceClicked: false,
+      severityClicked: false,
+      dataLoaded: false,
+      sortingKey: "alertTime"
+    })
   }
 
   handleClickOpenSince = (event: any) => {
-    const { openSinceClicked } = this.state
-    if (!openSinceClicked) {
+    if(this.state.sortingKey!=="openSince"){
       this.setState({
-        alertClicked: false,
-        modelClicked: false,
-        timeClicked: false,
-        openSinceClicked: true,
-        severityClicked: false,
-        dataLoaded: false
+        isAsc: true,
+        classname: 'alert-down-circle'
       })
     }
-    this.renderClass()
-    this.setState({ sortingKey: "openSince", dataLoaded: false })
+    else this.renderClass()
+    this.setState({
+      alertClicked: false,
+      modelClicked: false,
+      timeClicked: false,
+      openSinceClicked: true,
+      severityClicked: false,
+      dataLoaded: false,
+      sortingKey: "openSince"
+    })
   }
 
   handleClickSeverity = (event: any) => {
-    const { severityClicked } = this.state
-    if (!severityClicked) {
+    if(this.state.sortingKey!=="Severity"){
       this.setState({
-        alertClicked: false,
-        modelClicked: false,
-        timeClicked: false,
-        openSinceClicked: false,
-        severityClicked: true,
-        dataLoaded: false
+        isAsc: true,
+        classname: 'alert-down-circle'
       })
     }
-    this.renderClass()
-    this.setState({ sortingKey: "Severity", dataLoaded: false })
+    else this.renderClass()
+    this.setState({
+      alertClicked: false,
+      modelClicked: false,
+      timeClicked: false,
+      openSinceClicked: false,
+      severityClicked: true,
+      dataLoaded: false,
+      sortingKey: "Severity"
+    })
   }
-  // handleColumnSort = (arr: any, key: string) => {
-  //     if (!key) { return arr }
-  //     return arr.sort((a: any, b: any) => {
-  //         return a[key].localeCompare(b[key])
-  //     });
-  // };
-  /**Sorting */
 
   /**Pagination */
   handleSelect = (event: any) => {
