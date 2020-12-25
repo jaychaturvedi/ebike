@@ -6,6 +6,9 @@
         .graph-header-text {
             color: #ffffff;
               font-size: 24px !important;
+              @media screen and (max-width: 1400px) {
+                font-size: 16px !important;
+            }
         }
     }
     .recharts-legend-item .recharts-legend-item-text {
