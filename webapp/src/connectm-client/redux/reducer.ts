@@ -70,7 +70,9 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
             bms: (actionParams as Store_AlertUpdate).payload.alerts.bms.data,
             mc: (actionParams as Store_AlertUpdate).payload.alerts.mc.data,
           },
-          pagination: (actionParams as Store_AlertUpdate).payload.pagination,
+          pagination: (actionParams as Store_AlertUpdate).payload.alertPagination[
+            (actionParams as Store_AlertUpdate).payload.alertType
+          ],
           sort: (actionParams as Store_AlertUpdate).payload.sort,
           smartCount: (actionParams as Store_AlertUpdate).payload.alerts.smart.dataCount,
           bmsCount: (actionParams as Store_AlertUpdate).payload.alerts.bms.dataCount,
