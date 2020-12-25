@@ -1,7 +1,7 @@
 import {
     AlertData, TSort, TPagination, TFilter, TAlertType, TtrendTotalAlerts,
     TtrendTop5Alert, TtrendLocationWise, TAlertInsights, TPastAlertData, User,
-     TDashboardList, TMapMarkers, TDropdownFilters, TMapViewFilters, TSearchOptions, TSearchFilter
+     TDashboardList, TMapMarkers, TDropdownFilters, TMapViewFilters, TSearchOptions, TSearchFilter, TAlertPagination
 } from "./models";
 
 export interface State {
@@ -26,6 +26,7 @@ export interface State {
         mcCount: number,
         sort: TSort,
         pagination: TPagination,
+        alertPagination:TAlertPagination,
         filter: TFilter,
         locationFilter: TFilter,
         vehicleFilter: TFilter,
@@ -81,6 +82,20 @@ const connectmState: State = {
         sort: {
             fieldName: "Time",
             direction: 'ascend'
+        },
+        alertPagination: {
+          smart: {
+            pageNumber: 1,
+            pageSize: 10,
+          },
+          bms: {
+            pageNumber: 1,
+            pageSize: 10,
+          },
+          mc: {
+            pageNumber: 1,
+            pageSize: 10,
+          }
         },
         filter: { fieldName: "all", value: "" },
         locationFilter: { fieldName: "all", value: "" },

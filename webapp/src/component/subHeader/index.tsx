@@ -317,6 +317,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 vehicleFilter: this.state.vehicleFilter,
                 timeFrameFilter: this.state.timeFrameFilter,
                 searchFilter: this.state.searchFilter,
+                alertPagination:this.props.alerts.alertPagination,
             }
         })
     }
@@ -362,6 +363,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                 vehicleFilter: {...resetFilter},
                 timeFrameFilter: {...resetFilter},
                 searchFilter: {fieldName:"all", value:"", isVehicle:false},
+                alertPagination:this.props.alerts.alertPagination,
             }
         })
     }

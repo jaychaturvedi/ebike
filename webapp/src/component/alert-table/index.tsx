@@ -9,7 +9,7 @@ import SeverityRenderer from "./severity-rendere"
 import TimeRenderer from "./time-renderer"
 import OpenSinceRenderer from "./openSinceRenderer"
 import { ReduxAlertActions, ReduxAlertState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/alerts"
-import { AlertData as AlertModel, TAlertType, TSort, TFilter } from "../../connectm-client/redux/models"
+import { AlertData as AlertModel, TAlertType, TSort, TFilter, TAlertPagination } from "../../connectm-client/redux/models"
 import { connect } from 'react-redux'
 
 const paginationDate = ['10', '25', '50'];
@@ -54,7 +54,8 @@ interface AlertStates {
   dataLoaded: boolean;
   handleSort: (arr: any, sort: TSort) => any;
   filterField: TFilter,
-  tableLoading:boolean
+  tableLoading:boolean,
+  alertPagination:TAlertPagination,
 }
 
 class AlertTable extends React.Component<AlertProps, AlertStates> {
@@ -86,6 +87,20 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         value: ""
       },
       tableLoading:true,
+      alertPagination: {
+        smart: {
+          pageNumber: 1,
+          pageSize: 10,
+        },
+        bms: {
+          pageNumber: 1,
+          pageSize: 10,
+        },
+        mc: {
+          pageNumber: 1,
+          pageSize: 10,
+        }
+      },
     }
   }
 
@@ -93,9 +108,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     state.tableLoading = true
     if ((state.alertType !== props.alerts.activeAlertTab)
       || state.dataLoaded === false
-      || (state.filterField.value !== props.alerts.filter.value 
-      ||  state.current!==props.alerts.pagination.pageNumber 
-      ||  state.pageSize !== props.alerts.pagination.pageSize)) {
+      || (state.filterField.value !== props.alerts.filter.value )
+      || (state.alertPagination[state.alertType] !==props.alerts.alertPagination[state.alertType])) {
       props.getAlerts(
         {
           type: "GET_ALERTS",
@@ -114,6 +128,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             timeFrameFilter: props.alerts.timeFrameFilter,
             vehicleFilter: props.alerts.vehicleFilter,
             searchFilter: props.alerts.searchFilter,
+            alertPagination:props.alerts.alertPagination,
           }
         }
       )
@@ -124,10 +139,9 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
     state.total = props.alerts.activeAlertTab === 'smart'
       ? props.alerts.smartCount : props.alerts.activeAlertTab === 'bms'
         ? props.alerts.bmsCount : props.alerts.mcCount
-        console.log("alert typee", props.alerts );
-        
-    state.pageSize = props.alerts.pagination.pageSize
-    state.current = props.alerts.pagination.pageNumber
+    state.pageSize = props.alerts.alertPagination[state.alertType].pageSize
+    state.current = props.alerts.alertPagination[state.alertType].pageNumber
+    state.alertPagination=props.alerts.alertPagination
     state.tableLoading = false
     // state.data = state.handleSort(Object.values(props.alerts[state.alertType]), props.alerts.sort) as AlertModel[]
     state.data= props.alerts.alertData[state.alertType]
@@ -229,22 +243,26 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
   handleSelect = (event: any) => {
     this.setState({ sortingKey: '' })
     const { pageSize, current } = this.state
-    console.log("page change",event);
-    
+    const defaultPagination = {
+      pageNumber: 1,
+      pageSize: Number(event)
+    }
     this.props.alertTabChanged({
       type: "UPDATE_ACTIVE_ALERT",
       payload: {
         alertType: this.props.alerts.activeAlertTab,
-        pagination: {
-          pageNumber: 1,
-          pageSize: Number(event)
-        },
+        pagination: defaultPagination,
         sort: this.props.alerts.sort,
         filter: this.props.alerts.filter,
         locationFilter: this.props.alerts.locationFilter,
         timeFrameFilter: this.props.alerts.timeFrameFilter,
         vehicleFilter: this.props.alerts.vehicleFilter,
         searchFilter: this.props.alerts.searchFilter,
+        alertPagination: {
+          "smart":defaultPagination,
+          "bms":defaultPagination,
+          "mc":defaultPagination
+        },        
       }
     })
     this.setState({ 
@@ -299,6 +317,13 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
         timeFrameFilter: this.props.alerts.timeFrameFilter,
         vehicleFilter: this.props.alerts.vehicleFilter,
         searchFilter: this.props.alerts.searchFilter,
+        alertPagination: {
+          ...this.props.alerts.alertPagination,
+          [this.props.alerts.activeAlertTab as TAlertType]: {
+            pageNumber: newPageNumber,
+            pageSize: this.props.alerts.pagination.pageSize
+          }
+        },
       }
     })
     this.setState({dataLoaded:false})
@@ -401,6 +426,12 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
       },
     ];
 
+    const totalRows = this.state.pageSize * this.state.current 
+    const rowFrom = this.state.total
+      ? (this.state.pageSize * (this.state.current - 1) + 1)
+      : 0
+    const rowTill = totalRows > this.state.total ? this.state.total : totalRows
+     
     return <>
       <div className="container" >
         <div className={'table-body'}>
@@ -435,10 +466,8 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
                     <div className={'spacer'}></div>
           <span className={'nav-button'}>
             <pre className="pages-available">
-              {this.state.total?(this.state.pageSize * (this.state.current - 1) + 1):0} -&nbsp;
-                        {this.state.pageSize * this.state.current > this.state.total
-                ? this.state.total : this.state.pageSize * this.state.current}
-                          &nbsp;of {this.state.total}</pre>
+              {rowFrom} -&nbsp;{rowTill} &nbsp;of {this.state.total}
+            </pre>
           </span>
           <div className={'spacer'}></div>
           <span onClick={(e) => { this.handleNav("first", e) }} className={'nav-button'} >

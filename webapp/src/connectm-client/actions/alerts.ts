@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import {  TAlertType, TSort, TPagination, TFilter, TSearchFilter } from "../redux/models";
+import {  TAlertType, TSort, TPagination, TFilter, TSearchFilter, TAlertPagination } from "../redux/models";
 import { State} from "../redux/connectm-state"
 export type AlertActions = "GET_ALERTS" | "UPDATE_ACTIVE_ALERT" | "UPDATE_FILTER"
 export type SearchActions = "GET_SEARCH_OPTIONS"
@@ -15,6 +15,7 @@ export interface AlertPayload extends AlertTypePayload {
     vehicleFilter: TFilter,
     timeFrameFilter: TFilter,
     searchFilter: TSearchFilter,
+    alertPagination:TAlertPagination,
 }
 
 export interface IAlertActions {

@@ -76,6 +76,9 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
           bmsCount: (actionParams as Store_AlertUpdate).payload.alerts.bms.dataCount,
           mcCount: (actionParams as Store_AlertUpdate).payload.alerts.mc.dataCount,
           activeAlertTab: (actionParams as Store_AlertUpdate).payload.alertType,
+          alertPagination:{
+            ...(actionParams as Store_AlertUpdate).payload.alertPagination,
+          }
         }
       }
     };
@@ -85,7 +88,8 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
         alerts: {
           ...state.alerts,
           activeAlertTab: (actionParams as Store_AlertTabChange).payload.alertType,
-          pagination: (actionParams as Store_AlertTabChange).payload.pagination
+          pagination: (actionParams as Store_AlertTabChange).payload.pagination,
+          alertPagination:(actionParams as Store_AlertTabChange).payload.alertPagination
         }
       }
     };
@@ -99,7 +103,8 @@ const AppReducer = (state: State = connectmState, actionParams: ActionParams) =>
           vehicleFilter: (actionParams as Store_AlertFilterChange).payload.vehicleFilter,
           timeFrameFilter: (actionParams as Store_AlertFilterChange).payload.timeFrameFilter,
           searchFilter: (actionParams as Store_AlertFilterChange).payload.searchFilter,
-          pagination: (actionParams as Store_AlertFilterChange).payload.pagination
+          pagination: (actionParams as Store_AlertFilterChange).payload.pagination,
+          alertPagination:(actionParams as Store_AlertFilterChange).payload.alertPagination
         }
       }
     }
