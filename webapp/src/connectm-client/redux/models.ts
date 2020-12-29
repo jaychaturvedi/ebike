@@ -7,6 +7,12 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number,
 }
+//////////////////////////////////Alert Pgination///////////////////////////////
+export interface TAlertPagination{
+  "smart":TPagination,
+  "bms":TPagination,
+  "mc":TPagination
+}
 /////////////////////////////////// DROPDOWN FILTERS ///////////////////////////
 interface TVehicle{
   model:string,

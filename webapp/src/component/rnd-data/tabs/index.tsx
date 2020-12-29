@@ -39,16 +39,14 @@ class Tabs extends PureComponent<TabsProps, TabsStates> {
       type: "UPDATE_ACTIVE_ALERT",
       payload: {
         alertType: tab,
-        pagination: {
-          pageNumber: 1,
-          pageSize: 10
-        },
+        pagination: this.props.alerts.alertPagination[tab],
         sort: this.props.alerts.sort,
         filter: this.props.alerts.filter,
         locationFilter: this.props.alerts.locationFilter,
         timeFrameFilter: this.props.alerts.timeFrameFilter,
         vehicleFilter: this.props.alerts.vehicleFilter,
         searchFilter: this.props.alerts.searchFilter,
+        alertPagination:this.props.alerts.alertPagination,
       }
     })
   }
