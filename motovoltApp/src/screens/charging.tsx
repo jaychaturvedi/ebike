@@ -1,9 +1,11 @@
 import React from 'react';
+import {Footer} from 'native-base';
 import {
   Text,
   View,
   Dimensions,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ChargingStatusBG from '../assets/svg/charging-status-bg';
@@ -13,6 +15,7 @@ import CloseCharging from '../assets/svg/close-charging';
 import ChargingTime from '../assets/svg/charging_time';
 import {scale, verticalScale} from '../styles/size-matters';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import Moment from 'moment';
 
 const {width, height} = Dimensions.get('window');
 
@@ -20,13 +23,13 @@ type ChargingProps = {
   chargePercentage: number;
   chargeCycle: number;
   kms: number;
-  timeRemaining: string;
+  timeRemainingSecs: number;
   onClose: () => void;
 };
 
 export default function Charging(props: ChargingProps) {
   return (
-    <View
+    <SafeAreaView
       style={{
         width: '100%',
         height: '100%',
@@ -78,6 +81,7 @@ export default function Charging(props: ChargingProps) {
                           borderRadius: scale(274) / 2,
                           justifyContent: 'center',
                           alignItems: 'center',
+                          paddingHorizontal: 12,
                         }}
                         start={{x: 0.5, y: 0}}
                         end={{x: 0.5, y: 1}}
@@ -94,10 +98,10 @@ export default function Charging(props: ChargingProps) {
                               alignItems: 'center',
                               width: '33%',
                             }}>
-                            <Text style={{color: 'white', fontSize: 58}}>
+                            <Text style={{color: 'white', fontSize: scale(48)}}>
                               {props.chargePercentage}
                             </Text>
-                            <Text style={{color: 'white', fontSize: 24}}>
+                            <Text style={{color: 'white', fontSize: scale(20)}}>
                               %
                             </Text>
                           </View>
@@ -119,10 +123,10 @@ export default function Charging(props: ChargingProps) {
                               justifyContent: 'center',
                               alignItems: 'center',
                             }}>
-                            <Text style={{color: 'white', fontSize: 58}}>
+                            <Text style={{color: 'white', fontSize: scale(48)}}>
                               {props.kms}
                             </Text>
-                            <Text style={{color: 'white', fontSize: 24}}>
+                            <Text style={{color: 'white', fontSize: scale(20)}}>
                               kms
                             </Text>
                           </View>
@@ -199,7 +203,7 @@ export default function Charging(props: ChargingProps) {
                   fontWeight: '400',
                   lineHeight: 46,
                 }}>
-                {props.timeRemaining}
+                {Moment.utc(props.timeRemainingSecs).format('HH:mm:ss')}
               </Text>
             </View>
           )}
@@ -224,6 +228,6 @@ export default function Charging(props: ChargingProps) {
           <CloseCharging style={{margin: 'auto'}} />
         </View>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
