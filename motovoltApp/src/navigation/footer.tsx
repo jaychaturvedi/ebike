@@ -109,6 +109,8 @@ class FooterNavigation extends React.PureComponent<Props, State> {
         (this.props.bike.chargingEta * 60 * 60)) /
       100;
 
+    const timeMillis = temp * 1000;
+
     if (this.state.showChargingScreen)
       return (
         <Charging
@@ -123,7 +125,7 @@ class FooterNavigation extends React.PureComponent<Props, State> {
               showChargingScreen: false,
             });
           }}
-          timeRemaining={moment.utc(temp * 1000).format('HH:mm:ss')}
+          timeRemainingMillis={timeMillis}
         />
       );
     return (
