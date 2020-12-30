@@ -168,6 +168,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                 tick={{ fill: 'white' }}
                 stroke='#ffffff'
                 padding={{ left: 30, right: 20 }}
+                allowDataOverflow={true}
               >
                 <Label
                   value={this.state.xAxisLabel}
@@ -181,7 +182,9 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                 tick={{ fill: 'white' }}
                 // ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]}
                 // interval={1}
-                padding={{ top: 20, bottom: 20 }} stroke='#ffffff'
+                padding={{ top: 20, bottom: 20 }} 
+                stroke='#ffffff'
+                allowDataOverflow={true}
               >
                 <Label
                   angle={270}

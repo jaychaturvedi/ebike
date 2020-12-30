@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import useSwr from "swr";
 import GoogleMapReact from "google-map-react";
 import useSupercluster from "use-supercluster";
 import axios from 'axios';
@@ -22,47 +21,44 @@ export default function GoogleMap(props: GoogleMapState) {
   const mapRef: any = useRef(null);
   const [bounds, setBounds] = useState(null);
   const [zoom, setZoom] = useState(7);
-  
+
   useEffect(() => {
     setZoom(zoom)
 
   }, [props.zoom, props.center])
 
-  // const url =
-  //   "https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2019-10";
-  // const { data, error } = useSwr(url, { fetcher });
-  // console.log("mppdata", data);
-  // const crimes = data && !error ? data.slice(0, 200) : [];
-  const points = props.mapMarkers.map((motobike: TMapMarkers) => ({
-    type: "Feature",
-    properties: {
-      cluster: false,
-      frameId: motobike.frameId,
-      timestamp: motobike.timestamp,
-      isActive: motobike.isActive,
-      customerName: motobike.customerName
-    },
-    geometry: {
-      type: "Point",
-      coordinates: [
-        parseFloat(motobike.lng as any),
-        parseFloat(motobike.lat as any)
-      ]
-    }
-  }));
+  const points = props.mapMarkers?.length
+    ? props.mapMarkers.map((motobike: TMapMarkers) => ({
+      type: "Feature",
+      properties: {
+        cluster: false,
+        frameId: motobike.frameId,
+        timestamp: motobike.timestamp,
+        isActive: motobike.isActive,
+        customerName: motobike.customerName
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [
+          parseFloat(motobike.lng as any),
+          parseFloat(motobike.lat as any)
+        ]
+      }
+    }))
+    : [];
 
   const { clusters, supercluster } = useSupercluster({
     points,
     bounds,
     zoom,
-    options: { radius: 75, maxZoom: 19, minPoints:25 }
+    options: { radius: 75, maxZoom: 19, minPoints: 25 }
   });
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: GOOGLE_MAPS_APIKEY }}
-        defaultCenter={{ lat: 22, lng: 77} }
+        defaultCenter={{ lat: 22, lng: 77 }}
         center={props.center}
         zoom={props.zoom}
         yesIWantToUseGoogleMapApiInternals={true}
@@ -113,7 +109,7 @@ export default function GoogleMap(props: GoogleMapState) {
                     mapRef?.current.panTo({ lat: latitude, lng: longitude });
                   }}
                 >
-                 <b>{pointCount}</b>
+                  <b>{pointCount}</b>
                 </div>
               </ClusterMarker>
             );
