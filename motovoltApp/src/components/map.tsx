@@ -29,7 +29,7 @@ type Props = {
 type State = {};
 
 export default class Map extends React.PureComponent<Props, State> {
-  mapView: any;
+  mapView: MapView | null;
   constructor(props: Props) {
     super(props);
     this.mapView = null;
@@ -52,6 +52,24 @@ export default class Map extends React.PureComponent<Props, State> {
         }}
         style={StyleSheet.absoluteFill}
         followsUserLocation={this.props.followsUserLocation}
+        onMapReady={() => {
+          this.mapView?.fitToCoordinates(
+            this.props.markerLocations.map(
+              (loc) => ({
+                latitude: loc.latitude,
+                longitude: loc.longitude,
+              }),
+              {
+                edgePadding: {
+                  right: width / 20,
+                  bottom: height / 20,
+                  left: width / 20,
+                  top: height / 20,
+                },
+              },
+            ),
+          );
+        }}
         ref={(c) => {
           this.mapView = c;
         }}>
@@ -115,7 +133,7 @@ export default class Map extends React.PureComponent<Props, State> {
               console.log(`Distance: ${result.distance} km`);
               console.log(`Duration: ${result.duration} min.`);
 
-              this.mapView.fitToCoordinates(result.coordinates, {
+              this.mapView!.fitToCoordinates(result.coordinates, {
                 edgePadding: {
                   right: width / 20,
                   bottom: height / 20,

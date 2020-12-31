@@ -67,7 +67,7 @@ export default class Charging extends React.PureComponent<
     console.log('State', this.state);
     const props = this.props;
     return (
-      <SafeAreaView
+      <View
         style={{
           width: '100%',
           height: '100%',
@@ -82,6 +82,7 @@ export default class Charging extends React.PureComponent<
         />
         <View
           style={{
+            position: 'absolute',
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
@@ -252,7 +253,9 @@ export default class Charging extends React.PureComponent<
                   } */}
                   {/* {formatTime(this.state.timeRemainingSecs/10)} */}
                   {/* {this.state.timeRemainingSecs} */}
-                  {Moment.utc(this.state.timeRemainingMillis).format('HH:mm:ss')}
+                  {Moment.utc(this.state.timeRemainingMillis).format(
+                    'HH:mm:ss',
+                  )}
                 </Text>
               </View>
             )}
@@ -264,6 +267,8 @@ export default class Charging extends React.PureComponent<
             borderTopRightRadius: 8,
             width: 90,
             height: 64,
+            bottom: 0,
+            position: 'absolute',
             backgroundColor: 'rgba(0,0,0,0.3)',
           }}
           onPress={props.onClose}>
@@ -277,7 +282,7 @@ export default class Charging extends React.PureComponent<
             <CloseCharging style={{margin: 'auto'}} />
           </View>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     );
   }
 }
