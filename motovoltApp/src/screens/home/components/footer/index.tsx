@@ -31,7 +31,7 @@ type Props = {
 };
 
 type State = {
-  selectedItem: TFooterItem;
+  // selectedItem: TFooterItem;
   // verifyMode: boolean;
   lockedIcon: boolean;
   // rideId: string;
@@ -41,7 +41,7 @@ export default class FooterNav extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      selectedItem: 'home',
+      // selectedItem: 'home',
       // verifyMode: false,
       lockedIcon: false,
       // rideId: '',
@@ -49,9 +49,9 @@ export default class FooterNav extends React.PureComponent<Props, State> {
   }
 
   onItemSelect = (item: TFooterItem) => {
-    this.setState({
-      selectedItem: item,
-    });
+    // this.setState({
+    //   selectedItem: item,
+    // });
     this.props.onItemSelect(item);
   };
 
@@ -85,7 +85,7 @@ export default class FooterNav extends React.PureComponent<Props, State> {
           onItemSelect={this.onItemSelect}
           onLockClick={this.onLockClick}
           onChargeClick={this.props.onChargeClick}
-          selectedItem={this.state.selectedItem}
+          selectedItem={this.props.selectedItem}
         />
         {/* )} */}
         {/* {this.state.verifyMode && (
