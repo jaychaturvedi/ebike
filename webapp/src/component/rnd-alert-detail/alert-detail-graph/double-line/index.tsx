@@ -152,19 +152,28 @@ class DoubleLineGraph extends PureComponent<DoubleLineGraphProps, DoubleLineGrap
                                     }} value="L2">
                                 </Label>
                             </ReferenceLine> : <ReferenceLine />}
-                            <XAxis dataKey={this.state.dataKey} height={35} tickFormatter={(label) => this.formatDate(label)}
+                            <XAxis 
+                                dataKey={this.state.dataKey} 
+                                height={35} 
+                                tickFormatter={(label) => this.formatDate(label)}
                                 // ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]}
                                 // domain={[100, 1200]}
                                 interval={"preserveStartEnd"}
-                                tick={{ fill: 'white' }} stroke='#ffffff' padding={{ left: 30, right: 20 }}>
+                                tick={{ fill: 'white' }} 
+                                stroke='#ffffff' 
+                                padding={{ left: 30, right: 20 }}
+                                allowDataOverflow={true}
+                                >
                                 <Label
                                     value={this.state.xAxisLabel}
                                     position="bottom"
                                     offset={-18}
                                     style={{ padding: 5 }}
-                                    content={props => { return this.DynamicLabel(props) }} />
+                                    content={props => { return this.DynamicLabel(props) }} 
+                                />
                             </XAxis>
                             <YAxis 
+                                allowDataOverflow={true}
                                 tick={{ fill: 'white' }}
                                 ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]}
                                 interval={"preserveStartEnd"}

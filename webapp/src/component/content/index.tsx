@@ -5,8 +5,8 @@ import WebHeader from "../header"
 import LeftPanel from "../left-panel"
 import { Route, withRouter, RouteComponentProps, Switch } from "react-router";
 import HomePage from "../rnd-home-page"
-import MisContent from "../mis-page"
-import MisAnalyserFour from '../mis-page/mis-analyser-page/fourGrid'
+// import MisContent from "../mis-page"
+// import MisAnalyserFour from '../mis-page/mis-analyser-page/fourGrid'
 // import User from "../user"
 import AlertDetail from "../rnd-alert-detail"
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
@@ -41,7 +41,7 @@ function AccessibleRoutes(props: AccessibleRoutes) {
                     {/* <Route exact path="/" component={MisPage} /> */}
                     {/* <Route exact path="/" component={MisBattery} /> */}
                     {/* <Route exact path="/" component={MisMotorController} /> */}
-                    <Route exact path="/ana" component={MisAnalyserFour} />
+                    {/* <Route exact path="/ana" component={MisAnalyserFour} /> */}
                     {/* <Route exact path="/mis" component={MisContent} /> */}
                     <Route exact path="/mis" component={Quicksight} />
                     <Route exact path="/mis/:dashboardId" component={Dashboard} />
