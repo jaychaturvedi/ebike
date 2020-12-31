@@ -337,10 +337,11 @@ class MyRides extends React.PureComponent<Props, State> {
                 fromAddress={this.props.rides[key].from}
                 toAddress={this.props.rides[key].to}
                 // todo
-                progress={
-                  Number(this.props.rides[key].powerMode) +
-                  Number(this.props.rides[key].pedalAssistMode)
-                }
+                progress={{
+                  powerMode: this.props.rides[key].powerMode,
+                  pedalAssistMode: this.props.rides[key].pedalAssistMode,
+                  ecoMode: this.props.rides[key].ecoMode,
+                }}
                 fromTime={this.props.rides[key].startTime as any}
                 toTime={this.props.rides[key].endTime as any}
                 distance={this.props.rides[key].totalDistanceKm.toString()}

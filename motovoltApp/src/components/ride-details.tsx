@@ -20,7 +20,11 @@ type Props = {
   toTime: string;
   fromAddress: string;
   toAddress: string;
-  progress: number;
+  progress: {
+    powerMode: number;
+    pedalAssistMode: number;
+    ecoMode: number;
+  };
   distance: string;
   speed: string;
   rating: string;
