@@ -69,8 +69,8 @@ export default class Charging extends React.PureComponent<
     return (
       <View
         style={{
-          width: '100%',
-          height: '100%',
+          width: width,
+          height: height,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
