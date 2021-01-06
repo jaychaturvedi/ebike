@@ -16,6 +16,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2676ACCE25A2CF690060F3FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2676ACCD25A2CF690060F3FC /* GoogleService-Info.plist */; };
+		269F90DC25A5FB6F002DE1DF /* YellowMessengerModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 269F90D825A5FB6F002DE1DF /* YellowMessengerModule.m */; };
+		269F90DD25A5FB6F002DE1DF /* YellowMessengerModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269F90D925A5FB6F002DE1DF /* YellowMessengerModule.swift */; };
+		269F90DE25A5FB6F002DE1DF /* YmSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269F90DA25A5FB6F002DE1DF /* YmSDK.swift */; };
+		269F90DF25A5FB6F002DE1DF /* YmEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269F90DB25A5FB6F002DE1DF /* YmEvents.swift */; };
+		269F90E125A5FBE1002DE1DF /* YellowMessenderAsset.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 269F90E025A5FBE1002DE1DF /* YellowMessenderAsset.xcassets */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -77,6 +82,12 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = motovoltApp/main.m; sourceTree = "<group>"; };
 		1B0090B916892943630095A9 /* Pods-motovoltApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-motovoltApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-motovoltApp-tvOSTests/Pods-motovoltApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2676ACCD25A2CF690060F3FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		269F90D725A5FB6E002DE1DF /* motovoltApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "motovoltApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		269F90D825A5FB6F002DE1DF /* YellowMessengerModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YellowMessengerModule.m; path = motovoltApp/YellowMessengerModule.m; sourceTree = "<group>"; };
+		269F90D925A5FB6F002DE1DF /* YellowMessengerModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YellowMessengerModule.swift; path = motovoltApp/YellowMessengerModule.swift; sourceTree = "<group>"; };
+		269F90DA25A5FB6F002DE1DF /* YmSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YmSDK.swift; path = motovoltApp/YmSDK.swift; sourceTree = "<group>"; };
+		269F90DB25A5FB6F002DE1DF /* YmEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YmEvents.swift; path = motovoltApp/YmEvents.swift; sourceTree = "<group>"; };
+		269F90E025A5FBE1002DE1DF /* YellowMessenderAsset.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = YellowMessenderAsset.xcassets; sourceTree = "<group>"; };
 		26A3896D82AE4459AA03EA9E /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* motovoltApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "motovoltApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* motovoltApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "motovoltApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +176,10 @@
 		13B07FAE1A68108700A75B9A /* motovoltApp */ = {
 			isa = PBXGroup;
 			children = (
+				269F90D825A5FB6F002DE1DF /* YellowMessengerModule.m */,
+				269F90D925A5FB6F002DE1DF /* YellowMessengerModule.swift */,
+				269F90DB25A5FB6F002DE1DF /* YmEvents.swift */,
+				269F90DA25A5FB6F002DE1DF /* YmSDK.swift */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -172,6 +187,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				269F90D725A5FB6E002DE1DF /* motovoltApp-Bridging-Header.h */,
+				269F90E025A5FBE1002DE1DF /* YellowMessenderAsset.xcassets */,
 			);
 			name = motovoltApp;
 			sourceTree = "<group>";
@@ -363,7 +380,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 3V2579U77Q;
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1150;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -431,6 +448,7 @@
 				ED145478A89642AF991C89BB /* rubicon-icon-font.ttf in Resources */,
 				2676ACCE25A2CF690060F3FC /* GoogleService-Info.plist in Resources */,
 				911CB12B0FA349E580592F84 /* SimpleLineIcons.ttf in Resources */,
+				269F90E125A5FBE1002DE1DF /* YellowMessenderAsset.xcassets in Resources */,
 				E81DD507E3EE4A2CA6EA3D9F /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,6 +687,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				269F90DE25A5FB6F002DE1DF /* YmSDK.swift in Sources */,
+				269F90DD25A5FB6F002DE1DF /* YellowMessengerModule.swift in Sources */,
+				269F90DC25A5FB6F002DE1DF /* YellowMessengerModule.m in Sources */,
+				269F90DF25A5FB6F002DE1DF /* YmEvents.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -722,6 +744,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 640E20420BF3C0523C6DFE05 /* Pods-motovoltApp-motovoltAppTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -745,6 +768,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 35306A2FAA0E4EDC9FDDB8DC /* Pods-motovoltApp-motovoltAppTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = motovoltAppTests/Info.plist;
@@ -787,6 +811,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.motovolt.motovoltapp;
 				PRODUCT_NAME = Motovolt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "motovoltApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -811,6 +836,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.motovolt.motovoltapp;
 				PRODUCT_NAME = Motovolt;
+				SWIFT_OBJC_BRIDGING_HEADER = "motovoltApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -973,7 +999,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1026,7 +1052,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",

@@ -34,7 +34,7 @@ import LanguageIcon from '../../assets/svg/languages_icon';
 import SwapIcon from '../../assets/svg/swap';
 import LogoutIcon from '../../assets/svg/logout_icon';
 import PencilEditIcon from '../../assets/svg/pencil-edit-button';
-import ServiceStations from "../../assets/svg/service_stations";
+import ServiceStations from '../../assets/svg/service_stations';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -241,9 +241,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                     onPress={() => {
                       switch (feature.feature) {
                         case LanguageSelector.t('morePremium.support'):
-                          if (Platform.OS === 'android') {
-                            mYellowMessengerModule.invokeChatBot();
-                          } else this.props.navigation.navigate('Support', {});
+                          // if (Platform.OS === 'android') {
+                          mYellowMessengerModule.invokeChatBot();
+                          // } else this.props.navigation.navigate('Support', {});
                           break;
                         case LanguageSelector.t('morePremium.faqs'):
                           this.props.navigation.navigate('Faq', {});
