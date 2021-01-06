@@ -31,8 +31,36 @@ import {StyleSheet, Text, View} from 'react-native';
 import {ReadUser} from 'src/service/redux/actions/saga/user';
 import Toast from 'react-native-simple-toast';
 import Near from './src/screens/menu/nearby';
+import messaging from '@react-native-firebase/messaging';
+import firebase from '@react-native-firebase/app';
 // import NearBy from 'src/screens/menu/nearby';
 // import NearBy from 'src/screens/menu/nearby';
+
+async function requestUserPermission() {
+  const authStatus = await messaging().requestPermission();
+  console.log('Auth Status', authStatus);
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (enabled) {
+    messaging()
+      .getToken()
+      .then((token) => {
+        console.log('FCM Token', token);
+      })
+      .catch(console.log);
+    if (!messaging().isDeviceRegisteredForRemoteMessages)
+      messaging().registerDeviceForRemoteMessages();
+    messaging().onMessage(async (message) => {
+      console.log('Message', message);
+    });
+    messaging().setBackgroundMessageHandler(async (message) => {
+      console.log('Background Message', message);
+    });
+    console.log('Authorization status:', authStatus);
+  }
+}
 
 declare const global: {HermesInternal: null | {}};
 
@@ -74,6 +102,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   componentDidMount() {
+    requestUserPermission();
     console.log('In component did mount');
     this.props.initStore({
       type: 'Store_Init',

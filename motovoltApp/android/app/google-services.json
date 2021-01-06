@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "209269799408",
+    "project_id": "motovolt-182e5",
+    "storage_bucket": "motovolt-182e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209269799408:android:b1756b4b3185efb5638535",
+        "android_client_info": {
+          "package_name": "co.motovolt.motovoltapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209269799408-t7r9i4ufi4p6ep3k3gl103ovsa9fi26d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzeYRJRMK0HR1ggAeCBaD8MnkXtvNN_jo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209269799408-t7r9i4ufi4p6ep3k3gl103ovsa9fi26d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "209269799408-c0h6bameqcvhd4t62pp2ipvsbvcgem4f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "motovolt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
