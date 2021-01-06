@@ -66,12 +66,34 @@ function Tile(props: {
         marginVertical: 4,
       }}>
       <Marker height={54} width={40} />
-      <View style={{marginLeft: 24, flex: 1}}>
-        <Text style={{fontSize: 22, marginVertical: 2}} numberOfLines={1}>
-          {Number(props.distance).toFixed(2)}Km
-        </Text>
+      <View style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+        <View style={{flex: 1, display: 'flex', flexDirection: 'row'}}>
+          <View style={{marginLeft: 24, flex: 1}}>
+            <Text style={{fontSize: 22, marginVertical: 2}} numberOfLines={1}>
+              {Number(props.distance).toFixed(2)}Km
+            </Text>
+            <Text
+              style={{
+                color: 'rgba(0,0,0,0.5)',
+                fontSize: 14,
+                marginVertical: 2,
+              }}
+              numberOfLines={1}>
+              {props.status}
+            </Text>
+          </View>
+          <View style={{display: 'flex', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={props.onDial}>
+              <Phone height={64} width={48} style={{marginLeft: 12}} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={props.onRoute}>
+              <Route height={54} width={40} style={{marginLeft: 12}} />
+            </TouchableOpacity>
+          </View>
+        </View>
         <Text
           style={{
+            marginLeft: 24,
             fontSize: 16,
             color: 'rgba(0,0,0,0.8)',
             marginVertical: 2,
@@ -79,22 +101,7 @@ function Tile(props: {
           numberOfLines={1}>
           {props.address}
         </Text>
-        <Text
-          style={{
-            color: 'rgba(0,0,0,0.5)',
-            fontSize: 14,
-            marginVertical: 2,
-          }}
-          numberOfLines={1}>
-          {props.status}
-        </Text>
       </View>
-      <TouchableOpacity onPress={props.onDial}>
-        <Phone height={64} width={48} style={{marginLeft: 12}} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={props.onRoute}>
-        <Route height={54} width={40} style={{marginLeft: 12}} />
-      </TouchableOpacity>
     </View>
   );
 }
@@ -239,10 +246,11 @@ class Nearby extends React.PureComponent<Props, State> {
         {!this.state.loading && (
           <View style={styles.footerView}>
             <ScrollView>
-              {this.props.nearbyServices?.map((station) => {
+              {this.props.nearbyServices?.map((station, i) => {
                 console.log('Tile', JSON.stringify(station));
                 return (
                   <Tile
+                    key={i.toString()}
                     address={`${station.stationName}, ${station.addressLine1}, ${station.addressLine2}, ${station.addressLine3}`}
                     distance={station.dist}
                     status={station.status}
