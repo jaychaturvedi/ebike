@@ -3,7 +3,7 @@ import { Button, Typography, Dropdown, Menu } from "antd";
 import React, { PureComponent } from 'react';
 import { AnyCnameRecord } from 'dns';
 import { Input } from 'antd';
-import { Link } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from "react-router";
 import { connect } from 'react-redux';
 import {
     ReduxAlertDetailActions, ReduxAlertDetailState,
@@ -12,8 +12,9 @@ import {
 import { AlertData, TAlertType } from '../../../connectm-client/redux/models';
 import { formatTime, formatHourMin, formatDate } from '../../../connectm-client/util/time-formater'
 import { alertLimpData } from '../../../connectm-client/redux/connectm-state';
+import moment from 'moment';
 
-interface AlertDetailSingleProps extends ReduxAlertDetailActions, ReduxAlertDetailState {
+interface AlertDetailSingleProps extends RouteComponentProps, ReduxAlertDetailActions, ReduxAlertDetailState {
     alertId: string,
     alertType: TAlertType,
     setAlertCleared: Function
@@ -112,6 +113,15 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
         }
         return ""
     }
+    openMisDashboard =()=>{
+      const FromDate = moment.utc(`${this.state.alert.alertTime}`).local().subtract(6, 'hours').format("YYYY-MM-DD HH:mm");
+      const ToDate = moment.utc(`${this.state.alert.alertTime}`).local().add(6, 'hours').format("YYYY-MM-DD HH:mm");
+      this.props.history.push("/mis/c2ee444b-51a6-40be-af72-f0893feaa2ed"+"?name=Battery Performance Analysis");
+      localStorage.setItem("dashboardFilters","true")
+      localStorage.setItem("VehicleID",this.state.alert.frameId)
+      localStorage.setItem("FromDate",FromDate)
+      localStorage.setItem("ToDate",ToDate)
+    }
     render() {
         const clearAlert = (
             <Menu style={{ left: "-25%", backgroundColor: "#272B3C" }} className={"clear-alert-container"}>
@@ -130,6 +140,10 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                     <div className={"single-cell-left"}>Alert Name:</div>
                     <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A" : this.state.alert.alertName}</div>
                 </div>
+                <div className={"single-row"} >
+                    <div className={"single-cell-left"} style={{paddingLeft: "20%"}}>Customer Name:</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A" : this.state.alert.customerName}</div>
+                </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Alert Time:</div>
                     <div className={"single-cell-right"}>{formatTime(this.state.alert.alertTime)}</div>
@@ -147,27 +161,28 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Vehicle ID:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.frameId}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.frameId}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Model:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.model}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.model}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Mfg Date:</div>
-                    <div className={"single-cell-right"}>{formatDate(this.state.alert.mfgDate)}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":formatDate(this.state.alert.mfgDate)}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Battery ID:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.batteryId}</div>
+                    <div className={"single-cell-right"} style={{cursor:"pointer"}} 
+                    onClick={this.openMisDashboard}><u>{this.state.alertCleared ? "N/A":this.state.alert.batteryId}</u></div>
                 </div>
-                <div className={"single-row"}>
+                {/* <div className={"single-row"}>
                     <div className={"single-cell-left"}>Customer ID:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.customerId}</div>
-                </div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.customerId}</div>
+                </div> */}
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Location:</div>
-                    <div className={"single-cell-right"}>{this.state.alert.location}</div>
+                    <div className={"single-cell-right"}>{this.state.alertCleared ? "N/A":this.state.alert.location}</div>
                 </div>
             </div>
         )
@@ -175,4 +190,4 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AlertDetailSingle);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AlertDetailSingle));

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {View, StyleSheet, Text, ScrollView, Image} from 'react-native';
 import {moderateScale, verticalScale} from 'react-native-size-matters';
 import TipCard from '../../components/tip-card';
 import Swiper from 'react-native-swiper';
@@ -15,6 +15,14 @@ import {connect} from 'react-redux';
 import Map from '../../components/map';
 import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
+import TotalDistanceIcon from '../../assets/svg/total_distance_icon';
+import ChargeTimeIcon from '../../assets/svg/charge_time_remaining';
+import AvgSpeedIcon from '../../assets/svg/Avg_speed';
+import MaxSpeedIcon from '../../assets/svg/Max_speed';
+import GreenMilesIcon from '../../assets/svg/green_miles_icon';
+import PetrolSavingsIcon from '../../assets/svg/inr_icon';
+import StarIcon from '../../assets/svg/star_icon';
+import CaloriesIcon from '../../assets/svg/calories_icon_blue';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -61,7 +69,52 @@ class IndividualRide extends React.PureComponent<Props, State> {
               </View>
             ) : (
               <Map
-                location={this.props.ride.path.map((point) => {
+                initialLocation={{
+                  latitude: this.props.ride.path.length
+                    ? this.props.ride.path[0].lat
+                    : 0,
+                  longitude: this.props.ride.path.length
+                    ? this.props.ride.path[0].long
+                    : 0,
+                }}
+                markerLocations={
+                  this.props.ride.path
+                    .map((point, index, points) => {
+                      if (index === 0) {
+                        return {
+                          latitude: point.lat,
+                          longitude: point.long,
+                          marker: (
+                            <View
+                              style={{
+                                width: 16,
+                                height: 16,
+                                borderRadius: 8,
+                                borderColor: 'black',
+                                backgroundColor: 'white',
+                                borderWidth: 4,
+                              }}
+                            />
+                          ),
+                        };
+                      }
+                      if (index === points.length - 1) {
+                        return {
+                          latitude: point.lat,
+                          longitude: point.long,
+                          marker: (
+                            <View>
+                              <Image
+                                source={require('../../assets/icons/location_pin.png')}
+                              />
+                            </View>
+                          ),
+                        };
+                      }
+                    })
+                    .filter((point) => point!) as any
+                }
+                pathLocations={this.props.ride.path.map((point) => {
                   return {
                     latitude: point.lat,
                     longitude: point.long,
@@ -103,8 +156,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.distance')}
               header2={LanguageSelector.t('myRides.duration')}
-              icon1={require('../../assets/icons/total_distance_icon.png')}
-              icon2={require('../../assets/icons/charge_time_remaining.png')}
+              icon1={TotalDistanceIcon}
+              icon2={ChargeTimeIcon}
               value1={String(this.props.ride.totalDistanceKm)}
               value2={String(this.props.ride.durationSec)}
               unit1="Km"
@@ -113,8 +166,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.avgSpeed')}
               header2={LanguageSelector.t('myRides.maxSpeed')}
-              icon1={require('../../assets/icons/average_speed_icon.png')}
-              icon2={require('../../assets/icons/max_speed_icon.png')}
+              icon1={AvgSpeedIcon}
+              icon2={MaxSpeedIcon}
               value1={String(this.props.ride.avgSpeedKmph)}
               value2={String(this.props.ride.maxSpeedKmph)}
               unit1="Kmph"
@@ -123,8 +176,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.greenMiles')}
               header2={LanguageSelector.t('myRides.caloriesBurnt')}
-              icon1={require('../../assets/icons/green_miles_icon.png')}
-              icon2={require('../../assets/icons/calories_icon_blue.png')}
+              icon1={GreenMilesIcon}
+              icon2={CaloriesIcon}
               value1={String(this.props.ride.greenMilesKm)}
               value2={String(this.props.ride.caloriesBurnt)}
               unit1="Km"
@@ -133,8 +186,8 @@ class IndividualRide extends React.PureComponent<Props, State> {
             <RideMetric
               header1={LanguageSelector.t('myRides.petrolSavings')}
               header2={LanguageSelector.t('myRides.rideScore')}
-              icon1={require('../../assets/icons/inr_icon.png')}
-              icon2={require('../../assets/icons/star_icon_large.png')}
+              icon1={PetrolSavingsIcon}
+              icon2={StarIcon}
               value1={String(this.props.ride.petrolSavingsInr)}
               value2={String(this.props.ride.score)}
               unit1="INR"

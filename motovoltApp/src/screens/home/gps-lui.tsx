@@ -22,6 +22,7 @@ import {Dispatch} from 'redux';
 import {ReadBikeLocation} from 'src/service/redux/actions/saga';
 import Moment from 'moment';
 import LanguageSelector from '../../translations';
+import LocationPin from '../../assets/svg/location_pin';
 
 type HomeNavigationProp = StackNavigationProp<HomeStackParamList, 'Gps'>;
 
@@ -83,12 +84,21 @@ class GPSLui extends React.PureComponent<Props, State> {
             </View>
           ) : (
             <Map
-              location={[
+              initialLocation={{
+                latitude: this.props.bike.lat,
+                longitude: this.props.bike.long,
+              }}
+              markerLocations={[
                 {
                   latitude: this.props.bike.lat,
                   longitude: this.props.bike.long,
+                  marker: (
+                    <Image
+                      source={require('../../assets/icons/location_pin.png')}></Image>
+                  ),
                 },
               ]}
+              pathLocations={[]}
             />
           )}
         </View>
@@ -97,8 +107,9 @@ class GPSLui extends React.PureComponent<Props, State> {
             <View style={{width: '20%'}}>
               {/* Marker Image */}
               <View style={styles.markerImage}>
-                <Image
-                  source={require('../../assets/icons/location_pin.png')}></Image>
+                <LocationPin />
+                {/* <Image
+                  source={require('../../assets/icons/location_pin.png')}></Image> */}
               </View>
             </View>
             <View style={{width: '60%'}}>
@@ -148,17 +159,20 @@ class GPSLui extends React.PureComponent<Props, State> {
           </View>
           <View style={styles.footerAddress}>
             <View>
-              <Text style={{fontSize: scale(12)}}>
-                {this.props.bike.address}
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: scale(12)}}>
+              <Text
+                style={{fontSize: scale(12), textAlign: 'right', marginTop: 8}}>
                 {`${LanguageSelector.t('gps.ignitionStatus')} : ${
                   this.props.bike.isOn
                     ? LanguageSelector.t('gps.on')
                     : LanguageSelector.t('gps.off')
                 }`}
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={{fontSize: scale(12), maxWidth: '100%', marginTop: 8}}
+                numberOfLines={2}>
+                {this.props.bike.address}
               </Text>
             </View>
           </View>
@@ -207,7 +221,7 @@ const styles = StyleSheet.create({
   },
   footerAddress: {
     justifyContent: 'space-between',
-    flexDirection: 'row',
-    paddingTop: moderateScale(10),
+    flexDirection: 'column',
+    paddingBottom: moderateScale(10),
   },
 });

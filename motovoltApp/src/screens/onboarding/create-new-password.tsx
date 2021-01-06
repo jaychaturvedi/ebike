@@ -97,9 +97,10 @@ class NewPassword extends React.PureComponent<Props, State> {
   }
 
   validatePassword = (password: string) => {
-    return RegExp(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#()^])[A-Za-z\d@$!%*?&#()^]{8,}$/,
-    ).test(password);
+    return Boolean(password && password.length >= 6);
+    // return RegExp(
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#()^])[A-Za-z\d@$!%*?&#()^]{8,}$/,
+    // ).test(password);
   };
 
   render() {
@@ -143,8 +144,7 @@ class NewPassword extends React.PureComponent<Props, State> {
               />
               <View style={{paddingHorizontal: 4}}>
                 <Text style={styles.warningText}>
-                  Password must be alphanumeric with min 8 characters, 1 upper
-                  case, 1 lower case and a special character.
+                  Password must be minimum 6 characters.
                 </Text>
               </View>
             </View>
@@ -158,7 +158,7 @@ class NewPassword extends React.PureComponent<Props, State> {
             secure
           />
           {this.state.confirmPassword !== this.state.password &&
-            this.state.confirmPassword !== "" && (
+            this.state.confirmPassword !== '' && (
               <View style={styles.warningContainer}>
                 <Image
                   style={styles.warningLogo}

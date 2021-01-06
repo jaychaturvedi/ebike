@@ -7,6 +7,12 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number,
 }
+//////////////////////////////////Alert Pgination///////////////////////////////
+export interface TAlertPagination{
+  "smart":TPagination,
+  "bms":TPagination,
+  "mc":TPagination
+}
 /////////////////////////////////// DROPDOWN FILTERS ///////////////////////////
 interface TVehicle{
   model:string,
@@ -36,7 +42,8 @@ export interface TMapMarkers{
   lng:number;
   frameId:string;
   timestamp:string;
-  isActive:boolean
+  isActive:boolean;
+  customerName:string;
 }
 
 /////////////////////////////////////QUICKSIGHT DASHBOARD///////////////////////
@@ -80,8 +87,10 @@ export interface Alert {
 
 ///////////////////////////////Trends///////////////////////////////////////////
 export interface TtrendTotalAlerts {
+  data:{
     date: string,
     count: number
+  }[]
 }
 
 export interface TtrendTop5Alert {

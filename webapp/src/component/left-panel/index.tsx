@@ -3,8 +3,6 @@ import React, { PureComponent } from 'react';
 import { withRouter, RouteComponentProps } from "react-router";
 import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg"
 import { ReactComponent as Alerts } from "../../assets/alert_tab_icon.svg"
-// import { ReactComponent as B2BLogo } from "../../assets/b2b_tab_icon.svg"
-import { ReactComponent as CharginStation } from "../../assets/charging_station_tab_icon.svg"
 import { ReactComponent as MisLogo } from "../../assets/Mis.svg"
 import { Typography } from 'antd';
 import { connect } from 'react-redux'
@@ -39,14 +37,26 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
             state.authenticated = props.user.authenticated
             state.userRole = props.user.user.attributes['custom:role']
         }
+        const dashboardActive = localStorage.getItem("dashboardFilters")
+        if (dashboardActive === "true") {
+          state ={
+            ...state,
+            logoClicked: false,
+            b2bClicked: false,
+            stationsClicked: false,
+            misClicked: true,
+            alertsClicked: false
+          }
+        }
         return state
     }
 
-    componentDidMount() {
-        this.props.history.push(RoleBasedMainRoutes(this.props.user.user.attributes['custom:role']))
-    }
+  componentDidMount() {
+    this.props.history.push(RoleBasedMainRoutes(this.props.user.user.attributes['custom:role']))
+  }
 
     alertsClicked = (navigateTo: string) => {
+      localStorage.removeItem("dashboardFilters")
         this.setState({
             ...this.state,
             logoClicked: false,
@@ -101,7 +111,11 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                         <ReactLogo width="44" height="48" />
                     </div>
                     {["DEVELOPER", "ADMIN"].includes(this.state.userRole) &&
-                    <div className={`tab-icons ${this.state.alertsClicked && ["DEVELOPER", "ADMIN"].includes(this.state.userRole) ? "option-clicked" : ""}`} onClick={() => this.alertsClicked("alerts")}>
+                    <div 
+                    className={`tab-icons ${this.state.alertsClicked 
+                    && ["DEVELOPER", "ADMIN"].includes(this.state.userRole) 
+                    ? "option-clicked" : ""}`} 
+                    onClick={() => this.alertsClicked("alerts")}>
                         <Alerts width="40" height="40" />
                         <Typography.Text style={{ color: 'white' }}>Alerts</Typography.Text>
                     </div>
@@ -110,7 +124,10 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
                         <B2BLogo width="32" height="32" />
                         <Typography.Text >B2B</Typography.Text>
                     </div> */}
-                   {["ADMIN","MIS"].includes(this.state.userRole) && <div className={`tab-icons ${this.state.misClicked && ["ADMIN","MIS"].includes(this.state.userRole) ? "option-clicked" : ""}`}  onClick={() => this.misClicked("mis")}>
+                   {["ADMIN","MIS"].includes(this.state.userRole) 
+                   && <div className={`tab-icons ${this.state.misClicked 
+                   && ["ADMIN","MIS"].includes(this.state.userRole) ? "option-clicked" : ""}`} 
+                    onClick={() => this.misClicked("mis")}>
                         <MisLogo width="40" height="40" />
                         <Typography.Text style={{ color: 'white' }}>MIS</Typography.Text>
                     </div>}

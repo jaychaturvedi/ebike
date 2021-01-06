@@ -156,7 +156,7 @@ class Login extends React.PureComponent<Props, State> {
                 });
                 return;
               }
-              if (!this.state.password || this.state.password.length < 8) {
+              if (!this.state.password || this.state.password.length < 6) {
                 Toast.show('Password should be entered in the required format');
                 this.setState({
                   isValidPassword: false,

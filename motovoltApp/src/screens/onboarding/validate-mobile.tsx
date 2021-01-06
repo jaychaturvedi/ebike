@@ -165,7 +165,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
           />
         </View>
         <View style={styles.helpText}>
-          <Text style={{fontSize: moderateScale(14, 0.1), textAlign: 'center'}}>
+          {/* <Text style={{fontSize: moderateScale(14, 0.1), textAlign: 'center'}}>
             <Text>By Signing up with Motovolt, you accept our{'\n'} </Text>
             <Text
               style={{color: '#0934F2'}}
@@ -174,7 +174,7 @@ class ValidateMobile extends React.PureComponent<Props, State> {
               }}>
               Terms and Condition
             </Text>
-          </Text>
+          </Text> */}
         </View>
         <View style={styles.verifyBtn}>
           <Button

@@ -1,5 +1,5 @@
 import { IAlertActions, IDropdownFilterActions } from "../actions/alerts";
-import { TAlertType, TSort, TPagination, TFilter, Alert, TDropdownFilters, TSearchFilter } from "../redux/models"
+import { TAlertType, TSort, TPagination, TFilter, Alert, TDropdownFilters, TSearchFilter, TAlertPagination } from "../redux/models"
 import { call, put } from "redux-saga/effects";
 import moment from "moment";
 import axios from "axios"
@@ -20,7 +20,9 @@ type FilterAlertRequest = {
     timeFrame?: string,
     alertType: TAlertType,
     pageNo: number,
-    pageSize: number
+    pageSize: number,
+    sortDirection:"asc"|"desc"
+    sortKey:string
 }
 
 export type Store_AlertUpdate = {
@@ -29,7 +31,8 @@ export type Store_AlertUpdate = {
         alertType: TAlertType,
         alerts: TAlertsTableData,
         pagination: TPagination,
-        sort: TSort
+        sort: TSort,
+        alertPagination:TAlertPagination
     }
 }
 
@@ -37,7 +40,8 @@ export type Store_AlertTabChange = {
     type: "STORE_ALERT_TAB_CHANGE",
     payload: {
         alertType: TAlertType,
-        pagination: TPagination
+        pagination: TPagination,
+        alertPagination:TAlertPagination
     }
 }
 
@@ -51,6 +55,7 @@ export type Store_AlertFilterChange = {
         vehicleFilter: TFilter,
         timeFrameFilter: TFilter,
         searchFilter: TSearchFilter,
+        alertPagination:TAlertPagination
     }
 }
 
@@ -96,7 +101,8 @@ export function* getAlertData(params: IAlertActions) {
               alertType: params.payload.alertType,
               alerts: data,
               pagination: params.payload.pagination,
-              sort: params.payload.sort
+              sort: params.payload.sort,
+              alertPagination:params.payload.alertPagination
           }
       } as Store_AlertUpdate)
   } catch (error) {
@@ -105,13 +111,16 @@ export function* getAlertData(params: IAlertActions) {
 }
 
 async function getAlerts(params: IAlertActions) {
+  console.log("getAlerts data......", params);
+
     let response = [];
     if (params.payload.filter.fieldName !== "all") {
         const request = await getFilteredAlertDetailsRequest(params);
         response = await Promise.all([
-          getFilteredSmartAlert(request!), 
-          getFilteredBmsAlert(request!), 
-          getFilteredMcAlert(request!)])
+          getFilteredSmartAlert(request!,params), 
+          getFilteredBmsAlert(request!,params), 
+          getFilteredMcAlert(request!,params)
+        ])
     } else {
         response = await Promise.all([
           getSmartAlert(params), 
@@ -123,7 +132,6 @@ async function getAlerts(params: IAlertActions) {
       bms:  Object.assign({dataCount: 0, data: []}, response[1]),
       mc: Object.assign({dataCount: 0, data: []}, response[2]),
     }
-    console.log("getAlerts data......", data);
     return data
 }
 
@@ -157,7 +165,9 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
     let request: FilterAlertRequest = {
       alertType: params.payload.alertType,
       pageNo: params.payload.pagination.pageNumber,
-      pageSize: params.payload.pagination.pageSize
+      pageSize: params.payload.pagination.pageSize,
+      sortDirection:params.payload.sort.direction==="descend"?"desc":"asc",
+      sortKey:params.payload.sort.fieldName
     }
     if (params.payload.vehicleFilter.fieldName === "model") {
         const key = (params.payload.vehicleFilter.value === "Classic" || params.payload.vehicleFilter.value === "Cargo") ? "model" : "subModel"
@@ -209,8 +219,10 @@ async function getSmartAlert(params: IAlertActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "smart",
-            pageSize: params.payload.pagination.pageSize,
-            pageNo: params.payload.pagination.pageNumber
+            pageNo: params.payload.alertPagination?.smart.pageNumber,
+            pageSize: params.payload.alertPagination?.smart.pageSize,
+            sortDirection:params.payload.sort.direction==="descend"?"desc":"asc",
+            sortKey:params.payload.sort.fieldName
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as Alert
@@ -220,8 +232,10 @@ async function getBmsAlert(params: IAlertActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "bms",
-            pageSize: params.payload.pagination.pageSize,
-            pageNo: params.payload.pagination.pageNumber
+            pageNo:params.payload.alertPagination?.bms.pageNumber,
+            pageSize:params.payload.alertPagination?.bms.pageSize,
+            sortDirection:params.payload.sort.direction==="descend"?"desc":"asc",
+            sortKey:params.payload.sort.fieldName
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as Alert
@@ -231,17 +245,21 @@ async function getMcAlert(params: IAlertActions) {
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/mainAlerts',
         {
             alertType: "mc",
-            pageSize: params.payload.pagination.pageSize,
-            pageNo: params.payload.pagination.pageNumber
+            pageNo:params.payload.alertPagination?.mc.pageNumber,
+            pageSize:params.payload.alertPagination?.mc.pageSize,
+            sortDirection:params.payload.sort.direction==="descend"?"desc":"asc",
+            sortKey:params.payload.sort.fieldName
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body as Alert
 }
 
-async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
+async function getFilteredSmartAlert(requestPayload: FilterAlertRequest,params:IAlertActions) {
     const smartFilter: FilterAlertRequest = {
         ...requestPayload,
-        alertType: "smart"
+        alertType: "smart",
+        pageNo:params.payload.alertPagination.smart.pageNumber,
+        pageSize:params.payload.alertPagination.smart.pageSize
     }
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         smartFilter
@@ -250,10 +268,12 @@ async function getFilteredSmartAlert(requestPayload: FilterAlertRequest) {
     return response.data.body as Alert
 }
 
-async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
+async function getFilteredBmsAlert(requestPayload: FilterAlertRequest,params:IAlertActions) {
     const bmsFilter: FilterAlertRequest = {
         ...requestPayload,
-        alertType: "bms"
+        alertType: "bms",
+        pageNo:params.payload.alertPagination.bms.pageNumber,
+        pageSize:params.payload.alertPagination.bms.pageSize
     }
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         bmsFilter, { headers: { 'Content-Type': 'application/json' } }
@@ -261,10 +281,12 @@ async function getFilteredBmsAlert(requestPayload: FilterAlertRequest) {
     return response.data.body as Alert
 }
 
-async function getFilteredMcAlert(requestPayload: FilterAlertRequest) {
+async function getFilteredMcAlert(requestPayload: FilterAlertRequest,params:IAlertActions) {
     const mcFilter: FilterAlertRequest = {
         ...requestPayload,
-        alertType: "mc"
+        alertType: "mc",
+        pageNo:params.payload.alertPagination.mc.pageNumber,
+        pageSize:params.payload.alertPagination.mc.pageSize
     }
     const response = await axios.post(process.env.REACT_APP_WEBAPIURL + '/dashFilter',
         mcFilter, { headers: { 'Content-Type': 'application/json' } }

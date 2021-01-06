@@ -185,6 +185,7 @@
         "support": "Support",
         "language": "Language",
         "swap": "Swap",
+        "serviceStation": "Service Stations",
         "promotions": "Promotions",
         "sendInvite": "Send invite",
         "insurance": "Insurance",
@@ -192,11 +193,11 @@
         "callUs": "Call us",
         "helpWithIssues": "Help with Issues",
         "videoCall": "Video Call",
-        "upgradeTitle": "Upgrade to Premium",
+        "upgradeTitle": "Did you know?",
         "reportAnIssue": "Report An Issue",
         "bookService": "Book a Service",
         "chat": "Chat with Us",
-        "upgradeSubTitle": "Upgrade to Premium and unlock the full potential of your bike!"
+        "upgradeSubTitle": "An electric vehicle can reduce 26gm of CO2 per KM."
     },
     "gps": {
         "gps": "GPS",

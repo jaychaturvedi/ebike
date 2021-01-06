@@ -9,11 +9,11 @@ import moment from 'moment';
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    const TimeDate = moment(payload?.timeDate).format("DD/MM/YYYY hh:mm")
+    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
     const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
     // console.log(moment(payload?.timeDate).format("DD/MM/YYYY hh:mm:ss"), "payyyyload",  moment(props.alertDate).format("DD/MM/YYYY hh:mm:ss"));
     if (TimeDate === AlertDate) {
-      console.log("notch",payload?.timeDate,props?.alertDate);
+      console.log("notch",payload,props?.alertDate);
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />
@@ -35,7 +35,8 @@ interface AlertDetailGraphProps {
     line1Key?: string; 
     title: string; 
     alertCleared?: boolean; 
-    alertDate?: string
+    alertDate?: string;
+    L1Value?:number;
 }
 
 interface AlertDetailGraphStates {
@@ -48,7 +49,8 @@ interface AlertDetailGraphStates {
     dataKey?: string, 
     line1Key?: string, 
     title: string, 
-    L1Value: number
+    L1Value: number,
+    lineTooltipType: string,
 }
 class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailGraphStates> {
     constructor(props: AlertDetailGraphProps) {
@@ -63,13 +65,14 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
             refColor: "white",
             line1Name: 'legend 1',
             line1Key: "b",
+            lineTooltipType: ""
         }
     }
     static getDerivedStateFromProps(props: AlertDetailGraphProps, state: AlertDetailGraphStates) {
         let data = state.data
         if (props.data !== undefined && props.data !== null) {
             data = props.data;
-            state.L1Value = props.data.length > 0 && props.L1 ? data[0].L1 : 0;
+            state.L1Value = props.L1Value! ?props.L1Value!:0;
             state.xAxisLabel = props.xAxisLabel;
             state.yAxisLabel = props.yAxisLabel;
             state.refColor = props.refColor;
@@ -95,25 +98,27 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
     }
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Time"
-            ? this.state.data[0]?.timeDate === label
-                ? moment(`${label}`).format("hh:mm a DD/MM/YYYY")
-                : moment(`${label}`).format("hh:mm a")
+            ? this.state.data[0]?.xAxisValue === label
+                ? moment.utc(`${label}`).local().format("hh:mm a DD/MM/YYYY")
+                : moment.utc(`${label}`).local().format("hh:mm a")
             : label
     }
 
     CustomTooltip = (obj: any) => {
-        const { label, payload, active } = obj;
-        if (!active || !label || !payload) return label;
-        const style = { top: obj?.viewBox.y - 15, color: "#5FBDE0", zIndex: 10, fontSize:"14px" };
-        if (active) {
-            return (
-                <div className="custom-tooltip" style={style}>
-                    <p className="label"> <b>{`${payload[0]?.value}`}</b></p>
-                </div>
-            );
-        }
-        return null;
-
+      const { label, payload, active } = obj;
+      const style = { top: obj?.viewBox.y - 20, color: "#white", zIndex: 20, fontSize: "12px" };
+      if (!active || !label || payload?.length === 0 ||
+        !payload || this.state.lineTooltipType === "") return null;
+      const formatType = this.props.xAxisLabel === "Days" ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm:ss a"
+      const line = payload.filter((item: any) => { return item.dataKey === this.state.lineTooltipType })
+      const localAlertTime = moment.utc(line[0]?.payload?.xAxisValue).local().format(formatType)
+      if (line?.length === 0) return null
+      return (
+        <div className="custom-tooltip" style={style}>
+          <p className="label">{line[0]?.name} : {line[0]?.value}</p>
+          <p className="label">{this.props.xAxisLabel} : {`${localAlertTime}`}</p>
+        </div>
+      );
     };
 
   render() {
@@ -162,6 +167,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                 interval={"preserveStartEnd"}
                 tick={{ fill: 'white' }}
                 stroke='#ffffff'
+                allowDataOverflow={true}
                 padding={{ left: 30, right: 20 }}
               >
                 <Label
@@ -176,7 +182,9 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                 tick={{ fill: 'white' }}
                 // ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]}
                 // interval={1}
-                padding={{ top: 20, bottom: 20 }} stroke='#ffffff'
+                padding={{ top: 20, bottom: 20 }} 
+                allowDataOverflow={true}
+                stroke='#ffffff'
               >
                 <Label
                   angle={270}
@@ -211,6 +219,10 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
                   dot={<CustomizedDot
                     L1={this.state.L1Value}
                     alertDate={this.props.alertDate} />}
+                    activeDot={{
+                      onMouseOver: (e: any) => this.setState({lineTooltipType: this.state.line1Key!}),
+                      onMouseLeave: (e: any) => this.setState({lineTooltipType: ""})
+                    }}
                 />
                 : ''}
             </LineChart>

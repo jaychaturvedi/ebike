@@ -5,6 +5,7 @@
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h" 
 #import <GoogleMaps/GoogleMaps.h>
+#import <Firebase.h>
 
 #if DEBUG && TARGET_OS_SIMULATOR
 #import <FlipperKit/FlipperClient.h>
@@ -29,6 +30,9 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+if ([FIRApp defaultApp] == nil) {
+  [FIRApp configure];
+}
 #if DEBUG && TARGET_OS_SIMULATOR
   InitializeFlipper(application);
 #endif

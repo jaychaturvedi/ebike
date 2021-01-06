@@ -18,18 +18,19 @@ function createOptions(url: string, body: any,) {
 }
 
 export default class WebAPI {
-    static async mainAlerts(alertType: string, pageNo: number, pageSize: number) {
+    static async mainAlerts(alertType: string, pageNo: number, pageSize: number,
+      sortDirection:string, sortKey:string) {
         console.log("Start Yantrs Time", new Date())
-        const options = createOptions('/allalerts', { alertType, pageNo, pageSize })
+        const options = createOptions('/allalerts', 
+        { alertType, pageNo, pageSize, sortDirection, sortKey})
         const fetchedData: TDashboard = await post(options)
         console.log("End Yantra time", new Date)
         return fetchedData
-
     }
 
     static async totalAlerts(alertType: string, startDate: string, endDate: string) {
         const options = createOptions('/trendtotalerts', { alertType, startDate, endDate })
-        const fetchedData: TTotalAlert = await post(options)
+        const fetchedData = await post(options)
         return fetchedData
     }
 
@@ -141,7 +142,15 @@ export default class WebAPI {
       //mapViewFilters is an array
       return mapViewFilters
     }
-
+    static async mapZoneCordinates(customerId: string, location: string, region:string) {
+      const options = createOptions('/regionfilter', {
+        customerId,
+        location,
+        region
+      })
+      const fetchedData = await post(options)
+      return fetchedData
+  }
     ///////////////////////////////////////not using below routes//////////////////////////////
 
 

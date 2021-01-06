@@ -12,3 +12,12 @@ export type ReadService = {
     type: "ReadService",
     payload: {}
 }
+
+export type ReadNearByService = {
+    type: "ReadNearByService",
+    payload: {
+        latitude: number,
+        longitude: number,
+        distance: number
+    }
+}

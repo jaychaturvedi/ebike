@@ -141,9 +141,10 @@ class PersonalDetails extends React.PureComponent<Props, State> {
   };
 
   validatePassword = (password: string) => {
-    return RegExp(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#()^])[A-Za-z\d@$!%*?&#()^]{8,}$/,
-    ).test(password);
+    return password && password.length >= 6;
+    // return RegExp(
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#()^])[A-Za-z\d@$!%*?&#()^]{8,}$/,
+    // ).test(password);
   };
 
   componentDidMount() {
@@ -245,7 +246,9 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                 value: '',
               }}
               useNativeAndroidPickerStyle={false}
-              onValueChange={(value) => this.setState({gender: value, isValidGender: true})}
+              onValueChange={(value) =>
+                this.setState({gender: value, isValidGender: true})
+              }
               items={[
                 {label: 'Male', value: 'Male'},
                 {label: 'Female', value: 'Female'},
@@ -277,7 +280,9 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                 }}
                 useNativeAndroidPickerStyle={false}
                 value={this.state.age}
-                onValueChange={(value) => this.setState({age: value, isValidAge: true})}
+                onValueChange={(value) =>
+                  this.setState({age: value, isValidAge: true})
+                }
                 items={ages.map((age) => {
                   return {label: `${age}`, value: `${age}`};
                 })}
@@ -335,31 +340,31 @@ class PersonalDetails extends React.PureComponent<Props, State> {
                 });
                 return;
               }
-              if(!this.state.gender){
-                Toast.show("Please select gender");
+              if (!this.state.gender) {
+                Toast.show('Please select gender');
                 this.setState({
-                  isValidGender: false
-                })
+                  isValidGender: false,
+                });
                 return;
               }
-              if(!this.state.age){
-                Toast.show("Please select age");
+              if (!this.state.age) {
+                Toast.show('Please select age');
                 this.setState({
-                  isValidAge: false
-                })
+                  isValidAge: false,
+                });
                 return;
               }
               if (!this.validatePassword(this.state.password)) {
-                Toast.show(
-                  'Password should be entered in the required format',
-                );
+                Toast.show('Password should be entered in the required format');
                 this.setState({
                   isValidPassword: false,
                 });
                 return;
               }
               if (this.state.password !== this.state.confirmPassword) {
-                Toast.show('Password and confirm password do not match. Please try again!');
+                Toast.show(
+                  'Password and confirm password do not match. Please try again!',
+                );
                 this.setState({
                   isValidPassword: false,
                 });

@@ -7,18 +7,18 @@ import {
 import VoltageDifference from './voltageDifference';
 
 const volatgeDeviationData = {
-    "cell1": 3.0001,
-    "cell2": 3.001,
-    "cell3": 3.001,
-    "cell4": 3.001,
-    "cell5": 3.001,
-    "cell6": 3.001,
-    "cell7": 3.001,
-    "cell8": 3.001,
-    "cell9": 3.001,
-    "cell10": 3.001,
-    "cell11": 3.001,
-    "cell12": 3.001,
+    "Cell-1": 2.125,
+    "Cell-2": 2.125,
+    "Cell-3": 2.125,
+    "Cell-4": 2.125,
+    "Cell-5": 2.125,
+    "Cell-6": 2.125,
+    "Cell-7": 2.125,
+    "Cell-8": 2.125,
+    "Cell-9": 2.125,
+    "Cell-10": 2.125,
+    "Cell-11": 2.125,
+    "Cell-12": 2.125,
     "volatgeDiffer": 0
 }
 
@@ -71,14 +71,14 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                 min = data[i]
                 minPos = j
             }
-            j < 8 ? arr1.push({ 'name': i, 'value': data[i] }) : arr2.push({ 'name': i, 'value': data[i] })
+            arr1.push({ 'name': i, 'value': data[i] })
         })
-        arr2.push({ 'name': 'empty', }, { 'name': 'empty' }, { 'name': 'empty' }, { 'name': 'empty' })
+        // arr2.push({ 'name': 'empty', }, { 'name': 'empty' }, { 'name': 'empty' }, { 'name': 'empty' })
 
-        for (let i = 0; i < 2; i++) {
-            arr1.push({ 'name': 'empty', 'value': 3.001 });
-            arr2.push({ 'name': 'empty', 'value': 3.001 })
-        }
+        // for (let i = 0; i < 2; i++) {
+        //     arr1.push({ 'name': 'empty', 'value': 3.001 });
+        //     arr2.push({ 'name': 'empty', 'value': 3.001 })
+        // }
 
         state.data1 = arr1;
         state.data2 = arr2;
@@ -126,10 +126,11 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
         <div className={"connectm-header"}>
           <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%', flexDirection: 'column', alignItems: 'center' }} >
+        <div style={{ display: 'flex', justifyContent: 'space-between', height: '100%', 
+        width: '95%', flexDirection: 'column', alignItems: 'center' }} className="graph-and-difference-container" >
           <div className="voltage-deviation-top" >
-            <pre className="normal-operating-voltage-text">Normal<br />Oprating<br />Voltage<br />
-                        Range<br />(a)</pre>
+            <span className="normal-operating-voltage-text">Normal<br />Operating<br />Voltage<br />
+                        Range</span>
             <ResponsiveContainer className="top-graph-container" width="95%" height="100%">
               <BarChart
                 data={this.state.data1}
@@ -148,14 +149,14 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                   dataKey={this.props.dataKey}
                   tick={{ fill: 'white' }}
                   tickLine={false}
-                  ticks={[3.001, 3.700, 3.730, 3.760, 3.780, 3.800, 3.850, 3.900, 4.100, 4.201, 4.300]}
+                  allowDataOverflow={false}
+                  ticks={[2.125, 2.225, 2.600,3.000, 3.400,  4.125]}
                   orientation="right"
                   tickFormatter={(label) => {
-                    if (label === 3.001) return label + " volt"
-                    else return label
+                    return label + " V"
                   }}
                   domain={['dataMin', 'dataMax']}
-                  interval={8}
+                  interval={4}
                   scale="sqrt" />
                 <Tooltip
                   content={this.CustomTooltip}
@@ -174,7 +175,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                     position={'right'}
                     fill="#ffffff"
                     style={{ fontSize: '7px', paddingRight: '-50px' }}
-                    value={this.props.maxL2 + " Max"}>
+                    value={this.props.maxL2 + " V"}>
                   </Label>
                 </ReferenceLine>
                 <ReferenceLine
@@ -186,7 +187,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                     position={'right'}
                     fill="#ffffff"
                     style={{ fontSize: '7px', paddingRight: '-50px' }}
-                    value={this.props.minL1 + " Min"}>
+                    value={this.props.minL1 + " V"}>
                   </Label>
                 </ReferenceLine>
                 {!this.props.alertCleared ?
@@ -194,7 +195,8 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                     dataKey={this.props.barDataKey}
                     radius={[10, 10, 0, 0]} >
                     {this.state.data1.map((entry: any, index: number) => (
-                      <Cell fill={entry[this.props.barDataKey] <= 3.730 ? 'red' : '#73A93C'} key={index} />
+                      <Cell fill={(entry[this.props.barDataKey] <= this.props.minL1 
+                        || entry[this.props.barDataKey] > this.props.maxL2) ? 'red' : '#73A93C'} key={index} />
                     ))}
                   </Bar>
                   : ''}
@@ -203,7 +205,7 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
             </ResponsiveContainer>
           </div>
 
-          <div className="voltage-deviation-bottom" >
+          {/* <div className="voltage-deviation-bottom" >
             <pre className="normal-operating-voltage-text">
               Normal<br />Oprating<br />Voltage<br />Range<br />(b)
             </pre>
@@ -272,12 +274,12 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                   : ''}
               </BarChart>
             </ResponsiveContainer>
-          </div>
+          </div> */}
           <VoltageDifference
             maxCellPos={this.state.maxCellPos}
             minCellPos={this.state.minCellPos}
-            maxVolt={this.state.maxVolt}
-            minVolt={this.state.minVolt}
+            maxVolt={this.state.maxVolt+" V"}
+            minVolt={this.state.minVolt+" V"}
             voltageDelta={this.state.voltageDelta} />
         </div>
       </div>

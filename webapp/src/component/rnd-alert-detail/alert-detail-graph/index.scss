@@ -1,11 +1,14 @@
 .connectm-AlertDetailGraph {
-    @media screen and (min-width: 1600px) {
+    @media screen and (min-width: 1450px) {
         width: calc(99% - 370px) !important;
     }
     .connectm-header {
         .graph-header-text {
             color: #ffffff;
               font-size: 24px !important;
+              @media screen and (max-width: 1400px) {
+                font-size: 16px !important;
+            }
         }
     }
     .recharts-legend-item .recharts-legend-item-text {

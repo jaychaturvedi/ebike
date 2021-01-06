@@ -23,7 +23,7 @@ export function* getMapMarkers(params: IMapMarkerAction) {
     yield put({
       type: "STORE_MAPMARKERS",
       payload: {
-        mapMarkers: data
+        mapMarkers: data?.length ? data:[]
       }
     } as Store_MapMarkers)
   } catch (error) {

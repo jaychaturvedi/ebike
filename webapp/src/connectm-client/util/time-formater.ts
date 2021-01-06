@@ -2,12 +2,14 @@ import moment from "moment"
 
 export const formatTime = (time: string) => {
     const newDate = new Date(time)
-    return moment(newDate).format("DD-MMM-YYYY HH:mm A")
+    const localAlertTime = moment.utc(newDate).local().format("DD-MMM-YYYY hh:mm a")
+    // moment(newDate).format("DD-MMM-YYYY HH:mm A")
+    return localAlertTime
 }
 
 export const formatDate = (time: string) => {
     const newDate = new Date(time)
-    return moment(newDate).format("DD-MMM-YYYY")
+    return moment.utc(newDate).local().format("DD-MMM-YYYY")
 }
 
 export const formatHourMin = (time : string|undefined) => {

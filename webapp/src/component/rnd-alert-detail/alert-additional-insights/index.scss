@@ -11,9 +11,16 @@
     background-color: $TABLE_ROW_DARK;
     border-radius: 2%;
     padding: 20px 10px;
-    padding-right: 48px;
+    // padding-right: 48px;
+    align-items: center;
     display: flex;
-    font-size: 12px;
+    font-size: 14px;
+    @media screen and (min-width: 1450px) {
+      font-size: 16px;
+    }
+    @media screen and (max-width: 1400px) {
+      font-size: 12px;
+    }
     flex-direction: column;
     white-space: nowrap;
     // justify-content: space-between;
@@ -28,16 +35,15 @@
             justify-content: flex-end;
             padding-right: 4%;
             font-weight: 700;
-            @media screen and (min-width: 1600px) {
-                font-size: 16px;
-            }
+            // @media screen and (min-width: 1450px) {
+            //     font-size: 16px;
+            // }
         }
         .single-cell-right {
             width: 40%;
-            font-weight: 700;
-            @media screen and (min-width: 1600px) {
-                font-size: 16px;
-            }
+            // @media screen and (min-width: 1450px) {
+            //     font-size: 16px;
+            // }
         }
     }
 }

@@ -61,13 +61,16 @@ function expressErrorHandler(
 app.post('/mainAlerts',
   [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
   body("pageNo", "pageNo is invalid").toInt(),
-  body("pageSize", "pageSize is invalid").toInt(), validate],
+  body("pageSize", "pageSize is invalid").toInt(), 
+  body("sortDirection").optional().isString(),
+  body("sortKey").optional().isString(),validate],
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
-    const { alertType, pageNo, pageSize } = req.body
+    const { alertType, pageNo, pageSize,sortDirection, sortKey} = req.body
     console.log("Start zelp API", new Date())
-    const updated = await WebAPI.mainAlerts(alertType, pageNo, pageSize)
+    const updated = await WebAPI.mainAlerts(alertType, pageNo, pageSize, 
+      sortDirection,sortKey)
     const response = createResponse("OK", updated, undefined)
     console.log("End zelp API", new Date())
     res.json(response)
@@ -82,8 +85,12 @@ app.post('/totalAlerts',
     res: Express.Response,
     next: Express.NextFunction) => {
     const { alertType, startDate, endDate } = req.body
-    const updated = await WebAPI.totalAlerts(alertType, startDate, endDate)
-    const response = createResponse("OK", updated, undefined)
+    const totalAlerts = await WebAPI.totalAlerts(alertType, startDate, endDate)
+    const response = createResponse("OK", {data:totalAlerts}, undefined)
+    const errorMessage = {
+      "errorMessage":"request timed out after 30seconds"
+    }
+    console.log(totalAlerts);
     res.json(response)
   })
 )
@@ -129,17 +136,21 @@ app.post('/dashFilter',
   body("batteryId", "batteryId is invalid").optional().isString(),
   body("customerId", "customerId is invalid").optional().isString(),
   body("timeFrame", "timeFrame is invalid").optional().isString(),
+  body("sortDirection").optional().isString(),
+  body("sortKey").optional().isString(),
   body("pageNo", "pageNo is invalid").toInt(),
   body("pageSize", "pageSize is invalid").toInt(), validate],
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
     const { alertType, startDate, endDate, vehicleID, alertName, model, subModel,
-      location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize } = req.body
+      location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize,
+      sortDirection, sortKey } = req.body
 
     const result = await WebAPI.dashFilter({
       alertType, startDate, endDate, vehicleID,
-      alertName, model, subModel, location, subLocation, batteryId, customerId, timeFrame, pageNo, pageSize
+      alertName, model, subModel, location, subLocation, batteryId, customerId, 
+      timeFrame, pageNo, pageSize, sortDirection, sortKey 
     })
     const response = createResponse("OK", result, undefined)
     res.json(response)
@@ -384,7 +395,17 @@ app.get('/mapViewFilters',
     res.json(response)
   })
 )
-
+app.post('/regionfilter',
+[body('customerId', "customerId is too short").isString(),
+body('location', "location is too short").isString(),
+body('region', "region is too short").isString(), validate],
+  expressQAsync(async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const {customerId, location, region} = req.body
+    const result = await WebAPI.mapZoneCordinates(customerId, location, region)
+    const response = createResponse("OK", result, undefined)
+    res.json(response)
+  })
+)
 app.use(expressErrorHandler);
 
 

@@ -88,15 +88,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             searchOptions: [],
         }
     }
-     
-    // componentWillMount(){
-    //   this.props.getDropdownFilters({
-    //     type:"GET_DROPDOWN_FILTERS",
-    //     payload:{}
-    //   })
-    //   this.setState({dropdownFilters:this.props.dropdownFilters})
-    //   console.log("component subheader states and props",this.state,this.props.dropdownFilters);   
-    // }
 
   static getDerivedStateFromProps(props: SubHeaderProps, state: SubHeaderStates) {
     const locationAndVehicleFiltersEmpty = !state.dropdownFilters.location?.length && !state.dropdownFilters.vehicle?.length
@@ -114,8 +105,8 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     let mySearchSuggestions: any = []
     if (options && state.searchText != "") {
       state.searchOptions = options
-      options.map((row) => {
-        mySearchSuggestions.push({ value: row.frameId, isVehicle:row.isVehicle })
+      options?.map((row) => {
+        mySearchSuggestions.push({ value: row?.frameId, isVehicle:row?.isVehicle })
       })
       state.suggestions = mySearchSuggestions
     }
@@ -123,7 +114,9 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     console.log(state.suggestions, "my search options");
     return state
   }
-
+    componentWillUnmount(){
+      if(!this.state.allSelected) this.onReset()
+    }
     handleVehicleClick = (e: any) => {
         console.log('click', e);
         this.setState({
@@ -248,9 +241,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         })
     }
     onFromChange = (value: any, dateString: string) => {
-        // console.log('Selected Time: ', value);
-        // console.log('Formatted Selected Time: ', dateString)
-        //////////////value = "Selected Time", dateString = "Formatted Selected Time"///////////////
         this.setState(
             {
                 timeFrame: {
@@ -261,8 +251,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
         )
     }
     onToChange = (value: any, dateString: any) => {
-        // console.log('Selected Time: ', value);
-        // console.log('Formatted Selected Time: ', dateString)
         this.setState(
             {
                 timeFrame: {
@@ -298,25 +286,29 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     dateFormatList = ['DD/MM/YYYY'];
 
     onApplyFilter = () => {
-        // console.log(moment("2020-07-24 10:13:00").toDate())
         let filter: TFilter
         filter = this.state.applyFilter
         console.log(this.state.searchFilter,"apply filter");
-            // console.log(filter, "my filter");
+        const defaultPagination = {
+          pageNumber: 1,
+          pageSize: this.props.alerts.alertPagination[this.props.alerts.activeAlertTab].pageSize
+        }
         this.props.alertFilterChanged({
             type: "UPDATE_FILTER",
             payload: {
                 alertType: this.props.alerts.activeAlertTab,
-                pagination: {
-                    pageNumber: 1,
-                    pageSize: 10
-                },
+                pagination:defaultPagination,
                 sort: this.props.alerts.sort,
                 filter: filter,
                 locationFilter: this.state.locationFilter,
                 vehicleFilter: this.state.vehicleFilter,
                 timeFrameFilter: this.state.timeFrameFilter,
                 searchFilter: this.state.searchFilter,
+                alertPagination:{
+                  bms:defaultPagination,
+                  mc:defaultPagination,
+                  smart:defaultPagination
+                },
             }
         })
     }
@@ -325,6 +317,10 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
       const resetFilter = {
         fieldName: "all",
         value: ""
+      }
+      const defaultPagination = {
+        pageNumber: 1,
+        pageSize: this.props.alerts.alertPagination[this.props.alerts.activeAlertTab].pageSize
       }
         this.setState({
             allSelected: true,
@@ -352,16 +348,18 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             type: "UPDATE_FILTER",
             payload: {
                 alertType: this.props.alerts.activeAlertTab,
-                pagination: {
-                    pageNumber: 1,
-                    pageSize: 10
-                },
+                pagination: defaultPagination,
                 sort: this.props.alerts.sort,
                 filter: {...resetFilter},
                 locationFilter: {...resetFilter},
                 vehicleFilter: {...resetFilter},
                 timeFrameFilter: {...resetFilter},
                 searchFilter: {fieldName:"all", value:"", isVehicle:false},
+                alertPagination:{
+                  bms:defaultPagination,
+                  mc:defaultPagination,
+                  smart:defaultPagination
+                },
             }
         })
     }
@@ -370,6 +368,10 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
       const resetFilter = {
         fieldName: "all",
         value: ""
+      }
+      const defaultPagination = {
+        pageNumber: 1,
+        pageSize: this.props.alerts.alertPagination[this.props.alerts.activeAlertTab].pageSize
       }
         this.setState({
             allSelected: true,
@@ -390,7 +392,26 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             vehicleFilter: {...resetFilter},
             timeFrameFilter: {...resetFilter},
             searchFilter: {fieldName:"all", value:"", isVehicle:false},
+            searchText:""
         });
+        this.props.alertFilterChanged({
+          type: "UPDATE_FILTER",
+          payload: {
+              alertType: this.props.alerts.activeAlertTab,
+              pagination: defaultPagination,
+              sort: this.props.alerts.sort,
+              filter: {...resetFilter},
+              locationFilter: {...resetFilter},
+              vehicleFilter: {...resetFilter},
+              timeFrameFilter: {...resetFilter},
+              searchFilter: {fieldName:"all", value:"", isVehicle:false},
+              alertPagination:{
+                bms:defaultPagination,
+                mc:defaultPagination,
+                smart:defaultPagination
+              },
+          }
+      })
     }
 
     onSearch = (e: any) => {
@@ -414,6 +435,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     handleSearchOptionClick =(value:string, option:any)=>{
         this.setState({
           searchText:value,
+          allSelected: false,
           searchFilter:{
             fieldName:"search",
             value:value,
@@ -610,7 +632,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
                             onChange={this.onSearch}
                             className={`${this.state.searchText.length > 0 ? "search-background-color-active" : "search-background-color"}`}
                             value={this.state.searchText}
-                            placeholder="Search By Vehicle ID"
+                            placeholder="Vehicle ID Or Alert Name.."
                             style={{ textAlign: 'left' }}
                             prefix={<SearchOutlined style={{color:"red"}}/>} />
                         }

@@ -7,12 +7,14 @@
     align-items: center;
     height: 62px;
     padding-top: 24px;
-    @media screen and (min-width: 1600px) {
-        .past-alerts-text {
-            font-size: 18px;
-            font-weight: 700;
+    .past-alerts-text {
+        font-size: 18px;
+        font-weight: 700;
+        @media screen and (max-width: 1400px) {
+          font-size: 16px;
         }
     }
+    
     .pagination-footer {
         // border: 1px solid yellow;
         padding-top: 1%;
@@ -56,9 +58,6 @@
                 color: black;
             }
         }
-
-        // .select-button>div>span {
-        //     }
 
         .spacer {
             width: 30px;
@@ -118,6 +117,9 @@
     tbody td {
         z-index: 1;
         font-size: 14px;
+        @media screen and (max-width: 1400px) {
+            font-size: 12px;
+        }
         font-weight: 400;
     }
     .table-body {
@@ -132,32 +134,33 @@
             background-color: transparent !important;
           }
         }
+        @media screen and (max-width: 1400px) {
+          .my-ant-empty-normal{
+            font-size: 12px;
+          }
+        }
     }
     .ant-table-cell-scrollbar {
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
     }
 
-    @media screen and (min-width: 1600px) {
+    @media screen and (min-width: 1450px) {
         .ant-table-thead > tr > th,
         .ant-table-tbody > tr > td {
             padding: 20px 2px;
         }
     }
-
-    // .table-body {
-    // display: block !important;
-    // max-height: 350px;
-
-    //use media screen size to set height
-    // height: 10vh !important; //change table height here
-    // for test scrren
-    // height: 100%;
-
-    // overflow-y: hidden;
-    /* Trigger vertical scroll    */
-    // overflow-x: auto;
-    // }
+    @media screen and (max-width: 1400px) {
+      .ant-table-thead > tr > th {
+          font-size: 14px;
+          padding: 8px 2px;
+      }
+      .ant-table-tbody > tr > td{
+        font-size: 12px;
+        padding: 8px 2px;
+      }
+  }
 
     .ant-table table {
         // height: calc(100% - 25px);
@@ -241,30 +244,3 @@ th {
     // padding: 2px;
     margin-left: 10px;
 }
-
-// .ant-select.ant-select-arrow {
-//     transform: rotate(0deg);
-//     transition: transform 1ms linear;
-//     // display: flex;// justify-content: center;
-//     // padding: 2px;
-//     float: right;
-//     margin-left: 10px;
-// }
-
-// .ant-select.open.ant-select-arrow {
-//     transform: rotate(180deg);
-//     transition: transform 1ms linear;
-//     display: flex;
-//     justify-content: center;
-//     // padding: 2px;
-//     float: right;
-//     margin-left: 10px;
-// }
-
-// .alert-down-circle-static>g>circle {
-//     fill: '#3C4473';
-//     float: right;
-//     display: flex;
-//     justify-content: center;
-//     margin-left: 10px;
-// }

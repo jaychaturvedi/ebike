@@ -23,6 +23,8 @@ import {ThemeContext} from '../../styles/theme/theme-context';
 import Tile from './tile';
 import {Icon} from 'native-base';
 import Moment from 'moment';
+import MotorIcon from '../../assets/svg/Motor_icon';
+import BatteryIcon from '../../assets/svg/battery_icon';
 
 type ReduxState = {
   bike: TStore['bike'];
@@ -140,35 +142,13 @@ class MyCycle extends React.PureComponent<Props, State> {
                 justifyContent: 'space-between',
               }}>
               <Tile
-                icon={
-                  <Image
-                    source={require('../../assets/icons/motor.png')}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      resizeMode: 'contain',
-                    }}
-                    width={40}
-                    height={40}
-                  />
-                }
+                icon={<MotorIcon width={40} height={40} />}
                 textLine1={LanguageSelector.t('myBike.motor')}
                 textLine2={LanguageSelector.t('myBike.condition')}
                 statusIcon={this.getIcon(this.props.bike.motorState)}
               />
               <Tile
-                icon={
-                  <Image
-                    source={require('../../assets/icons/battery.png')}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      resizeMode: 'contain',
-                    }}
-                    width={40}
-                    height={40}
-                  />
-                }
+                icon={<BatteryIcon width={40} height={40} />}
                 textLine1={LanguageSelector.t('myBike.battery')}
                 textLine2={LanguageSelector.t('myBike.condition')}
                 statusIcon={this.getIcon(this.props.bike.batteryState)}

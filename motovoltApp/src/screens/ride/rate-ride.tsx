@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   GestureResponderEvent,
   Modal,
+  Image,
 } from 'react-native';
 import Button from '../../components/cta-button';
 import Rating from '../../components/rating';
@@ -21,6 +22,15 @@ import Map from '../../components/map';
 import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
 import {ScrollView, TouchableHighlight} from 'react-native-gesture-handler';
+import TotalDistanceIcon from '../../assets/svg/total_distance_icon';
+import ChargeTimeIcon from '../../assets/svg/charge_time_remaining';
+import AvgSpeedIcon from '../../assets/svg/Avg_speed';
+import MaxSpeedIcon from '../../assets/svg/Max_speed';
+import GreenMilesIcon from '../../assets/svg/green_miles_icon';
+import PetrolSavingsIcon from '../../assets/svg/petrol_savings_icon';
+import INRIcon from '../../assets/svg/inr_icon';
+import StarIcon from '../../assets/svg/star_icon';
+import CaloriesIcon from '../../assets/svg/calories_icon_blue';
 
 type ReduxState = {
   ride: TStore['ride'];
@@ -77,13 +87,56 @@ class RateRide extends React.PureComponent<Props, State> {
                 width: '100%',
                 height: '100%',
               }}>
-              <Text>
-                {LanguageSelector.t('gps.noDataAvailable')}
-              </Text>
+              <Text>{LanguageSelector.t('gps.noDataAvailable')}</Text>
             </View>
           ) : (
             <Map
-              location={this.props.ride.path.map((point) => {
+              initialLocation={{
+                latitude: this.props.ride.path.length
+                  ? this.props.ride.path[0].lat
+                  : 0,
+                longitude: this.props.ride.path.length
+                  ? this.props.ride.path[0].long
+                  : 0,
+              }}
+              markerLocations={
+                this.props.ride.path
+                  .map((point, index, points) => {
+                    if (index === 0) {
+                      return {
+                        latitude: point.lat,
+                        longitude: point.long,
+                        marker: (
+                          <View
+                            style={{
+                              width: 16,
+                              height: 16,
+                              borderRadius: 8,
+                              borderColor: 'black',
+                              backgroundColor: 'white',
+                              borderWidth: 4,
+                            }}
+                          />
+                        ),
+                      };
+                    }
+                    if (index === points.length - 1) {
+                      return {
+                        latitude: point.lat,
+                        longitude: point.long,
+                        marker: (
+                          <View>
+                            <Image
+                              source={require('../../assets/icons/location_pin.png')}
+                            />
+                          </View>
+                        ),
+                      };
+                    }
+                  })
+                  .filter((point) => point!) as any
+              }
+              pathLocations={this.props.ride.path.map((point) => {
                 return {
                   latitude: point.lat,
                   longitude: point.long,
@@ -96,8 +149,8 @@ class RateRide extends React.PureComponent<Props, State> {
           <RideMetric
             header1={LanguageSelector.t('rateYourRide.distance')}
             header2={LanguageSelector.t('rateYourRide.duration')}
-            icon1={require('../../assets/icons/total_distance_icon.png')}
-            icon2={require('../../assets/icons/charge_time_remaining.png')}
+            icon1={TotalDistanceIcon}
+            icon2={ChargeTimeIcon}
             value1={Math.round(
               Number(this.props.ride.totalDistanceKm),
             ).toString()}
@@ -108,8 +161,8 @@ class RateRide extends React.PureComponent<Props, State> {
           <RideMetric
             header1={LanguageSelector.t('rateYourRide.avgSpeed')}
             header2={LanguageSelector.t('rateYourRide.maxSpeed')}
-            icon1={require('../../assets/icons/average_speed_icon.png')}
-            icon2={require('../../assets/icons/max_speed_icon.png')}
+            icon1={AvgSpeedIcon}
+            icon2={MaxSpeedIcon}
             value1={Math.round(Number(this.props.ride.avgSpeedKmph)).toString()}
             value2={Math.round(Number(this.props.ride.maxSpeedKmph)).toString()}
             unit1="Kmph"
@@ -118,8 +171,8 @@ class RateRide extends React.PureComponent<Props, State> {
           <RideMetric
             header1={LanguageSelector.t('rateYourRide.greenMiles')}
             header2={LanguageSelector.t('rateYourRide.caloriesBurnt')}
-            icon1={require('../../assets/icons/green_miles_icon.png')}
-            icon2={require('../../assets/icons/calories_icon_blue.png')}
+            icon1={GreenMilesIcon}
+            icon2={CaloriesIcon}
             value1={Math.round(Number(this.props.ride.greenMilesKm)).toString()}
             value2={Math.round(
               Number(this.props.ride.caloriesBurnt),
@@ -130,8 +183,8 @@ class RateRide extends React.PureComponent<Props, State> {
           <RideMetric
             header1={LanguageSelector.t('rateYourRide.petrolSavings')}
             header2={LanguageSelector.t('rateYourRide.petrolSavings')}
-            icon1={require('../../assets/icons/inr_icon.png')}
-            icon2={require('../../assets/icons/petrol_savings_icon.png')}
+            icon1={INRIcon}
+            icon2={PetrolSavingsIcon}
             value1={Math.round(
               Number(this.props.ride.petrolSavingsInr),
             ).toString()}

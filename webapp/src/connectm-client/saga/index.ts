@@ -114,7 +114,12 @@ function* resetAlertDataStore(params: IAlertDetailActions) {
                 smart: { data: [], dataCount: 0 }
             },
             pagination: params.payload.pagination,
-            sort: params.payload.sort
+            sort: params.payload.sort,
+            alertPagination:{
+              bms:{pageNumber:1,pageSize:10},
+              smart:{pageNumber:1,pageSize:10},
+              mc:{pageNumber:1,pageSize:10}
+          }
         }
     } as Store_AlertUpdate)
 }

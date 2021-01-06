@@ -196,7 +196,7 @@ export type TDashboardData = {
   alertName: string;
   alertCode: string;
   alertType:string;
-  Severity: number;// 1 means RED, 2 means Orange, 3 means Yellow
+  Severity: string;// 1 means RED, 2 means Orange, 3 means Yellow
 }
 
 export type TDashboard = {
@@ -224,7 +224,8 @@ export type TDashboardFilter = {
     timeFrame?: string;
     pageNo?: number;
     pageSize?: number;
-
+    sortDirection:string;
+    sortKey:string;
 }
 
 export type TAdditionalInsight = {

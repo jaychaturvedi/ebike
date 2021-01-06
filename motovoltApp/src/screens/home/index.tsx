@@ -15,7 +15,7 @@ import {ReadBikeStat} from '../../service/redux/actions/saga/bike-actions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {HomeStackParamList} from '../../navigation/home';
-import Map from '../../components/map';
+import GPSIcon from '../../assets/svg/GPS_tracker';
 import LanguageSelector from '../../translations';
 import {downloadFirmware} from '../../service/firmware/update';
 
@@ -91,28 +91,28 @@ class Home extends React.PureComponent<Props, State> {
               paddingHorizontal: scale(20),
             }}>
             <Metrics
-              batteryCharge={this.props.bike.batteryChargePer.toString()}
-              rangeAvailable={this.props.bike.rangeAvailableKm.toString()}
-              rangeCovered={this.props.bike.rangeCoveredKm.toString()}
+              batteryCharge={String(this.props.bike.batteryChargePer)}
+              rangeAvailable={String(this.props.bike.rangeAvailableKm)}
+              rangeCovered={String(this.props.bike.rangeCoveredKm)}
             />
           </View>
           <View
             style={{
-              position: "relative",
+              position: 'relative',
               top: 0,
               height: 300,
               width: '100%',
               flexDirection: 'row',
-              justifyContent:"center",
+              justifyContent: 'center',
               paddingHorizontal: scale(10),
             }}>
             <View
               style={{
                 width: '100%',
-                height:"100%",
-                display:"flex",
-                justifyContent:"center",
-                alignItems:"center",
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}>
               <Image
                 source={require('../../assets/images/new-bike.png')}
@@ -143,8 +143,7 @@ class Home extends React.PureComponent<Props, State> {
               {this.props.bike.type === 'CELLULAR' ? (
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('Gps', {})}>
-                  <Image
-                    source={require('../../assets/icons/GPS_tracker.png')}></Image>
+                  <GPSIcon />
                 </TouchableOpacity>
               ) : null}
             </View>
