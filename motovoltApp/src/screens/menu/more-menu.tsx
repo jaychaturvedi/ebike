@@ -153,12 +153,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
         //   onPress: () => console.log('Theme pressed'),
         //   premium: false,
         // },
-        {
-          feature: LanguageSelector.t('morePremium.smartInspect'),
-          icon: SmartInspect,
-          onPress: () => console.log('Smart pressed'),
-          premium: false,
-        },
+        // {
+        //   feature: LanguageSelector.t('morePremium.smartInspect'),
+        //   icon: SmartInspect,
+        //   onPress: () => console.log('Smart pressed'),
+        //   premium: false,
+        // },
       ],
     };
   }
@@ -264,9 +264,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                         // case "Theme":
                         //   this.props.navigation.navigate('Theme', {});
                         //   break;
-                        case LanguageSelector.t('morePremium.smartInspect'):
-                          this.props.navigation.navigate('SmartInspectStack', {});
-                          return;
+                        // case LanguageSelector.t('morePremium.smartInspect'):
+                        //   this.props.navigation.navigate('SmartInspectStack', {});
+                        //   return;
                         default:
                           this.props.navigation.navigate('ComingSoon', {});
                           break;
