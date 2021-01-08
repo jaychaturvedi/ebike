@@ -17,6 +17,7 @@ const Colors = {
     LOCK_PINK: "rgba(188, 32, 116, 1)",
     HEADER_YELLOW: "rgba(255, 196, 15, 1)",
     TEXT_WHITE: "black",
+    TEXT_BROWN:"#484543"
 };
 
 export default Colors;

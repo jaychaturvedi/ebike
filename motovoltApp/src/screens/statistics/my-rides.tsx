@@ -243,7 +243,7 @@ class MyRides extends React.PureComponent<Props, State> {
               }
             </TouchableOpacity>
           </View>
-          <RideMetric
+          {/* <RideMetric
             header1={LanguageSelector.t('myRides.co2eSavings')}
             header2={LanguageSelector.t('myRides.greenMiles')}
             unit1="Kg"
@@ -252,50 +252,68 @@ class MyRides extends React.PureComponent<Props, State> {
             icon2={GreenMilesIcon}
             value1={String(this.props.graph.co2SavingKg ?? 0)}
             value2={String(this.props.graph.greenMilesKm ?? 0)}
-          />
+          /> */}
+          <View style={styles.ridesText}>
+            <Text
+              style={{
+                fontSize: scale(16),
+                fontWeight: 'bold',
+                color: Colors.TEXT_BROWN,
+              }}>
+              {LanguageSelector.t('myRides.rideSummary')}
+            </Text>
+          </View>
           <View
             style={{...styles.chart, backgroundColor: Theme.BACKGROUND_LIGHT}}>
             <View
               style={{
-                height: '10%',
-                justifyContent: 'flex-start',
-                marginVertical: moderateScale(10),
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  fontSize: moderateScale(20),
-                  color: Theme.TEXT_WHITE,
-                }}>
-                {Object.keys(this.props.graph.data).length > 0
-                  ? this.props.graph.distance
-                  : '--'}{' '}
-                Km
-              </Text>
-            </View>
-            <View
-              style={{
-                height: '10%',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginHorizontal: 15,
                 marginVertical: moderateScale(10),
               }}>
-              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
-                {LanguageSelector.t('myRides.avgDistance')}&nbsp;
+              <View>
+                <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
+                  {LanguageSelector.t('myRides.avgDistance')}&nbsp;
+                </Text>
+                <Text style={{fontWeight:"bold"}}>
+                  {Object.keys(this.props.graph.data).length > 0
+                    ? this.props.graph.avgKmph
+                    : '--'}{' '}
+                  Km/day
+                </Text>
+              </View>
+
+              <View style={styles.verticalDivider}/>
+
+              <View>
+              <Text style={{
+                  textAlign: 'center', 
+                  fontSize: moderateScale(20), 
+                  fontWeight:"bold"}}>
                 {Object.keys(this.props.graph.data).length > 0
-                  ? this.props.graph.avgKmph
+                  ? this.props.graph.distance
                   : '--'}{' '}
-                Km/day
+                Km
               </Text>
-              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
-                {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
-                {Object.keys(this.props.graph.data).length > 0
-                  ? this.props.graph.avgSpeed
-                  : '--'}{' '}
+              </View>
+
+              <View style={styles.verticalDivider}/>
+              
+              <View>
+                <Text style={{ textAlign: 'center', fontSize: moderateScale(12), }}>
+                  {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
+                </Text>
+                <Text style={{ 
+                  textAlign: 'center', 
+                  fontSize: moderateScale(12), 
+                  fontWeight:"bold"}}>
+                  {Object.keys(this.props.graph.data).length > 0
+                    ? this.props.graph.avgSpeed
+                    : '--'}{' '}
                 Kmph
               </Text>
+              </View>
             </View>
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
               <Graph data={graphData} loading={this.props.graph.isStale} />
@@ -311,25 +329,14 @@ class MyRides extends React.PureComponent<Props, State> {
               style={{
                 fontSize: scale(16),
                 fontWeight: 'bold',
-                color: Theme.TEXT_WHITE,
+                color: Colors.TEXT_BROWN,
               }}>
-              {LanguageSelector.t('myRides.yourRides')}
+              {LanguageSelector.t('myRides.yourRides') + " " +  Moment(this.state.focusDate)
+          .startOf('day')
+          .format('DD MMM YYYY')
+          .toString()}
             </Text>
           </View>
-          {/* <RideCard
-            key={'12'}
-            fromAddress="HsR layout, Near yelahanka Bangalore 21"
-            toAddress="HsR layout, Near yelahanka Bangalore 21"
-            progress={30}
-            fromTime={new Date()}
-            toTime={new Date()}
-            distance={'12'}
-            rating={`12/10`}
-            speed={'12'}
-            onItemSelect={() =>
-              this.props.navigation.navigate('IndividualRide', {})
-            }
-          /> */}
           {Object.keys(this.props.rides).map((key, index) => {
             return (
               <RideCard
@@ -422,7 +429,7 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
   },
   chart: {
-    height: 350,
+    height: 300,
     backgroundColor: 'white',
     paddingBottom: 10,
     marginBottom: verticalScale(10),
@@ -439,4 +446,11 @@ const styles = StyleSheet.create({
   ridesText: {
     marginTop: verticalScale(10),
   },
+  verticalDivider:{
+    width:1, 
+    height:"40%",
+    borderWidth:1, 
+    borderColor:"rgba(0, 0, 0, 0.1)",
+    marginVertical:moderateScale(5)
+  }
 });
