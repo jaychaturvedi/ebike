@@ -16,13 +16,6 @@ import Colors from '../../styles/colors';
 import { SmartInspectStackParamList } from '../../navigation/smartInspection';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
-<AnimatedCircularProgress
-  size={120}
-  width={15}
-  fill={100}
-  tintColor="#00e0ff"
-  onAnimationComplete={() => console.log('onAnimationComplete')}
-  backgroundColor="#3d5875" />
 type SmartInspectionNavigationProp = StackNavigationProp<
   SmartInspectStackParamList,
   'SmartInspectionInProgress'
@@ -76,7 +69,7 @@ class Inspection extends React.PureComponent<Props, State> {
           </Text>
 
           <AnimatedCircularProgress
-            size={140}
+            size={150}
             width={30}
             fill={this.state.fill}
             // dashedTint={{width:20,gap:10}}
@@ -86,6 +79,7 @@ class Inspection extends React.PureComponent<Props, State> {
             rotation={0}
             tintColorSecondary="#5E6CAD"
             dashedBackground={{width:20,gap:10}}
+            dashedTint={{width:20,gap:10}}
             >
             {
               (fill) => (

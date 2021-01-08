@@ -256,8 +256,8 @@ class MyRides extends React.PureComponent<Props, State> {
           <View style={styles.ridesText}>
             <Text
               style={{
-                fontSize: scale(16),
-                fontWeight: 'bold',
+                fontSize: 16,
+                fontWeight: '500',
                 color: Colors.TEXT_BROWN,
               }}>
               {LanguageSelector.t('myRides.rideSummary')}
@@ -269,14 +269,20 @@ class MyRides extends React.PureComponent<Props, State> {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginHorizontal: 15,
-                marginVertical: moderateScale(10),
+                marginHorizontal: moderateScale(20),
+                marginVertical: moderateScale(20),
               }}>
               <View>
-                <Text style={{ textAlign: 'center', fontSize: moderateScale(12) }}>
+                <Text style={{ 
+                  textAlign: 'center',
+                  fontSize: 12,
+                  fontWeight:"400" }}>
                   {LanguageSelector.t('myRides.avgDistance')}&nbsp;
                 </Text>
-                <Text style={{fontWeight:"bold"}}>
+                <Text style={{
+                  textAlign: 'center',
+                  fontWeight:"500",
+                  fontSize: 12}}>
                   {Object.keys(this.props.graph.data).length > 0
                     ? this.props.graph.avgKmph
                     : '--'}{' '}
@@ -289,7 +295,7 @@ class MyRides extends React.PureComponent<Props, State> {
               <View>
               <Text style={{
                   textAlign: 'center', 
-                  fontSize: moderateScale(20), 
+                  fontSize:20, 
                   fontWeight:"bold"}}>
                 {Object.keys(this.props.graph.data).length > 0
                   ? this.props.graph.distance
@@ -301,13 +307,16 @@ class MyRides extends React.PureComponent<Props, State> {
               <View style={styles.verticalDivider}/>
               
               <View>
-                <Text style={{ textAlign: 'center', fontSize: moderateScale(12), }}>
-                  {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
+              <Text style={{ 
+                  textAlign: 'center',
+                  fontSize: 12,
+                  fontWeight:"400" }}>
+                    {LanguageSelector.t('myRides.avgSpeed')}&nbsp;
                 </Text>
-                <Text style={{ 
-                  textAlign: 'center', 
-                  fontSize: moderateScale(12), 
-                  fontWeight:"bold"}}>
+                <Text style={{
+                  textAlign: 'center',
+                  fontWeight:"500",
+                  fontSize: 12}}>
                   {Object.keys(this.props.graph.data).length > 0
                     ? this.props.graph.avgSpeed
                     : '--'}{' '}
@@ -327,8 +336,8 @@ class MyRides extends React.PureComponent<Props, State> {
           <View style={styles.ridesText}>
             <Text
               style={{
-                fontSize: scale(16),
-                fontWeight: 'bold',
+                fontSize: 16,
+                fontWeight: '500',
                 color: Colors.TEXT_BROWN,
               }}>
               {LanguageSelector.t('myRides.yourRides') + " " +  Moment(this.state.focusDate)
@@ -448,7 +457,7 @@ const styles = StyleSheet.create({
   },
   verticalDivider:{
     width:1, 
-    height:"40%",
+    height:"85%",
     borderWidth:1, 
     borderColor:"rgba(0, 0, 0, 0.1)",
     marginVertical:moderateScale(5)

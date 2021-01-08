@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 },
     elevation: 3,
   },
-  overallHealth:{
+  overallHealth: {
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'row',
@@ -245,7 +245,7 @@ function getIcon(status: string) {
         <Icon
           type="FontAwesome"
           name="exclamation-circle"
-          style={{ width: 32, height: 32, color: '#FF1F00' }}
+          style={{  color: '#FF1F00' }}
         />
       );
     case 'W':
@@ -253,13 +253,13 @@ function getIcon(status: string) {
         <>
           <View style={{
             flexDirection: "row",
-            alignItems: "center"
+            alignItems: "center",
           }}>
-            <Text style={{ marginRight: 8 }}>{"Need a service"}</Text>
+            <Text style={{ marginRight: 8}}>{"Need a service"}</Text>
             <Icon
               type="FontAwesome"
               name="exclamation-circle"
-              style={{ width: 32, height: 32, color: '#FFA800' }}
+              style={{ color: '#FFA800'}}
             />
           </View>
         </>
@@ -270,7 +270,7 @@ function getIcon(status: string) {
         <Icon
           type="FontAwesome"
           name="check-circle"
-          style={{ width: 32, height: 32, color: '#40A81B' }}
+          style={{  color: '#40A81B' }}
         />
       );
   }
@@ -341,7 +341,7 @@ const motorArr = [
     status: "H"
   }
 ]
-const smartServicesArr=[
+const smartServicesArr = [
   {
     name: "Remote Lock",
     status: "H"

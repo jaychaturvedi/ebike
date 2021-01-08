@@ -71,13 +71,15 @@ export default class RideCard extends React.PureComponent<Props, State> {
               <View style={{ flexDirection: "column" }}>
                 <Text style={{
                   ...styles.headerText,
-                  color: Theme.TEXT_GREY
+                  color: "rgba(0, 0, 0, 0.5)",
+                  fontWeight: "bold",
                 }}>
                   {' '}
                   {LanguageSelector.t('myRides.startTime')}
                   {' '}
-                  <Text style={{ fontWeight: "bold" }}>
-                    {Moment(this.props.fromTime).format('HH:mm A')}
+                  <Text style={{ 
+                    color:Theme.TEXT_WHITE }}>
+                    {Moment(this.props.fromTime).format('HH:mm a')}
                   </Text>
                 </Text>
                 <Text
@@ -92,14 +94,15 @@ export default class RideCard extends React.PureComponent<Props, State> {
               <View style={{ flexDirection: "column" }}>
                 <Text style={{
                   ...styles.headerText,
-                  color: Theme.TEXT_GREY,
-                  fontSize: scale(12)
+                  color: "rgba(0, 0, 0, 0.5)",
+                  fontWeight: "bold",
                 }}>
                   {' '}
                   {LanguageSelector.t('myRides.endTime')}
                   {' '}
-                  <Text style={{ fontWeight: "bold" }}>
-                    {Moment(this.props.toTime).format('HH:mm A')}
+                  <Text style={{ 
+                    color:Theme.TEXT_WHITE  }}>
+                    {Moment(this.props.toTime).format('HH:mm a')}
                   </Text>
                 </Text>
                 <Text
@@ -262,7 +265,7 @@ const styles = StyleSheet.create({
     borderColor:"rgba(0, 0, 0, 0.1)",
     borderTopWidth:0.5,
     borderBottomWidth:0.5,
-    backgroundColor:"#E5E5E5",
+    backgroundColor:"rgba(0, 0, 0, 0.03)",
     alignItems:"center"
   },
   modesIcon:{
