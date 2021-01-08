@@ -20,7 +20,8 @@ const themes = {
         HEADER_YELLOW: "#292D53",
         TEXT_WHITE: "white",
         TEXT_BLACK: "black",
-        TEXT_GREY: "lightgrey"
+        TEXT_GREY: "lightgrey",
+        TEXT_BROWN:"#484543"
     },
     light: {
         NAVY_BLUE: "rgba(20, 47, 106, 1)",
@@ -43,8 +44,8 @@ const themes = {
         HEADER_YELLOW: "rgba(255, 196, 15, 1)",
         TEXT_WHITE: "black",
         TEXT_BLACK: "white",
-        TEXT_GREY: "rgba(51, 51, 51, 1)"
-
+        TEXT_GREY: "rgba(51, 51, 51, 1)",
+        TEXT_BROWN:"#484543"
     }
 
 };

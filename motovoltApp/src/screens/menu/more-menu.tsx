@@ -34,7 +34,9 @@ import LanguageIcon from '../../assets/svg/languages_icon';
 import SwapIcon from '../../assets/svg/swap';
 import LogoutIcon from '../../assets/svg/logout_icon';
 import PencilEditIcon from '../../assets/svg/pencil-edit-button';
-import ServiceStations from '../../assets/svg/service_stations';
+import ServiceStations from "../../assets/svg/service_stations";
+import SmartInspect from "../../assets/svg/smart_inspect";
+
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -153,6 +155,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
         //   onPress: () => console.log('Theme pressed'),
         //   premium: false,
         // },
+        // {
+        //   feature: LanguageSelector.t('morePremium.smartInspect'),
+        //   icon: SmartInspect,
+        //   onPress: () => console.log('Smart pressed'),
+        //   premium: false,
+        // },
       ],
     };
   }
@@ -260,6 +268,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                         // case "Theme":
                         //   this.props.navigation.navigate('Theme', {});
                         //   break;
+                        // case LanguageSelector.t('morePremium.smartInspect'):
+                        //   this.props.navigation.navigate('SmartInspectStack', {});
+                        //   return;
                         default:
                           this.props.navigation.navigate('ComingSoon', {});
                           break;

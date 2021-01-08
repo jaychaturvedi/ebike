@@ -157,10 +157,13 @@
         "myRides": "My Rides",
         "co2eSavings": "CO2e Savings",
         "avgDistance": "Avg. Distance",
-        "yourRides": "YOUR RIDES",
+        "yourRides": "Your rides on",
         "mode": "Mode",
         "loading": "Loading...",
-        "noHistoryDataFound": "No history data found"
+        "noHistoryDataFound": "No history data found",
+        "startTime":"Start time",
+        "endTime":"End Time",
+        "rideSummary":"Ride Summary"
     },
     "myBike": {
         "myCycle": "My Cycle",
@@ -197,7 +200,8 @@
         "reportAnIssue": "Report An Issue",
         "bookService": "Book a Service",
         "chat": "Chat with Us",
-        "upgradeSubTitle": "An electric vehicle can reduce 26gm of CO2 per KM."
+        "upgradeSubTitle": "An electric vehicle can reduce 26gm of CO2 per KM.",
+        "smartInspect":"Smart Inspect"
     },
     "gps": {
         "gps": "GPS",
@@ -270,5 +274,18 @@
     "notifications": "Notifications",
     "noNotifications": "No notifications",
     "comingSoonTitle": "Coming Soon",
-    "comingSoonSubTitle": "We are working on this feature at the moment. We will notify you once its out"
+    "comingSoonSubTitle": "We are working on this feature at the moment. We will notify you once its out",
+    "smartInspection":{
+      "smartInspect":"Smart Inspect",
+      "smartInspectionReport":"Smart Inspection Report",
+      "overallHealth":"Overall Health",
+      "beginInspection":"Begin Inspection",
+      "smartInspectSubTitle":"The smart inspection will be carried out based on the last 24 hours ride data available",
+      "inspectionInProgress":"Inspection in progress...",
+      "smartInspectIsAborted":"Smart Inspect is aborted",
+      "smartInspectIsAbortedTitle":"There isn’t sufficient ride data available in the past 24 hours to carry out smart inspection.",
+      "smartInspectIsAbortedSubTitle":"Would you like to carry out the inspection after you have completed few more rides or proceed using the available data from the past rides?",
+      "proceed": "Proceed",
+      "cancel":"Cancel"
+    }
 }
