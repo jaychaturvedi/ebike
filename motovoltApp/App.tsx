@@ -50,8 +50,8 @@ async function requestUserPermission() {
         console.log('FCM Token', token);
       })
       .catch(console.log);
-    if (!messaging().isDeviceRegisteredForRemoteMessages)
-      messaging().registerDeviceForRemoteMessages();
+    // if (!messaging().isDeviceRegisteredForRemoteMessages)
+    //   messaging().registerDeviceForRemoteMessages();
     messaging().onMessage(async (message) => {
       console.log('Message', message);
     });

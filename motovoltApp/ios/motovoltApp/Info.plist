@@ -54,6 +54,10 @@
 	<string>location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>location</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Required to access scanner</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Required to access support</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
