@@ -4,8 +4,8 @@ import {
 import * as UserActions from "../actions/saga/user";
 import { Store_UpdateUser, Store_UpdateBike, Store_UpdateError } from "../actions/store";
 import { store } from "../../index";
-import { config, request } from './utils';
-import {UnknownError} from "../../server-error";
+import { config, request, yantraRequest } from './utils';
+import { UnknownError } from "../../server-error";
 
 export function* readUser(params: UserActions.ReadUser) {
     try {
@@ -63,6 +63,23 @@ export async function getUser() {
             success: false,
             response: null,
             message: UnknownError,
+        };
+    }
+}
+
+export async function registerUserToken(token: string) {
+    try {
+        const dataresponse = await yantraRequest(`${config.yantraBaseUrl}/yantra/registerDeviceToken`, "GET", undefined, { "token": token });
+        console.log("Register yantra token", dataresponse);
+        return {
+            ...dataresponse,
+        };
+    } catch (error) {
+        console.log(error)
+        return {
+            success: false,
+            response: null,
+            message: "",
         };
     }
 }

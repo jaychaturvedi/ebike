@@ -18,7 +18,7 @@ import {fetchCredentials} from './src/service/secure-storage';
 
 import {TStore} from './src/service/redux/store';
 import {signIn, signout} from './src/service/authentication';
-import {getUser} from './src/service/redux/saga/user';
+import {getUser, registerUserToken} from './src/service/redux/saga/user';
 import {SignIn} from './src/service/redux/actions/saga';
 import {connect} from 'react-redux';
 import {
@@ -36,7 +36,7 @@ import firebase from '@react-native-firebase/app';
 // import NearBy from 'src/screens/menu/nearby';
 // import NearBy from 'src/screens/menu/nearby';
 
-async function requestUserPermission() {
+async function initFCM() {
   const authStatus = await messaging().requestPermission();
   console.log('Auth Status', authStatus);
   const enabled =
@@ -47,9 +47,11 @@ async function requestUserPermission() {
     messaging()
       .getToken()
       .then((token) => {
+        registerUserToken(token);
         console.log('FCM Token', token);
       })
       .catch(console.log);
+    messaging().onTokenRefresh((token) => registerUserToken(token).catch());
     // if (!messaging().isDeviceRegisteredForRemoteMessages)
     //   messaging().registerDeviceForRemoteMessages();
     messaging().onMessage(async (message) => {
@@ -102,7 +104,6 @@ class App extends React.PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    requestUserPermission();
     console.log('In component did mount');
     this.props.initStore({
       type: 'Store_Init',
@@ -117,6 +118,7 @@ class App extends React.PureComponent<Props, State> {
           if (response.success) {
             //Fetch user from backend and update isBikeRegistered , isPhoneValidated
             console.log('Response ', response);
+            initFCM();
             const user = await getUser();
             if (!user.success) {
               Toast.show('We couldn’t connect to the server. Please retry.');
