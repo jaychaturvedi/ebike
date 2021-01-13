@@ -33,13 +33,13 @@ type State = {
 class Inspection extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {fill:40};
+    this.state = {fill:100};
   }
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.navigation.navigate("SmartInspectionAbort", {})
-    }, 2000)
+    }, 5000)
   };
 
   render() {
