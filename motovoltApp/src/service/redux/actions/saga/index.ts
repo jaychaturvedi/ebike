@@ -40,6 +40,10 @@ import {
     ReadUpgrades
 } from './menu';
 
+import {
+  SwitchEnvironment
+} from './profile';
+
 type Action = InitiateForgotPassword
     | InitiateMobileValidation
     | SignIn
@@ -62,7 +66,8 @@ type Action = InitiateForgotPassword
     | ScanBLEDevices
     | ReadFAQ
     | ReadUpgrades
-    | TurnOnBLE;
+    | TurnOnBLE
+    | SwitchEnvironment;
 
 
 export default Action;
@@ -92,4 +97,5 @@ export type {
     ReadFAQ,
     ReadUpgrades,
     Speedometer,
+    SwitchEnvironment,
 } 

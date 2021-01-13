@@ -293,6 +293,14 @@ export type Store_ResetNearByServices = {
     payload: {}
 }
 
+export type Store_UpdateEnvironment = {
+  type: "Store_UpdateEnvironment",
+  payload: {
+    production:boolean,
+    development:boolean
+  }
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -313,6 +321,7 @@ type Action = Store_UpdateUser
     | Store_ResetRide
     | Store_ResetStats
     | Store_SetNearByServices
-    | Store_ResetNearByServices;
+    | Store_ResetNearByServices
+    | Store_UpdateEnvironment
 
 export default Action;

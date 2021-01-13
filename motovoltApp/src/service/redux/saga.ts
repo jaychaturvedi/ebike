@@ -16,6 +16,7 @@ import * as User from './saga/user';
 import * as Notification from './saga/notifications';
 import * as Service from './saga/service';
 import * as Menu from './saga/menu';
+import * as Profile from './saga/profile';
 
 function* actionWatcher() {
     // BLE
@@ -57,6 +58,8 @@ function* actionWatcher() {
 
     yield takeLatest("ReadFAQ", Menu.readFAQ);
     yield takeLatest("ReadUpgrades", Menu.readUpgrades);
+
+    yield takeLatest("SwitchEnvironment", Profile.switchEnvironment);
 }
 
 export default function* rootSaga() {

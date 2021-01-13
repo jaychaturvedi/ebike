@@ -157,6 +157,14 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 nearbyServices: []
             }
+        case 'Store_UpdateEnvironment':
+          return {
+              ...store,
+              apiEnvironment: {
+                production:params.payload.production,
+                development: params.payload.development
+              }
+          }
         default: return store;
     }
 }

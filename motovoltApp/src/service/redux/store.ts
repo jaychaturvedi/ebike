@@ -327,6 +327,10 @@ export type TStore = {
     rides: { [id: string]: TRide },
     ble: TBLE,
     faq: TFAQ,
+    apiEnvironment:{
+      production:boolean,
+      development:boolean
+    },
     upgrades: TUpgrades
 }
 
@@ -344,6 +348,10 @@ const ZeroState: TStore = {
     services: { services: {}, open: 0, closed: 0 },
     ble: ZeroBLE,
     faq: {},
+    apiEnvironment:{
+      production:true,
+      development:false
+    },
     upgrades: { upgrades: [] }
 };
 
