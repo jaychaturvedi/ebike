@@ -327,8 +327,8 @@ class MyRides extends React.PureComponent<Props, State> {
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
               <Graph data={graphData} loading={this.props.graph.isStale} />
             </View>
-            <View style={{marginBottom: 10}}>
-              <Text style={{textAlign: 'center', fontSize: 12}}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{textAlign: 'center', fontSize: moderateScale(12)}}>
                 {graphRange}
               </Text>
             </View>
@@ -438,8 +438,7 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
   },
   chart: {
-    // height: 300,
-    flex:1,
+    height: 300,
     backgroundColor: 'white',
     paddingBottom: 10,
     marginBottom: verticalScale(10),
