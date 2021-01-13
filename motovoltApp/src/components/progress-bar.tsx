@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#829df5',
         borderWidth: 0,
         borderRadius: 5,
+        overflow:"hidden"
     },
     ecoMode: {
       backgroundColor:"#5372FF",
