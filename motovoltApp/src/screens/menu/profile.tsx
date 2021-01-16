@@ -139,7 +139,8 @@ class Profile extends React.PureComponent<Props, State> {
           />
 
           {/* <DottedButton text={LanguageSelector.t("prof20ile.addNewBattery")} onPress={() => { }} /> */}
-          <View style={{ alignItems: "center" }}>
+          {(this.props.user.email.includes("@zelp.io") || this.props.user.email.includes("@connectm.com") )
+          && <View style={{ alignItems: "center" }}>
             <Switch
               trackColor={{ false: "#767577", true: "#767577" }}
               thumbColor={this.props.apiEnvironment.development ? Theme.HEADER_YELLOW : "#f4f3f4"}
@@ -147,7 +148,7 @@ class Profile extends React.PureComponent<Props, State> {
               onValueChange={this.toggleSwitch}
               value={this.props.apiEnvironment.development}
             />
-          </View>
+          </View>}
         </ScrollView>
       </View>
     );

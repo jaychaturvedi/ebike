@@ -4,7 +4,6 @@ import { Store_UpdateEnvironment } from "../actions/store";
 
 export function* switchEnvironment(params: ProfileActions.SwitchEnvironment) {
   try {
-    console.warn(params);
     yield put({
       type: 'Store_UpdateEnvironment',
       payload: {
