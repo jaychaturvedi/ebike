@@ -301,6 +301,12 @@ export type Store_SmartInspectionReport = {
   }
 }
 
+export type Store_SmartInspectionProgress = {
+  type: "Store_SmartInspectionProgress",
+  payload: {
+    percent: number,
+  }
+}
 
 type Action = Store_UpdateUser
     | Store_UpdateBle
@@ -323,6 +329,7 @@ type Action = Store_UpdateUser
     | Store_ResetStats
     | Store_SetNearByServices
     | Store_SmartInspectionReport
+    | Store_SmartInspectionProgress
     | Store_ResetNearByServices;
 
 export default Action;

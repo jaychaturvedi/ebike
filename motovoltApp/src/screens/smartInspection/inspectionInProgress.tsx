@@ -15,12 +15,25 @@ import { scale, verticalScale, moderateScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import { SmartInspectStackParamList } from '../../navigation/smartInspection';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { BeginSmartInspection, UpdateSmartInspectionProgress } from 'src/service/redux/actions/saga';
 
 type SmartInspectionNavigationProp = StackNavigationProp<
   SmartInspectStackParamList,
   'SmartInspectionInProgress'
 >;
-interface Props {
+
+interface ReduxState {
+  smartInspectReport: TStore['smartInspectReport'],
+  user :TStore['user'],
+  smartInspectPercentage :TStore['smartInspectPercentage'],
+  beginSmartInspection: (params: BeginSmartInspection) => void,
+  updateSmartInspectionProgress: (params: UpdateSmartInspectionProgress) => void,
+}
+
+interface Props extends ReduxState {
   navigation: SmartInspectionNavigationProp;
   route: RouteProp<SmartInspectStackParamList, 'SmartInspectionInProgress'>
 }
@@ -30,17 +43,42 @@ type State = {
   fill:number
 };
 
-class Inspection extends React.PureComponent<Props, State> {
+class InspectionProgress extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {fill:100};
+    this.state = {fill:0};
   }
 
+  beginInspection = () => {
+    this.props.beginSmartInspection({
+      type:"BeginSmartInspection",
+      payload:{
+        frameId: this.props.user.defaultBikeId
+      }
+    })
+  };
+
   componentDidMount = () => {
+    this.beginInspection()
+    this.props.updateSmartInspectionProgress({
+      type:"UpdateSmartInspectionProgress",
+      payload:{
+        percent: this.props.smartInspectPercentage+20
+      }
+    })
     setTimeout(() => {
       this.props.navigation.navigate("SmartInspectionAbort", {})
     }, 5000)
   };
+
+  componentWillUnmount(){
+    this.props.updateSmartInspectionProgress({
+      type:"UpdateSmartInspectionProgress",
+      payload:{
+        percent: 0
+      }
+    })
+  }
 
   render() {
     let Theme = this.context.theme //load theme context
@@ -71,7 +109,7 @@ class Inspection extends React.PureComponent<Props, State> {
           <AnimatedCircularProgress
             size={150}
             width={30}
-            fill={this.state.fill}
+            fill={this.props.smartInspectPercentage}
             // dashedTint={{width:20,gap:10}}
             style={{marginVertical:20}}
             tintColor="#5E6CAD"
@@ -84,7 +122,7 @@ class Inspection extends React.PureComponent<Props, State> {
             {
               (fill) => (
                 <Text style={{fontSize:40}}>
-                  { this.state.fill}
+                  {this.props.smartInspectPercentage}
                 </Text>
               )
             }
@@ -101,6 +139,23 @@ class Inspection extends React.PureComponent<Props, State> {
     );
   }
 }
+InspectionProgress.contextType = ThemeContext
+
+export default connect(
+  (store: TStore) => {
+      return {
+          smartInspectReport: store['smartInspectReport'],
+          user: store['user'],
+          smartInspectPercentage: store['smartInspectPercentage']
+      };
+  },
+  (dispatch: Dispatch) => {
+      return {
+          beginSmartInspection: (params: BeginSmartInspection) => dispatch(params),
+          updateSmartInspectionProgress: (params: UpdateSmartInspectionProgress) => dispatch(params)
+      };
+  },
+)(InspectionProgress);
 
 const styles = StyleSheet.create({
   container: {
@@ -138,6 +193,3 @@ const styles = StyleSheet.create({
     marginVertical: verticalScale(32)
   }
 });
-Inspection.contextType = ThemeContext
-
-export default Inspection;

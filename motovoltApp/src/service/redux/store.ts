@@ -357,6 +357,7 @@ export type TStore = {
     faq: TFAQ,
     upgrades: TUpgrades,
     smartInspectReport: TSmartInspectReport,
+    smartInspectPercentage: number
 }
 
 const ZeroState: TStore = {
@@ -374,7 +375,8 @@ const ZeroState: TStore = {
     ble: ZeroBLE,
     faq: {},
     upgrades: { upgrades: [] },
-    smartInspectReport: ZeroSmartInspectReport
+    smartInspectReport: ZeroSmartInspectReport,
+    smartInspectPercentage: 0
 };
 
 export function getZeroState() {

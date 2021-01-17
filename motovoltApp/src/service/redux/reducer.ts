@@ -158,10 +158,15 @@ export default (store: TStore = Store, params: Action): TStore => {
                 nearbyServices: []
             }
         case 'Store_SmartInspectionReport':
-            return {
-                ...store,
-                smartInspectReport: params.payload.smartInspectReport
-            }    
+          return {
+              ...store,
+              smartInspectReport: params.payload.smartInspectReport
+          }
+        case 'Store_SmartInspectionProgress':
+          return {
+            ...store,
+            smartInspectPercentage: params.payload.percent
+        }
         default: return store;
     }
 }

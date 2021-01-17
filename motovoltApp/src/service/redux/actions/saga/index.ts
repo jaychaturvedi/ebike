@@ -40,7 +40,8 @@ import {
     ReadUpgrades
 } from './menu';
 import {
- BeginSmartInspection
+    BeginSmartInspection,
+    UpdateSmartInspectionProgress
 } from './smartInspect-actions';
 
 type Action = InitiateForgotPassword
@@ -66,6 +67,7 @@ type Action = InitiateForgotPassword
     | ReadFAQ
     | ReadUpgrades
     | BeginSmartInspection
+    | UpdateSmartInspectionProgress
     | TurnOnBLE;
 
 
@@ -97,4 +99,5 @@ export type {
     ReadUpgrades,
     Speedometer,
     BeginSmartInspection,
+    UpdateSmartInspectionProgress,
 } 
