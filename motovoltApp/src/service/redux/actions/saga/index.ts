@@ -39,6 +39,9 @@ import {
     ReadFAQ,
     ReadUpgrades
 } from './menu';
+import {
+ BeginSmartInspection
+} from './smartInspect-actions';
 
 type Action = InitiateForgotPassword
     | InitiateMobileValidation
@@ -62,6 +65,7 @@ type Action = InitiateForgotPassword
     | ScanBLEDevices
     | ReadFAQ
     | ReadUpgrades
+    | BeginSmartInspection
     | TurnOnBLE;
 
 
@@ -92,4 +96,5 @@ export type {
     ReadFAQ,
     ReadUpgrades,
     Speedometer,
+    BeginSmartInspection,
 } 

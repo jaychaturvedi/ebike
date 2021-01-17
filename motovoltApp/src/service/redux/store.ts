@@ -189,6 +189,34 @@ type NearByService = {
     dist: number,
 }
 
+export type TSmartInspectReport = {
+    frameId: string
+    deviceId: string
+    fromDate: string
+    toDate: string
+    overallHealth: number
+    battery: Health[]
+    motor: Health[]
+    smartServices: Health[]
+}
+
+export type Health = {
+    param_name: string
+    status: number
+    val: number
+}
+
+export const ZeroSmartInspectReport: TSmartInspectReport = {
+    frameId: "",
+    deviceId: "",
+    fromDate: "",
+    toDate: "",
+    overallHealth: 0,
+    battery: [],
+    motor: [],
+    smartServices: [],
+}
+
 export const ZeroOnboarding: TOnboarding = {
     confirmSignUpSuccess: null,
     signUpSuccess: null,
@@ -327,7 +355,8 @@ export type TStore = {
     rides: { [id: string]: TRide },
     ble: TBLE,
     faq: TFAQ,
-    upgrades: TUpgrades
+    upgrades: TUpgrades,
+    smartInspectReport: TSmartInspectReport,
 }
 
 const ZeroState: TStore = {
@@ -344,7 +373,8 @@ const ZeroState: TStore = {
     services: { services: {}, open: 0, closed: 0 },
     ble: ZeroBLE,
     faq: {},
-    upgrades: { upgrades: [] }
+    upgrades: { upgrades: [] },
+    smartInspectReport: ZeroSmartInspectReport
 };
 
 export function getZeroState() {

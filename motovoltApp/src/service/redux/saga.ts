@@ -16,6 +16,8 @@ import * as User from './saga/user';
 import * as Notification from './saga/notifications';
 import * as Service from './saga/service';
 import * as Menu from './saga/menu';
+import * as SmartInspect from './saga/smartInspect';
+
 
 function* actionWatcher() {
     // BLE
@@ -57,6 +59,9 @@ function* actionWatcher() {
 
     yield takeLatest("ReadFAQ", Menu.readFAQ);
     yield takeLatest("ReadUpgrades", Menu.readUpgrades);
+
+    yield takeLatest("BeginSmartInspection", SmartInspect.beginSmartInspection);
+
 }
 
 export default function* rootSaga() {

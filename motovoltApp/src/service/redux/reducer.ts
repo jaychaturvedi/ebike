@@ -157,6 +157,11 @@ export default (store: TStore = Store, params: Action): TStore => {
                 ...store,
                 nearbyServices: []
             }
+        case 'Store_SmartInspectionReport':
+            return {
+                ...store,
+                smartInspectReport: params.payload.smartInspectReport
+            }    
         default: return store;
     }
 }

@@ -1,4 +1,5 @@
 import { BLEState, TPeripheral, PeripheralDisconnected } from "../../../ble";
+import { TSmartInspectReport } from "../../store";
 
 export type Store_UpdateUser = {
     type: "Store_UpdateUser",
@@ -293,6 +294,14 @@ export type Store_ResetNearByServices = {
     payload: {}
 }
 
+export type Store_SmartInspectionReport = {
+  type: "Store_SmartInspectionReport",
+  payload: {
+    smartInspectReport: TSmartInspectReport
+  }
+}
+
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -313,6 +322,7 @@ type Action = Store_UpdateUser
     | Store_ResetRide
     | Store_ResetStats
     | Store_SetNearByServices
+    | Store_SmartInspectionReport
     | Store_ResetNearByServices;
 
 export default Action;
