@@ -301,6 +301,14 @@ export type Store_SmartInspectionReport = {
   }
 }
 
+export type Store_UpdateEnvironment = {
+  type: "Store_UpdateEnvironment",
+  payload: {
+    production:boolean,
+    development:boolean
+  }
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -322,6 +330,7 @@ type Action = Store_UpdateUser
     | Store_ResetStats
     | Store_SetNearByServices
     | Store_SmartInspectionReport
-    | Store_ResetNearByServices;
+    | Store_ResetNearByServices
+    | Store_UpdateEnvironment;
 
 export default Action;

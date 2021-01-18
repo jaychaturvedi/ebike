@@ -282,6 +282,11 @@ class MoreMenu extends React.PureComponent<Props, State> {
               );
             })}
           </View>
+          <View>
+            <Text style={styles.copyrightText}>
+            V1.0.2   |   © Copyright 2020   |   Motovolt Mobility Pvt Ltd.
+            </Text>
+          </View>
         </ScrollView>
       </View>
     );
@@ -338,4 +343,11 @@ const styles = StyleSheet.create({
     paddingLeft: moderateScale(9),
     paddingRight: moderateScale(9),
   },
+  copyrightText:{
+    fontSize:12, 
+    textAlign:"center",
+    color:"rgba(0, 0, 0, 0.5)",
+    marginTop:20,
+    marginBottom:10
+  }
 });

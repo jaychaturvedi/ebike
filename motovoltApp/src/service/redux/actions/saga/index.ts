@@ -43,6 +43,10 @@ import {
     BeginSmartInspection
 } from './smartInspect-actions';
 
+import {
+  SwitchEnvironment
+} from './profile';
+
 type Action = InitiateForgotPassword
     | InitiateMobileValidation
     | SignIn
@@ -66,7 +70,8 @@ type Action = InitiateForgotPassword
     | ReadFAQ
     | ReadUpgrades
     | BeginSmartInspection
-    | TurnOnBLE;
+    | TurnOnBLE
+    | SwitchEnvironment;
 
 
 export default Action;
@@ -97,4 +102,5 @@ export type {
     ReadUpgrades,
     Speedometer,
     BeginSmartInspection,
+    SwitchEnvironment,
 } 

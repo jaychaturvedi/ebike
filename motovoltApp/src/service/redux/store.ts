@@ -357,6 +357,10 @@ export type TStore = {
     faq: TFAQ,
     upgrades: TUpgrades,
     smartInspectReport: TSmartInspectReport,
+    apiEnvironment:{
+      production:boolean,
+      development:boolean
+    },
 }
 
 const ZeroState: TStore = {
@@ -375,6 +379,10 @@ const ZeroState: TStore = {
     faq: {},
     upgrades: { upgrades: [] },
     smartInspectReport: ZeroSmartInspectReport,
+    apiEnvironment:{
+      production:true,
+      development:false
+    },
 };
 
 export function getZeroState() {

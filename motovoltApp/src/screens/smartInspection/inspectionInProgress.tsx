@@ -64,7 +64,7 @@ class InspectionProgress extends React.PureComponent<Props, State> {
         this.setState({
           fill: this.state.fill + 1,
         });
-    }, 600);
+    }, 500);
   }
 
   componentDidMount() {
