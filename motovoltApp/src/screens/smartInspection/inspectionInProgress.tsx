@@ -15,36 +15,73 @@ import { scale, verticalScale, moderateScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import { SmartInspectStackParamList } from '../../navigation/smartInspection';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { BeginSmartInspection } from 'src/service/redux/actions/saga';
 
 type SmartInspectionNavigationProp = StackNavigationProp<
   SmartInspectStackParamList,
   'SmartInspectionInProgress'
 >;
-interface Props {
+
+interface ReduxState {
+  smartInspectReport: TStore['smartInspectReport'],
+  user: TStore['user'],
+  beginSmartInspection: (params: BeginSmartInspection) => void,
+}
+
+interface Props extends ReduxState {
   navigation: SmartInspectionNavigationProp;
   route: RouteProp<SmartInspectStackParamList, 'SmartInspectionInProgress'>
 }
 
 type State = {
   refreshing?: boolean;
-  fill:number
+  fill: number
 };
 
-class Inspection extends React.PureComponent<Props, State> {
+class InspectionProgress extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {fill:40};
+    this.state = {
+      fill: 0
+    };
   }
 
-  componentDidMount = () => {
-    setTimeout(() => {
-      this.props.navigation.navigate("SmartInspectionAbort", {})
-    }, 2000)
+  beginInspection = () => {
+    this.props.beginSmartInspection({
+      type: "BeginSmartInspection",
+      payload: {
+        frameId: this.props.user.defaultBikeId
+      }
+    })
   };
+
+  startTimer() {
+    const timer = setInterval(() => {
+      if (this.state.fill < 100)
+        this.setState({
+          fill: this.state.fill + 1,
+        });
+    }, 500);
+  }
+
+  componentDidMount() {
+    this.beginInspection()
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    if (this.state.fill) clearInterval(this.state.fill);
+  }
 
   render() {
     let Theme = this.context.theme //load theme context
+    if (this.state.fill >= 100) {
+      this.props.navigation.replace("SmartInspectionAbort", {})
 
+    }
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
@@ -59,32 +96,31 @@ class Inspection extends React.PureComponent<Props, State> {
           <Text style={{
             ...styles.title, color: Theme.TEXT_WHITE
           }}>
-              {LanguageSelector.t("smartInspection.smartInspect")}
+            {LanguageSelector.t("smartInspection.smartInspect")}
           </Text>
 
           <Text style={{
             ...styles.bodyText, color: Theme.TEXT_WHITE
           }}>
-              {LanguageSelector.t("smartInspection.smartInspectSubTitle")}
+            {LanguageSelector.t("smartInspection.smartInspectSubTitle")}
           </Text>
 
           <AnimatedCircularProgress
             size={150}
             width={30}
             fill={this.state.fill}
-            // dashedTint={{width:20,gap:10}}
-            style={{marginVertical:20}}
+            style={{ marginVertical: 20 }}
             tintColor="#5E6CAD"
             backgroundColor="#DEDEDE"
             rotation={0}
-            tintColorSecondary="#5E6CAD"
-            dashedBackground={{width:20,gap:10}}
-            dashedTint={{width:20,gap:10}}
-            >
+            dashedBackground={{ width: 20, gap: 10 }}
+            dashedTint={{ width: 20, gap: 10 }}
+            lineCap="butt"
+            tintTransparency={false}>
             {
               (fill) => (
-                <Text style={{fontSize:40}}>
-                  { this.state.fill}
+                <Text style={{ fontSize: 30 }}>
+                  {this.state.fill+"%"}
                 </Text>
               )
             }
@@ -94,13 +130,28 @@ class Inspection extends React.PureComponent<Props, State> {
             color: "#5E6CAD",
             fontSize: scale(16)
           }}>
-              {LanguageSelector.t("smartInspection.inspectionInProgress")}
+            {LanguageSelector.t("smartInspection.inspectionInProgress")}
           </Text>
         </View>
       </View>
     );
   }
 }
+InspectionProgress.contextType = ThemeContext
+
+export default connect(
+  (store: TStore) => {
+    return {
+      smartInspectReport: store['smartInspectReport'],
+      user: store['user'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      beginSmartInspection: (params: BeginSmartInspection) => dispatch(params),
+    };
+  },
+)(InspectionProgress);
 
 const styles = StyleSheet.create({
   container: {
@@ -132,12 +183,9 @@ const styles = StyleSheet.create({
     color: Colors.TEXT_WHITE,
     textAlign: "center",
     marginVertical: 5,
-    paddingHorizontal:10
+    paddingHorizontal: 10
   },
   loader: {
     marginVertical: verticalScale(32)
   }
 });
-Inspection.contextType = ThemeContext
-
-export default Inspection;

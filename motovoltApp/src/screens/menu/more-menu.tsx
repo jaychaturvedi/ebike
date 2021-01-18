@@ -144,6 +144,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
         //   premium: false,
         // },
         {
+          feature: LanguageSelector.t('morePremium.smartInspect'),
+          icon: SmartInspect,
+          onPress: () => console.log('Smart pressed'),
+          premium: false,
+        },
+        {
           feature: LanguageSelector.t('morePremium.logOut'),
           icon: LogoutIcon,
           onPress: () => console.log('Feature pressed'),
@@ -153,12 +159,6 @@ class MoreMenu extends React.PureComponent<Props, State> {
         //   feature: "Theme",
         //   icon: require('../../assets/icons/promotions_icon.png'),
         //   onPress: () => console.log('Theme pressed'),
-        //   premium: false,
-        // },
-        // {
-        //   feature: LanguageSelector.t('morePremium.smartInspect'),
-        //   icon: SmartInspect,
-        //   onPress: () => console.log('Smart pressed'),
         //   premium: false,
         // },
       ],
@@ -268,9 +268,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                         // case "Theme":
                         //   this.props.navigation.navigate('Theme', {});
                         //   break;
-                        // case LanguageSelector.t('morePremium.smartInspect'):
-                        //   this.props.navigation.navigate('SmartInspectStack', {});
-                        //   return;
+                        case LanguageSelector.t('morePremium.smartInspect'):
+                          this.props.navigation.navigate('SmartInspectStack', {});
+                          return;
                         default:
                           this.props.navigation.navigate('ComingSoon', {});
                           break;
@@ -281,6 +281,11 @@ class MoreMenu extends React.PureComponent<Props, State> {
                 </View>
               );
             })}
+          </View>
+          <View>
+            <Text style={styles.copyrightText}>
+            V1.0.2   |   © Copyright 2020   |   Motovolt Mobility Pvt Ltd.
+            </Text>
           </View>
         </ScrollView>
       </View>
@@ -338,4 +343,11 @@ const styles = StyleSheet.create({
     paddingLeft: moderateScale(9),
     paddingRight: moderateScale(9),
   },
+  copyrightText:{
+    fontSize:12, 
+    textAlign:"center",
+    color:"rgba(0, 0, 0, 0.5)",
+    marginTop:20,
+    marginBottom:10
+  }
 });

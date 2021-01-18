@@ -6,6 +6,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  Switch
 } from 'react-native';
 import Footer from '../home/components/footer';
 import Header from '../home/components/header';
@@ -23,10 +24,13 @@ import { connect } from 'react-redux';
 import LanguageSelector from '../../translations';
 import { ThemeContext } from '../../styles/theme/theme-context';
 import Moment from "moment";
+import { Dispatch } from 'redux';
+import * as ProfileActions from "src/service/redux/actions/saga/profile";
 
 type ReduxState = {
   user: TStore['user'];
   bike: TStore['bike'];
+  apiEnvironment: TStore['apiEnvironment'];
 };
 
 type ProfileNavigationProp = StackNavigationProp<MenuStackParamList, 'Profile'>;
@@ -34,6 +38,7 @@ type ProfileNavigationProp = StackNavigationProp<MenuStackParamList, 'Profile'>;
 interface Props extends ReduxState {
   navigation: ProfileNavigationProp;
   route: RouteProp<MenuStackParamList, 'Profile'>;
+  switchEnvironment: (params: ProfileActions.SwitchEnvironment) => void
 }
 
 type State = {};
@@ -43,7 +48,15 @@ class Profile extends React.PureComponent<Props, State> {
     super(props);
     this.state = {};
   }
-
+  toggleSwitch = () =>{ 
+    this.props.switchEnvironment({
+      type:"SwitchEnvironment",
+      payload:{
+        production:!this.props.apiEnvironment.production,
+        development:!this.props.apiEnvironment.development
+      }
+    })    
+  };
   render() {
     let Theme = this.context.theme; //load theme 
     return (
@@ -125,7 +138,17 @@ class Profile extends React.PureComponent<Props, State> {
             ]}
           />
 
-          {/* <DottedButton text={LanguageSelector.t("profile.addNewBattery")} onPress={() => { }} /> */}
+          {/* <DottedButton text={LanguageSelector.t("prof20ile.addNewBattery")} onPress={() => { }} /> */}
+          {(this.props.user.email.endsWith("@zelp.io") || this.props.user.email.endsWith("@connectm.com") )
+          && <View style={{ alignItems: "center" }}>
+            <Switch
+              trackColor={{ false: "#767577", true: "#767577" }}
+              thumbColor={this.props.apiEnvironment.development ? Theme.HEADER_YELLOW : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={this.toggleSwitch}
+              value={this.props.apiEnvironment.development}
+            />
+          </View>}
         </ScrollView>
       </View>
     );
@@ -139,6 +162,12 @@ export default connect(
     return {
       user: store['user'],
       bike: store['bike'],
+      apiEnvironment: store['apiEnvironment']
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      switchEnvironment: (params: ProfileActions.SwitchEnvironment) => dispatch(params),
     };
   },
 )(Profile);

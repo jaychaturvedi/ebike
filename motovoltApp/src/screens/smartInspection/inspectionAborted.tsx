@@ -32,17 +32,17 @@ type State = {
   refreshing?: boolean;
 };
 
-class Inspection extends React.PureComponent<Props, State> {
+class InspectionAborted extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {};
   }
 
   onPressProceed = () => {
-    this.props.navigation.navigate("SmartInspectionReport",{})
+    this.props.navigation.replace("SmartInspectionReport",{})
   };
   onPressCancel = () => {
-    this.props.navigation.navigate("SmartInspection",{})
+    this.props.navigation.replace("SmartInspection",{})
   };
 
   render() {
@@ -108,6 +108,9 @@ class Inspection extends React.PureComponent<Props, State> {
     );
   }
 }
+InspectionAborted.contextType = ThemeContext
+
+export default InspectionAborted;
 
 const styles = StyleSheet.create({
   container: {
@@ -164,6 +167,3 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
 });
-Inspection.contextType = ThemeContext
-
-export default Inspection;

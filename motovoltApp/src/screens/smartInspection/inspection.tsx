@@ -40,7 +40,7 @@ class Inspection extends React.PureComponent<Props, State> {
   }
 
   onPress = () => {
-    this.props.navigation.navigate("SmartInspectionInProgress",{})
+    this.props.navigation.replace("SmartInspectionInProgress",{})
   };
 
   render() {

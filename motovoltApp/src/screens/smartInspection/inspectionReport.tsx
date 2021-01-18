@@ -11,7 +11,6 @@ import { moderateScale, scale } from 'react-native-size-matters';
 import Header from '../home/components/header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { TStore } from '../../service/redux/store';
 import LanguageSelector from '../../translations';
 import { ThemeContext } from '../../styles/theme/theme-context';
 import { Icon } from 'native-base';
@@ -19,8 +18,12 @@ import MotorIcon from '../../assets/svg/Motor_icon';
 import BatteryIcon from '../../assets/svg/battery_icon';
 import SmartServicesIcon from '../../assets/svg/smart_services';
 import { SmartInspectStackParamList } from '../../navigation/smartInspection';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 type ReduxState = {
+  smartInspectReport: TStore['smartInspectReport']
 };
 
 type SmartInspectionNavigationProp = StackNavigationProp<
@@ -38,12 +41,17 @@ type State = {
 };
 
 interface ListReportProps {
-  listArray: any,
+  listArray: {
+    paramName: string
+    status: number
+    val: number
+  }[],
   title: string,
   icon: React.ReactNode
 }
 class ListReport extends React.PureComponent<ListReportProps, {}>{
   render() {
+    // console.warn(this.props)
     return (
       <>
         <View style={{ height: 24 }} />
@@ -77,7 +85,7 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
             </Text>
           </View>
         </View>
-        <View style={{ borderWidth: 0.8, opacity: 0.2 }} />
+        <View style={{ borderWidth: 0.8, opacity: 0.2, borderColor: "rgba(0, 0, 0, 0.1)" }} />
         <View
           style={{
             backgroundColor: 'white',
@@ -103,9 +111,9 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
                     alignItems: "center"
                   }}>
                   <Text style={{ fontSize: 16, opacity: 0.7 }}>
-                    {item.name}
+                    {item.paramName}
                   </Text>
-                  {getIcon(item.status)}
+                  {getIcon(item.status ? "Healthy" : "Unhealthy")}
                 </View>
                 {(index !== this.props.listArray.length - 1) &&
                   <View style={{ borderWidth: 0.5, opacity: 0.2 }} />}
@@ -152,43 +160,74 @@ class InspectionReport extends React.PureComponent<Props, State> {
           }>
           <View style={styles.metrics}>
             <View>
-              <View style={styles.overallHealth}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '500',
-                  }}
-                  numberOfLines={1}>
-                  {"Overall Health"}
-                </Text>
-                {getIcon("W")}
-              </View>
-              {/* <View style={{ borderWidth: 0.8, opacity: 0.2 }} />
-              <View style={{...styles.overallHealth,justifyContent:"flex-end"}}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '500',
-                    color:"#5E6CAD"
-                  }}
-                  onPress={()=>{this.props.navigation.navigate("SupportService",{})}}
-                  numberOfLines={1}>
-                  {"Book a service"}
-                </Text>
-              </View> */}
+              {this.props.smartInspectReport.overallHealth
+                ? <View>
+                  <View style={styles.overallHealth}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: '500',
+                      }}
+                      numberOfLines={1}>
+                      {"Overall Health"}
+                    </Text>
+                    {getIcon(this.props.smartInspectReport.overallHealth ? "Healthy" : "Unhealthy")}
+                  </View>
+
+                </View>
+                :
+                <View style={styles.overallUnhealthy}>
+                  <View style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    marginVertical: 10
+                  }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: '500',
+                      }}
+                      numberOfLines={1}>
+                      {"Overall Health"}
+                    </Text>
+                    {getIcon(this.props.smartInspectReport.overallHealth ? "Healthy" : "Unhealthy")}
+                  </View>
+                  <View style={{ borderWidth: 0.8, opacity: 0.2 }} />
+                  <View style={{ alignItems: "flex-end", marginVertical: 10 }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: '500',
+                        color: "#5E6CAD"
+                      }}
+                      // onPress={() => { this.props.navigation.replace("SupportService", {}) }}
+                      numberOfLines={1}>
+                      {"Book a service  "}
+                      <Icon
+                        type="FontAwesome"
+                        name="chevron-right"
+                        style={{
+                          fontSize: 12,
+                          color: '#5E6CAD',
+                        }}
+                      />
+                    </Text>
+                  </View>
+                </View>}
             </View>
 
             <ListReport
               icon={<BatteryIcon width={22} height={22} />}
-              listArray={batteryArr}
+              listArray={this.props.smartInspectReport.battery}
               title={"Battery"} />
             <ListReport
               icon={<MotorIcon width={22} height={22} />}
-              listArray={motorArr}
+              listArray={this.props.smartInspectReport.motor}
               title={"Motor"} />
             <ListReport
               icon={<SmartServicesIcon width={22} height={22} />}
-              listArray={smartServicesArr}
+              listArray={this.props.smartInspectReport.smartServices}
               title={"Smart Services"} />
 
             <View style={{ height: 24 }} />
@@ -202,7 +241,14 @@ class InspectionReport extends React.PureComponent<Props, State> {
 
 InspectionReport.contextType = ThemeContext;
 
-export default InspectionReport
+export default connect(
+  (store: TStore) => {
+    return {
+      smartInspectReport: store['smartInspectReport']
+    };
+  },
+  {}
+)(InspectionReport)
 
 const styles = StyleSheet.create({
   container: {
@@ -235,123 +281,49 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 1, width: 1 },
     elevation: 3
+  },
+  overallUnhealthy: {
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    borderRadius: 10,
+    width: '100%',
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: { height: 1, width: 1 },
+    elevation: 3
   }
 });
 
 function getIcon(status: string) {
   switch (status) {
-    case 'C':
-      return (
-        <Icon
-          type="FontAwesome"
-          name="exclamation-circle"
-          style={{  color: '#FF1F00' }}
-        />
-      );
-    case 'W':
+    case 'Unhealthy':
       return (
         <>
           <View style={{
             flexDirection: "row",
             alignItems: "center",
           }}>
-            <Text style={{ marginRight: 8}}>{"Need a service"}</Text>
+            <Text style={{ marginRight: 8 }}>{"Need a service"}</Text>
             <Icon
               type="FontAwesome"
               name="exclamation-circle"
-              style={{ color: '#FFA800'}}
+              style={{ color: '#FFA800' }}
             />
           </View>
         </>
       );
-    case 'H':
+    case 'Healthy':
     default:
       return (
         <Icon
           type="FontAwesome"
           name="check-circle"
-          style={{  color: '#40A81B' }}
+          style={{ color: '#40A81B' }}
         />
       );
   }
 }
-
-const batteryArr = [
-  {
-    name: "Pack Voltage",
-    status: "W"
-  },
-  {
-    name: "Current",
-    status: "H"
-  },
-  {
-    name: "Cell Voltages",
-    status: "H"
-  },
-  {
-    name: "Charging",
-    status: "H"
-  },
-  {
-    name: "Discharging",
-    status: "H"
-  },
-  {
-    name: "Cell Balance",
-    status: "H"
-  },
-  {
-    name: "Temperature",
-    status: "H"
-  },
-  {
-    name: "BMS",
-    status: "H"
-  },
-  {
-    name: "Charge Protection",
-    status: "H"
-  },
-  {
-    name: "Discharge Protection",
-    status: "H"
-  },
-]
-
-const motorArr = [
-  {
-    name: "Speed",
-    status: "W"
-  },
-  {
-    name: "Odometer",
-    status: "H"
-  },
-  {
-    name: "Ride Mode",
-    status: "H"
-  },
-  {
-    name: "Cruise",
-    status: "H"
-  },
-  {
-    name: "Throttle",
-    status: "H"
-  }
-]
-const smartServicesArr = [
-  {
-    name: "Remote Lock",
-    status: "H"
-  },
-  {
-    name: "Track Location",
-    status: "H"
-  },
-  {
-    name: "Safety Alerts",
-    status: "H"
-  },
-]
