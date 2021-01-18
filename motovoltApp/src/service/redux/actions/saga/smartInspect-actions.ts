@@ -4,10 +4,3 @@ export type BeginSmartInspection = {
       frameId:string
   }
 }
-
-export type UpdateSmartInspectionProgress = {
-  type: "UpdateSmartInspectionProgress",
-  payload: {
-      percent:number
-  }
-}

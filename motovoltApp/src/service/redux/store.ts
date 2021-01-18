@@ -201,7 +201,7 @@ export type TSmartInspectReport = {
 }
 
 export type Health = {
-    param_name: string
+    paramName: string
     status: number
     val: number
 }
@@ -357,7 +357,6 @@ export type TStore = {
     faq: TFAQ,
     upgrades: TUpgrades,
     smartInspectReport: TSmartInspectReport,
-    smartInspectPercentage: number
 }
 
 const ZeroState: TStore = {
@@ -376,7 +375,6 @@ const ZeroState: TStore = {
     faq: {},
     upgrades: { upgrades: [] },
     smartInspectReport: ZeroSmartInspectReport,
-    smartInspectPercentage: 0
 };
 
 export function getZeroState() {

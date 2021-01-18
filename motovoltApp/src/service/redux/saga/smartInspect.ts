@@ -4,7 +4,7 @@ import {
 } from "redux-saga/effects";
 import * as SmartInspectInspection from "../actions/saga/smartInspect-actions";
 import { config, request, yantraRequest } from "./utils";
-import { Store_SmartInspectionProgress, Store_SmartInspectionReport, Store_UpdateError } from "../actions/store";
+import { Store_SmartInspectionReport, Store_UpdateError } from "../actions/store";
 import { UnknownError } from "../../server-error";
 
 export function* beginSmartInspection(params: SmartInspectInspection.BeginSmartInspection) {
@@ -16,14 +16,14 @@ export function* beginSmartInspection(params: SmartInspectInspection.BeginSmartI
         type: "Store_SmartInspectionReport",
         payload: {
           smartInspectReport: {
-            frameId: data.frame_id,
-            deviceId: data.device_id,
-            fromDate: data.from_date,
-            toDate: data.to_date,
-            overallHealth: data.overall_health,
+            frameId: data.frameId,
+            deviceId: data.deviceId,
+            fromDate: data.fromDate,
+            toDate: data.toDate,
+            overallHealth: data.overallHealth,
             battery: data.battery,
             motor: data.motor,
-            smartServices: data.smart_services
+            smartServices: data.smartServices
           }
         }
       } as Store_SmartInspectionReport);
@@ -36,25 +36,6 @@ export function* beginSmartInspection(params: SmartInspectInspection.BeginSmartI
         }
       } as Store_UpdateError)
     }
-  } catch (error) {
-    console.log(error)
-    yield put({
-      type: 'Store_UpdateError',
-      payload: {
-        error: UnknownError
-      }
-    } as Store_UpdateError)
-  }
-}
-
-export function* UpdateSmartInspectionProgress(params: SmartInspectInspection.UpdateSmartInspectionProgress) {
-  try {
-    yield put({
-      type: "Store_SmartInspectionProgress",
-      payload: {
-        percent: params.payload.percent
-      }
-    } as Store_SmartInspectionProgress);
   } catch (error) {
     console.log(error)
     yield put({

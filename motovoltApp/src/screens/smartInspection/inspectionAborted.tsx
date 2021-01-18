@@ -39,10 +39,10 @@ class InspectionAborted extends React.PureComponent<Props, State> {
   }
 
   onPressProceed = () => {
-    this.props.navigation.navigate("SmartInspectionReport",{})
+    this.props.navigation.replace("SmartInspectionReport",{})
   };
   onPressCancel = () => {
-    this.props.navigation.navigate("SmartInspection",{})
+    this.props.navigation.replace("SmartInspection",{})
   };
 
   render() {

@@ -61,8 +61,6 @@ function* actionWatcher() {
     yield takeLatest("ReadUpgrades", Menu.readUpgrades);
 
     yield takeLatest("BeginSmartInspection", SmartInspect.beginSmartInspection);
-    yield takeLatest("UpdateSmartInspectionProgress", SmartInspect.UpdateSmartInspectionProgress);
-
 }
 
 export default function* rootSaga() {

@@ -162,11 +162,6 @@ export default (store: TStore = Store, params: Action): TStore => {
               ...store,
               smartInspectReport: params.payload.smartInspectReport
           }
-        case 'Store_SmartInspectionProgress':
-          return {
-            ...store,
-            smartInspectPercentage: params.payload.percent
-        }
         default: return store;
     }
 }

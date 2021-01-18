@@ -42,7 +42,7 @@ type State = {
 
 interface ListReportProps {
   listArray: {
-    param_name: string
+    paramName: string
     status: number
     val: number
   }[],
@@ -51,6 +51,7 @@ interface ListReportProps {
 }
 class ListReport extends React.PureComponent<ListReportProps, {}>{
   render() {
+    // console.warn(this.props)
     return (
       <>
         <View style={{ height: 24 }} />
@@ -84,7 +85,7 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
             </Text>
           </View>
         </View>
-        <View style={{ borderWidth: 0.8, opacity: 0.2 }} />
+        <View style={{ borderWidth: 0.8, opacity: 0.2, borderColor: "rgba(0, 0, 0, 0.1)" }} />
         <View
           style={{
             backgroundColor: 'white',
@@ -110,7 +111,7 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
                     alignItems: "center"
                   }}>
                   <Text style={{ fontSize: 16, opacity: 0.7 }}>
-                    {item.param_name}
+                    {item.paramName}
                   </Text>
                   {getIcon(item.status ? "Healthy" : "Unhealthy")}
                 </View>
@@ -146,7 +147,7 @@ class InspectionReport extends React.PureComponent<Props, State> {
           hasBackButton
           title={LanguageSelector.t("smartInspection.smartInspectionReport")}
           backgroundColor={Theme.HEADER_YELLOW}
-          onBackClick={() => this.props.navigation.navigate("SmartInspection",{})}
+          onBackClick={() => this.props.navigation.goBack()}
         />
         <ScrollView
           style={{ paddingHorizontal: moderateScale(15), flex: 1 }}
@@ -159,30 +160,61 @@ class InspectionReport extends React.PureComponent<Props, State> {
           }>
           <View style={styles.metrics}>
             <View>
-              <View style={styles.overallHealth}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '500',
-                  }}
-                  numberOfLines={1}>
-                  {"Overall Health"}
-                </Text>
-                {getIcon(this.props.smartInspectReport.overallHealth ? "Healthy" : "Unhealthy")}
-              </View>
-              {/* <View style={{ borderWidth: 0.8, opacity: 0.2 }} />
-              <View style={{...styles.overallHealth,justifyContent:"flex-end"}}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '500',
-                    color:"#5E6CAD"
-                  }}
-                  onPress={()=>{this.props.navigation.navigate("SupportService",{})}}
-                  numberOfLines={1}>
-                  {"Book a service"}
-                </Text>
-              </View> */}
+              {this.props.smartInspectReport.overallHealth
+                ? <View>
+                  <View style={styles.overallHealth}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: '500',
+                      }}
+                      numberOfLines={1}>
+                      {"Overall Health"}
+                    </Text>
+                    {getIcon(this.props.smartInspectReport.overallHealth ? "Healthy" : "Unhealthy")}
+                  </View>
+
+                </View>
+                :
+                <View style={styles.overallUnhealthy}>
+                  <View style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    marginVertical: 10
+                  }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: '500',
+                      }}
+                      numberOfLines={1}>
+                      {"Overall Health"}
+                    </Text>
+                    {getIcon(this.props.smartInspectReport.overallHealth ? "Healthy" : "Unhealthy")}
+                  </View>
+                  <View style={{ borderWidth: 0.8, opacity: 0.2 }} />
+                  <View style={{ alignItems: "flex-end", marginVertical: 10 }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: '500',
+                        color: "#5E6CAD"
+                      }}
+                      // onPress={() => { this.props.navigation.replace("SupportService", {}) }}
+                      numberOfLines={1}>
+                      {"Book a service  "}
+                      <Icon
+                        type="FontAwesome"
+                        name="chevron-right"
+                        style={{
+                          fontSize: 12,
+                          color: '#5E6CAD',
+                        }}
+                      />
+                    </Text>
+                  </View>
+                </View>}
             </View>
 
             <ListReport
@@ -240,6 +272,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    borderRadius: 10,
+    width: '100%',
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowColor: 'black',
+    shadowOffset: { height: 1, width: 1 },
+    elevation: 3
+  },
+  overallUnhealthy: {
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'column',
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderRadius: 10,
