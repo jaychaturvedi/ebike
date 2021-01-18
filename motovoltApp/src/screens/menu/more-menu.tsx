@@ -144,6 +144,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
         //   premium: false,
         // },
         {
+          feature: LanguageSelector.t('morePremium.smartInspect'),
+          icon: SmartInspect,
+          onPress: () => console.log('Smart pressed'),
+          premium: false,
+        },
+        {
           feature: LanguageSelector.t('morePremium.logOut'),
           icon: LogoutIcon,
           onPress: () => console.log('Feature pressed'),
@@ -155,12 +161,6 @@ class MoreMenu extends React.PureComponent<Props, State> {
         //   onPress: () => console.log('Theme pressed'),
         //   premium: false,
         // },
-        {
-          feature: LanguageSelector.t('morePremium.smartInspect'),
-          icon: SmartInspect,
-          onPress: () => console.log('Smart pressed'),
-          premium: false,
-        },
       ],
     };
   }
