@@ -1,8 +1,7 @@
 import {Text, View} from 'native-base';
 import React, {useCallback, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Icon} from 'native-base';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   root: {padding: 20, display: 'flex', flexDirection: 'column'},
@@ -80,7 +79,7 @@ export default function Card(props: {
               </Text>
               <Text
                 style={{fontSize: 15, marginTop: 11, lineHeight: 18}}
-                numberOfLines={2}>
+                numberOfLines={expanded ? undefined : 2}>
                 {props.description}
               </Text>
             </View>

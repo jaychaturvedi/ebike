@@ -60,7 +60,11 @@ export type TNotification = {
     time: string,
     date: string,
     title: string,
-    body: string,
+    message: string,
+    titleImgUrl: string,
+    bodyImgUrl: string,
+    mediaUrl: string,
+    type: "N" | "E" | "P",
 }
 
 export type TBike = {

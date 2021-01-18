@@ -415,7 +415,7 @@ PODS:
   - RNFBApp (10.4.0):
     - Firebase/CoreOnly (~> 7.3.0)
     - React-Core
-  - RNFBMessaging (10.3.1):
+  - RNFBMessaging (10.4.1):
     - Firebase/Messaging (~> 7.3.0)
     - React-Core
     - RNFBApp
@@ -711,7 +711,7 @@ SPEC CHECKSUMS:
   RNCPicker: a724b3aa22b182697c190a8fd7b060b66119e136
   RNDateTimePicker: 8d8eaff487659a32ad04f6690b33b3248ef9026d
   RNFBApp: a9af8372c9c2b2135ffa78817fd2d8baf3ee632e
-  RNFBMessaging: b2f402097f6643e733586bcb6d5f65dec7a6bce1
+  RNFBMessaging: 643ec4102ee0d780f928718c2632bb1e90487f04
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNKeychain: db956c02a018f7dd3a0ea8a6cf3087bc1894bf2b
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
