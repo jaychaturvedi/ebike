@@ -284,7 +284,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
           </View>
           <View>
             <Text style={styles.copyrightText}>
-            V1.0.2   |   © Copyright 2020   |   Motovolt Mobility Pvt Ltd.
+            V1.0.2   |   © Copyright {new Date().getFullYear()}   |   Motovolt Mobility Pvt Ltd.
             </Text>
           </View>
         </ScrollView>
