@@ -30,11 +30,8 @@ import {
 import {StyleSheet, Text, View} from 'react-native';
 import {ReadUser} from 'src/service/redux/actions/saga/user';
 import Toast from 'react-native-simple-toast';
-import Near from './src/screens/menu/nearby';
 import messaging from '@react-native-firebase/messaging';
 import firebase from '@react-native-firebase/app';
-// import NearBy from 'src/screens/menu/nearby';
-// import NearBy from 'src/screens/menu/nearby';
 
 async function initFCM() {
   const authStatus = await messaging().requestPermission();

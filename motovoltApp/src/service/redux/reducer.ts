@@ -91,6 +91,19 @@ export default (store: TStore = Store, params: Action): TStore => {
                 notifications: {
                     ...store.notifications,
                     ...params.payload,
+                    data: {
+                        // ...store.notifications.data,
+                        ...params.payload.data
+                    }
+                }
+            }
+        case 'Store_ClearNotification':
+            return {
+                ...store,
+                notifications: {
+                    ...store.notifications,
+                    isPresent: false,
+                    data: {}
                 }
             }
         case 'Store_UpdateRide':

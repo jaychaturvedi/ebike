@@ -6,3 +6,8 @@ export type ReadNotifications = {
         bikeId: string
     }
 }
+
+export type ClearNotifications = {
+    type: "ClearNotifications",
+    payload: {}
+}

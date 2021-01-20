@@ -57,6 +57,7 @@ function* actionWatcher() {
     yield takeLatest("ReadService", Service.getServices);
 
     yield takeLatest("ReadNotifications", Notification.getNotification);
+    yield takeLatest("ClearNotifications", Notification.clearNotification);
 
     yield takeLatest("ReadFAQ", Menu.readFAQ);
     yield takeLatest("ReadUpgrades", Menu.readUpgrades);

@@ -102,11 +102,14 @@ export type Store_UpdateBike = {
 
 type TNotification = {
     isStale: boolean,
-    date: string,
     time: string,
+    date: string,
     title: string,
-    type: number,
-    body: string,
+    message: string,
+    titleImgUrl: string,
+    bodyImgUrl: string,
+    mediaUrl: string,
+    type: "N" | "E" | "P",
 }
 
 export type Store_UpdateNotification = {
@@ -115,6 +118,12 @@ export type Store_UpdateNotification = {
         isPresent?: boolean,
         showNotifications?: boolean,
         data?: { [id: string]: TNotification }
+    }
+}
+
+export type Store_ClearNotification = {
+    type: "Store_ClearNotification",
+    payload: {
     }
 }
 
@@ -315,6 +324,7 @@ type Action = Store_UpdateUser
     | Store_ResetOnboarding
     | Store_UpdateBike
     | Store_UpdateNotification
+    | Store_ClearNotification
     | Store_UpdateRide
     | Store_SetRideHistory
     | Store_SetSpeedometer
