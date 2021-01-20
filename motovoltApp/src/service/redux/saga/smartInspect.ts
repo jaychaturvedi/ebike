@@ -17,6 +17,7 @@ export function* beginSmartInspection(params: SmartInspectInspection.BeginSmartI
         payload: {
           smartInspectReport: {
             frameId: data.frameId,
+            status: data.status,
             deviceId: data.deviceId,
             fromDate: data.fromDate,
             toDate: data.toDate,

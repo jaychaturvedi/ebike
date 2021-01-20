@@ -190,14 +190,15 @@ type NearByService = {
 }
 
 export type TSmartInspectReport = {
-    frameId: string
-    deviceId: string
-    fromDate: string
-    toDate: string
-    overallHealth: number
-    battery: Health[]
-    motor: Health[]
-    smartServices: Health[]
+    frameId: string,
+    status: string,
+    deviceId: string,
+    fromDate: string,
+    toDate: string,
+    overallHealth: number,
+    battery: Health[],
+    motor: Health[],
+    smartServices: Health[],
 }
 
 export type Health = {
@@ -212,6 +213,7 @@ export const ZeroSmartInspectReport: TSmartInspectReport = {
     fromDate: "",
     toDate: "",
     overallHealth: 0,
+    status: "",
     battery: [],
     motor: [],
     smartServices: [],

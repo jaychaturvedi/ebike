@@ -60,11 +60,16 @@ class InspectionProgress extends React.PureComponent<Props, State> {
 
   startTimer() {
     const timer = setInterval(() => {
-      if (this.state.fill < 100)
+      if(this.props.smartInspectReport.status === "success"){
+        this.setState({
+          fill: 100,
+        });
+      }
+      else if (this.state.fill < 100)
         this.setState({
           fill: this.state.fill + 1,
         });
-    }, 500);
+    }, 200);
   }
 
   componentDidMount() {
@@ -79,8 +84,9 @@ class InspectionProgress extends React.PureComponent<Props, State> {
   render() {
     let Theme = this.context.theme //load theme context
     if (this.state.fill >= 100) {
-      this.props.navigation.replace("SmartInspectionAbort", {})
-
+      setTimeout(()=>{
+        this.props.navigation.replace("SmartInspectionAbort", {})
+      },1000)
     }
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
