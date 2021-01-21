@@ -67,9 +67,9 @@ export async function getUser() {
     }
 }
 
-export async function registerUserToken(token: string) {
+export async function registerUserToken(token: string, device: "android" | "ios") {
     try {
-        const dataresponse = await yantraRequest(`${config.yantraBaseUrl}/yantra/registerDeviceToken`, "GET", undefined, { "token": token });
+        const dataresponse = await yantraRequest(`${config.yantraBaseUrl}/yantra/registerDeviceToken`, "POST", { deviceType: device }, { "token": token });
         console.log("Register yantra token", dataresponse);
         return {
             ...dataresponse,
