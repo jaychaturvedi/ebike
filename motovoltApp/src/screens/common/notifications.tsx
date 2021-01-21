@@ -14,7 +14,6 @@ import Messaging from '../../assets/svg/message';
 import Promo from '../../assets/svg/promo';
 import Warning from '../../assets/svg/warning';
 import Card from '../../screens/common/components/card';
-import VideoPlayer from 'react-native-video';
 import {ClearNotifications} from 'src/service/redux/actions/saga/notification-actions';
 
 const styles = StyleSheet.create({
@@ -113,7 +112,7 @@ class Notification extends React.PureComponent<Props, {}> {
             });
           }}
         />
-        {!isEmpty ? (
+        {isEmpty ? (
           <View
             style={{
               justifyContent: 'center',
