@@ -27,7 +27,7 @@ import {
   Store_UpdateError,
   Store_UpdateUser,
 } from 'src/service/redux/actions/store';
-import {StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 import {ReadUser} from 'src/service/redux/actions/saga/user';
 import Toast from 'react-native-simple-toast';
 import messaging from '@react-native-firebase/messaging';
@@ -44,11 +44,16 @@ async function initFCM() {
     messaging()
       .getToken()
       .then((token) => {
-        registerUserToken(token);
+        registerUserToken(token, Platform.OS === 'android' ? 'android' : 'ios');
         console.log('FCM Token', token);
       })
       .catch(console.log);
-    messaging().onTokenRefresh((token) => registerUserToken(token).catch());
+    messaging().onTokenRefresh((token) =>
+      registerUserToken(
+        token,
+        Platform.OS === 'android' ? 'android' : 'ios',
+      ).catch(),
+    );
     // if (!messaging().isDeviceRegisteredForRemoteMessages)
     //   messaging().registerDeviceForRemoteMessages();
     messaging().onMessage(async (message) => {
