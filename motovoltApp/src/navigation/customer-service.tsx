@@ -1,13 +1,13 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import CustomerServices from '../screens/customerService/customer-service';
-import RoadsideAssistance from '../screens/customerService/roadsideAssistance/search-assistance';
+import RoadAssistnceLanding from '../screens/customerService/roadsideAssistance/search-assistance';
 
 export type CustomerServiceStackParamList = {
   CustomerServices:{};
   ReportAnIssue:{};
   RequestAService:{};
-  RoadsideAssistance:{};
+  RoadAssistnceLanding:{};
 };
 
 const CustomerService = createStackNavigator<CustomerServiceStackParamList>();
@@ -22,7 +22,7 @@ export default function CustomerServiceStack() {
       }}
     >
       <CustomerService.Screen name="CustomerServices" component={CustomerServices} />
-      <CustomerService.Screen name="RoadsideAssistance" component={RoadsideAssistance} />
+      <CustomerService.Screen name="RoadAssistnceLanding" component={RoadAssistnceLanding} />
     </CustomerService.Navigator>
   );
 }

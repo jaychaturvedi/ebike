@@ -11,6 +11,7 @@ type Props = {
   premium: boolean;
   badge?: React.ReactNode;
   onPress: () => void;
+  numberOfLines?: number;
 };
 
 type State = {};
@@ -40,7 +41,8 @@ export default class Feature extends React.PureComponent<Props, State> {
           <this.props.icon height={40} width={65} />
         </View>
         <View style={styles.name}>
-          <Text numberOfLines={1} style={{color: Theme.TEXT_WHITE}}>
+          <Text numberOfLines={this.props?.numberOfLines ? this.props.numberOfLines : 1}
+            style={{color: Theme.TEXT_WHITE, textAlign:"center"}}>
             {this.props.feature}
           </Text>
         </View>
