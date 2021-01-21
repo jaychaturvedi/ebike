@@ -15,6 +15,7 @@ import Promo from '../../assets/svg/promo';
 import Warning from '../../assets/svg/warning';
 import Card from '../../screens/common/components/card';
 import {ClearNotifications} from 'src/service/redux/actions/saga/notification-actions';
+import Moment from 'moment';
 
 const styles = StyleSheet.create({
   day: {
@@ -91,6 +92,8 @@ class Notification extends React.PureComponent<Props, {}> {
       ];
     });
     const isEmpty = Object.keys(dayWise).length === 0;
+    const today = Moment().format('MM-DD-YYYY');
+    const yesterday = Moment().add(-1, 'day').format('MM-DD-YYYY');
     return (
       <View
         style={{
@@ -144,7 +147,13 @@ class Notification extends React.PureComponent<Props, {}> {
               return (
                 <View style={{marginVertical: 10, width: '100%'}}>
                   <View style={styles.day}>
-                    <Text style={{color: 'rgba(0,0,0,0.4)'}}>{date}</Text>
+                    <Text style={{color: 'rgba(0,0,0,0.4)'}}>
+                      {date === today
+                        ? 'Today'
+                        : date === yesterday
+                        ? 'Yesterday'
+                        : date}
+                    </Text>
                     {dateIndex === 0 ? (
                       <TouchableOpacity
                         onPress={() =>
