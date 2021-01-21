@@ -150,6 +150,12 @@ class MoreMenu extends React.PureComponent<Props, State> {
           premium: false,
         },
         {
+          feature: "customer service",
+          icon: LogoutIcon,
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
           feature: LanguageSelector.t('morePremium.logOut'),
           icon: LogoutIcon,
           onPress: () => console.log('Feature pressed'),
@@ -270,6 +276,9 @@ class MoreMenu extends React.PureComponent<Props, State> {
                         //   break;
                         case LanguageSelector.t('morePremium.smartInspect'):
                           this.props.navigation.navigate('SmartInspectStack', {});
+                          return;
+                        case "customer service":
+                          this.props.navigation.navigate('CustomerServiceStack', {});
                           return;
                         default:
                           this.props.navigation.navigate('ComingSoon', {});

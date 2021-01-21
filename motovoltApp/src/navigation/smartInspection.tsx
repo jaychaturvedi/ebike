@@ -14,7 +14,6 @@ export type SmartInspectStackParamList = {
   SmartInspectionInProgress:{},
   SmartInspectionAbort:{},
   SmartInspectionReport:{},
-  SupportService: {};
 };
 
 const SmartInspect = createStackNavigator<SmartInspectStackParamList>();
@@ -32,7 +31,6 @@ export default function SmartInspectStack() {
       <SmartInspect.Screen name="SmartInspectionInProgress" component={SmartInspectionInProgress} />
       <SmartInspect.Screen name="SmartInspectionAbort" component={SmartInspectionAbort} />
       <SmartInspect.Screen name="SmartInspectionReport" component={SmartInspectionReport} />
-      <SmartInspect.Screen name="SupportService" component={SupportService} />
     </SmartInspect.Navigator>
   );
 }

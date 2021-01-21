@@ -14,11 +14,8 @@ import ComingSoon from '../screens/common/coming-soon';
 import ServiceStation from '../screens/menu/nearby';
 import Language from '../screens/menu/language';
 import Theme from '../styles/theme/app';
-import SmartInspection from '../screens/smartInspection/inspection';
-import SmartInspectionInProgress from '../screens/smartInspection/inspectionInProgress';
-import SmartInspectionAbort from '../screens/smartInspection/inspectionAborted';
-import SmartInspectionReport from '../screens/smartInspection/inspectionReport';
 import SmartInspectStack from './smartInspection';
+import CustomerServiceStack from './customer-service';
 /**
  * All props definiton goes here
  */
@@ -45,6 +42,7 @@ export type MenuStackParamList = {
   Theme: {};
   ServiceStation: {};
   SmartInspectStack:{};
+  CustomerServiceStack:{};
 };
 
 const Menu = createStackNavigator<MenuStackParamList>();
@@ -73,6 +71,7 @@ export default function MenuStack() {
       <Menu.Screen name="ComingSoon" component={ComingSoon} />
       <Menu.Screen name="ServiceStation" component={ServiceStation} />
       <Menu.Screen name="SmartInspectStack" component={SmartInspectStack} />
+      <Menu.Screen name="CustomerServiceStack" component={CustomerServiceStack} />
     </Menu.Navigator>
   );
 }
