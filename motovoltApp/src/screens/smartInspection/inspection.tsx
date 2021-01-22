@@ -40,7 +40,7 @@ class Inspection extends React.PureComponent<Props, State> {
   }
 
   onPress = () => {
-    this.props.navigation.replace("SmartInspectionInProgress",{})
+    this.props.navigation.replace("SmartInspectionInProgress", {})
   };
 
   render() {
@@ -49,6 +49,7 @@ class Inspection extends React.PureComponent<Props, State> {
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
+          hideNotification
           hasBackButton
           title={LanguageSelector.t("morePremium.smartInspect")}
           backgroundColor={Theme.HEADER_YELLOW}
@@ -60,14 +61,14 @@ class Inspection extends React.PureComponent<Props, State> {
           </View>
           <View style={styles.centerBody}>
             <Text style={{
-              ...styles.title, color: Theme.TEXT_WHITE 
+              ...styles.title, color: Theme.TEXT_WHITE
             }}>
               {LanguageSelector.t("smartInspection.smartInspect")}
             </Text>
           </View>
           <View style={styles.centerBody}>
             <Text style={{
-              ...styles.bodyText, color: Theme.TEXT_WHITE 
+              ...styles.bodyText, color: Theme.TEXT_WHITE
             }}>
               {LanguageSelector.t("smartInspection.smartInspectSubTitle")}
             </Text>
@@ -79,9 +80,9 @@ class Inspection extends React.PureComponent<Props, State> {
             >
               <Text style={{
                 ...styles.buttonText,
-                color: Theme.WHITE 
+                color: Theme.WHITE
               }}>
-              {LanguageSelector.t("smartInspection.beginInspection")}
+                {LanguageSelector.t("smartInspection.beginInspection")}
               </Text>
             </TouchableOpacity>
           </View>

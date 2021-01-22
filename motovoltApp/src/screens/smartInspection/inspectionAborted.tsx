@@ -51,6 +51,7 @@ class InspectionAborted extends React.PureComponent<Props, State> {
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
+          hideNotification
           hasBackButton
           title={LanguageSelector.t("morePremium.smartInspect")}
           backgroundColor={Theme.HEADER_YELLOW}

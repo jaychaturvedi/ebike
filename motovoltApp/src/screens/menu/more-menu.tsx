@@ -36,7 +36,7 @@ import LogoutIcon from '../../assets/svg/logout_icon';
 import PencilEditIcon from '../../assets/svg/pencil-edit-button';
 import ServiceStations from "../../assets/svg/service_stations";
 import SmartInspect from "../../assets/svg/smart_inspect";
-
+import DeviceInfo from 'react-native-device-info';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -61,6 +61,7 @@ type State = {
     badge?: React.ReactNode;
     onPress: () => void;
     premium: boolean;
+    numberOfLines?: number;
   }[];
 };
 
@@ -149,12 +150,13 @@ class MoreMenu extends React.PureComponent<Props, State> {
           onPress: () => console.log('Smart pressed'),
           premium: false,
         },
-        {
-          feature: "customer service",
-          icon: LogoutIcon,
-          onPress: () => console.log('Feature pressed'),
-          premium: false,
-        },
+        // {
+        //   feature: "Customer Service",
+        //   icon: LogoutIcon,
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: false,
+        //   numberOfLines:2
+        // },
         {
           feature: LanguageSelector.t('morePremium.logOut'),
           icon: LogoutIcon,
@@ -277,15 +279,16 @@ class MoreMenu extends React.PureComponent<Props, State> {
                         case LanguageSelector.t('morePremium.smartInspect'):
                           this.props.navigation.navigate('SmartInspectStack', {});
                           return;
-                        case "customer service":
-                          this.props.navigation.navigate('CustomerServiceStack', {});
-                          return;
+                        // case "Customer Service":
+                        //   this.props.navigation.navigate('CustomerServiceStack', {});
+                        //   return;
                         default:
                           this.props.navigation.navigate('ComingSoon', {});
                           break;
                       }
                     }}
                     premium={feature.premium}
+                    numberOfLines={feature.numberOfLines}
                   />
                 </View>
               );
@@ -293,7 +296,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
           </View>
           <View>
             <Text style={styles.copyrightText}>
-            V1.0.2   |   © Copyright {new Date().getFullYear()}   |   Motovolt Mobility Pvt Ltd.
+            V{DeviceInfo.getVersion()}  |   © Copyright {new Date().getFullYear()}   |   Motovolt Mobility Pvt Ltd.
             </Text>
           </View>
         </ScrollView>
@@ -356,7 +359,7 @@ const styles = StyleSheet.create({
     fontSize:12, 
     textAlign:"center",
     color:"rgba(0, 0, 0, 0.5)",
-    marginTop:20,
+    marginTop:40,
     marginBottom:10
   }
 });

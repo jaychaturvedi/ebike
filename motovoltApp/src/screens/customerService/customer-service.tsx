@@ -3,18 +3,18 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import {moderateScale} from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import Feature from '../../components/feature';
 import Header from '../home/components/header/index';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {CustomerServiceStackParamList} from '../../navigation/customer-service';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
-import {SignOut} from '../../service/redux/actions/saga/authentication-actions';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { CustomerServiceStackParamList } from '../../navigation/customer-service';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { SignOut } from '../../service/redux/actions/saga/authentication-actions';
 import LanguageSelector from '../../translations';
-import {ThemeContext} from '../../styles/theme/theme-context';
+import { ThemeContext } from '../../styles/theme/theme-context';
 import ReportAnIssueIcon from '../../assets/svg/report_an_issue';
 import RequestServiceIcon from "../../assets/svg/service_stations";
 import RoadsideAssistanceIcon from "../../assets/svg/roadside_assistance";
@@ -43,6 +43,7 @@ type State = {
     badge?: React.ReactNode;
     onPress: () => void;
     premium: boolean;
+    numberOfLines: number;
   }[];
 };
 
@@ -56,18 +57,21 @@ class CustomerServices extends React.PureComponent<Props, State> {
           icon: ReportAnIssueIcon,
           onPress: () => console.log('Feature pressed'),
           premium: false,
+          numberOfLines: 2,
         },
         {
           feature: "Request a Service",
           icon: RequestServiceIcon,
           onPress: () => console.log('Feature pressed'),
           premium: false,
+          numberOfLines: 2
         },
         {
           feature: "Roadside Assistance",
           icon: RoadsideAssistanceIcon,
           onPress: () => console.log('Feature pressed'),
           premium: false,
+          numberOfLines: 2,
         },
       ],
     };
@@ -76,56 +80,58 @@ class CustomerServices extends React.PureComponent<Props, State> {
   render() {
     let Theme = this.context.theme; //load theme context
     return (
-      <View style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
+      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
+          hideNotification
           hasBackButton
           title="Customer Service"
           backgroundColor={Theme.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
-          <View
-            style={{
-              ...styles.features,
-              ...{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                alignContent: 'center',
-              },
-            }}>
-            {this.state.feature.map((feature, index: number) => {
-              return (
-                <View
-                  style={{
-                    width: '33.3%',
-                    alignItems: 'center',
+        <View
+          style={{
+            ...styles.features,
+            ...{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              alignContent: 'center',
+            },
+          }}>
+          {this.state.feature.map((feature, index: number) => {
+            return (
+              <View
+                style={{
+                  width: '33.3%',
+                  alignItems: 'center',
+                }}
+                key={index}>
+                <Feature
+                  feature={feature.feature}
+                  icon={feature.icon}
+                  badge={feature.badge}
+                  onPress={() => {
+                    switch (feature.feature) {
+                      case "Report an Issue":
+                        this.props.navigation.navigate('ReportAnIssue', {});
+                        break;
+                      case "Request a Service":
+                        this.props.navigation.navigate('RequestAService', {});
+                        break;
+                      case "Roadside Assistance":
+                        this.props.navigation.navigate('RoadAssistnceLanding', {});
+                        break;
+                      default:
+                        this.props.navigation.navigate('CustomerServices', {});
+                        break;
+                    }
                   }}
-                  key={index}>
-                  <Feature
-                    feature={feature.feature}
-                    icon={feature.icon}
-                    badge={feature.badge}
-                    onPress={() => {
-                      switch (feature.feature) {
-                        case "Report an Issue":
-                          this.props.navigation.navigate('ReportAnIssue', {});
-                          break;
-                        case "Request a Service":
-                          this.props.navigation.navigate('RequestAService', {});
-                          break;
-                        case "Roadside Assistance":
-                          this.props.navigation.navigate('RoadsideAssistance', {});
-                          break;
-                        default:
-                          this.props.navigation.navigate('CustomerServices', {});
-                          break;
-                      }
-                    }}
-                    premium={feature.premium}
-                  />
-                </View>
-              );
-            })}
-          </View>
+                  numberOfLines={feature.numberOfLines}
+                  premium={feature.premium}
+                />
+              </View>
+            );
+          })}
+        </View>
       </View>
     );
   }

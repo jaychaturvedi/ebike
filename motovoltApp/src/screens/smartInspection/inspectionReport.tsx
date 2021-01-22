@@ -99,7 +99,7 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
             shadowOffset: { height: 1, width: 1 },
             elevation: 3,
           }}>
-          {this.props.listArray.map((item: any, index: number) => {
+          {this.props?.listArray?.map((item: any, index: number) => {
             return (
               <>
                 <View
@@ -115,7 +115,7 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
                   </Text>
                   {getIcon(item.status ? "Healthy" : "Unhealthy")}
                 </View>
-                {(index !== this.props.listArray.length - 1) &&
+                {(index !== this.props?.listArray?.length - 1) &&
                   <View style={{ borderWidth: 0.5, opacity: 0.2 }} />}
               </>
             )
@@ -144,6 +144,7 @@ class InspectionReport extends React.PureComponent<Props, State> {
       <View style={styles.container}>
         {/* <Background /> */}
         <Header
+          hideNotification
           hasBackButton
           title={LanguageSelector.t("smartInspection.smartInspectionReport")}
           backgroundColor={Theme.HEADER_YELLOW}

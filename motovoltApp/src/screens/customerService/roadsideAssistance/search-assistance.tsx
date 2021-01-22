@@ -36,7 +36,7 @@ import {
 
 type CustomerServiceNavigationProp = StackNavigationProp<
   CustomerServiceStackParamList,
-  'RoadsideAssistance'
+  'RoadAssistnceLanding'
 >;
 
 interface ReduxState {
@@ -44,7 +44,7 @@ interface ReduxState {
 
 interface Props extends ReduxState {
   navigation: CustomerServiceNavigationProp;
-  route: RouteProp<CustomerServiceStackParamList, 'RoadsideAssistance'>;
+  route: RouteProp<CustomerServiceStackParamList, 'RoadAssistnceLanding'>;
 }
 
 type State = {
@@ -62,14 +62,16 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
   renderLoader = () => {
     return (
       <View style={styles.body}>
-        <RoadsideAssistanceIcon style={{ marginVertical: 10 }} />
+        <RoadsideAssistanceIcon style={{ 
+          // marginVertical: 10
+         }} />
         <Text
           style={{
             fontSize: 16,
             fontWeight: '400',
             textAlign: "center",
             width: 200,
-            marginVertical: 10
+            marginVertical: 20
           }}
           numberOfLines={3}>
           {"Looking up for the nearest  Roadside Assistantance Personnel."}
@@ -81,11 +83,12 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
           size={40} />
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 16, 
             textAlign: "center",
             color: "#5372FF",
-            marginVertical: 10
+            marginTop: 10
           }}
+          onPress={() => this.props.navigation.goBack()}
           numberOfLines={3}>
           {"Cancel"}
         </Text>
@@ -101,7 +104,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
           style={{
             color: '#FF1F00', 
             fontSize: 40, 
-            marginVertical: 10
+            // marginVertical: 10
           }}
         />
         <Text
@@ -110,7 +113,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
             fontWeight: '400',
             textAlign: "center",
             width: 200,
-            marginVertical: 10
+            marginVertical: 20
           }}
           numberOfLines={3}>
           {"Roadside assistance personnel unavailable."}
@@ -121,15 +124,14 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
             textAlign: "center",
             color: "#5372FF",
             width: 200,
-            marginVertical: 10
+            // marginVertical: 10
           }}
           numberOfLines={2}>
           {"Would you like to find nearby service stations"}
         </Text>
         <TouchableOpacity
           style={styles.button}
-        // onPress={}
-        >
+          onPress={()=>this.props.navigation.navigate('NearByAssistance', {})}>
           <Text style={{
             ...styles.buttonText,
             color: "#FFFFFF"
@@ -140,11 +142,19 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
       </View>
     )
   }
+
+  componentDidMount(){
+    setTimeout(()=>{
+      this.setState({showSearch:true})
+    }, 2000)
+  }
+
   render() {
     let Theme = this.context.theme; //load theme context
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
+          hideNotification
           hasBackButton
           title="Roadside Assistance"
           backgroundColor={Theme.HEADER_YELLOW}
@@ -152,21 +162,15 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
         />
         {!this.state.showSearch &&
           <View style={{
-            paddingHorizontal: 20,
-            marginTop: 40
+            padding: 20,
           }}>
-            {/* {this.renderLoader()} */}
-            {this.renderSearch()}
-
+            {this.renderLoader()}
           </View>}
         {this.state.showSearch &&
           <View style={{
-            paddingHorizontal: 20,
-            marginTop: 40
+            padding: 20,
           }}>
-            {/* {this.renderLoader()} */}
             {this.renderSearch()}
-
           </View>}
       </View>
     );
@@ -194,7 +198,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 10,
     justifyContent: "center",
-    marginVertical: 10,
+    marginTop: 20,
     // width: "50%",
     // margin: 10,
     borderRadius: 8,
@@ -222,7 +226,8 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: { height: 1, width: 1 },
     elevation: 3,
-    height: moderateScale(260),
+    height: moderateScale(300),
+    padding:40,
     alignItems: 'center',
     marginTop: moderateScale(10),
   }

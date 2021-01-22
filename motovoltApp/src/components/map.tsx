@@ -21,6 +21,7 @@ type Props = {
   showsUserLocation?: boolean;
   showsMyLocationButton?: boolean;
   followsUserLocation?: boolean;
+  strokeColor?: string;
   initialLocation: location;
   markerLocations: location[];
   pathLocations: location[];
@@ -121,7 +122,7 @@ export default class Map extends React.PureComponent<Props, State> {
             }
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
-            strokeColor="hotpink"
+            strokeColor= {this.props?.strokeColor ? this.props.strokeColor : "hotpink"}
             splitWaypoints
             // optimizeWaypoints={true}
             onStart={(params) => {
