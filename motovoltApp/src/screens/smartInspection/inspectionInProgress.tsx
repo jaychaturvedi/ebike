@@ -83,7 +83,12 @@ class InspectionProgress extends React.PureComponent<Props, State> {
 
   render() {
     let Theme = this.context.theme //load theme context
-    if (this.state.fill >= 100) {
+    if (this.state.fill >= 100 && this.props.smartInspectReport.status === "success") {
+      setTimeout(() => {
+        this.props.navigation.replace("SmartInspectionReport", {})
+      }, 1000)
+    }
+    if (this.state.fill >= 100 && this.props.smartInspectReport.status !== "success") {
       setTimeout(() => {
         this.props.navigation.replace("SmartInspectionAbort", {})
       }, 1000)
