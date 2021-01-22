@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     fontSize:12, 
     textAlign:"center",
     color:"rgba(0, 0, 0, 0.5)",
-    marginTop:20,
+    marginTop:40,
     marginBottom:10
   }
 });
