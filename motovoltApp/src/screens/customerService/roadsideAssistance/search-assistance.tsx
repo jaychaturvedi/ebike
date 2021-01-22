@@ -88,6 +88,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
             color: "#5372FF",
             marginTop: 10
           }}
+          onPress={() => this.props.navigation.goBack()}
           numberOfLines={3}>
           {"Cancel"}
         </Text>
@@ -130,8 +131,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
         </Text>
         <TouchableOpacity
           style={styles.button}
-        // onPress={}
-        >
+          onPress={()=>this.props.navigation.navigate('NearByAssistance', {})}>
           <Text style={{
             ...styles.buttonText,
             color: "#FFFFFF"
@@ -154,6 +154,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
+          hideNotification
           hasBackButton
           title="Roadside Assistance"
           backgroundColor={Theme.HEADER_YELLOW}

@@ -82,6 +82,7 @@ class CustomerServices extends React.PureComponent<Props, State> {
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
+          hideNotification
           hasBackButton
           title="Customer Service"
           backgroundColor={Theme.HEADER_YELLOW}
