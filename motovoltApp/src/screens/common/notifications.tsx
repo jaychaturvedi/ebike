@@ -8,7 +8,7 @@ import {Store_UpdateNotification} from 'src/service/redux/actions/store';
 import LanguageSelector from '../../translations';
 import {Text, View} from 'native-base';
 import React from 'react';
-import {StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Image, TouchableOpacity, Dimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Messaging from '../../assets/svg/message';
 import Promo from '../../assets/svg/promo';
@@ -16,6 +16,8 @@ import Warning from '../../assets/svg/warning';
 import Card from '../../screens/common/components/card';
 import {ClearNotifications} from 'src/service/redux/actions/saga/notification-actions';
 import Moment from 'moment';
+
+const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   day: {
@@ -220,13 +222,15 @@ class Notification extends React.PureComponent<Props, {}> {
                             bodyImage={
                               data.bodyImgUrl ? (
                                 <Image
-                                  height={100}
+                                  width={width}
+                                  height={width / 3}
                                   style={{
                                     marginRight: 6,
                                     resizeMode: 'contain',
                                   }}
                                   source={{
-                                    height: 100,
+                                    width: width,
+                                    height: width / 3,
                                     uri: data.bodyImgUrl,
                                   }}
                                 />
