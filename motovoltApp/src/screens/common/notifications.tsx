@@ -101,6 +101,7 @@ class Notification extends React.PureComponent<Props, {}> {
         style={{
           width: '100%',
           height: '100%',
+          backgroundColor: '#F6F6F6',
         }}>
         <Header
           backgroundColor={Colors.HEADER_YELLOW}
@@ -139,7 +140,6 @@ class Notification extends React.PureComponent<Props, {}> {
             contentContainerStyle={{
               paddingHorizontal: 12,
               display: 'flex',
-              height: '100%',
               width: '100%',
               flexDirection: 'column',
               alignItems: 'center',

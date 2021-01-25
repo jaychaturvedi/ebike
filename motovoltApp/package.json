@@ -1,6 +1,6 @@
 {
   "name": "motovoltApp",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -40,7 +40,6 @@
     "react-native-check-box": "^2.1.7",
     "react-native-circular-progress": "git+https://github.com/bgryszko/react-native-circular-progress.git",
     "react-native-conical-gradient-progress": "^1.0.0",
-    "react-native-device-info": "^8.0.1",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-indicators": "^0.17.0",
     "react-native-keychain": "^6.1.1",
@@ -68,6 +67,7 @@
     "react-native-swiper": "^1.6.0",
     "react-native-timeline-flatlist": "^0.7.3",
     "react-native-unordered-list": "^1.0.4",
+    "react-native-version-number": "^0.3.6",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
