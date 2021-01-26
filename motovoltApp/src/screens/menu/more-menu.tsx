@@ -34,9 +34,9 @@ import LanguageIcon from '../../assets/svg/languages_icon';
 import SwapIcon from '../../assets/svg/swap';
 import LogoutIcon from '../../assets/svg/logout_icon';
 import PencilEditIcon from '../../assets/svg/pencil-edit-button';
-import ServiceStations from "../../assets/svg/service_stations";
-import SmartInspect from "../../assets/svg/smart_inspect";
-import DeviceInfo from 'react-native-device-info';
+import ServiceStations from '../../assets/svg/service_stations';
+import SmartInspect from '../../assets/svg/smart_inspect';
+import VersionNumber from 'react-native-version-number';
 
 type MoreMenuNavigationProp = StackNavigationProp<
   MenuStackParamList,
@@ -277,7 +277,10 @@ class MoreMenu extends React.PureComponent<Props, State> {
                         //   this.props.navigation.navigate('Theme', {});
                         //   break;
                         case LanguageSelector.t('morePremium.smartInspect'):
-                          this.props.navigation.navigate('SmartInspectStack', {});
+                          this.props.navigation.navigate(
+                            'SmartInspectStack',
+                            {},
+                          );
                           return;
                         case "Customer Service":
                           this.props.navigation.navigate('CustomerServiceStack', {});
@@ -296,7 +299,8 @@ class MoreMenu extends React.PureComponent<Props, State> {
           </View>
           <View>
             <Text style={styles.copyrightText}>
-            V{DeviceInfo.getVersion()}  |   © Copyright {new Date().getFullYear()}   |   Motovolt Mobility Pvt Ltd.
+              v{VersionNumber.appVersion} | © Copyright{' '}
+              {new Date().getFullYear()} | Motovolt Mobility Pvt Ltd.
             </Text>
           </View>
         </ScrollView>
@@ -355,11 +359,11 @@ const styles = StyleSheet.create({
     paddingLeft: moderateScale(9),
     paddingRight: moderateScale(9),
   },
-  copyrightText:{
-    fontSize:12, 
-    textAlign:"center",
-    color:"rgba(0, 0, 0, 0.5)",
-    marginTop:40,
-    marginBottom:10
-  }
+  copyrightText: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: 'rgba(0, 0, 0, 0.5)',
+    marginTop: 40,
+    marginBottom: 10,
+  },
 });

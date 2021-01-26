@@ -12,6 +12,7 @@ import { name as appName } from './app.json';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeContext } from './src/styles/theme/theme-context';
 import themes from './src/styles/theme/themes';
+import {MenuProvider} from "react-native-popup-menu";
 
 class MotovoltApp extends React.Component {
 
@@ -44,7 +45,9 @@ class MotovoltApp extends React.Component {
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
             <ThemeContext.Provider value={this.state}>
-              <App />
+              <MenuProvider>
+                <App />
+              </MenuProvider>
             </ThemeContext.Provider>
           </NavigationContainer>
         </PersistGate>

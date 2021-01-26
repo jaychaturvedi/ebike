@@ -8,7 +8,7 @@ import {Store_UpdateNotification} from 'src/service/redux/actions/store';
 import LanguageSelector from '../../translations';
 import {Text, View} from 'native-base';
 import React from 'react';
-import {StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Image, TouchableOpacity, Dimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Messaging from '../../assets/svg/message';
 import Promo from '../../assets/svg/promo';
@@ -16,6 +16,8 @@ import Warning from '../../assets/svg/warning';
 import Card from '../../screens/common/components/card';
 import {ClearNotifications} from 'src/service/redux/actions/saga/notification-actions';
 import Moment from 'moment';
+
+const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   day: {
@@ -99,6 +101,7 @@ class Notification extends React.PureComponent<Props, {}> {
         style={{
           width: '100%',
           height: '100%',
+          backgroundColor: '#F6F6F6',
         }}>
         <Header
           backgroundColor={Colors.HEADER_YELLOW}
@@ -137,7 +140,6 @@ class Notification extends React.PureComponent<Props, {}> {
             contentContainerStyle={{
               paddingHorizontal: 12,
               display: 'flex',
-              height: '100%',
               width: '100%',
               flexDirection: 'column',
               alignItems: 'center',
@@ -220,13 +222,15 @@ class Notification extends React.PureComponent<Props, {}> {
                             bodyImage={
                               data.bodyImgUrl ? (
                                 <Image
-                                  height={100}
+                                  width={width}
+                                  height={width / 3}
                                   style={{
                                     marginRight: 6,
                                     resizeMode: 'contain',
                                   }}
                                   source={{
-                                    height: 100,
+                                    width: width,
+                                    height: width / 3,
                                     uri: data.bodyImgUrl,
                                   }}
                                 />
