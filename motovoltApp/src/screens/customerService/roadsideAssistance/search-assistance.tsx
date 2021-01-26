@@ -23,15 +23,7 @@ import RoadsideAssistanceIcon from "../../../assets/svg/roadside_assistance";
 import { Icon } from 'native-base';
 import Colors from '../../../styles/colors';
 import {
-  BallIndicator,
-  BarIndicator,
-  DotIndicator,
-  MaterialIndicator,
-  PacmanIndicator,
-  PulseIndicator,
-  SkypeIndicator,
   UIActivityIndicator,
-  WaveIndicator,
 } from 'react-native-indicators';
 
 type CustomerServiceNavigationProp = StackNavigationProp<
@@ -89,7 +81,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
             marginTop: 10
           }}
           onPress={() => this.props.navigation.goBack()}
-          numberOfLines={3}>
+          numberOfLines={1}>
           {"Cancel"}
         </Text>
       </View>

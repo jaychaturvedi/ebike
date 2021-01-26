@@ -194,6 +194,7 @@ type NearByService = {
 }
 
 export type TSmartInspectReport = {
+    isStale: boolean,
     frameId: string,
     status: string,
     deviceId: string,
@@ -212,11 +213,12 @@ export type Health = {
 }
 
 export const ZeroSmartInspectReport: TSmartInspectReport = {
+    isStale: true,
     frameId: "",
     deviceId: "",
     fromDate: "",
     toDate: "",
-    overallHealth: 0,
+    overallHealth: 1,
     status: "",
     battery: [],
     motor: [],

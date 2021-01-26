@@ -19,6 +19,7 @@ import Map from '../../../components/map';
 import LanguageSelector from '../../../translations';
 import { ThemeContext } from '../../../styles/theme/theme-context';
 import ReportAnIssueIcon from '../../../assets/svg/report_an_issue';
+import { AirbnbRating, Rating } from 'react-native-ratings'
 
 type CustomerServiceNavigationProp = StackNavigationProp<
   CustomerServiceStackParamList,
@@ -144,7 +145,7 @@ class TrackAssistance extends React.PureComponent<Props, State> {
               flex: 1,
               flexDirection: "row",
             }}>
-              <View style={{ flex: 1, alignItems: "flex-start", marginTop:5 }}>
+              <View style={{ flex: 1, alignItems: "flex-start", marginTop: 5 }}>
                 <Image
                   source={require('../../../assets/icons/rsa_service_icon.png')}
                 />
@@ -164,18 +165,32 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                   }}>
                     {"Mr. Sundar M"}
                   </Text>
-                  <Text style={{ color: "black", fontSize:14 }} numberOfLines={1}>
+                  <Text style={{ color: "black", fontSize: 14 }} numberOfLines={1}>
                     {"MotoVolt Approved RSA Engineer "}
                   </Text>
                   <Text style={{ color: "grey" }}>
-                    {"closed"}
+                    {"Expected arrival: 14 m"}
                   </Text>
+                  <AirbnbRating
+                    count={5}
+                    defaultRating={3.9}
+                    size={moderateScale(20)}
+                    showRating={false}
+                    isDisabled={true}
+                    starStyle={{}}
+                    onFinishRating={() => { }}
+                  />
                 </View>
               </View>
-              <View style={styles.icons}>
+              <View style={{ ...styles.icons, justifyContent: "space-between" }}>
                 <Image
                   source={require('../../../assets/icons/cellphone_icon.png')}
                 />
+                <Text
+                  onPress={() => this.props.navigation.goBack()}
+                  style={{ color: "#5372FF" }}>
+                  {"cancel"}
+                </Text>
               </View>
             </View>
           </View>

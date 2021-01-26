@@ -161,7 +161,7 @@ class InspectionReport extends React.PureComponent<Props, State> {
           }>
           <View style={styles.metrics}>
             <View>
-              {this.props.smartInspectReport.overallHealth
+              {this.props.smartInspectReport.overallHealth || this.props.smartInspectReport.isStale
                 ? <View>
                   <View style={styles.overallHealth}>
                     <Text
