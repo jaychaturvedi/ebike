@@ -8,6 +8,12 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 import Header from '../../home/components/header';
 import { ThemeContext } from '../../../styles/theme/theme-context';
 import { Icon, Text, Button, DatePicker } from 'native-base';
@@ -17,6 +23,9 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-community/picker';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { CustomerServiceStackParamList } from '../../../navigation/customer-service';
 
 type State = {
   showDatePicker: boolean;
@@ -26,18 +35,29 @@ type State = {
   serviceStationSelected: boolean;
   selectedServiceId: number;
 };
+
+type CustomerServiceNavigationProp = StackNavigationProp<
+  CustomerServiceStackParamList,
+  'BookAService'
+>;
+
+interface Props {
+  navigation: CustomerServiceNavigationProp;
+  route: RouteProp<CustomerServiceStackParamList, 'BookAService'>;
+}
+
 const timeSlotArray = [
   { from: "09 am", to: "12 pm" },
   { from: "12 pm", to: "06 pm" },
   { from: "06 pm", to: "12 am" }
 ]
-export default class NewService extends React.PureComponent<{}, State> {
-  constructor(props: {}) {
+export default class NewService extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       showDatePicker: false,
       date: '',
-      timeSlot: '',
+      timeSlot: 'Choose Slot',
       serviceStationSelected: false,
       openStationDropdown: false,
       selectedServiceId: -1
@@ -47,7 +67,7 @@ export default class NewService extends React.PureComponent<{}, State> {
   onDatePick = (date: Date) => {
     this.setState({
       showDatePicker: false,
-      date: Moment(date).format('MM-DD-YYYY'),
+      date: Moment(date).format('DD MMM YYYY'),
     });
   };
 
@@ -119,7 +139,7 @@ export default class NewService extends React.PureComponent<{}, State> {
           hideNotification
           hideBluetooth
           hidePromo
-        // onBackClick={() => this.props.navigation.goBack()}
+          onBackClick={() => this.props.navigation.goBack()}
         />
         <View style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
           <View
@@ -147,7 +167,12 @@ export default class NewService extends React.PureComponent<{}, State> {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}>
-                <Text>Choose date</Text>
+                {this.state.date.length
+                  ?
+                  <Text style={{ fontSize: 18 }}>{this.state.date}</Text>
+                  :
+                  <Text style={{ fontSize: 18 }}>Choose date</Text>
+                }
                 <DateIcon />
               </View>
             </TouchableOpacity>
@@ -177,30 +202,62 @@ export default class NewService extends React.PureComponent<{}, State> {
                         source={require('../../../assets/icons/service_location_pin.png')}
                       />
                       <Text style={{
-                        fontSize: 16, color: "black"
+                        fontSize: 18, color: "black"
                       }}>
                         {"Sogo Mobility"}
                       </Text>
                     </View>
                     :
-                    <Text>Choose Service Station</Text>
+                    <Text style={{ fontSize: 18 }}>Choose Service Station</Text>
                   }
                 </View>
                 {this.state.serviceStationSelected &&
-                  <View style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Picker
-                      selectedValue={this.state.timeSlot}
-                      style={{ height: 50, width: 120 }}
-                      mode={"dropdown"}
-                      onValueChange={(itemValue, itemIndex) =>
-                        this.setState({ timeSlot: itemValue })
-                      }>
-                      <Picker.Item label="Choose Slot" value="null" color="grey" />
-                      {timeSlotArray.map((item, index) => {
-                        return <Picker.Item label={`${item.from} to ${item.to}`} value={`${item.from} to ${item.to}`}/>                        
-                      })}
-                    </Picker>
-                  </View>}
+                  // <View style={{ display: 'flex', flexDirection: 'row' }}>
+                  //   <Picker
+                  //     selectedValue={this.state.timeSlot}
+                  //     style={{ height: 50, width: 120 }}
+                  //     mode={"dropdown"}
+                  //     onValueChange={(itemValue, itemIndex) =>
+                  //       this.setState({ timeSlot: itemValue })
+                  //     }>
+                  //     <Picker.Item label="Choose Slot" value="null" color="grey" />
+                  //     {timeSlotArray.map((item, index) => {
+                  //       return <Picker.Item label={`${item.from} to ${item.to}`} value={`${item.from} to ${item.to}`}/>                        
+                  //     })}
+                  //   </Picker>
+                  // </View>
+                  <View >
+                    <Menu style={{}}>
+                      <MenuTrigger>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                          <Text style={{ fontSize: 18, marginRight: 8 }}>{this.state.timeSlot}</Text>
+                          <Icon
+                            type="FontAwesome"
+                            name="caret-down"
+                            style={{ fontSize: 20 }}
+                          />
+                        </View>
+                      </MenuTrigger>
+                      <MenuOptions optionsContainerStyle={{ padding: 20 }}>
+                        <MenuOption onSelect={() => { this.setState({ timeSlot: "09 am - 01 pm" }) }}>
+                          <Text
+                            style={{ fontSize: 18, fontWeight: '500' }}>
+                            09 am - 01 pm
+                          </Text>
+                        </MenuOption>
+                        <View
+                          style={{ borderWidth: 1, opacity: 0.1, marginVertical: 20 }}
+                        />
+                        <MenuOption onSelect={() => { this.setState({ timeSlot: "09 am - 05 pm" }) }}>
+                          <Text
+                            style={{ fontSize: 18, fontWeight: '500', opacity: 0.67 }}>
+                            09 am - 05 pm
+                          </Text>
+                        </MenuOption>
+                      </MenuOptions>
+                    </Menu>
+                  </View>
+                }
                 <SearchIcon onPress={() => {
                   this.setState({ openStationDropdown: !this.state.openStationDropdown })
                 }} />
@@ -234,15 +291,15 @@ export default class NewService extends React.PureComponent<{}, State> {
                 marginTop: 39,
               }}>
               <Button
-                onPress={() => { }}
+                onPress={() => this.props.navigation.pop()}
+                disabled={!this.state.serviceStationSelected}
                 style={{
                   backgroundColor: this.state.serviceStationSelected ? '#142F6A' : "#AFAFAF",
-                  // backgroundColor: '#AFAFAF',
                   width: 246,
                   height: 57,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  borderRadius:8
+                  borderRadius: 8
                 }}>
                 <Text style={{ fontSize: 20, fontWeight: '600', borderRadius: 5 }}>Book A Service</Text>
               </Button>
@@ -257,6 +314,16 @@ export default class NewService extends React.PureComponent<{}, State> {
           onCancel={this.onDatePickerClose}
           maximumDate={new Date()}
         />
+        {/* {this.state.showDatePicker && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={new Date()}
+          mode={'date'}
+          is24Hour={true}
+          display="default"
+          onChange={(event, date)=>{this.onDatePick(date!)}}
+        />
+      )} */}
       </View>
     );
   }
