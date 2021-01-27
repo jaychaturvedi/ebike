@@ -1,9 +1,12 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import CustomerServices from '../screens/customerService/customer-service';
+import NewServices from '../screens/customerService/report-issue/new-service';
+import BookService from '../screens/customerService/report-issue/book-service';
 import RoadAssistnceLanding from '../screens/customerService/roadsideAssistance/search-assistance';
 import NearByAssistance from '../screens/customerService/roadsideAssistance/nearby-assistance';
 import TrackAssistance from '../screens/customerService/roadsideAssistance/track-assistance';
+import BookNewService from '../screens/customerService/book-a-service/book-a-service';
 
 export type CustomerServiceStackParamList = {
   CustomerServices:{};
@@ -12,6 +15,7 @@ export type CustomerServiceStackParamList = {
   RoadAssistnceLanding:{};
   NearByAssistance:{};
   TrackAssistance:{};
+  BookService:{};
 };
 
 const CustomerService = createStackNavigator<CustomerServiceStackParamList>();
@@ -29,6 +33,9 @@ export default function CustomerServiceStack() {
       <CustomerService.Screen name="RoadAssistnceLanding" component={RoadAssistnceLanding} />
       <CustomerService.Screen name="NearByAssistance" component={NearByAssistance} />
       <CustomerService.Screen name="TrackAssistance" component={TrackAssistance} />
+      {/* <CustomerService.Screen name="ReportAnIssue" component={NewServices} /> */}
+      <CustomerService.Screen name="ReportAnIssue" component={BookNewService} />
+      <CustomerService.Screen name="RequestAService" component={NewServices} />
     </CustomerService.Navigator>
   );
 }
