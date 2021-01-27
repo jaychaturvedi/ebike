@@ -21,20 +21,24 @@ import { Picker } from '@react-native-community/picker';
 type State = {
   showDatePicker: boolean;
   date: string;
-  language: any;
+  timeSlot: any;
   openStationDropdown: boolean;
   serviceStationSelected: boolean;
   selectedServiceId: number;
 };
-
+const timeSlotArray = [
+  { from: "09 am", to: "12 pm" },
+  { from: "12 pm", to: "06 pm" },
+  { from: "06 pm", to: "12 am" }
+]
 export default class NewService extends React.PureComponent<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
       showDatePicker: false,
       date: '',
-      language: '',
-      serviceStationSelected:false,
+      timeSlot: '',
+      serviceStationSelected: false,
       openStationDropdown: false,
       selectedServiceId: -1
     };
@@ -42,7 +46,7 @@ export default class NewService extends React.PureComponent<{}, State> {
 
   onDatePick = (date: Date) => {
     this.setState({
-      showDatePicker:false,
+      showDatePicker: false,
       date: Moment(date).format('MM-DD-YYYY'),
     });
   };
@@ -60,7 +64,7 @@ export default class NewService extends React.PureComponent<{}, State> {
         this.setState({
           selectedServiceId: id,
           openStationDropdown: false,
-          serviceStationSelected:true
+          serviceStationSelected: true
         })
       }}>
       <View style={{
@@ -163,17 +167,17 @@ export default class NewService extends React.PureComponent<{}, State> {
                     ?
                     <View style={{
                       display: "flex",
-                      flexDirection:"row",
-                      alignItems:"center",
-                      justifyContent:"space-between",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                       // flex:3,
-                      width:150
+                      width: 150
                     }}>
                       <Image
                         source={require('../../../assets/icons/service_location_pin.png')}
                       />
                       <Text style={{
-                        fontSize:16, color: "black"
+                        fontSize: 16, color: "black"
                       }}>
                         {"Sogo Mobility"}
                       </Text>
@@ -183,20 +187,20 @@ export default class NewService extends React.PureComponent<{}, State> {
                   }
                 </View>
                 {this.state.serviceStationSelected &&
-                <View style={{ display: 'flex', flexDirection: 'row' }}>
-                  <Picker
-                    selectedValue={this.state.language}
-                    style={{ height: 50, width: 100 }}
-                    mode={"dropdown"}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ language: itemValue })
-                    }>
-
-                    <Picker.Item label="Choose a Slot" value="null" color="grey" />
-                    <Picker.Item label="09 am - 03 pm" value="slot1" />
-                    <Picker.Item label="11 am - 05 pm" value="slot2" />
-                  </Picker>
-                </View>}
+                  <View style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Picker
+                      selectedValue={this.state.timeSlot}
+                      style={{ height: 50, width: 120 }}
+                      mode={"dropdown"}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({ timeSlot: itemValue })
+                      }>
+                      <Picker.Item label="Choose Slot" value="null" color="grey" />
+                      {timeSlotArray.map((item, index) => {
+                        return <Picker.Item label={`${item.from} to ${item.to}`} value={`${item.from} to ${item.to}`}/>                        
+                      })}
+                    </Picker>
+                  </View>}
                 <SearchIcon onPress={() => {
                   this.setState({ openStationDropdown: !this.state.openStationDropdown })
                 }} />
@@ -232,12 +236,13 @@ export default class NewService extends React.PureComponent<{}, State> {
               <Button
                 onPress={() => { }}
                 style={{
-                  backgroundColor: this.state.serviceStationSelected ?'#142F6A' :"#AFAFAF",
+                  backgroundColor: this.state.serviceStationSelected ? '#142F6A' : "#AFAFAF",
                   // backgroundColor: '#AFAFAF',
                   width: 246,
                   height: 57,
                   justifyContent: 'center',
                   alignItems: 'center',
+                  borderRadius:8
                 }}>
                 <Text style={{ fontSize: 20, fontWeight: '600', borderRadius: 5 }}>Book A Service</Text>
               </Button>

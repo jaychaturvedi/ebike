@@ -5,7 +5,9 @@ import {
   ScrollView,
   Text,
   Image,
+  Linking,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import Header from '../../home/components/header/index';
@@ -45,6 +47,16 @@ class NearByAssistance extends React.PureComponent<Props, State> {
       showSearch: false
     };
   }
+
+  openDialScreen = () => {
+    let number = '';
+    if (Platform.OS === 'ios') {
+      number = 'telprompt:${091123456789}';
+    } else {
+      number = 'tel:${091123456789}';
+    }
+    Linking.openURL(number);
+  };
 
   render() {
     let Theme = this.context.theme; //load theme context
@@ -151,9 +163,12 @@ class NearByAssistance extends React.PureComponent<Props, State> {
                 </View>
               </View>
               <View style={styles.icons}>
-                <Image
-                  source={require('../../../assets/icons/cellphone_icon.png')}
-                />
+                <TouchableOpacity
+                  onPress={() => this.openDialScreen()}>
+                  <Image
+                    source={require('../../../assets/icons/cellphone_icon.png')}
+                  />
+                </TouchableOpacity>
               </View>
               <View style={styles.icons}>
                 <TouchableOpacity

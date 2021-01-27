@@ -5,7 +5,9 @@ import {
   ScrollView,
   Text,
   Image,
+  Linking,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import Header from '../../home/components/header/index';
@@ -18,7 +20,6 @@ import { Dispatch } from 'redux';
 import Map from '../../../components/map';
 import LanguageSelector from '../../../translations';
 import { ThemeContext } from '../../../styles/theme/theme-context';
-import ReportAnIssueIcon from '../../../assets/svg/report_an_issue';
 import { AirbnbRating, Rating } from 'react-native-ratings'
 
 type CustomerServiceNavigationProp = StackNavigationProp<
@@ -46,6 +47,16 @@ class TrackAssistance extends React.PureComponent<Props, State> {
       showSearch: false
     };
   }
+
+  openDialScreen = () => {
+    let number = '';
+    if (Platform.OS === 'ios') {
+      number = 'telprompt:${091123456789}';
+    } else {
+      number = 'tel:${091123456789}';
+    }
+    Linking.openURL(number);
+  };
 
   render() {
     let Theme = this.context.theme; //load theme context
@@ -183,9 +194,12 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                 </View>
               </View>
               <View style={{ ...styles.icons, justifyContent: "space-between" }}>
-                <Image
-                  source={require('../../../assets/icons/cellphone_icon.png')}
-                />
+              <TouchableOpacity
+                  onPress={() => this.openDialScreen()}>
+                  <Image
+                    source={require('../../../assets/icons/cellphone_icon.png')}
+                  />
+                </TouchableOpacity>
                 <Text
                   onPress={() => this.props.navigation.goBack()}
                   style={{ color: "#5372FF" }}>
