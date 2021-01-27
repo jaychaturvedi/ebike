@@ -106,7 +106,14 @@ export default class NewService extends React.PureComponent<{}, State> {
                   alignItems: 'center',
                 }}>
                 <Text>Choose Service Station</Text>
-                {/* <Select /> */}
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                  <Text style={{marginRight: 8}}>Choose a slot</Text>
+                  <Icon
+                    type="FontAwesome"
+                    name="caret-down"
+                    style={{fontSize: 20}}
+                  />
+                </View>
                 <SearchIcon />
               </View>
             </View>
