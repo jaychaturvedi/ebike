@@ -5,33 +5,26 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  StyleSheet,
+  ScrollView,
 } from 'react-native';
 import Header from '../../home/components/header';
 import { ThemeContext } from '../../../styles/theme/theme-context';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
 import { Icon, Text, Button, DatePicker } from 'native-base';
-import { scale } from '../../../styles/size-matters';
-import AddReport from '../../../assets/svg/add-report';
-import ActiveIssueIcon from '../../../assets/svg/active-issue';
-import PastServiceIcon from '../../../assets/svg/past-service';
 import DateIcon from '../../../assets/svg/date';
 import SearchIcon from '../../../assets/svg/search-icon';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Moment from 'moment';
-
-import GestureRecognizer from 'react-native-swipe-gestures';
-import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Select from 'src/components/checkbox';
+import { Picker } from '@react-native-community/picker';
 
 type State = {
   showDatePicker: boolean;
   date: string;
+  language: any;
+  openStationDropdown: boolean;
+  serviceStationSelected: boolean;
+  selectedServiceId: number;
 };
 
 export default class NewService extends React.PureComponent<{}, State> {
@@ -40,16 +33,76 @@ export default class NewService extends React.PureComponent<{}, State> {
     this.state = {
       showDatePicker: false,
       date: '',
+      language: '',
+      serviceStationSelected:false,
+      openStationDropdown: false,
+      selectedServiceId: -1
     };
   }
 
   onDatePick = (date: Date) => {
     this.setState({
+      showDatePicker:false,
       date: Moment(date).format('MM-DD-YYYY'),
     });
   };
 
   onDatePickerClose = () => { };
+
+  renderStationOptions = (id: number) => {
+    return <TouchableOpacity style={{
+      display: "flex",
+      flex: 1,
+      flexDirection: "row",
+      marginVertical: 10
+    }}
+      onPress={() => {
+        this.setState({
+          selectedServiceId: id,
+          openStationDropdown: false,
+          serviceStationSelected:true
+        })
+      }}>
+      <View style={{
+        flex: 1,
+        alignItems: "flex-start",
+        justifyContent: "center"
+      }}>
+        <Image
+          source={require('../../../assets/icons/service_location_pin.png')}
+        />
+      </View>
+      <View style={{
+        flex: 3,
+        display: "flex",
+      }}>
+        <View style={{
+          alignItems: "flex-start",
+        }}>
+          <Text style={{
+            ...styles.address, color: "black"
+          }}>
+            {"Sogo Mobility"}
+          </Text>
+          <Text style={{ color: "black" }}>
+            {"Brigade cross road, Ashok nagar"}
+          </Text>
+          <Text style={{ color: "grey" }}>
+            {"2.0 Km. Closed"}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.icons}>
+        <Icon
+          type="FontAwesome"
+          name="check-circle"
+          style={{
+            color: this.state.selectedServiceId === id ? '#40A81B' : "rgba(0, 0, 0, 0.1)"
+          }}
+        />
+      </View>
+    </TouchableOpacity>
+  }
 
   render() {
     let Theme = this.context.theme; //load theme context
@@ -79,7 +132,7 @@ export default class NewService extends React.PureComponent<{}, State> {
             }}>
             <TouchableOpacity
               onPress={() => {
-                this.setState({ showDatePicker: true });
+                this.setState({ showDatePicker: !this.state.showDatePicker });
               }}>
               <View
                 style={{
@@ -105,38 +158,91 @@ export default class NewService extends React.PureComponent<{}, State> {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}>
-                <Text>Choose Service Station</Text>
-                <View style={{display: 'flex', flexDirection: 'row'}}>
-                  <Text style={{marginRight: 8}}>Choose a slot</Text>
-                  <Icon
-                    type="FontAwesome"
-                    name="caret-down"
-                    style={{fontSize: 20}}
-                  />
+                <View>
+                  {this.state.selectedServiceId !== -1
+                    ?
+                    <View style={{
+                      display: "flex",
+                      flexDirection:"row",
+                      alignItems:"center",
+                      justifyContent:"space-between",
+                      // flex:3,
+                      width:150
+                    }}>
+                      <Image
+                        source={require('../../../assets/icons/service_location_pin.png')}
+                      />
+                      <Text style={{
+                        fontSize:16, color: "black"
+                      }}>
+                        {"Sogo Mobility"}
+                      </Text>
+                    </View>
+                    :
+                    <Text>Choose Service Station</Text>
+                  }
                 </View>
-                <SearchIcon />
+                {this.state.serviceStationSelected &&
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                  <Picker
+                    selectedValue={this.state.language}
+                    style={{ height: 50, width: 100 }}
+                    mode={"dropdown"}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({ language: itemValue })
+                    }>
+
+                    <Picker.Item label="Choose a Slot" value="null" color="grey" />
+                    <Picker.Item label="09 am - 03 pm" value="slot1" />
+                    <Picker.Item label="11 am - 05 pm" value="slot2" />
+                  </Picker>
+                </View>}
+                <SearchIcon onPress={() => {
+                  this.setState({ openStationDropdown: !this.state.openStationDropdown })
+                }} />
               </View>
             </View>
           </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 39,
-            }}>
-            <Button
-              onPress={() => { }}
+          {this.state.openStationDropdown
+            ?
+            <ScrollView style={{ flex: 1 }}>
+              <View style={{
+                backgroundColor: "white",
+                elevation: 3,
+                // height: 100,
+                width: "85%",
+                flex: 1,
+                marginBottom: 10,
+                paddingHorizontal: 40,
+                paddingVertical: 10,
+                alignSelf: "flex-end"
+              }}>
+                {this.renderStationOptions(1)}
+                {this.renderStationOptions(2)}
+                {this.renderStationOptions(3)}
+              </View>
+            </ScrollView>
+            :
+            <View
               style={{
-                backgroundColor: '#142F6A',
-                // backgroundColor: '#AFAFAF',
-                width: 246,
-                height: 57,
                 justifyContent: 'center',
                 alignItems: 'center',
+                marginTop: 39,
               }}>
-              <Text style={{ fontSize: 20, fontWeight: '600', borderRadius:5 }}>Book A Service</Text>
-            </Button>
-          </View>
+              <Button
+                onPress={() => { }}
+                style={{
+                  backgroundColor: this.state.serviceStationSelected ?'#142F6A' :"#AFAFAF",
+                  // backgroundColor: '#AFAFAF',
+                  width: 246,
+                  height: 57,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{ fontSize: 20, fontWeight: '600', borderRadius: 5 }}>Book A Service</Text>
+              </Button>
+            </View>
+          }
         </View>
         <DateTimePickerModal
           isVisible={this.state.showDatePicker}
@@ -144,6 +250,7 @@ export default class NewService extends React.PureComponent<{}, State> {
           date={new Date(this.state.date || new Date())}
           onConfirm={this.onDatePick}
           onCancel={this.onDatePickerClose}
+          maximumDate={new Date()}
         />
       </View>
     );
@@ -151,3 +258,18 @@ export default class NewService extends React.PureComponent<{}, State> {
 }
 
 NewService.contextType = ThemeContext;
+
+const styles = StyleSheet.create({
+  address: {
+    fontSize: 18,
+    fontWeight: "500",
+    flexDirection: "column",
+    display: "flex"
+  },
+  icons: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    marginTop: 5
+  }
+});
