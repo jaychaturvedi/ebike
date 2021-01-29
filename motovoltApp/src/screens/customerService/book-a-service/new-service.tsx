@@ -90,7 +90,8 @@ export default class NewService extends React.PureComponent<Props, State> {
       <View style={{
         flex: 1,
         alignItems: "flex-start",
-        justifyContent: "center"
+        justifyContent: "flex-start",
+        paddingVertical:5
       }}>
         <Image
           source={require('../../../assets/icons/service_location_pin.png')}
@@ -121,6 +122,7 @@ export default class NewService extends React.PureComponent<Props, State> {
           type="FontAwesome"
           name="check-circle"
           style={{
+            fontSize:40,
             color: this.state.selectedServiceId === id ? '#40A81B' : "rgba(0, 0, 0, 0.1)"
           }}
         />
@@ -238,7 +240,7 @@ export default class NewService extends React.PureComponent<Props, State> {
                           />
                         </View>
                       </MenuTrigger>
-                      <MenuOptions optionsContainerStyle={{ padding: 20 }}>
+                      <MenuOptions optionsContainerStyle={{ padding: 20,marginTop:50 }}>
                         <MenuOption onSelect={() => { this.setState({ timeSlot: "09 am - 01 pm" }) }}>
                           <Text
                             style={{ fontSize: 18, fontWeight: '500' }}>
@@ -270,6 +272,10 @@ export default class NewService extends React.PureComponent<Props, State> {
               <View style={{
                 backgroundColor: "white",
                 elevation: 3,
+                shadowOpacity: 0.25,
+                shadowRadius: 1,
+                shadowColor: 'black',
+                shadowOffset: {height: 1, width: 1},
                 // height: 100,
                 width: "85%",
                 flex: 1,
@@ -341,7 +347,7 @@ const styles = StyleSheet.create({
   icons: {
     flex: 1,
     alignItems: "flex-end",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     marginTop: 5
   }
 });

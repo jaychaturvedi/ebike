@@ -78,6 +78,7 @@ const style = StyleSheet.create({
         width: '30%'
     },
     bottomIcon: {
-        fontSize: moderateScale(16)
+        fontSize: moderateScale(16),
+        color:"#838383"
     }
 })

@@ -88,7 +88,7 @@ class InspectionProgress extends React.PureComponent<Props, State> {
         this.props.navigation.replace("SmartInspectionReport", {})
       }, 1000)
     }
-    if (this.state.fill >= 100 && this.props.smartInspectReport.status !== "success") {
+    if (this.props.smartInspectReport.status === "abort") {
       setTimeout(() => {
         this.props.navigation.replace("SmartInspectionAbort", {})
       }, 1000)

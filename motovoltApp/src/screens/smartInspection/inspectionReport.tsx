@@ -3,11 +3,10 @@ import {
   View,
   StyleSheet,
   Text,
-  Image,
   ScrollView,
   RefreshControl,
 } from 'react-native';
-import { moderateScale, scale } from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import Header from '../home/components/header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -204,7 +203,7 @@ class InspectionReport extends React.PureComponent<Props, State> {
                       }}
                       // onPress={() => { this.props.navigation.replace("SupportService", {}) }}
                       numberOfLines={1}>
-                      {"Book a service  "}
+                      {"Book a Service  "}
                       <Icon
                         type="FontAwesome"
                         name="chevron-right"
@@ -308,7 +307,7 @@ function getIcon(status: string) {
             flexDirection: "row",
             alignItems: "center",
           }}>
-            <Text style={{ marginRight: 8 }}>{"Need a service"}</Text>
+            <Text style={{ marginRight: 8 }}>{"Need service"}</Text>
             <Icon
               type="FontAwesome"
               name="exclamation-circle"

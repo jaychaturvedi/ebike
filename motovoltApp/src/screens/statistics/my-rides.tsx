@@ -257,7 +257,7 @@ class MyRides extends React.PureComponent<Props, State> {
             <Text
               style={{
                 fontSize: 16,
-                fontWeight: '500',
+                fontWeight: '700',
                 color: Colors.TEXT_BROWN,
               }}>
               {LanguageSelector.t('myRides.rideSummary')}
@@ -286,7 +286,7 @@ class MyRides extends React.PureComponent<Props, State> {
                   {Object.keys(this.props.graph.data).length > 0
                     ? this.props.graph.avgKmph
                     : '--'}{' '}
-                  Km/day
+                  Km/Day
                 </Text>
               </View>
 
@@ -337,7 +337,7 @@ class MyRides extends React.PureComponent<Props, State> {
             <Text
               style={{
                 fontSize: 16,
-                fontWeight: '500',
+                fontWeight: '700',
                 color: Colors.TEXT_BROWN,
               }}>
               {LanguageSelector.t('myRides.yourRides') + " " +  Moment(this.state.focusDate)
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     shadowOffset: {height: 1, width: 1},
   },
   ridesText: {
-    marginTop: verticalScale(10),
+    marginVertical: verticalScale(10),
   },
   verticalDivider:{
     width:1, 

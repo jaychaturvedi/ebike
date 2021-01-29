@@ -8,12 +8,8 @@ import Moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LanguageSelector from '../translations';
 import {ThemeContext} from '../styles/theme/theme-context';
-import SunIcon from '../assets/svg/Sun_icon';
-import MoonIcon from '../assets/svg/Moon_icon';
 import TotalDistanceIcon from '../assets/svg/total_distance_icon';
 import AvgSpeedIcon from '../assets/svg/Avg_speed';
-import StarIcon from '../assets/svg/star_icon';
-import SouceDestinationIcon from '../assets/svg/source_to_destination_arrow';
 import RideDurationIcon from '../assets/svg/ride_duration';
 import StartTimeIcon from '../assets/svg/start_time';
 import EndTimeIcon from '../assets/svg/end_time';
@@ -76,7 +72,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
                 }}>
                   {' '}
                   {LanguageSelector.t('myRides.startTime')}
-                  {' '}
+                  {': '}
                   <Text style={{ 
                     color:Theme.TEXT_WHITE }}>
                     {Moment(this.props.fromTime).format('HH:mm a')}
@@ -99,7 +95,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
                 }}>
                   {' '}
                   {LanguageSelector.t('myRides.endTime')}
-                  {' '}
+                  {': '}
                   <Text style={{ 
                     color:Theme.TEXT_WHITE  }}>
                     {Moment(this.props.toTime).format('HH:mm a')}
@@ -164,7 +160,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
                   textAlignVertical: 'top',
                   fontWeight: "bold"
                 }}>
-                &nbsp;{this.props.distance} KM
+                &nbsp;{this.props.distance} km
                   </Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
@@ -185,7 +181,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
                 color: Theme.TEXT_WHITE,
                 fontWeight: "bold"
               }}>
-                &nbsp;{this.props.speed} Kmph
+                &nbsp;{this.props.speed} km/h
                   </Text>
             </View>
           </View>
@@ -260,6 +256,7 @@ const styles = StyleSheet.create({
   },
   progressBar:{ 
     height:"50%",
+    paddingTop:5,
     justifyContent: 'center',
     paddingHorizontal:20,
     borderColor:"rgba(0, 0, 0, 0.1)",
