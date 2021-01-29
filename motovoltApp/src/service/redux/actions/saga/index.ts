@@ -47,6 +47,14 @@ import {
   SwitchEnvironment
 } from './profile';
 
+import {
+  GetBookingServiceProviders,
+  GetBookingTimeSlot,
+  GetPastIssuesList,
+  OnBookingService,
+  OnCancelService
+} from './book-a-service';
+
 type Action = InitiateForgotPassword
     | InitiateMobileValidation
     | SignIn
@@ -71,7 +79,12 @@ type Action = InitiateForgotPassword
     | ReadUpgrades
     | BeginSmartInspection
     | TurnOnBLE
-    | SwitchEnvironment;
+    | SwitchEnvironment
+    | GetBookingServiceProviders
+    | GetBookingTimeSlot
+    | GetPastIssuesList
+    | OnBookingService
+    | OnCancelService;
 
 
 export default Action;
@@ -103,4 +116,9 @@ export type {
     Speedometer,
     BeginSmartInspection,
     SwitchEnvironment,
+    GetBookingServiceProviders,
+    GetBookingTimeSlot,
+    GetPastIssuesList,
+    OnBookingService,
+    OnCancelService
 } 

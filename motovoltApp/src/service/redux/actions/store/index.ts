@@ -1,5 +1,5 @@
 import { BLEState, TPeripheral, PeripheralDisconnected } from "../../../ble";
-import { TSmartInspectReport } from "../../store";
+import { TAvailableServiceSlot, TPastBookedIssues, TServiceProviders, TSmartInspectReport } from "../../store";
 
 export type Store_UpdateUser = {
     type: "Store_UpdateUser",
@@ -318,6 +318,35 @@ export type Store_UpdateEnvironment = {
   }
 }
 
+//////////request a service //////////
+export type StorePastBookedServices = {
+  type: "StorePastBookedServices",
+  payload: TPastBookedIssues[]
+}
+
+export type StoreServiceProviders = {
+  type: "StoreServiceProviders",
+  payload: TServiceProviders[]
+}
+
+export type StoreAvailableTimeSlot = {
+  type: "StoreAvailableTimeSlot",
+  payload: TAvailableServiceSlot[]
+}
+
+export type StoreOnBookingServiceStatus = {
+  type: "StoreOnBookingServiceStatus",
+  payload: {
+    status:string
+  }
+}
+export type StoreOnCancelServiceStatus = {
+  type: "StoreOnCancelServiceStatus",
+  payload: {
+    status:string
+  }
+}
+
 type Action = Store_UpdateUser
     | Store_UpdateBle
     | Store_UpdateOnboarding
@@ -341,6 +370,11 @@ type Action = Store_UpdateUser
     | Store_SetNearByServices
     | Store_SmartInspectionReport
     | Store_ResetNearByServices
-    | Store_UpdateEnvironment;
+    | Store_UpdateEnvironment
+    | StorePastBookedServices
+    | StoreServiceProviders
+    | StoreAvailableTimeSlot
+    | StoreOnBookingServiceStatus
+    | StoreOnCancelServiceStatus;
 
 export default Action;

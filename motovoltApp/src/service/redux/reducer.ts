@@ -183,6 +183,46 @@ export default (store: TStore = Store, params: Action): TStore => {
                 development: params.payload.development
               }
         }
+        case 'StoreServiceProviders':
+          return {
+            ...store,
+            requestedServices:{
+              ...store.requestedServices,
+              nearbyServiceProviders: params.payload
+            }
+          }
+        case 'StorePastBookedServices':
+          return {
+            ...store,
+            requestedServices:{
+              ...store.requestedServices,
+              pastBookedService: params.payload
+            }
+          }
+        case 'StoreAvailableTimeSlot':
+          return {
+            ...store,
+            requestedServices:{
+              ...store.requestedServices,
+              avilableServiceSlot: params.payload
+            }
+          }
+        case 'StoreOnBookingServiceStatus':
+          return {
+            ...store,
+            requestedServices:{
+              ...store.requestedServices,
+              serviceBookedStatus: params.payload
+            }
+          }
+        case 'StoreOnCancelServiceStatus':
+          return {
+            ...store,
+            requestedServices:{
+              ...store.requestedServices,
+              onServiceCancelledStatus: params.payload
+            }
+          }
         default: return store;
     }
 }

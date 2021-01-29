@@ -307,7 +307,7 @@ export default class NewService extends React.PureComponent<Props, State> {
                   alignItems: 'center',
                   borderRadius: 8
                 }}>
-                <Text style={{ fontSize: 20, fontWeight: '600', borderRadius: 5 }}>Book A Service</Text>
+                <Text style={{ fontSize: 20, fontWeight: '600', borderRadius: 5 }}>Confirm</Text>
               </Button>
             </View>
           }

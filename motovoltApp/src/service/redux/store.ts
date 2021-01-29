@@ -212,6 +212,42 @@ export type Health = {
     val: number
 }
 
+export interface TPastBookedIssues {
+    frameId: string;
+    issueId: number;
+    status: string;
+    issueName: string;
+    createdTime: string;
+}
+
+export interface TServiceProviders {
+    frameId: string;
+    bookServiceId: number;
+    status: string;
+    serviceProviderId: number;
+    serviceProviderName: string;
+    serviceTypeId: number;
+    serviceTypeName: string;
+    serviceDate: string;
+}
+
+export interface TAvailableServiceSlot{
+    slotName: string,
+    slotHour: number
+}
+
+export interface TRequestServiceState {
+    pastBookedService: TPastBookedIssues[],
+    nearbyServiceProviders: TServiceProviders[],
+    avilableServiceSlot: TAvailableServiceSlot[]
+    serviceBookedStatus:{
+      status:string
+    },
+    onServiceCancelledStatus:{
+      status:string
+    },
+}
+
 export const ZeroSmartInspectReport: TSmartInspectReport = {
     isStale: true,
     frameId: "",
@@ -369,6 +405,7 @@ export type TStore = {
       production:boolean,
       development:boolean
     },
+    requestedServices:TRequestServiceState
 }
 
 const ZeroState: TStore = {
@@ -391,6 +428,17 @@ const ZeroState: TStore = {
       production:true,
       development:false
     },
+    requestedServices:{
+      avilableServiceSlot:[],
+      nearbyServiceProviders:[],
+      pastBookedService:[],
+      serviceBookedStatus:{
+        status: ""
+      },
+      onServiceCancelledStatus:{
+        status:""
+      }
+    }
 };
 
 export function getZeroState() {

@@ -19,6 +19,7 @@ import * as Menu from './saga/menu';
 import * as SmartInspect from './saga/smartInspect';
 
 import * as Profile from './saga/profile';
+import * as BookService from './saga/book-a-service';
 
 function* actionWatcher() {
     // BLE
