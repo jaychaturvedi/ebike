@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Image, Dimensions} from 'react-native';
+import {
+  View,
+  Image,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import Header from '../../home/components/header';
 import {ThemeContext} from '../../../styles/theme/theme-context';
 import {
@@ -14,7 +20,6 @@ import AddReport from '../../../assets/svg/add-report';
 import ActiveIssueIcon from '../../../assets/svg/active-issue';
 import PastServiceIcon from '../../../assets/svg/past-service';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import {ScrollView} from 'react-native-gesture-handler';
 
 export const swipeDirections = {
   SWIPE_UP: 'SWIPE_UP',
@@ -202,11 +207,10 @@ export default class BookService extends React.PureComponent<{}, State> {
         </View>
         <View
           style={{
-            flex: 1,
             bottom: 0,
             width: '100%',
-            height: this.state.expanded ? '70%' : '30%',
-            position: 'absolute',
+            height: this.state.expanded ? '50%' : '30%',
+            position: 'relative',
             zIndex: 1,
           }}>
           <View
@@ -215,9 +219,14 @@ export default class BookService extends React.PureComponent<{}, State> {
               backgroundColor: 'white',
             }}>
             <GestureRecognizer
+              onSwipeDown={() => this.setState({expanded: false})}
+              onSwipeUp={() => this.setState({expanded: true})}
               onSwipe={(direction, state) => this.onSwipe(direction, state)}
               config={config}>
-              <DragHandle />
+              <TouchableOpacity
+                onPress={() => this.setState({expanded: !this.state.expanded})}>
+                <DragHandle />
+              </TouchableOpacity>
             </GestureRecognizer>
             <ScrollView style={{backgroundColor: '#E5E5E5'}}>
               <View
