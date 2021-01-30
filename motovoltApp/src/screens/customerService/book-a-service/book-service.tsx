@@ -32,6 +32,9 @@ import {
   GetBookedServices,
 } from 'src/service/redux/actions/saga';
 import RequestServiceIcon from '../../../assets/svg/service_stations';
+import DragHandle from './components/drag-handle';
+import ActiveService from './components/active-service';
+import PastService from './components/past-service';
 
 interface ReduxState {
   bookedServices: TStore['requestedServices']['bookedServices'];
@@ -67,98 +70,29 @@ type State = {
   expanded: boolean;
 };
 
-function DragHandle() {
-  return (
-    <View
-      style={{
-        width: '100%',
-        height: 28,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-      }}>
-      <View
-        style={{
-          borderWidth: 1,
-          borderColor: 'rgba(0,0,0,0.37)',
-          width: 48,
-        }}
-      />
-      <View
-        style={{
-          borderWidth: 1,
-          borderColor: 'rgba(0,0,0,0.37)',
-          width: 48,
-        }}
-      />
-    </View>
-  );
-}
+// function PastService(props: {service: TBookedServices}) {
+//   console.warn(props);
 
-function ActiveIssue(props: {
-  serviceCenterName: string;
-  slot: string;
-  createDate: Date;
-  onCancel: () => void;
-}) {
-  return (
-    <View
-      style={{
-        marginVertical: 12,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-      }}>
-      <View style={{flexDirection: 'row'}}>
-        <RequestServiceIcon style={{marginRight: 16}} stroke={'white'} />
-        {/* <ActiveIssueIcon style={{marginRight: 16}} /> */}
-        <View>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 18,
-              fontWeight: '600',
-            }}>
-            {props.serviceCenterName}
-          </Text>
-          <Text style={{color: 'white', fontSize: 16}}>{props.slot}</Text>
-          <Text style={{color: 'white', fontSize: 14, marginTop: 8}}>
-            {Moment(props.createDate).fromNow()}
-          </Text>
-        </View>
-      </View>
-      <TouchableOpacity onPress={() => props.onCancel()}>
-        <Text style={{color: 'white', fontSize: 18, fontWeight: '600'}}>
-          Cancel
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-function PastService(props: {service: TBookedServices}) {
-  console.warn(props);
-
-  return (
-    <View
-      style={{
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-      }}>
-      <Text style={{opacity: 0.6}}>{props.service.serviceTypeName}</Text>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{marginRight: 20}}>
-          {Moment(props.service.serviceDate)
-            .startOf('day')
-            .format('DD MMM YYYY')
-            .toString()}
-        </Text>
-        <PastServiceIcon />
-      </View>
-    </View>
-  );
-}
+//   return (
+//     <View
+//       style={{
+//         alignItems: 'center',
+//         flexDirection: 'row',
+//         justifyContent: 'space-between',
+//       }}>
+//       <Text style={{opacity: 0.6}}>{props.service.serviceTypeName}</Text>
+//       <View style={{flexDirection: 'row', alignItems: 'center'}}>
+//         <Text style={{marginRight: 20}}>
+//           {Moment(props.service.serviceDate)
+//             .startOf('day')
+//             .format('DD MMM YYYY')
+//             .toString()}
+//         </Text>
+//         <PastServiceIcon />
+//       </View>
+//     </View>
+//   );
+// }
 
 class BookService extends React.PureComponent<Props, State> {
   constructor(props: Props) {
@@ -251,7 +185,7 @@ class BookService extends React.PureComponent<Props, State> {
             />
           </View>
           <AddReport
-            onPress={() => this.props.navigation.navigate('BookNewService', {})}
+            onPress={() => this.props.navigation.replace('BookNewService', {})}
             style={{
               width: 68,
               height: 68,
@@ -299,17 +233,17 @@ class BookService extends React.PureComponent<Props, State> {
                   // Completed
                   .filter((service) => service.status === 'A')
                   .map((service) => (
-                    <View style={{marginTop: 22}}>
-                      <ActiveIssue
-                        serviceCenterName={service.serviceProviderName}
+                    <View style={{marginTop: 22}} key={service.bookServiceId}>
+                      <ActiveService
+                        createDate={new Date(service.serviceDate)}
                         onCancel={() => {
                           this.props.onCancelService({
                             type: 'OnCancelService',
                             payload: {serviceId: service.bookServiceId},
                           });
                         }}
-                        createDate={new Date(service.serviceDate)}
-                        slot={'20/01/2012 5:30PM'}
+                        serviceCenterName={service.serviceProviderName}
+                        slot={service.serviceDate}
                       />
                     </View>
                   ))}
@@ -329,7 +263,10 @@ class BookService extends React.PureComponent<Props, State> {
                   .map((item: TBookedServices, i) => {
                     return (
                       <React.Fragment key={item.bookServiceId}>
-                        <PastService service={item} />
+                        <PastService
+                          serviceDate={new Date(item.serviceDate)}
+                          serviceType={item.serviceTypeName}
+                        />
                         {i !== this.props.bookedServices.length && (
                           <View
                             style={{

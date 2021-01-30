@@ -151,7 +151,7 @@ class NewService extends React.PureComponent<Props, State> {
       },
     });
     if (this.props.serviceBookedStatus.status === 'OK')
-      this.props.navigation.pop();
+      this.props.navigation.replace('BookAService', {});
   };
 
   renderStationOptions = (
@@ -250,7 +250,7 @@ class NewService extends React.PureComponent<Props, State> {
           hideNotification
           hideBluetooth
           hidePromo
-          onBackClick={() => this.props.navigation.goBack()}
+          onBackClick={() => this.props.navigation.replace('BookAService', {})}
         />
         <View style={{backgroundColor: '#F6F6F6', flex: 1}}>
           <View

@@ -187,7 +187,7 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                     <Text style={{ color: "grey" }}>
                     Expected arrival:{" "}{item.expected_arrival}
                     </Text>
-                    <AirbnbRating
+                    {/* <AirbnbRating
                       count={5}
                       defaultRating={3.9}
                       size={moderateScale(20)}
@@ -195,7 +195,7 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                       isDisabled={true}
                       starStyle={{}}
                       onFinishRating={() => { }}
-                    />
+                    /> */}
                   </View>
                 </View>
                 <View style={{ ...styles.icons, justifyContent: "space-between" }}>
@@ -208,7 +208,7 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                   <Text
                     onPress={() => this.props.navigation.goBack()}
                     style={{ color: "#5372FF" }}>
-                    {"cancel"}
+                    {"Cancel"}
                   </Text>
                 </View>
               </View>
