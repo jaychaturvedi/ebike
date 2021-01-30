@@ -15,31 +15,39 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import Header from '../../home/components/header';
-import { ThemeContext } from '../../../styles/theme/theme-context';
-import { Icon, Text, Button, DatePicker } from 'native-base';
+import {ThemeContext} from '../../../styles/theme/theme-context';
+import {Icon, Text, Button, DatePicker} from 'native-base';
 import DateIcon from '../../../assets/svg/date';
 import SearchIcon from '../../../assets/svg/search-icon';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-community/picker';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { CustomerServiceStackParamList } from '../../../navigation/customer-service';
-import { TNearbyServiceProviders, TStore, TAvailableServiceSlot } from '../../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { GetNearbyServiceProviders, GetBookingTimeSlot, OnBookingService } from 'src/service/redux/actions/saga';
+import {Picker} from '@react-native-community/picker';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {CustomerServiceStackParamList} from '../../../navigation/customer-service';
+import {
+  TNearbyServiceProviders,
+  TStore,
+  TAvailableServiceSlot,
+} from '../../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import {
+  GetNearbyServiceProviders,
+  GetBookingTimeSlot,
+  OnBookingService,
+} from 'src/service/redux/actions/saga';
 import Geolocation from '@react-native-community/geolocation';
 
 interface ReduxState {
-  avilableServiceSlot: TStore['requestedServices']["avilableServiceSlot"],
-  nearbyServiceProviders: TStore['requestedServices']["nearbyServiceProviders"],
-  serviceBookedStatus: TStore['requestedServices']["serviceBookedStatus"],
-  defaultBikeId: TStore['user']["defaultBikeId"],
-  getBookingTimeSlot: (params: GetBookingTimeSlot) => void,
-  getNearbyServiceProviders: (params: GetNearbyServiceProviders) => void,
-  onBookingNewService: (params: OnBookingService) => void,
+  avilableServiceSlot: TStore['requestedServices']['avilableServiceSlot'];
+  nearbyServiceProviders: TStore['requestedServices']['nearbyServiceProviders'];
+  serviceBookedStatus: TStore['requestedServices']['serviceBookedStatus'];
+  defaultBikeId: TStore['user']['defaultBikeId'];
+  getBookingTimeSlot: (params: GetBookingTimeSlot) => void;
+  getNearbyServiceProviders: (params: GetNearbyServiceProviders) => void;
+  onBookingNewService: (params: OnBookingService) => void;
 }
 interface Props extends ReduxState {
   navigation: CustomerServiceNavigationProp;
@@ -76,7 +84,7 @@ class NewService extends React.PureComponent<Props, State> {
       openStationDropdown: false,
       selectedServiceId: -1,
       selectedProviderId: -1,
-      selectedProviderName: "",
+      selectedProviderName: '',
       selectedProviderTypeId: -1,
       locationFetchedStatus: 'PENDING',
       loading: true,
@@ -88,16 +96,16 @@ class NewService extends React.PureComponent<Props, State> {
       (location) => {
         console.warn(location.coords);
         this.props.getNearbyServiceProviders({
-          type: "GetNearbyServiceProviders",
+          type: 'GetNearbyServiceProviders',
           payload: {
             // lat: location.coords.latitude,
             // lon: location.coords.longitude,
             lat: 12.8923272,
             lon: 77.5963663,
-            type: "SW",
-            dist: 4
-          }
-        })
+            type: 'SW',
+            dist: 4,
+          },
+        });
       },
       (error) => {
         this.setState({
@@ -106,16 +114,16 @@ class NewService extends React.PureComponent<Props, State> {
         });
       },
     );
-    console.warn(this.props.nearbyServiceProviders)
+    console.warn(this.props.nearbyServiceProviders);
   }
 
   getTimeSlot() {
     this.props.getBookingTimeSlot({
-      type: "GetBookingTimeSlot",
+      type: 'GetBookingTimeSlot',
       payload: {
-        slotGroupId: this.state.selectedProviderId
-      }
-    })
+        slotGroupId: this.state.selectedProviderId,
+      },
+    });
   }
 
   onDatePick = (date: Date) => {
@@ -127,89 +135,90 @@ class NewService extends React.PureComponent<Props, State> {
 
   onDatePickerClose = () => {
     this.setState({
-      showDatePicker: false
+      showDatePicker: false,
     });
   };
 
   confirmBooking = () => {
+    console.log(this.state);
     this.props.onBookingNewService({
-      type: "OnBookingService",
+      type: 'OnBookingService',
       payload: {
         frameId: this.props.defaultBikeId,
-        serviceDate: this.state.date,
+        serviceDate: `${Moment(this.state.date).format('YYYY-MM-DD')}`,
         serviceProviderId: this.state.selectedProviderId,
-        serviceTypeId: this.state.selectedProviderTypeId
-      }
-    })
-    if (this.props.serviceBookedStatus.status === "OK")
-      this.props.navigation.pop()
-  }
+        serviceTypeId: this.state.selectedProviderTypeId,
+      },
+    });
+    if (this.props.serviceBookedStatus.status === 'OK')
+      this.props.navigation.pop();
+  };
 
-  renderStationOptions = (id: number, serviceProvider: TNearbyServiceProviders) => {
-    console.warn(serviceProvider.st)
-    if (!serviceProvider.stationName)
-      return <TouchableOpacity
-        onPress={() => {
-          this.setState({
-            openStationDropdown: false,
-          })
-        }}
+  renderStationOptions = (
+    id: number,
+    serviceProvider: TNearbyServiceProviders,
+  ) => {
+    return (
+      <TouchableOpacity
         style={{
-          display: "flex",
+          display: 'flex',
           flex: 1,
-          flexDirection: "row",
-          marginVertical: 10
-        }}>
-        <Text>No data available....</Text>
-      </TouchableOpacity>
-    else
-      return <TouchableOpacity style={{
-        display: "flex",
-        flex: 1,
-        flexDirection: "row",
-        marginVertical: 10
-      }}
+          flexDirection: 'row',
+          marginVertical: 10,
+        }}
         onPress={() => {
-          this.setState({
-            selectedServiceId: id,
-            openStationDropdown: false,
-            serviceStationSelected: true,
-            selectedProviderId: serviceProvider.serviceProviderId,
-            selectedProviderName: serviceProvider.stationName,
-            selectedProviderTypeId: serviceProvider.locMasterId
-          })
-          this.getTimeSlot()
+          this.setState(
+            {
+              selectedServiceId: id,
+              openStationDropdown: false,
+              serviceStationSelected: true,
+              selectedProviderId: serviceProvider.serviceProviderId,
+              selectedProviderName: serviceProvider.stationName,
+              selectedProviderTypeId: serviceProvider.locMasterId,
+            },
+            () => {
+              this.getTimeSlot();
+            },
+          );
         }}>
-        <View style={{
-          flex: 1,
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          paddingVertical: 5
-        }}>
+        <View
+          style={{
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+            marginTop: 5,
+            marginRight: 12,
+          }}>
           <Image
             source={require('../../../assets/icons/service_location_pin.png')}
           />
         </View>
-        <View style={{
-          flex: 3,
-          display: "flex",
-        }}>
-          <View style={{
-            alignItems: "flex-start",
+        <View
+          style={{
+            flex: 3,
+            display: 'flex',
           }}>
-            <Text style={{
-              ...styles.address, color: "black"
+          <View
+            style={{
+              alignItems: 'flex-start',
             }}>
+            <Text
+              style={{
+                ...styles.address,
+                color: 'black',
+                fontSize: 16,
+              }}
+              numberOfLines={1}>
               {serviceProvider.stationName}
             </Text>
-            <Text style={{ color: "grey" }}>
+            <Text
+              style={{color: 'grey', fontSize: 14, marginTop: 5}}
+              numberOfLines={1}>
               {`${serviceProvider.dist} km. ${serviceProvider.status}`}
             </Text>
-            <Text style={{ color: "black" }}>
-              {`${serviceProvider.addressLine1}, ${serviceProvider.addressLine2}`}
-            </Text>
-            <Text style={{ color: "black" }}>
-              {`${serviceProvider.addressLine3}, ${serviceProvider.pincode}`}
+            <Text
+              style={{color: 'black', fontSize: 14, marginTop: 6}}
+              numberOfLines={1}>
+              {`${serviceProvider.addressLine1}, ${serviceProvider.addressLine2}, ${serviceProvider.addressLine3}`}
             </Text>
           </View>
         </View>
@@ -219,17 +228,21 @@ class NewService extends React.PureComponent<Props, State> {
             name="check-circle"
             style={{
               fontSize: 40,
-              color: this.state.selectedServiceId === id ? '#40A81B' : "rgba(0, 0, 0, 0.1)"
+              color:
+                this.state.selectedServiceId === id
+                  ? '#40A81B'
+                  : 'rgba(0, 0, 0, 0.1)',
             }}
           />
         </View>
       </TouchableOpacity>
-  }
+    );
+  };
 
   render() {
     let Theme = this.context.theme; //load theme context
     return (
-      <View style={{ width: '100%', height: '100%' }}>
+      <View style={{width: '100%', height: '100%'}}>
         <Header
           hasBackButton
           title={'Book a Service'}
@@ -239,7 +252,7 @@ class NewService extends React.PureComponent<Props, State> {
           hidePromo
           onBackClick={() => this.props.navigation.goBack()}
         />
-        <View style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
+        <View style={{backgroundColor: '#F6F6F6', flex: 1}}>
           <View
             style={{
               width: '100%',
@@ -250,11 +263,11 @@ class NewService extends React.PureComponent<Props, State> {
               shadowOpacity: 0.25,
               shadowRadius: 1,
               shadowColor: 'black',
-              shadowOffset: { height: 1, width: 1 },
+              shadowOffset: {height: 1, width: 1},
             }}>
             <TouchableOpacity
               onPress={() => {
-                this.setState({ showDatePicker: !this.state.showDatePicker });
+                this.setState({showDatePicker: !this.state.showDatePicker});
               }}>
               <View
                 style={{
@@ -265,17 +278,16 @@ class NewService extends React.PureComponent<Props, State> {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}>
-                {this.state.date.length
-                  ?
-                  <Text style={{ fontSize: 18 }}>{this.state.date}</Text>
-                  :
-                  <Text style={{ fontSize: 18 }}>Choose date</Text>
-                }
+                {this.state.date.length ? (
+                  <Text style={{fontSize: 18}}>{this.state.date}</Text>
+                ) : (
+                  <Text style={{fontSize: 18}}>Choose Date</Text>
+                )}
                 <DateIcon />
               </View>
             </TouchableOpacity>
-            <View style={{ borderWidth: 0.5, opacity: 0.1 }}></View>
-            <View style={{ width: '100%', height: 80 }}>
+            <View style={{borderWidth: 0.5, opacity: 0.1}}></View>
+            <View style={{width: '100%', height: 80}}>
               <View
                 style={{
                   width: '100%',
@@ -285,124 +297,135 @@ class NewService extends React.PureComponent<Props, State> {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}>
-                <View>
-                  {this.state.selectedServiceId !== -1
-                    ?
-                    <View style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      flex: 3,
-                      // width: 150
-                    }}>
-                      <Image style={{ marginRight: 10 }}
+                <View style={{flex: 1}}>
+                  {this.state.selectedServiceId !== -1 ? (
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        flex: 3,
+                        // width: 150
+                      }}>
+                      <Image
+                        style={{marginRight: 10}}
                         source={require('../../../assets/icons/service_location_pin.png')}
                       />
                       <Text
                         numberOfLines={1}
                         style={{
+                          maxWidth: '50%',
                           fontSize: 18,
-                          color: "black",
-                          textAlign: "left",
+                          color: 'black',
+                          textAlign: 'left',
                         }}>
                         {this.state.selectedProviderName}
                       </Text>
                     </View>
-                    :
-                    <Text style={{ fontSize: 18 }}>Choose Service Station</Text>
-                  }
+                  ) : (
+                    <Text style={{fontSize: 18}}>Choose Service Station</Text>
+                  )}
                 </View>
-                {this.state.serviceStationSelected &&
-                  <View >
+                {this.state.serviceStationSelected && (
+                  <View style={{marginRight: 16}}>
                     <Menu style={{}}>
                       <MenuTrigger>
                         <View
                           style={{
                             display: 'flex',
-                            flexDirection: 'row'
+                            flexDirection: 'row',
                           }}>
                           <Text
                             style={{
                               fontSize: 18,
-                              marginRight: 8
+                              marginRight: 8,
                             }}>
                             {this.state.timeSlot.length
                               ? this.state.timeSlot
-                              : "Choose Slot"}
+                              : 'Choose Slot'}
                           </Text>
                           <Icon
                             type="FontAwesome"
                             name="caret-down"
-                            style={{ fontSize: 20 }}
+                            style={{fontSize: 20}}
                           />
                         </View>
                       </MenuTrigger>
                       <MenuOptions
                         optionsContainerStyle={{
                           padding: 20,
-                          marginTop: 50
+                          marginTop: 50,
                         }}>
-                        {this.props.avilableServiceSlot
-                          .map((slot: TAvailableServiceSlot, index: number) => {
-                            const showDivider = this.props.avilableServiceSlot.length - 1 !== index
+                        {this.props.avilableServiceSlot.map(
+                          (slot: TAvailableServiceSlot, index: number) => {
+                            const showDivider =
+                              this.props.avilableServiceSlot.length - 1 !==
+                              index;
                             return (
                               <MenuOption
                                 onSelect={() => {
-                                  this.setState({ timeSlot: slot.slotName })
+                                  this.setState({timeSlot: slot.slotName});
                                 }}>
                                 <Text
                                   style={{
                                     fontSize: 18,
-                                    fontWeight: '500'
+                                    fontWeight: '500',
                                   }}>
                                   {slot.slotName}
                                 </Text>
-                                {showDivider &&
+                                {showDivider && (
                                   <View
                                     style={{
                                       borderWidth: 1,
                                       opacity: 0.1,
-                                      marginVertical: 20
+                                      marginVertical: 20,
                                     }}
-                                  />}
+                                  />
+                                )}
                               </MenuOption>
-                            )
-                          })}
+                            );
+                          },
+                        )}
                       </MenuOptions>
                     </Menu>
                   </View>
-                }
-                <SearchIcon onPress={() => {
-                  this.setState({ openStationDropdown: !this.state.openStationDropdown })
-                }} />
+                )}
+                <SearchIcon
+                  onPress={() => {
+                    this.setState({
+                      openStationDropdown: !this.state.openStationDropdown,
+                    });
+                  }}
+                />
               </View>
             </View>
           </View>
-          {this.state.openStationDropdown
-            ?
-            <ScrollView style={{ flex: 1 }}>
-              <View style={{
-                backgroundColor: "white",
-                elevation: 3,
-                shadowOpacity: 0.25,
-                shadowRadius: 1,
-                shadowColor: 'black',
-                shadowOffset: { height: 1, width: 1 },
-                // height: 100,
-                width: "85%",
-                flex: 1,
-                marginBottom: 10,
-                paddingHorizontal: 40,
-                paddingVertical: 10,
-                alignSelf: "flex-end"
-              }}>
-                {this.props.nearbyServiceProviders
-                  .map((item: TNearbyServiceProviders, index: number) => {
-                    return this.renderStationOptions(1, item)
-                  })}
+          {this.state.openStationDropdown ? (
+            <ScrollView style={{flex: 1}}>
+              <View
+                style={{
+                  backgroundColor: 'white',
+                  elevation: 3,
+                  shadowOpacity: 0.25,
+                  shadowRadius: 1,
+                  shadowColor: 'black',
+                  shadowOffset: {height: 1, width: 1},
+                  // height: 100,
+                  width: '85%',
+                  flex: 1,
+                  marginTop: 2,
+                  paddingHorizontal: 20,
+                  paddingVertical: 20,
+                  alignSelf: 'flex-end',
+                }}>
+                {this.props.nearbyServiceProviders.map(
+                  (item: TNearbyServiceProviders, index: number) => {
+                    return this.renderStationOptions(1, item);
+                  },
+                )}
               </View>
             </ScrollView>
-            :
+          ) : (
             <View
               style={{
                 justifyContent: 'center',
@@ -411,23 +434,33 @@ class NewService extends React.PureComponent<Props, State> {
               }}>
               <Button
                 onPress={this.confirmBooking}
-                disabled={!(this.state.serviceStationSelected
-                  && this.state.date.length
-                  && this.state.timeSlot.length)}
+                disabled={
+                  !(
+                    this.state.serviceStationSelected &&
+                    this.state.date.length &&
+                    this.state.timeSlot.length
+                  )
+                }
                 style={{
-                  backgroundColor: (this.state.serviceStationSelected
-                    && this.state.date.length
-                    && this.state.timeSlot.length) ? '#142F6A' : "#AFAFAF",
+                  backgroundColor:
+                    this.state.serviceStationSelected &&
+                    this.state.date.length &&
+                    this.state.timeSlot.length
+                      ? '#142F6A'
+                      : '#AFAFAF',
                   width: 246,
                   height: 57,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  borderRadius: 8
+                  borderRadius: 8,
                 }}>
-                <Text style={{ fontSize: 20, fontWeight: '600', borderRadius: 5 }}>Confirm</Text>
+                <Text
+                  style={{fontSize: 20, fontWeight: '600', borderRadius: 5}}>
+                  Confirm
+                </Text>
               </Button>
             </View>
-          }
+          )}
         </View>
         <DateTimePickerModal
           isVisible={this.state.showDatePicker}
@@ -435,7 +468,6 @@ class NewService extends React.PureComponent<Props, State> {
           date={new Date(this.state.date || new Date())}
           onConfirm={this.onDatePick}
           onCancel={this.onDatePickerClose}
-          maximumDate={new Date()}
         />
       </View>
     );
@@ -444,20 +476,21 @@ class NewService extends React.PureComponent<Props, State> {
 
 NewService.contextType = ThemeContext;
 
-
 export default connect(
   (store: TStore) => {
     return {
-      avilableServiceSlot: store['requestedServices']["avilableServiceSlot"],
-      nearbyServiceProviders: store['requestedServices']["nearbyServiceProviders"],
-      serviceBookedStatus: store['requestedServices']["serviceBookedStatus"],
-      defaultBikeId: store['user']["defaultBikeId"],
+      avilableServiceSlot: store['requestedServices']['avilableServiceSlot'],
+      nearbyServiceProviders:
+        store['requestedServices']['nearbyServiceProviders'],
+      serviceBookedStatus: store['requestedServices']['serviceBookedStatus'],
+      defaultBikeId: store['user']['defaultBikeId'],
     };
   },
   (dispatch: Dispatch) => {
     return {
       getBookingTimeSlot: (params: GetBookingTimeSlot) => dispatch(params),
-      getNearbyServiceProviders: (params: GetNearbyServiceProviders) => dispatch(params),
+      getNearbyServiceProviders: (params: GetNearbyServiceProviders) =>
+        dispatch(params),
       onBookingNewService: (params: OnBookingService) => dispatch(params),
     };
   },
@@ -466,14 +499,14 @@ export default connect(
 const styles = StyleSheet.create({
   address: {
     fontSize: 18,
-    fontWeight: "500",
-    flexDirection: "column",
-    display: "flex"
+    fontWeight: '500',
+    flexDirection: 'column',
+    display: 'flex',
   },
   icons: {
     flex: 1,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
     // justifyContent: "center",
-    marginTop: 5
-  }
+    marginTop: 5,
+  },
 });

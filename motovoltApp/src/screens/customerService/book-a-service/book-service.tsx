@@ -218,7 +218,9 @@ class BookService extends React.PureComponent<Props, State> {
                     display: 'flex',
                     flexDirection: 'row',
                   }}>
-                  <Text style={{marginRight: 8}}>{this.props.user.name}</Text>
+                  <Text style={{marginRight: 8}}>
+                    {this.props.user.defaultBikeId}
+                  </Text>
                   <Icon
                     type="FontAwesome"
                     name="caret-down"
@@ -230,7 +232,7 @@ class BookService extends React.PureComponent<Props, State> {
                 <MenuOption onSelect={() => {}}>
                   <Text
                     style={{fontSize: 18, fontWeight: '500', opacity: 0.67}}>
-                    {this.props.user.name}
+                    {this.props.user.defaultBikeId}
                   </Text>
                 </MenuOption>
                 {/* <View
@@ -340,22 +342,6 @@ class BookService extends React.PureComponent<Props, State> {
                       </React.Fragment>
                     );
                   })}
-                {/* <PastService />
-                <View
-                  style={{borderWidth: 1, opacity: 0.1, marginVertical: 12}}
-                />
-                <PastService />
-                <View
-                  style={{borderWidth: 1, opacity: 0.1, marginVertical: 12}}
-                />
-                <PastService />
-                <View
-                  style={{borderWidth: 1, opacity: 0.1, marginVertical: 12}}
-                />
-                <PastService />
-                <View
-                  style={{borderWidth: 1, opacity: 0.1, marginVertical: 12}}
-                /> */}
               </View>
             </ScrollView>
           </View>
