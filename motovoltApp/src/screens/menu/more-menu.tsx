@@ -32,6 +32,7 @@ import FAQIcon from '../../assets/svg/faq_icon';
 import SupportIcon from '../../assets/svg/support_icon';
 import LanguageIcon from '../../assets/svg/languages_icon';
 import SwapIcon from '../../assets/svg/swap';
+import RoadSide from '../../assets/svg/roadside_assistance';
 import LogoutIcon from '../../assets/svg/logout_icon';
 import PencilEditIcon from '../../assets/svg/pencil-edit-button';
 import ServiceStations from '../../assets/svg/service_stations';
@@ -152,7 +153,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
         },
         {
           feature: "Customer Service",
-          icon: LogoutIcon,
+          icon: RoadSide,
           onPress: () => console.log('Feature pressed'),
           premium: false,
           numberOfLines:2
