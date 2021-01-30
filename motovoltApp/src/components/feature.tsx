@@ -8,6 +8,7 @@ import PremiumIcon from '../assets/svg/premium_icon';
 type Props = {
   icon: React.FC<SvgProps>;
   feature: string;
+  secondLine?: string;
   premium: boolean;
   badge?: React.ReactNode;
   onPress: () => void;
@@ -41,10 +42,14 @@ export default class Feature extends React.PureComponent<Props, State> {
           <this.props.icon height={40} width={65} />
         </View>
         <View style={styles.name}>
-          <Text numberOfLines={this.props?.numberOfLines ? this.props.numberOfLines : 1}
-            style={{color: Theme.TEXT_WHITE, textAlign:"center"}}>
+          <Text style={{color: Theme.TEXT_WHITE, textAlign: 'center'}}>
             {this.props.feature}
           </Text>
+          {this.props.secondLine && (
+            <Text style={{color: Theme.TEXT_WHITE, textAlign: 'center'}}>
+              {this.props.secondLine}
+            </Text>
+          )}
         </View>
       </TouchableOpacity>
     );

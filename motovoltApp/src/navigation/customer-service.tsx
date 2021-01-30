@@ -8,16 +8,16 @@ import TrackAssistance from '../screens/customerService/roadsideAssistance/track
 import BookNewService from '../screens/customerService/book-a-service/new-service';
 
 export type CustomerServiceStackParamList = {
-  CustomerServices:{};
+  CustomerServices: {};
 
-  ReportAnIssue:{};
+  // ReportAnIssue: {};
 
-  RoadAssistnceLanding:{};
-  NearByAssistance:{};
-  TrackAssistance:{};
-  
-  BookAService:{};
-  BookNewService:{}
+  RoadAssistanceLanding: {};
+  NearByAssistance: {};
+  TrackAssistance: {};
+
+  BookAService: {};
+  BookNewService: {};
 };
 
 const CustomerService = createStackNavigator<CustomerServiceStackParamList>();
@@ -29,15 +29,32 @@ export default function CustomerServiceStack() {
       screenOptions={{
         headerShown: false,
         animationEnabled: false,
-      }}
-    >
-      <CustomerService.Screen name="CustomerServices" component={CustomerServices} />
-      <CustomerService.Screen name="RoadAssistnceLanding" component={RoadAssistanceLanding} />
-      <CustomerService.Screen name="NearByAssistance" component={NearByAssistance} />
-      <CustomerService.Screen name="TrackAssistance" component={TrackAssistance} />
+      }}>
+      <CustomerService.Screen
+        name="CustomerServices"
+        component={CustomerServices}
+      />
+      <CustomerService.Screen
+        name="RoadAssistanceLanding"
+        component={RoadAssistanceLanding}
+      />
+      <CustomerService.Screen
+        name="NearByAssistance"
+        component={NearByAssistance}
+      />
+      <CustomerService.Screen
+        name="TrackAssistance"
+        component={TrackAssistance}
+      />
       {/* <CustomerService.Screen name="ReportAnIssue" component={BookServiceLanding} /> */}
-      <CustomerService.Screen name="BookAService" component={BookServiceLanding} />
-      <CustomerService.Screen name="BookNewService" component={BookNewService} />
+      <CustomerService.Screen
+        name="BookAService"
+        component={BookServiceLanding}
+      />
+      <CustomerService.Screen
+        name="BookNewService"
+        component={BookNewService}
+      />
     </CustomerService.Navigator>
   );
 }

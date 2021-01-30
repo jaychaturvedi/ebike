@@ -1,97 +1,95 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-} from 'react-native';
-import { moderateScale } from 'react-native-size-matters';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import {moderateScale} from 'react-native-size-matters';
 import Header from '../../home/components/header/index';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { CustomerServiceStackParamList } from '../../../navigation/customer-service';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { TStore } from '../../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { SignOut } from '../../../service/redux/actions/saga/authentication-actions';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {CustomerServiceStackParamList} from '../../../navigation/customer-service';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TStore} from '../../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import {SignOut} from '../../../service/redux/actions/saga/authentication-actions';
 import LanguageSelector from '../../../translations';
-import { ThemeContext } from '../../../styles/theme/theme-context';
+import {ThemeContext} from '../../../styles/theme/theme-context';
 import ReportAnIssueIcon from '../../../assets/svg/report_an_issue';
-import RequestServiceIcon from "../../../assets/svg/service_stations";
-import RoadsideAssistanceIcon from "../../../assets/svg/roadside_assistance";
-import { Icon } from 'native-base';
+import RequestServiceIcon from '../../../assets/svg/service_stations';
+import RoadsideAssistanceIcon from '../../../assets/svg/roadside_assistance';
+import {Icon} from 'native-base';
 import Colors from '../../../styles/colors';
-import {
-  UIActivityIndicator,
-} from 'react-native-indicators';
-import { GetRoadSideAssitance } from 'src/service/redux/actions/saga';
+import {UIActivityIndicator} from 'react-native-indicators';
+import {GetRoadSideAssitance} from 'src/service/redux/actions/saga';
 import Geolocation from '@react-native-community/geolocation';
 
 type CustomerServiceNavigationProp = StackNavigationProp<
   CustomerServiceStackParamList,
-  'RoadAssistnceLanding'
+  'RoadAssistanceLanding'
 >;
 
 interface ReduxState {
-  defaultBikeId: TStore['user']["defaultBikeId"],
-  roadSideAssistance: TStore['roadSideAssistance'],
-  getRoadSideAssitance: (params: GetRoadSideAssitance) => void,
+  defaultBikeId: TStore['user']['defaultBikeId'];
+  roadSideAssistance: TStore['roadSideAssistance'];
+  getRoadSideAssitance: (params: GetRoadSideAssitance) => void;
 }
 
 interface Props extends ReduxState {
   navigation: CustomerServiceNavigationProp;
-  route: RouteProp<CustomerServiceStackParamList, 'RoadAssistnceLanding'>;
+  route: RouteProp<CustomerServiceStackParamList, 'RoadAssistanceLanding'>;
 }
 
 type State = {
-  showSearch: boolean
+  showSearch: boolean;
 };
 
 class RoadAssistanceLanding extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      showSearch: false
+      showSearch: false,
     };
   }
 
   renderLoader = () => {
     return (
       <View style={styles.body}>
-        <RoadsideAssistanceIcon style={{
-          // marginVertical: 10
-        }} />
+        <RoadsideAssistanceIcon
+          style={
+            {
+              // marginVertical: 10
+            }
+          }
+        />
         <Text
           style={{
             fontSize: 16,
             fontWeight: '400',
-            textAlign: "center",
+            textAlign: 'center',
             width: 200,
-            marginVertical: 20
+            marginVertical: 20,
           }}
           numberOfLines={3}>
-          {"Looking up for the nearest  Roadside Assistantance Personnel."}
+          {'Looking up for the nearest  Roadside Assistantance Personnel.'}
         </Text>
         <UIActivityIndicator
-          color='black'
+          color="black"
           hidesWhenStopped
           animating={!this.state.showSearch}
-          size={40} />
+          size={40}
+        />
         <Text
           style={{
             fontSize: 16,
-            textAlign: "center",
-            color: "#5372FF",
-            marginTop: 10
+            textAlign: 'center',
+            color: '#5372FF',
+            marginTop: 10,
           }}
           onPress={() => this.props.navigation.goBack()}
           numberOfLines={1}>
-          {"Cancel"}
+          {'Cancel'}
         </Text>
       </View>
-    )
-  }
+    );
+  };
 
   renderSearch = () => {
     return (
@@ -109,76 +107,78 @@ class RoadAssistanceLanding extends React.PureComponent<Props, State> {
           style={{
             fontSize: 16,
             fontWeight: '400',
-            textAlign: "center",
+            textAlign: 'center',
             width: 200,
-            marginVertical: 20
+            marginVertical: 20,
           }}
           numberOfLines={3}>
-          {"Roadside assistance personnel unavailable."}
+          {'Roadside assistance personnel unavailable.'}
         </Text>
         <Text
           style={{
             fontSize: 16,
-            textAlign: "center",
-            color: "#5372FF",
+            textAlign: 'center',
+            color: '#5372FF',
             width: 200,
             // marginVertical: 10
           }}
           numberOfLines={2}>
-          {"Would you like to find nearby service stations"}
+          {'Would you like to find nearby service stations'}
         </Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('NearByAssistance', {})}>
-          <Text style={{
-            ...styles.buttonText,
-            color: "#FFFFFF"
-          }}>
-            {"Search"}
+          onPress={() =>
+            this.props.navigation.navigate('NearByAssistance', {})
+          }>
+          <Text
+            style={{
+              ...styles.buttonText,
+              color: '#FFFFFF',
+            }}>
+            {'Search'}
           </Text>
         </TouchableOpacity>
       </View>
-    )
-  }
+    );
+  };
 
   componentDidMount() {
     Geolocation.getCurrentPosition(
       (location) => {
         console.warn(location.coords);
         this.props.getRoadSideAssitance({
-          type: "GetRoadSideAssitance",
+          type: 'GetRoadSideAssitance',
           payload: {
-            description: "need to book a service",
+            description: 'need to book a service',
             dist: 5,
             frameId: this.props.defaultBikeId,
             lat: location.coords.latitude,
-            lon: location.coords.longitude
-          }
-        })
-      },
-      (error) => {
-        this.setState({
+            lon: location.coords.longitude,
+          },
         });
       },
+      (error) => {
+        this.setState({});
+      },
     );
-    console.warn(this.props.roadSideAssistance)
+    console.warn(this.props.roadSideAssistance);
     setTimeout(() => {
-      if(this.props.roadSideAssistance.rsa_status==="success"){
-        this.props.navigation.replace("TrackAssistance", {})
+      if (this.props.roadSideAssistance.rsa_status === 'success') {
+        this.props.navigation.replace('TrackAssistance', {});
       }
-      if(this.props.roadSideAssistance.rsa_status==="abort"){
-        this.setState({ showSearch: true })
+      if (this.props.roadSideAssistance.rsa_status === 'abort') {
+        this.setState({showSearch: true});
       }
-      if(this.props.roadSideAssistance.st==="false"){
-        this.props.navigation.goBack()
+      if (this.props.roadSideAssistance.st === 'false') {
+        this.props.navigation.goBack();
       }
-    }, 2000)
+    }, 2000);
   }
 
   render() {
     let Theme = this.context.theme; //load theme context
     return (
-      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
+      <View style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
         <Header
           hideNotification
           hasBackButton
@@ -186,18 +186,22 @@ class RoadAssistanceLanding extends React.PureComponent<Props, State> {
           backgroundColor={Theme.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
-        {!this.state.showSearch &&
-          <View style={{
-            padding: 20,
-          }}>
+        {!this.state.showSearch && (
+          <View
+            style={{
+              padding: 20,
+            }}>
             {this.renderLoader()}
-          </View>}
-        {this.state.showSearch &&
-          <View style={{
-            padding: 20,
-          }}>
+          </View>
+        )}
+        {this.state.showSearch && (
+          <View
+            style={{
+              padding: 20,
+            }}>
             {this.renderSearch()}
-          </View>}
+          </View>
+        )}
       </View>
     );
   }
@@ -209,7 +213,7 @@ export default connect(
   (store: TStore) => {
     return {
       roadSideAssistance: store['roadSideAssistance'],
-      defaultBikeId: store['user']["defaultBikeId"],
+      defaultBikeId: store['user']['defaultBikeId'],
     };
   },
   (dispatch: Dispatch) => {
@@ -231,11 +235,11 @@ const styles = StyleSheet.create({
     // padding: moderateScale(15),
   },
   button: {
-    alignItems: "center",
+    alignItems: 'center',
     backgroundColor: Colors.NAVY_BLUE,
     paddingHorizontal: 30,
     paddingVertical: 10,
-    justifyContent: "center",
+    justifyContent: 'center',
     marginTop: 20,
     // width: "50%",
     // margin: 10,
@@ -243,8 +247,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: "500",
-    textAlign: "center"
+    fontWeight: '500',
+    textAlign: 'center',
   },
   features: {
     marginTop: moderateScale(15),
@@ -262,12 +266,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 1,
     shadowColor: 'black',
-    shadowOffset: { height: 1, width: 1 },
+    shadowOffset: {height: 1, width: 1},
     elevation: 3,
     height: moderateScale(300),
     padding: 40,
     alignItems: 'center',
     marginTop: moderateScale(10),
-  }
+  },
 });
-

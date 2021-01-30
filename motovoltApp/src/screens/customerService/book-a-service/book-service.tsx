@@ -7,34 +7,38 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Header from '../../home/components/header';
-import { ThemeContext } from '../../../styles/theme/theme-context';
+import {ThemeContext} from '../../../styles/theme/theme-context';
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import { Icon, Text } from 'native-base';
-import { scale } from '../../../styles/size-matters';
+import {Icon, Text} from 'native-base';
+import {scale} from '../../../styles/size-matters';
 import AddReport from '../../../assets/svg/add-report';
 import ActiveIssueIcon from '../../../assets/svg/active-issue';
 import PastServiceIcon from '../../../assets/svg/past-service';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import Moment from 'moment';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { CustomerServiceStackParamList } from '../../../navigation/customer-service';
-import { TBookedServices, TStore } from '../../../service/redux/store';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { OnCancelService, GetBookedServices } from 'src/service/redux/actions/saga';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {CustomerServiceStackParamList} from '../../../navigation/customer-service';
+import {TBookedServices, TStore} from '../../../service/redux/store';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import {
+  OnCancelService,
+  GetBookedServices,
+} from 'src/service/redux/actions/saga';
+import RequestServiceIcon from '../../../assets/svg/service_stations';
 
 interface ReduxState {
-  bookedServices: TStore['requestedServices']["bookedServices"],
-  onServiceCancelledStatus: TStore['requestedServices']["onServiceCancelledStatus"],
-  user: TStore['user'],
-  onCancelService: (params: OnCancelService) => void,
-  getBookedServices: (params: GetBookedServices) => void,
+  bookedServices: TStore['requestedServices']['bookedServices'];
+  onServiceCancelledStatus: TStore['requestedServices']['onServiceCancelledStatus'];
+  user: TStore['user'];
+  onCancelService: (params: OnCancelService) => void;
+  getBookedServices: (params: GetBookedServices) => void;
 }
 
 interface Props extends ReduxState {
@@ -92,7 +96,12 @@ function DragHandle() {
   );
 }
 
-function ActiveIssue() {
+function ActiveIssue(props: {
+  serviceCenterName: string;
+  slot: string;
+  createDate: Date;
+  onCancel: () => void;
+}) {
   return (
     <View
       style={{
@@ -100,8 +109,9 @@ function ActiveIssue() {
         flexDirection: 'row',
         justifyContent: 'space-between',
       }}>
-      <View style={{ flexDirection: 'row' }}>
-        <ActiveIssueIcon style={{ marginRight: 16 }} />
+      <View style={{flexDirection: 'row'}}>
+        <RequestServiceIcon style={{marginRight: 16}} stroke={'white'} />
+        {/* <ActiveIssueIcon style={{marginRight: 16}} /> */}
         <View>
           <Text
             style={{
@@ -109,21 +119,24 @@ function ActiveIssue() {
               fontSize: 18,
               fontWeight: '600',
             }}>
-            IR-1234678
+            {props.serviceCenterName}
           </Text>
-          <Text style={{ color: 'white', fontSize: 16 }}>
-            26 Nov 2020: 3:46 pm
+          <Text style={{color: 'white', fontSize: 16}}>{props.slot}</Text>
+          <Text style={{color: 'white', fontSize: 14, marginTop: 8}}>
+            {Moment(props.createDate).fromNow()}
           </Text>
         </View>
       </View>
-      <Text style={{ color: 'white', fontSize: 18, fontWeight: '600' }}>
-        Cancel
-      </Text>
+      <TouchableOpacity onPress={() => props.onCancel()}>
+        <Text style={{color: 'white', fontSize: 18, fontWeight: '600'}}>
+          Cancel
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-function PastService(props: { service: TBookedServices }) {
+function PastService(props: {service: TBookedServices}) {
   console.warn(props);
 
   return (
@@ -133,13 +146,14 @@ function PastService(props: { service: TBookedServices }) {
         flexDirection: 'row',
         justifyContent: 'space-between',
       }}>
-      <Text style={{ opacity: 0.6 }}>{props.service.serviceTypeName}</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ marginRight: 20 }}>
+      <Text style={{opacity: 0.6}}>{props.service.serviceTypeName}</Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={{marginRight: 20}}>
           {Moment(props.service.serviceDate)
             .startOf('day')
             .format('DD MMM YYYY')
-            .toString()}</Text>
+            .toString()}
+        </Text>
         <PastServiceIcon />
       </View>
     </View>
@@ -156,21 +170,21 @@ class BookService extends React.PureComponent<Props, State> {
 
   componentDidMount() {
     this.props.getBookedServices({
-      type: "GetBookedServices",
+      type: 'GetBookedServices',
       payload: {
-        frameId: this.props.user.defaultBikeId
-      }
-    })
+        frameId: this.props.user.defaultBikeId,
+      },
+    });
   }
 
   onSwipe(gestureName: string, gestureState: any) {
-    const { SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT } = swipeDirections;
+    const {SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT} = swipeDirections;
     switch (gestureName) {
       case SWIPE_UP:
-        this.setState({ expanded: true });
+        this.setState({expanded: true});
         break;
       case SWIPE_DOWN:
-        this.setState({ expanded: false });
+        this.setState({expanded: false});
         break;
       default:
         break;
@@ -184,7 +198,7 @@ class BookService extends React.PureComponent<Props, State> {
     };
     let Theme = this.context.theme; //load theme context
     return (
-      <View style={{ width: '100%', height: '100%' }}>
+      <View style={{width: '100%', height: '100%'}}>
         <Header
           hasBackButton
           title={'Book a Service'}
@@ -195,27 +209,27 @@ class BookService extends React.PureComponent<Props, State> {
           onBackClick={() => this.props.navigation.goBack()}
         />
         <View
-          style={{ position: 'relative', backgroundColor: '#F6F6F6', flex: 1 }}>
-          <View style={{ display: 'flex', alignItems: 'center' }}>
-            <Menu style={{ marginTop: scale(42) }}>
+          style={{position: 'relative', backgroundColor: '#F6F6F6', flex: 1}}>
+          <View style={{display: 'flex', alignItems: 'center'}}>
+            <Menu style={{marginTop: scale(42)}}>
               <MenuTrigger>
-                <View style={{ 
-                  display: 'flex', 
-                  flexDirection: 'row' }}>
-                  <Text style={{ marginRight: 8 }}>
-                    {this.props.user.name}
-                  </Text>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                  }}>
+                  <Text style={{marginRight: 8}}>{this.props.user.name}</Text>
                   <Icon
                     type="FontAwesome"
                     name="caret-down"
-                    style={{ fontSize: 20 }}
+                    style={{fontSize: 20}}
                   />
                 </View>
               </MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ padding: 20 }}>
-                <MenuOption onSelect={() => { }}>
+              <MenuOptions optionsContainerStyle={{padding: 20}}>
+                <MenuOption onSelect={() => {}}>
                   <Text
-                    style={{ fontSize: 18, fontWeight: '500', opacity: 0.67 }}>
+                    style={{fontSize: 18, fontWeight: '500', opacity: 0.67}}>
                     {this.props.user.name}
                   </Text>
                 </MenuOption>
@@ -235,7 +249,7 @@ class BookService extends React.PureComponent<Props, State> {
             />
           </View>
           <AddReport
-            onPress={() => this.props.navigation.navigate("BookNewService", {})}
+            onPress={() => this.props.navigation.navigate('BookNewService', {})}
             style={{
               width: 68,
               height: 68,
@@ -259,47 +273,72 @@ class BookService extends React.PureComponent<Props, State> {
               backgroundColor: 'white',
             }}>
             <GestureRecognizer
-              onSwipeDown={() => this.setState({ expanded: false })}
-              onSwipeUp={() => this.setState({ expanded: true })}
+              onSwipeDown={() => this.setState({expanded: false})}
+              onSwipeUp={() => this.setState({expanded: true})}
               onSwipe={(direction, state) => this.onSwipe(direction, state)}
               config={config}>
               <TouchableOpacity
-                onPress={() => this.setState({ expanded: !this.state.expanded })}>
+                onPress={() => this.setState({expanded: !this.state.expanded})}>
                 <DragHandle />
               </TouchableOpacity>
             </GestureRecognizer>
-            <ScrollView style={{ backgroundColor: '#E5E5E5' }}>
-              {/* <View
+            <ScrollView style={{backgroundColor: '#E5E5E5'}}>
+              <View
                 style={{
                   width: '100%',
                   backgroundColor: '#5372FF',
                   paddingHorizontal: 24,
                   paddingVertical: 12,
                 }}>
-                <Text style={{color: 'white', fontSize: 22, marginBottom: 22}}>
-                  Active Issues
+                <Text style={{color: 'white', fontSize: 22}}>
+                  Active Service Booking
                 </Text>
-                <ActiveIssue />
-                <ActiveIssue />
-                <ActiveIssue />
-              </View> */}
+                {this.props.bookedServices
+                  // Completed
+                  .filter((service) => service.status === 'A')
+                  .map((service) => (
+                    <View style={{marginTop: 22}}>
+                      <ActiveIssue
+                        serviceCenterName={service.serviceProviderName}
+                        onCancel={() => {
+                          this.props.onCancelService({
+                            type: 'OnCancelService',
+                            payload: {serviceId: service.bookServiceId},
+                          });
+                        }}
+                        createDate={new Date(service.serviceDate)}
+                        slot={'20/01/2012 5:30PM'}
+                      />
+                    </View>
+                  ))}
+              </View>
               <View
                 style={{
                   paddingHorizontal: 24,
                   paddingVertical: 12,
                   width: '100%',
                 }}>
-                <Text style={{ fontSize: 22, marginBottom: 30 }}>
-                  Past Issues
+                <Text style={{fontSize: 22, marginBottom: 30}}>
+                  Past Services
                 </Text>
                 {this.props.bookedServices
-                  .map((item: TBookedServices) => {
-                    return <>
-                      <PastService service={item} />
-                      <View
-                        style={{ borderWidth: 1, opacity: 0.1, marginVertical: 12 }}
-                      />
-                    </>
+                  // Completed
+                  .filter((service) => service.status === 'C')
+                  .map((item: TBookedServices, i) => {
+                    return (
+                      <React.Fragment key={item.bookServiceId}>
+                        <PastService service={item} />
+                        {i !== this.props.bookedServices.length && (
+                          <View
+                            style={{
+                              borderWidth: 1,
+                              opacity: 0.1,
+                              marginVertical: 12,
+                            }}
+                          />
+                        )}
+                      </React.Fragment>
+                    );
                   })}
                 {/* <PastService />
                 <View
@@ -331,8 +370,9 @@ BookService.contextType = ThemeContext;
 export default connect(
   (store: TStore) => {
     return {
-      bookedServices: store['requestedServices']["bookedServices"],
-      onServiceCancelledStatus: store['requestedServices']["onServiceCancelledStatus"],
+      bookedServices: store['requestedServices']['bookedServices'],
+      onServiceCancelledStatus:
+        store['requestedServices']['onServiceCancelledStatus'],
       user: store['user'],
     };
   },
