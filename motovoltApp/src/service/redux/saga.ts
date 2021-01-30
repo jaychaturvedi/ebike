@@ -19,7 +19,8 @@ import * as Menu from './saga/menu';
 import * as SmartInspect from './saga/smartInspect';
 
 import * as Profile from './saga/profile';
-import * as BookService from './saga/book-a-service';
+import * as BookAService from './saga/book-a-service';
+import * as RSA from './saga/roadside-assistance';
 
 function* actionWatcher() {
     // BLE
@@ -65,7 +66,15 @@ function* actionWatcher() {
 
     yield takeLatest("BeginSmartInspection", SmartInspect.beginSmartInspection);
     yield takeLatest("SwitchEnvironment", Profile.switchEnvironment);
-}
+
+    yield takeLatest("GetBookedServices", BookAService.getBookedServices);
+    yield takeLatest("GetNearbyServiceProviders", BookAService.getNearbyServiceProviders);
+    yield takeLatest("GetBookingTimeSlot", BookAService.getBookingTimeSlot);
+    yield takeLatest("OnBookingService", BookAService.onBookingService);
+    yield takeLatest("OnCancelService", BookAService.onCancelBookingService);
+
+    yield takeLatest("GetRoadSideAssitance", RSA.getRoadSideAssitance);
+  }
 
 export default function* rootSaga() {
     yield all([actionWatcher()]);

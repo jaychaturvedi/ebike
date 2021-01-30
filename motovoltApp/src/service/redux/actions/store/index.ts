@@ -1,5 +1,7 @@
 import { BLEState, TPeripheral, PeripheralDisconnected } from "../../../ble";
-import { TAvailableServiceSlot, TPastBookedIssues, TServiceProviders, TSmartInspectReport } from "../../store";
+import { TAvailableServiceSlot, TPastBookedIssues, 
+  TBookedServices, TSmartInspectReport, TNearbyServiceProviders, 
+  TRoadSideAssistance } from "../../store";
 
 export type Store_UpdateUser = {
     type: "Store_UpdateUser",
@@ -319,32 +321,43 @@ export type Store_UpdateEnvironment = {
 }
 
 //////////request a service //////////
-export type StorePastBookedServices = {
-  type: "StorePastBookedServices",
+export type Store_PastBookedServices = {
+  type: "Store_PastBookedServices",
   payload: TPastBookedIssues[]
 }
 
-export type StoreServiceProviders = {
-  type: "StoreServiceProviders",
-  payload: TServiceProviders[]
+export type Store_BookedServices = {
+  type: "Store_BookedServices",
+  payload: TBookedServices[]
 }
 
-export type StoreAvailableTimeSlot = {
-  type: "StoreAvailableTimeSlot",
+export type Store_NearbyServiceProviders = {
+  type: "Store_NearbyServiceProviders",
+  payload: TNearbyServiceProviders[]
+}
+
+export type Store_AvailableTimeSlot = {
+  type: "Store_AvailableTimeSlot",
   payload: TAvailableServiceSlot[]
 }
 
-export type StoreOnBookingServiceStatus = {
-  type: "StoreOnBookingServiceStatus",
+export type Store_OnBookingServiceStatus = {
+  type: "Store_OnBookingServiceStatus",
   payload: {
     status:string
   }
 }
-export type StoreOnCancelServiceStatus = {
-  type: "StoreOnCancelServiceStatus",
+export type Store_OnCancelServiceStatus = {
+  type: "Store_OnCancelServiceStatus",
   payload: {
     status:string
   }
+}
+
+
+export type Store_RoadSideAssistance = {
+  type:"Store_RoadSideAssistance",
+  payload: TRoadSideAssistance
 }
 
 type Action = Store_UpdateUser
@@ -371,10 +384,12 @@ type Action = Store_UpdateUser
     | Store_SmartInspectionReport
     | Store_ResetNearByServices
     | Store_UpdateEnvironment
-    | StorePastBookedServices
-    | StoreServiceProviders
-    | StoreAvailableTimeSlot
-    | StoreOnBookingServiceStatus
-    | StoreOnCancelServiceStatus;
+    | Store_PastBookedServices
+    | Store_BookedServices
+    | Store_AvailableTimeSlot
+    | Store_OnBookingServiceStatus
+    | Store_OnCancelServiceStatus
+    | Store_NearbyServiceProviders
+    | Store_RoadSideAssistance;
 
 export default Action;

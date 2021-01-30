@@ -115,7 +115,7 @@ class CustomerServices extends React.PureComponent<Props, State> {
                         this.props.navigation.navigate('ReportAnIssue', {});
                         break;
                       case "Request a Service":
-                        this.props.navigation.navigate('RequestAService', {});
+                        this.props.navigation.navigate('BookAService', {});
                         break;
                       case "Roadside Assistance":
                         this.props.navigation.navigate('RoadAssistnceLanding', {});

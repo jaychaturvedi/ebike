@@ -183,45 +183,58 @@ export default (store: TStore = Store, params: Action): TStore => {
                 development: params.payload.development
               }
         }
-        case 'StoreServiceProviders':
+        case 'Store_NearbyServiceProviders':
           return {
             ...store,
-            requestedServices:{
+            requestedServices: {
               ...store.requestedServices,
               nearbyServiceProviders: params.payload
             }
           }
-        case 'StorePastBookedServices':
+        case 'Store_PastBookedServices':
           return {
             ...store,
-            requestedServices:{
+            requestedServices: {
               ...store.requestedServices,
               pastBookedService: params.payload
             }
           }
-        case 'StoreAvailableTimeSlot':
+        case 'Store_BookedServices':
           return {
             ...store,
-            requestedServices:{
+            requestedServices: {
+              ...store.requestedServices,
+              bookedServices: params.payload
+            }
+          }
+        case 'Store_AvailableTimeSlot':
+          return {
+            ...store,
+            requestedServices: {
               ...store.requestedServices,
               avilableServiceSlot: params.payload
             }
           }
-        case 'StoreOnBookingServiceStatus':
+        case 'Store_OnBookingServiceStatus':
           return {
             ...store,
-            requestedServices:{
+            requestedServices: {
               ...store.requestedServices,
               serviceBookedStatus: params.payload
             }
           }
-        case 'StoreOnCancelServiceStatus':
+        case 'Store_OnCancelServiceStatus':
           return {
             ...store,
-            requestedServices:{
+            requestedServices: {
               ...store.requestedServices,
               onServiceCancelledStatus: params.payload
             }
+          }
+        case 'Store_RoadSideAssistance':
+          return {
+            ...store,
+            roadSideAssistance: params.payload
           }
         default: return store;
     }

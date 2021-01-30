@@ -48,12 +48,15 @@ import {
 } from './profile';
 
 import {
-  GetBookingServiceProviders,
+  GetNearbyServiceProviders,
   GetBookingTimeSlot,
   GetPastIssuesList,
   OnBookingService,
-  OnCancelService
+  OnCancelService,
+  GetBookedServices
 } from './book-a-service';
+
+import {GetRoadSideAssitance } from "./roadside-actions"
 
 type Action = InitiateForgotPassword
     | InitiateMobileValidation
@@ -80,11 +83,13 @@ type Action = InitiateForgotPassword
     | BeginSmartInspection
     | TurnOnBLE
     | SwitchEnvironment
-    | GetBookingServiceProviders
+    | GetNearbyServiceProviders
     | GetBookingTimeSlot
     | GetPastIssuesList
     | OnBookingService
-    | OnCancelService;
+    | GetBookedServices
+    | OnCancelService
+    | GetRoadSideAssitance;
 
 
 export default Action;
@@ -116,9 +121,11 @@ export type {
     Speedometer,
     BeginSmartInspection,
     SwitchEnvironment,
-    GetBookingServiceProviders,
+    GetNearbyServiceProviders,
     GetBookingTimeSlot,
     GetPastIssuesList,
     OnBookingService,
-    OnCancelService
+    GetBookedServices,
+    OnCancelService,
+    GetRoadSideAssitance
 } 

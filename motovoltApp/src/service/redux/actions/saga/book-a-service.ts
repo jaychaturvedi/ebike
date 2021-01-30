@@ -1,21 +1,31 @@
-export type GetBookingServiceProviders = {
-  type: "GetBookedServiceList",
+export type GetBookedServices = {
+  type: "GetBookedServices",
   payload: {
       frameId:string
+  }
+}
+
+export type GetNearbyServiceProviders = {
+  type: "GetNearbyServiceProviders",
+  payload: {
+    lat: number,
+    lon: number,
+    type: string,
+    dist: number
   }
 }
 // Method : GET, /raisedIssueDetails?frameId=<>
 export type GetPastIssuesList = {
   type: "GetPastIssuesList",
   payload: {
-      frameId:string
+    frameId: string
   }
 }
 
 export type GetBookingTimeSlot = {
   type: "GetBookingTimeSlot",
   payload: {
-    slotGroupId : number
+    slotGroupId: number
   }
 }
 
@@ -32,7 +42,7 @@ export type OnBookingService = {
 export type OnCancelService = {
   type: "OnCancelService",
   payload: {
-    serviceId:number
+    serviceId: number
   }
 }
 

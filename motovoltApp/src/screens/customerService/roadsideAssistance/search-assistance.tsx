@@ -25,6 +25,8 @@ import Colors from '../../../styles/colors';
 import {
   UIActivityIndicator,
 } from 'react-native-indicators';
+import { GetRoadSideAssitance } from 'src/service/redux/actions/saga';
+import Geolocation from '@react-native-community/geolocation';
 
 type CustomerServiceNavigationProp = StackNavigationProp<
   CustomerServiceStackParamList,
@@ -32,6 +34,9 @@ type CustomerServiceNavigationProp = StackNavigationProp<
 >;
 
 interface ReduxState {
+  defaultBikeId: TStore['user']["defaultBikeId"],
+  roadSideAssistance: TStore['roadSideAssistance'],
+  getRoadSideAssitance: (params: GetRoadSideAssitance) => void,
 }
 
 interface Props extends ReduxState {
@@ -43,7 +48,7 @@ type State = {
   showSearch: boolean
 };
 
-class RoadAssistnceLanding extends React.PureComponent<Props, State> {
+class RoadAssistanceLanding extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -54,9 +59,9 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
   renderLoader = () => {
     return (
       <View style={styles.body}>
-        <RoadsideAssistanceIcon style={{ 
+        <RoadsideAssistanceIcon style={{
           // marginVertical: 10
-         }} />
+        }} />
         <Text
           style={{
             fontSize: 16,
@@ -75,7 +80,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
           size={40} />
         <Text
           style={{
-            fontSize: 16, 
+            fontSize: 16,
             textAlign: "center",
             color: "#5372FF",
             marginTop: 10
@@ -87,6 +92,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
       </View>
     )
   }
+
   renderSearch = () => {
     return (
       <View style={styles.body}>
@@ -94,8 +100,8 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
           type="FontAwesome"
           name="exclamation-circle"
           style={{
-            color: '#FF1F00', 
-            fontSize: 40, 
+            color: '#FF1F00',
+            fontSize: 40,
             // marginVertical: 10
           }}
         />
@@ -123,7 +129,7 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
         </Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={()=>this.props.navigation.navigate('NearByAssistance', {})}>
+          onPress={() => this.props.navigation.navigate('NearByAssistance', {})}>
           <Text style={{
             ...styles.buttonText,
             color: "#FFFFFF"
@@ -135,9 +141,37 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
     )
   }
 
-  componentDidMount(){
-    setTimeout(()=>{
-      this.setState({showSearch:true})
+  componentDidMount() {
+    Geolocation.getCurrentPosition(
+      (location) => {
+        console.warn(location.coords);
+        this.props.getRoadSideAssitance({
+          type: "GetRoadSideAssitance",
+          payload: {
+            description: "need to book a service",
+            dist: 5,
+            frameId: this.props.defaultBikeId,
+            lat: location.coords.latitude,
+            lon: location.coords.longitude
+          }
+        })
+      },
+      (error) => {
+        this.setState({
+        });
+      },
+    );
+    console.warn(this.props.roadSideAssistance)
+    setTimeout(() => {
+      if(this.props.roadSideAssistance.rsa_status==="success"){
+        this.props.navigation.replace("TrackAssistance", {})
+      }
+      if(this.props.roadSideAssistance.rsa_status==="abort"){
+        this.setState({ showSearch: true })
+      }
+      if(this.props.roadSideAssistance.st==="false"){
+        this.props.navigation.goBack()
+      }
     }, 2000)
   }
 
@@ -169,9 +203,21 @@ class RoadAssistnceLanding extends React.PureComponent<Props, State> {
   }
 }
 
-RoadAssistnceLanding.contextType = ThemeContext; //import theme in class as this.context
+RoadAssistanceLanding.contextType = ThemeContext; //import theme in class as this.context
 
-export default RoadAssistnceLanding
+export default connect(
+  (store: TStore) => {
+    return {
+      roadSideAssistance: store['roadSideAssistance'],
+      defaultBikeId: store['user']["defaultBikeId"],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
+      getRoadSideAssitance: (params: GetRoadSideAssitance) => dispatch(params),
+    };
+  },
+)(RoadAssistanceLanding);
 
 const styles = StyleSheet.create({
   // container: {
@@ -219,7 +265,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 },
     elevation: 3,
     height: moderateScale(300),
-    padding:40,
+    padding: 40,
     alignItems: 'center',
     marginTop: moderateScale(10),
   }

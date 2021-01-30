@@ -28,7 +28,7 @@ type CustomerServiceNavigationProp = StackNavigationProp<
 >;
 
 interface ReduxState {
-  ride: TStore['ride'];
+  roadSideAssistance: TStore['roadSideAssistance'];
 }
 
 interface Props extends ReduxState {
@@ -70,7 +70,7 @@ class TrackAssistance extends React.PureComponent<Props, State> {
           onBackClick={() => this.props.navigation.goBack()}
         />
         <View style={styles.map}>
-          {this.props.ride.path.length === 0 ? (
+          {this.props.roadSideAssistance.rsa.length === 0 ? (
             <View
               style={{
                 justifyContent: 'center',
@@ -79,7 +79,7 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                 height: '100%',
               }}>
               <Text>
-                {this.props.ride.isStale
+                {this.props.roadSideAssistance.isStale
                   ? LanguageSelector.t('gps.loading')
                   : LanguageSelector.t('gps.noDataAvailable')}
               </Text>
@@ -87,20 +87,20 @@ class TrackAssistance extends React.PureComponent<Props, State> {
           ) : (
               <Map
                 initialLocation={{
-                  latitude: this.props.ride.path.length
-                    ? this.props.ride.path[0].lat
+                  latitude: this.props.roadSideAssistance.rsa.length
+                    ? this.props.roadSideAssistance.rsa[0].lat
                     : 0,
-                  longitude: this.props.ride.path.length
-                    ? this.props.ride.path[0].long
+                  longitude: this.props.roadSideAssistance.rsa.length
+                    ? this.props.roadSideAssistance.rsa[0].lon
                     : 0,
                 }}
                 markerLocations={
-                  this.props.ride.path
+                  this.props.roadSideAssistance.rsa
                     .map((point, index, points) => {
                       if (index === 0) {
                         return {
                           latitude: point.lat,
-                          longitude: point.long,
+                          longitude: point.lon,
                           marker: (
                             <View
                               style={{
@@ -118,7 +118,7 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                       if (index === points.length - 1) {
                         return {
                           latitude: point.lat,
-                          longitude: point.long,
+                          longitude: point.lon,
                           marker: (
                             <View>
                               <Image
@@ -131,10 +131,10 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                     })
                     .filter((point) => point!) as any
                 }
-                pathLocations={this.props.ride.path.map((point) => {
+                pathLocations={this.props.roadSideAssistance.rsa.map((point) => {
                   return {
                     latitude: point.lat,
-                    longitude: point.long,
+                    longitude: point.lon,
                   };
                 })}
                 strokeColor="black"
@@ -145,68 +145,75 @@ class TrackAssistance extends React.PureComponent<Props, State> {
           <View style={{
             backgroundColor: "white",
             elevation: 3,
-            // height: 100,
+            shadowOpacity: 0.25,
+            shadowRadius: 1,
+            shadowColor: 'black',
+            shadowOffset: {height: 1, width: 1},
             flex: 1,
             marginBottom: 5,
             paddingHorizontal: 40,
             paddingVertical: 20,
           }}>
-            <View style={{
-              display: "flex",
-              flex: 1,
-              flexDirection: "row",
-            }}>
-              <View style={{ flex: 1, alignItems: "flex-start", marginTop: 5 }}>
-                <Image
-                  source={require('../../../assets/icons/rsa_service_icon.png')}
-                />
-              </View>
-              <View style={{
-                flex: 3,
-                display: "flex",
 
+            {this.props.roadSideAssistance.rsa.map((item)=>{
+              return <View style={{
+                display: "flex",
+                flex: 1,
+                flexDirection: "row",
               }}>
-                <View style={{
-                  justifyContent: "flex-start",
-                  alignItems: "flex-start",
-                  alignSelf: "flex-start"
-                }}>
-                  <Text style={{
-                    ...styles.address, color: "black"
-                  }}>
-                    {"Mr. Sundar M"}
-                  </Text>
-                  <Text style={{ color: "black", fontSize: 14 }} numberOfLines={1}>
-                    {"MotoVolt Approved RSA Engineer "}
-                  </Text>
-                  <Text style={{ color: "grey" }}>
-                    {"Expected arrival: 14 m"}
-                  </Text>
-                  <AirbnbRating
-                    count={5}
-                    defaultRating={3.9}
-                    size={moderateScale(20)}
-                    showRating={false}
-                    isDisabled={true}
-                    starStyle={{}}
-                    onFinishRating={() => { }}
+                <View style={{ flex: 1, alignItems: "flex-start", marginTop: 5 }}>
+                  <Image
+                    source={require('../../../assets/icons/rsa_service_icon.png')}
                   />
                 </View>
+                <View style={{
+                  flex: 3,
+                  display: "flex",
+  
+                }}>
+                  <View style={{
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    alignSelf: "flex-start"
+                  }}>
+                    <Text style={{
+                      ...styles.address, color: "black"
+                    }}>
+                      {item.StationName}
+                    </Text>
+                    <Text style={{ color: "black", fontSize: 14 }} numberOfLines={1}>
+                      {item.eng_status}
+                    </Text>
+                    <Text style={{ color: "grey" }}>
+                    Expected arrival:{" "}{item.expected_arrival}
+                    </Text>
+                    <AirbnbRating
+                      count={5}
+                      defaultRating={3.9}
+                      size={moderateScale(20)}
+                      showRating={false}
+                      isDisabled={true}
+                      starStyle={{}}
+                      onFinishRating={() => { }}
+                    />
+                  </View>
+                </View>
+                <View style={{ ...styles.icons, justifyContent: "space-between" }}>
+                <TouchableOpacity
+                    onPress={() => this.openDialScreen()}>
+                    <Image
+                      source={require('../../../assets/icons/cellphone_icon.png')}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    onPress={() => this.props.navigation.goBack()}
+                    style={{ color: "#5372FF" }}>
+                    {"cancel"}
+                  </Text>
+                </View>
               </View>
-              <View style={{ ...styles.icons, justifyContent: "space-between" }}>
-              <TouchableOpacity
-                  onPress={() => this.openDialScreen()}>
-                  <Image
-                    source={require('../../../assets/icons/cellphone_icon.png')}
-                  />
-                </TouchableOpacity>
-                <Text
-                  onPress={() => this.props.navigation.goBack()}
-                  style={{ color: "#5372FF" }}>
-                  {"cancel"}
-                </Text>
-              </View>
-            </View>
+            })}
+            
           </View>
         </ScrollView>
       </View>
@@ -216,10 +223,15 @@ class TrackAssistance extends React.PureComponent<Props, State> {
 
 TrackAssistance.contextType = ThemeContext; //import theme in class as this.context
 
+
 export default connect(
   (store: TStore): ReduxState => {
     return {
-      ride: store['ride'],
+      roadSideAssistance: store['roadSideAssistance'],
+    };
+  },
+  (dispatch: Dispatch) => {
+    return {
     };
   },
 )(TrackAssistance);

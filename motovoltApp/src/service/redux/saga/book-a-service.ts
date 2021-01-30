@@ -5,13 +5,13 @@ import {
 import * as BookServiceAction from "../actions/saga/book-a-service";
 import { config, request, yantraRequest } from "./utils";
 import {
-  StoreServiceProviders, StoreAvailableTimeSlot, StorePastBookedServices,
-  StoreOnBookingServiceStatus, StoreOnCancelServiceStatus, Store_UpdateError
+  Store_BookedServices, Store_AvailableTimeSlot, Store_PastBookedServices,
+  Store_OnBookingServiceStatus, Store_OnCancelServiceStatus, Store_UpdateError, Store_NearbyServiceProviders
 } from "../actions/store";
 import { UnknownError } from "../../server-error";
-import { TServiceProviders, TPastBookedIssues, TAvailableServiceSlot } from "../store";
+import { TBookedServices, TPastBookedIssues, TAvailableServiceSlot, TNearbyServiceProviders } from "../store";
 
-export interface yantraServiceProviderResponse {
+export interface yantraBookedServicesResponse {
   frame_id: string;
   book_service_id: number;
   status: string;
@@ -34,11 +34,45 @@ export interface yantraAvailableServiceSlot {
   slot_hour: number;
 }
 
-export function* getBookingServiceProviders(params: BookServiceAction.GetBookingServiceProviders) {
+export function* getNearbyServiceProviders(params: BookServiceAction.GetNearbyServiceProviders) {
+  try {
+    const dataResponse = yield yantraRequest(`${config.yantraBaseUrl}/yantra/getserprvbytypegeo`, "POST",
+      {
+        "lat": params.payload.lat,
+        "lon": params.payload.lon,
+        "type": params.payload.type,
+        "dist": params.payload.dist
+      });
+    if (dataResponse.success) {
+      const data: TNearbyServiceProviders[] = dataResponse.response.body
+      yield put({
+        type: "Store_NearbyServiceProviders",
+        payload: data
+      } as Store_NearbyServiceProviders);
+    } else {
+      yield put({
+        type: 'Store_UpdateError',
+        payload: {
+          error: UnknownError
+        }
+      } as Store_UpdateError)
+    }
+  } catch (error) {
+    console.log(error)
+    yield put({
+      type: 'Store_UpdateError',
+      payload: {
+        error: UnknownError
+      }
+    } as Store_UpdateError)
+  }
+}
+
+export function* getBookedServices(params: BookServiceAction.GetBookedServices) {
   try {
     const dataResponse = yield yantraRequest(`${config.yantraBaseUrl}/yantra/bookservicedetails?frame_id=${params.payload.frameId}`, "GET");
     if (dataResponse.success) {
-      const data: TServiceProviders[] = dataResponse.response.body.map((item: yantraServiceProviderResponse) => {
+      const data: TBookedServices[] = dataResponse.response.body.map((item: yantraBookedServicesResponse) => {
         return {
           frameId: item.frame_id,
           bookServiceId: item.book_service_id,
@@ -48,12 +82,12 @@ export function* getBookingServiceProviders(params: BookServiceAction.GetBooking
           serviceTypeName: item.service_type_name,
           serviceDate: item.service_date,
           serviceTypeId: item.service_type_id
-        } as TServiceProviders
+        } as TBookedServices
       });
       yield put({
-        type: "StoreServiceProviders",
+        type: "Store_BookedServices",
         payload: data
-      } as StoreServiceProviders);
+      } as Store_BookedServices);
     } else {
       yield put({
         type: 'Store_UpdateError',
@@ -87,9 +121,9 @@ export function* getPastIssuesList(params: BookServiceAction.GetPastIssuesList) 
         } as TPastBookedIssues
       });
       yield put({
-        type: "StorePastBookedServices",
+        type: "Store_PastBookedServices",
         payload: data
-      } as StorePastBookedServices);
+      } as Store_PastBookedServices);
       // Update redux with ride details
     } else {
       yield put({
@@ -114,16 +148,17 @@ export function* getBookingTimeSlot(params: BookServiceAction.GetBookingTimeSlot
   try {
     const dataResponse = yield yantraRequest(`${config.yantraBaseUrl}/yantra/slotdetails?slot_group_id=${params.payload.slotGroupId}`, "GET");
     if (dataResponse.success) {
-      const data: TAvailableServiceSlot[] = dataResponse.response.body.map((item: yantraAvailableServiceSlot) => {
+      const data: TAvailableServiceSlot[] = dataResponse.response.body
+      .map((item: yantraAvailableServiceSlot) => {
         return {
           slotHour: item.slot_hour,
           slotName: item.slot_name
         } as TAvailableServiceSlot
       });
       yield put({
-        type: "StoreAvailableTimeSlot",
+        type: "Store_AvailableTimeSlot",
         payload: data
-      } as StoreAvailableTimeSlot);
+      } as Store_AvailableTimeSlot);
       // Update redux with ride details
     } else {
       yield put({
@@ -146,8 +181,8 @@ export function* getBookingTimeSlot(params: BookServiceAction.GetBookingTimeSlot
 
 export function* onBookingService(params: BookServiceAction.OnBookingService) {
   try {
-    const dataResponse = yield yantraRequest(`${config.yantraBaseUrl}/yantra/bookservice`, 
-    "POST",
+    const dataResponse = yield yantraRequest(`${config.yantraBaseUrl}/yantra/bookservice`,
+      "POST",
       {
         "frame_id": params.payload.frameId,
         "service_provider_id": params.payload.serviceProviderId,
@@ -157,9 +192,9 @@ export function* onBookingService(params: BookServiceAction.OnBookingService) {
     if (dataResponse.success) {
       const data = dataResponse.response.body
       yield put({
-        type: "StoreOnBookingServiceStatus",
+        type: "Store_OnBookingServiceStatus",
         payload: data
-      } as StoreOnBookingServiceStatus);
+      } as Store_OnBookingServiceStatus);
       // Update redux with ride details
     } else {
       yield put({
@@ -186,9 +221,9 @@ export function* onCancelBookingService(params: BookServiceAction.OnCancelServic
     if (dataResponse.success) {
       const data = dataResponse.response.body
       yield put({
-        type: "StoreOnCancelServiceStatus",
+        type: "Store_OnCancelServiceStatus",
         payload: data
-      } as StoreOnCancelServiceStatus);
+      } as Store_OnCancelServiceStatus);
       // Update redux with ride details
     } else {
       yield put({
