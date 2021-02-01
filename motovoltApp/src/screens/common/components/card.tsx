@@ -64,7 +64,11 @@ export default function Card(props: {
                   <Icon
                     type="FontAwesome"
                     name={!expanded ? 'angle-down' : 'angle-up'}
-                    style={{marginRight: 6, fontSize: 17}}
+                    style={{
+                      marginRight: 6,
+                      fontSize: 17,
+                      color: 'rgba(0,0,0,0.4)',
+                    }}
                   />
                 </TouchableOpacity>
               ) : null}
@@ -88,7 +92,9 @@ export default function Card(props: {
         </View>
       </View>
       {props.bodyImage && expanded ? (
-        <View style={{marginTop: 8}}>{props.bodyImage}</View>
+        <View style={{marginTop: 8, width: '100%'}}>
+          {props.bodyImage}
+        </View>
       ) : null}
     </View>
   );

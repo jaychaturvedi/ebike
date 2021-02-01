@@ -300,7 +300,7 @@ class MoreMenu extends React.PureComponent<Props, State> {
           </View>
           <View>
             <Text style={styles.copyrightText}>
-              v{VersionNumber.appVersion} | © Copyright{' '}
+              V{VersionNumber.appVersion} | © Copyright{' '}
               {new Date().getFullYear()} | Motovolt Mobility Pvt Ltd.
             </Text>
           </View>

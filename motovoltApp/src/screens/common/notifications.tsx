@@ -147,7 +147,7 @@ class Notification extends React.PureComponent<Props, {}> {
             }}>
             {Object.keys(dayWise).map((date, dateIndex) => {
               return (
-                <View style={{marginVertical: 10, width: '100%'}}>
+                <View style={{marginBottom: 10, width: '100%'}}>
                   <View style={styles.day}>
                     <Text style={{color: 'rgba(0,0,0,0.4)'}}>
                       {date === today
@@ -164,7 +164,7 @@ class Notification extends React.PureComponent<Props, {}> {
                             payload: {},
                           })
                         }>
-                        <Text>Clear All</Text>
+                        <Text>Clear all</Text>
                       </TouchableOpacity>
                     ) : null}
                   </View>
@@ -222,14 +222,11 @@ class Notification extends React.PureComponent<Props, {}> {
                             bodyImage={
                               data.bodyImgUrl ? (
                                 <Image
-                                  width={width}
                                   height={width / 3}
                                   style={{
-                                    marginRight: 6,
                                     resizeMode: 'contain',
                                   }}
                                   source={{
-                                    width: width,
                                     height: width / 3,
                                     uri: data.bodyImgUrl,
                                   }}
