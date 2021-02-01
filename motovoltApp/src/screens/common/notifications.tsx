@@ -16,6 +16,7 @@ import Warning from '../../assets/svg/warning';
 import Card from '../../screens/common/components/card';
 import {ClearNotifications} from 'src/service/redux/actions/saga/notification-actions';
 import Moment from 'moment';
+import EmptyNotification from '../../assets/svg/empty_notification';
 
 const width = Dimensions.get('window').width;
 
@@ -125,12 +126,7 @@ class Notification extends React.PureComponent<Props, {}> {
               alignItems: 'center',
               flex: 1,
             }}>
-            <Image
-              source={require('../../assets/images/empty_notifications.png')}
-              style={{width: 82, height: 82, marginBottom: 54}}
-              width={82}
-              height={82}
-            />
+            <EmptyNotification style={{marginBottom: 54}} />
             <Text style={{fontSize: 23, fontWeight: '500'}}>
               {LanguageSelector.t('noNotifications')}
             </Text>
