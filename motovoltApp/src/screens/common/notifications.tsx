@@ -118,6 +118,7 @@ class Notification extends React.PureComponent<Props, {}> {
               },
             });
           }}
+          hideNotification
         />
         {isEmpty ? (
           <View
