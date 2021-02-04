@@ -13,6 +13,7 @@ import AvgSpeedIcon from '../assets/svg/Avg_speed';
 import RideDurationIcon from '../assets/svg/ride_duration';
 import StartTimeIcon from '../assets/svg/start_time';
 import EndTimeIcon from '../assets/svg/end_time';
+import RightArrowIcon from '../assets/svg/rides-right-arrow-icon';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
@@ -115,10 +116,7 @@ export default class RideCard extends React.PureComponent<Props, State> {
           </View>
           <View style={styles.rightContainer}>
             <View style={styles.rightArrow}>
-              <Icon
-                type="FontAwesome"
-                name="chevron-right"
-                style={styles.detailsIcon}></Icon>
+              <RightArrowIcon width={14} height={14}/>
             </View>
           </View>
         </View>

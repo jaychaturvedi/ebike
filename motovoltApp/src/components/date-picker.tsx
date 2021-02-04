@@ -4,6 +4,7 @@ import { Icon } from 'native-base'
 import { moderateScale } from 'react-native-size-matters'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Moment from 'moment';
+import DatePickerBottomIcon from '../assets/svg/date-picker-bottom-arrow';
 
 type State = {
     isVisible: boolean,
@@ -53,7 +54,7 @@ export default class RideDatePicker extends React.PureComponent<Props, State>{
                         onCancel={this.hideDatePicker}
                         maximumDate={this.props.maxDate || new Date()}
                     />
-                    <Icon type="FontAwesome" name="chevron-down" style={style.bottomIcon}></Icon>
+                    <DatePickerBottomIcon />
                 </TouchableOpacity>
             </View>
         )

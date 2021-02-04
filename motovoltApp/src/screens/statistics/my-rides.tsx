@@ -37,6 +37,8 @@ import LanguageSelector from '../../translations';
 import {ThemeContext} from '../../styles/theme/theme-context';
 import GreenMilesIcon from '../../assets/svg/green_miles_icon';
 import CO2SavingIcon from '../../assets/svg/CO2e_savings';
+import DatePickerLeftIcon from '../../assets/svg/date-picker-left-arrow';
+import DatePickerRightIcon from '../../assets/svg/date-picker-right-arrow';
 
 type ReduxState = {
   rides: TStore['rides'];
@@ -204,10 +206,7 @@ class MyRides extends React.PureComponent<Props, State> {
                   Moment(this.state.focusDate).add(-1, 'days').toDate(),
                 )
               }>
-              <Icon
-                type="FontAwesome"
-                name="chevron-left"
-                style={styles.icon}></Icon>
+              <DatePickerLeftIcon stroke={"#152F6A"}/>
             </TouchableOpacity>
             <View style={styles.datePicker}>
               <RideDatePicker
@@ -231,16 +230,7 @@ class MyRides extends React.PureComponent<Props, State> {
                   Moment(this.state.focusDate).add(1, 'days').toDate(),
                 );
               }}>
-              {
-                <Icon
-                  type="FontAwesome"
-                  name="chevron-right"
-                  style={{
-                    ...styles.icon,
-                    color: invalidNextDate ? '#868686' : 'black',
-                  }}
-                />
-              }
+              <DatePickerRightIcon stroke={invalidNextDate ? '#868686' : '#152F6A'}/>
             </TouchableOpacity>
           </View>
           {/* <RideMetric
