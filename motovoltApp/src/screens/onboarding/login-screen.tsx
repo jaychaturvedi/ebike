@@ -19,6 +19,7 @@ import {connect} from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import {signIn} from '../../service/api/authentication';
 import {MaterialIndicator} from 'react-native-indicators';
+import {Icon} from 'native-base';
 
 type ReduxState = {
   onboarding: TStore['onboarding'];
@@ -40,6 +41,7 @@ type State = {
   isValidPhone: boolean;
   isValidPassword: boolean;
   loading: boolean;
+  showPassword: boolean;
 };
 
 const styles = StyleSheet.create({
@@ -70,6 +72,7 @@ class Login extends React.PureComponent<Props, State> {
       isValidPhone: true,
       isValidPassword: true,
       loading: false,
+      showPassword: false
     };
   }
 
@@ -129,10 +132,15 @@ class Login extends React.PureComponent<Props, State> {
             this.setState({password: value, isValidPassword: true})
           }
           placeHolder="Password"
-          secure
+          secure={!this.state.showPassword}
           marginVeritical={verticalScale(InputMarginVeritical)}
-        />
-        <View style={{height: '5%', justifyContent: 'flex-end'}}>
+        >
+          <Icon active name={this.state.showPassword ? "eye" : "eye-off"} 
+            onPress={() => {
+              this.setState({ showPassword: !this.state.showPassword })
+          }} />
+        </Input>
+        <View style={{ height: '5%', justifyContent: 'flex-end' }}>
           <Text
             onPress={() => this.props.navigation.replace('ForgotPassword', {})}
             style={{

@@ -33,6 +33,7 @@ type Props = {
   hasPrefix?: boolean;
   prefix?: string;
   onChange?: (text: string) => void;
+  children?:any
 };
 
 export default (props: Props) => {
@@ -69,6 +70,7 @@ export default (props: Props) => {
         placeholderTextColor={Colors.BORDER_GREY}
         keyboardType={props.keyboardNumericType ? 'phone-pad' : undefined}
       />
+      {props.children}
     </View>
   );
 };
