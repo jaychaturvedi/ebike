@@ -74,11 +74,11 @@ class InspectionAborted extends React.PureComponent<Props, State> {
             }}>
               {LanguageSelector.t("smartInspection.smartInspectIsAbortedTitle")}
             </Text>
-            <Text style={{
+            {/* <Text style={{
               ...styles.bodyText, color: Theme.TEXT_WHITE, marginVertical:moderateScale(10)
             }}>
               {LanguageSelector.t("smartInspection.smartInspectIsAbortedSubTitle")}
-            </Text>
+            </Text> */}
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
