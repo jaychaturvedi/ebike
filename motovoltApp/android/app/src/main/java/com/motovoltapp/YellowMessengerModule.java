@@ -33,13 +33,13 @@ public class YellowMessengerModule extends ReactContextBaseJavaModule implements
     }
 
     @ReactMethod
-    public void initializeYM(String userID, String accessToken, String refreshToken, String mobileNumber,  String journeySlug, String userState) {
+    public void initializeYM(String botID, String accessToken, String refreshToken, String mobileNumber,  String journeySlug, String userState) {
         mConfigurations = new HashMap<>();
         mPayloadData = new HashMap<>();
         //Initialize the bot
         mYMBotPlugin =  YMBotPlugin.getInstance();
         Log.d("YellowMessengerModule", "******************************This is invoked now");
-        Log.d("YellowMessengerModule", "*****" + userID + ">>>" + accessToken + ">>>" + refreshToken + ">>>" + mobileNumber + ">>>" + journeySlug  + ">>>" + userState);
+        Log.d("YellowMessengerModule", "*****" + botID + ">>>" + accessToken + ">>>" + refreshToken + ">>>" + mobileNumber + ">>>" + journeySlug  + ">>>" + userState);
 
         //Configuration data
         String configData;
@@ -48,7 +48,7 @@ public class YellowMessengerModule extends ReactContextBaseJavaModule implements
         //Important
         mPayloadData.put("platform","Android-App");
 
-        mPayloadData.put("UserId",userID);
+        mPayloadData.put("UserId","");
         mPayloadData.put("access-token",accessToken);
         mPayloadData.put("refresh-token",refreshToken);
         mPayloadData.put("mobile-number",mobileNumber);
@@ -57,7 +57,7 @@ public class YellowMessengerModule extends ReactContextBaseJavaModule implements
         //You can add other payload attributes in the same format.
 
         //Setting Config data.
-        mConfigurations.put("botID", "1");
+        mConfigurations.put("botID", botID);
         mConfigurations.put("enableSpeech", "false");
         mConfigurations.put("enableHistory", "true");
         mConfigurations.put("actionBarColor", "blue");
