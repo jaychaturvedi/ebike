@@ -280,10 +280,10 @@
       "smartInspectionReport":"Smart Inspection Report",
       "overallHealth":"Overall Health",
       "beginInspection":"Begin Inspection",
-      "smartInspectSubTitle":"The smart inspection will be carried out based on the last 24 hours ride data available",
+      "smartInspectSubTitle":"The smart inspection will be carried out based on the available data from the past rides.",
       "inspectionInProgress":"Inspection in progress...",
       "smartInspectIsAborted":"Smart Inspect is aborted",
-      "smartInspectIsAbortedTitle":"There isn’t sufficient ride data available in the past 24 hours to carry out smart inspection.",
+      "smartInspectIsAbortedTitle":"We could not find required health data from your vehicle for past days. Please ride the vehicle after full charge for atleast 10Km and then retry.",
       "smartInspectIsAbortedSubTitle":"Would you like to carry out the inspection after you have completed few more rides or proceed using the available data from the past rides?",
       "proceed": "Proceed",
       "cancel":"Cancel"
