@@ -60,7 +60,7 @@ class CustomerServices extends React.PureComponent<Props, State> {
         // },
         {
           id:LanguageSelector.t('morePremium.support'),
-          feature: LanguageSelector.t('morePremium.support'),
+          feature: "Chat with us",
           icon: SupportIcon,
           onPress: () => console.log('Feature pressed'),
           premium: false,
