@@ -235,7 +235,7 @@ class BookService extends React.PureComponent<Props, State> {
                   .map((service) => (
                     <View style={{marginTop: 22}} key={service.bookServiceId}>
                       <ActiveService
-                        createDate={new Date(service.serviceDate)}
+                        createDate={service.serviceDate}
                         onCancel={() => {
                           this.props.onCancelService({
                             type: 'OnCancelService',
@@ -264,7 +264,7 @@ class BookService extends React.PureComponent<Props, State> {
                     return (
                       <React.Fragment key={item.bookServiceId}>
                         <PastService
-                          serviceDate={new Date(item.serviceDate)}
+                          serviceDate={item.serviceDate}
                           serviceType={item.serviceTypeName}
                         />
                         {i !== this.props.bookedServices.length && (

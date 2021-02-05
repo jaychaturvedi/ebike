@@ -5,7 +5,7 @@ import PastServiceIcon from '../../../../assets/svg/past-service';
 
 export default function PastService(props: {
   serviceType: string;
-  serviceDate: Date;
+  serviceDate: string;
 }) {
   return (
     <View

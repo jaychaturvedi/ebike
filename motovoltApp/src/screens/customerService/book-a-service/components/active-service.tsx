@@ -6,7 +6,7 @@ import Moment from 'moment';
 export default function ActiveIssue(props: {
   serviceCenterName: string;
   slot: string;
-  createDate: Date;
+  createDate: string;
   onCancel: () => void;
 }) {
   return (
