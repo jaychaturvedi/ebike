@@ -402,10 +402,6 @@ class NewService extends React.PureComponent<Props, State> {
           </View>
           {this.state.openStationDropdown ? (
             <ScrollView style={{flex: 1}}>
-              {this.state.loading
-              ?
-              <Text>Loading ...</Text>
-              :
               <View
                 style={{
                   backgroundColor: 'white',
@@ -428,7 +424,6 @@ class NewService extends React.PureComponent<Props, State> {
                   },
                 )}
               </View>
-              }
             </ScrollView>
           ) : (
             <View
