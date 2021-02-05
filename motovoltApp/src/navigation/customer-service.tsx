@@ -18,6 +18,8 @@ export type CustomerServiceStackParamList = {
 
   BookAService: {};
   BookNewService: {};
+
+  SupportService: {};
 };
 
 const CustomerService = createStackNavigator<CustomerServiceStackParamList>();

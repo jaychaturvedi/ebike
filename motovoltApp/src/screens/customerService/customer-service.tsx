@@ -15,6 +15,8 @@ import {ThemeContext} from '../../styles/theme/theme-context';
 import ReportAnIssueIcon from '../../assets/svg/report_an_issue';
 import RequestServiceIcon from '../../assets/svg/service_stations';
 import RoadsideAssistanceIcon from '../../assets/svg/roadside_assistance';
+import SupportIcon from '../../assets/svg/support_icon';
+import {mYellowMessengerModule} from '../../components/yellow-messenger';
 
 type CustomerServiceNavigationProp = StackNavigationProp<
   CustomerServiceStackParamList,
@@ -57,6 +59,13 @@ class CustomerServices extends React.PureComponent<Props, State> {
         //   numberOfLines: 2,
         // },
         {
+          id:LanguageSelector.t('morePremium.support'),
+          feature: LanguageSelector.t('morePremium.support'),
+          icon: SupportIcon,
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+        },
+        {
           id: 'REQUEST_SERVICE',
           feature: 'Request a',
           secondLine: 'Service',
@@ -83,7 +92,7 @@ class CustomerServices extends React.PureComponent<Props, State> {
         <Header
           hideNotification
           hasBackButton
-          title="Customer Service"
+          title={LanguageSelector.t('morePremium.support')}
           backgroundColor={Theme.HEADER_YELLOW}
           onBackClick={() => this.props.navigation.goBack()}
         />
@@ -111,6 +120,11 @@ class CustomerServices extends React.PureComponent<Props, State> {
                   badge={feature.badge}
                   onPress={() => {
                     switch (feature.id) {
+                      case LanguageSelector.t('morePremium.support'):
+                        // if (Platform.OS === 'android') {
+                        mYellowMessengerModule.invokeChatBot();
+                        // } else this.props.navigation.navigate('Support', {});
+                        break;
                       // case "Report an Issue":
                       //   this.props.navigation.navigate('ReportAnIssue', {});
                       //   break;

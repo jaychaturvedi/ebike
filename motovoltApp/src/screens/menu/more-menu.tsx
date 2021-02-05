@@ -151,13 +151,13 @@ class MoreMenu extends React.PureComponent<Props, State> {
           onPress: () => console.log('Smart pressed'),
           premium: false,
         },
-        {
-          feature: "Customer Service",
-          icon: RoadSide,
-          onPress: () => console.log('Feature pressed'),
-          premium: false,
-          numberOfLines:2
-        },
+        // {
+        //   feature: "Customer Service",
+        //   icon: RoadSide,
+        //   onPress: () => console.log('Feature pressed'),
+        //   premium: false,
+        //   numberOfLines:2
+        // },
         {
           feature: LanguageSelector.t('morePremium.logOut'),
           icon: LogoutIcon,
@@ -259,7 +259,8 @@ class MoreMenu extends React.PureComponent<Props, State> {
                       switch (feature.feature) {
                         case LanguageSelector.t('morePremium.support'):
                           // if (Platform.OS === 'android') {
-                          mYellowMessengerModule.invokeChatBot();
+                          this.props.navigation.navigate('CustomerServiceStack', {});
+                          // mYellowMessengerModule.invokeChatBot();
                           // } else this.props.navigation.navigate('Support', {});
                           break;
                         case LanguageSelector.t('morePremium.faqs'):
