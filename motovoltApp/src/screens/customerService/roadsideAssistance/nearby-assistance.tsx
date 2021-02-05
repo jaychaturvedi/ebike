@@ -111,7 +111,6 @@ class NearByAssistance extends React.PureComponent<Props, State> {
 
   render() {
     let Theme = this.context.theme; //load theme context
-    console.warn(this.props.roadSideAssistance)
     return (
       <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header

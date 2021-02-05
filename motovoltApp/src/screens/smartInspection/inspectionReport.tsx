@@ -50,7 +50,6 @@ interface ListReportProps {
 }
 class ListReport extends React.PureComponent<ListReportProps, {}>{
   render() {
-    // console.warn(this.props)
     return (
       <>
         <View style={{ height: 24 }} />

@@ -94,14 +94,13 @@ class NewService extends React.PureComponent<Props, State> {
   componentDidMount() {
     Geolocation.getCurrentPosition(
       (location) => {
-        console.warn(location.coords);
         this.props.getNearbyServiceProviders({
           type: 'GetNearbyServiceProviders',
           payload: {
-            // lat: location.coords.latitude,
-            // lon: location.coords.longitude,
-            lat: 12.8923272,
-            lon: 77.5963663,
+            lat: location.coords.latitude,
+            lon: location.coords.longitude,
+            // lat: 12.8923272,
+            // lon: 77.5963663,
             type: 'SW',
             dist: 4,
           },
@@ -114,7 +113,6 @@ class NewService extends React.PureComponent<Props, State> {
         });
       },
     );
-    console.warn(this.props.nearbyServiceProviders);
   }
 
   getTimeSlot() {

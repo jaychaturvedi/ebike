@@ -71,7 +71,6 @@ type State = {
 };
 
 // function PastService(props: {service: TBookedServices}) {
-//   console.warn(props);
 
 //   return (
 //     <View

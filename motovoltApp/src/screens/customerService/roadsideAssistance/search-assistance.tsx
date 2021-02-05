@@ -145,7 +145,6 @@ class RoadAssistanceLanding extends React.PureComponent<Props, State> {
   componentDidMount() {
     Geolocation.getCurrentPosition(
       (location) => {
-        console.warn(location.coords);
         this.props.getRoadSideAssitance({
           type: 'GetRoadSideAssitance',
           payload: {
@@ -161,7 +160,6 @@ class RoadAssistanceLanding extends React.PureComponent<Props, State> {
         this.setState({});
       },
     );
-    console.warn(this.props.roadSideAssistance);
     setTimeout(() => {
       if (this.props.roadSideAssistance.rsa_status === 'success') {
         this.props.navigation.replace('TrackAssistance', {});
