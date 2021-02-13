@@ -1,6 +1,6 @@
 {
   "name": "motovoltApp",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -26,6 +26,7 @@
     "@yudiedrialviska/react-native-timeline-listview": "^0.2.4",
     "amazon-cognito-identity-js": "^4.3.3",
     "aws-amplify": "^3.0.20",
+    "buffer": "^6.0.3",
     "i18n-js": "^3.7.1",
     "lodash.memoize": "^4.1.2",
     "moment": "^2.27.0",
