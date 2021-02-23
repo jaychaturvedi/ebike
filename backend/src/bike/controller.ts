@@ -17,12 +17,13 @@ export async function getMyBike(frameId: string) {
   const hltStat = result[0]?.hltStat||""
   const batStat = result[0]?.batStat||""
   const mtrStat = result[0]?.mtrStat||""
+  const url = result[0]?.url||""
   console.log(result);
-  
   return {
     bikeName, motorPer, batteryChargePer, batteryHealthPer, model, type,
     batteries: [{ id: batteryId }], vehicleId, serviceDate, warrantyValidTill, purchaseDate,
-    hltStat, batStat, mtrStat, chargingEta,chargingDist,batChargeCount 
+    hltStat, batStat, mtrStat, chargingEta,chargingDist,batChargeCount,
+    url
   }
 }
 
