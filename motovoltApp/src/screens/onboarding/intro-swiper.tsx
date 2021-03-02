@@ -67,12 +67,14 @@ export const getHeader = (
 //   </View>;
 // };
 
-export const getText = (text: string) => {
+export const getText = (text: string[]) => {
   return (
     <View style={styles.helpText}>
       <Text
         style={{fontSize: scale(24), fontWeight: 'bold', textAlign: 'center'}}>
-        {text}
+        {text.map((t, i) => (
+          <Text key={i.toString()}>{t}</Text>
+        ))}
       </Text>
     </View>
   );
@@ -119,7 +121,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                 style={{height: '84%', aspectRatio: 1.3}}
               />
             </View>
-            {getText('Drive Less, e-Cycle More!')}
+            {getText(['Drive Less, e-Cycle More!'])}
             {getFooter(() => {
               (this.refs.mySwiper as any).scrollBy(1);
             })}
@@ -145,7 +147,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                 style={{height: '100%', aspectRatio: 1}}
               />
             </View>
-            {getText('Remotely control and locate your cycle')}
+            {getText(['Remotely control and\n', 'locate your cycle'])}
             {getFooter(() => {
               (this.refs.mySwiper as any).scrollBy(1);
             })}
@@ -167,7 +169,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                 resizeMode="contain"
               />
             </View>
-            {getText('Analyse cycle statistics on your phone')}
+            {getText(['Analyse cycle statistics\n', 'on your phone'])}
             {getFooter(() => {
               (this.refs.mySwiper as any).scrollBy(1);
             })}
@@ -183,7 +185,7 @@ export default class IntroSwiper extends React.PureComponent<Props, State> {
                 style={{height: '100%', aspectRatio: 1.1}}
               />
             </View>
-            {getText('Gain Green Miles and earn exciting gifts!')}
+            {getText(['Gain Green Miles and\n', 'earn exciting gifts!'])}
             {/* {getFooter(() => { (this.refs.mySwiper as any).scrollBy(1) })} */}
             <View style={styles.register}>
               <View

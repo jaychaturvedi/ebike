@@ -8,24 +8,24 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import {moderateScale} from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import ProfileImage from '../../components/profile';
 import RideMetric from '../../components/ride-metric';
 import upgrade from '../../components/upgrade-premium';
 import Upgrade from '../../components/upgrade-premium';
 import Feature from '../../components/feature';
 import Header from '../home/components/header/index';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import {MenuStackParamList} from '../../navigation/menu';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {TStore} from '../../service/redux/store';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
-import {SignOut} from '../../service/redux/actions/saga/authentication-actions';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { MenuStackParamList } from '../../navigation/menu';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { SignOut } from '../../service/redux/actions/saga/authentication-actions';
 import LanguageSelector from '../../translations';
-import {ThemeContext} from '../../styles/theme/theme-context';
-import {mYellowMessengerModule} from '../../components/yellow-messenger';
+import { ThemeContext } from '../../styles/theme/theme-context';
+import { mYellowMessengerModule } from '../../components/yellow-messenger';
 import GreenMilesIcon from '../../assets/svg/green_miles_green_icon';
 import CaloriesRedIcon from '../../assets/svg/calories_red_icon';
 import FAQIcon from '../../assets/svg/faq_icon';
@@ -177,129 +177,131 @@ class MoreMenu extends React.PureComponent<Props, State> {
   render() {
     let Theme = this.context.theme; //load theme context
     return (
-      <View style={{...styles.container, backgroundColor: Theme.BACKGROUND}}>
+      <View style={{ ...styles.container, backgroundColor: Theme.BACKGROUND }}>
         <Header
           title={LanguageSelector.t('morePremium.more')}
           backgroundColor={Theme.HEADER_YELLOW} //change dark Theme
         />
-        <ScrollView style={{width: '100%'}}>
-          <View style={styles.profile}>
-            <ProfileImage />
-            <Text
-              style={{
-                fontSize: moderateScale(24),
-                fontWeight: 'bold',
-                paddingTop: moderateScale(10),
-                textAlign: 'center',
-                color: Theme.TEXT_WHITE,
-              }}>
-              {this.props.user.name}&nbsp;
+        <ScrollView style={{ width: '100%' }}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'space-between',
+            flexDirection: 'column'
+          }}
+        >
+          <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+            <View style={styles.profile}>
+              <ProfileImage />
               <Text
                 style={{
                   fontSize: moderateScale(24),
                   fontWeight: 'bold',
                   paddingTop: moderateScale(10),
                   textAlign: 'center',
-                }}
-                onPress={() => this.props.navigation.navigate('Profile', {})}>
-                {/* <Image
+                  color: Theme.TEXT_WHITE,
+                }}>
+                {this.props.user.name}&nbsp;
+              <Text
+                  style={{
+                    fontSize: moderateScale(24),
+                    fontWeight: 'bold',
+                    paddingTop: moderateScale(10),
+                    textAlign: 'center',
+                  }}
+                  onPress={() => this.props.navigation.navigate('Profile', {})}>
+                  {/* <Image
                   source={require('../../assets/icons/pencil-edit-button.png')}
                 /> */}
-                <PencilEditIcon />
+                  <PencilEditIcon />
+                </Text>
               </Text>
-            </Text>
-            <Text style={{textAlign: 'center', color: Theme.TEXT_WHITE}}>
-              {this.props.bike.modal}
-            </Text>
-          </View>
-          <View
-            style={{
-              ...styles.metric,
-              // backgroundColor: 'white', //change dark theme
-            }}>
-            <RideMetric
-              header1={LanguageSelector.t('morePremium.greenMiles')}
-              header2={LanguageSelector.t('morePremium.calories')}
-              unit1="Km"
-              unit2=""
-              icon1={GreenMilesIcon}
-              icon2={CaloriesRedIcon}
-              value1={String(this.props.bike.greenMilesKm)}
-              value2={String(this.props.bike.caloriesBurnt)}
-            />
-          </View>
-          <View
-            style={styles.upgrade}
+              <Text style={{ textAlign: 'center', color: Theme.TEXT_WHITE }}>
+                {this.props.bike.modal}
+              </Text>
+            </View>
+            <View
+              style={{
+                ...styles.metric,
+                // backgroundColor: 'white', //change dark theme
+              }}>
+              <RideMetric
+                header1={LanguageSelector.t('morePremium.greenMiles')}
+                header2={LanguageSelector.t('morePremium.calories')}
+                unit1="Km"
+                unit2=""
+                icon1={GreenMilesIcon}
+                icon2={CaloriesRedIcon}
+                value1={String(this.props.bike.greenMilesKm)}
+                value2={String(this.props.bike.caloriesBurnt)}
+              />
+            </View>
+            <View
+              style={styles.upgrade}
             // onPress={() => this.props.navigation.navigate('Upgrade', {})}>
-          >
-            <Upgrade />
-          </View>
-          <View
-            style={{
-              ...styles.features,
-              ...{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                alignContent: 'center',
-              },
-            }}>
-            {this.state.feature.map((feature, index: number) => {
-              return (
-                <View
-                  style={{
-                    width: '33.3%',
-                    alignItems: 'center',
-                  }}
-                  key={index}>
-                  <Feature
-                    feature={feature.feature}
-                    icon={feature.icon}
-                    badge={feature.badge}
-                    onPress={() => {
-                      switch (feature.feature) {
-                        case LanguageSelector.t('morePremium.support'):
-                          // if (Platform.OS === 'android') {
-                          this.props.navigation.navigate('CustomerServiceStack', {});
-                          // mYellowMessengerModule.invokeChatBot();
-                          // } else this.props.navigation.navigate('Support', {});
-                          break;
-                        case LanguageSelector.t('morePremium.faqs'):
-                          this.props.navigation.navigate('Faq', {});
-                          break;
-                        case LanguageSelector.t('morePremium.logOut'):
-                          this.props.logout({type: 'SignOut', payload: {}});
-                          break;
-                        case LanguageSelector.t('morePremium.language'):
-                          this.props.navigation.navigate('Language', {});
-                          break;
-                        case LanguageSelector.t('morePremium.serviceStation'):
-                          this.props.navigation.navigate('ServiceStation', {});
-                          return;
-                        // case "Theme":
-                        //   this.props.navigation.navigate('Theme', {});
-                        //   break;
-                        case LanguageSelector.t('morePremium.smartInspect'):
-                          this.props.navigation.navigate(
-                            'SmartInspectStack',
-                            {},
-                          );
-                          return;
-                        case "Customer Service":
-                          this.props.navigation.navigate('CustomerServiceStack', {});
-                          return;
-                        default:
-                          this.props.navigation.navigate('ComingSoon', {});
-                          break;
-                      }
+            >
+              <Upgrade />
+            </View>
+            <View
+              style={{
+                ...styles.features,
+                ...{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  alignContent: 'center',
+                },
+              }}>
+              {this.state.feature.map((feature, index: number) => {
+                return (
+                  <View
+                    style={{
+                      width: '33.3%',
+                      alignItems: 'center',
                     }}
-                    premium={feature.premium}
-                    numberOfLines={feature.numberOfLines}
-                  />
-                </View>
-              );
-            })}
+                    key={index}>
+                    <Feature
+                      feature={feature.feature}
+                      icon={feature.icon}
+                      badge={feature.badge}
+                      onPress={() => {
+                        switch (feature.feature) {
+                          case LanguageSelector.t('morePremium.support'):
+                            this.props.navigation.navigate('CustomerServiceStack', {});
+                            break;
+                          case LanguageSelector.t('morePremium.faqs'):
+                            this.props.navigation.navigate('Faq', {});
+                            break;
+                          case LanguageSelector.t('morePremium.logOut'):
+                            this.props.logout({ type: 'SignOut', payload: {} });
+                            break;
+                          case LanguageSelector.t('morePremium.language'):
+                            this.props.navigation.navigate('Language', {});
+                            break;
+                          case LanguageSelector.t('morePremium.serviceStation'):
+                            this.props.navigation.navigate('ServiceStation', {});
+                            return;
+                          // case "Theme":
+                          //   this.props.navigation.navigate('Theme', {});
+                          //   break;
+                          case LanguageSelector.t('morePremium.smartInspect'):
+                            this.props.navigation.navigate(
+                              'SmartInspectStack',
+                              {},
+                            );
+                            return;
+                          default:
+                            this.props.navigation.navigate('ComingSoon', {});
+                            break;
+                        }
+                      }}
+                      premium={feature.premium}
+                      numberOfLines={feature.numberOfLines}
+                    />
+                  </View>
+                );
+              })}
+            </View>
           </View>
-          <View>
+          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
             <Text style={styles.copyrightText}>
               V{VersionNumber.appVersion} | © Copyright{' '}
               {new Date().getFullYear()} | Motovolt Mobility Pvt Ltd.

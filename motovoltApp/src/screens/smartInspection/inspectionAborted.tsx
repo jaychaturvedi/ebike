@@ -18,12 +18,20 @@ import SmartInspectAbortedIcon from "../../assets/svg/smart_inspection_aborted";
 import { scale, verticalScale, moderateScale } from '../../styles/size-matters';
 import Colors from '../../styles/colors';
 import { SmartInspectStackParamList } from '../../navigation/smartInspection';
+import {ClearInspectionReport } from '../../service/redux/actions/saga';
+import { TStore } from '../../service/redux/store';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 type SmartInspectionNavigationProp = StackNavigationProp<
   SmartInspectStackParamList,
   'SmartInspectionAbort'
 >;
-interface Props {
+
+interface ReduxState {
+  clearInspectionReport: (params: ClearInspectionReport) => void,
+}
+interface Props extends ReduxState{
   navigation: SmartInspectionNavigationProp;
   route: RouteProp<SmartInspectStackParamList, 'SmartInspectionAbort'>
 }
@@ -39,11 +47,21 @@ class InspectionAborted extends React.PureComponent<Props, State> {
   }
 
   onPressProceed = () => {
-    this.props.navigation.replace("SmartInspectionReport",{})
+    this.props.navigation.replace("AbortInProgress",{})
   };
+
   onPressCancel = () => {
     this.props.navigation.replace("SmartInspection",{})
   };
+  
+  componentWillUnmount(){
+    this.props.clearInspectionReport({
+      type:"ClearInspectionReport",
+      payload:{
+        name: "smartInspectionReport"
+      }
+    })
+  }
 
   render() {
     let Theme = this.context.theme //load theme context
@@ -74,11 +92,11 @@ class InspectionAborted extends React.PureComponent<Props, State> {
             }}>
               {LanguageSelector.t("smartInspection.smartInspectIsAbortedTitle")}
             </Text>
-            {/* <Text style={{
+            <Text style={{
               ...styles.bodyText, color: Theme.TEXT_WHITE, marginVertical:moderateScale(10)
             }}>
               {LanguageSelector.t("smartInspection.smartInspectIsAbortedSubTitle")}
-            </Text> */}
+            </Text>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -110,8 +128,17 @@ class InspectionAborted extends React.PureComponent<Props, State> {
   }
 }
 InspectionAborted.contextType = ThemeContext
+export default connect(
+  (store: TStore) => {
+    return {};
+  },
+  (dispatch: Dispatch) => {
+    return {
+      clearInspectionReport: (params: ClearInspectionReport) => dispatch(params)
 
-export default InspectionAborted;
+    };
+  },
+)(InspectionAborted);
 
 const styles = StyleSheet.create({
   container: {
@@ -149,7 +176,6 @@ const styles = StyleSheet.create({
     marginVertical:moderateScale(20),
     marginHorizontal:moderateScale(50),
     justifyContent:"center",
-    
   },
   header: {
     height: moderateScale(20),
@@ -165,6 +191,7 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: scale(12),
     color: Colors.TEXT_WHITE,
-    textAlign: "center"
+    textAlign: "center",
+    opacity: 0.7
   },
 });

@@ -69,6 +69,8 @@ export default (props: Props) => {
         placeholder={props.placeHolder}
         placeholderTextColor={Colors.BORDER_GREY}
         keyboardType={props.keyboardNumericType ? 'phone-pad' : undefined}
+        autoCorrect={false}
+        spellCheck={false}
       />
       {props.children}
     </View>

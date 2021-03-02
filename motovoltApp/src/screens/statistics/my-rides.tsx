@@ -200,6 +200,11 @@ class MyRides extends React.PureComponent<Props, State> {
                 backgroundColor: 'white',
                 paddingRight: 4,
                 borderRadius: 20,
+                shadowOpacity: 0.25,
+                shadowRadius: 1,
+                shadowColor: 'black',
+                shadowOffset: { height: 1, width: 1 },
+                elevation: 3,
               }}
               onPress={() =>
                 this.setNewDate(
@@ -224,6 +229,11 @@ class MyRides extends React.PureComponent<Props, State> {
                 paddingLeft: 4,
                 backgroundColor: invalidNextDate ? '#E5E5E5' : 'white',
                 borderRadius: 20,
+                shadowOpacity: 0.25,
+                shadowRadius: 1,
+                shadowColor: 'black',
+                shadowOffset: { height: 1, width: 1 },
+                elevation: 3,
               }}
               onPress={() => {
                 this.setNewDate(
@@ -271,7 +281,7 @@ class MyRides extends React.PureComponent<Props, State> {
                 </Text>
                 <Text style={{
                   textAlign: 'center',
-                  fontWeight:"500",
+                  fontWeight:"bold",
                   fontSize: 12}}>
                   {Object.keys(this.props.graph.data).length > 0
                     ? this.props.graph.avgKmph
@@ -295,9 +305,8 @@ class MyRides extends React.PureComponent<Props, State> {
               </View>
 
               <View style={styles.verticalDivider}/>
-              
               <View>
-              <Text style={{ 
+              <Text style={{
                   textAlign: 'center',
                   fontSize: 12,
                   fontWeight:"400" }}>
@@ -305,7 +314,7 @@ class MyRides extends React.PureComponent<Props, State> {
                 </Text>
                 <Text style={{
                   textAlign: 'center',
-                  fontWeight:"500",
+                  fontWeight:"bold",
                   fontSize: 12}}>
                   {Object.keys(this.props.graph.data).length > 0
                     ? this.props.graph.avgSpeed

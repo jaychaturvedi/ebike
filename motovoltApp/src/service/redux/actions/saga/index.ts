@@ -40,7 +40,9 @@ import {
     ReadUpgrades
 } from './menu';
 import {
-    BeginSmartInspection
+    BeginSmartInspection,
+    BeginAbortInspection,
+    ClearInspectionReport
 } from './smartInspect-actions';
 
 import {
@@ -57,6 +59,8 @@ import {
 } from './book-a-service';
 
 import {GetRoadSideAssitance } from "./roadside-actions"
+import {GetReportIssueCategory, ReportAnIssue, CancelReportedIssue,
+  GetReportedIssues, GetIssueConversation } from "./report-issue-actions"
 
 type Action = InitiateForgotPassword
     | InitiateMobileValidation
@@ -81,6 +85,8 @@ type Action = InitiateForgotPassword
     | ReadFAQ
     | ReadUpgrades
     | BeginSmartInspection
+    | BeginAbortInspection
+    | ClearInspectionReport
     | TurnOnBLE
     | SwitchEnvironment
     | GetNearbyServiceProviders
@@ -89,8 +95,12 @@ type Action = InitiateForgotPassword
     | OnBookingService
     | GetBookedServices
     | OnCancelService
-    | GetRoadSideAssitance;
-
+    | GetRoadSideAssitance
+    | ReportAnIssue
+    | GetReportIssueCategory
+    | GetReportedIssues
+    | CancelReportedIssue
+    | GetIssueConversation;
 
 export default Action;
 
@@ -120,6 +130,8 @@ export type {
     ReadUpgrades,
     Speedometer,
     BeginSmartInspection,
+    BeginAbortInspection,
+    ClearInspectionReport,
     SwitchEnvironment,
     GetNearbyServiceProviders,
     GetBookingTimeSlot,
@@ -127,5 +139,10 @@ export type {
     OnBookingService,
     GetBookedServices,
     OnCancelService,
-    GetRoadSideAssitance
-} 
+    GetRoadSideAssitance,
+    ReportAnIssue,
+    GetReportIssueCategory,
+    GetReportedIssues,
+    CancelReportedIssue,
+    GetIssueConversation,
+}

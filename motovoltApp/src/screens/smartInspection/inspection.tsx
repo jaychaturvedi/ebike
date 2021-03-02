@@ -134,7 +134,8 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: scale(12),
     color: Colors.TEXT_WHITE,
-    textAlign: "center"
+    textAlign: "center",
+    opacity: 0.7
   },
 });
 Inspection.contextType = ThemeContext

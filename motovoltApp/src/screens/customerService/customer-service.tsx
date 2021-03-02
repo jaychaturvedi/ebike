@@ -51,13 +51,15 @@ class CustomerServices extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       feature: [
-        // {
-        //   feature: 'Report an Issue',
-        //   icon: ReportAnIssueIcon,
-        //   onPress: () => console.log('Feature pressed'),
-        //   premium: false,
-        //   numberOfLines: 2,
-        // },
+        {
+          id:"REPORT_ISSUE",
+          feature: 'Report an',
+          secondLine: 'Issue',
+          icon: ReportAnIssueIcon,
+          onPress: () => console.log('Feature pressed'),
+          premium: false,
+          // numberOfLines: 2,
+        },
         {
           id:LanguageSelector.t('morePremium.support'),
           feature: "Chat with us",
@@ -67,7 +69,7 @@ class CustomerServices extends React.PureComponent<Props, State> {
         },
         {
           id: 'REQUEST_SERVICE',
-          feature: 'Request a',
+          feature: 'Book a',
           secondLine: 'Service',
           icon: RequestServiceIcon,
           onPress: () => console.log('Feature pressed'),
@@ -102,7 +104,7 @@ class CustomerServices extends React.PureComponent<Props, State> {
             ...{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              alignContent: 'center',
+              // alignContent: 'center',
             },
           }}>
           {this.state.feature.map((feature, index: number) => {
@@ -125,9 +127,9 @@ class CustomerServices extends React.PureComponent<Props, State> {
                         mYellowMessengerModule.invokeChatBot();
                         // } else this.props.navigation.navigate('Support', {});
                         break;
-                      // case "Report an Issue":
-                      //   this.props.navigation.navigate('ReportAnIssue', {});
-                      //   break;
+                      case "REPORT_ISSUE":
+                        this.props.navigation.navigate('ReportAnIssue', {});
+                        break;
                       case 'REQUEST_SERVICE':
                         this.props.navigation.navigate('BookAService', {});
                         break;

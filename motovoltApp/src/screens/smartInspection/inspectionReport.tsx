@@ -20,9 +20,11 @@ import { SmartInspectStackParamList } from '../../navigation/smartInspection';
 import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { ClearInspectionReport } from '../../service/redux/actions/saga';
 
-type ReduxState = {
-  smartInspectReport: TStore['smartInspectReport']
+interface ReduxState {
+  smartInspectReport: TStore['smartInspectReport'],
+  clearInspectionReport: (params: ClearInspectionReport) => void,
 };
 
 type SmartInspectionNavigationProp = StackNavigationProp<
@@ -50,7 +52,7 @@ interface ListReportProps {
 }
 class ListReport extends React.PureComponent<ListReportProps, {}>{
   render() {
-    return (
+    return this.props?.listArray.length ? (
       <>
         <View style={{ height: 24 }} />
         <View
@@ -67,7 +69,7 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
             shadowRadius: 1,
             shadowColor: 'black',
             shadowOffset: { height: 1, width: 1 },
-            elevation: 1
+            // elevation: 3
           }}>
           <View style={{ height: 22, width: 22 }}>
             {this.props.icon}
@@ -83,7 +85,7 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
             </Text>
           </View>
         </View>
-        <View style={{ borderWidth: 0.8, opacity: 0.2, borderColor: "rgba(0, 0, 0, 0.1)" }} />
+        <View style={{ borderWidth: 0.5, opacity: 0.1, borderColor: "rgba(0, 0, 0, 0.1)" }} />
         <View
           style={{
             backgroundColor: 'white',
@@ -111,16 +113,17 @@ class ListReport extends React.PureComponent<ListReportProps, {}>{
                   <Text style={{ fontSize: 16, opacity: 0.7 }}>
                     {item.paramName}
                   </Text>
-                  {getIcon(item.status ? "Healthy" : "Unhealthy")}
+                  {getIcon(item.status ? "Healthy" : "Unhealthy", 20,
+                    item.paramName === "Charging" ? "Charge & Retry" : "Need Service")}
                 </View>
                 {(index !== this.props?.listArray?.length - 1) &&
-                  <View style={{ borderWidth: 0.5, opacity: 0.2 }} />}
+                  <View style={{ borderWidth: 0.5, opacity: 0.1 }} />}
               </>
             )
           })}
         </View>
       </>
-    )
+    ) : null
   }
 }
 
@@ -136,8 +139,25 @@ class InspectionReport extends React.PureComponent<Props, State> {
     this.setState({ refreshing: true });
     this.setState({ refreshing: false });
   }
+
+  componentWillUnmount() {
+    this.props.clearInspectionReport({
+      type: "ClearInspectionReport",
+      payload: {
+        name:"smartInspectionReport"
+      }
+    })
+    this.props.clearInspectionReport({
+      type: "ClearInspectionReport",
+      payload: {
+        name:"smartInspectionAbortedReport"
+      }
+    })
+  }
+
   render() {
     let Theme = this.context.theme; //load theme context
+    let smartInspectReport = this.props.route.params.data
     return (
       <View style={styles.container}>
         {/* <Background /> */}
@@ -159,7 +179,7 @@ class InspectionReport extends React.PureComponent<Props, State> {
           }>
           <View style={styles.metrics}>
             <View>
-              {this.props.smartInspectReport.overallHealth || this.props.smartInspectReport.isStale
+              {smartInspectReport.overallHealth || smartInspectReport.isStale
                 ? <View>
                   <View style={styles.overallHealth}>
                     <Text
@@ -170,7 +190,7 @@ class InspectionReport extends React.PureComponent<Props, State> {
                       numberOfLines={1}>
                       {"Overall Health"}
                     </Text>
-                    {getIcon(this.props.smartInspectReport.overallHealth ? "Healthy" : "Unhealthy")}
+                    {getIcon("Healthy", 26, "Need Service")}
                   </View>
 
                 </View>
@@ -190,19 +210,23 @@ class InspectionReport extends React.PureComponent<Props, State> {
                       numberOfLines={1}>
                       {"Overall Health"}
                     </Text>
-                    {getIcon(this.props.smartInspectReport.overallHealth ? "Healthy" : "Unhealthy")}
+                    {getIcon("Unhealthy", 26, "Need Service")}
                   </View>
-                  <View style={{ borderWidth: 0.8, opacity: 0.2 }} />
+                  <View style={{ borderWidth: 0.5, opacity: 0.1 }} />
                   <View style={{ alignItems: "flex-end", marginVertical: 10 }}>
                     <Text
                       style={{
                         fontSize: 18,
                         fontWeight: '500',
-                        color: "#5E6CAD"
+                        color: "#3C5BE8"
                       }}
-                      // onPress={() => { this.props.navigation.replace("SupportService", {}) }}
+                      onPress={() => {
+                        this.props.navigation.navigate("CustomerService", {
+                          screen: "ReportAnIssue"
+                        })
+                      }}
                       numberOfLines={1}>
-                      {"Book a Service  "}
+                      {"Report an Issue  "}
                       <Icon
                         type="FontAwesome"
                         name="chevron-right"
@@ -218,15 +242,15 @@ class InspectionReport extends React.PureComponent<Props, State> {
 
             <ListReport
               icon={<BatteryIcon width={22} height={22} />}
-              listArray={this.props.smartInspectReport.battery}
+              listArray={smartInspectReport.battery}
               title={"Battery"} />
             <ListReport
               icon={<MotorIcon width={22} height={22} />}
-              listArray={this.props.smartInspectReport.motor}
+              listArray={smartInspectReport.motor}
               title={"Motor"} />
             <ListReport
               icon={<SmartServicesIcon width={22} height={22} />}
-              listArray={this.props.smartInspectReport.smartServices}
+              listArray={smartInspectReport.smartServices}
               title={"Smart Services"} />
 
             <View style={{ height: 24 }} />
@@ -246,7 +270,11 @@ export default connect(
       smartInspectReport: store['smartInspectReport']
     };
   },
-  {}
+  (dispatch: Dispatch) => {
+    return {
+      clearInspectionReport: (params: ClearInspectionReport) => dispatch(params)
+    };
+  }
 )(InspectionReport)
 
 const styles = StyleSheet.create({
@@ -297,7 +325,7 @@ const styles = StyleSheet.create({
   }
 });
 
-function getIcon(status: string) {
+function getIcon(status: string, iconSize: number, text: string) {
   switch (status) {
     case 'Unhealthy':
       return (
@@ -306,11 +334,17 @@ function getIcon(status: string) {
             flexDirection: "row",
             alignItems: "center",
           }}>
-            <Text style={{ marginRight: 8 }}>{"Need service"}</Text>
+            <Text style={{
+              marginRight: 8,
+              fontSize: 16,
+              opacity: 0.7
+            }}>
+              {text}
+            </Text>
             <Icon
               type="FontAwesome"
               name="exclamation-circle"
-              style={{ color: '#FFA800' }}
+              style={{ color: '#FFA800', fontSize: iconSize }}
             />
           </View>
         </>
@@ -321,7 +355,7 @@ function getIcon(status: string) {
         <Icon
           type="FontAwesome"
           name="check-circle"
-          style={{ color: '#40A81B' }}
+          style={{ color: '#40A81B', fontSize: iconSize }}
         />
       );
   }

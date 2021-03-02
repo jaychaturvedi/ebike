@@ -74,15 +74,15 @@ export default class Card extends React.PureComponent<Props, State> {
     return (
       <View
         style={{...styles.container, backgroundColor: Theme.BACKGROUND_LIGHT}}>
-        <View style={styles.header}>
-          <Text style={{...styles.title, color: Theme.TEXT_WHITE}}>
-            {this.props.title}
-          </Text>
-          <TouchableOpacity
-            style={styles.button}
+        <TouchableOpacity style={styles.header}
             onPress={() => {
               this.setState({expanded: !this.state.expanded});
             }}>
+          <Text style={{...styles.title, color: Theme.TEXT_WHITE}}>
+            {this.props.title}
+          </Text>
+          <View
+            style={styles.button}>
             <Image
               source={
                 this.state.expanded
@@ -91,8 +91,8 @@ export default class Card extends React.PureComponent<Props, State> {
               }
               style={styles.image}
             />
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
         {this.state.expanded && (
           <Text style={{...styles.body, color: Theme.TEXT_WHITE}}>
             {this.props.description}

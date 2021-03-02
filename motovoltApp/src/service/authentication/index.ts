@@ -198,7 +198,7 @@ export function forgotPassword(username: string, code: string, password: string)
             await resetCredentials();
             return {
                 success: true,
-                message: "Password Reset Successfull"
+                message: "Password Reset Successful"
             }
         }).catch(err => {
             console.log(err)
@@ -221,6 +221,13 @@ export function signIn(username: string, password: string) {
         };
     }).catch(err => {
         console.log("Error", err);
+        if (err.code === "NotAuthorizedException") {
+            return {
+                message: err.message,
+                success: false,
+                user: null
+            }
+        }
         return {
             message: UnknownError,
             success: false,

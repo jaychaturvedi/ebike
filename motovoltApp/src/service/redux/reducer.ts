@@ -3,6 +3,7 @@ import Store, {
     ZeroUser, ZeroBLE, ZeroSpeedometer, ZeroGraph
 } from "./store";
 import Action from "./actions/store";
+import { reportIssue } from "./saga/service";
 
 export default (store: TStore = Store, params: Action): TStore => {
     console.log("Received", JSON.stringify(params), store)
@@ -175,6 +176,11 @@ export default (store: TStore = Store, params: Action): TStore => {
               ...store,
               smartInspectReport: params.payload.smartInspectReport
           }
+        case 'Store_SmartInspectionAbortedReport':
+          return {
+              ...store,
+              smartInspectAbortedReport: params.payload.smartInspectAbortedReport
+          }
         case 'Store_UpdateEnvironment':
           return {
               ...store,
@@ -235,6 +241,38 @@ export default (store: TStore = Store, params: Action): TStore => {
           return {
             ...store,
             roadSideAssistance: params.payload
+          }
+        case 'Store_ReportIssueCategory':
+          return {
+            ...store,
+            reportIssue:{
+              ...store.reportIssue,
+              issueCategory: params.payload
+            }
+          }
+        case 'Store_ReportIssueStatus':
+          return {
+            ...store,
+            reportIssue:{
+              ...store.reportIssue,
+              reportAnIssueStatus: params.payload.status
+            }
+          }
+        case 'Store_ReportedIssue':
+          return {
+            ...store,
+            reportIssue:{
+              ...store.reportIssue,
+              reportedIssues: params.payload
+            }
+          }
+        case 'Store_ReportedIssueConversation':
+          return {
+            ...store,
+            reportIssue:{
+              ...store.reportIssue,
+              issueConversation: params.payload
+            }
           }
         default: return store;
     }

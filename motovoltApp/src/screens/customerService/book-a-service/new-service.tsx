@@ -37,8 +37,10 @@ import {
   GetNearbyServiceProviders,
   GetBookingTimeSlot,
   OnBookingService,
+  GetBookedServices,
 } from 'src/service/redux/actions/saga';
 import Geolocation from '@react-native-community/geolocation';
+import { config, yantraRequest } from '../../../service/redux/saga/utils';
 
 interface ReduxState {
   avilableServiceSlot: TStore['requestedServices']['avilableServiceSlot'];
@@ -47,7 +49,7 @@ interface ReduxState {
   defaultBikeId: TStore['user']['defaultBikeId'];
   getBookingTimeSlot: (params: GetBookingTimeSlot) => void;
   getNearbyServiceProviders: (params: GetNearbyServiceProviders) => void;
-  onBookingNewService: (params: OnBookingService) => void;
+  getBookedServices: (params: GetBookedServices) => void;
 }
 interface Props extends ReduxState {
   navigation: CustomerServiceNavigationProp;
@@ -137,25 +139,39 @@ class NewService extends React.PureComponent<Props, State> {
     });
   };
 
-  confirmBooking = () => {
-    console.log(this.state);
-    this.props.onBookingNewService({
-      type: 'OnBookingService',
-      payload: {
-        frameId: this.props.defaultBikeId,
-        serviceDate: `${Moment(this.state.date).format('YYYY-MM-DD')}`,
-        serviceProviderId: this.state.selectedProviderId,
-        serviceTypeId: 18, //general service
-      },
+  onConfirmBooking = () => {
+    return new Promise((resolve, reject) => {
+      yantraRequest(`${config.yantraBaseUrl}/yantra/bookservice`,
+      "POST",
+      {
+        "frame_id": this.props.defaultBikeId,
+        "service_provider_id": this.state.selectedProviderId,
+        "service_type_id": 18,
+        "service_date":`${Moment(this.state.date).format('YYYY-MM-DD')}`
+      })
+        .then((dataResponse) => {
+          if (dataResponse.success) {
+            const data = dataResponse.response?.body
+            if (data.status === "OK") {
+              resolve("success")
+            }
+            else {
+              reject("fail")
+            }
+          } else reject("fail")
+        }).catch((e) => {
+          reject("fail")
+        });
     });
-    if (this.props.serviceBookedStatus.status === 'OK')
-      this.props.navigation.replace('BookAService', {});
-  };
+  }
 
   renderStationOptions = (
     id: number,
     serviceProvider: TNearbyServiceProviders,
   ) => {
+    if(serviceProvider.st=="false"){
+      return <Text>No service station available</Text>
+    }
     return (
       <TouchableOpacity
         style={{
@@ -203,7 +219,7 @@ class NewService extends React.PureComponent<Props, State> {
               style={{
                 ...styles.address,
                 color: 'black',
-                fontSize: 16,
+                opacity: 0.7
               }}
               numberOfLines={1}>
               {serviceProvider.stationName}
@@ -214,7 +230,11 @@ class NewService extends React.PureComponent<Props, State> {
               {`${serviceProvider.dist} km. ${serviceProvider.status}`}
             </Text>
             <Text
-              style={{color: 'black', fontSize: 14, marginTop: 6}}
+              style={{
+                color: 'black',
+                fontSize: 14,
+                opacity: 0.7,
+                marginTop: 6}}
               numberOfLines={1}>
               {`${serviceProvider.addressLine1}, ${serviceProvider.addressLine2}, ${serviceProvider.addressLine3}`}
             </Text>
@@ -277,9 +297,9 @@ class NewService extends React.PureComponent<Props, State> {
                   alignItems: 'center',
                 }}>
                 {this.state.date.length ? (
-                  <Text style={{fontSize: 18}}>{this.state.date}</Text>
+                  <Text style={{fontSize: 18, opacity: 0.6}}>{this.state.date}</Text>
                 ) : (
-                  <Text style={{fontSize: 18}}>Choose Date</Text>
+                  <Text style={{fontSize: 18, opacity: 0.6}}>Choose Date</Text>
                 )}
                 <DateIcon />
               </View>
@@ -316,12 +336,17 @@ class NewService extends React.PureComponent<Props, State> {
                           fontSize: 18,
                           color: 'black',
                           textAlign: 'left',
+                          opacity: 0.6
                         }}>
                         {this.state.selectedProviderName}
                       </Text>
                     </View>
                   ) : (
-                    <Text style={{fontSize: 18}}>Choose Service Station</Text>
+                    <Text style={{
+                      fontSize: 18,
+                      opacity: 0.6}}>
+                        Choose Service Station
+                      </Text>
                   )}
                 </View>
                 {this.state.serviceStationSelected && (
@@ -337,6 +362,7 @@ class NewService extends React.PureComponent<Props, State> {
                             style={{
                               fontSize: 18,
                               marginRight: 8,
+                              opacity: 0.6
                             }}>
                             {this.state.timeSlot.length
                               ? this.state.timeSlot
@@ -354,7 +380,8 @@ class NewService extends React.PureComponent<Props, State> {
                           padding: 20,
                           marginTop: 50,
                         }}>
-                        {this.props.avilableServiceSlot.map(
+                        {this.props.avilableServiceSlot.length &&
+                        this.props.avilableServiceSlot.map(
                           (slot: TAvailableServiceSlot, index: number) => {
                             const showDivider =
                               this.props.avilableServiceSlot.length - 1 !==
@@ -416,22 +443,36 @@ class NewService extends React.PureComponent<Props, State> {
                   paddingVertical: 20,
                   alignSelf: 'flex-end',
                 }}>
-                {this.props.nearbyServiceProviders.map(
+                {this.props.nearbyServiceProviders.length ? this.props.nearbyServiceProviders.map(
                   (item: TNearbyServiceProviders, index: number) => {
-                    return this.renderStationOptions(1, item);
+                    return this.renderStationOptions(index, item);
                   },
-                )}
+                ): null}
               </View>
             </ScrollView>
           ) : (
             <View
               style={{
+                display:"flex",
+                flexDirection:"row",
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginTop: 39,
+                marginTop: 62,
               }}>
               <Button
-                onPress={this.confirmBooking}
+                onPress={()=>{
+                  this.onConfirmBooking().then((status)=>{
+                    if(status==="success"){
+                      this.props.getBookedServices({
+                        type: 'GetBookedServices',
+                        payload: {
+                          frameId: this.props.defaultBikeId,
+                        },
+                      });
+                    }
+                    this.props.navigation.goBack();
+                  })
+                }}
                 disabled={
                   !(
                     this.state.serviceStationSelected &&
@@ -453,7 +494,11 @@ class NewService extends React.PureComponent<Props, State> {
                   borderRadius: 8,
                 }}>
                 <Text
-                  style={{fontSize: 20, fontWeight: '600', borderRadius: 5}}>
+                  style={{
+                    fontSize: 20,
+                    fontWeight: '600',
+                    textTransform:"capitalize",
+                    borderRadius: 5}}>
                   Confirm
                 </Text>
               </Button>
@@ -463,6 +508,9 @@ class NewService extends React.PureComponent<Props, State> {
         <DateTimePickerModal
           isVisible={this.state.showDatePicker}
           mode="date"
+          minimumDate={
+            Moment(new Date()).startOf('day').toDate()
+          }
           date={new Date(this.state.date || new Date())}
           onConfirm={this.onDatePick}
           onCancel={this.onDatePickerClose}
@@ -489,7 +537,7 @@ export default connect(
       getBookingTimeSlot: (params: GetBookingTimeSlot) => dispatch(params),
       getNearbyServiceProviders: (params: GetNearbyServiceProviders) =>
         dispatch(params),
-      onBookingNewService: (params: OnBookingService) => dispatch(params),
+      getBookedServices: (params: GetBookedServices) => dispatch(params),
     };
   },
 )(NewService);
@@ -500,6 +548,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     flexDirection: 'column',
     display: 'flex',
+    opacity: 0.7,
   },
   icons: {
     flex: 1,

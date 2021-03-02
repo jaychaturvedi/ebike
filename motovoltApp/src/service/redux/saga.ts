@@ -21,6 +21,7 @@ import * as SmartInspect from './saga/smartInspect';
 import * as Profile from './saga/profile';
 import * as BookAService from './saga/book-a-service';
 import * as RSA from './saga/roadside-assistance';
+import * as ReportIssue from './saga/report-issue';
 
 function* actionWatcher() {
     // BLE
@@ -65,6 +66,8 @@ function* actionWatcher() {
     yield takeLatest("ReadUpgrades", Menu.readUpgrades);
 
     yield takeLatest("BeginSmartInspection", SmartInspect.beginSmartInspection);
+    yield takeLatest("BeginAbortInspection", SmartInspect.beginAbortInspection);
+    yield takeLatest("ClearInspectionReport", SmartInspect.clearInspectionReport);
     yield takeLatest("SwitchEnvironment", Profile.switchEnvironment);
 
     yield takeLatest("GetBookedServices", BookAService.getBookedServices);
@@ -72,6 +75,12 @@ function* actionWatcher() {
     yield takeLatest("GetBookingTimeSlot", BookAService.getBookingTimeSlot);
     yield takeLatest("OnBookingService", BookAService.onBookingService);
     yield takeLatest("OnCancelService", BookAService.onCancelBookingService);
+
+    yield takeLatest("GetReportIssueCategory", ReportIssue.GetReportIssueCategory);
+    yield takeLatest("ReportAnIssue", ReportIssue.ReportAnIssue);
+    yield takeLatest("GetReportedIssues", ReportIssue.GetReportedIssues);
+    yield takeLatest("CancelReportedIssue", ReportIssue.CancelReportedIssue);
+    yield takeLatest("GetIssueConversation", ReportIssue.GetIssueConversation);
 
     yield takeLatest("GetRoadSideAssitance", RSA.getRoadSideAssitance);
   }

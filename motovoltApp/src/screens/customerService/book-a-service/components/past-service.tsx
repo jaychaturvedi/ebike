@@ -14,9 +14,12 @@ export default function PastService(props: {
         flexDirection: 'row',
         justifyContent: 'space-between',
       }}>
-      <Text style={{opacity: 0.6}}>{props.serviceType}</Text>
+      <Text style={{opacity: 0.6, fontSize: 16}}>{props.serviceType}</Text>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{marginRight: 20}}>
+        <Text style={{
+          marginRight: 20,
+          fontSize:16
+        }}>
           {Moment(props.serviceDate)
             .startOf('day')
             .format('DD MMM YYYY')
