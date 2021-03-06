@@ -8,13 +8,13 @@ globalAny.navigator = () => null
 const Amplify = require("@aws-amplify/core").default;
 const Auth = require("@aws-amplify/auth").default;
 
-const userPoolRegion = 'us-east-2'
-const userPoolID = 'us-east-2_4yqT9fdQs'//zelp_web_authentication
-const userPoolWebClientID = '3t0apcbmln1ns8gp970j0lqjvg'
+const userPoolRegion = process.env.REGION
+const userPoolID = process.env.WEBAPPUSERPOOLID//zelp_web_authentication
+const userPoolWebClientID = process.env.WEBAPPUSERPOOLWEBCLIENTID
 
 const accessKeyId = process.env.ACCESSKEYID
 const secretAccessKey = process.env.SECRETKEY
-const region = "us-east-2"
+const region = process.env.REGION
 
 // configure Amplify
 Amplify.configure({
