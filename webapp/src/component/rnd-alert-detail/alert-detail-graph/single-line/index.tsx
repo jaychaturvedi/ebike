@@ -11,9 +11,7 @@ const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
     const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
     const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
-    // console.log(moment(payload?.timeDate).format("DD/MM/YYYY hh:mm:ss"), "payyyyload",  moment(props.alertDate).format("DD/MM/YYYY hh:mm:ss"));
     if (TimeDate === AlertDate) {
-      console.log("notch",payload,props?.alertDate);
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />
@@ -113,6 +111,14 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
       const line = payload.filter((item: any) => { return item.dataKey === this.state.lineTooltipType })
       const localAlertTime = moment.utc(line[0]?.payload?.xAxisValue).local().format(formatType)
       if (line?.length === 0) return null
+      if(this.props.xAxisLabel === "No of Cycles") {
+        return (
+          <div className="custom-tooltip" style={style}>
+            <p className="label">{line[0]?.name} : {line[0]?.value}</p>
+            <p className="label">{this.props.xAxisLabel} : {`${line[0]?.payload?.xAxisValue}`}</p>
+          </div>
+        );
+      }
       return (
         <div className="custom-tooltip" style={style}>
           <p className="label">{line[0]?.name} : {line[0]?.value}</p>
@@ -128,7 +134,13 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
           <Typography.Text className="graph-header-text" strong>{this.props.title}</Typography.Text>
         </div>
         {/* <LineGraph/> */}
-        <div style={{ display: 'flex', justifyContent: 'center', height: '100%', width: '100%' }} className="alert-graph-container">
+        <div
+          className="alert-graph-container"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            height: '100%',
+            width: '100%' }} >
           <ResponsiveContainer width="95%" height="95%">
             <LineChart
               data={this.props.data}

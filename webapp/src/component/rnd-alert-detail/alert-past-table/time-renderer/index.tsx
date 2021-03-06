@@ -12,7 +12,6 @@ interface TimeRendererStates { }
 
 class TimeRenderer extends PureComponent<TimeRendererProps, TimeRendererStates> {
     render() {
-        // { console.log(this.props.text, this.props.record, this.props.index) }
         return (
             <span >
                 {formatTime(this.props.text)}

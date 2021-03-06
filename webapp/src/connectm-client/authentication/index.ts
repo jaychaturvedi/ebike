@@ -1,10 +1,12 @@
 import Amplify, { Auth, } from "aws-amplify";
+import * as dotenv from "dotenv"
+dotenv.config()
 
 Amplify.configure({
     Auth: {
-        region: "us-east-2",
-        userPoolId: "us-east-2_4yqT9fdQs",
-        userPoolWebClientId: "3t0apcbmln1ns8gp970j0lqjvg",
+        region: process.env.REACT_APP_REGION,
+        userPoolId: process.env.REACT_APP_WEBAPPUSERPOOLID,
+        userPoolWebClientId: process.env.REACT_APP_WEBAPPUSERPOOLWEBCLIENTID,
     }
 })
 
