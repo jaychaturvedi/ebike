@@ -144,7 +144,6 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
   }
 
   handleSort = (arr: any, sort: TSort) => {
-    // console.log("arr", arr, "sort", sort)
     if (!sort.fieldName) { return arr }
     let sortedData = arr.sort((a: any, b: any) => {
       return a['alertTime'].localeCompare(b['alertTime'])
@@ -194,7 +193,6 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
       }
     })
     // let alertTypeId: number
-    console.log("Selected rowID",selectedRow, Number(record.alertId),this.props.getAlertCleared())
     if( selectedRow === -1 && this.props.getAlertCleared()){
       this.props.setAlertCleared(true)
     }
@@ -231,7 +229,6 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
 
   setRowClassName = (record: TPastAlertData, index: any) => {
     if (record.alertGraph) {
-      // console.log("Selected rowID", Number(record.alertId), this.state.selectedRowId)
       return 'past-alert-selected-row'
     }
     return index % 2 === 0 ? 'table-row-light' : 'table-row-dark'

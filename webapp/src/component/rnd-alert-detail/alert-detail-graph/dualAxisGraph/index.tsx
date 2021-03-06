@@ -9,11 +9,9 @@ import moment from 'moment';
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    // console.log(payload?.timeDate, "payyload", moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss"));
     const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
     const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
     if (TimeDate === AlertDate) {
-      console.log("notch",payload?.xAxisValue,props?.alertDate);
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
                 <polygon points="6 2, 12 12, 0 12" />

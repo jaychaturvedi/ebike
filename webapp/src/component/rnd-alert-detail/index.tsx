@@ -61,7 +61,6 @@ class AlertDetail extends PureComponent<AlertDetailProps, AlertDetailStates> {
             })
         }
         state.alert = state.alert === undefined ? alertLimpData() : props.alerts[state.alertType][state.alertId]
-        // console.log("component rnd alert detail props & state",props.alerts, state);
         return state
     }
 

@@ -112,7 +112,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
   // }
 
   static getDerivedStateFromProps(props: RandDTrendsProps, state: RandDTrendsStates) {
-    // console.log("GET_ALERT_TRENDS props",state, props.alerts.activeAlertTab,props.trendsAlertType);
     if (state.alertType !==props.alerts.activeAlertTab || state.reload) {
       props.getAlertTrends({
         type: "GET_ALERT_TRENDS",
@@ -142,7 +141,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       })
     }
     state.zoom = props.trendsZoom
-    // console.log("component rnd trends props and states", props, state);
     return state
   }
 
@@ -185,7 +183,6 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
       !payload || this.state.lineTooltipType == "") return null;
     const line = payload?.filter((item: any) => { return item?.dataKey === this.state.lineTooltipType })
     if(line?.length == 0) return null
-    console.log(line);
     return (
       <div className="custom-tooltip" style={{...style, fontSize:10}}>
         <p className="label">{line[0]?.name} : <b>{line[0]?.value}</b></p>

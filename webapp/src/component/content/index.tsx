@@ -74,7 +74,6 @@ class Content extends PureComponent<ContentProp, ContentState>{
         return state
     }
     render() {
-        console.log("content ==>", this.state)
         return <>
             <Layout.Content className="web-content">
                 <WebHeader />

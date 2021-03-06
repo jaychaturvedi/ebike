@@ -31,11 +31,9 @@ export function* getSearchOptions(params: ISearchAction) {
 }
 
 async function fetchSearchOptions(params: ISearchAction) {
-    console.log("called trend saga");
     let response = [];
     response = await SearchOptions(params)
     const data: TSearchOptions[] = response
-    console.log(params.payload, 'in get search', data)
     return data
 }
 
@@ -47,7 +45,5 @@ async function SearchOptions(params: ISearchAction) {
             pageSize: params.payload.pageSize
         }, { headers: { 'Content-Type': 'application/json' } }
     )
-    console.log('in get searchoption', response.data)
-
     return response.data as TSearchOptions[]
 }

@@ -22,7 +22,6 @@ const RestrictedRoute = (props: {
   component: any;
   role: string
 }) => {
-  console.log("restricted routes", props)
   // When the user has logged in and still visiting login page.
   if (props.path === MainRoutes.LOGIN && props.authenticated) {
     return <Redirect to={RoleBasedMainRoutes(props.role)} />;
@@ -71,7 +70,6 @@ class App extends PureComponent<AppProp, AppState>{
           if (this.props.history.location.pathname !== MainRoutes.RESETPASSWORD)
             this.props.history.push("/login");
         }
-        console.log("move to login screen")
       })
   }
   static getDerivedStateFromProps(props: AppProp, state: AppState) {

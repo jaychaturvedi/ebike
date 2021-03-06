@@ -98,7 +98,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
       })
       state.dropdownFilters = props.dropdownFilters
       state.dropdownLoaded = true
-      console.log("component subheader states and props", state, props.dropdownFilters);
     }
     state.dropdownFilters=props.dropdownFilters
     const options = props.searchOptions
@@ -111,14 +110,12 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
       state.suggestions = mySearchSuggestions
     }
     else state.suggestions = []
-    console.log(state.suggestions, "my search options");
     return state
   }
     componentWillUnmount(){
       if(!this.state.allSelected) this.onReset()
     }
     handleVehicleClick = (e: any) => {
-        console.log('click', e);
         this.setState({
             selectedVehicle: e.key,
             // selectedCalender: "Time Frame",
@@ -156,11 +153,9 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
               value: String(e.key)
             }
         })
-        console.log('click', this.state.applyFilter);
     }
 
     handleDateClick = (e: any) => {
-        console.log('click', e);
         switch (e.key) {
             case "1": {
                 this.setState({
@@ -288,7 +283,7 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     onApplyFilter = () => {
         let filter: TFilter
         filter = this.state.applyFilter
-        console.log(this.state.searchFilter,"apply filter");
+        // console.log(this.state.searchFilter,"apply filter");
         const defaultPagination = {
           pageNumber: 1,
           pageSize: this.props.alerts.alertPagination[this.props.alerts.activeAlertTab].pageSize
@@ -415,7 +410,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
     }
 
     onSearch = (e: any) => {
-      console.log("search", e.target)
       this.setState(
           {
               ...this.state,
@@ -446,7 +440,6 @@ class SubHeader extends PureComponent<SubHeaderProps, SubHeaderStates> {
             value:value,
           }
         })
-        console.log(this.state.searchFilter);
     }
     // componentWillMount(){
     //   this.props.getDropdownFilters({

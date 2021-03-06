@@ -28,7 +28,6 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
   }
 
   static getDerivedStateFromProps(props: QuickSightProps, state: QuickSightState) {
-    console.log(props.location.search.split('=')[1], "props location");
     const filteredDashboard = "&VehicleID=" + localStorage.getItem("VehicleID")+
       "&FromDate=" + localStorage.getItem("FromDate") +
       "&ToDate=" + localStorage.getItem("ToDate")

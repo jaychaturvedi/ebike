@@ -210,7 +210,6 @@ async function getFilteredAlertDetailsRequest(params: IAlertActions) {
           }
         )
     }
-    console.log("my saga filter call", params.payload.searchFilter);
     return request
 }
 

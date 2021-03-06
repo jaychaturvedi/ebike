@@ -178,7 +178,6 @@ class SimpleMap extends React.PureComponent<MapProps, MapState> {
         }
       }
     )
-    console.log("get region", response.data);
     const { lat, lon } = response.data.body
     // if(this.props.mapMarkers.length > 0 && this.state.dataLoaded && lat && lon){
     this.setState({

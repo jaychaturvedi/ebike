@@ -20,7 +20,7 @@ export type TAlertsTrendData = {
 
 export function* getQuickSightUrl(params: IQuickSightAction) {
   try {
-    const data = yield call(getQuickSightEmbedUrl, params)
+    const data: string = yield call(getQuickSightEmbedUrl, params)
     yield put({
       type: "STORE_QUICKSIGHTURL",
       payload: {
@@ -44,7 +44,6 @@ export async function getQuickSightEmbedUrl(params: IQuickSightAction) {
       }
   }
   )
-  console.log("called quicksight saga", response);
   return response.data?.body.EmbedUrl as string
 }
 
@@ -54,6 +53,5 @@ export function* clearQuickSightUrl(params: IClearQuickSightAction) {
       type: "CLEAR_QUICKSIGHT_URL"
     } as Clear_QuickSightUrl)
   } catch (error) {
-    console.log("clear quicksight state error", error)
   }
 }
