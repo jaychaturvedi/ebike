@@ -123,7 +123,10 @@ export default class RideCard extends React.PureComponent<Props, State> {
         <View style={styles.footer}>
           <View style={styles.progressBar}>
             <ProgressBar progress={this.props.progress} />
-            <View style={{ flexDirection: 'row', justifyContent: "center" }}>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: "center",
+              marginTop:4 }}>
               <Icon
                 type="FontAwesome"
                 name="circle"
@@ -224,7 +227,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   footer: {
-    marginTop: verticalScale(0),
     height: "40%",
   },
   footerGroup: {

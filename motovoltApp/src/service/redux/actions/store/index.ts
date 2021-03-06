@@ -1,7 +1,8 @@
 import { BLEState, TPeripheral, PeripheralDisconnected } from "../../../ble";
 import { TAvailableServiceSlot, TPastBookedIssues, 
   TBookedServices, TSmartInspectReport, TNearbyServiceProviders, 
-  TRoadSideAssistance } from "../../store";
+  TRoadSideAssistance, 
+  TReportedIssueConversation} from "../../store";
 
 export type Store_UpdateUser = {
     type: "Store_UpdateUser",
@@ -311,6 +312,12 @@ export type Store_SmartInspectionReport = {
     smartInspectReport: TSmartInspectReport
   }
 }
+export type Store_SmartInspectionAbortedReport = {
+  type: "Store_SmartInspectionAbortedReport",
+  payload: {
+    smartInspectAbortedReport: TSmartInspectReport
+  }
+}
 
 export type Store_UpdateEnvironment = {
   type: "Store_UpdateEnvironment",
@@ -354,10 +361,37 @@ export type Store_OnCancelServiceStatus = {
   }
 }
 
-
 export type Store_RoadSideAssistance = {
   type:"Store_RoadSideAssistance",
   payload: TRoadSideAssistance
+}
+
+export type Store_ReportIssueCategory = {
+  type: 'Store_ReportIssueCategory',
+  payload: {
+    categoryId: number,
+    categoryName: string
+  }[]
+}
+export type Store_ReportIssueStatus = {
+  type: 'Store_ReportIssueStatus',
+  payload: {
+    status: string
+  }
+}
+export type Store_ReportedIssue = {
+  type: 'Store_ReportedIssue',
+  payload: {
+    frameId: string,
+    issueId: number,
+    status: string,
+    categoryName: string,
+    createdTime: string,
+  }[]
+}
+export type Store_ReportedIssueConversation = {
+  type: 'Store_ReportedIssueConversation',
+  payload: TReportedIssueConversation[]
 }
 
 type Action = Store_UpdateUser
@@ -382,6 +416,7 @@ type Action = Store_UpdateUser
     | Store_ResetStats
     | Store_SetNearByServices
     | Store_SmartInspectionReport
+    | Store_SmartInspectionAbortedReport
     | Store_ResetNearByServices
     | Store_UpdateEnvironment
     | Store_PastBookedServices
@@ -390,6 +425,10 @@ type Action = Store_UpdateUser
     | Store_OnBookingServiceStatus
     | Store_OnCancelServiceStatus
     | Store_NearbyServiceProviders
-    | Store_RoadSideAssistance;
+    | Store_RoadSideAssistance
+    | Store_ReportIssueCategory
+    | Store_ReportIssueStatus
+    | Store_ReportedIssue
+    | Store_ReportedIssueConversation;
 
 export default Action;

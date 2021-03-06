@@ -290,6 +290,33 @@ export interface TRequestServiceState {
   },
 }
 
+export interface TReportedIssueConversation {
+  raise_issue: RaiseIssue[]
+  type: string
+  created_time: string
+}
+
+export interface RaiseIssue {
+  text: string
+  type: string
+}
+
+export interface TReportIssue {
+  reportAnIssueStatus: string,
+  issueCategory: {
+    categoryId: number,
+    categoryName: string
+  }[],
+  reportedIssues: {
+    frameId: string,
+    issueId: number,
+    status: string,
+    categoryName: string,
+    createdTime: string,
+  }[],
+  issueConversation: TReportedIssueConversation[]
+}
+
 export const ZeroSmartInspectReport: TSmartInspectReport = {
   isStale: true,
   frameId: "",
@@ -449,12 +476,14 @@ export type TStore = {
   faq: TFAQ,
   upgrades: TUpgrades,
   smartInspectReport: TSmartInspectReport,
+  smartInspectAbortedReport: TSmartInspectReport,
   apiEnvironment: {
     production: boolean,
     development: boolean
   },
   requestedServices: TRequestServiceState,
-  roadSideAssistance: TRoadSideAssistance
+  roadSideAssistance: TRoadSideAssistance,
+  reportIssue: TReportIssue
 }
 
 const ZeroState: TStore = {
@@ -473,6 +502,7 @@ const ZeroState: TStore = {
   faq: {},
   upgrades: { upgrades: [] },
   smartInspectReport: ZeroSmartInspectReport,
+  smartInspectAbortedReport: ZeroSmartInspectReport,
   apiEnvironment: {
     production: true,
     development: false
@@ -489,7 +519,13 @@ const ZeroState: TStore = {
       status: ""
     }
   },
-  roadSideAssistance:ZeroRoadSideAssistance
+  roadSideAssistance:ZeroRoadSideAssistance,
+  reportIssue:{
+    issueCategory:[],
+    reportAnIssueStatus: "",
+    reportedIssues: [],
+    issueConversation: []
+  }
 };
 
 export function getZeroState() {

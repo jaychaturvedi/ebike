@@ -29,7 +29,10 @@ export default class Upgrade extends React.PureComponent<Props, State>{
                     }
                 </View>
                 <View style={styles.icon}>
-                    <Image source={this.props.icon} style={this.props.iconStyle} />
+                  <Image source={this.props.icon}
+                    style={this.props.iconStyle}
+                    resizeMode="contain"
+                  />
                 </View>
                 <View style={styles.helpText}>
                     <Text numberOfLines={1} style={{ fontSize: moderateScale(16), color: Theme.TEXT_WHITE }}>{this.props.feature}</Text>

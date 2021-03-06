@@ -65,7 +65,12 @@ const style = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 20,
         height: '100%',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        shadowOpacity: 0.25,
+        shadowRadius: 1,
+        shadowColor: 'black',
+        shadowOffset: { height: 1, width: 1 },
+        elevation: 3,
     },
     leftContainer: {
         width: '70%',
@@ -75,7 +80,7 @@ const style = StyleSheet.create({
     rightContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: '30%'
+        width: '30%',
     },
     bottomIcon: {
         fontSize: moderateScale(16),

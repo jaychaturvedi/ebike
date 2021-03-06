@@ -20,7 +20,9 @@ import { Dispatch } from 'redux';
 import Map from '../../../components/map';
 import LanguageSelector from '../../../translations';
 import { ThemeContext } from '../../../styles/theme/theme-context';
+import CellphoneIcon from '../../../assets/svg/cellphone-icon';
 import { AirbnbRating, Rating } from 'react-native-ratings'
+import { Button } from 'native-base';
 
 type CustomerServiceNavigationProp = StackNavigationProp<
   CustomerServiceStackParamList,
@@ -78,10 +80,14 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                 width: '100%',
                 height: '100%',
               }}>
-              <Text>
+              <Text
+              numberOfLines={3}
+              style={{
+                textAlign:"center"
+              }}>
                 {this.props.roadSideAssistance.isStale
                   ? LanguageSelector.t('gps.loading')
-                  : LanguageSelector.t('gps.noDataAvailable')}
+                  : `Sorry! We are unable to find assistance at your location for the moment Please contact our customer care for further help.`}
               </Text>
             </View>
           ) : (
@@ -166,11 +172,7 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                     source={require('../../../assets/icons/rsa_service_icon.png')}
                   />
                 </View>
-                <View style={{
-                  flex: 3,
-                  display: "flex",
-  
-                }}>
+                <View style={styles.textarea}>
                   <View style={{
                     justifyContent: "flex-start",
                     alignItems: "flex-start",
@@ -181,35 +183,51 @@ class TrackAssistance extends React.PureComponent<Props, State> {
                     }}>
                       {item.StationName}
                     </Text>
-                    <Text style={{ color: "black", fontSize: 14 }} numberOfLines={1}>
-                      {item.eng_status}
+                    <Text
+                      style={{
+                        color: "black",
+                        fontSize: 14,
+                        opacity: 0.6
+                      }}
+                      numberOfLines={1}>
+                      {item.engineer_name}
+                    </Text>
+                    <Text style={{
+                      color: "black",
+                      fontSize: 14 ,
+                      marginTop: 8}}
+                      numberOfLines={1}>
+                      Status: {item.eng_status}
                     </Text>
                     <Text style={{ color: "grey" }}>
-                    Expected arrival:{" "}{item.expected_arrival}
+                      Expected arrival:{" "}{item.expected_arrival}
                     </Text>
-                    {/* <AirbnbRating
-                      count={5}
-                      defaultRating={3.9}
-                      size={moderateScale(20)}
-                      showRating={false}
-                      isDisabled={true}
-                      starStyle={{}}
-                      onFinishRating={() => { }}
-                    /> */}
                   </View>
                 </View>
                 <View style={{ ...styles.icons, justifyContent: "space-between" }}>
-                <TouchableOpacity
-                    onPress={() => this.openDialScreen()}>
-                    <Image
-                      source={require('../../../assets/icons/cellphone_icon.png')}
-                    />
+                  <TouchableOpacity
+                      onPress={() => this.openDialScreen()}>
+                      <CellphoneIcon />
                   </TouchableOpacity>
-                  <Text
+                  {/* <Text
                     onPress={() => this.props.navigation.goBack()}
                     style={{ color: "#5372FF" }}>
                     {"Cancel"}
-                  </Text>
+                  </Text> */}
+                  <Button
+                    style={styles.cancelButton}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        textAlign: 'center',
+                        color: 'white',
+                        fontWeight: "bold",
+                      }}
+                      onPress={() => this.props.navigation.goBack()}
+                      numberOfLines={1}>
+                      {'Cancel'}
+                    </Text>
+                  </Button>
                 </View>
               </View>
             })}
@@ -242,6 +260,10 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#F0F0F0',
   },
+  textarea:{
+    flex: 3,
+    display: "flex",
+  },
   map: {
     height: '60%',
     backgroundColor: 'white',
@@ -255,10 +277,19 @@ const styles = StyleSheet.create({
     display: "flex"
   },
   icons: {
-    flex: 1,
+    flex: 2,
     alignItems: "flex-end",
     justifyContent: "flex-start",
     marginTop: 5
+  },
+  cancelButton:{
+    backgroundColor: "#31497C",
+    marginTop: 10,
+    // paddingHorizontal: 24,
+    width: 80,
+    borderRadius: 4,
+    alignSelf: "flex-end",
+    justifyContent: "center"
   }
 });
 

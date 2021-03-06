@@ -1,21 +1,28 @@
-import * as React from 'react';
-import Svg, {SvgProps, Rect, Path} from 'react-native-svg';
+import * as React from "react"
+import Svg, { SvgProps, Rect, Path, Circle } from "react-native-svg"
 
 function SvgComponent(props: SvgProps) {
   return (
-    <Svg width={19} height={22} viewBox="0 0 19 22" fill="none" {...props}>
+    <Svg
+      width={44}
+      height={44}
+      viewBox="0 0 44 44"
+      fill="none"
+      {...props}
+    >
       <Rect
-        x={1}
-        y={1}
+        x={14}
+        y={12}
         width={17}
         height={20}
         rx={1}
         stroke="#5372FF"
         strokeWidth={2}
       />
-      <Path stroke="#5372FF" strokeWidth={2} d="M4 6h11M4 11h11M4 16h11" />
+      <Path stroke="#5372FF" strokeWidth={2} d="M17 17h11M17 22h11M17 27h11" />
+      {/* <Circle cx={22} cy={22} r={22} fill="#000" fillOpacity={0.1} /> */}
     </Svg>
-  );
+  )
 }
 
-export default SvgComponent;
+export default SvgComponent

@@ -11,6 +11,7 @@ const objectid = require('react-native-bson/lib/bson/objectid');
 import {Dispatch} from 'redux';
 import {Store_UpdateNotification} from 'src/service/redux/actions/store';
 import {ThemeContext} from '../../../../styles/theme/theme-context';
+import Notification from '../../../../assets/svg/notification';
 interface ReduxState {
   notifications: TStore['notifications'];
   bike: TStore['bike'];
@@ -77,7 +78,12 @@ class CHeader extends React.PureComponent<Props, {}> {
               )}
             </View>
           </View>
-          <View style={{width: '30%', flexDirection: "row", justifyContent:"flex-end"}}>
+          <View
+            style={{
+              width: '30%',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+            }}>
             {/* {!this.props.hidePromo && (
               <Button transparent onPress={this.props.onPromotionClick}>
                 {this.props.hasPromoNotification && <Badge />}
@@ -112,10 +118,11 @@ class CHeader extends React.PureComponent<Props, {}> {
                   })
                 }>
                 {this.props.notifications.isPresent && <Badge />}
-                <Image
+                {/* <Image
                   source={require('../../../../assets/icons/notification.png')}
                   style={styles.rightIcon}
-                />
+                /> */}
+                <Notification style={styles.rightIcon}/>
               </Button>
             )}
           </View>
@@ -159,5 +166,5 @@ const styles = StyleSheet.create({
   },
   title: {fontSize: 20, fontWeight: 'bold', color: Colors.BLACK},
   subtitle: {fontSize: 12, fontWeight: 'normal', color: Colors.BLACK},
-  rightIcon: {width: scale(26), height: scale(26), position:"relative"},
+  rightIcon: {width: scale(26), height: scale(26), position: 'relative'},
 });

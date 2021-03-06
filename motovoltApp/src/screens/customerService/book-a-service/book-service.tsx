@@ -35,6 +35,7 @@ import RequestServiceIcon from '../../../assets/svg/service_stations';
 import DragHandle from './components/drag-handle';
 import ActiveService from './components/active-service';
 import PastService from './components/past-service';
+import { config, yantraRequest } from '../../../service/redux/saga/utils';
 
 interface ReduxState {
   bookedServices: TStore['requestedServices']['bookedServices'];
@@ -124,6 +125,24 @@ class BookService extends React.PureComponent<Props, State> {
     }
   }
 
+  cancelAService = (serviceId: any) => {
+    return new Promise((resolve, reject) => {
+      yantraRequest(`${config.yantraBaseUrl}/yantra/cancelbookservice?serviceId=${serviceId}`, "GET")
+        .then((dataResponse) => {
+          if (dataResponse.success) {
+            const data = dataResponse.response?.body
+            if (data.status === "OK") {
+              resolve("success")
+            }
+            else {
+              reject("fail")
+            }
+          } else reject("fail")
+        }).catch((e) => {
+          reject("fail")
+        });
+    });
+  }
   render() {
     const config = {
       velocityThreshold: 0.3,
@@ -151,7 +170,9 @@ class BookService extends React.PureComponent<Props, State> {
                     display: 'flex',
                     flexDirection: 'row',
                   }}>
-                  <Text style={{marginRight: 8}}>
+                  <Text style={{
+                    marginRight: 8,
+                    opacity: 0.7}}>
                     {this.props.user.defaultBikeId}
                   </Text>
                   <Icon
@@ -161,10 +182,17 @@ class BookService extends React.PureComponent<Props, State> {
                   />
                 </View>
               </MenuTrigger>
-              <MenuOptions optionsContainerStyle={{padding: 20}}>
+              <MenuOptions
+                optionsContainerStyle={{
+                  padding: 10,
+                  width:160}}>
                 <MenuOption onSelect={() => {}}>
                   <Text
-                    style={{fontSize: 18, fontWeight: '500', opacity: 0.67}}>
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      opacity: 0.67,
+                      textAlign: "center"}}>
                     {this.props.user.defaultBikeId}
                   </Text>
                 </MenuOption>
@@ -184,7 +212,7 @@ class BookService extends React.PureComponent<Props, State> {
             />
           </View>
           <AddReport
-            onPress={() => this.props.navigation.replace('BookNewService', {})}
+            onPress={() => this.props.navigation.navigate('BookNewService', {})}
             style={{
               width: 68,
               height: 68,
@@ -217,29 +245,41 @@ class BookService extends React.PureComponent<Props, State> {
                 <DragHandle />
               </TouchableOpacity>
             </GestureRecognizer>
-            <ScrollView style={{backgroundColor: '#E5E5E5'}}>
+            <ScrollView style={{backgroundColor: 'white'}}>
+                <Text style={{
+                  color: 'black',
+                  fontSize: 18,
+                  fontWeight:"bold",
+                  paddingVertical: 12,
+                  paddingHorizontal: 24,
+                }}>
+                  Active Service Booking
+                </Text>
               <View
                 style={{
                   width: '100%',
-                  backgroundColor: '#5372FF',
+                  backgroundColor: '#3C5BE8',
                   paddingHorizontal: 24,
                   paddingVertical: 12,
                 }}>
-                <Text style={{color: 'white', fontSize: 22}}>
-                  Active Service Booking
-                </Text>
                 {this.props.bookedServices
                   // Completed
                   .filter((service) => service.status === 'A')
                   .map((service) => (
-                    <View style={{marginTop: 22}} key={service.bookServiceId}>
+                    <View style={{}} key={service.bookServiceId}>
                       <ActiveService
                         createDate={service.serviceDate}
                         onCancel={() => {
-                          this.props.onCancelService({
-                            type: 'OnCancelService',
-                            payload: {serviceId: service.bookServiceId},
-                          });
+                          this.cancelAService(service.bookServiceId).then((status) => {
+                            if (status === "success") {
+                              this.props.getBookedServices({
+                                type: 'GetBookedServices',
+                                payload: {
+                                  frameId: this.props.user.defaultBikeId,
+                                },
+                              });
+                            }
+                          })
                         }}
                         serviceCenterName={service.serviceProviderName}
                         slot={service.serviceDate}
@@ -253,7 +293,10 @@ class BookService extends React.PureComponent<Props, State> {
                   paddingVertical: 12,
                   width: '100%',
                 }}>
-                <Text style={{fontSize: 22, marginBottom: 30}}>
+                <Text style={{
+                  fontSize: 18,
+                  fontWeight:"bold",
+                  marginBottom: 30}}>
                   Past Services
                 </Text>
                 {this.props.bookedServices

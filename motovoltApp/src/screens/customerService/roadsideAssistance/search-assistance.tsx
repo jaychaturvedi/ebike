@@ -15,7 +15,7 @@ import {ThemeContext} from '../../../styles/theme/theme-context';
 import ReportAnIssueIcon from '../../../assets/svg/report_an_issue';
 import RequestServiceIcon from '../../../assets/svg/service_stations';
 import RoadsideAssistanceIcon from '../../../assets/svg/roadside_assistance';
-import {Icon} from 'native-base';
+import {Button, Icon} from 'native-base';
 import Colors from '../../../styles/colors';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {GetRoadSideAssitance} from 'src/service/redux/actions/saga';
@@ -68,7 +68,7 @@ class RoadAssistanceLanding extends React.PureComponent<Props, State> {
             marginVertical: 20,
           }}
           numberOfLines={3}>
-          {'Looking up for the nearest  Roadside Assistantance Personnel.'}
+          {'Connecting to the nearest Roadside Assistantance Personnel.'}
         </Text>
         <UIActivityIndicator
           color="black"
@@ -76,17 +76,26 @@ class RoadAssistanceLanding extends React.PureComponent<Props, State> {
           animating={!this.state.showSearch}
           size={40}
         />
-        <Text
+        <Button
           style={{
-            fontSize: 16,
-            textAlign: 'center',
-            color: '#5372FF',
+            backgroundColor: "#31497C",
             marginTop: 10,
-          }}
-          onPress={() => this.props.navigation.goBack()}
-          numberOfLines={1}>
-          {'Cancel'}
-        </Text>
+            paddingHorizontal: 24,
+            borderRadius: 4,
+            alignSelf:"center"
+          }}>
+          <Text
+            style={{
+              fontSize: 16,
+              textAlign: 'center',
+              color: 'white',
+              fontWeight:"bold",
+            }}
+            onPress={() => this.props.navigation.goBack()}
+            numberOfLines={1}>
+            {'Cancel'}
+          </Text>
+        </Button>
       </View>
     );
   };
@@ -164,7 +173,8 @@ class RoadAssistanceLanding extends React.PureComponent<Props, State> {
       if (this.props.roadSideAssistance.rsa_status === 'success') {
         this.props.navigation.replace('TrackAssistance', {});
       }
-      if (this.props.roadSideAssistance.rsa_status === 'abort') {
+      if (this.props.roadSideAssistance.rsa_status === 'abort' ||
+      this.props.roadSideAssistance.rsa_status !== 'success') {
         this.setState({showSearch: true});
       }
       if (this.props.roadSideAssistance.st === 'false') {
@@ -222,15 +232,10 @@ export default connect(
 )(RoadAssistanceLanding);
 
 const styles = StyleSheet.create({
-  // container: {
-  //   height: '100%',
-  //   backgroundColor: '#282C52', //dark theme
-  // },
   container: {
     height: '100%',
     width: '100%',
     backgroundColor: '#282C52',
-    // padding: moderateScale(15),
   },
   button: {
     alignItems: 'center',
@@ -239,8 +244,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     justifyContent: 'center',
     marginTop: 20,
-    // width: "50%",
-    // margin: 10,
     borderRadius: 8,
   },
   buttonText: {
@@ -257,16 +260,12 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: 'white',
-    // paddingLeft: moderateScale(20),
-    // paddingRight: moderateScale(20),
-    // // backgroundColor: '#F0F0F0',
-    // width: '100%',
     shadowOpacity: 0.25,
     shadowRadius: 1,
     shadowColor: 'black',
     shadowOffset: {height: 1, width: 1},
     elevation: 3,
-    height: moderateScale(300),
+    height: moderateScale(340),
     padding: 40,
     alignItems: 'center',
     marginTop: moderateScale(10),

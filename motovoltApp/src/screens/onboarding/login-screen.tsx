@@ -135,7 +135,7 @@ class Login extends React.PureComponent<Props, State> {
           secure={!this.state.showPassword}
           marginVeritical={verticalScale(InputMarginVeritical)}
         >
-          <Icon active name={this.state.showPassword ? "eye" : "eye-off"} 
+          <Icon active name={this.state.showPassword ? "eye" : "eye-off"}
             onPress={() => {
               this.setState({ showPassword: !this.state.showPassword })
           }} />

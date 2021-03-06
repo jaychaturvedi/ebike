@@ -19,6 +19,7 @@ import { TStore } from '../../service/redux/store';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { BeginSmartInspection } from 'src/service/redux/actions/saga';
+import CircularProgressBar from "./component/loaderSpinner"
 
 type SmartInspectionNavigationProp = StackNavigationProp<
   SmartInspectStackParamList,
@@ -60,7 +61,8 @@ class InspectionProgress extends React.PureComponent<Props, State> {
 
   startTimer() {
     const timer = setInterval(() => {
-      if (this.props.smartInspectReport.status === "success") {
+      if (this.props.smartInspectReport.status === "success" ||
+        this.props.smartInspectReport.status === "abort") {
         this.setState({
           fill: 100,
         });
@@ -83,12 +85,16 @@ class InspectionProgress extends React.PureComponent<Props, State> {
 
   render() {
     let Theme = this.context.theme //load theme context
-    if (this.state.fill >= 100 && this.props.smartInspectReport.status === "success") {
+    if (this.state.fill >= 100 &&
+      this.props.smartInspectReport.status === "success") {
       setTimeout(() => {
-        this.props.navigation.replace("SmartInspectionReport", {})
+        this.props.navigation.replace("SmartInspectionReport", {
+          data: this.props.smartInspectReport
+        })
       }, 1000)
     }
-    if (this.props.smartInspectReport.status !== "success" && !this.props.smartInspectReport.isStale) {
+    if (this.props.smartInspectReport.status !== "success" &&
+      !this.props.smartInspectReport.isStale) {
       setTimeout(() => {
         this.props.navigation.replace("SmartInspectionAbort", {})
       }, 1000)
@@ -117,29 +123,14 @@ class InspectionProgress extends React.PureComponent<Props, State> {
             {LanguageSelector.t("smartInspection.smartInspectSubTitle")}
           </Text>
 
-          <AnimatedCircularProgress
+          <CircularProgressBar
             size={150}
             width={30}
-            fill={this.state.fill}
-            style={{ marginVertical: 20 }}
-            tintColor="#5E6CAD"
-            backgroundColor="#DEDEDE"
-            rotation={0}
-            dashedBackground={{ width: 20, gap: 10 }}
-            dashedTint={{ width: 20, gap: 10 }}
-            lineCap="butt"
-            tintTransparency={false}>
-            {
-              (fill) => (
-                <Text style={{ fontSize: 30 }}>
-                  {this.state.fill + "%"}
-                </Text>
-              )
-            }
-          </AnimatedCircularProgress>
+            fill={this.state.fill} />
           <Text style={{
-            ...styles.bodyText,
-            color: "#5E6CAD",
+            marginVertical: 5,
+            paddingHorizontal: 10,
+            color: "#3C5BE8",
             fontSize: scale(16)
           }}>
             {LanguageSelector.t("smartInspection.inspectionInProgress")}
@@ -195,7 +186,8 @@ const styles = StyleSheet.create({
     color: Colors.TEXT_WHITE,
     textAlign: "center",
     marginVertical: 5,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    opacity: 0.7
   },
   loader: {
     marginVertical: verticalScale(32)

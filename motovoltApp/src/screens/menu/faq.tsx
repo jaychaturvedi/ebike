@@ -95,7 +95,7 @@ class FAQ extends React.PureComponent<Props, State> {
                                             header: this.props.faq[faq].name
                                         })
                                     }}
-                                    iconStyle={{ height: 40, width: 40 }}
+                                    iconStyle={{ height: 40, width: "100%" }}
                                     height={moderateScale(110)}
                                 />
                             })

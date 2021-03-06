@@ -54,22 +54,26 @@ export default class Map extends React.PureComponent<Props, State> {
         style={StyleSheet.absoluteFill}
         followsUserLocation={this.props.followsUserLocation}
         onMapReady={() => {
-          this.mapView?.fitToCoordinates(
-            this.props.markerLocations.map(
-              (loc) => ({
-                latitude: loc.latitude,
-                longitude: loc.longitude,
-              }),
-              {
-                edgePadding: {
-                  right: width / 20,
-                  bottom: height / 20,
-                  left: width / 20,
-                  top: height / 20,
+          if (
+            Array.isArray(this.props.markerLocations) &&
+            this.props.markerLocations.length > 0
+          )
+            this.mapView?.fitToCoordinates(
+              this.props.markerLocations.map(
+                (loc) => ({
+                  latitude: loc.latitude,
+                  longitude: loc.longitude,
+                }),
+                {
+                  edgePadding: {
+                    right: width / 20,
+                    bottom: height / 20,
+                    left: width / 20,
+                    top: height / 20,
+                  },
                 },
-              },
-            ),
-          );
+              ),
+            );
         }}
         ref={(c) => {
           this.mapView = c;
@@ -87,26 +91,6 @@ export default class Map extends React.PureComponent<Props, State> {
                 children={coordinate.marker}
               />
             );
-          // if (index === 0) {
-          //   return (
-          //     <Marker
-          //       coordinate={coordinate}
-          //       key={Math.random().toString()}
-          //       children={
-          //         <View
-          //           style={{
-          //             width: 16,
-          //             height: 16,
-          //             borderRadius: 8,
-          //             borderColor: 'black',
-          //             backgroundColor: 'white',
-          //             borderWidth: 4,
-          //           }}
-          //         />
-          //       }
-          //     />
-          //   );
-          // }
         })}
         {this.props.pathLocations.length >= 2 && (
           <MapViewDirections
@@ -122,7 +106,9 @@ export default class Map extends React.PureComponent<Props, State> {
             }
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
-            strokeColor= {this.props?.strokeColor ? this.props.strokeColor : "hotpink"}
+            strokeColor={
+              this.props?.strokeColor ? this.props.strokeColor : 'hotpink'
+            }
             splitWaypoints
             // optimizeWaypoints={true}
             onStart={(params) => {
@@ -133,15 +119,18 @@ export default class Map extends React.PureComponent<Props, State> {
             onReady={(result) => {
               console.log(`Distance: ${result.distance} km`);
               console.log(`Duration: ${result.duration} min.`);
-
-              this.mapView!.fitToCoordinates(result.coordinates, {
-                edgePadding: {
-                  right: width / 20,
-                  bottom: height / 20,
-                  left: width / 20,
-                  top: height / 20,
-                },
-              });
+              if (
+                Array.isArray(result.coordinates) &&
+                result.coordinates.length > 0
+              )
+                this.mapView!.fitToCoordinates(result.coordinates, {
+                  edgePadding: {
+                    right: width / 20,
+                    bottom: height / 20,
+                    left: width / 20,
+                    top: height / 20,
+                  },
+                });
             }}
             onError={(errorMessage) => {
               // console.log('GOT AN ERROR');
