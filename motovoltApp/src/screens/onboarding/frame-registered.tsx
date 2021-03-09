@@ -111,7 +111,7 @@ class RegisterBike extends React.PureComponent<Props, State> {
         <View style={styles.bottomContainer}>
           <View style={inputStyles.container}>
             <Text style={inputStyles.helperText}>
-              Nickname you bike
+              Nickname your bike
             </Text>
             <Input placeHolder={'This name will be displayed on the screen'}
               onChange={(name: string) => this.setState({ name })}
