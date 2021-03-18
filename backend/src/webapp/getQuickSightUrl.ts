@@ -2,7 +2,7 @@ import * as dotenv from "dotenv"
 dotenv.config()
 const AWS = require('aws-sdk');
 let awsCredentials = {
-  region: "us-east-2",
+  region: process.env.REGION,
   accessKeyId: process.env.ACCESSKEYID,
   secretAccessKey: process.env.SECRETKEY
 };
@@ -10,20 +10,19 @@ AWS.config.update(awsCredentials);
 
 export function getQuickSightUrl(idToken: any, username: any, dashboardId: string) {
   console.log('called');
-  AWS.config.region = 'us-east-2';
+  AWS.config.region = process.env.REGION;
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: "us-east-2:80f54e71-a2f9-48c8-9b39-3dde366b9410",
+    IdentityPoolId: process.env.QUICKSIGHTIDENTITYPOOLID,
     Logins: {
-      'cognito-idp.us-east-2.amazonaws.com/us-east-2_4yqT9fdQs': idToken
+      [`cognito-idp.${process.env.REGION}.amazonaws.com/${process.env.WEBAPPUSERPOOLID}`]: idToken
     }
   });
   var params = {
-    RoleArn: "arn:aws:iam::447347746650:role/amplify-yantraconsole-yconsolenv-155626-authRole",
+    RoleArn: `arn:aws:iam::${process.env.AWSACCOUNTID}:role/${process.env.QUICKSIGHTAUTHROLE}`,
     RoleSessionName: username
   };
   var sts = new AWS.STS({
     apiVersion: '2011-06-15',
-    //change1
     "region": "us-east-1"
   });
   return new Promise((resolve, reject) => {
@@ -33,19 +32,19 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
       else {
         // console.log("data: "+data);
         var params = {
-          AwsAccountId: '447347746650',//fixed
+          AwsAccountId: process.env.AWSACCOUNTID,//fixed
           Email: username, //used in creating userpool
           IdentityType: 'IAM', //| QUICKSIGHT, /* required */
           Namespace: 'default',
           UserRole: 'READER', //ADMIN | AUTHOR | READER | RESTRICTED_AUTHOR | RESTRICTED_READER, /* required */
-          IamArn: "arn:aws:iam::447347746650:role/amplify-yantraconsole-yconsolenv-155626-authRole",
+          IamArn: `arn:aws:iam::${process.env.AWSACCOUNTID}:role/${process.env.QUICKSIGHTAUTHROLE}`,
           SessionName: username
         };
         AWS.config.update({
           accessKeyId: data.Credentials.AccessKeyId,
           secretAccessKey: data.Credentials.SecretAccessKey,
           sessionToken: data.Credentials.SessionToken,
-          "region": "us-east-2"
+          "region": process.env.REGION
         });
         let quicksight = new AWS.QuickSight({
           apiVersion: '2018-04-01',
@@ -57,10 +56,10 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
             if (err.statusCode == 409) {
               quicksight = new AWS.QuickSight({
                 apiVersion: '2018-04-01',
-                region: "us-east-2"
+                region: process.env.REGION
               });
               quicksight.getDashboardEmbedUrl({
-                AwsAccountId: "447347746650",
+                AwsAccountId: process.env.AWSACCOUNTID,
                 DashboardId: dashboardId,
                 IdentityType: "IAM",
                 ResetDisabled: true,
@@ -84,11 +83,11 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
           else {
             quicksight = new AWS.QuickSight({
               apiVersion: '2018-04-01',
-              region: "us-east-2"
+              region: process.env.REGION
             });
             console.log("Register User :::::::::::::::: =========================>\n", data);
             quicksight.getDashboardEmbedUrl({
-              AwsAccountId: "447347746650",
+              AwsAccountId: process.env.AWSACCOUNTID,
               DashboardId: dashboardId,
               IdentityType: "IAM",
               ResetDisabled: true,
