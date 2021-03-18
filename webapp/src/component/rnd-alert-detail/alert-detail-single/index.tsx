@@ -96,6 +96,7 @@ class AlertDetailSingle extends PureComponent<AlertDetailSingleProps, AlertDetai
                     direction: "descend"
                 },
                 comment: "",
+                alertCode: this.props.alerts[this.props.alertType][this.state.alert.alertId].alertCode
             }
         })
     }

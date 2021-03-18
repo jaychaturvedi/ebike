@@ -7,13 +7,13 @@ globalAny.fetch = require("node-fetch");
 globalAny.navigator = () => null
 const Amplify = require("@aws-amplify/core").default;
 const Auth = require("@aws-amplify/auth").default;
-const userPoolRegion = 'us-east-2'
-const userPoolID = 'us-east-2_3ErdY8hH0';//zelp_app_authentication
-const userPoolWebClientID = '201rvp9cga1v0foim2aab6g3of';
+const userPoolRegion = process.env.REGION
+const userPoolID = process.env.USERPOOLID;//zelp_app_authentication
+const userPoolWebClientID = process.env.MOBILEUSERPOOLWEBCLIENTID;
 dotenv.config()
 const accessKeyId = process.env.ACCESSKEYID
 const secretAccessKey = process.env.SECRETKEY
-const region = "us-east-2"
+const region = process.env.REGION
 
 // configure Amplify
 Amplify.configure({

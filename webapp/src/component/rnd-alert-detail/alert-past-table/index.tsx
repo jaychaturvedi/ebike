@@ -90,6 +90,7 @@ class AlertPastTable extends PureComponent<AlertPastTableProps, AlertPastTableSt
             direction: state.isAsc ? "ascend" : "descend"
           },
           comment: "",
+          alertCode: alert.alertCode
         }
       })
       state.dataLoaded = true;

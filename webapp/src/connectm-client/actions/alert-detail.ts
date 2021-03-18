@@ -14,7 +14,8 @@ export interface AlertDetailPayload {
     alertName: string,
     customerId: string,
     alertType: TAlertType
-    comment: string
+    comment: string,
+    alertCode?: string
 }
 
 export interface PastAlertDetailPayload {

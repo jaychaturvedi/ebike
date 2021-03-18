@@ -122,7 +122,8 @@ async function getPastAlerts(params: IAlertDetailActions) {
             alertName: params.payload.alertName,
             customerId: params.payload.customerId,
             pageSize: params.payload.pagination.pageSize,
-            pageNo: params.payload.pagination.pageNumber
+            pageNo: params.payload.pagination.pageNumber,
+            alertCode: params.payload.alertCode
         }, { headers: { 'Content-Type': 'application/json' } }
     )
     return response.data.body
