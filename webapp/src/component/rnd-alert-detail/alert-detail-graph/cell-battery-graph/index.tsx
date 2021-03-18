@@ -7,18 +7,18 @@ import {
 import VoltageDifference from './voltageDifference';
 
 const volatgeDeviationData = {
-    "Cell-1": 2.125,
-    "Cell-2": 2.125,
-    "Cell-3": 2.125,
-    "Cell-4": 2.125,
-    "Cell-5": 2.125,
-    "Cell-6": 2.125,
-    "Cell-7": 2.125,
-    "Cell-8": 2.125,
-    "Cell-9": 2.125,
-    "Cell-10": 2.125,
-    "Cell-11": 2.125,
-    "Cell-12": 2.125,
+    "Cell-1": 0,
+    "Cell-2": 0,
+    "Cell-3": 0,
+    "Cell-4": 0,
+    "Cell-5": 0,
+    "Cell-6": 0,
+    "Cell-7": 0,
+    "Cell-8": 0,
+    "Cell-9": 0,
+    "Cell-10": 0,
+    "Cell-11": 0,
+    "Cell-12": 0,
     "volatgeDiffer": 0
 }
 
@@ -150,14 +150,13 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                   tick={{ fill: 'white' }}
                   tickLine={false}
                   allowDataOverflow={false}
-                  ticks={[2.125, 2.225, 2.600,3.000, 3.400,  4.125]}
+                  ticks={[0, 2.125, 3.051, 3.885, 4.125]}
+                  interval={0}
                   orientation="right"
                   tickFormatter={(label) => {
                     return label + " V"
                   }}
-                  domain={['dataMin', 'dataMax']}
-                  interval={4}
-                  scale="sqrt" />
+                  domain={['dataMin', 'dataMax']} />
                 <Tooltip
                   content={this.CustomTooltip}
                   offset={-17}
@@ -171,24 +170,24 @@ class CellBatteryGraph extends PureComponent<CellBatteryGraphProps, CellBatteryG
                   stroke="#717171"
                   strokeDasharray="3 3 5 2"
                   isFront={true} >
-                  <Label
+                  {/* <Label
                     position={'right'}
                     fill="#ffffff"
                     style={{ fontSize: '7px', paddingRight: '-50px' }}
                     value={this.props.maxL2 + " V"}>
-                  </Label>
+                  </Label> */}
                 </ReferenceLine>
                 <ReferenceLine
                   y={this.props.minL1}
                   stroke="#717171"
                   strokeDasharray="3 3 5 2"
                   isFront={true} >
-                  <Label
+                  {/* <Label
                     position={'right'}
                     fill="#ffffff"
                     style={{ fontSize: '7px', paddingRight: '-50px' }}
                     value={this.props.minL1 + " V"}>
-                  </Label>
+                  </Label> */}
                 </ReferenceLine>
                 {!this.props.alertCleared ?
                   <Bar
