@@ -56,7 +56,7 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
             if (err.statusCode == 409) {
               quicksight = new AWS.QuickSight({
                 apiVersion: '2018-04-01',
-                region: process.env.QUICKSIGHTREGION
+                region: process.env.REGION
               });
               quicksight.getDashboardEmbedUrl({
                 AwsAccountId: process.env.AWSACCOUNTID,
@@ -83,7 +83,7 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
           else {
             quicksight = new AWS.QuickSight({
               apiVersion: '2018-04-01',
-              region: process.env.QUICKSIGHTREGION
+              region: process.env.REGION
             });
             console.log("Register User :::::::::::::::: =========================>\n", data);
             quicksight.getDashboardEmbedUrl({

@@ -15,7 +15,7 @@ interface GoogleMapState {
 }
 
 const ClusterMarker = ({ children }: any) => children;
-const GOOGLE_MAPS_APIKEY = 'AIzaSyAWO4UI7QPRc__8NUnNwNgicm2K4cdkCuY';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyAtQHyv4wnMJuHdzJwxtj6nT5D_ZQHF_Dg';
 
 export default function GoogleMap(props: GoogleMapState) {
   const mapRef: any = useRef(null);

@@ -269,7 +269,13 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
           <Legend
             iconType="circle"
             iconSize={5}
-            wrapperStyle={{ width: '100%', marginLeft: "20%" }}
+            wrapperStyle={{
+              width: '100%',
+              left: 0,
+              padding: 4,
+              display: "flex",
+              justifyContent: "center"
+            }}
           />
           <Tooltip
             offset={-17}
