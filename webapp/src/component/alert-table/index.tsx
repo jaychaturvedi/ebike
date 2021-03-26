@@ -121,7 +121,7 @@ class AlertTable extends React.Component<AlertProps, AlertStates> {
             },
             sort: {
               fieldName: state.sortingKey,
-              direction: state.isAsc ? "ascend" : "descend"
+              direction: state.isAsc ? "descend" : "ascend"
             },
             filter: props.alerts.filter,
             locationFilter: props.alerts.locationFilter,

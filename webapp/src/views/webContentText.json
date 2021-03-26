@@ -8,6 +8,6 @@
   },
   "loginPassword":{
     "success":"Login Successful. Please wait......",
-    "error":"Unable to log in. Please check your password and try again"
+    "error":"Unable to login. Please verify your user name or password entered."
   }
 }

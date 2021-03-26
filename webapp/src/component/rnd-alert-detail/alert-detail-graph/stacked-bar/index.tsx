@@ -5,6 +5,7 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, BarChart, Bar, Cell, Brush
 } from 'recharts'
 import moment from 'moment';
+import { formatDateTime } from '../../../../connectm-client/util/time-formater';
 
 interface StackedGraphProps {
     data: any; bar1StrokeColor: string; bar2StrokeColor: string, L1?: boolean,
@@ -70,8 +71,8 @@ class StackedGraph extends PureComponent<StackedGraphProps, StackedGraphStates> 
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Days"
             ? this.state.data[0].timeDate === label
-                ? moment(`${label}`).format("DD MMM YYYY")
-                : moment(`${label}`).format("DD")
+                ? formatDateTime(label, "DD MMM YYYY")
+                : formatDateTime(label, "DD")
             : label
         // return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
     }

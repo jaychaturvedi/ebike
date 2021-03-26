@@ -10,6 +10,7 @@ import {
 import { ReduxAlertTrendActions, ReduxAlertTrendState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/trends"
 import { connect } from 'react-redux';
 import TrendsDropdown from './dropdown';
+import { formatDateTime } from '../../connectm-client/util/time-formater';
 
 interface RandDTrendsProps extends ReduxAlertTrendActions, ReduxAlertTrendState { 
   trendsAlertType:"smart"|"bms"|"mc"
@@ -37,29 +38,6 @@ interface RandDTrendsStates {
 // const re = data.sort((a: any, b: any): any => {
 //     return a["date"] > b["date"]
 // })
-
-class CustomizedDot extends React.PureComponent<any> {
-  render() {
-    const { cx, cy, value } = this.props;
-
-    if (!value) {
-      return null;
-    }
-
-    return (
-      <svg
-        x={cx - 5}
-        y={cy - 5}
-        width={10}
-        height={10}
-        viewBox="0 0 10 10"
-        fill="#ff7385"
-      >
-        <rect width="10" height="10" />
-      </svg>
-    );
-  }
-}
 
 class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
   constructor(props: RandDTrendsProps) {
@@ -168,11 +146,11 @@ class RandDTrends extends PureComponent<RandDTrendsProps, RandDTrendsStates> {
     // console.log("label", label)
     // console.log(moment(`${label}`).format('dddd'));
     if ("Last 7 Days" === this.state.trendsPeriod)
-      return moment(`${label}`).format('dddd').slice(0, 3).toUpperCase()
+      return formatDateTime(label, 'dddd').slice(0, 3).toUpperCase()
     else if (label === this.state.startDate) {
-      return moment(`${label}`).format('DD').toString() + moment(`${label}`).format('ll').toString().split(' ')[0]
+      return formatDateTime(label, 'DD').toString() + formatDateTime(label, 'll').toString().split(' ')[0]
     }
-    else return moment(`${label}`).format('DD')
+    else return formatDateTime(label, 'DD')
   }
 
   CustomTooltip = (obj: any) => {

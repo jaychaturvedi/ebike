@@ -5,6 +5,7 @@ import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, ReferenceLine, Brush
 } from 'recharts';
 import moment from 'moment';
+import { formatDateTime } from '../../../../connectm-client/util/time-formater';
 
 
 const CustomizedDot = (props: any) => {
@@ -97,8 +98,8 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Time"
             ? this.state.data[0]?.xAxisValue === label
-                ? moment.utc(`${label}`).local().format("hh:mm a DD/MM/YYYY")
-                : moment.utc(`${label}`).local().format("hh:mm a")
+            ? formatDateTime(label, "hh:mm a DD/MM/YYYY")
+            : formatDateTime(label, "hh:mm a")
             : label
     }
 
@@ -109,7 +110,7 @@ class AlertDetailGraph extends PureComponent<AlertDetailGraphProps, AlertDetailG
         !payload || this.state.lineTooltipType === "") return null;
       const formatType = this.props.xAxisLabel === "Days" ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm:ss a"
       const line = payload.filter((item: any) => { return item.dataKey === this.state.lineTooltipType })
-      const localAlertTime = moment.utc(line[0]?.payload?.xAxisValue).local().format(formatType)
+      const localAlertTime = formatDateTime(line[0]?.payload?.xAxisValue, formatType)
       if (line?.length === 0) return null
       if(this.props.xAxisLabel === "No of Cycles") {
         return (
