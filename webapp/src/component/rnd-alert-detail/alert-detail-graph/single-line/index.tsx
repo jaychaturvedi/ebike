@@ -10,8 +10,8 @@ import { formatDateTime } from '../../../../connectm-client/util/time-formater';
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
-    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
+    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm:ss")
+    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss")
     if (TimeDate === AlertDate) {
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
