@@ -195,13 +195,13 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                   >
                     Log in
                   </Button>
-                  <Button
+                  <a
                     className='login-form-forgot'
                     href='/'
                     onClick={this.forgotPassword}
                   >
                     Forgot password?
-                  </Button>
+                  </a>
                 </Form.Item>
               </Form>
             </div>

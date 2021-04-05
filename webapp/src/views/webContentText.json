@@ -1,6 +1,6 @@
 {
   "copyright": "Copyright © Motovolt 2021. All rights reserved.",
-  "version": "Ver: 1.1.1",
+  "version": "Ver: 1.1.2",
   "forgotPassword":{
     "success":"We have sent you an email with the link to reset the password!",
     "error":"Unable to send you an email with the link to reset the password!",
