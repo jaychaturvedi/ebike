@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import Quicksight from "../quicksight"
 import Dashboard from "../quicksight/dashboard"
 import SimpleMap from '../googleMap';
+import CustomerCareModule from '../customer-care';
 
 interface ContentProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 interface ContentState {
@@ -38,7 +39,7 @@ function AccessibleRoutes(props: AccessibleRoutes) {
                 <Switch>
                     <Route exact path="/alerts" component={HomePage} />
                     <Route exact path="/alerts/:alertType/:id" component={AlertDetail} />
-                    {/* <Route exact path="/" component={MisPage} /> */}
+                    <Route exact path="/b2b" component={CustomerCareModule} />
                     {/* <Route exact path="/" component={MisBattery} /> */}
                     {/* <Route exact path="/" component={MisMotorController} /> */}
                     {/* <Route exact path="/ana" component={MisAnalyserFour} /> */}

@@ -1,0 +1,21 @@
+@import "../../global.scss";
+@import "../../index.scss";
+
+.filter-group {
+  display: flex;
+  width: 70%;
+  justify-content: space-evenly;
+}
+.root{
+  .ant-input-affix-wrapper-focused {
+        color: #ffffff;
+        border: none;
+        border-color: red;
+        outline: none;
+        border-bottom: 2px solid red;
+        box-shadow: none;
+        .ant-input-prefix {
+            color: red;
+        }
+    }
+}
