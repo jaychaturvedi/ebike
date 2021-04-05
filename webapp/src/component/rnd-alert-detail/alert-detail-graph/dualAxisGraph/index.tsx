@@ -5,12 +5,13 @@ import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, ResponsiveContainer, ReferenceLine, Brush
 } from 'recharts';
 import moment from 'moment';
+import { formatDateTime } from '../../../../connectm-client/util/time-formater';
 
 
 const CustomizedDot = (props: any) => {
     const { cx, cy, payload, alertDate } = props;
-    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm")
-    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm")
+    const TimeDate = moment(payload?.xAxisValue).format("DD/MM/YYYY hh:mm:ss")
+    const AlertDate= moment(props?.alertDate).format("DD/MM/YYYY hh:mm:ss")
     if (TimeDate === AlertDate) {
         return (
             <svg x={cx - 5} y={cy - 10} width={20} height={20} fill="red">
@@ -93,8 +94,8 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
     formatDate = (label: any) => {
         return this.props.xAxisLabel === "Time"
             ? this.state.data[0]?.xAxisValue === label
-                ? moment.utc(`${label}`).local().format("hh:mm a DD/MM/YYYY")
-                : moment.utc(`${label}`).local().format("hh:mm a")
+                ? formatDateTime(label, "hh:mm a DD/MM/YYYY")
+                : formatDateTime(label, "hh:mm a")
             : label
     }
     CustomTooltip = (obj: any) => {
@@ -104,7 +105,7 @@ class DoubleLineGraph extends PureComponent<DualAxisGraphProps, DualAxisGraphSta
         !payload || this.state.lineTooltipType === "") return null;
       const formatType = this.props.xAxisLabel === "Days" ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm:ss a"
       const line = payload.filter((item: any) => { return item.dataKey === this.state.lineTooltipType })
-      const localAlertTime = moment.utc(line[0]?.payload?.xAxisValue).local().format(formatType)
+      const localAlertTime = formatDateTime(line[0]?.payload?.xAxisValue, formatType)
       if (line?.length === 0) return null
       return (
         <div className="custom-tooltip" style={style}>

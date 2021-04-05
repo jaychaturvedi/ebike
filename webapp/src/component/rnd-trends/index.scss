@@ -72,10 +72,13 @@
     .recharts-responsive-container.top-five-recharts {
         .recharts-default-legend {
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
+            grid-template-rows: 1fr auto;
             display: grid;
             text-align: left !important;
             font-weight: 500;
+            @media screen and (max-width: 1400px) {
+              font-size: 6px;
+            }
         }
     }
 
@@ -85,6 +88,9 @@
             font-weight: 500;
             display: grid;
             text-align: center !important;
+            @media screen and (max-width: 1400px) {
+              font-size: 6px;
+            }
         }
     }
 }

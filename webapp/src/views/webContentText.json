@@ -1,6 +1,6 @@
 {
   "copyright": "Copyright © Motovolt 2021. All rights reserved.",
-  "version": "Ver: 1.1.0",
+  "version": "Ver: 1.1.1",
   "forgotPassword":{
     "success":"We have sent you an email with the link to reset the password!",
     "error":"Unable to send you an email with the link to reset the password!",
@@ -8,6 +8,6 @@
   },
   "loginPassword":{
     "success":"Login Successful. Please wait......",
-    "error":"Unable to log in. Please check your password and try again"
+    "error":"Unable to login. Please verify your user name or password entered."
   }
 }

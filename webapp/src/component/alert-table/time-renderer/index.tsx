@@ -1,6 +1,6 @@
 import './index.scss';
 import React, { PureComponent } from 'react';
-import { formatTime } from "../../../connectm-client/util/time-formater"
+import { formatTime, formatDateTime } from "../../../connectm-client/util/time-formater"
 interface TimeRendererProps {
     text: any,
     record: any,
@@ -13,7 +13,7 @@ class TimeRenderer extends PureComponent<TimeRendererProps, TimeRendererStates> 
     render() {
         return (
             <span >
-                {formatTime(this.props.text)}
+                {formatDateTime(this.props.text, "DD-MMM-YYYY hh:mm a")}
             </span>
         )
     }
