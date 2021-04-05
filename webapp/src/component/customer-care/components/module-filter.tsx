@@ -38,11 +38,7 @@ function getModuleName(key: string) {
 function getModuleIcon(key: string) {
   switch (key) {
     case "service":
-      return (
-        <ServiceModuleIcon
-          style={{ marginLeft: "5px" }}
-        />
-      );
+      return <ServiceModuleIcon style={{ marginLeft: "5px" }} />;
     case "issues":
       return (
         <IssuesModuleIcon
@@ -68,7 +64,13 @@ function getModuleIcon(key: string) {
 export default function ModuleFilter(props: ModuleFilterProps) {
   const classes = useStyles();
   const vehicleMenu = (
-    <Menu onClick={props.updateModule}>
+    <Menu
+      onClick={props.updateModule}
+      style={{
+        background: "white",
+        color: "black"
+      }}
+    >
       <Menu.Item key={"service"} icon={<Service width='20' height='20' />}>
         <Typography.Text strong style={{ color: "#000000", marginLeft: "10%" }}>
           Service Bookings (21)
@@ -87,11 +89,16 @@ export default function ModuleFilter(props: ModuleFilterProps) {
     </Menu>
   );
   return (
-    <Dropdown overlay={vehicleMenu} trigger={["click"]} overlayStyle={{
-      width: "250px"
-    }}>
+    <Dropdown
+      overlay={vehicleMenu}
+      trigger={["click"]}
+      overlayStyle={{
+        width: "250px",
+        background: "white",
+      }}
+    >
       <div
-        className={`connectM-dropDown connectM-dropdown-active}`}
+        // className={`connectM-dropDown connectM-dropdown-active}`}
         style={{
           display: "flex",
           justifyContent: "space-between",

@@ -19,29 +19,43 @@ class DropDownFilter extends PureComponent<DropDownProps, DropDownStates> {
 
   render() {
     const options = (
-      <Menu onClick={this.props.onClick}>
-        {
-          this.props.dropDownOptions?.map((item: any, index) => {
-            return <Menu.Item key={item} >
-              <Typography.Text strong style={{ color: "#000000", marginLeft: "10%" }}>{item}</Typography.Text>
+      <Menu
+        onClick={this.props.onClick}
+        style={{
+          background: "white",
+          color: "black",
+        }}
+      >
+        {this.props.dropDownOptions?.map((item: any, index) => {
+          return (
+            <Menu.Item key={item}>
+              <Typography.Text
+                strong
+                style={{ color: "#000000", marginLeft: "10%" }}
+              >
+                {item}
+              </Typography.Text>
             </Menu.Item>
-          })
-        }
-        {
-          this.props.submenu?.map((item: any, index) => {
-            return (
-              <Menu.SubMenu title="sub menu" style={{ marginLeft: "10%" }}>
-                {
-                  item.options?.map((item: any) => {
-                    return <Menu.Item key={item} >
-                      <Typography.Text strong style={{ color: "#000000", marginLeft: "10%" }}>{item}</Typography.Text>
-                    </Menu.Item>
-                  })
-                }
-              </Menu.SubMenu>
-            )
-          })
-        }
+          );
+        })}
+        {this.props.submenu?.map((item: any, index) => {
+          return (
+            <Menu.SubMenu title='sub menu' style={{ marginLeft: "10%" }}>
+              {item.options?.map((item: any) => {
+                return (
+                  <Menu.Item key={item}>
+                    <Typography.Text
+                      strong
+                      style={{ color: "#000000", marginLeft: "10%" }}
+                    >
+                      {item}
+                    </Typography.Text>
+                  </Menu.Item>
+                );
+              })}
+            </Menu.SubMenu>
+          );
+        })}
         {/* <Menu.Item
           key="4"
           disabled={true}

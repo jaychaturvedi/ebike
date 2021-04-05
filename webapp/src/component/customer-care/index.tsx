@@ -148,9 +148,10 @@ function CustomerCare(props: CustomerCareProps) {
           <AutoComplete
             style={{
               width: "100%",
+              borderColor: "white"
             }}
             options={[]}
-            dropdownClassName='autocomplete-dropdown'
+            dropdownClassName='autocomplete-module-dropdown'
             // onSelect={}
             backfill={true}
             value={searchText}
@@ -163,12 +164,12 @@ function CustomerCare(props: CustomerCareProps) {
                 }}
                 className={`${
                   searchText.length > 0
-                    ? "search-background-color-active"
-                    : "search-background-color"
+                    ? "search-module-color-active"
+                    : "search-module-color"
                 }`}
                 value={searchText}
                 placeholder='Search'
-                style={{ textAlign: "left" }}
+                style={{ textAlign: "left", borderColor:"white" }}
                 prefix={<SearchOutlined style={{ color: "red" }} />}
               />
             }
