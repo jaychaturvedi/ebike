@@ -56,11 +56,11 @@ class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsState
             <div className="connectm-AlertInsights">
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Total Distance:</div>
-                    <div className={"single-cell-right"}>{this.state.insights?.totalDistInKm} Km</div>
+                    <div className={"single-cell-right"}>{this.state.insights?.totalDistInKm}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"}>Utilization:</div>
-                    <div className={"single-cell-right"}>{this.state.insights?.utilization} %</div>
+                    <div className={"single-cell-right"}>{this.state.insights?.utilization}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"} style={{ width: "60%" }}>Rides Per Month:</div>
@@ -68,11 +68,11 @@ class AlertInsights extends PureComponent<AlertInsightsProps, AlertInsightsState
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"} style={{ width: "60%" }}>Avg Range/Ride:</div>
-                    <div className={"single-cell-right"} style={{ width: "40%" }}>{this.state.insights?.avgRangeRideInKm} Km</div>
+                    <div className={"single-cell-right"} style={{ width: "40%" }}>{this.state.insights?.avgRangeRideInKm}</div>
                 </div>
                 <div className={"single-row"}>
                     <div className={"single-cell-left"} style={{ width: "60%" }}>Avg Mileage:</div>
-                    <div className={"single-cell-right"} style={{ width: "40%" }}>{this.state.insights?.avgMileageInKm} Km</div>
+                    <div className={"single-cell-right"} style={{ width: "40%" }}>{this.state.insights?.avgMileageInKm}</div>
                 </div>
             </div>
         )
