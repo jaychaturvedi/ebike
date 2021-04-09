@@ -28,5 +28,16 @@ body {
 }
 
 .ant-typography {
-  color: #ffffff !important;
+  color: #ffffff;
+}
+
+.container-lg {
+  max-height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
+  min-width: calc(100vw - 96px);
+  max-width: calc(100vw - 96px);
+  height: 1px;
+  width: 1px;
+  position: fixed;
+  left: 96px;
 }

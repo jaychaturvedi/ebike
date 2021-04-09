@@ -20,6 +20,7 @@ import Quicksight from "../quicksight";
 import Customer from "../customer/index";
 import Dashboard from "../quicksight/dashboard";
 import SimpleMap from "../googleMap";
+import CustomerCareModule from "../customer-care";
 
 interface ContentProp
   extends RouteComponentProps,
@@ -37,34 +38,34 @@ function AccessibleRoutes(props: AccessibleRoutes) {
     case "DEVELOPER": {
       return (
         <Switch>
-          <Route exact path="/alerts" component={HomePage} />
-          <Route exact path="/alerts/:alertType/:id" component={AlertDetail} />
+          <Route exact path='/alerts' component={HomePage} />
+          <Route exact path='/alerts/:alertType/:id' component={AlertDetail} />
         </Switch>
       );
     }
     case "ADMIN": {
       return (
         <Switch>
-          <Route exact path="/alerts" component={HomePage} />
-          <Route exact path="/alerts/:alertType/:id" component={AlertDetail} />
-          {/* <Route exact path="/" component={MisPage} /> */}
+          <Route exact path='/alerts' component={HomePage} />
+          <Route exact path='/alerts/:alertType/:id' component={AlertDetail} />
+          <Route exact path='/customer' component={CustomerCareModule} />
           {/* <Route exact path="/" component={MisBattery} /> */}
           {/* <Route exact path="/" component={MisMotorController} /> */}
           {/* <Route exact path="/ana" component={MisAnalyserFour} /> */}
           {/* <Route exact path="/mis" component={MisContent} /> */}
-          <Route exact path="/mis" component={Quicksight} />
-          <Route exact path="/mis/:dashboardId" component={Dashboard} />
-          <Route exact path="/map" component={SimpleMap} />
-          <Route exact path="/customer" component={Customer} />
+          <Route exact path='/mis' component={Quicksight} />
+          <Route exact path='/mis/:dashboardId' component={Dashboard} />
+          <Route exact path='/map' component={SimpleMap} />
+          <Route exact path='/customer' component={Customer} />
         </Switch>
       );
     }
     case "MIS": {
       return (
         <Switch>
-          <Route exact path="/mis" component={Quicksight} />
-          <Route exact path="/mis/:dashboardId" component={Dashboard} />
-          <Route exact path="/map" component={SimpleMap} />
+          <Route exact path='/mis' component={Quicksight} />
+          <Route exact path='/mis/:dashboardId' component={Dashboard} />
+          <Route exact path='/map' component={SimpleMap} />
         </Switch>
       );
     }
@@ -86,7 +87,7 @@ class Content extends PureComponent<ContentProp, ContentState> {
   render() {
     return (
       <>
-        <Layout.Content className="web-content">
+        <Layout.Content className='web-content'>
           <WebHeader />
           <LeftPanel />
           {AccessibleRoutes({ role: this.state.userRole })}
