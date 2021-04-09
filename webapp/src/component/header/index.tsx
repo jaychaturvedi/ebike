@@ -1,8 +1,9 @@
-import './index.scss';
-import { Layout, Avatar,Tooltip } from 'antd'
-import React, { PureComponent } from 'react';
+import "./index.scss";
+import { Layout, Avatar, Tooltip } from "antd";
+import React, { PureComponent } from "react";
 import { withRouter, RouteComponentProps } from "react-router";
 import Motovolt from '../../assets/MotovoltLogo.png'
+import { ReactComponent as ReactLogo } from "../../assets/motovolt_logo_for_splash_screen.svg";
 import { connect } from 'react-redux'
 import { signout } from "../../connectm-client/authentication"
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
@@ -13,28 +14,31 @@ import {
   mapStateToProps as alertStateToProps,
 } from "../../connectm-client/actions/alerts";
 
-interface WebHeaderProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
+interface WebHeaderProp
+  extends RouteComponentProps,
+    ReduxUserAction,
+    ReduxUserState {}
 
 interface WebHeaderState {
-    showPopup: boolean
-    userEmail: string
+  showPopup: boolean;
+  userEmail: string;
 }
 
 class WebHeader extends PureComponent<WebHeaderProp, WebHeaderState> {
-    constructor(props: WebHeaderProp) {
-        super(props)
-        this.state = {
-            showPopup: false,
-            userEmail: 'U'
-        }
-    }
+  constructor(props: WebHeaderProp) {
+    super(props);
+    this.state = {
+      showPopup: false,
+      userEmail: "U",
+    };
+  }
 
-    static getDerivedStateFromProps(props: WebHeaderProp, state: WebHeaderState) {
-        if (props.user.user) {
-            state.userEmail = props.user.user.attributes.email
-        }
-        return state
+  static getDerivedStateFromProps(props: WebHeaderProp, state: WebHeaderState) {
+    if (props.user.user) {
+      state.userEmail = props.user.user.attributes.email;
     }
+    return state;
+  }
 
     logoutFromCommandCenter = () => {
       const defaultPagination = {
@@ -93,4 +97,7 @@ class WebHeader extends PureComponent<WebHeaderProp, WebHeaderState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WebHeader));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(WebHeader));

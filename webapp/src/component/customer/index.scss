@@ -1,0 +1,66 @@
+@import "./../../global.scss";
+
+.container {
+  padding: "20px";
+}
+.ant-drawer-body {
+  padding: 0;
+  background-color: $LEFT_PANEL_BACKGROUND;
+}
+// .ant-tabs-bar {
+//   background: $MIS_BACKGROUND;
+//   border: none;
+//   margin: 0;
+//   width: 100%;
+// }
+
+.ant-tabs-nav-list {
+  width: 100%;
+  justify-content: space-around;
+}
+.ant-tabs-nav-wrap {
+  justify-content: space-between;
+}
+
+.ant-tabs-tab-active {
+  background: $TABLE_ROW_LIGHT;
+}
+
+.ant-tabs-nav .ant-tabs-tab {
+  color: white;
+  margin: 0;
+  width: 33%;
+  justify-content: center;
+}
+
+.ant-tabs-content-holder {
+  padding: 10px;
+}
+
+[data-theme="compact"]
+  .site-collapse-custom-collapse
+  .site-collapse-custom-panel,
+.site-collapse-custom-collapse .site-collapse-custom-panel {
+  margin-top: 12px;
+  overflow: hidden;
+  background: $TABLE_ROW_LIGHT;
+  border: 0px;
+  border-radius: 2px;
+  padding: 2%;
+}
+
+.ant-collapse-content-box {
+  color: white;
+}
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  color: #ffffff;
+}
+.ant-list-item-no-flex {
+  display: flex;
+  color: white;
+}
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  color: #ffffff;
+}
