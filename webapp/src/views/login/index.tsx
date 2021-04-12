@@ -29,6 +29,7 @@ interface LoginStates {
   valid: boolean;
   message: any;
   username: string;
+  password: string;
 }
 
 class Login extends PureComponent<LoginProps, LoginStates> {
@@ -39,15 +40,30 @@ class Login extends PureComponent<LoginProps, LoginStates> {
       valid: false,
       message: "",
       username: "",
+      password: "",
     };
   }
+
   validateEmail = (email: string) => {
     return validator.isEmail(email);
   };
 
+  closeToastMessage = () => {
+    this.setState({
+      formValid: "",
+      valid: false,
+      message: "",
+    });
+  };
+
   loginToCommandCenter = (value: any) => {
-    const validEmail = this.validateEmail(value.username)
-    if(!validEmail){
+    const validEmail = this.validateEmail(value.username || " ");
+    if (
+      !validEmail ||
+      value.username === "" ||
+      this.state.password === "" ||
+      this.state.username === ""
+    ) {
       this.setState({
         formValid: "error",
         valid: false,
@@ -59,7 +75,7 @@ class Login extends PureComponent<LoginProps, LoginStates> {
           </span>
         ),
       });
-      return
+      return;
     }
     signIn(value.username, value.password).then((signedInObject) => {
       if (signedInObject.success) {
@@ -89,8 +105,12 @@ class Login extends PureComponent<LoginProps, LoginStates> {
 
   forgotPassword = (event: any) => {
     event.preventDefault();
-    const validEmail = this.validateEmail(this.state.username);
-    if (this.state.username.length <= 0 || !validEmail) {
+    const validEmail = this.validateEmail(this.state.username || " ");
+    if (
+      !validEmail ||
+      this.state.username.length <= 0 ||
+      this.state.username == ""
+    ) {
       this.setState({
         formValid: "error",
         valid: !this.state.valid,
@@ -139,6 +159,12 @@ class Login extends PureComponent<LoginProps, LoginStates> {
     });
   };
 
+  updatePassword = (event: any) => {
+    this.setState({
+      password: event.target.value,
+    });
+  };
+
   render() {
     return (
       <div className='connectm-login'>
@@ -161,7 +187,10 @@ class Login extends PureComponent<LoginProps, LoginStates> {
             </div>
           </div>
           <div className='login-form'>
-            <div className={`notification-toast ${this.state.formValid}`}>
+            <div
+              className={`notification-toast ${this.state.formValid}`}
+              onClick={this.closeToastMessage}
+            >
               {this.state.message}
             </div>
             <div className={"form-body"}>
@@ -184,7 +213,11 @@ class Login extends PureComponent<LoginProps, LoginStates> {
                   />
                 </Form.Item>
                 <Form.Item name='password'>
-                  <Input type='password' placeholder='Password' />
+                  <Input
+                    type='password'
+                    placeholder='Password'
+                    onChange={this.updatePassword}
+                  />
                 </Form.Item>
 
                 <Form.Item>

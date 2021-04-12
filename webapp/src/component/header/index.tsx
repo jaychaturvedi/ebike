@@ -6,6 +6,12 @@ import Motovolt from '../../assets/MotovoltLogo.png'
 import { connect } from 'react-redux'
 import { signout } from "../../connectm-client/authentication"
 import { ReduxUserAction, ReduxUserState, mapDispatchToProps, mapStateToProps } from "../../connectm-client/actions/user"
+import {
+  ReduxAlertActions,
+  ReduxAlertState,
+  mapDispatchToProps as alertDispatchToProps,
+  mapStateToProps as alertStateToProps,
+} from "../../connectm-client/actions/alerts";
 
 interface WebHeaderProp extends RouteComponentProps, ReduxUserAction, ReduxUserState { }
 
@@ -31,6 +37,31 @@ class WebHeader extends PureComponent<WebHeaderProp, WebHeaderState> {
     }
 
     logoutFromCommandCenter = () => {
+      const defaultPagination = {
+        pageNumber: 1,
+        pageSize: 10,
+      };
+      this.props.alertTabChanged({
+        type: "UPDATE_ACTIVE_ALERT",
+        payload: {
+          alertType: this.props.alerts.activeAlertTab,
+          pagination: {
+            pageNumber: 1,
+            pageSize: 10,
+          },
+          sort: this.props.alerts.sort,
+          filter: this.props.alerts.filter,
+          locationFilter: this.props.alerts.locationFilter,
+          timeFrameFilter: this.props.alerts.timeFrameFilter,
+          vehicleFilter: this.props.alerts.vehicleFilter,
+          searchFilter: this.props.alerts.searchFilter,
+          alertPagination: {
+            smart: defaultPagination,
+            bms: defaultPagination,
+            mc: defaultPagination,
+          },
+        },
+      });
         signout()
             .then(() => {
                 this.props.usersAction({
@@ -40,6 +71,7 @@ class WebHeader extends PureComponent<WebHeaderProp, WebHeaderState> {
                         user: null
                     }
                 })
+                
                 this.props.history.push("/login")
             })
             .catch(() => {
