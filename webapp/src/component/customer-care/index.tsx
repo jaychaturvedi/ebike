@@ -2,6 +2,7 @@ import "./index.scss";
 import React, { PureComponent, useState } from "react";
 import DropDownFilter from "./components/dropdown-filter";
 import ModuleFilter from "./components/module-filter";
+import Table from "./components/table/index";
 import GroupedDropDownFilter from "./components/grouped-dropdown-filter";
 import { makeStyles } from "@material-ui/core/styles";
 import { SearchOutlined } from "@ant-design/icons";
@@ -16,7 +17,7 @@ const useStyles = makeStyles({
   filterContainer: {
     display: "flex",
     justifyContent: "space-around",
-    flex: 1
+    flex: 1,
   },
 });
 interface CustomerCareProps {}
@@ -134,13 +135,15 @@ function CustomerCare(props: CustomerCareProps) {
   console.log(module);
 
   return (
-    <div className='container-lg' style={{ paddingTop: 20 }}>
+    <div className='container-lg customer-care' style={{ paddingTop: 20 }}>
       <div className={classes.root}>
         <ModuleFilter
           updateModule={(e: any) => changeModule(e.key)}
           module={module}
         />
-        <div className={classes.filterContainer}>{getDropdownOption(module)}</div>
+        <div className={classes.filterContainer}>
+          {getDropdownOption(module)}
+        </div>
         <div
           className={"search-background-color-active"}
           style={{ width: "200px", borderRadius: 4 }}
@@ -148,7 +151,7 @@ function CustomerCare(props: CustomerCareProps) {
           <AutoComplete
             style={{
               width: "100%",
-              borderColor: "white"
+              borderColor: "white",
             }}
             options={[]}
             dropdownClassName='autocomplete-module-dropdown'
@@ -169,12 +172,19 @@ function CustomerCare(props: CustomerCareProps) {
                 }`}
                 value={searchText}
                 placeholder='Search'
-                style={{ textAlign: "left", borderColor:"white" }}
+                style={{ textAlign: "left", borderColor: "white" }}
                 prefix={<SearchOutlined style={{ color: "red" }} />}
               />
             }
           />
         </div>
+      </div>
+      <div
+        style={{
+          height: "100%",
+        }}
+      >
+        <Table module={module} />
       </div>
     </div>
   );

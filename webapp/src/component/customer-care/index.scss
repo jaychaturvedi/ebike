@@ -6,8 +6,6 @@
   width: 70%;
   justify-content: space-evenly;
 }
-.root {
-}
 
 .autocomplete-module-dropdown.ant-input-affix-wrapper {
     background-color: white;
@@ -60,5 +58,87 @@
   }
   .ant-select-selection-search-input .anticon svg{
     fill: $ACTIVE;
+  }
+}
+.customer-care{
+  .customer-table {
+    display: inline-block;
+    height: 80%;
+    width: 98%;
+    margin-top: 40px;
+    overflow: auto !important;
+    background: #E5E5E5;
+    .ant-table {
+      background-color: transparent;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+    table {
+      background: #E5E5E5;
+      color: black
+    }
+    table th {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      font-size: 16px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    tbody td {
+      z-index: 1;
+      font-size: 14px;
+      white-space: nowrap;
+      color: black;
+    }
+    .table-row-light {
+      cursor: pointer;
+      background: #E5E5E5;
+    }
+
+    .table-row-dark {
+      cursor: pointer;
+      background:  rgba(0, 0, 0, 0.05);
+    }
+
+    .ant-table-thead > tr > th {
+      background: #FFFFFF;
+      text-align: left;
+      z-index: 3;
+      color: #3F4B81;
+    }
+
+    .ant-table-row {
+      &:hover {
+        background-color: #B5BEE8;
+      }
+    }
+
+    .ant-table-tbody > tr.ant-table-row:hover > td {
+      background: none !important;
+    }
+
+    td.ant-table-column-sort {
+      background: none !important;
+    }
+
+    .ant-pagination {
+      color: #ffffff !important;
+    }
+
+    .ant-pagination-item > a {
+      color: #ffffff !important;
+    }
+
+    .ant-pagination-item-active {
+      background: none !important;
+      border: none !important;
+    }
+    .ant-table-placeholder > td {
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
   }
 }

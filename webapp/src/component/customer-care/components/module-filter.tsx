@@ -114,9 +114,9 @@ export default function ModuleFilter(props: ModuleFilterProps) {
         /> */}
         {getModuleIcon(props.module)}
         <div className={"pair"}>
-          <Typography.Text className={`dropdown-typography typography-active`}>
+          {/* <Typography.Text className={`dropdown-typography typography-active`}>
             {getModuleName(props.module)}
-          </Typography.Text>
+          </Typography.Text> */}
           <DownOutlined className={"flip"} style={{ marginLeft: "12px" }} />
         </div>
       </div>
