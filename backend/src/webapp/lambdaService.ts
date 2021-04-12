@@ -93,6 +93,7 @@ type TUser = {
   userEmail: string;
   password: string;
   userRole: string;
+  userGroup: string;
 }
 
 // lambda function to be triggered to create new user
@@ -100,6 +101,7 @@ export const createWebAppUser = async (body: TUser) => {
   const userEmail = body.userEmail
   const password = body.password
   const userRole = body.userRole
+  const userGroup = body.userGroup
   var params = {
     UserPoolId: userPoolID,
     Username: userEmail,
@@ -120,6 +122,10 @@ export const createWebAppUser = async (body: TUser) => {
       {
         Name: "custom:role",
         Value: userRole
+      },
+      {
+        Name: "custom:userGroup",
+        Value: userGroup
       }
       /* more items */
     ]

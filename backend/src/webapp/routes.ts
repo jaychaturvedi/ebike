@@ -266,14 +266,16 @@ app.post('/search',
 app.post('/createUser',
   [body('userEmail', "userEmail is required").isString(),
   body('userRole', "userRole is required").isString(),
+  body('userGroup', "userGroup is required").isString(),
   body('password', "password is required").isString(), validate],
   expressQAsync(async (req: Express.Request, res: Express.Response,
     next: Express.NextFunction) => {
-    const { userRole, password, userEmail } = req.body as any
+    const { userRole, password, userEmail, userGroup } = req.body as any
     const result = await createWebAppUser({
       userEmail,
       userRole,
-      password
+      password,
+      userGroup
     })
     const response = createResponse("OK", result.response, result.err)
     res.json(response)
