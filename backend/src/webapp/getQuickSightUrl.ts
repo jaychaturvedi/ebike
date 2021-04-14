@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv"
+import JwtDecode from "jwt-decode";
 dotenv.config()
 const AWS = require('aws-sdk');
 let awsCredentials = {
@@ -8,7 +9,7 @@ let awsCredentials = {
 };
 AWS.config.update(awsCredentials);
 
-export function getQuickSightUrl(idToken: any, username: any, dashboardId: string) {
+export function getQuickSightUrl(idToken: any, username: any, dashboardId: string, userGroup: string) {
   console.log('called');
   AWS.config.region = process.env.REGION;
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -36,7 +37,7 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
           Email: username, //used in creating userpool
           IdentityType: 'IAM', //| QUICKSIGHT, /* required */
           Namespace: 'default',
-          UserRole: 'READER', //ADMIN | AUTHOR | READER | RESTRICTED_AUTHOR | RESTRICTED_READER, /* required */
+          UserRole: 'ADMIN', //ADMIN | AUTHOR | READER | RESTRICTED_AUTHOR | RESTRICTED_READER, /* required */
           IamArn: `arn:aws:iam::${process.env.AWSACCOUNTID}:role/${process.env.QUICKSIGHTAUTHROLE}`,
           SessionName: username
         };
@@ -52,11 +53,20 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
         });
         quicksight.registerUser(params, function (err: any, data: any) {
           if (err) {
-            console.log(JSON.stringify(err));
+            // console.log(JSON.stringify(err));
             if (err.statusCode == 409) {
               quicksight = new AWS.QuickSight({
                 apiVersion: '2018-04-01',
                 region: process.env.REGION
+              });
+              quicksight.createGroupMembership({
+                AwsAccountId: process.env.AWSACCOUNTID,
+                Namespace: 'default',
+                GroupName: userGroup,
+                MemberName: username,
+              }, function (err: any, data: any) {
+                if (err) console.log(err, err.stack); // an error occurred
+                else console.log(data);           // successful response
               });
               quicksight.getDashboardEmbedUrl({
                 AwsAccountId: process.env.AWSACCOUNTID,
@@ -72,13 +82,13 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
                     console.log(data, "my new embed url");
                     resolve(data)
                   } else {
-                    console.log(err);
+                    // console.log(err);
                     reject(err)
                   }
                 }
               );
             }
-            console.log("err register user ::::::::::::::::::", err, err.stack);
+            // console.log("err register user ::::::::::::::::::", err, err.stack);
           } // an error occurred
           else {
             quicksight = new AWS.QuickSight({
@@ -86,6 +96,15 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
               region: process.env.REGION
             });
             console.log("Register User :::::::::::::::: =========================>\n", data);
+            quicksight.createGroupMembership({
+              AwsAccountId: process.env.AWSACCOUNTID,
+              Namespace: 'default',
+              GroupName: userGroup,
+              MemberName: username,
+            }, function (err: any, data: any) {
+              if (err) console.log(err, err.stack); // an error occurred
+              else console.log(data);           // successful response
+            });
             quicksight.getDashboardEmbedUrl({
               AwsAccountId: process.env.AWSACCOUNTID,
               DashboardId: dashboardId,
@@ -113,7 +132,10 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
 
 // getQuickSightUrl(idToken, "sonu@zelp.io")
 export async function getEmbedUrl(idToken: string, email: string, dashboardId: string) {
-  const result = await getQuickSightUrl(idToken, email, dashboardId)
+  const decodedToken: any = JwtDecode(idToken)
+  const userRole = decodedToken["custom:role"]
+  const userGroup = decodedToken["custom:group"]
+  const result = await getQuickSightUrl(idToken, email, dashboardId, userGroup)
   console.log(result, "result");
   return result
 
