@@ -17,7 +17,6 @@ import {
 } from "../../connectm-client/actions/user";
 import { connect } from "react-redux";
 import Quicksight from "../quicksight";
-import Customer from "../customer/index";
 import Dashboard from "../quicksight/dashboard";
 import SimpleMap from "../googleMap";
 import CustomerCareModule from "../customer-care";
@@ -56,7 +55,6 @@ function AccessibleRoutes(props: AccessibleRoutes) {
           <Route exact path='/mis' component={Quicksight} />
           <Route exact path='/mis/:dashboardId' component={Dashboard} />
           <Route exact path='/map' component={SimpleMap} />
-          <Route exact path='/customer' component={Customer} />
         </Switch>
       );
     }

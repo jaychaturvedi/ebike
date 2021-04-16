@@ -60,7 +60,7 @@ class Customer extends Component {
     ];
     return (
       <div className="container">
-        <Button onClick={this.showDrawer} style={{ margin: "500px" }}>
+        <Button onClick={this.showDrawer} style={{ margin: "10px" }}>
           Open
         </Button>
         <Drawer
@@ -73,7 +73,7 @@ class Customer extends Component {
           maskClosable={true}
           mask={false}
           className="drawer"
-          style={{ marginTop: "61px" }}
+          style={{ marginTop: "41px" }}
           zIndex={0}
         >
           <Tabs

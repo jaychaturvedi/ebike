@@ -7,6 +7,8 @@ import GroupedDropDownFilter from "./components/grouped-dropdown-filter";
 import { makeStyles } from "@material-ui/core/styles";
 import { SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Input } from "antd";
+import Taskbar from "../Taskbar";
+
 const useStyles = makeStyles({
   root: {
     display: "flex",
@@ -181,11 +183,12 @@ function CustomerCare(props: CustomerCareProps) {
       </div>
       <div
         style={{
-          height: "100%",
+          height: "90%",
         }}
       >
         <Table module={module} />
       </div>
+      <Taskbar></Taskbar>
     </div>
   );
 }
