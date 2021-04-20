@@ -9,6 +9,31 @@ export async function profile(uid: string) {
   return user
 }
 
+
+export async function create(body: any) {
+  const uid = body.uid as string
+  const phone = body.phone as string
+  console.log("new user", { uid: uid, phone: phone })
+  console.log("connecting for CreateUser")
+  let newUser: any
+  try {
+
+    newUser = await User.createNew({ uid: uid, phone: phone })
+  } catch (e) {
+    newUser = e
+  }
+  console.log(newUser);
+  const response = {
+    statusCode: 200,
+    headers: {
+      "x-custom-header": "user_creation"
+    },
+    body: JSON.stringify({ uid: uid, phone: phone }),
+    isBase64Encoded: false
+  };
+  return newUser
+  // console.log(response);
+}
 export async function paginateUser(filter: TFilter) {
   const { pageNumber, pageSize } = filter
   delete filter.pageNumber; delete filter.pageSize

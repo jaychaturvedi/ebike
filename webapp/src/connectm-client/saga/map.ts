@@ -30,7 +30,6 @@ export function* getMapMarkers(params: IMapMarkerAction) {
     console.log("error", error)
   }
 }
-
 async function getMarkersForCustomer(params: IMapMarkerAction) {
   // const response = await axios.get(process.env.REACT_APP_WEBAPIURL +
   //   "/customerLiveLocation/" + params.payload.customerId +
@@ -48,6 +47,12 @@ async function getMarkersForCustomer(params: IMapMarkerAction) {
   })
   return response.data as TMapMarkers[]
 }
+// async function getMarkersForCustomer(params: IMapMarkerAction) {
+//   const response = await axios.get(process.env.REACT_APP_WEBAPIURL +
+//     "/customerLiveLocation/" + params.payload.customerId +
+//     "?"+"location="+params.payload.location+"&zone="+params.payload.zone)
+//   return response.data.body as TMapMarkers[]
+// }
 ///////////////////////////GET DROPDOWN FILTERS IN MAP VIEW/////////////////////////////////
 export function* getMapViewFilters(params: IMapViewFilterAction){
   const data: TMapViewFilters = yield call(getMapViewDropDownFilters, params)

@@ -93,6 +93,7 @@ type TUser = {
   userEmail: string;
   password: string;
   userRole: string;
+  userGroup: string;
 }
 
 // lambda function to be triggered to create new user
@@ -100,6 +101,7 @@ export const createWebAppUser = async (body: TUser) => {
   const userEmail = body.userEmail
   const password = body.password
   const userRole = body.userRole
+  const userGroup = body.userGroup
   var params = {
     UserPoolId: userPoolID,
     Username: userEmail,
@@ -118,9 +120,13 @@ export const createWebAppUser = async (body: TUser) => {
         Value: 'True'
       },
       {
+        Name: "custom:group",
+        Value: userGroup
+      },
+      {
         Name: "custom:role",
         Value: userRole
-      }
+      },
       /* more items */
     ]
   };
@@ -151,6 +157,30 @@ export const deleteWebAppUser = async (body: TDeleteUser) => {
   let errorBody: any
   try {
     responseBody = await deleteUser(params)
+    console.log(responseBody)
+  }
+  catch (e) {
+    console.log(e)
+    errorBody = e
+  }
+  const response = { response: responseBody, err: errorBody }
+  return response
+};
+
+export const signIn = async (body: { userEmail: string, password: string }) => {
+  const userEmail = body.userEmail
+  const password = body.password
+  var params = {
+    UserPoolId: userPoolID,
+    Username: userEmail
+  };
+  let responseBody: any
+  let errorBody: any
+  try {
+    await Auth.signIn(userEmail, password);
+    const session = await Auth.currentSession()
+    const token = await session.getIdToken()
+    responseBody = token
     console.log(responseBody)
   }
   catch (e) {

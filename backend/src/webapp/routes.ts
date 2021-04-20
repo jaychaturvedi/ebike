@@ -2,7 +2,7 @@ import * as Express from "express";
 import { validationResult, body, query, param } from "express-validator";
 import { createResponse } from "../helper";
 import WebAPI from "../externalApi/webapp";
-import { createWebAppUser, deleteWebAppUser } from "./lambdaService";
+import { createWebAppUser, deleteWebAppUser, signIn } from "./lambdaService";
 import { BadRequestError, MotoVoltError } from "../error";
 import JwtDecode from "jwt-decode";
 import { getEmbedUrl, getQuickSightUrl } from "./getQuickSightUrl";
@@ -61,16 +61,16 @@ function expressErrorHandler(
 app.post('/mainAlerts',
   [body('alertType', "alertType is too short").isString().isLength({ min: 1 }),
   body("pageNo", "pageNo is invalid").toInt(),
-  body("pageSize", "pageSize is invalid").toInt(), 
+  body("pageSize", "pageSize is invalid").toInt(),
   body("sortDirection").optional().isString(),
-  body("sortKey").optional().isString(),validate],
+  body("sortKey").optional().isString(), validate],
   expressQAsync(async (req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction) => {
-    const { alertType, pageNo, pageSize,sortDirection, sortKey} = req.body
+    const { alertType, pageNo, pageSize, sortDirection, sortKey } = req.body
     console.log("Start zelp API", new Date())
-    const updated = await WebAPI.mainAlerts(alertType, pageNo, pageSize, 
-      sortDirection,sortKey)
+    const updated = await WebAPI.mainAlerts(alertType, pageNo, pageSize,
+      sortDirection, sortKey)
     const response = createResponse("OK", updated, undefined)
     console.log("End zelp API", new Date())
     res.json(response)
@@ -86,9 +86,9 @@ app.post('/totalAlerts',
     next: Express.NextFunction) => {
     const { alertType, startDate, endDate } = req.body
     const totalAlerts = await WebAPI.totalAlerts(alertType, startDate, endDate)
-    const response = createResponse("OK", {data:totalAlerts}, undefined)
+    const response = createResponse("OK", { data: totalAlerts }, undefined)
     const errorMessage = {
-      "errorMessage":"request timed out after 30seconds"
+      "errorMessage": "request timed out after 30seconds"
     }
     console.log(totalAlerts);
     res.json(response)
@@ -149,8 +149,8 @@ app.post('/dashFilter',
 
     const result = await WebAPI.dashFilter({
       alertType, startDate, endDate, vehicleID,
-      alertName, model, subModel, location, subLocation, batteryId, customerId, 
-      timeFrame, pageNo, pageSize, sortDirection, sortKey 
+      alertName, model, subModel, location, subLocation, batteryId, customerId,
+      timeFrame, pageNo, pageSize, sortDirection, sortKey
     })
     const response = createResponse("OK", result, undefined)
     res.json(response)
@@ -266,13 +266,32 @@ app.post('/search',
 app.post('/createUser',
   [body('userEmail', "userEmail is required").isString(),
   body('userRole', "userRole is required").isString(),
+  body('userGroup', "userGroup is required").isString(),
   body('password', "password is required").isString(), validate],
   expressQAsync(async (req: Express.Request, res: Express.Response,
     next: Express.NextFunction) => {
-    const { userRole, password, userEmail } = req.body as any
+    const { userRole, password, userEmail, userGroup } = req.body as any
     const result = await createWebAppUser({
       userEmail,
       userRole,
+      password,
+      userGroup
+    })
+    const response = createResponse("OK", result.response, result.err)
+    res.json(response)
+  })
+)
+
+app.post('/signIn',
+  [body('userEmail', "userEmail is required").isString(),
+  body('password', "password is required").isString(), validate],
+  expressQAsync(async (req: Express.Request, res: Express.Response,
+    next: Express.NextFunction) => {
+    const { password, userEmail } = req.body as any
+    console.log("hit server");
+
+    const result = await signIn({
+      userEmail,
       password
     })
     const response = createResponse("OK", result.response, result.err)
@@ -396,11 +415,11 @@ app.get('/mapViewFilters',
   })
 )
 app.post('/regionfilter',
-[body('customerId', "customerId is too short").isString(),
-body('location', "location is too short").isString(),
-body('region', "region is too short").isString(), validate],
+  [body('customerId', "customerId is too short").isString(),
+  body('location', "location is too short").isString(),
+  body('region', "region is too short").isString(), validate],
   expressQAsync(async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    const {customerId, location, region} = req.body
+    const { customerId, location, region } = req.body
     const result = await WebAPI.mapZoneCordinates(customerId, location, region)
     const response = createResponse("OK", result, undefined)
     res.json(response)
