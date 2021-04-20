@@ -18,7 +18,8 @@ const useStyles = makeStyles({
   },
   filterContainer: {
     display: "flex",
-    justifyContent: "space-around",
+    // justifyContent: "space-around",
+    marginLeft: 20,
     flex: 1,
   },
 });
@@ -41,6 +42,10 @@ function getDropdownOption(key: string) {
             onClick2={(e) => {
               console.log("click click", e.key);
             }}
+            style={{
+              display: "flex",
+              marginRight: 20,
+            }}
           />
           <GroupedDropDownFilter
             defaultFilter1={"Booked For"}
@@ -52,6 +57,10 @@ function getDropdownOption(key: string) {
             dropDownOptions2={["Kolkata", "Delhi"]}
             onClick2={(e) => {
               console.log("click click", e.key);
+            }}
+            style={{
+              display: "flex",
+              marginRight: 20,
             }}
           />
           <DropDownFilter
@@ -77,6 +86,10 @@ function getDropdownOption(key: string) {
             onClick2={(e) => {
               console.log("click click", e.key);
             }}
+            style={{
+              display: "flex",
+              marginRight: 20,
+            }}
           />
           <GroupedDropDownFilter
             defaultFilter1={"Date"}
@@ -88,6 +101,10 @@ function getDropdownOption(key: string) {
             dropDownOptions2={["Kolkata", "Delhi"]}
             onClick2={(e) => {
               console.log("click click", e.key);
+            }}
+            style={{
+              display: "flex",
+              marginRight: 20,
             }}
           />
           <DropDownFilter
@@ -105,6 +122,9 @@ function getDropdownOption(key: string) {
           <DropDownFilter
             defaultFilter={"Location"}
             dropDownOptions={["Open", "Closed", "Cancelled"]}
+            style={{
+              marginRight: 20,
+            }}
             onClick={(e) => {
               console.log("click click", e.key);
             }}
@@ -112,6 +132,9 @@ function getDropdownOption(key: string) {
           <DropDownFilter
             defaultFilter={"Date"}
             dropDownOptions={["Open", "Closed", "Cancelled"]}
+            style={{
+              marginRight: 20,
+            }}
             onClick={(e) => {
               console.log("click click", e.key);
             }}
@@ -119,6 +142,9 @@ function getDropdownOption(key: string) {
           <DropDownFilter
             defaultFilter={"Status"}
             dropDownOptions={["Open", "Closed", "Cancelled"]}
+            style={{
+              marginRight: 20,
+            }}
             onClick={(e) => {
               console.log("click click", e.key);
             }}
