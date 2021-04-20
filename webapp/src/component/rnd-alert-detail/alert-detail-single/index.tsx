@@ -131,7 +131,7 @@ class AlertDetailSingle extends PureComponent<
     }
     return "";
   };
-  openMisDashboard = () => {
+  openBatteryDashboard = () => {
     const FromDate = moment
       .utc(`${this.state.alert.alertTime}`)
       .local()
@@ -147,7 +147,8 @@ class AlertDetailSingle extends PureComponent<
         "?name=Battery Performance Analysis"
     );
     localStorage.setItem("dashboardFilters", "true");
-    localStorage.setItem("VehicleID", this.state.alert.frameId);
+    localStorage.setItem("BatteryID", this.state.alert.batteryId);
+    localStorage.setItem("VehicleID", "false");
     localStorage.setItem("FromDate", FromDate);
     localStorage.setItem("ToDate", ToDate);
   };
@@ -169,6 +170,7 @@ class AlertDetailSingle extends PureComponent<
     );
     localStorage.setItem("dashboardFilters", "true");
     localStorage.setItem("VehicleID", this.state.alert.frameId);
+    localStorage.setItem("BatteryID", "false");
     localStorage.setItem("FromDate", FromDate);
     localStorage.setItem("ToDate", ToDate);
   };
@@ -278,7 +280,7 @@ class AlertDetailSingle extends PureComponent<
           <div
             className={"single-cell-right"}
             style={{ cursor: "pointer" }}
-            onClick={this.openMisDashboard}
+            onClick={this.openBatteryDashboard}
           >
             <u>
               {this.state.alertCleared ? "N/A" : this.state.alert.batteryId}

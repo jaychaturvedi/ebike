@@ -28,7 +28,16 @@ class QuickSight extends PureComponent<QuickSightProps, QuickSightState> {
   }
 
   static getDerivedStateFromProps(props: QuickSightProps, state: QuickSightState) {
-    const filteredDashboard = "&FrameID=" + localStorage.getItem("VehicleID")+
+    let batteryID = localStorage.getItem("BatteryID");
+    let frameID = localStorage.getItem("VehicleID");
+    let filterParam = ""
+    if(batteryID !== "false"){
+      filterParam = "&BatteryID="+batteryID;
+    }
+    if (frameID !== "false") {
+      filterParam = "&FrameID=" + frameID;
+    }
+    const filteredDashboard = filterParam+
       "&FromDate=" + localStorage.getItem("FromDate") +
       "&ToDate=" + localStorage.getItem("ToDate")
     if (!state.dataLoaded) {
