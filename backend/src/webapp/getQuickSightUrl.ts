@@ -37,7 +37,7 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
           Email: username, //used in creating userpool
           IdentityType: 'IAM', //| QUICKSIGHT, /* required */
           Namespace: 'default',
-          UserRole: 'ADMIN', //ADMIN | AUTHOR | READER | RESTRICTED_AUTHOR | RESTRICTED_READER, /* required */
+          UserRole: 'READER', //ADMIN | AUTHOR | READER | RESTRICTED_AUTHOR | RESTRICTED_READER, /* required */
           IamArn: `arn:aws:iam::${process.env.AWSACCOUNTID}:role/${process.env.QUICKSIGHTAUTHROLE}`,
           SessionName: username
         };
@@ -55,18 +55,18 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
           if (err) {
             // console.log(JSON.stringify(err));
             if (err.statusCode == 409) {
-              quicksight = new AWS.QuickSight({
-                apiVersion: '2018-04-01',
-                region: process.env.REGION
-              });
               quicksight.createGroupMembership({
                 AwsAccountId: process.env.AWSACCOUNTID,
                 Namespace: 'default',
                 GroupName: userGroup,
-                MemberName: username,
+                MemberName: "Cognito_WebAppAuth_Role/" + username,
               }, function (err: any, data: any) {
                 if (err) console.log(err, err.stack); // an error occurred
                 else console.log(data);           // successful response
+              });
+              quicksight = new AWS.QuickSight({
+                apiVersion: '2018-04-01',
+                region: process.env.REGION
               });
               quicksight.getDashboardEmbedUrl({
                 AwsAccountId: process.env.AWSACCOUNTID,
@@ -91,20 +91,20 @@ export function getQuickSightUrl(idToken: any, username: any, dashboardId: strin
             // console.log("err register user ::::::::::::::::::", err, err.stack);
           } // an error occurred
           else {
+            quicksight.createGroupMembership({
+              AwsAccountId: process.env.AWSACCOUNTID,
+              Namespace: 'default',
+              GroupName: userGroup,
+              MemberName: "Cognito_WebAppAuth_Role/" + username,
+            }, function (err: any, data: any) {
+              if (err) console.log(err, err.stack); // an error occurred
+              else console.log(data);           // successful response
+            });
             quicksight = new AWS.QuickSight({
               apiVersion: '2018-04-01',
               region: process.env.REGION
             });
             console.log("Register User :::::::::::::::: =========================>\n", data);
-            quicksight.createGroupMembership({
-              AwsAccountId: process.env.AWSACCOUNTID,
-              Namespace: 'default',
-              GroupName: userGroup,
-              MemberName: username,
-            }, function (err: any, data: any) {
-              if (err) console.log(err, err.stack); // an error occurred
-              else console.log(data);           // successful response
-            });
             quicksight.getDashboardEmbedUrl({
               AwsAccountId: process.env.AWSACCOUNTID,
               DashboardId: dashboardId,
