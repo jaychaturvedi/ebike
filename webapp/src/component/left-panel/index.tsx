@@ -140,9 +140,9 @@ class LeftPanel extends PureComponent<LeftPanelProps, LeftPanelStates> {
     return (
       <div className="connectm-LeftPanel">
         <div className={"left-panel"}>
-          {/* <div className={"logo"}>
-            <ReactLogo width="44" height="48" />
-          </div> */}
+          <div className={"logo"}>
+            <ReactLogo width="35" height="35" />
+          </div>
           {["DEVELOPER", "ADMIN"].includes(this.state.userRole) && (
             <div
               className={`tab-icons ${

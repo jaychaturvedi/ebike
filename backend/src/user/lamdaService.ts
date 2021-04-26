@@ -2,6 +2,8 @@ const AWS = require('aws-sdk');
 import rp from 'request-promise';
 import * as dotenv from "dotenv"
 import { APIGatewayProxyEvent, Context } from "aws-lambda";
+import User, { TFilter } from "./service";
+
 const globalAny: any = global;
 globalAny.fetch = require("node-fetch");
 globalAny.navigator = () => null
@@ -66,9 +68,10 @@ export const deleteAppCognitoAndDbUser = async (phone: string) => {
   let responseBody: any
   let deletedDbUser: any
   let errorBody: any
+  const deletedRecord = await User.deleteByPhone(phone)
   try {
     responseBody = await deleteUser(params)
-    console.log(responseBody)
+    console.log(responseBody, deletedRecord)
   }
   catch (e) {
     deletedDbUser = await rp({

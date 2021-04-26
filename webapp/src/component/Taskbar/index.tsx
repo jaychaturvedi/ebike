@@ -1,6 +1,9 @@
 import "./index.scss";
 import React, { Component, PureComponent } from "react";
-import { ReactComponent as MisLogo } from "../../assets/settings_icon.svg";
+
+import BookService from "./service";
+import ReportIssue from "./issue";
+import RsaLanding from "./rsa";
 import {
   Drawer,
   Button,
@@ -13,18 +16,10 @@ import {
   Typography,
 } from "antd";
 
-const { TabPane } = Tabs;
-const { Panel } = Collapse;
-const text = `
-A dog is a type of domesticated animal.
-Known for its loyalty and faithfulness,
-it can be found as a welcome guest in many households across the world.
-`;
+class Taskbar extends Component {
+  state = { visible: false, selected: "service" };
 
-class Customer extends Component {
-  state = { visible: false };
-
-  showDrawer = () => {
+  showDrawer = (sel: string) => {
     if (this.state.visible == false) {
       this.setState({
         visible: true,
@@ -33,6 +28,25 @@ class Customer extends Component {
       this.setState({
         visible: false,
       });
+    }
+    this.setState({ selected: sel });
+  };
+
+  tabpanel = (sel: string) => {
+    switch (sel) {
+      case "service":
+        return <BookService />;
+        break;
+      case "issue":
+        return <ReportIssue />;
+        break;
+      case "rsa":
+        return <RsaLanding />;
+        break;
+
+      default:
+        return <div></div>;
+        break;
     }
   };
 
@@ -44,25 +58,29 @@ class Customer extends Component {
 
   render() {
     const { visible } = this.state;
-    const data = [
-      {
-        title: "Ant Design Title 1",
-      },
-      {
-        title: "Ant Design Title 2",
-      },
-      {
-        title: "Ant Design Title 3",
-      },
-      {
-        title: "Ant Design Title 4",
-      },
-    ];
+    const comp = this.tabpanel(this.state.selected);
     return (
       <div className="container">
-        <Button onClick={this.showDrawer} style={{ margin: "10px" }}>
-          Open
-        </Button>
+        <div style={{ display: "flex" }}>
+          <Button
+            onClick={() => this.showDrawer("service")}
+            //style={{ margin: "500px" }}
+          >
+            Service
+          </Button>
+          <Button
+            onClick={() => this.showDrawer("issue")}
+            //style={{ margin: "700px" }}
+          >
+            Issue
+          </Button>
+          <Button
+            onClick={() => this.showDrawer("rsa")}
+            //style={{ margin: "400px" }}
+          >
+            RSA
+          </Button>
+        </div>
         <Drawer
           placement="right"
           closable={false}
@@ -71,12 +89,16 @@ class Customer extends Component {
           key={"right"}
           width="500px"
           maskClosable={true}
-          mask={false}
+          mask={true}
           className="drawer"
           style={{ marginTop: "41px" }}
           zIndex={0}
         >
-          <Tabs
+          <div> {comp}</div>
+          {/* <BookService /> */}
+          {/* <ReportIssue /> */}
+          {/* <RsaLanding /> */}
+          {/* <Tabs
             type="line"
             addIcon={MisLogo}
             size="small"
@@ -262,11 +284,11 @@ class Customer extends Component {
                 </Panel>
               </Collapse>
             </TabPane>
-          </Tabs>
+          </Tabs> */}
         </Drawer>
       </div>
     );
   }
 }
 
-export default Customer;
+export default Taskbar;

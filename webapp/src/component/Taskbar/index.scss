@@ -6,6 +6,7 @@
 .ant-drawer-body {
   padding: 0;
   background-color: $LEFT_PANEL_BACKGROUND;
+  font-size: 10px;
 }
 // .ant-tabs-bar {
 //   background: $MIS_BACKGROUND;
@@ -16,7 +17,6 @@
 
 .ant-tabs-nav-list {
   width: 100%;
-  justify-content: space-around;
 }
 .ant-tabs-nav-wrap {
   justify-content: space-between;
@@ -63,4 +63,31 @@
   display: flex;
   justify-content: space-between;
   color: #ffffff;
+}
+.card-title {
+  color: #ffffff;
+}
+.image-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+
+  h4 {
+    color: white;
+  }
+
+  li {
+    margin-bottom: 15px;
+  }
+
+  img {
+    height: 160px;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+.past-issues-card {
+  img {
+    margin-left: 25px;
+  }
 }
