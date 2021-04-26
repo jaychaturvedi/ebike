@@ -1,0 +1,50 @@
+.pagination-footer {
+    // border: 1px solid yellow;
+    position: relative;
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+
+    .nav-button {
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+      .pages-available {
+        width: 150px;
+      }
+    }
+    .icon.active svg {
+      cursor: pointer;
+    }
+    .icon.inactive svg {
+      // border: 1px solid white;
+      fill: #818181;
+    }
+
+    .select-button {
+      overflow: hidden;
+      appearance: none;
+      background-color: transparent;
+      border-radius: 5px;
+      // width: 60px;
+      height: 25px;
+    }
+
+    .ant-select-selector {
+      height: 24px;
+      border: none !important;
+    }
+
+    .ant-select-selection-item {
+      line-height: 27px;
+    }
+
+    .ant-select-arrow svg {
+      color: black;
+    }
+
+    .spacer {
+      width: 30px;
+    }
+  }

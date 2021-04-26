@@ -11,6 +11,7 @@ import { ReactComponent as ActiveSort } from "../../../../assets/svg/active-cust
 import ServiceTable from "./table-1"
 import IssuesTable from "./table-2"
 import RSATable from "./table-3"
+import Pagination from "../pagination/index"
 // 20896 21 Jan 20121, 9: 31 am 2h 34 m MH1-12A-39 Battery Ashok Kumar In Progress
 const data=[
   {
@@ -66,6 +67,23 @@ const customizeRenderEmpty=() => (
     <p>No alerts available at the moment</p>
   </div>
 );
+
+const getTableContent=(module) => {
+  switch (module) {
+    case "service":
+      return <ServiceTable />;
+    case "issues":
+      return (
+        <IssuesTable />
+      );
+    case "rsa":
+      return (
+        <RSATable />
+      );
+    default:
+      return <div>No Module Selected</div>;
+  }
+}
 
 export default function Tables({ module }) {
 
@@ -312,18 +330,17 @@ export default function Tables({ module }) {
       dataIndex: "name",
     },
   ];
-  switch (module) {
-    case "service":
-      return <ServiceTable />;
-    case "issues":
-      return (
-        <IssuesTable />
-      );
-    case "rsa":
-      return (
-        <RSATable />
-      );
-    default:
-      return <div>No Module Selected</div>;
-  }
+  return (
+    <>
+      {getTableContent(module)}
+      <div style={{
+        display:"flex",
+        justifyContent:"flex-end",
+        margin:20
+      }}>
+        <Pagination />
+      </div>
+    </>
+
+  )
 }
