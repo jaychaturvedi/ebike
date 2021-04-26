@@ -2,49 +2,49 @@
 @import "~antd/dist/antd.css";
 
 .left-panel {
-    height: 100vh;
-    background-color: $LEFT_PANEL_BACKGROUND !important;
-    max-width: $LEFT_PANEL_WIDTH;
-    min-width: $LEFT_PANEL_WIDTH;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
+  height: 100vh;
+  background-color: $LEFT_PANEL_BACKGROUND !important;
+  max-width: 50px;
+  min-width: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+
+  .logo {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin-bottom: 10%;
+  }
 
-    .logo {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 12%;
-        margin-bottom: 25%;
+  .tab-icons {
+    &:hover {
+      background-color: rgba($color: #5767b8, $alpha: 0.4) !important;
+      cursor: pointer;
     }
 
-    .tab-icons {
-        &:hover {
-            background-color: rgba($color: #4053B8, $alpha: 0.4) !important;
-            cursor: pointer;
-        }
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        // margin-bottom: 20%;
-        border-right: 2px solid $LEFT_PANEL_BACKGROUND;
-        height: 85px;
-        justify-content: center;
-    }
-    .option-clicked {
-        border-right: 2px solid $ACTIVE !important;
-        background-color: #4053B8 !important;
-        height: 85px;
-        justify-content: center;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // margin-bottom: 20%;
+    border-right: 2px solid $LEFT_PANEL_BACKGROUND;
+    height: 50px;
+    justify-content: center;
+    background-color: #3c4888;
+    margin: 1px 0px 0px 0px;
+  }
+  .option-clicked {
+    border-right: 2px solid $ACTIVE !important;
+    background-color: #5767b8 !important;
+    height: 50px;
+    justify-content: center;
+  }
 }
 @media screen and (max-width: 1400px) {
   .left-panel {
-    max-width: 80px;
-    min-width: 80px;
+    max-width: 50px;
+    min-width: 50px;
   }
 }

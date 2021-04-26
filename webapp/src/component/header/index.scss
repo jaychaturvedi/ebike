@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   .header-icon {
     margin-left: 15px;
   }
@@ -18,8 +18,9 @@
     cursor: pointer;
   }
   .header-logo {
-    position: absolute;
-    left: 122px;
+    display: flex;
+    align-items: center;
+    margin-left: 40px;
   }
 }
 //signout tooltip
@@ -29,8 +30,8 @@
   text-align: center;
   cursor: pointer;
 }
-@media screen and (max-width: 1400px) {
-  .ant-layout-header {
-    height: 52px;
-  }
-}
+// @media screen and (max-width: 1400px) {
+//   .ant-layout-header {
+//     height: 52px;
+//   }
+// }
