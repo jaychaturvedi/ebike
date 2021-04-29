@@ -16,20 +16,22 @@ import {
   Typography,
 } from "antd";
 
-class Taskbar extends Component {
-  state = { visible: false, selected: "service" };
+class Taskbar extends Component<
+  {
+    selectModule: string;
+    isVisible: boolean;
+    toggleTaskbar: (value: boolean) => void;
+  },
+  {}
+> {
 
   showDrawer = (sel: string) => {
-    if (this.state.visible == false) {
-      this.setState({
-        visible: true,
-      });
+    if (this.props.isVisible == false) {
+      this.props.toggleTaskbar(true);
     } else {
-      this.setState({
-        visible: false,
-      });
+      this.props.toggleTaskbar(false);
     }
-    this.setState({ selected: sel });
+    // this.setState({ selected: sel });
   };
 
   tabpanel = (sel: string) => {
@@ -37,7 +39,7 @@ class Taskbar extends Component {
       case "service":
         return <BookService />;
         break;
-      case "issue":
+      case "issues":
         return <ReportIssue />;
         break;
       case "rsa":
@@ -51,46 +53,24 @@ class Taskbar extends Component {
   };
 
   onClose = () => {
-    this.setState({
-      visible: false,
-    });
+    this.props.toggleTaskbar(false);
   };
 
   render() {
-    const { visible } = this.state;
-    const comp = this.tabpanel(this.state.selected);
+    const { isVisible } = this.props;
+    const comp = this.tabpanel(this.props.selectModule);
     return (
-      <div className="container">
-        <div style={{ display: "flex" }}>
-          <Button
-            onClick={() => this.showDrawer("service")}
-            //style={{ margin: "500px" }}
-          >
-            Service
-          </Button>
-          <Button
-            onClick={() => this.showDrawer("issue")}
-            //style={{ margin: "700px" }}
-          >
-            Issue
-          </Button>
-          <Button
-            onClick={() => this.showDrawer("rsa")}
-            //style={{ margin: "400px" }}
-          >
-            RSA
-          </Button>
-        </div>
+      <div className='container'>
         <Drawer
-          placement="right"
+          placement='right'
           closable={false}
           onClose={this.onClose}
-          visible={visible}
+          visible={isVisible}
           key={"right"}
-          width="500px"
+          width='500px'
           maskClosable={true}
           mask={true}
-          className="drawer"
+          className='drawer'
           style={{ marginTop: "41px" }}
           zIndex={0}
         >

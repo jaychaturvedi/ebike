@@ -6,7 +6,7 @@ import Table from "./components/table/index";
 import GroupedDropDownFilter from "./components/grouped-dropdown-filter";
 import { makeStyles } from "@material-ui/core/styles";
 import { SearchOutlined } from "@ant-design/icons";
-import { AutoComplete, Input } from "antd";
+import { AutoComplete, Button, Input } from "antd";
 import Taskbar from "../Taskbar";
 
 const useStyles = makeStyles({
@@ -160,6 +160,7 @@ function CustomerCare(props: CustomerCareProps) {
   const classes = useStyles();
   const [searchText, updateSearchText] = useState("");
   const [module, changeModule] = useState("service");
+  const [taskbarVisible, toggleTaskbarVisibility] = useState(false);
   console.log(module);
 
   return (
@@ -206,6 +207,14 @@ function CustomerCare(props: CustomerCareProps) {
             }
           />
         </div>
+        <div style={{ display: "flex" }}>
+          <Button
+            onClick={() => toggleTaskbarVisibility(true)}
+            //style={{ margin: "500px" }}
+          >
+            Open
+          </Button>
+        </div>
       </div>
       <div
         style={{
@@ -214,7 +223,11 @@ function CustomerCare(props: CustomerCareProps) {
       >
         <Table module={module} />
       </div>
-      <Taskbar></Taskbar>
+      <Taskbar
+        selectModule={module}
+        isVisible={taskbarVisible}
+        toggleTaskbar={(value) => toggleTaskbarVisibility(value)}
+      />
     </div>
   );
 }

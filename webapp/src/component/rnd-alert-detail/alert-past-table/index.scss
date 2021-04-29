@@ -1,246 +1,246 @@
-@import "../../../global.scss";
-@import "~antd/dist/antd.css";
+// @import "../../../global.scss";
+// @import "~antd/dist/antd.css";
 
-.connectm-AlertPastTable-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 62px;
-    padding-top: 24px;
-    .past-alerts-text {
-        font-size: 18px;
-        font-weight: 700;
-        @media screen and (max-width: 1400px) {
-          font-size: 16px;
-        }
-    }
+// .connectm-AlertPastTable-header {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     height: 62px;
+//     padding-top: 24px;
+//     .past-alerts-text {
+//         font-size: 18px;
+//         font-weight: 700;
+//         @media screen and (max-width: 1400px) {
+//           font-size: 16px;
+//         }
+//     }
     
-    .pagination-footer {
-        // border: 1px solid yellow;
-        padding-top: 1%;
-        display: flex;
-        justify-content: flex-end;
+//     .pagination-footer {
+//         // border: 1px solid yellow;
+//         padding-top: 1%;
+//         display: flex;
+//         justify-content: flex-end;
 
-        .nav-button {
-            .icon {
-                width: 24px;
-                height: 24px;
-            }
-            .pages-available {
-                width: 120px;
-            }
-        }
+//         .nav-button {
+//             .icon {
+//                 width: 24px;
+//                 height: 24px;
+//             }
+//             .pages-available {
+//                 width: 120px;
+//             }
+//         }
 
-        .icon.inactive svg {
-            // border: 1px solid white;
-            fill: #818181;
-        }
+//         .icon.inactive svg {
+//             // border: 1px solid white;
+//             fill: #818181;
+//         }
 
-        .select-button {
-            border-radius: 3px;
-            overflow: hidden;
-            appearance: none;
-            background-color: transparent;
-            border-radius: 5px 5px 5px 5px;
-            // width: 60px;
-            height: 25px;
+//         .select-button {
+//             border-radius: 3px;
+//             overflow: hidden;
+//             appearance: none;
+//             background-color: transparent;
+//             border-radius: 5px 5px 5px 5px;
+//             // width: 60px;
+//             height: 25px;
 
-            .ant-select-selector {
-                height: 24px;
-                border: none !important;
-            }
+//             .ant-select-selector {
+//                 height: 24px;
+//                 border: none !important;
+//             }
 
-            .ant-select-selection-item {
-                line-height: 24px;
-            }
+//             .ant-select-selection-item {
+//                 line-height: 24px;
+//             }
 
-            .ant-select-arrow svg {
-                color: black;
-            }
-        }
+//             .ant-select-arrow svg {
+//                 color: black;
+//             }
+//         }
 
-        .spacer {
-            width: 30px;
-        }
-    }
-}
-.connectm-AlertPastTable {
-    // height: 40%;
-    height: calc(100% - 62px);
-    background-color: #272b3c;
-    border-radius: 10px;
-    // padding: 10px;
-    color: white;
-    justify-content: space-between;
+//         .spacer {
+//             width: 30px;
+//         }
+//     }
+// }
+// .connectm-AlertPastTable {
+//     // height: 40%;
+//     height: calc(100% - 62px);
+//     background-color: #272b3c;
+//     border-radius: 10px;
+//     // padding: 10px;
+//     color: white;
+//     justify-content: space-between;
 
-    .table-row-light {
-        background: $TABLE_ROW_LIGHT;
-    }
+//     .table-row-light {
+//         background: $TABLE_ROW_LIGHT;
+//     }
 
-    .table-row-dark {
-        background: $TABLE_ROW_DARK;
-    }
+//     .table-row-dark {
+//         background: $TABLE_ROW_DARK;
+//     }
 
-    .past-alert-selected-row {
-        background-color: $ROW_HOVER !important;
-    }
+//     .past-alert-selected-row {
+//         background-color: $ROW_HOVER !important;
+//     }
 
-    .ant-table-thead {
-        tr {
-            th {
-                // border: 1px solid yellow;
-                // position: sticky;
-                // top: 0;
-                // z-index: 1;
-                background: $TABLE_ROW_DARK !important;
-                text-align: left;
-                font-size: 16px;
-                font-weight: 600;
-            }
-        }
-    }
-    .ant-table {
-        background-color: red;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-    }
+//     .ant-table-thead {
+//         tr {
+//             th {
+//                 // border: 1px solid yellow;
+//                 // position: sticky;
+//                 // top: 0;
+//                 // z-index: 1;
+//                 background: $TABLE_ROW_DARK !important;
+//                 text-align: left;
+//                 font-size: 16px;
+//                 font-weight: 600;
+//             }
+//         }
+//     }
+//     .ant-table {
+//         background-color: red;
+//         border-bottom-left-radius: 10px;
+//         border-bottom-right-radius: 10px;
+//     }
 
-    table th {
-        position: -webkit-sticky;
-        position: sticky;
-        top: 0;
-        z-index: 3;
-        font-size: 16px;
-        font-weight: 600;
-    }
+//     table th {
+//         position: -webkit-sticky;
+//         position: sticky;
+//         top: 0;
+//         z-index: 3;
+//         font-size: 16px;
+//         font-weight: 600;
+//     }
 
-    tbody td {
-        z-index: 1;
-        font-size: 14px;
-        @media screen and (max-width: 1400px) {
-            font-size: 12px;
-        }
-        font-weight: 400;
-    }
-    .table-body {
-        display: inline-block;
-        height: 100%;
-        width: 100%;
-        overflow: auto !important;
-        background: #3b4473;
-         //no data image
-        .ant-table-placeholder > td {
-          &:hover{
-            background-color: transparent !important;
-          }
-        }
-        @media screen and (max-width: 1400px) {
-          .my-ant-empty-normal{
-            font-size: 12px;
-          }
-        }
-    }
-    .ant-table-cell-scrollbar {
-        -webkit-box-shadow: none !important;
-        box-shadow: none !important;
-    }
+//     tbody td {
+//         z-index: 1;
+//         font-size: 14px;
+//         @media screen and (max-width: 1400px) {
+//             font-size: 12px;
+//         }
+//         font-weight: 400;
+//     }
+//     .table-body {
+//         display: inline-block;
+//         height: 100%;
+//         width: 100%;
+//         overflow: auto !important;
+//         background: #3b4473;
+//          //no data image
+//         .ant-table-placeholder > td {
+//           &:hover{
+//             background-color: transparent !important;
+//           }
+//         }
+//         @media screen and (max-width: 1400px) {
+//           .my-ant-empty-normal{
+//             font-size: 12px;
+//           }
+//         }
+//     }
+//     .ant-table-cell-scrollbar {
+//         -webkit-box-shadow: none !important;
+//         box-shadow: none !important;
+//     }
 
-    @media screen and (min-width: 1450px) {
-        .ant-table-thead > tr > th,
-        .ant-table-tbody > tr > td {
-            padding: 20px 2px;
-        }
-    }
-    @media screen and (max-width: 1400px) {
-      .ant-table-thead > tr > th {
-          font-size: 14px;
-          padding: 8px 2px;
-      }
-      .ant-table-tbody > tr > td{
-        font-size: 12px;
-        padding: 8px 2px;
-      }
-  }
+//     @media screen and (min-width: 1450px) {
+//         .ant-table-thead > tr > th,
+//         .ant-table-tbody > tr > td {
+//             padding: 20px 2px;
+//         }
+//     }
+//     @media screen and (max-width: 1400px) {
+//       .ant-table-thead > tr > th {
+//           font-size: 14px;
+//           padding: 8px 2px;
+//       }
+//       .ant-table-tbody > tr > td{
+//         font-size: 12px;
+//         padding: 8px 2px;
+//       }
+//   }
 
-    .ant-table table {
-        // height: calc(100% - 25px);
+//     .ant-table table {
+//         // height: calc(100% - 25px);
 
-        // overflow: hidden !important;
-        text-indent: 15px;
-        // border-bottom-left-radius: 10px;
-        // border-bottom-right-radius: 10px;
-        // height: 450px;
-    }
+//         // overflow: hidden !important;
+//         text-indent: 15px;
+//         // border-bottom-left-radius: 10px;
+//         // border-bottom-right-radius: 10px;
+//         // height: 450px;
+//     }
 
-    .ant-table-header {
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-    }
+//     .ant-table-header {
+//         border-top-left-radius: 5px;
+//         border-top-right-radius: 5px;
+//     }
 
-    .ant-table-body {
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-        background: $TABLE_ROW_DARK !important;
-        overflow-y: scroll;
-        min-height: 28.5vh;
-    }
+//     .ant-table-body {
+//         border-bottom-left-radius: 5px;
+//         border-bottom-right-radius: 5px;
+//         background: $TABLE_ROW_DARK !important;
+//         overflow-y: scroll;
+//         min-height: 28.5vh;
+//     }
 
-    //curve edges bg
-    .ant-table {
-        background-color: transparent;
-    }
+//     //curve edges bg
+//     .ant-table {
+//         background-color: transparent;
+//     }
 
-    .tableSelectCheckboxOverride .ant-checkbox-inner {
-        background: transparent;
-        display: none;
-    }
+//     .tableSelectCheckboxOverride .ant-checkbox-inner {
+//         background: transparent;
+//         display: none;
+//     }
 
-    .ant-table-cell-scrollbar {
-        -webkit-box-shadow: none !important;
-        box-shadow: none !important;
-    }
-}
+//     .ant-table-cell-scrollbar {
+//         -webkit-box-shadow: none !important;
+//         box-shadow: none !important;
+//     }
+// }
 
-table,
-tr,
-td,
-th {
-    border: none !important;
-    font-size: 12px;
-    color: #ffffff !important;
-}
+// table,
+// tr,
+// td,
+// th {
+//     border: none !important;
+//     font-size: 12px;
+//     color: #ffffff !important;
+// }
 
-.ant-table-row {
-    &:hover {
-        background-color: $ROW_HOVER !important;
-    }
-}
+// .ant-table-row {
+//     &:hover {
+//         background-color: $ROW_HOVER !important;
+//     }
+// }
 
-.ant-table-tbody > tr.ant-table-row:hover > td {
-    background: none !important;
-}
+// .ant-table-tbody > tr.ant-table-row:hover > td {
+//     background: none !important;
+// }
 
-.header-sorter {
-    display: flex;
-    justify-content: center;
-    // float: left;
-    cursor: pointer;
-}
+// .header-sorter {
+//     display: flex;
+//     justify-content: center;
+//     // float: left;
+//     cursor: pointer;
+// }
 
-.alert-down-circle {
-    transform: rotate(0deg);
-    transition: transform 1ms linear;
-    display: flex;
-    justify-content: center;
-    // padding: 2px;
-    margin-left: 10px;
-}
+// .alert-down-circle {
+//     transform: rotate(0deg);
+//     transition: transform 1ms linear;
+//     display: flex;
+//     justify-content: center;
+//     // padding: 2px;
+//     margin-left: 10px;
+// }
 
-.alert-down-circle.open {
-    transform: rotate(180deg);
-    transition: transform 1ms linear;
-    display: flex;
-    justify-content: center;
-    // padding: 2px;
-    margin-left: 10px;
-}
+// .alert-down-circle.open {
+//     transform: rotate(180deg);
+//     transition: transform 1ms linear;
+//     display: flex;
+//     justify-content: center;
+//     // padding: 2px;
+//     margin-left: 10px;
+// }

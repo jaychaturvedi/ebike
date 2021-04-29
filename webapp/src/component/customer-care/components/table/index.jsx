@@ -334,9 +334,7 @@ export default function Tables({ module }) {
     <>
       {getTableContent(module)}
       <div style={{
-        display:"flex",
-        justifyContent:"flex-end",
-        margin:20
+        marginRight: 20
       }}>
         <Pagination />
       </div>
