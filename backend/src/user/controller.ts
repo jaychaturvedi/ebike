@@ -17,9 +17,10 @@ export async function create(body: any) {
   console.log("connecting for CreateUser")
   let newUser: any
   try {
-
     newUser = await User.createNew({ uid: uid, phone: phone })
+    console.log("create user success", newUser);
   } catch (e) {
+    console.log("create user api error", e);
     newUser = e
   }
   console.log(newUser);
