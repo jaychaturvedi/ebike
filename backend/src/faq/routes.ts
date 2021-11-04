@@ -38,7 +38,7 @@ app.get('/',
     })
 )
 
-app.get('/init',
+app.get('/init', expressQAsync(secure),
   expressQAsync(async (req: Request, res: Response, next: NextFunction) => {
     const allFaqs = await initNewFaqCategory()
     console.log(allFaqs);
